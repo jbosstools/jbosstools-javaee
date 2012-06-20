@@ -187,7 +187,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 						}
 						IType type = getType(beansXml, typeNode, typeValidator, typepath, attr);
 						if(type!=null) {
-							if(!type.isBinary()) {
+							if(!validator.isAsYouTypeValidation() && !type.isBinary()) {
 								validator.getValidationContext().addLinkedCoreResource(CDICoreValidator.SHORT_ID, beansXml.getFullPath().toOSString(), type.getPath(), false);
 								Set<IPath> relatedResources = new HashSet<IPath>();
 								IResource resource = type.getResource();
@@ -200,7 +200,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 							}
 							String typeError = typeValidator.validateType(context, type);
 							if(typeError != null) {
-								IMarker marker = validator.addError(typeValidator.getIllegalTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
+								IMarker marker = validator.addProblem(typeValidator.getIllegalTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
 										new String[]{typeNode.getTypeName()}, typeNode.getLength(), typeNode.getStartOffset(), beansXml, typeValidator.getIllegalTypeErrorMessageId());
 								if(marker != null) bindMarkerToModel(marker, typepath, typeValidator.getTypeElementName());
 								if(type.isBinary()) {
@@ -210,14 +210,14 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 							TypeNode node = uniqueTypes.get(typeNode.getTypeName());
 							if(node!=null) {
 								if(!node.isMarkedAsDuplicated()) {
-									IMarker marker = validator.addError(typeValidator.getDuplicateTypeErrorMessage(), CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
+									IMarker marker = validator.addProblem(typeValidator.getDuplicateTypeErrorMessage(), CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
 											new String[]{}, node.getLength(), node.getStartOffset(), beansXml);
 									if(marker != null) bindMarkerToModel(marker, typepath, typeValidator.getTypeElementName());
 								}
 								node.setMarkedAsDuplicated(true);
 								typeNode.setMarkedAsDuplicated(true);
 								typeNode.setDuplicationIndex(node.getDuplicationIndex() + 1);
-								IMarker marker = validator.addError(typeValidator.getDuplicateTypeErrorMessage(), CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
+								IMarker marker = validator.addProblem(typeValidator.getDuplicateTypeErrorMessage(), CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
 										new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml);
 								if(marker != null) {
 									int di = typeNode.getDuplicationIndex();
@@ -271,14 +271,14 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 				return null;
 			}
 		} else {
-			IMarker marker = validator.addError(typeValidator.getEmptyTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
+			IMarker marker = validator.addProblem(typeValidator.getEmptyTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
 					new String[]{node.getTypeName()}, node.getLength(), node.getStartOffset(), beansXml, typeValidator.getUnknownTypeErrorMessageId());
 			bindMarkerToModel(marker, xmodelpath, attr);
 			return null;
 		}
 		if(type==null) {
 			addLinkedResourcesForUnknownType(beansXml, node.getTypeName());
-			IMarker marker = validator.addError(typeValidator.getUnknownTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
+			IMarker marker = validator.addProblem(typeValidator.getUnknownTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
 					new String[]{node.getTypeName()}, node.getLength(), node.getStartOffset(), beansXml, typeValidator.getUnknownTypeErrorMessageId());
 			bindMarkerToModel(marker, xmodelpath, attr);
 		}
@@ -300,7 +300,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 	}
 
 	private void addLinkedResourcesForUnknownType(IFile beansXml, String typeName) {
-		if(typeName!=null && typeName.trim().length()>0) {
+		if(!validator.isAsYouTypeValidation() && typeName!=null && typeName.trim().length()>0) {
 			IStatus status = JavaConventions.validateJavaTypeName(typeName, CompilerOptions.VERSION_1_7, CompilerOptions.VERSION_1_7);
 			if(status.getSeverity()!=IStatus.ERROR) {
 				String packagePath = typeName.replace('.', '/');

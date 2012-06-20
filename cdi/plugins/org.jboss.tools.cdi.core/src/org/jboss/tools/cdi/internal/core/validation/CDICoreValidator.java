@@ -92,8 +92,6 @@ import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.CDIProjectAsYouType;
 import org.jboss.tools.cdi.internal.core.impl.SessionBean;
 import org.jboss.tools.cdi.internal.core.impl.definition.Dependencies;
-import org.jboss.tools.common.el.core.ELReference;
-import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IJavaReference;
 import org.jboss.tools.common.java.IParametedType;
@@ -111,7 +109,6 @@ import org.jboss.tools.common.validation.IValidatingProjectSet;
 import org.jboss.tools.common.validation.IValidatingProjectTree;
 import org.jboss.tools.common.validation.ValidationUtil;
 import org.jboss.tools.common.validation.ValidatorManager;
-import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.jst.web.kb.internal.validation.KBValidator;
 
 /**
@@ -141,6 +138,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 		private Dependencies dependencies;
 		private Set<IValidatorFeature> extensions;
 		private Set<IInjectionPointValidatorFeature> injectionValidationFeatures;
+
+		public CDIValidationContext(IProject project, ICDIProject cdiProject) {
+			this.project = project;
+			this.cdiProject = cdiProject;
+			dependencies = new Dependencies();
+			extensions = Collections.emptySet();
+			injectionValidationFeatures = Collections.emptySet();
+		}
 
 		public CDIValidationContext(IProject project) {
 			this.project = project;
@@ -274,6 +279,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 	public void init(IProject rootProject, ContextValidationHelper validationHelper, IProjectValidationContext context, org.eclipse.wst.validation.internal.provisional.core.IValidator manager,
 			IReporter reporter) {
 		super.init(rootProject, validationHelper, context, manager, reporter);
+		setAsYouTypeValidation(false);
 		setMessageIdQuickFixAttributeName(MESSAGE_ID_ATTRIBUTE_NAME);
 		projectTree = validationHelper.getValidationContextManager().getValidatingProjectTree(this);
 		projectSet = projectTree.getBrunches().get(rootProject);
@@ -478,28 +484,37 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 		WorkbenchReporter.removeAllMessages(project, new String[]{CDICoreValidator.class.getName()}, null);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.validation.IAsYouTypeValidator#validate(org.eclipse.wst.validation.internal.provisional.core.IValidator, org.eclipse.core.resources.IProject, org.eclipse.jface.text.IRegion, org.eclipse.wst.validation.internal.provisional.core.IValidationContext, org.eclipse.wst.validation.internal.provisional.core.IReporter, org.jboss.tools.common.validation.EditorValidationContext, org.jboss.tools.common.validation.IProjectValidationContext, org.eclipse.core.resources.IFile)
+	 */
 	@Override
-	public void validate(IValidator validatorManager, IProject rootProject, IRegion dirtyRegion, IValidationContext helper, IReporter reporter, EditorValidationContext validationContext, IProjectValidationContext projectContext, IFile file) {
-//		init(rootProject, null, projectContext, validatorManager, reporter);
-//TODO init properly
-
-		setReporter(reporter);
-		setValidationManager(validatorManager);
-		setValidationContext(projectContext);
-		ContextValidationHelper helper1 = new ContextValidationHelper();
-		helper1.setProject(rootProject);
-		setCoreHelper(helper1);
-		setMessageIdQuickFixAttributeName(MESSAGE_ID_ATTRIBUTE_NAME);
-		CDICoreNature nature = CDICorePlugin.getCDI(rootProject, true);
-		rootCdiProject = nature.getDelegate();
+	public void validate(IValidator validatorManager, IProject rootProject, IRegion dirtyRegion, IValidationContext helper, IReporter reporter, EditorValidationContext validationContext, IProjectValidationContext projectContext, final IFile file) {
+		ContextValidationHelper validationHelper = new ContextValidationHelper();
+		validationHelper.setProject(rootProject);
+		validationHelper.setValidationContextManager(validationContext);
+		init(rootProject, validationHelper, projectContext, validatorManager, reporter);
+		setAsYouTypeValidation(true);
 		this.document = validationContext.getDocument();
 		rootCdiProject = new CDIProjectAsYouType(rootCdiProject, file);
+		disableProblemAnnotations(new ITextSourceReference() {
+			@Override
+			public int getStartPosition() {
+				return 0;
+			}
 
-//TODO do not remove markers, disable
-//		removeAllMessagesFromResource(file);
-//		validateResource(file);
+			@Override
+			public IResource getResource() {
+				return file;
+			}
+
+			@Override
+			public int getLength() {
+				return document.getLength();
+			}
+		});
+		validateResource(file);
 	}
-
 
 	/**
 	 * Validates a resource.
@@ -511,25 +526,35 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			return;
 		}
 		displaySubtask(CDIValidationMessages.VALIDATING_RESOURCE, new String[] {file.getProject().getName(), file.getName()});
-		coreHelper.getValidationContextManager().addValidatedProject(this, file.getProject());
 
-		Set<IPath> dd = getCDIContext(file).getDependencies().getDirectDependencies(file.getFullPath());
-		if(dd != null && !dd.isEmpty()) {
-			Set<IPath> resources = new HashSet<IPath>();
-			for (IPath p: dd) {
-				IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(p);
-				if(f.exists()) {
-					resources.add(p);
-					collectAllRelatedInjections(f, resources);
+		if(!isAsYouTypeValidation()) {
+			coreHelper.getValidationContextManager().addValidatedProject(this, file.getProject());
+	
+			Set<IPath> dd = getCDIContext(file).getDependencies().getDirectDependencies(file.getFullPath());
+			if(dd != null && !dd.isEmpty()) {
+				Set<IPath> resources = new HashSet<IPath>();
+				for (IPath p: dd) {
+					IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(p);
+					if(f.exists()) {
+						resources.add(p);
+						collectAllRelatedInjections(f, resources);
+					}
 				}
+				for (IPath p: resources) {
+					getValidationContext().addLinkedCoreResource(SHORT_ID, p.toOSString(), file.getFullPath(), false);
+				}					
 			}
-			for (IPath p: resources) {
-				getValidationContext().addLinkedCoreResource(SHORT_ID, p.toOSString(), file.getFullPath(), false);
-			}					
 		}
 
-		CDIValidationContext context = getCDIContext(file);
-		ICDIProject cdiProject = context.getCdiProject();
+		CDIValidationContext context = null;
+		ICDIProject cdiProject = null;
+		if(isAsYouTypeValidation()) {
+			context = new CDIValidationContext(file.getProject(), rootCdiProject);
+			cdiProject = rootCdiProject;
+		} else {
+			context = getCDIContext(file);
+			cdiProject = context.getCdiProject();
+		}
 		if("beans.xml".equalsIgnoreCase(file.getName()) && CDIPreferences.shouldValidateBeansXml(file.getProject())) {
 			List<IFile> allBaensXmls = getAllBeansXmls();
 			if(allBaensXmls.contains(file)) { // See https://issues.jboss.org/browse/JBIDE-10166
@@ -542,13 +567,13 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			}
 			IStereotype stereotype = cdiProject.getStereotype(file.getFullPath());
 			validateStereotype(stereotype);
-	
+
 			IQualifier qualifier = cdiProject.getQualifier(file.getFullPath());
 			validateQualifier(qualifier);
-			
+
 			IScope scope = cdiProject.getScope(file.getFullPath());
 			annotationValidator.validateScopeType(scope);
-	
+
 			IInterceptorBinding binding = cdiProject.getInterceptorBinding(file.getFullPath());
 			validateInterceptorBinding(binding);
 		}
@@ -614,20 +639,23 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 		if(!bean.exists() || !shouldValidateType(bean.getBeanClass())) {
 			return;
 		}
-		String beanPath = bean.getResource().getFullPath().toOSString();
-		Set<IScopeDeclaration> scopeDeclarations = bean.getScopeDeclarations();
-		for (IScopeDeclaration scopeDeclaration : scopeDeclarations) {
-			IScope scope = scopeDeclaration.getScope();
-			if (shouldValidateType(scope.getSourceType())) {
-				getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, scope.getResource().getFullPath(), false);
+		String beanPath = null;
+		if(!isAsYouTypeValidation()) {
+			beanPath = bean.getResource().getFullPath().toOSString();
+			Set<IScopeDeclaration> scopeDeclarations = bean.getScopeDeclarations();
+			for (IScopeDeclaration scopeDeclaration : scopeDeclarations) {
+				IScope scope = scopeDeclaration.getScope();
+				if (shouldValidateType(scope.getSourceType())) {
+					getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, scope.getResource().getFullPath(), false);
+				}
 			}
-		}
-		addLinkedStereotypes(beanPath, bean);
-		Set<IQualifierDeclaration> qualifierDeclarations = bean.getQualifierDeclarations();
-		for (IQualifierDeclaration qualifierDeclaration : qualifierDeclarations) {
-			IQualifier qualifier = qualifierDeclaration.getQualifier();
-			if (shouldValidateType(qualifier.getSourceType())) {
-				getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, qualifier.getResource().getFullPath(), false);
+			addLinkedStereotypes(beanPath, bean);
+			Set<IQualifierDeclaration> qualifierDeclarations = bean.getQualifierDeclarations();
+			for (IQualifierDeclaration qualifierDeclaration : qualifierDeclarations) {
+				IQualifier qualifier = qualifierDeclaration.getQualifier();
+				if (shouldValidateType(qualifier.getSourceType())) {
+					getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, qualifier.getResource().getFullPath(), false);
+				}
 			}
 		}
 
@@ -641,9 +669,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 
 		Set<IInjectionPoint> points = bean.getInjectionPoints();
 		for (IInjectionPoint point : points) {
-			IType type = getTypeOfInjection(point);
-			if(type!=null && !type.isBinary()) {
-				getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, type.getPath(), false);
+			if(!isAsYouTypeValidation()) {
+				IType type = getTypeOfInjection(point);
+				if(type!=null && !type.isBinary()) {
+					getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, type.getPath(), false);
+				}
 			}
 			if(point.exists()) {
 				validateInjectionPoint(context, point);
@@ -660,11 +690,13 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 
 		if (bean instanceof IClassBean) {
 			IClassBean classBean = (IClassBean)bean;
-			addLinkedInterceptorBindings(beanPath, classBean);
-			Set<IBeanMethod> methods = classBean.getAllMethods();
-			for (IBeanMethod method : methods) {
-				addLinkedStereotypes(beanPath, method);
-				addLinkedInterceptorBindings(beanPath, method);
+			if(!isAsYouTypeValidation()) {
+				addLinkedInterceptorBindings(beanPath, classBean);
+				Set<IBeanMethod> methods = classBean.getAllMethods();
+				for (IBeanMethod method : methods) {
+					addLinkedStereotypes(beanPath, method);
+					addLinkedInterceptorBindings(beanPath, method);
+				}
 			}
 			validateClassBean(classBean);
 		}
@@ -682,9 +714,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 	private void validateBeanName(CDIValidationContext context, IBean bean) {
 		String name = bean.getName();
 		if(name!=null && !name.startsWith("/")) {
-			// Collect all relations between the bean and other CDI elements.
-			getValidationContext().addVariableNameForELValidation(SHORT_ID, name);
-			getValidationContext().addLinkedCoreResource(SHORT_ID, name, bean.getSourcePath(), true);
+			if(!isAsYouTypeValidation()) {
+				// Collect all relations between the bean and other CDI elements.
+				getValidationContext().addVariableNameForELValidation(SHORT_ID, name);
+				getValidationContext().addLinkedCoreResource(SHORT_ID, name, bean.getSourcePath(), true);
+			}
 			/*
 			 *	5.3.1. Ambiguous EL names
 			 *	- All unresolvable ambiguous EL names are detected by the container when the application is initialized.
@@ -699,14 +733,16 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 				names.add(bName);
 				StringBuffer sb = new StringBuffer(bName);
 				for (IBean iBean : beans) {
-					getValidationContext().addLinkedCoreResource(SHORT_ID, name, iBean.getSourcePath(), true);
+					if(!isAsYouTypeValidation()) {
+						getValidationContext().addLinkedCoreResource(SHORT_ID, name, iBean.getSourcePath(), true);
+					}
 					bName = iBean.getElementName();
 					if(bean!=iBean && !names.contains(bName)) {
 						names.add(bName);
 						sb.append(", ").append(bName);
 					}
 				}
-				addError(MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME, sb.toString()), CDIPreferences.AMBIGUOUS_EL_NAMES, reference, bean.getResource());
+				addProblem(MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME, sb.toString()), CDIPreferences.AMBIGUOUS_EL_NAMES, reference, bean.getResource());
 			} else {
 				/*
 				 *     • the EL name of one bean is of the form x.y, where y is a valid bean EL name, and x is the EL name of the other bean,
@@ -731,7 +767,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 									if(reference==null) {
 										reference = CDIUtil.getNamedDeclaration(bean);
 									}
-									addError(MessageFormat.format(CDIValidationMessages.UNRESOLVABLE_EL_NAME, name, yName, xNameAsString, xBeans.iterator().next().getElementName()), CDIPreferences.AMBIGUOUS_EL_NAMES, reference, bean.getResource());
+									addProblem(MessageFormat.format(CDIValidationMessages.UNRESOLVABLE_EL_NAME, name, yName, xNameAsString, xBeans.iterator().next().getElementName()), CDIPreferences.AMBIGUOUS_EL_NAMES, reference, bean.getResource());
 									break;
 								}
 							}
@@ -782,21 +818,25 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 	}
 
 	private void addLinkedStereotypes(String beanPath, IStereotyped stereotyped) {
-		Set<IStereotypeDeclaration> stereotypeDeclarations = stereotyped.getStereotypeDeclarations();
-		for (IStereotypeDeclaration stereotypeDeclaration : stereotypeDeclarations) {
-			IStereotype stereotype = stereotypeDeclaration.getStereotype();
-			if (shouldValidateType(stereotype.getSourceType())) {
-				getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, stereotype.getResource().getFullPath(), false);
+		if(!isAsYouTypeValidation()) {
+			Set<IStereotypeDeclaration> stereotypeDeclarations = stereotyped.getStereotypeDeclarations();
+			for (IStereotypeDeclaration stereotypeDeclaration : stereotypeDeclarations) {
+				IStereotype stereotype = stereotypeDeclaration.getStereotype();
+				if (shouldValidateType(stereotype.getSourceType())) {
+					getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, stereotype.getResource().getFullPath(), false);
+				}
 			}
 		}
 	}
 
 	private void addLinkedInterceptorBindings(String beanPath, IInterceptorBinded binded) {
-		Set<IInterceptorBindingDeclaration> bindingDeclarations = CDIUtil.getAllInterceptorBindingDeclaratios(binded);
-		for (IInterceptorBindingDeclaration bindingDeclaration : bindingDeclarations) {
-			IInterceptorBinding binding = bindingDeclaration.getInterceptorBinding();
-			if (shouldValidateType(binding.getSourceType())) {
-				getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, binding.getResource().getFullPath(), false);
+		if(!isAsYouTypeValidation()) {
+			Set<IInterceptorBindingDeclaration> bindingDeclarations = CDIUtil.getAllInterceptorBindingDeclaratios(binded);
+			for (IInterceptorBindingDeclaration bindingDeclaration : bindingDeclarations) {
+				IInterceptorBinding binding = bindingDeclaration.getInterceptorBinding();
+				if (shouldValidateType(binding.getSourceType())) {
+					getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, binding.getResource().getFullPath(), false);
+				}
 			}
 		}
 	}
@@ -827,14 +867,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			if(hasConflictedInterceptorBindings(bean)) {
 				//TODO consider putting markers to interceptor bindings/stereotype declarations.
 				ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange(), bean.getResource(), bean.getBeanClass());
-				addError(CDIValidationMessages.CONFLICTING_INTERCEPTOR_BINDINGS, CDIPreferences.CONFLICTING_INTERCEPTOR_BINDINGS, reference, bean.getResource());
+				addProblem(CDIValidationMessages.CONFLICTING_INTERCEPTOR_BINDINGS, CDIPreferences.CONFLICTING_INTERCEPTOR_BINDINGS, reference, bean.getResource());
 			}
 			Set<IBeanMethod> methods = bean.getAllMethods();
 			for (IBeanMethod method : methods) {
 				if(hasConflictedInterceptorBindings(method)) {
 					//TODO consider putting markers to interceptor bindings/stereotype declarations.
 					ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getMethod().getNameRange(), bean.getResource(), method.getMethod());
-					addError(CDIValidationMessages.CONFLICTING_INTERCEPTOR_BINDINGS, CDIPreferences.CONFLICTING_INTERCEPTOR_BINDINGS, reference, bean.getResource());
+					addProblem(CDIValidationMessages.CONFLICTING_INTERCEPTOR_BINDINGS, CDIPreferences.CONFLICTING_INTERCEPTOR_BINDINGS, reference, bean.getResource());
 				}
 			}
 		} catch (JavaModelException e) {
@@ -875,14 +915,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 		IAnnotationDeclaration specializesDeclaration = bean.getSpecializesAnnotationDeclaration();
 		if(specializesDeclaration!=null) {
 			if(bean instanceof IDecorator) {
-				addError(CDIValidationMessages.DECORATOR_ANNOTATED_SPECIALIZES, CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, specializesDeclaration, bean.getResource(), DECORATOR_ANNOTATED_SPECIALIZES_ID);
+				addProblem(CDIValidationMessages.DECORATOR_ANNOTATED_SPECIALIZES, CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, specializesDeclaration, bean.getResource(), DECORATOR_ANNOTATED_SPECIALIZES_ID);
 			} else if(bean instanceof IInterceptor) {
-				addError(CDIValidationMessages.INTERCEPTOR_ANNOTATED_SPECIALIZES, CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, specializesDeclaration, bean.getResource(), INTERCEPTOR_ANNOTATED_SPECIALIZES_ID);
+				addProblem(CDIValidationMessages.INTERCEPTOR_ANNOTATED_SPECIALIZES, CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, specializesDeclaration, bean.getResource(), INTERCEPTOR_ANNOTATED_SPECIALIZES_ID);
 			}
 		}
 		IBean specializedBean = bean.getSpecializedBean();
 		if(specializedBean!=null) {
-			if(shouldValidateType(specializedBean.getBeanClass())) {
+			if(!isAsYouTypeValidation() && shouldValidateType(specializedBean.getBeanClass())) {
 				getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toOSString(), specializedBean.getResource().getFullPath(), false);
 			}
 
@@ -913,7 +953,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 				}
 			}
 			if(missingTypes.length()>0) {
-				addError(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, CDIPreferences.MISSING_TYPE_IN_SPECIALIZING_BEAN,
+				addProblem(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, CDIPreferences.MISSING_TYPE_IN_SPECIALIZING_BEAN,
 						new String[]{beanName, specializingBeanName, missingTypes.toString()},
 						bean.getSpecializesAnnotationDeclaration(), bean.getResource());
 			}
@@ -925,7 +965,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			if(specializedBean.getName()!=null) {
 				IAnnotationDeclaration nameDeclaration = bean.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
 				if(nameDeclaration!=null) {
-					addError(CDIValidationMessages.CONFLICTING_NAME_IN_SPECIALIZING_BEAN, CDIPreferences.CONFLICTING_NAME_IN_SPECIALIZING_BEAN,
+					addProblem(CDIValidationMessages.CONFLICTING_NAME_IN_SPECIALIZING_BEAN, CDIPreferences.CONFLICTING_NAME_IN_SPECIALIZING_BEAN,
 							new String[]{beanName, specializingBeanName},
 							nameDeclaration, bean.getResource());
 				}
@@ -945,14 +985,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 						if(specializingBean!=bean && specializingBean.isEnabled()) {
 							sb.append(", ").append(specializingBean.getElementName());
 							moreThanTwo = true;
-							if(shouldValidateType(specializingBean.getBeanClass())) {
+							if(!isAsYouTypeValidation() && shouldValidateType(specializingBean.getBeanClass())) {
 								getValidationContext().addLinkedCoreResource(SHORT_ID, specializingBean.getResource().getFullPath().toOSString(), bean.getSourcePath(), false);
 								getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toOSString(), specializingBean.getResource().getFullPath(), false);
 							}
 						}
 					}
 					if(moreThanTwo && specializesDeclaration!=null) {
-						addError(CDIValidationMessages.INCONSISTENT_SPECIALIZATION, CDIPreferences.INCONSISTENT_SPECIALIZATION,
+						addProblem(CDIValidationMessages.INCONSISTENT_SPECIALIZATION, CDIPreferences.INCONSISTENT_SPECIALIZATION,
 								new String[]{sb.toString(), supperClassBean.getElementName()},
 								specializesDeclaration, bean.getResource());
 					}
@@ -977,7 +1017,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			 */
 			if(injects.size()>1) {
 				for (IAnnotationDeclaration inject : injects) {
-					addError(CDIValidationMessages.MULTIPLE_INJECTION_CONSTRUCTORS, CDIPreferences.MULTIPLE_INJECTION_CONSTRUCTORS, inject, bean.getResource(), MULTIPLE_INJECTION_CONSTRUCTORS_ID);
+					addProblem(CDIValidationMessages.MULTIPLE_INJECTION_CONSTRUCTORS, CDIPreferences.MULTIPLE_INJECTION_CONSTRUCTORS, inject, bean.getResource(), MULTIPLE_INJECTION_CONSTRUCTORS_ID);
 				}
 			}
 		}
@@ -1014,7 +1054,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 								int position = source.substring(start, end).indexOf("IF_EXISTS");
 								// TODO Shecks if IF_EXISTS as a string. But this string may be in a comment then we will show incorrect error message. 
 								if(position>11) {
-									addError(CDIValidationMessages.ILLEGAL_CONDITIONAL_OBSERVER, CDIPreferences.ILLEGAL_CONDITIONAL_OBSERVER, declaration, bean.getResource());									
+									addProblem(CDIValidationMessages.ILLEGAL_CONDITIONAL_OBSERVER, CDIPreferences.ILLEGAL_CONDITIONAL_OBSERVER, declaration, bean.getResource());									
 								}
 							} catch (JavaModelException e) {
 								CDICorePlugin.getDefault().logError(e);
@@ -1029,7 +1069,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			 */
 			if(declarations.size()>1) {
 				for (ITextSourceReference declaration : declarations) {
-					addError(CDIValidationMessages.MULTIPLE_OBSERVING_PARAMETERS, CDIPreferences.MULTIPLE_OBSERVING_PARAMETERS, declaration, bean.getResource(), MULTIPLE_OBSERVING_PARAMETERS_ID);
+					addProblem(CDIValidationMessages.MULTIPLE_OBSERVING_PARAMETERS, CDIPreferences.MULTIPLE_OBSERVING_PARAMETERS, declaration, bean.getResource(), MULTIPLE_OBSERVING_PARAMETERS_ID);
 				}
 			}
 			/*
@@ -1045,9 +1085,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 					String pref = observer.getMethod().isConstructor()?CDIPreferences.CONSTRUCTOR_PARAMETER_ILLEGALLY_ANNOTATED:CDIPreferences.OBSERVER_ANNOTATED_INJECT;
 					String message = observer.getMethod().isConstructor()?CDIValidationMessages.CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES:CDIValidationMessages.OBSERVER_ANNOTATED_INJECT;
 					int messageId = observer.getMethod().isConstructor()?CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES_ID:OBSERVER_ANNOTATED_INJECT_ID;
-					addError(message, pref, injectDeclaration, bean.getResource(), messageId);
+					addProblem(message, pref, injectDeclaration, bean.getResource(), messageId);
 					for (ITextSourceReference declaration : declarations) {
-						addError(message, pref, declaration, bean.getResource(), messageId);
+						addProblem(message, pref, declaration, bean.getResource(), messageId);
 					}
 				}
 			} catch (JavaModelException e) {
@@ -1059,11 +1099,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			 */
 			if(bean instanceof IDecorator) {
 				for (ITextSourceReference declaration : declarations) {
-					addError(CDIValidationMessages.OBSERVER_IN_DECORATOR, CDIPreferences.OBSERVER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource(), OBSERVER_IN_DECORATOR_ID);
+					addProblem(CDIValidationMessages.OBSERVER_IN_DECORATOR, CDIPreferences.OBSERVER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource(), OBSERVER_IN_DECORATOR_ID);
 				}
 			} else if(bean instanceof IInterceptor) {
 				for (ITextSourceReference declaration : declarations) {
-					addError(CDIValidationMessages.OBSERVER_IN_INTERCEPTOR, CDIPreferences.OBSERVER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource(), OBSERVER_IN_INTERCEPTOR_ID);
+					addProblem(CDIValidationMessages.OBSERVER_IN_INTERCEPTOR, CDIPreferences.OBSERVER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource(), OBSERVER_IN_INTERCEPTOR_ID);
 				}
 			}
 
@@ -1092,7 +1132,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 					for (IBeanMethod disposerMethod : disposerMethods) {
 						Set<ITextSourceReference> disposerDeclarations = CDIUtil.getAnnotationPossitions(disposerMethod, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
 						for (ITextSourceReference declaration : disposerDeclarations) {
-							addError(CDIValidationMessages.MULTIPLE_DISPOSERS_FOR_PRODUCER, CDIPreferences.MULTIPLE_DISPOSERS_FOR_PRODUCER, declaration, bean.getResource(), MULTIPLE_DISPOSERS_FOR_PRODUCER_ID);
+							addProblem(CDIValidationMessages.MULTIPLE_DISPOSERS_FOR_PRODUCER, CDIPreferences.MULTIPLE_DISPOSERS_FOR_PRODUCER, declaration, bean.getResource(), MULTIPLE_DISPOSERS_FOR_PRODUCER_ID);
 						}
 					}
 				}
@@ -1118,7 +1158,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			}
 			if (disposerDeclarations.size() > 1) {
 				for (ITextSourceReference declaration : disposerDeclarations) {
-					addError(CDIValidationMessages.MULTIPLE_DISPOSING_PARAMETERS, CDIPreferences.MULTIPLE_DISPOSING_PARAMETERS, declaration, bean.getResource(), MULTIPLE_DISPOSING_PARAMETERS_ID);
+					addProblem(CDIValidationMessages.MULTIPLE_DISPOSING_PARAMETERS, CDIPreferences.MULTIPLE_DISPOSING_PARAMETERS, declaration, bean.getResource(), MULTIPLE_DISPOSING_PARAMETERS_ID);
 				}
 			}
 
@@ -1141,7 +1181,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			}
 			if (observesExists) {
 				for (ITextSourceReference declaration : declarations) {
-					addError(CDIValidationMessages.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, CDIPreferences.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, declaration, bean.getResource(), OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED_ID);
+					addProblem(CDIValidationMessages.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, CDIPreferences.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, declaration, bean.getResource(), OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED_ID);
 				}
 			}
 
@@ -1161,9 +1201,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 					String pref = disposer.getMethod().isConstructor()?CDIPreferences.CONSTRUCTOR_PARAMETER_ILLEGALLY_ANNOTATED:CDIPreferences.DISPOSER_ANNOTATED_INJECT;
 					String message = disposer.getMethod().isConstructor()?CDIValidationMessages.CONSTRUCTOR_PARAMETER_ANNOTATED_DISPOSES:CDIValidationMessages.DISPOSER_ANNOTATED_INJECT;
 					int messageId = disposer.getMethod().isConstructor()?CONSTRUCTOR_PARAMETER_ANNOTATED_DISPOSES_ID:DISPOSER_ANNOTATED_INJECT_ID;
-					addError(message, pref, injectDeclaration, bean.getResource(), messageId);
+					addProblem(message, pref, injectDeclaration, bean.getResource(), messageId);
 					for (ITextSourceReference declaration : disposerDeclarations) {
-						addError(message, pref, declaration, bean.getResource(), messageId);
+						addProblem(message, pref, declaration, bean.getResource(), messageId);
 					}
 				}
 			} catch (JavaModelException e) {
@@ -1188,10 +1228,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 					//for custom implementations
 					decoratorDeclaration = decorator.getNameLocation(true);
 				}
-				addError(CDIValidationMessages.DISPOSER_IN_DECORATOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, decoratorDeclaration, bean
-						.getResource(), DISPOSER_IN_DECORATOR_ID);
+				addProblem(CDIValidationMessages.DISPOSER_IN_DECORATOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, decoratorDeclaration, bean.getResource(), DISPOSER_IN_DECORATOR_ID);
 				for (ITextSourceReference declaration : disposerDeclarations) {
-					addError(CDIValidationMessages.DISPOSER_IN_DECORATOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource(), DISPOSER_IN_DECORATOR_ID);
+					addProblem(CDIValidationMessages.DISPOSER_IN_DECORATOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource(), DISPOSER_IN_DECORATOR_ID);
 				}
 			}
 
@@ -1206,10 +1245,10 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 					//for custom implementations
 					interceptorDeclaration = interceptor.getNameLocation(true);
 				}
-				addError(CDIValidationMessages.DISPOSER_IN_INTERCEPTOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, interceptorDeclaration, bean
+				addProblem(CDIValidationMessages.DISPOSER_IN_INTERCEPTOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, interceptorDeclaration, bean
 						.getResource(), DISPOSER_IN_INTERCEPTOR_ID);
 				for (ITextSourceReference declaration : disposerDeclarations) {
-					addError(CDIValidationMessages.DISPOSER_IN_INTERCEPTOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean
+					addProblem(CDIValidationMessages.DISPOSER_IN_INTERCEPTOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean
 							.getResource(), DISPOSER_IN_INTERCEPTOR_ID);
 				}
 			}
@@ -1220,7 +1259,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			 */
 			if (!boundDisposers.contains(disposer)) {
 				for (ITextSourceReference declaration : disposerDeclarations) {
-					addError(CDIValidationMessages.NO_PRODUCER_MATCHING_DISPOSER, CDIPreferences.NO_PRODUCER_MATCHING_DISPOSER, declaration, bean.getResource());
+					addProblem(CDIValidationMessages.NO_PRODUCER_MATCHING_DISPOSER, CDIPreferences.NO_PRODUCER_MATCHING_DISPOSER, declaration, bean.getResource());
 				}
 			}
 		}
@@ -1242,9 +1281,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 				saveAllSuperTypesAsLinkedResources(bean);
 				for (ITextSourceReference declaration : annotatedParams) {
 					String bindedErrorMessage = NLS.bind(errorMessage, new String[]{method.getMethod().getElementName(), bean.getBeanClass().getElementName()});
-					addError(bindedErrorMessage, preferencesKey, declaration, bean.getResource(), id);
+					addProblem(bindedErrorMessage, preferencesKey, declaration, bean.getResource(), id);
 				}
-			} else if (iMethod != method.getMethod() && !iMethod.isBinary()) {
+			} else if (!isAsYouTypeValidation() && iMethod != method.getMethod() && !iMethod.isBinary()) {
 				getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toOSString(), iMethod.getResource().getFullPath(), false);
 			}
 		}
@@ -1279,10 +1318,10 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 				for (String paramType : paramTypes) {
 					if (Signature.getTypeSignatureKind(paramType) == Signature.WILDCARD_TYPE_SIGNATURE) {
 						if (producer instanceof IProducerField) {
-							addError(CDIValidationMessages.PRODUCER_FIELD_TYPE_HAS_WILDCARD, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD_OR_VARIABLE, typeDeclarationReference,
+							addProblem(CDIValidationMessages.PRODUCER_FIELD_TYPE_HAS_WILDCARD, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD_OR_VARIABLE, typeDeclarationReference,
 									producer.getResource());
 						} else {
-							addError(CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD_OR_VARIABLE,
+							addProblem(CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD_OR_VARIABLE,
 									typeDeclarationReference, producer.getResource());
 						}
 					} else if(!variable && isTypeVariable(producer, Signature.toString(paramType), typeVariables)) {
@@ -1297,7 +1336,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 						IAnnotationDeclaration scopeOrStereotypeDeclaration = CDIUtil.getDifferentScopeDeclarationThanDepentend(producer);
 						if (scopeOrStereotypeDeclaration != null) {
 							boolean field = producer instanceof IProducerField;
-							addError(field ? CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD : CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD,
+							addProblem(field ? CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD : CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD,
 									field ? CDIPreferences.ILLEGAL_SCOPE_FOR_BEAN : CDIPreferences.ILLEGAL_SCOPE_FOR_BEAN,
 									scopeOrStereotypeDeclaration, producer.getResource());
 						}
@@ -1312,7 +1351,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			 */
 			IAnnotationDeclaration inject = producer.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 			if (inject != null) {
-				addError(CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, CDIPreferences.PRODUCER_ANNOTATED_INJECT, inject, inject.getResource() != null ? inject.getResource() : producer.getResource(), PRODUCER_ANNOTATED_INJECT_ID);
+				addProblem(CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, CDIPreferences.PRODUCER_ANNOTATED_INJECT, inject, inject.getResource() != null ? inject.getResource() : producer.getResource(), PRODUCER_ANNOTATED_INJECT_ID);
 			}
 
 			if (producer instanceof IProducerField) {
@@ -1330,7 +1369,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 							if (nameDeclaration != null) {
 								declaration = nameDeclaration;
 							}
-							addError(CDIValidationMessages.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, CDIPreferences.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, declaration, producer.getResource());
+							addProblem(CDIValidationMessages.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, CDIPreferences.RESOURCE_PRODUCER_FIELD_SETS_EL_NAME, declaration, producer.getResource());
 						}
 					}
 				}
@@ -1344,7 +1383,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 					for (String variableSig : typeVariables) {
 						String variableName = Signature.getTypeVariable(variableSig);
 						if (typeString.equals(variableName)) {
-							addError(CDIValidationMessages.PRODUCER_FIELD_TYPE_IS_VARIABLE, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD_OR_VARIABLE,	typeDeclaration != null ? typeDeclarationReference : producer, producer.getResource());
+							addProblem(CDIValidationMessages.PRODUCER_FIELD_TYPE_IS_VARIABLE, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD_OR_VARIABLE, typeDeclaration != null ? typeDeclarationReference : producer, producer.getResource());
 						}
 					}
 				}
@@ -1353,7 +1392,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 				 *  - non-static field of a session bean class is annotated @Produces
 				 */
 				if(producer.getClassBean() instanceof ISessionBean && !Flags.isStatic(producerField.getField().getFlags())) {
-					addError(CDIValidationMessages.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN, CDIPreferences.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, producer.getProducesAnnotation(), producer.getResource(), ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID);
+					addProblem(CDIValidationMessages.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN, CDIPreferences.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, producer.getProducesAnnotation(), producer.getResource(), ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID);
 				}
 			} else {
 				IProducerMethod producerMethod = (IProducerMethod) producer;
@@ -1388,13 +1427,13 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 				}
 				if (observesDeclarations.size() > 1) {
 					for (ITextSourceReference declaration : observesDeclarations) {
-						addError(CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES, CDIPreferences.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED,
+						addProblem(CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES, CDIPreferences.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED,
 								declaration, producer.getResource(), PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES_ID);
 					}
 				}
 				if (disposalDeclarations.size() > 1) {
 					for (ITextSourceReference declaration : disposalDeclarations) {
-						addError(CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_DISPOSES, CDIPreferences.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED,
+						addProblem(CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_DISPOSES, CDIPreferences.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED,
 								declaration, producer.getResource(), PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_DISPOSES_ID);
 					}
 				}
@@ -1409,7 +1448,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 				String typeSign = producerMethod.getMethod().getReturnType();
 				String typeString = Signature.toString(typeSign);
 				if(isTypeVariable(producerMethod, typeString, typeVariables)) {
-					addError(CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD_OR_VARIABLE,
+					addProblem(CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD_OR_VARIABLE,
 							typeDeclaration != null ? typeDeclarationReference : producer, producer.getResource());
 				}
 				/*
@@ -1421,9 +1460,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 					IMethod method = CDIUtil.getBusinessMethodDeclaration((SessionBean)classBean, producerMethod);
 					if(method==null) {
 						String bindedErrorMessage = NLS.bind(CDIValidationMessages.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, new String[]{producerMethod.getMethod().getElementName(), producer.getBeanClass().getElementName()});
-						addError(bindedErrorMessage, CDIPreferences.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, producer.getProducesAnnotation(), producer.getResource(), ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID);
+						addProblem(bindedErrorMessage, CDIPreferences.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, producer.getProducesAnnotation(), producer.getResource(), ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID);
 						saveAllSuperTypesAsLinkedResources(classBean);
-					} else if (method != producerMethod.getMethod() && method.exists() && !method.isReadOnly()) {
+					} else if (!isAsYouTypeValidation() && method != producerMethod.getMethod() && method.exists() && !method.isReadOnly()) {
 						getValidationContext().addLinkedCoreResource(SHORT_ID, classBean.getSourcePath().toOSString(), method.getResource().getFullPath(), false);
 					}
 				}
@@ -1435,7 +1474,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 						 * 3.3.3. Specializing a producer method
 						 *  - method annotated @Specializes is static
 						 */
-						addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_PRODUCER_STATIC, CDIPreferences.ILLEGAL_SPECIALIZING_BEAN, sDeclaration, producer.getResource());
+						addProblem(CDIValidationMessages.ILLEGAL_SPECIALIZING_PRODUCER_STATIC, CDIPreferences.ILLEGAL_SPECIALIZING_BEAN, sDeclaration, producer.getResource());
 					} else {
 						/*
 						 * 3.3.3. Specializing a producer method
@@ -1465,7 +1504,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 							}
 						}
 						if(!overrides) {
-							addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_PRODUCER_OVERRIDE, CDIPreferences.ILLEGAL_SPECIALIZING_BEAN, sDeclaration, producer.getResource());
+							addProblem(CDIValidationMessages.ILLEGAL_SPECIALIZING_PRODUCER_OVERRIDE, CDIPreferences.ILLEGAL_SPECIALIZING_BEAN, sDeclaration, producer.getResource());
 						}
 						saveAllSuperTypesAsLinkedResources(producer.getClassBean());
 					}
@@ -1498,11 +1537,13 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 	}
 
 	private void saveAllSuperTypesAsLinkedResources(IClassBean bean) {
-		Set<IParametedType> types = bean.getAllTypes();
-		for (IParametedType type : types) {
-			IType superType = type.getType();
-			if(superType!=null && !superType.isBinary() && superType.getResource()!=null && superType!=bean.getBeanClass()) {
-				getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toOSString(), superType.getResource().getFullPath(), false);
+		if(!isAsYouTypeValidation()) {
+			Set<IParametedType> types = bean.getAllTypes();
+			for (IParametedType type : types) {
+				IType superType = type.getType();
+				if(superType!=null && !superType.isBinary() && superType.getResource()!=null && superType!=bean.getBeanClass()) {
+					getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toOSString(), superType.getResource().getFullPath(), false);
+				}
 			}
 		}
 	}
@@ -1586,7 +1627,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 		if (named != null) {
 			boolean valueExists = named.getMemberValue(null) != null;
 			if (!valueExists) {
-				addError(CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, CDIPreferences.PARAM_INJECTION_DECLARES_EMPTY_NAME, named, initializer.getResource(), PARAM_INJECTION_DECLARES_EMPTY_NAME_ID);
+				addProblem(CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, CDIPreferences.PARAM_INJECTION_DECLARES_EMPTY_NAME, named, initializer.getResource(), PARAM_INJECTION_DECLARES_EMPTY_NAME_ID);
 			}
 		}
 
@@ -1596,14 +1637,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 		 *  - generic method of a bean is annotated @Inject
 		 */
 		if(CDIUtil.isMethodGeneric(initializer)) {
-			addError(CDIValidationMessages.GENERIC_METHOD_ANNOTATED_INJECT, CDIPreferences.GENERIC_METHOD_ANNOTATED_INJECT, declaration, initializer.getResource());
+			addProblem(CDIValidationMessages.GENERIC_METHOD_ANNOTATED_INJECT, CDIPreferences.GENERIC_METHOD_ANNOTATED_INJECT, declaration, initializer.getResource());
 		}
 		/*
 		 * 3.9. Initializer methods
 		 *  - initializer method may not be static
 		 */
 		if(CDIUtil.isMethodStatic(initializer)) {
-			addError(CDIValidationMessages.STATIC_METHOD_ANNOTATED_INJECT, CDIPreferences.GENERIC_METHOD_ANNOTATED_INJECT, declaration, initializer.getResource());
+			addProblem(CDIValidationMessages.STATIC_METHOD_ANNOTATED_INJECT, CDIPreferences.GENERIC_METHOD_ANNOTATED_INJECT, declaration, initializer.getResource());
 		}
 	}
 
@@ -1623,7 +1664,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 				Object value = named.getMemberValue(null);
 				boolean valueExists = value != null && value.toString().trim().length() > 0;
 				if (!valueExists) {
-					addError(CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, 
+					addProblem(CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, 
 							CDIPreferences.PARAM_INJECTION_DECLARES_EMPTY_NAME, 
 							named,
 							injection.getResource(),
@@ -1642,7 +1683,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 		 *  - injection point type is a type variable
 		 */
 		if(CDIUtil.isTypeVariable(injection, false)) {
-			addError(CDIValidationMessages.INJECTION_TYPE_IS_VARIABLE, CDIPreferences.INJECTION_TYPE_IS_VARIABLE, declaration, injection.getResource());
+			addProblem(CDIValidationMessages.INJECTION_TYPE_IS_VARIABLE, CDIPreferences.INJECTION_TYPE_IS_VARIABLE, declaration, injection.getResource());
 		}
 
 		if(declaration!=null) {
@@ -1655,20 +1696,22 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			IType type = getTypeOfInjection(injection);
 			if(!shouldIgnoreInjection(context, type, injection)) {
 				boolean instance = type!=null && CDIConstants.INSTANCE_TYPE_NAME.equals(type.getFullyQualifiedName());
-				Set<IBean> allBeans = cdiProject.getBeans(false, injection);
-				for (IBean bean : allBeans) {
-					if(shouldValidateType(bean.getBeanClass())) {
-						try {
-							getValidationContext().addLinkedCoreResource(SHORT_ID, injection.getSourcePath().toOSString(), bean.getResource().getFullPath(), false);
-						} catch (NullPointerException e) {
-							throw new RuntimeException("bean exists=" + bean.getBeanClass().exists() + " resource= " + bean.getResource() + " injection= " + injection.getSourcePath(),e);
+				if(!isAsYouTypeValidation()) {
+					Set<IBean> allBeans = cdiProject.getBeans(false, injection);
+					for (IBean bean : allBeans) {
+						if(shouldValidateType(bean.getBeanClass())) {
+							try {
+								getValidationContext().addLinkedCoreResource(SHORT_ID, injection.getSourcePath().toOSString(), bean.getResource().getFullPath(), false);
+							} catch (NullPointerException e) {
+								throw new RuntimeException("bean exists=" + bean.getBeanClass().exists() + " resource= " + bean.getResource() + " injection= " + injection.getSourcePath(),e);
+							}
 						}
 					}
 				}
 				if(type!=null && beans.isEmpty() && !instance) {
-					addError(CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, CDIPreferences.UNSATISFIED_OR_AMBIGUOUS_INJECTION_POINTS, reference, injection.getResource(), UNSATISFIED_INJECTION_POINTS_ID);
+					addProblem(CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, CDIPreferences.UNSATISFIED_OR_AMBIGUOUS_INJECTION_POINTS, reference, injection.getResource(), UNSATISFIED_INJECTION_POINTS_ID);
 				} else if(beans.size()>1  && !instance) {
-					addError(CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, CDIPreferences.UNSATISFIED_OR_AMBIGUOUS_INJECTION_POINTS, reference, injection.getResource(), AMBIGUOUS_INJECTION_POINTS_ID);
+					addProblem(CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, CDIPreferences.UNSATISFIED_OR_AMBIGUOUS_INJECTION_POINTS, reference, injection.getResource(), AMBIGUOUS_INJECTION_POINTS_ID);
 				} else if(beans.size()==1) {
 					IBean bean = beans.iterator().next();
 					/*
@@ -1676,7 +1719,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 					 *  - injection point of primitive type resolves to a bean that may have null values, such as a producer method with a non-primitive return type or a producer field with a non-primitive type
 					 */
 					if(bean.isNullable() && injection.getType()!=null && injection.getType().isPrimitive()) {
-						addError(CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, CDIPreferences.INJECT_RESOLVES_TO_NULLABLE_BEAN, reference, injection.getResource());
+						addProblem(CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, CDIPreferences.INJECT_RESOLVES_TO_NULLABLE_BEAN, reference, injection.getResource());
 					}
 					/*
 					 * 5.1.4. Inter-module injection
@@ -1694,15 +1737,15 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 						String typeSignature = injection.getType().getSignature();
 						int kind = Signature.getTypeSignatureKind(typeSignature);
 						if(kind == Signature.ARRAY_TYPE_SIGNATURE) {
-							addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE, injection.getType().getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+							addProblem(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE, injection.getType().getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
 						} else if(injection.getType().isPrimitive()) {
 							// - Primitive types cannot be proxied by the container.
-							addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, injection.getType().getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+							addProblem(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, injection.getType().getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
 						} else if(injection.getType().getType().exists()){
 							try {
 								if(Flags.isFinal(injection.getType().getType().getFlags())) {
 									// - Classes which are declared final cannot be proxied by the container.
-									addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE, injection.getType().getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+									addProblem(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE, injection.getType().getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
 								} else {
 									IMethod[] methods = injection.getType().getType().getMethods();
 									boolean hasDefaultConstructor = false;
@@ -1712,14 +1755,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 										hasDefaultConstructor = hasDefaultConstructor || (method.isConstructor() && !Flags.isPrivate(method.getFlags()) && method.getParameterNames().length==0);
 										if(Flags.isFinal(method.getFlags())) {
 											// - Classes which have final methods cannot be proxied by the container.
-											addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM, injection.getType().getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+											addProblem(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM, injection.getType().getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
 											hasDefaultConstructor = true;
 											break;
 										}
 									}
 									if(!hasDefaultConstructor && hasConstructor) {
 										// - Classes which don't have a non-private constructor with no parameters cannot be proxied by the container.
-										addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC, injection.getType().getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+										addProblem(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC, injection.getType().getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
 									}
 								}
 							} catch (JavaModelException e) {
@@ -1734,7 +1777,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 								//	8.3. Decorator resolution 
 								//	- If a decorator matches a managed bean, and the managed bean class is declared final, the container automatically detects 
 								//	  the problem and treats it as a deployment problem.
-								addError(MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_CLASS, bean.getElementName()), CDIPreferences.DECORATOR_RESOLVES_TO_FINAL_BEAN, reference, injection.getResource());
+								addProblem(MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_CLASS, bean.getElementName()), CDIPreferences.DECORATOR_RESOLVES_TO_FINAL_BEAN, reference, injection.getResource());
 							} else {
 								//	8.3. Decorator resolution 
 								//	- If a decorator matches a managed bean with a non-static, non-private, final method, and the decorator also implements that method,
@@ -1751,7 +1794,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 													int flags = beanMethod.getFlags();
 													if(!Flags.isPrivate(flags) && !Flags.isStatic(flags) && Flags.isFinal(flags)) {
 														String methodName = Signature.toString(beanMethod.getSignature(), beanMethod.getElementName(), beanMethod.getParameterNames(), false, false);
-														addError(MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_METHOD, bean.getElementName(), methodName), CDIPreferences.DECORATOR_RESOLVES_TO_FINAL_BEAN, reference, injection.getResource());
+														addProblem(MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_METHOD, bean.getElementName(), methodName), CDIPreferences.DECORATOR_RESOLVES_TO_FINAL_BEAN, reference, injection.getResource());
 														reported = true;
 														break;
 													}
@@ -1777,7 +1820,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			if(type!=null && CDIConstants.INJECTIONPOINT_TYPE_NAME.equals(type.getFullyQualifiedName())) {
 				IScope beanScope = injection.getBean().getScope();
 				if(injection.hasDefaultQualifier() && beanScope!=null && !CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(beanScope.getSourceType().getFullyQualifiedName())) {
-					addError(CDIValidationMessages.ILLEGAL_SCOPE_WHEN_TYPE_INJECTIONPOINT_IS_INJECTED, CDIPreferences.ILLEGAL_SCOPE_WHEN_TYPE_INJECTIONPOINT_IS_INJECTED, reference, injection.getResource());
+					addProblem(CDIValidationMessages.ILLEGAL_SCOPE_WHEN_TYPE_INJECTIONPOINT_IS_INJECTED, CDIPreferences.ILLEGAL_SCOPE_WHEN_TYPE_INJECTIONPOINT_IS_INJECTED, reference, injection.getResource());
 				}
 			}
 		}
@@ -1787,7 +1830,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 		 */
 		if(!(injection.getClassBean() instanceof IDecorator) && injection.isDelegate()) {
 			ITextSourceReference reference = injection.getDelegateAnnotation();
-			addError(CDIValidationMessages.ILLEGAL_BEAN_DECLARING_DELEGATE, CDIPreferences.ILLEGAL_BEAN_DECLARING_DELEGATE, reference, injection.getResource());
+			addProblem(CDIValidationMessages.ILLEGAL_BEAN_DECLARING_DELEGATE, CDIPreferences.ILLEGAL_BEAN_DECLARING_DELEGATE, reference, injection.getResource());
 		}
 	}
 
@@ -1807,9 +1850,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			 *  - bean class of a session bean is annotated @Decorator
 			 */
 			if (decoratorDeclaration != null) {
-				addError(CDIValidationMessages.SESSION_BEAN_ANNOTATED_DECORATOR, CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR,
+				addProblem(CDIValidationMessages.SESSION_BEAN_ANNOTATED_DECORATOR, CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR,
 						sessionDeclaration, bean.getResource(), SESSION_BEAN_ANNOTATED_DECORATOR_ID);
-				addError(CDIValidationMessages.SESSION_BEAN_ANNOTATED_DECORATOR, CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR,
+				addProblem(CDIValidationMessages.SESSION_BEAN_ANNOTATED_DECORATOR, CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR,
 						decoratorDeclaration, bean.getResource(), SESSION_BEAN_ANNOTATED_DECORATOR_ID);
 			}
 			/*
@@ -1817,9 +1860,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			 *  - bean class of a session bean is annotated @Interceptor
 			 */
 			if (interceptorDeclaration != null) {
-				addError(CDIValidationMessages.SESSION_BEAN_ANNOTATED_INTERCEPTOR, CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR,
+				addProblem(CDIValidationMessages.SESSION_BEAN_ANNOTATED_INTERCEPTOR, CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR,
 						sessionDeclaration, bean.getResource(), SESSION_BEAN_ANNOTATED_INTERCEPTOR_ID);
-				addError(CDIValidationMessages.SESSION_BEAN_ANNOTATED_INTERCEPTOR, CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR,
+				addProblem(CDIValidationMessages.SESSION_BEAN_ANNOTATED_INTERCEPTOR, CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR,
 						interceptorDeclaration, bean.getResource(), SESSION_BEAN_ANNOTATED_INTERCEPTOR_ID);
 			}
 		}
@@ -1836,7 +1879,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 				 */
 				String[] typeVariables = type.getTypeParameterSignatures();
 				if (typeVariables.length > 0) {
-					addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_SESSION_BEAN_WITH_GENERIC_TYPE, CDIPreferences.ILLEGAL_SCOPE_FOR_BEAN,
+					addProblem(CDIValidationMessages.ILLEGAL_SCOPE_FOR_SESSION_BEAN_WITH_GENERIC_TYPE, CDIPreferences.ILLEGAL_SCOPE_FOR_BEAN,
 							declaration, bean.getResource());
 				} else {
 					if (bean.isStateless()) {
@@ -1845,7 +1888,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 						 *  - session bean specifies an illegal scope (a stateless session bean must belong to the @Dependent pseudo-scope)
 						 */
 						if (declaration != null) {
-							addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_STATELESS_SESSION_BEAN, CDIPreferences.ILLEGAL_SCOPE_FOR_BEAN,
+							addProblem(CDIValidationMessages.ILLEGAL_SCOPE_FOR_STATELESS_SESSION_BEAN, CDIPreferences.ILLEGAL_SCOPE_FOR_BEAN,
 									declaration, bean.getResource());
 						}
 					} else if (bean.isSingleton()) {
@@ -1857,7 +1900,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 							declaration = CDIUtil.getDifferentScopeDeclarationThanApplicationScoped(bean);
 						}
 						if (declaration != null) {
-							addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_SINGLETON_SESSION_BEAN, CDIPreferences.ILLEGAL_SCOPE_FOR_BEAN,
+							addProblem(CDIValidationMessages.ILLEGAL_SCOPE_FOR_SINGLETON_SESSION_BEAN, CDIPreferences.ILLEGAL_SCOPE_FOR_BEAN,
 									declaration, bean.getResource());
 						}
 					}
@@ -1876,11 +1919,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			IBean sBean = bean.getSpecializedBean();
 			if (sBean == null) {
 				// The specializing bean extends nothing
-				addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_SESSION_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_BEAN, specializesDeclaration,
+				addProblem(CDIValidationMessages.ILLEGAL_SPECIALIZING_SESSION_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_BEAN, specializesDeclaration,
 						bean.getResource());
 			} else if (!CDIUtil.isSessionBean(sBean)) {
 				// The specializing bean directly extends a non-session bean class
-				addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_SESSION_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_BEAN, specializesDeclaration,
+				addProblem(CDIValidationMessages.ILLEGAL_SPECIALIZING_SESSION_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_BEAN, specializesDeclaration,
 						bean.getResource());
 			}
 		}
@@ -1894,8 +1937,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 		IAnnotationDeclaration decorator = bean.getAnnotation(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME);
 		IAnnotationDeclaration interceptor = bean.getAnnotation(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME);
 		if (decorator != null && interceptor != null) {
-			addError(CDIValidationMessages.BOTH_INTERCEPTOR_AND_DECORATOR, CDIPreferences.BOTH_INTERCEPTOR_AND_DECORATOR, decorator, bean.getResource());
-			addError(CDIValidationMessages.BOTH_INTERCEPTOR_AND_DECORATOR, CDIPreferences.BOTH_INTERCEPTOR_AND_DECORATOR, interceptor, bean.getResource());
+			addProblem(CDIValidationMessages.BOTH_INTERCEPTOR_AND_DECORATOR, CDIPreferences.BOTH_INTERCEPTOR_AND_DECORATOR, decorator, bean.getResource());
+			addProblem(CDIValidationMessages.BOTH_INTERCEPTOR_AND_DECORATOR, CDIPreferences.BOTH_INTERCEPTOR_AND_DECORATOR, interceptor, bean.getResource());
 		}
 
 		IAnnotationDeclaration declaration = CDIUtil.getDifferentScopeDeclarationThanDepentend(bean);
@@ -1910,7 +1953,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 				for (IField field : fields) {
 					if (Flags.isPublic(field.getFlags()) && !Flags.isStatic(field.getFlags())) {
 						ITextSourceReference fieldReference = CDIUtil.convertToSourceReference(field.getNameRange(), bean.getResource(), field);
-						addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD, CDIPreferences.ILLEGAL_SCOPE_FOR_BEAN,
+						addProblem(CDIValidationMessages.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD, CDIPreferences.ILLEGAL_SCOPE_FOR_BEAN,
 								fieldReference, bean.getResource(), ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD_ID);
 					}
 				}
@@ -1920,7 +1963,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 				 */
 				String[] typeVariables = type.getTypeParameterSignatures();
 				if (typeVariables.length > 0) {
-					addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_GENERIC_TYPE, CDIPreferences.ILLEGAL_SCOPE_FOR_BEAN,
+					addProblem(CDIValidationMessages.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_GENERIC_TYPE, CDIPreferences.ILLEGAL_SCOPE_FOR_BEAN,
 							declaration, bean.getResource());
 				}
 			} catch (JavaModelException e) {
@@ -1940,7 +1983,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 					if (sBean instanceof ISessionBean || sBean.getAnnotation(CDIConstants.STATELESS_ANNOTATION_TYPE_NAME) != null
 							|| sBean.getAnnotation(CDIConstants.SINGLETON_ANNOTATION_TYPE_NAME) != null) {
 						// The specializing bean directly extends an enterprise bean class
-						addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_BEAN,
+						addProblem(CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_BEAN,
 								specializesDeclaration, bean.getResource());
 					} else {
 						// Validate the specializing bean extends a non simple bean
@@ -1956,12 +1999,12 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 							}
 						}
 						if (!hasDefaultConstructor) {
-							addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_BEAN,	specializesDeclaration, bean.getResource());
+							addProblem(CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_BEAN,	specializesDeclaration, bean.getResource());
 						}
 					}
 				} else {
 					// The specializing bean extends nothing
-					addError(CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_BEAN, specializesDeclaration, bean.getResource());
+					addProblem(CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_BEAN, specializesDeclaration, bean.getResource());
 				}
 			} catch (JavaModelException e) {
 				CDICorePlugin.getDefault().logError(e);
@@ -1978,14 +2021,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			if(!bindings.isEmpty()) {
 				if(Flags.isFinal(bean.getBeanClass().getFlags())) {
 					ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange(), bean.getResource(), bean.getBeanClass());
-					addError(CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_CLASS, CDIPreferences.ILLEGAL_INTERCEPTOR_BINDING_METHOD, reference, bean.getResource());
+					addProblem(CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_CLASS, CDIPreferences.ILLEGAL_INTERCEPTOR_BINDING_METHOD, reference, bean.getResource());
 				} else {
 					IMethod[] methods = bean.getBeanClass().getMethods();
 					for (int i = 0; i < methods.length; i++) {
 						int flags = methods[i].getFlags();
 						if(Flags.isFinal(flags) && !Flags.isStatic(flags) && !Flags.isPrivate(flags)) {
 							ITextSourceReference reference = CDIUtil.convertToSourceReference(methods[i].getNameRange(), bean.getResource(), methods[i]);
-							addError(CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_METHOD, CDIPreferences.ILLEGAL_INTERCEPTOR_BINDING_METHOD, reference, bean.getResource());
+							addProblem(CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_METHOD, CDIPreferences.ILLEGAL_INTERCEPTOR_BINDING_METHOD, reference, bean.getResource());
 						}
 					}
 				}
@@ -1995,13 +2038,13 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 					if(!method.getInterceptorBindings().isEmpty()) {
 						if(Flags.isFinal(bean.getBeanClass().getFlags())) {
 							ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange(), bean.getResource(), bean.getBeanClass());
-							addError(CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_CLASS, CDIPreferences.ILLEGAL_INTERCEPTOR_BINDING_METHOD, reference, bean.getResource());
+							addProblem(CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_CLASS, CDIPreferences.ILLEGAL_INTERCEPTOR_BINDING_METHOD, reference, bean.getResource());
 						} else {
 							IMethod sourceMethod = method.getMethod();
 							int flags = sourceMethod.getFlags();
 							if(Flags.isFinal(flags) && !Flags.isStatic(flags) && !Flags.isPrivate(flags)) {
 								ITextSourceReference reference = CDIUtil.convertToSourceReference(sourceMethod.getNameRange(), bean.getResource(), sourceMethod);
-								addError(CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_METHOD, CDIPreferences.ILLEGAL_INTERCEPTOR_BINDING_METHOD, reference, bean.getResource());
+								addProblem(CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_METHOD, CDIPreferences.ILLEGAL_INTERCEPTOR_BINDING_METHOD, reference, bean.getResource());
 							}
 						}
 					}
@@ -2028,7 +2071,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 						}
 						if(!passivatingCapable) {
 							ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange(), bean.getResource(), bean.getBeanClass());
-							addError(MessageFormat.format(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN, bean.getElementName(), scope.getSourceType().getElementName()), CDIPreferences.NOT_PASSIVATION_CAPABLE_BEAN, reference, bean.getResource(), NOT_PASSIVATION_CAPABLE_BEAN_ID);
+							addProblem(MessageFormat.format(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN, bean.getElementName(), scope.getSourceType().getElementName()), CDIPreferences.NOT_PASSIVATION_CAPABLE_BEAN, reference, bean.getResource(), NOT_PASSIVATION_CAPABLE_BEAN_ID);
 						}
 					}
 				}
@@ -2051,7 +2094,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			if (declaration == null) {
 				declaration = CDIUtil.getNamedStereotypeDeclaration(interceptor);
 			}
-			addError(CDIValidationMessages.INTERCEPTOR_HAS_NAME, CDIPreferences.INTERCEPTOR_OR_DECORATOR_HAS_NAME, declaration, interceptor.getResource(), INTERCEPTOR_HAS_NAME_ID);
+			addProblem(CDIValidationMessages.INTERCEPTOR_HAS_NAME, CDIPreferences.INTERCEPTOR_OR_DECORATOR_HAS_NAME, declaration, interceptor.getResource(), INTERCEPTOR_HAS_NAME_ID);
 		}
 
 		/*
@@ -2067,7 +2110,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 				//for custom implementations
 				declaration = interceptor.getNameLocation(true);
 			}
-			addError(CDIValidationMessages.INTERCEPTOR_IS_ALTERNATIVE, CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, declaration, interceptor
+			addProblem(CDIValidationMessages.INTERCEPTOR_IS_ALTERNATIVE, CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, declaration, interceptor
 					.getResource());
 		}
 		/*
@@ -2079,7 +2122,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 		 */
 		Set<IProducer> producers = interceptor.getProducers();
 		for (IProducer producer : producers) {
-			addError(CDIValidationMessages.PRODUCER_IN_INTERCEPTOR, CDIPreferences.PRODUCER_IN_INTERCEPTOR_OR_DECORATOR, producer.getProducesAnnotation(), interceptor.getResource(), PRODUCER_IN_INTERCEPTOR_ID);
+			addProblem(CDIValidationMessages.PRODUCER_IN_INTERCEPTOR, CDIPreferences.PRODUCER_IN_INTERCEPTOR_OR_DECORATOR, producer.getProducesAnnotation(), interceptor.getResource(), PRODUCER_IN_INTERCEPTOR_ID);
 		}
 		/*
 		 * 9.2. Declaring the interceptor bindings of an interceptor
@@ -2089,7 +2132,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 		if(bindings.isEmpty()) {
 			ITextSourceReference declaration = interceptor.getAnnotation(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME);
 			if(declaration!=null) {
-				addError(CDIValidationMessages.MISSING_INTERCEPTOR_BINDING, CDIPreferences.MISSING_INTERCEPTOR_BINDING, declaration, interceptor.getResource());
+				addProblem(CDIValidationMessages.MISSING_INTERCEPTOR_BINDING, CDIPreferences.MISSING_INTERCEPTOR_BINDING, declaration, interceptor.getResource());
 			}
 		} else {
 			/*
@@ -2111,7 +2154,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 									if(declaration==null) {
 										declaration = interceptor.getInterceptorAnnotation();
 									}
-									addError(CDIValidationMessages.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING, CDIPreferences.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING, declaration, interceptor.getResource());
+									addProblem(CDIValidationMessages.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING, CDIPreferences.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING, declaration, interceptor.getResource());
 									markedAsWrong = true;
 									break;
 								}
@@ -2139,7 +2182,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			if (declaration == null) {
 				declaration = CDIUtil.getNamedStereotypeDeclaration(decorator);
 			}
-			addError(CDIValidationMessages.DECORATOR_HAS_NAME, CDIPreferences.INTERCEPTOR_OR_DECORATOR_HAS_NAME, declaration, decorator.getResource(), DECORATOR_HAS_NAME_ID);
+			addProblem(CDIValidationMessages.DECORATOR_HAS_NAME, CDIPreferences.INTERCEPTOR_OR_DECORATOR_HAS_NAME, declaration, decorator.getResource(), DECORATOR_HAS_NAME_ID);
 		}
 
 		/*
@@ -2155,7 +2198,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 				//for custom implementations
 				declaration = decorator.getNameLocation(true);
 			}
-			addError(CDIValidationMessages.DECORATOR_IS_ALTERNATIVE, CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, declaration, decorator.getResource());
+			addProblem(CDIValidationMessages.DECORATOR_IS_ALTERNATIVE, CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, declaration, decorator.getResource());
 		}
 
 		/*
@@ -2167,7 +2210,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 		 */
 		Set<IProducer> producers = decorator.getProducers();
 		for (IProducer producer : producers) {
-			addError(CDIValidationMessages.PRODUCER_IN_DECORATOR, CDIPreferences.PRODUCER_IN_INTERCEPTOR_OR_DECORATOR, producer.getProducesAnnotation(), decorator.getResource(), PRODUCER_IN_DECORATOR_ID);
+			addProblem(CDIValidationMessages.PRODUCER_IN_DECORATOR, CDIPreferences.PRODUCER_IN_INTERCEPTOR_OR_DECORATOR, producer.getProducesAnnotation(), decorator.getResource(), PRODUCER_IN_DECORATOR_ID);
 		}
 
 		Set<IInjectionPoint> injections = decorator.getInjectionPoints(true);
@@ -2189,7 +2232,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 						 * 8.1.2. Decorator delegate injection points
 						 *  - injection point that is not an injected field, initializer method parameter or bean constructor method parameter is annotated @Delegate
 						 */
-						addError(CDIValidationMessages.ILLEGAL_INJECTION_POINT_DELEGATE, CDIPreferences.ILLEGAL_INJECTION_POINT_DELEGATE, delegateAnnotation, decorator.getResource());
+						addProblem(CDIValidationMessages.ILLEGAL_INJECTION_POINT_DELEGATE, CDIPreferences.ILLEGAL_INJECTION_POINT_DELEGATE, delegateAnnotation, decorator.getResource());
 					}
 				}
 			}
@@ -2200,7 +2243,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			 *  - decorator has more than one delegate injection point
 			 */
 			for (ITextSourceReference declaration : delegates) {
-				addError(CDIValidationMessages.MULTIPLE_DELEGATE, CDIPreferences.MULTIPLE_OR_MISSING_DELEGATE, declaration, decorator.getResource());
+				addProblem(CDIValidationMessages.MULTIPLE_DELEGATE, CDIPreferences.MULTIPLE_OR_MISSING_DELEGATE, declaration, decorator.getResource());
 			}
 		} else if(delegates.isEmpty()) {
 			/*
@@ -2208,7 +2251,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			 *  - decorator does not have a delegate injection point
 			 */
 			IAnnotationDeclaration declaration = decorator.getDecoratorAnnotation();
-			addError(CDIValidationMessages.MISSING_DELEGATE, CDIPreferences.MULTIPLE_OR_MISSING_DELEGATE, declaration, decorator.getResource());
+			addProblem(CDIValidationMessages.MISSING_DELEGATE, CDIPreferences.MULTIPLE_OR_MISSING_DELEGATE, declaration, decorator.getResource());
 		}
 
 		/*
@@ -2223,7 +2266,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 					if(!checkTheOnlySuper(context, decorator, delegateParametedType)) {
 						Set<IParametedType> decoratedParametedTypes = decorator.getDecoratedTypes();
 						List<String> supers = null;
-						if(shouldValidateType(delegateType)) {
+						if(!isAsYouTypeValidation() && shouldValidateType(delegateType)) {
 							getValidationContext().addLinkedCoreResource(SHORT_ID, decorator.getResource().getFullPath().toOSString(), delegateType.getResource().getFullPath(), false);
 						}
 						for (IParametedType decoratedParametedType : decoratedParametedTypes) {
@@ -2231,7 +2274,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 							if(decoratedType==null) {
 								continue;
 							}
-							if(shouldValidateType(decoratedType)) {
+							if(!isAsYouTypeValidation() && shouldValidateType(decoratedType)) {
 								getValidationContext().addLinkedCoreResource(SHORT_ID, decorator.getResource().getFullPath().toOSString(), decoratedType.getResource().getFullPath(), false);
 							}
 							String decoratedTypeName = decoratedType.getFullyQualifiedName();
@@ -2253,7 +2296,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 									declaration = CDIUtil.convertToJavaSourceReference((ITypeDeclaration)delegateParametedType, delegate.getSourceMember());
 								}
 								String typeName = Signature.getSignatureSimpleName(decoratedParametedType.getSignature());
-								addError(MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, typeName), CDIPreferences.DELEGATE_HAS_ILLEGAL_TYPE, declaration, decorator.getResource());
+								addProblem(MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, typeName), CDIPreferences.DELEGATE_HAS_ILLEGAL_TYPE, declaration, decorator.getResource());
 								break;
 							}
 						}
@@ -2321,9 +2364,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 					if (!typeWasFound) {
 						IMember e = bean instanceof IJavaReference ? ((IJavaReference)bean).getSourceMember() : bean.getBeanClass();
 						ITextSourceReference typedDeclarationReference = CDIUtil.convertToJavaSourceReference(typedDeclaration, e);
-						
+
 						String message = CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION;
-						addError(message, CDIPreferences.ILLEGAL_TYPE_IN_TYPED_DECLARATION, typedDeclarationReference, bean.getResource());
+						addProblem(message, CDIPreferences.ILLEGAL_TYPE_IN_TYPED_DECLARATION, typedDeclarationReference, bean.getResource());
 					}
 				}
 			}
@@ -2344,7 +2387,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 				? CDIValidationMessages.MULTIPLE_SCOPE_TYPE_ANNOTATIONS_IN_PRODUCER_METHOD
 				: CDIValidationMessages.MULTIPLE_SCOPE_TYPE_ANNOTATIONS;
 			for (IScopeDeclaration scope : scopes) {
-				addError(message, CDIPreferences.MULTIPLE_SCOPE_TYPE_ANNOTATIONS, scope, bean.getResource());
+				addProblem(message, CDIPreferences.MULTIPLE_SCOPE_TYPE_ANNOTATIONS, scope, bean.getResource());
 			}
 		}
 
@@ -2366,7 +2409,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			}
 			if (declarationMap.size() > 1) {
 				for (IStereotypeDeclaration stereotypeDeclaration : declarationMap.values()) {
-					addError(CDIValidationMessages.MISSING_SCOPE_WHEN_THERE_IS_NO_DEFAULT_SCOPE, CDIPreferences.MISSING_SCOPE_WHEN_THERE_IS_NO_DEFAULT_SCOPE, stereotypeDeclaration, bean.getResource());
+					addProblem(CDIValidationMessages.MISSING_SCOPE_WHEN_THERE_IS_NO_DEFAULT_SCOPE, CDIPreferences.MISSING_SCOPE_WHEN_THERE_IS_NO_DEFAULT_SCOPE, stereotypeDeclaration, bean.getResource());
 				}
 			}
 		}
@@ -2381,7 +2424,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			IAnnotationDeclaration scopeOrStereotypeDeclaration = CDIUtil.getDifferentScopeDeclarationThanDepentend(bean);
 			if (scopeOrStereotypeDeclaration != null) {
 				String message = interceptor?CDIValidationMessages.ILLEGAL_SCOPE_FOR_INTERCEPTOR:CDIValidationMessages.ILLEGAL_SCOPE_FOR_DECORATOR;
-				addError(message, CDIPreferences.ILLEGAL_SCOPE_FOR_INTERCEPTOR_OR_DECORATOR, scopeOrStereotypeDeclaration, bean.getResource());
+				addProblem(message, CDIPreferences.ILLEGAL_SCOPE_FOR_INTERCEPTOR_OR_DECORATOR, scopeOrStereotypeDeclaration, bean.getResource());
 			}
 		}
 	}
@@ -2425,7 +2468,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			Object name = nameDeclaration.getMemberValue(null);
 			if (name != null && name.toString().length() > 0) {
 				ITextSourceReference location = nameDeclaration;
-				addError(CDIValidationMessages.STEREOTYPE_DECLARES_NON_EMPTY_NAME, CDIPreferences.STEREOTYPE_DECLARES_NON_EMPTY_NAME, location, resource, STEREOTYPE_DECLARES_NON_EMPTY_NAME_ID);
+				addProblem(CDIValidationMessages.STEREOTYPE_DECLARES_NON_EMPTY_NAME, CDIPreferences.STEREOTYPE_DECLARES_NON_EMPTY_NAME, location, resource, STEREOTYPE_DECLARES_NON_EMPTY_NAME_ID);
 			}
 		}
 
@@ -2433,14 +2476,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 		IAnnotationDeclaration typedDeclaration = stereotype.getAnnotationDeclaration(CDIConstants.TYPED_ANNOTATION_TYPE_NAME);
 		if (typedDeclaration != null) {
 			ITextSourceReference location = typedDeclaration;
-			addError(CDIValidationMessages.STEREOTYPE_IS_ANNOTATED_TYPED, CDIPreferences.STEREOTYPE_IS_ANNOTATED_TYPED, location, resource, STEREOTYPE_IS_ANNOTATED_TYPED_ID);
+			addProblem(CDIValidationMessages.STEREOTYPE_IS_ANNOTATED_TYPED, CDIPreferences.STEREOTYPE_IS_ANNOTATED_TYPED, location, resource, STEREOTYPE_IS_ANNOTATED_TYPED_ID);
 		}
 
 		// 3. Qualifier other than @Named
 		for (IAnnotationDeclaration a : as) {
 			if (a instanceof IQualifierDeclaration && a != nameDeclaration) {
 				ITextSourceReference location = a;
-				addError(CDIValidationMessages.ILLEGAL_QUALIFIER_IN_STEREOTYPE, CDIPreferences.ILLEGAL_QUALIFIER_IN_STEREOTYPE, location, resource);
+				addProblem(CDIValidationMessages.ILLEGAL_QUALIFIER_IN_STEREOTYPE, CDIPreferences.ILLEGAL_QUALIFIER_IN_STEREOTYPE, location, resource);
 			}
 		}
 
@@ -2449,7 +2492,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 		Set<IScopeDeclaration> scopeDeclarations = stereotype.getScopeDeclarations();
 		if (scopeDeclarations.size() > 1) {
 			for (IScopeDeclaration scope : scopeDeclarations) {
-				addError(CDIValidationMessages.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, CDIPreferences.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, scope, stereotype.getResource());
+				addProblem(CDIValidationMessages.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, CDIPreferences.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, scope, stereotype.getResource());
 			}
 		}
 
@@ -2535,7 +2578,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 				if(kind == Signature.ARRAY_TYPE_SIGNATURE) {
 					if(!annotation.getNonBindingMethods().contains(method)) {
 						ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getNameRange(), annotation.getResource(), method);
-						addError(arrayMessageErrorKey, preferencesKey, reference, annotation.getResource(), arrayMessageId);
+						addProblem(arrayMessageErrorKey, preferencesKey, reference, annotation.getResource(), arrayMessageId);
 					}
 				} else if(kind == Signature.CLASS_TYPE_SIGNATURE) {
 					String typeName = Signature.getSignatureSimpleName(returnTypeSignature);
@@ -2550,7 +2593,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 						if(memberType!=null && memberType.isAnnotation()) {
 							if(!annotation.getNonBindingMethods().contains(method)) {
 								ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getNameRange(), annotation.getResource(), method);
-								addError(annotationValueErrorKey, preferencesKey, reference, annotation.getResource(), annotationValueId);
+								addProblem(annotationValueErrorKey, preferencesKey, reference, annotation.getResource(), annotationValueId);
 							}
 						}
 					}
@@ -2570,13 +2613,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 		return PREFERENCE_PAGE_ID;
 	}
 
+	private static final String BUNDLE_NAME = "org.jboss.tools.cdi.internal.core.validation.messages";
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.common.validation.TempMarkerManager#getMessageBundleName()
 	 */
 	@Override
 	protected String getMessageBundleName() {
-		// TODO
-		return null;
+		return BUNDLE_NAME;
 	}
 }
