@@ -12,7 +12,7 @@
 	<packaging>eclipse-test-plugin</packaging>
 	
 	<properties>
-		<systemProperties>-Djbosstools.test.seam.2.0.1.GA.home=${project.build.directory}/jboss-seam-2.3.0</systemProperties>
+		<systemProperties>-Djbosstools.test.seam.2.0.1.GA.home=${requirementsDirectory}/jboss-seam-2.3.0</systemProperties>
 		<coverage.filter>org.jboss.tools.seam*</coverage.filter>
 		<emma.instrument.bundles>org.jboss.tools.seam.ui,org.jboss.tools.seam.core</emma.instrument.bundles>
 	</properties>
@@ -22,7 +22,6 @@
 			<plugin>
 				<groupId>com.googlecode.maven-download-plugin</groupId>
 				<artifactId>maven-download-plugin</artifactId>
-				<version>0.2-SNAPSHOT</version>
 				<executions>
 					<execution>
 						<id>install-seam</id>
@@ -33,7 +32,7 @@
 						<configuration>
 							<url>http://sourceforge.net/projects/jboss/files/JBoss%20Seam/2.3.0.ALPHA/jboss-seam-2.3.0.ALPHA-distribution.zip</url>
 							<unpack>true</unpack>
-							<outputDirectory>${project.build.directory}/jboss-seam-2.3.0</outputDirectory>
+							<outputDirectory>${requirementsDirectory}/jboss-seam-2.3.0</outputDirectory>
 							<md5>07b19de75bcb86b5f4cff3a15d7e2158</md5>
 						</configuration>
 					</execution>

@@ -40,7 +40,6 @@
 									<type>zip</type>
 								</artifactItem>
 							</artifactItems>
-							<outputDirectory>${project.build.directory}/requirements</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>

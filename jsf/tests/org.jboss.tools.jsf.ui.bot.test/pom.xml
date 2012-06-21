@@ -12,8 +12,8 @@
 
   <packaging>eclipse-test-plugin</packaging>
   <properties>
-    <jbosstools.test.jboss-as.home>${project.build.directory}/requirements/jboss-as-7.0.2.Final</jbosstools.test.jboss-as.home>
-    <org.jboss.tools.vpe.ui.bot.test.richfaces.ui.jar.location>${project.build.directory}/requirements/richfaces-4.2.1.Final/artifacts/ui/richfaces-components-ui-4.2.1.Final.jar</org.jboss.tools.vpe.ui.bot.test.richfaces.ui.jar.location>
+    <jbosstools.test.jboss-as.home>${requirementsDirectory}/jboss-as-7.0.2.Final</jbosstools.test.jboss-as.home>
+    <org.jboss.tools.vpe.ui.bot.test.richfaces.ui.jar.location>${requirementsDirectory}/richfaces-4.2.1.Final/artifacts/ui/richfaces-components-ui-4.2.1.Final.jar</org.jboss.tools.vpe.ui.bot.test.richfaces.ui.jar.location>
     <systemProperties>-Dtest.configurations.dir=resources/properties/ -Djbosstools.test.jboss-as.home=${jbosstools.test.jboss-as.home} -Dorg.jboss.tools.vpe.ui.bot.test.richfaces.ui.jar.location=${org.jboss.tools.vpe.ui.bot.test.richfaces.ui.jar.location}</systemProperties>
     <test.suite.class>org.jboss.tools.jsf.ui.bot.test.JSFAllBotTests</test.suite.class>
   </properties>
@@ -46,7 +46,6 @@
 								<type>zip</type>
 							</artifactItem>
 						</artifactItems>
-						<outputDirectory>${project.build.directory}/requirements</outputDirectory>
 					</configuration>
 				</execution>
 			</executions>
