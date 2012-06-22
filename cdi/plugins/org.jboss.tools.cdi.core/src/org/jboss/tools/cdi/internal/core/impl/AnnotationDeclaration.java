@@ -31,6 +31,7 @@ public class AnnotationDeclaration extends org.jboss.tools.common.java.impl.Anno
 	protected void copyTo(AnnotationDeclaration other) {
 		other.project = project;
 		other.annotation = annotation;
+		other.values = values;
 	}
 
 	public void setProject(CDICoreNature project) {

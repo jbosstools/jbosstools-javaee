@@ -128,8 +128,57 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		synchronized(this) {
 			p.allBeans.addAll(allBeans);
 		}
-		p.allBeans.removeAll(getBeans(file.getFullPath()));
+		Set<IBean> oldBeans = getBeans(file.getFullPath());
+		p.allBeans.removeAll(oldBeans);
 		p.allBeans.addAll(beans);
+		
+		Set<IBean> oldNamedBeans = null;
+		for (IBean b: oldBeans) {
+			if(b.getName() != null) {
+				if(oldNamedBeans == null) oldNamedBeans = new HashSet<IBean>();
+				oldNamedBeans.add(b);
+			}
+		}
+		Set<IBean> newNamedBeans = null;
+		for (IBean b: beans) {
+			if(b.getName() != null) {
+				if(newNamedBeans == null) newNamedBeans = new HashSet<IBean>();
+				newNamedBeans.add(b);
+			}
+		}
+		if(newNamedBeans != null || oldNamedBeans != null) {
+			p.namedBeans = new HashSet<IBean>();
+			p.beansByName = new HashMap<String, Set<IBean>>();
+			synchronized(this) {
+				p.namedBeans.addAll(namedBeans);
+				if(oldNamedBeans != null) p.namedBeans.removeAll(oldNamedBeans);
+				if(newNamedBeans != null) p.namedBeans.addAll(newNamedBeans);
+				for (String n: beansByName.keySet()) {
+					Set<IBean> bs = new HashSet<IBean>(beansByName.get(n));
+					p.beansByName.put(n, bs);
+				}
+				if(oldNamedBeans != null) {
+					for (IBean b: oldNamedBeans) {
+						String n = b.getName();
+						Set<IBean> bs = p.beansByName.get(n);
+						if(bs != null && bs.contains(b)) {
+							bs.remove(b);
+						}
+					}
+				}
+				if(newNamedBeans != null) {
+					for (IBean b: newNamedBeans) {
+						String n = b.getName();
+						Set<IBean> bs = p.beansByName.get(n);
+						if(bs == null) {
+							bs = new HashSet<IBean>();
+							p.beansByName.put(n, bs);
+						}
+						bs.add(b);
+					}
+				}
+			}
+		}
 		
 		return p;
 	}
