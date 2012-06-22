@@ -181,6 +181,7 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 	public void validateResource(IFile file, CDICoreValidator validator) {
 		String defaultBeanAnnotationTypeName = getVersion().getDefaultBeanAnnotationTypeName();
 		ICDIProject cdiProject = CDICorePlugin.getCDIProject(file.getProject(), true);
+		if(cdiProject == null) return;
 		Set<IBean> bs = cdiProject.getBeans(file.getFullPath());
 		for (IBean bean: bs) {
 			if(isBeanDefault(bean)) {
