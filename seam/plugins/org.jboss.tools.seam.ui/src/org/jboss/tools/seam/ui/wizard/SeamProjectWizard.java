@@ -245,25 +245,27 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 		for (Action action : actions) {
 			if(ISeamFacetDataModelProperties.SEAM_FACET_ID.equals(action.getProjectFacetVersion().getProjectFacet().getId())) {
 				IDataModel model = (IDataModel)action.getConfig();
-				Object targetServer = this.model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER);
-				if(targetServer!=null) {
-					model.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, targetServer);
-				}
-				Object targetRuntime = this.model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME);
-				if(targetRuntime!=null) {
-					Object targetRuntimeName = targetRuntime;
-					if(targetRuntime instanceof IRuntime) {
-						targetRuntimeName = ((IRuntime)targetRuntime).getName();
+				if(model!=null) {
+					Object targetServer = this.model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER);
+					if(targetServer!=null) {
+						model.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, targetServer);
 					}
-					model.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME, targetRuntimeName);
-				}
-				final DataModelSynchHelper synchHelper = firstPage.initializeSynchHelper(model);
-				Display.getDefault().syncExec(new Runnable() {
-					public void run() {
-						synchHelper.synchCombo(matchedServerTargetCombo, ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, dependentServerControls);
-						synchHelper.synchCombo(serverRuntimeTargetCombo, ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME, null);
+					Object targetRuntime = this.model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME);
+					if(targetRuntime!=null) {
+						Object targetRuntimeName = targetRuntime;
+						if(targetRuntime instanceof IRuntime) {
+							targetRuntimeName = ((IRuntime)targetRuntime).getName();
+						}
+						model.setProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME, targetRuntimeName);
 					}
-				});
+					final DataModelSynchHelper synchHelper = firstPage.initializeSynchHelper(model);
+					Display.getDefault().syncExec(new Runnable() {
+						public void run() {
+							synchHelper.synchCombo(matchedServerTargetCombo, ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, dependentServerControls);
+							synchHelper.synchCombo(serverRuntimeTargetCombo, ISeamFacetDataModelProperties.JBOSS_AS_TARGET_RUNTIME, null);
+						}
+					});
+				}
 			}
 		}
 	}
