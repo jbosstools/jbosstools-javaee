@@ -394,6 +394,10 @@ public class DefinitionContext implements IRootDefinitionContext {
 		project.getDelegate().update(true);
 
 		workingCopy = null;
+		
+		if(!project.getProject().isAccessible()) {
+			clean();
+		}
 	}
 
 	public void dropWorkingCopy() {
