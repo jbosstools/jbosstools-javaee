@@ -2624,8 +2624,12 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 		return BUNDLE_NAME;
 	}
 
-	protected boolean alwaysCleanAnnotations() {
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.validation.TempMarkerManager#shouldCleanAllAnnotations()
+	 */
+	@Override
+	protected boolean shouldCleanAllAnnotations() {
 		return true;
 	}
-
 }
