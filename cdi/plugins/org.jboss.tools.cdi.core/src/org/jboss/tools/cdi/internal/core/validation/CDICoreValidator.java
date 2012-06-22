@@ -726,7 +726,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IAsYo
 			 *     • the two beans have the same EL name and the name is not resolvable, or
 			 */
 			Set<IBean> beans = context.getCdiProject().getBeans(name, true);
-			System.out.println("-->" + (beans.size()>1 && beans.contains(bean)));
 			if(beans.size()>1 && beans.contains(bean)) {
 				ITextSourceReference reference = bean.getNameLocation(true);
 				Set<String> names = new HashSet<String>();
