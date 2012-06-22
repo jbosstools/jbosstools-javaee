@@ -1327,7 +1327,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	
 		for (String builtin: BuiltInBeanFactory.BUILT_IN) {
 			IType type = n.getType(builtin);
-			if(type != null && !newClassBeans.containsKey(type)) {
+			if(type != null && type.exists() && !newClassBeans.containsKey(type)) {
 				TypeDefinition t = new TypeDefinition();
 				t.setType(type, n.getDefinitions(), TypeDefinition.FLAG_NO_ANNOTATIONS);
 				t.setBeanConstructor(true);
