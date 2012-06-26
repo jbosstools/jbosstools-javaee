@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<beans xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd"
+	xmlns:s="urn:java:ee" xmlns:b="urn:java:test">
+
+	<b:Bean1>
+	
+		<s:parameters>
+		</s:parameters>
+		
+		<b:value>
+		</b:value>
+		
+		<b:method>
+		</b:method>
+		
+	</b:Bean1>
+</beans>
