@@ -12,13 +12,44 @@
 	<packaging>eclipse-test-plugin</packaging>
 
 	<properties>
-		<systemProperties>-Djbosstools.test.seam.1.2.1.eap.home=${requirement.build.root}/jboss-eap-4.3/seam</systemProperties>
+		<systemProperties>-Djbosstools.test.seam.1.2.1.eap.home=${requirementsDirectory}/jboss-eap-4.3/seam</systemProperties>
 		<coverage.filter>org.jboss.tools.seam*</coverage.filter>
 		<emma.instrument.bundles>org.jboss.tools.seam.ui,org.jboss.tools.seam.core</emma.instrument.bundles>
 	</properties>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>com.googlecode.maven-download-plugin</groupId>
+				<artifactId>maven-download-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>install-eap</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+						<configuration>
+							<url>http://download.devel.redhat.com/released/JBEAP-4.3.0/CP03/zip/jboss-eap-noauth-4.3.0.GA_CP03.zip</url>
+							<md5>18dc28785c8b156b36e2d92db699064a</md5>
+							<unpack>true</unpack>
+						</configuration>
+					</execution>
+					<execution>
+						<id>install-eap-seam-gen</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+						<configuration>
+							<url>http://download.jboss.org/jbosstools/test-runtimes/rhds-seam-gen-patch.zip</url>
+							<md5>79b37541804f49844ea7322c0ff599c1</md5>
+							<unpack>true</unpack>
+							<outputDirectory>${requirementsDirectory}/jboss-eap-4.3/seam</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-surefire-plugin</artifactId>
