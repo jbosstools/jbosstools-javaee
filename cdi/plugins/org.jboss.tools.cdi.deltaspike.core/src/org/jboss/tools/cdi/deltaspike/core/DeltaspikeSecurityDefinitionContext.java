@@ -21,7 +21,7 @@ public class DeltaspikeSecurityDefinitionContext extends AbstractDefinitionConte
 		copy.root = root;
 		if(!clean) {
 			copy.securityBindingConfigurations.putAll(securityBindingConfigurations);
-			allAuthorizerMethods = copy.allAuthorizerMethods;
+			copy.allAuthorizerMethods = allAuthorizerMethods;
 		}		
 		return copy;
 	}
