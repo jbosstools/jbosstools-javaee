@@ -18,6 +18,7 @@ import org.jboss.tools.cdi.seam3.bot.test.tests.FullyQualifiedTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.GenericOpenOnTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.InterfaceAndAbstractValidationTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.LoggerSupportTest;
+import org.jboss.tools.cdi.seam3.bot.test.tests.MessageLoggerAnnotationTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.NamedPackagesTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.RequiresAnnotationTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.ResourceOpenOnTest;
@@ -42,7 +43,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	NamedPackagesTest.class,
 	FullyQualifiedTest.class,
 	LoggerSupportTest.class,
-	InterfaceAndAbstractValidationTest.class
+	InterfaceAndAbstractValidationTest.class,
+	MessageLoggerAnnotationTest.class
 	})
 public class CDISeam3AllBotTests extends AbstractTestSuite {
 	
