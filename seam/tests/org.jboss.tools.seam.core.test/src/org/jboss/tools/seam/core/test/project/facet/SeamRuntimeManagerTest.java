@@ -35,13 +35,8 @@ public class SeamRuntimeManagerTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Bundle seamCoreTest = Platform.getBundle("org.jboss.tools.seam.core.test");
-		URL seamUrl = FileLocator.resolve(seamCoreTest.getEntry("/seam/seam-1.2.0"));
-		File folder = new File(seamUrl.getPath());
 		manager = SeamRuntimeManager.getInstance();
 		assertNotNull("Cannot obtainSeamRuntimeManager instance", manager);
-		if(manager.findRuntimeByName("Seam 1.2.0")!=null) return;
-		manager.addRuntime("Seam 1.2.0", folder.getAbsolutePath(), SeamVersion.SEAM_1_2, true);
 	}
 
 	/**
@@ -49,18 +44,38 @@ public class SeamRuntimeManagerTest extends TestCase {
 	 * @throws IOException 
 	 */
 	public void testGetRuntimes() throws IOException {
-		SeamRuntime[] rtms = manager.getRuntimes();
-		assertTrue("Seam runtime 'Seam 1.2.0' is not created", rtms.length==1);
-		assertTrue("Seam runtime 'Seam 1.2.0' is not created", rtms[0].getName().equals("Seam 1.2.0"));
+		Bundle seamCoreTest = Platform.getBundle("org.jboss.tools.seam.core.test");
+		URL seamUrl = FileLocator.resolve(seamCoreTest.getEntry("/seam/seam-1.2.0"));
+		File folder = new File(seamUrl.getPath());
+		SeamRuntime runtime = null;
+		try {
+			runtime = manager.addRuntime("Seam 1.2.0", folder.getAbsolutePath(), SeamVersion.SEAM_1_2, true);
+			SeamRuntime[] rts = manager.getRuntimes();
+			assertTrue("Seam runtime 'Seam 1.2.0' is not created", rts.length>0);
+		} finally {
+			if(runtime!=null) {
+				manager.removeRuntime(runtime);
+			}
+		}
 	}
 
 	/**
 	 * Test method for {@link org.jboss.tools.seam.core.project.facet.SeamRuntimeManager#getRuntimes(org.jboss.tools.seam.core.project.facet.SeamVersion)}.
 	 */
-	public void testGetRuntimesSeamVersion() {
-		SeamRuntimeManager manager = SeamRuntimeManager.getInstance();
-		SeamRuntime[] rtms = manager.getRuntimes(SeamVersion.SEAM_1_2);
-		assertTrue("Error in obtaining seam runtimes list for Seam 1.2", rtms.length==1);
+	public void testGetRuntimesSeamVersion() throws IOException {
+		Bundle seamCoreTest = Platform.getBundle("org.jboss.tools.seam.core.test");
+		URL seamUrl = FileLocator.resolve(seamCoreTest.getEntry("/seam/seam-1.2.0"));
+		File folder = new File(seamUrl.getPath());
+		SeamRuntime runtime = null;
+		try {
+			runtime = manager.addRuntime("Seam 1.2.0", folder.getAbsolutePath(), SeamVersion.SEAM_1_2, true);
+			SeamRuntime[] rtms = manager.getRuntimes(SeamVersion.SEAM_1_2);
+			assertEquals("Error in obtaining seam runtimes list for Seam 1.2", 1, rtms.length);
+		} finally {
+			if(runtime!=null) {
+				manager.removeRuntime(runtime);
+			}
+		}
 	}
 
 	/**
@@ -71,17 +86,46 @@ public class SeamRuntimeManagerTest extends TestCase {
 		Bundle seamCoreTest = Platform.getBundle("org.jboss.tools.seam.core.test");
 		URL seamUrl = FileLocator.resolve(seamCoreTest.getEntry("/seam/seam-1.2.1"));
 		File folder = new File(seamUrl.getPath());
-		manager.addRuntime("Seam 1.2.1", folder.getAbsolutePath(), SeamVersion.SEAM_1_2, true);
+		SeamRuntime runtime = null;
+		try {
+			runtime = manager.addRuntime("Seam 1.2.1", folder.getAbsolutePath(), SeamVersion.SEAM_1_2, true);
+			assertNotNull(runtime);
+		} finally {
+			if(runtime!=null) {
+				manager.removeRuntime(runtime);
+			}
+		}
 	}
 
 	/**
 	 * Test method for {@link org.jboss.tools.seam.core.project.facet.SeamRuntimeManager#findRuntimeByName(java.lang.String)}.
 	 */
-	public void testFindRuntimeByName() {
-		SeamRuntime srt = manager.findRuntimeByName("Seam 1.2.1");
-		assertNotNull("Cannot find runtime 'Seam 1.2.1'",srt);
-		srt = manager.findRuntimeByName("Seam 1.2.0");
-		assertNotNull("Cannot find runtime 'Seam 1.2.0'",srt);
+	public void testFindRuntimeByName() throws IOException {
+		Bundle seamCoreTest = Platform.getBundle("org.jboss.tools.seam.core.test");
+		URL seamUrl = FileLocator.resolve(seamCoreTest.getEntry("/seam/seam-1.2.0"));
+		File folder = new File(seamUrl.getPath());
+		SeamRuntime runtime = null;
+		try {
+			manager.addRuntime("Seam 1.2.0", folder.getAbsolutePath(), SeamVersion.SEAM_1_2, true);
+			runtime = manager.findRuntimeByName("Seam 1.2.0");
+			assertNotNull("Can't find runtime 'Seam 1.2.0' is not created", runtime);
+		} finally {
+			if(runtime!=null) {
+				manager.removeRuntime(runtime);
+			}
+		}
+		seamUrl = FileLocator.resolve(seamCoreTest.getEntry("/seam/seam-1.2.1"));
+		folder = new File(seamUrl.getPath());
+		runtime = null;
+		try {
+			manager.addRuntime("Seam 1.2.1", folder.getAbsolutePath(), SeamVersion.SEAM_1_2, true);
+			runtime = manager.findRuntimeByName("Seam 1.2.1");
+			assertNotNull("Can't find runtime 'Seam 1.2.1' is not created", runtime);
+		} finally {
+			if(runtime!=null) {
+				manager.removeRuntime(runtime);
+			}
+		}
 	}
 
 	public void testMatchedRuntimes() {
@@ -98,8 +142,18 @@ public class SeamRuntimeManagerTest extends TestCase {
 	/**
 	 * Test method for {@link org.jboss.tools.seam.core.project.facet.SeamRuntimeManager#getDefaultRuntime()}.
 	 */
-	public void testGetDefaultRuntime() {
-		assertNotNull("Cannot obtain default runtime 'Seam 1.2.0'",manager.getDefaultRuntime(SeamVersion.SEAM_1_2));
-		assertNotNull("Cannot obtain default runtime 'Seam 1.2.0'",manager.getDefaultRuntime(SeamVersion.SEAM_1_2).getName().equals("Seam 1.2.0"));
+	public void testGetDefaultRuntime() throws IOException {
+		Bundle seamCoreTest = Platform.getBundle("org.jboss.tools.seam.core.test");
+		URL seamUrl = FileLocator.resolve(seamCoreTest.getEntry("/seam/seam-1.2.0"));
+		File folder = new File(seamUrl.getPath());
+		SeamRuntime runtime = null;
+		try {
+			runtime = manager.addRuntime("Seam 1.2.0", folder.getAbsolutePath(), SeamVersion.SEAM_1_2, true);
+			assertNotNull("Cannot obtain default runtime 'Seam 1.2.0'", manager.getDefaultRuntime(SeamVersion.SEAM_1_2));
+		} finally {
+			if(runtime!=null) {
+				manager.removeRuntime(runtime);
+			}
+		}
 	}
 }

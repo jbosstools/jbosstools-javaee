@@ -183,7 +183,7 @@ public class SeamRuntimeManager {
 	 * @param defaultRt
 	 * 	boolean - default flag
 	 */
-	public void addRuntime(String name, String path, SeamVersion version,
+	public SeamRuntime addRuntime(String name, String path, SeamVersion version,
 			boolean defaultRt) {
 		SeamRuntime seamRt = new SeamRuntime();
 		seamRt.setVersion(version);
@@ -191,6 +191,7 @@ public class SeamRuntimeManager {
 		seamRt.setName(name);
 		seamRt.setDefault(defaultRt);
 		addRuntime(seamRt);
+		return seamRt;
 	}
 
 	/**
