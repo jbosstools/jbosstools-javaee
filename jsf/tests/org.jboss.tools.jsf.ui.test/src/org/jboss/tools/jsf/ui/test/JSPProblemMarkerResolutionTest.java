@@ -1,8 +1,7 @@
 package org.jboss.tools.jsf.ui.test;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,16 +9,17 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.ui.text.java.IJavaCompletionProposal;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Position;
-import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.source.IAnnotationModel;
+import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jst.jsp.ui.internal.validation.JSPContentSourceValidator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
@@ -28,6 +28,7 @@ import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.wst.html.core.internal.validation.HTMLValidator;
 import org.eclipse.wst.sse.ui.internal.reconcile.TemporaryAnnotation;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.eclipse.wst.validation.ValidationResult;
@@ -37,8 +38,8 @@ import org.eclipse.wst.validation.internal.core.Message;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.jboss.tools.common.text.xml.quickfix.QuickFixManager;
-import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.jst.web.ui.action.AddTLDMarkerResolution;
 import org.jboss.tools.jst.web.ui.action.JSPProblemMarkerResolutionGenerator;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
@@ -69,6 +70,8 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject("test_jsf_project");
 		isSuspendedValidationDefaultValue = ValidationFramework.getDefault().isSuspended();
 		ValidationFramework.getDefault().suspendAllValidation(false);
+		//project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		//project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 	}
 	
 	public void tearDown() throws Exception {
@@ -108,25 +111,26 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 			// https://issues.jboss.org/browse/JBIDE-11596 compile failed in org.jboss.tools.jsf.ui.test when run against Juno TP
 			// org.eclipse.wst.html.internal.validation.HTMLValidator was moved to org.eclipse.wst.html.core.internal.validation.HTMLValidator
 			// We have to use reflection to be compilable in both Indigo and June.
-//			org.eclipse.wst.html.internal.validation.HTMLValidator validator = new org.eclipse.wst.html.internal.validation.HTMLValidator();
-//			ValidationResult result = validator.validate(file, 0, new ValidationState(), new NullProgressMonitor());
-			Class validatorClass = null;
-			try {
-				validatorClass = JsfUiPlugin.getDefault().getBundle().loadClass("org.eclipse.wst.html.internal.validation.HTMLValidator");
-			} catch (ClassNotFoundException e) {
-				try {
-					validatorClass = JsfUiPlugin.getDefault().getBundle().loadClass("org.eclipse.wst.html.core.internal.validation.HTMLValidator");
-				} catch (ClassNotFoundException e1) {
-					fail("Cannot load org.eclipse.wst.html.internal.validation.HTMLValidator (Eclipse Indigo) nor org.eclipse.wst.html.core.internal.validation.HTMLValidator (Eclipse Juno): ClassNotFoundException");
-				}
-			}
-			Constructor constructor = validatorClass.getConstructor();
-			Object validator = constructor.newInstance();
-			Method validate = validatorClass.getMethod("validate", IResource.class, int.class, ValidationState.class, IProgressMonitor.class);
-			ValidationResult result = (ValidationResult)validate.invoke(validator, file, 0, new ValidationState(), new NullProgressMonitor());
+//			Class validatorClass = null;
+//			try {
+//				validatorClass = JsfUiPlugin.getDefault().getBundle().loadClass("org.eclipse.wst.html.core.internal.validation.HTMLValidator");
+//			} catch (ClassNotFoundException e) {
+//				try {
+//					validatorClass = JsfUiPlugin.getDefault().getBundle().loadClass("org.eclipse.wst.html.internal.validation.HTMLValidator");
+//				} catch (ClassNotFoundException e1) {
+//					fail("Cannot load org.eclipse.wst.html.internal.validation.HTMLValidator (Eclipse Indigo) nor org.eclipse.wst.html.core.internal.validation.HTMLValidator (Eclipse Juno): ClassNotFoundException");
+//				}
+//			}
+//			Constructor constructor = validatorClass.getConstructor();
+//			Object validator = constructor.newInstance();
+//			Method validate = validatorClass.getMethod("validate", IResource.class, int.class, ValidationState.class, IProgressMonitor.class);
+//			ValidationResult result = (ValidationResult)validate.invoke(validator, file, 0, new ValidationState(), new NullProgressMonitor());
+
+			HTMLValidator validator = new HTMLValidator();
+			ValidationResult result = validator.validate(file, 0, new ValidationState(), new NullProgressMonitor());
 
 			IReporter reporter = result.getReporter(new NullProgressMonitor());
-			List messages = reporter.getMessages();
+			List<Object> messages = reporter.getMessages();
 			for(Object m : messages){
 				if(m instanceof Message){
 					Message message = (Message)m;
@@ -223,30 +227,26 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 		
 		if(editor instanceof JSPMultiPageEditor){
 			JSPMultiPageEditor jspEditor = (JSPMultiPageEditor)editor;
-			IAnnotationModel aModel = jspEditor.getJspEditor().getTextViewer().getAnnotationModel();
+			
+			SourceViewer viewer = jspEditor.getJspEditor().getTextViewer();
 			
 			// change file
-			IDocument document = jspEditor.getJspEditor().getTextViewer().getDocument();
+			IDocument document = viewer.getDocument();
 			IRegion region = document.getLineInformation(lineToDelete);
 			document.replace(region.getOffset(), region.getLength(), "");
 			
 			// Find annotation
-			TemporaryAnnotation problemAnnotation = waitForProblemAnnotationAppearance(
-					aModel, MAX_SECONDS_TO_WAIT);
-			assertNotNull("No ProblemAnnotation found for Marker Type: "
-					+ MARKER_TYPE, problemAnnotation);
+			TemporaryAnnotation problemAnnotation = waitForProblemAnnotationAppearance(viewer, "Unknown tag (", MAX_SECONDS_TO_WAIT);
+			assertNotNull("No Unknown tag TemporaryAnnotation found", problemAnnotation);
 			
-			if(problemAnnotation != null){
-				problemAnnotation.setAdditionalFixInfo(document);
-				// get all relevant quick fixes for this annotation
-				if(QuickFixManager.getInstance().hasProposals(problemAnnotation)){
-					List<ICompletionProposal> proposals = QuickFixManager.getInstance().getProposals(problemAnnotation);
-					assertNotSame("Quick fix not found", 0, proposals.size());
-				}else{
-					fail("Quick fix not found");
-				}
+			problemAnnotation.setAdditionalFixInfo(document);
+			// get all relevant quick fixes for this annotation
+			if(QuickFixManager.getInstance().hasProposals(problemAnnotation)){
+				List<IJavaCompletionProposal> proposals = QuickFixManager.getInstance().getProposals(problemAnnotation);
+				assertTrue("No quick fixes found", proposals.size() > 0);
+				assertEquals("Add tag library definition quick fix not found", AddTLDMarkerResolution.class, proposals.get(0).getClass());
 			}else{
-				fail("Annotation not found");
+				fail("No quick fixes found");
 			}
 		}else{
 			fail("Editor must be instance of JSPMultiPageEditor, was - "+editor.getClass());
@@ -254,35 +254,38 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 	}
 	
 	private TemporaryAnnotation waitForProblemAnnotationAppearance(
-			final IAnnotationModel annotationModel, final int seconds) {
-		final TemporaryAnnotation[] result = new TemporaryAnnotation[] { null };
+			final SourceViewer viewer, final String name, final int seconds) {
+		final TemporaryAnnotation[] result = new TemporaryAnnotation[]{null};
 
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
 				int secondsLeft = seconds;
+				boolean isFirstPass = true;
 				while (secondsLeft-- > 0) {
-					JobUtils.delay(1000);
+					if (!isFirstPass) {
+						JobUtils.delay(1000);
 
-					// clean deffered events
-					while (Display.getCurrent().readAndDispatch())
-						;
+						// clean deffered events
+						while (Display.getCurrent().readAndDispatch())
+							;
+					} else {
+						secondsLeft++; // because the wait step was skipped
+					}
 
 					//boolean found = false;
+					IAnnotationModel annotationModel = viewer.getAnnotationModel();
 					Iterator it = annotationModel.getAnnotationIterator();
 					while (it.hasNext()) {
 						Object o = it.next();
 
-						if (!(o instanceof TemporaryAnnotation))
-							continue;
+						if (o instanceof TemporaryAnnotation){
+							if(((TemporaryAnnotation) o).getText().startsWith(name)){
+								result[0] = (TemporaryAnnotation) o;
+							}
+						}
 
-						TemporaryAnnotation temporaryAnnotation = (TemporaryAnnotation) o;
-						Position position = annotationModel
-								.getPosition(temporaryAnnotation);
-
-
-						result[0] = temporaryAnnotation;
-						return;
 					}
+					isFirstPass = false;
 				}
 			}
 		});
