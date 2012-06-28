@@ -101,7 +101,9 @@ public class SeamComponentsViewTest extends TestCase {
 		assertEquals(1, itemCount);
 	}
 	
-	public void testAddComponentInXmlFile() throws CoreException{
+	public void testAddRenameDeleteComponentInXmlFile() throws CoreException{
+
+//	public void testAddComponentInXmlFile() throws CoreException{
 		CommonNavigator navigator = getSeamComponentsView();
 
 		navigator.getCommonViewer().expandAll();
@@ -150,27 +152,31 @@ public class SeamComponentsViewTest extends TestCase {
 		assertTrue("Expected component 'myPackage.myStringComponent' was not" +
 													 " found",component!=null);
 		
-	}
-
-	public void testRenameComponentInXmlFile() throws CoreException{
+//	}
+//
+//	public void testRenameComponentInXmlFile() throws CoreException{
 		
-		CommonNavigator navigator = getSeamComponentsView();
+//		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
 		
-		Tree tree = navigator.getCommonViewer().getTree();
+//		Tree 
+		tree = navigator.getCommonViewer().getTree();
 
-		ISeamPackage seamPackage = findSeamPackage(tree, "myPackage");
+//		ISeamPackage 
+		seamPackage = findSeamPackage(tree, "myPackage");
 		
 		assertTrue("Expected package 'myPackage' was not found it tree",
 															seamPackage!=null);
 		
-		ISeamComponent component = findSeamComponent(seamPackage, 
+//		ISeamComponent 
+		component = findSeamComponent(seamPackage, 
 												"myPackage.myStringComponent");
 		
 		assertTrue("Expected component 'myPackage.myStringComponent' was not" +
 				 " found",component!=null);
 				
-		IFile file1 = project.getFile("WebContent/WEB-INF/components.2");
+//		IFile 
+		file1 = project.getFile("WebContent/WEB-INF/components.2");
 		if(file1 == null || !file1.exists()) {
 			fail("Cannot find test data file 'WebContent/WEB-INF/components.2'");
 		}		
@@ -219,25 +225,29 @@ public class SeamComponentsViewTest extends TestCase {
 		component = findSeamComponent(seamPackage, "myNewPackage.myTextComponent");
 		assertTrue("Expected component 'myNewPackage.myTextComponent' not found " +
 				"after renaming",component!=null);
-	}
-	
-	public void testDeleteComponentInXmlFile() throws CoreException{
+//	}
+//	
+//	public void testDeleteComponentInXmlFile() throws CoreException{
 		
-		CommonNavigator navigator = getSeamComponentsView();
+//		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
 		JobUtils.waitForIdle();
-		Tree tree = navigator.getCommonViewer().getTree();
+//		Tree 
+		tree = navigator.getCommonViewer().getTree();
 		
-		ISeamPackage seamPackage = findSeamPackage(tree, "myNewPackage");
+//		ISeamPackage 
+		seamPackage = findSeamPackage(tree, "myNewPackage");
 		assertTrue("Package \"myNewPackage\" not found!",seamPackage!=null);
 		
-		ISeamComponent component = findSeamComponent(seamPackage, "myNewPackage.myTextComponent");
+//		ISeamComponent 
+		component = findSeamComponent(seamPackage, "myNewPackage.myTextComponent");
 		assertTrue("Component \"myNewPackage.myTextComponent\" not found!",component!=null);
 		
-		IFile file1 = project.getFile("WebContent/WEB-INF/components.4");
+//		IFile 
+		file1 = project.getFile("WebContent/WEB-INF/components.4");
 		assertTrue("Cannot find components.2 in test project", file1 != null && file1.exists());
 
-		InputStream is = null;
+//		InputStream is = null;
 		try {
 			is = file1.getContents();
 			componentsFile.setContents(is, 
