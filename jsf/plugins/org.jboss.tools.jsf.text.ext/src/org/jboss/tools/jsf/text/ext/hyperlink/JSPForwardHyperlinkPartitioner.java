@@ -24,12 +24,17 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 
 /**
  * @author Jeremy
  */
 public class JSPForwardHyperlinkPartitioner extends AbstractHyperlinkPartitioner /*implements IHyperlinkPartitionRecognizer */{
 	public static final String JSP_FORWARD_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_FORWARD"; //$NON-NLS-1$
+
+	private static final String EL_DOLLAR_PREFIX = "${"; //$NON-NLS-1$
+	private static final String EL_SUFFIX = "}"; //$NON-NLS-1$
+	private static final String EL_SHARP_PREFIX = "#{"; //$NON-NLS-1$
 
 	/**
 	 * @see com.ibm.sse.editor.hyperlink.AbstractHyperlinkPartitioner#parse(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
@@ -57,8 +62,8 @@ public class JSPForwardHyperlinkPartitioner extends AbstractHyperlinkPartitioner
 	protected String getAxis(IDocument document, int offset) {
 		return JSPRootHyperlinkPartitioner.computeAxis(document, offset) + "/"; //$NON-NLS-1$
 	}
-	
-	public static IHyperlinkRegion getRegion(IDocument document, final int offset) {
+
+	public IHyperlinkRegion getRegion(IDocument document, final int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		smw.init(document);
 		try {
@@ -67,39 +72,71 @@ public class JSPForwardHyperlinkPartitioner extends AbstractHyperlinkPartitioner
 			
 			Node n = Utils.findNodeForOffset(xmlDocument, offset);
 
-			if (n == null || !(n instanceof Attr)) return null;
+			if (n == null || !(n instanceof Attr || n instanceof Text)) return null;
 			
 			int start = Utils.getValueStart(n);
 			int end = Utils.getValueEnd(n);
 			
-			if (start < 0 || start > offset) return null;
+			String text = document.get(start, end - start);
+			StringBuffer sb = new StringBuffer(text);
 
-			String attrText = document.get(start, end - start);
-			StringBuffer sb = new StringBuffer(attrText);
-
-			//find start and end of path property
-			int bStart = 0;
-			int bEnd = attrText.length() - 1;
-
-			while (bStart < bEnd && 
-					(sb.charAt(bStart) == '\'' || sb.charAt(bStart) == '\"' ||
-							Character.isWhitespace(sb.charAt(bStart)))) { 
+			int bStart = 0; 
+			int bEnd = sb.length();
+			
+			// In case of attribute value we need to skip leading and ending quotes && whitespaces
+			while (bStart < bEnd && (sb.charAt(bStart) == '"' || sb.charAt(bStart) == '\'' ||
+					sb.charAt(bStart) == 0x09 || sb.charAt(bStart) == 0x0A ||
+					sb.charAt(bStart) == 0x0D || sb.charAt(bStart) == 0x20)) {
 				bStart++;
 			}
-			while (bEnd > bStart && 
-					(sb.charAt(bEnd) == '\'' || sb.charAt(bEnd) == '\"' ||
-							Character.isWhitespace(sb.charAt(bEnd)))) { 
+			
+			while (bEnd - 1 > bStart && (sb.charAt(bEnd - 1) == '"' || sb.charAt(bEnd - 1) == '\'' ||
+					sb.charAt(bEnd - 1) == 0x09 || sb.charAt(bEnd - 1) == 0x0A ||
+					sb.charAt(bEnd - 1) == 0x0D || sb.charAt(bEnd - 1) == 0x20)) {
 				bEnd--;
 			}
-			bEnd++;
+			if (start + bStart > offset || start + bEnd - 1 < offset) return null;
+
+			int elStart = sb.indexOf(EL_SHARP_PREFIX) == -1 ? sb.indexOf(EL_DOLLAR_PREFIX) : sb.indexOf(EL_SHARP_PREFIX);
+			if (elStart != -1  && elStart >= bStart && elStart < bEnd) {
+				int elEnd = sb.indexOf(EL_SUFFIX, elStart);
+				bStart = (elEnd == -1 || elEnd > bEnd) ? bEnd : elEnd + 1;
+			}
+			
+			//find start and end of path property
+			while (bStart >= 0) { 
+				if (!Character.isJavaIdentifierPart(sb.charAt(bStart)) &&
+						sb.charAt(bStart) != '\\' && sb.charAt(bStart) != '/' &&
+						sb.charAt(bStart) != ':' && sb.charAt(bStart) != '-' &&
+						sb.charAt(bStart) != '.' && sb.charAt(bStart) != '_' &&
+						sb.charAt(bStart) != '%' && sb.charAt(bStart) != '?' &&
+						sb.charAt(bStart) != '&' && sb.charAt(bStart) != '=') {
+					bStart++;
+					break;
+				}
+			
+				if (bStart == 0) break;
+				bStart--;
+			}
+			// find end of bean property
+			bEnd = bStart;
+			while (bEnd < sb.length()) { 
+				if (!Character.isJavaIdentifierPart(sb.charAt(bEnd)) &&
+						sb.charAt(bEnd) != '\\' && sb.charAt(bEnd) != '/' &&
+						sb.charAt(bEnd) != ':' && sb.charAt(bEnd) != '-' &&
+						sb.charAt(bEnd) != '.' && sb.charAt(bEnd) != '_' &&
+						sb.charAt(bEnd) != '%' && sb.charAt(bEnd) != '?' &&
+						sb.charAt(bEnd) != '&' && sb.charAt(bEnd) != '=') {
+					break;
+				}
+				bEnd++;
+			}
 
 			int propStart = bStart + start;
 			int propLength = bEnd - bStart;
+			if (propStart > offset + 1 || propStart + propLength < offset) return null;
 			
-			if (propStart > offset || propStart + propLength < offset) return null;
-	
-			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength, null, null, null);
-			return region;
+			return new HyperlinkRegion(propStart, propLength);
 		} catch (BadLocationException x) {
 			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
