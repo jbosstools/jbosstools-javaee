@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Red Hat, Inc.
+ * Copyright (c) 2011-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -36,17 +36,13 @@ public class JsfTextExtAllTests {
 			new String[]{"JSF2CompositeOpenOn"}));
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				JSPStylesheetRelLinkHyperlinkTest.class), 
-			"org.jboss.tools.jsf.text.ext.test",
-			new String[]{"projects/jsfHyperlinkTests"},
-			new String[]{"jsfHyperlinkTests"}));
-
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				JSPStylesheetRelLinkHyperlinkTest.class,
+				JSFLinksReferencedWithELOpenOnTest.class,
 				JSPELHyperlinkTestForELInTagBodyTest.class), 
 			"org.jboss.tools.jsf.text.ext.test",
 			new String[]{"projects/jsfHyperlinkTests"},
 			new String[]{"jsfHyperlinkTests"}));
-		
+
 		return suite;
 	}
 }
