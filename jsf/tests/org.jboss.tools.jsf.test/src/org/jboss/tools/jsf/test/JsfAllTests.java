@@ -41,29 +41,29 @@ public class JsfAllTests {
 		ValidationExceptionTest.initLogger();
 
 		TestSuite suite = new TestSuite("Test model loading for JSF projects"); //$NON-NLS-1$
-		suite.addTestSuite(JSFTemplateTest.class);
-		suite.addTestSuite(JSFFacetOnExistingProjectTest.class);
+//		suite.addTestSuite(JSFTemplateTest.class);
+//		suite.addTestSuite(JSFFacetOnExistingProjectTest.class);
+//
+//		TestSuite jsf2 = new TestSuite(JSF2ModelTest.class.getName());
+//		jsf2.addTestSuite(JSF2ModelTest.class);
+//		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(jsf2,
+//				"org.jboss.tools.jsf.base.test",
+//				new String[]{"projects/JSF2Beans", "projects/JSF2Web"},
+//				new String[]{"JSF2Beans", "JSF2Web"});
+//		suite.addTest(testSetup);
 
-		TestSuite jsf2 = new TestSuite(JSF2ModelTest.class.getName());
-		jsf2.addTestSuite(JSF2ModelTest.class);
-		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(jsf2,
-				"org.jboss.tools.jsf.base.test",
-				new String[]{"projects/JSF2Beans", "projects/JSF2Web"},
-				new String[]{"JSF2Beans", "JSF2Web"});
-		suite.addTest(testSetup);
-
-		TestSuite old = new TestSuite("Tests are using JSFKickStartOldFormat"); //$NON-NLS-1$
-		old.addTestSuite(JSFModelTest.class);
-		old.addTestSuite(ModelFormat_2_0_0_Test.class);
-		old.addTestSuite(JSFBeansTest.class);
-		suite.addTestSuite(WebContentTest.class);
-		suite.addTestSuite(XHTMLValidatorTest.class);
-		suite.addTestSuite(XHTMLDetectorAndValidatorTest.class);
-		suite.addTestSuite(XMLCatalogTest.class);
-		suite.addTestSuite(JSFPaletteTest.class);
-		suite.addTest(new ProjectImportTestSetup(old,
-				"org.jboss.tools.jsf.test", "projects/JSFKickStartOldFormat", //$NON-NLS-1$ //$NON-NLS-2$
-				"JSFKickStartOldFormat")); //$NON-NLS-1$
+		//TestSuite old = new TestSuite("Tests are using JSFKickStartOldFormat"); //$NON-NLS-1$
+		//old.addTestSuite(JSFModelTest.class);
+		//old.addTestSuite(ModelFormat_2_0_0_Test.class);
+		//old.addTestSuite(JSFBeansTest.class);
+		//suite.addTestSuite(WebContentTest.class);
+		//suite.addTestSuite(XHTMLValidatorTest.class);
+		//suite.addTestSuite(XHTMLDetectorAndValidatorTest.class);
+		//suite.addTestSuite(XMLCatalogTest.class);
+		//suite.addTestSuite(JSFPaletteTest.class);
+		//suite.addTest(new ProjectImportTestSetup(old,
+		//		"org.jboss.tools.jsf.test", "projects/JSFKickStartOldFormat", //$NON-NLS-1$ //$NON-NLS-2$
+		//		"JSFKickStartOldFormat")); //$NON-NLS-1$
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				JSFPromptingProviderTest.class),
 				"org.jboss.tools.jsf.test", //$NON-NLS-1$

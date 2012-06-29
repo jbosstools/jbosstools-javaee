@@ -35,6 +35,15 @@ public class ELReferencesQueryParticipantTest extends TestCase{
 		matches.add(new MatchStructure("/JSF2ComponentsValidator/WebContent/resources/demo/input.xhtml", "person"));
 		matches.add(new MatchStructure("/JSF2ComponentsValidator/WebContent/resources/demo/input.xhtml", "person"));
 		
+		matches.add(new MatchStructure("/JSF2ComponentsValidator/WebContent/resources/type/type.xhtml", "person"));
+		matches.add(new MatchStructure("/JSF2ComponentsValidator/WebContent/resources/type/type.xhtml", "person"));
+		
+		matches.add(new MatchStructure("/JSF2ComponentsValidator/WebContent/resources/data/data.xhtml", "person"));
+		matches.add(new MatchStructure("/JSF2ComponentsValidator/WebContent/resources/data/data.xhtml", "person"));
+		
+		matches.add(new MatchStructure("/JSF2ComponentsValidator/WebContent/resources/nmbr/nmbr.xhtml", "person"));
+		matches.add(new MatchStructure("/JSF2ComponentsValidator/WebContent/resources/nmbr/nmbr.xhtml", "person"));
+		
 		QueryParticipantTestUtils.testSearchParticipant(project,
 				"JavaSource/demo/Person.java",
 				QueryParticipantTestUtils.TYPE_SEARCH,
@@ -49,6 +58,9 @@ public class ELReferencesQueryParticipantTest extends TestCase{
 		
 		matches.add(new MatchStructure("/JSF2ComponentsValidator/WebContent/pages/greeting.xhtml", "name"));
 		matches.add(new MatchStructure("/JSF2ComponentsValidator/WebContent/resources/demo/input.xhtml", "name"));
+		matches.add(new MatchStructure("/JSF2ComponentsValidator/WebContent/resources/type/type.xhtml", "name"));
+		matches.add(new MatchStructure("/JSF2ComponentsValidator/WebContent/resources/data/data.xhtml", "name"));
+		matches.add(new MatchStructure("/JSF2ComponentsValidator/WebContent/resources/nmbr/nmbr.xhtml", "name"));
 		
 		QueryParticipantTestUtils.testSearchParticipant(project,
 				"JavaSource/demo/Person.java",

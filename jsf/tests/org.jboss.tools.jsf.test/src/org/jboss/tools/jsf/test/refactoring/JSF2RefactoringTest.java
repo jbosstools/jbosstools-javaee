@@ -48,30 +48,30 @@ public class JSF2RefactoringTest extends AbstractRefactorTest  {
 	public void testRenameCompositeComponentFolder() throws CoreException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
-		TestChangeStructure structure = new TestChangeStructure(project.getProject(), "/WebContent/pages/inputname.xhtml");
-		TestTextChange change = new TestTextChange(382, 5, "demo2");
+		TestChangeStructure structure = new TestChangeStructure(project.getProject(), "/WebContent/pages/inputtype.xhtml");
+		TestTextChange change = new TestTextChange(382, 5, "type2");
 		structure.addTextChange(change);
 		list.add(structure);
 
-		IFolder sourceFolder = project.getProject().getFolder("/WebContent/resources/demo");
+		IFolder sourceFolder = project.getProject().getFolder("/WebContent/resources/type");
 
 		RenameResourceProcessor processor = new RenameResourceProcessor(sourceFolder);
-		processor.setNewResourceName("demo2");
+		processor.setNewResourceName("type2");
 
 		JSF2RenameParticipant participant = new JSF2RenameParticipant();
 
-		checkRename(processor, sourceFolder, "demo2", participant, list);
+		checkRename(processor, sourceFolder, "type2", participant, list);
 	}
 
 	public void testMoveCompositeComponentFile() throws CoreException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
-		TestChangeStructure structure = new TestChangeStructure(project.getProject(), "/WebContent/pages/inputname.xhtml");
+		TestChangeStructure structure = new TestChangeStructure(project.getProject(), "/WebContent/pages/inputdata.xhtml");
 		TestTextChange change = new TestTextChange(382, 3, "new");
 		structure.addTextChange(change);
 		list.add(structure);
 
-		IFile sourceFile = project.getProject().getFile("/WebContent/resources/demo2/input2.xhtml");
+		IFile sourceFile = project.getProject().getFile("/WebContent/resources/data/data.xhtml");
 		IFolder destinationFolder = project.getProject().getFolder("/WebContent/resources/new");
 		
 		MoveResourcesProcessor processor = new MoveResourcesProcessor(new IResource[]{sourceFile});
@@ -85,13 +85,13 @@ public class JSF2RefactoringTest extends AbstractRefactorTest  {
 	public void testMoveCompositeComponentFolder() throws CoreException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
-		TestChangeStructure structure = new TestChangeStructure(project.getProject(), "/WebContent/pages/inputname.xhtml");
-		TestTextChange change = new TestTextChange(382, 9, "demo2/new");
+		TestChangeStructure structure = new TestChangeStructure(project.getProject(), "/WebContent/pages/inputnmbr.xhtml");
+		TestTextChange change = new TestTextChange(382, 8, "new/nmbr");
 		structure.addTextChange(change);
 		list.add(structure);
 
-		IFolder sourceFolder = project.getProject().getFolder("/WebContent/resources/new");
-		IFolder destinationFolder = project.getProject().getFolder("/WebContent/resources/demo2");
+		IFolder sourceFolder = project.getProject().getFolder("/WebContent/resources/nmbr");
+		IFolder destinationFolder = project.getProject().getFolder("/WebContent/resources/new");
 		
 		MoveResourcesProcessor processor = new MoveResourcesProcessor(new IResource[]{sourceFolder});
 		processor.setDestination(destinationFolder);
