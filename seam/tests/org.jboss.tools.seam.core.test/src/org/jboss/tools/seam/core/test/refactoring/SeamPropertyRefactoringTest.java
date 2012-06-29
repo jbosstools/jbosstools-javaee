@@ -265,7 +265,12 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		HashMap<String, String> preferences = new HashMap<String, String>();
 		preferences.put(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, "/RefactoringTestProject-war/"+viewFolderParentName+"/WebContent");
 		
-		moveFolder(viewFolderPath, "/" + warProjectName + "/" + viewFolderParentName, preferences);
+		try{
+			moveFolder(viewFolderPath, "/" + warProjectName + "/" + viewFolderParentName, preferences);
+		}finally{
+			viewFolderParentName = "webroot";
+			updateFields();
+		}
 	}
 
 	private void updateFields() {
@@ -380,18 +385,18 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		checkRename(processor, project, newProjectName, participant, preferences);
 	}
 
-	private void performRename(RenameSupport support) throws CoreException {
-		Shell parent = WorkbenchUtils.getActiveShell();
-		IWorkbenchWindow context = WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow();
-		try {
-			support.perform(parent, context);
-		} catch (InterruptedException e) {
-			JUnitUtils.fail("Rename failed", e);
-		} catch (InvocationTargetException e) {
-			JUnitUtils.fail("Rename failed", e);
-		}
-		JobUtils.waitForIdle();
-	}
+//	private void performRename(RenameSupport support) throws CoreException {
+//		Shell parent = WorkbenchUtils.getActiveShell();
+//		IWorkbenchWindow context = WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow();
+//		try {
+//			support.perform(parent, context);
+//		} catch (InterruptedException e) {
+//			JUnitUtils.fail("Rename failed", e);
+//		} catch (InvocationTargetException e) {
+//			JUnitUtils.fail("Rename failed", e);
+//		}
+//		JobUtils.waitForIdle();
+//	}
 
 	private void moveFolder(String folderPath, String destinationFolderPath, HashMap<String, String> preferences) throws CoreException {
 		IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
