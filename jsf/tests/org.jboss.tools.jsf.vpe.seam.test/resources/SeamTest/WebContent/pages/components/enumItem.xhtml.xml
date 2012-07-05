@@ -1,6 +1,6 @@
 <tests>
     <test id="id1">
-        <DIV>
+        <DIV STYLE="-moz-user-modify: read-write;">
             <INPUT TYPE="radio" NAME="radio_name_394"/>
             <LABEL>
                 Only Once
@@ -13,11 +13,11 @@
         </OPTION>
     </test>
     <test id="id3">
-        <DIV>
+        <SPAN STYLE="-moz-user-modify: read-write;">
             <INPUT TYPE="checkbox" />
             <LABEL>
                 Only Once
             </LABEL>
-        </DIV>
+        </SPAN>
     </test>
 </tests>

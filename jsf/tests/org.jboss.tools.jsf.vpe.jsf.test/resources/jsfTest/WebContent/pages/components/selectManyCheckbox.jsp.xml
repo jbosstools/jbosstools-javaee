@@ -4,26 +4,26 @@
 			<TABLE>
 				<TR>
 					<TD>
-						<DIV>
+						<SPAN STYLE="-moz-user-modify: read-write;">
 							<INPUT TYPE="checkbox" />
 							<LABEL> check1 </LABEL>
-						</DIV>
+						</SPAN>
 					</TD>
 				</TR>
 				<TR>
 					<TD>
-						<DIV>
+						<SPAN STYLE="-moz-user-modify: read-write;">
 							<INPUT TYPE="checkbox" />
 							<LABEL> check2 </LABEL>
-						</DIV>
+						</SPAN>
 					</TD>
 				</TR>
 				<TR>
 					<TD>
-						<DIV>
+						<SPAN STYLE="-moz-user-modify: read-write;">
 							<INPUT TYPE="checkbox" />
 							<LABEL>check3</LABEL>
-						</DIV>
+						</SPAN>
 					</TD>
 				</TR>
 			</TABLE>
@@ -34,25 +34,25 @@
 			<TABLE BORDER="2" STYLE="color: red;" CLASS="myClass">
 				<TR>
 					<TD>
-						<DIV>
+						<SPAN STYLE="-moz-user-modify: read-write;">
 							<INPUT TYPE="checkbox" />
 		
 							<LABEL>check1</LABEL>
-						</DIV>
+						</SPAN>
 					</TD>
 					<TD>
-						<DIV>
+						<SPAN STYLE="-moz-user-modify: read-write;">
 							<INPUT TYPE="checkbox" />
 		
 							<LABEL>check2</LABEL>
-						</DIV>
+						</SPAN>
 					</TD>
 					<TD>
-						<DIV>
+						<SPAN STYLE="-moz-user-modify: read-write;">
 							<INPUT TYPE="checkbox" />
 		
 							<LABEL>check3</LABEL>
-						</DIV>
+						</SPAN>
 					</TD>
 				</TR>
 			</TABLE>
