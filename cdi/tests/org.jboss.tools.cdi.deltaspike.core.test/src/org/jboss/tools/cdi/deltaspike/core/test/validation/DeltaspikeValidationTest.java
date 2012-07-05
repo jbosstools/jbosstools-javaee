@@ -22,10 +22,6 @@ import org.jboss.tools.tests.AbstractResourceMarkerTest;
  */
 public class DeltaspikeValidationTest extends DeltaspikeCoreTest {
 
-	public void testValidation() throws Exception {
-		// TODO
-	}
-
 	public void testConfigPropertyValidation() throws Exception {
 		IFile file = getTestProject().getFile("src/deltaspike/config/SettingsBean.java"); //$NON-NLS-1$
 		
