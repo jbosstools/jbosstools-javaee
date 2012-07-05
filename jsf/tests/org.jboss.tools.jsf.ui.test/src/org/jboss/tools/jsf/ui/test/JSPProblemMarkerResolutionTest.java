@@ -37,7 +37,7 @@ import org.eclipse.wst.validation.internal.MarkerManager;
 import org.eclipse.wst.validation.internal.core.Message;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
-import org.jboss.tools.common.text.xml.quickfix.QuickFixManager;
+import org.jboss.tools.common.quickfix.QuickFixManager;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.jst.web.ui.action.AddTLDMarkerResolution;
 import org.jboss.tools.jst.web.ui.action.JSPProblemMarkerResolutionGenerator;
