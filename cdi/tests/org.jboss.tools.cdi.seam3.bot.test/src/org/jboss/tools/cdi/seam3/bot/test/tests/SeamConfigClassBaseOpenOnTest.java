@@ -22,7 +22,7 @@ import org.junit.Test;
  * @author jjankovi
  *
  */
-public class SeamConfigOpenOnTest extends Seam3TestBase {
+public class SeamConfigClassBaseOpenOnTest extends Seam3TestBase {
 
 	private static String projectName = "seamConfigOpenOn";
 	private final String SEAM_CONFIG = "seam-beans.xml";
@@ -50,7 +50,7 @@ public class SeamConfigOpenOnTest extends Seam3TestBase {
 	}
 	
 	@Test
-	public void testContructorOpenOn() {
+	public void testConstructorOpenOn() {
 		
 		/* open on bean class */
 		openOnUtil.openOnDirect("s:parameters", SEAM_CONFIG);
