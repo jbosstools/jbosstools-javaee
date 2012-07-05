@@ -22,6 +22,7 @@ import org.jboss.tools.cdi.seam3.bot.test.tests.MessageLoggerAnnotationTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.NamedPackagesTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.RequiresAnnotationTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.ResourceOpenOnTest;
+import org.jboss.tools.cdi.seam3.bot.test.tests.SeamConfigEEOpenOnTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.SeamConfigClassBaseOpenOnTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.VetoAnnotationTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
@@ -46,7 +47,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	LoggerSupportTest.class,
 	InterfaceAndAbstractValidationTest.class,
 	MessageLoggerAnnotationTest.class,
-	SeamConfigClassBaseOpenOnTest.class
+	SeamConfigClassBaseOpenOnTest.class,
+	SeamConfigEEOpenOnTest.class
 	})
 public class CDISeam3AllBotTests extends AbstractTestSuite {
 	
