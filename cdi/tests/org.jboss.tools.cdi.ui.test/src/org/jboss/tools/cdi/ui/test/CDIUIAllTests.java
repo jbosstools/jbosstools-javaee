@@ -18,6 +18,7 @@ import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.cdi.core.test.CDICoreTestSetup;
 import org.jboss.tools.cdi.ui.test.marker.CDIMarkerResolutionTest;
+import org.jboss.tools.cdi.ui.test.marker.CDIQuickFixTest;
 import org.jboss.tools.cdi.ui.test.perspective.CDIPerspectiveTest;
 import org.jboss.tools.cdi.ui.test.preferences.CDIPreferencePageTest;
 import org.jboss.tools.cdi.ui.test.search.CDISearchParticipantTest;
@@ -50,6 +51,8 @@ public class CDIUIAllTests {
 		TestSuite suite = new TestSuite("TCK Tests");
 
 		suiteAll.addTestSuite(CDIMarkerResolutionTest.class);
+		
+		suiteAll.addTestSuite(CDIQuickFixTest.class);
 
 		suiteAll.addTestSuite(CDIPerspectiveTest.class);
 		suiteAll.addTestSuite(NewCDIClassWizardFactoryTest.class);
