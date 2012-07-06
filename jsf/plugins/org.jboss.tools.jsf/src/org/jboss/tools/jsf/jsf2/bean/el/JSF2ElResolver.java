@@ -21,6 +21,7 @@ import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
+import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.jsf.JSFModelPlugin;
@@ -60,7 +61,7 @@ public class JSF2ElResolver extends AbstractELCompletionEngine<IJSF2ManagedBean>
 	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#getMemberInfoByVariable(org.jboss.tools.common.el.core.resolver.IVariable, boolean)
 	 */
 	@Override
-	protected MemberInfo getMemberInfoByVariable(IJSF2ManagedBean bean, boolean onlyEqualNames, int offset) {
+	protected MemberInfo getMemberInfoByVariable(IJSF2ManagedBean bean, ELContext context, boolean onlyEqualNames, int offset) {
 		return TypeInfoCollector.createMemberInfo(bean.getBeanClass());
 	}
 
@@ -69,7 +70,7 @@ public class JSF2ElResolver extends AbstractELCompletionEngine<IJSF2ManagedBean>
 	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#resolveVariables(org.eclipse.core.resources.IFile, org.jboss.tools.common.el.core.model.ELInvocationExpression, boolean, boolean)
 	 */
 	@Override
-	public List<IJSF2ManagedBean> resolveVariables(IFile file,	ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
+	public List<IJSF2ManagedBean> resolveVariables(IFile file, ELContext context,ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
 		ArrayList<IJSF2ManagedBean> beans = new ArrayList<IJSF2ManagedBean>();
 
 		IProject project = file.getProject();
@@ -120,6 +121,7 @@ public class JSF2ElResolver extends AbstractELCompletionEngine<IJSF2ManagedBean>
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.common.el.core.resolver.ELResolver#getParserFactory()
 	 */
+	@Override
 	public ELParserFactory getParserFactory() {
 		return factory;
 	}

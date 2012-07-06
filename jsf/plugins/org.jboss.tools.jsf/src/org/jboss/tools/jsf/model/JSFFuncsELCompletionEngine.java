@@ -87,7 +87,7 @@ public class JSFFuncsELCompletionEngine extends JSFELCompletionEngine {
 	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#resolveVariables(org.eclipse.core.resources.IFile, org.jboss.tools.common.el.core.model.ELInvocationExpression, boolean, boolean)
 	 */
 	@Override
-	public List<IJSFVariable> resolveVariables(IFile file,
+	public List<IJSFVariable> resolveVariables(IFile file, ELContext context,
 			ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
 		return resolveVariablesInternal(file, expr, isFinal, onlyEqualNames, offset);
 	}

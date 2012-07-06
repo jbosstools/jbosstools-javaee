@@ -12,14 +12,12 @@
 package org.jboss.tools.seam.ui.search;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.zip.CRC32;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -29,7 +27,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
-import org.eclipse.jdt.core.search.SearchEngine;
 import org.eclipse.jdt.core.search.SearchParticipant;
 import org.eclipse.jdt.core.search.SearchPattern;
 import org.eclipse.jdt.core.search.SearchRequestor;
@@ -41,8 +38,8 @@ import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamCoreMessages;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 
@@ -137,7 +134,7 @@ public abstract class SeamSearchEngine {
 					return Status.OK_STATUS;
 				
 				List<Var> allVars= varSearcher.findAllVars(sourceFile, tokens.getStartPosition());
-				Var var = varSearcher.findVarForEl(elText.toString(), allVars, true);
+				Var var = varSearcher.findVarForEl(elText.toString(), null, allVars, true);
 				if (var == null) {
 					// Find a Var in the current offset assuming that it's a node with var/value attribute pair
 					var = varSearcher.findVar(sourceFile, tokens.getStartPosition());

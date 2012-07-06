@@ -37,6 +37,7 @@ import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
+import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.ELResolution;
 import org.jboss.tools.common.el.core.resolver.ELResolutionImpl;
 import org.jboss.tools.common.el.core.resolver.ELSegment;
@@ -96,10 +97,12 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.common.el.core.resolver.ELCompletionEngine#getParserFactory()
 	 */
+	@Override
 	public ELParserFactory getParserFactory() {
 		return factory;
 	}
 
+	@Override
 	protected void log(Exception e) {
 		SeamCorePlugin.getPluginLog().logError(e);
 	}
@@ -159,16 +162,18 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 	}
 
 	@Override
-	public List<ISeamContextVariable> resolveVariables(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
+	public List<ISeamContextVariable> resolveVariables(IFile file, ELContext context, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
 		ISeamProject project = SeamCorePlugin.getSeamProject(file.getProject(), true);
 //		ScopeType scope = getScope(project, file);
 		return resolveVariables(project, file, expr, isFinal, onlyEqualNames);
 	}
 
-	protected TypeInfoCollector.MemberInfo getMemberInfoByVariable(ISeamContextVariable var, boolean onlyEqualNames, int offset) {
+	@Override
+	protected TypeInfoCollector.MemberInfo getMemberInfoByVariable(ISeamContextVariable var, ELContext context, boolean onlyEqualNames, int offset) {
 		return SeamExpressionResolver.getMemberInfoByVariable(var, true, this, offset);
 	}
 
+	@Override
 	protected void setImage(TextProposal proposal, ISeamContextVariable var) {
 		if (isSeamMessagesComponentVariable((ISeamContextVariable)var)) {
 			proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
@@ -177,10 +182,12 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		}
 	}
 
+	@Override
 	protected boolean isSingularAttribute(ISeamContextVariable var) {
 		return var instanceof IBijectedAttribute;
 	}
 
+	@Override
 	protected void setImage(TextProposal kbProposal, TypeInfoCollector.MemberPresentation proposal) {
 		if (proposal.getMember() instanceof MessagesInfo) {
 			kbProposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
@@ -189,10 +196,12 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		}
 	}
 
+	@Override
 	protected boolean isSingularMember(TypeInfoCollector.MemberInfo mbr) {
 		return (mbr instanceof MessagesInfo);
 	}
 
+	@Override
 	protected void resolveLastSegment(ELInvocationExpression expr, 
 			List<TypeInfoCollector.MemberInfo> members,
 			ELResolutionImpl resolution,
@@ -509,7 +518,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		ElVarSearcher varSearcher = new ElVarSearcher(file, this);
 		List<Var> vars = varSearcher.findAllVars(file, expr.getStartPosition());
 
-		ELResolution resolution = resolveELOperand(file, expr, true, vars, varSearcher, 0);
+		ELResolution resolution = resolveELOperand(file, null, expr, true, vars, varSearcher, 0);
 		if (resolution!=null && resolution.isResolved()) {
 			ELSegment segment = resolution.getLastSegment();
 			if(segment instanceof JavaMemberELSegment) {

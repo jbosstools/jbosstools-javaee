@@ -27,6 +27,7 @@ import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
+import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.ELResolution;
 import org.jboss.tools.common.el.core.resolver.ELSegment;
 import org.jboss.tools.common.el.core.resolver.JavaMemberELSegment;
@@ -65,9 +66,10 @@ public class JSFImplicitObjectELResolver extends JSFELCompletionEngine {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#resolveVariables(org.eclipse.core.resources.IFile, org.jboss.tools.common.el.core.model.ELInvocationExpression, boolean, boolean)
 	 */
-	public List<IJSFVariable> resolveVariables(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
+    @Override
+	public List<IJSFVariable> resolveVariables(IFile file, ELContext context, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
 		this.file = file;
-		return super.resolveVariables(file, expr, isFinal, onlyEqualNames, offset);
+		return super.resolveVariables(file, context, expr, isFinal, onlyEqualNames, offset);
 	}
 
     /*
@@ -75,7 +77,7 @@ public class JSFImplicitObjectELResolver extends JSFELCompletionEngine {
 	 * @see org.jboss.tools.jsf.model.JSFELCompletionEngine#resolveVariables(org.jboss.tools.common.model.project.IModelNature, java.lang.String, boolean, int)
 	 */
 	@Override
-	protected List<IJSFVariable> resolveVariables(IModelNature project, String varName, boolean onlyEqualNames, int offset) {
+	protected List<IJSFVariable> resolveVariables(IModelNature project, ELContext context, String varName, boolean onlyEqualNames, int offset) {
 		if(file.getProject() == null) {
 			return null;
 		}
@@ -103,7 +105,7 @@ public class JSFImplicitObjectELResolver extends JSFELCompletionEngine {
 
 		for (String var : elVars) {
 			try {
-				ELResolution resolution = resolveEL(file, IMPLICT_OBJECTS_ELS.get(var), false, offset);
+				ELResolution resolution = resolveEL(file, context, IMPLICT_OBJECTS_ELS.get(var), false, offset);
 				if(resolution!=null && resolution.isResolved()) {
 					ELSegment segment = resolution.getLastSegment();
 					if(segment instanceof JavaMemberELSegment) {

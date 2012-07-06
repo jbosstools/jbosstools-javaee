@@ -300,7 +300,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 					return null;
 				
 				List<Var> allVars= varSearcher.findAllVars(file, start);
-				Var var = varSearcher.findVarForEl(expr.getText(), allVars, true);
+				Var var = varSearcher.findVarForEl(expr.getText(), null, allVars, true);
 				if (var == null) {
 					// Find a Var in the current offset assuming that it's a node with var/value attribute pair
 					var = varSearcher.findVar(file, start);

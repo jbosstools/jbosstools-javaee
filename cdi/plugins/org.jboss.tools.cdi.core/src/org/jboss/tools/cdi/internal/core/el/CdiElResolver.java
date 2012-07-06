@@ -29,11 +29,13 @@ import org.jboss.tools.cdi.core.IBeanManager;
 import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.internal.core.impl.CDIProjectAsYouType;
 import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
 import org.jboss.tools.common.el.core.ca.DefaultJavaRelevanceCheck;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
+import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.IRelevanceCheck;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
@@ -87,7 +89,7 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#getMemberInfoByVariable(org.jboss.tools.common.el.core.resolver.IVariable, boolean)
 	 */
 	@Override
-	protected MemberInfo getMemberInfoByVariable(IBean bean, boolean onlyEqualNames, int offset) {
+	protected MemberInfo getMemberInfoByVariable(IBean bean, ELContext context, boolean onlyEqualNames, int offset) {
 		IMember member = null;
 		if(bean instanceof IClassBean) {
 			member = bean.getBeanClass();
@@ -105,7 +107,7 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#resolveVariables(org.eclipse.core.resources.IFile, org.jboss.tools.common.el.core.model.ELInvocationExpression, boolean, boolean)
 	 */
 	@Override
-	public List<IBean> resolveVariables(IFile file,	ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
+	public List<IBean> resolveVariables(IFile file,	 ELContext context, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
 		ArrayList<IBean> beans = new ArrayList<IBean>();
 
 		IProject project = file.getProject();
@@ -119,18 +121,21 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 		if (varName != null) {
 			CDICoreNature nature = CDIUtil.getCDINatureWithProgress(project);
 			if(nature!=null) {
-				IBeanManager manager = nature.getDelegate();
-				if (manager != null) {
+				ICDIProject cdiProject = nature.getDelegate();
+				if (cdiProject != null) {
+					if(context!=null && context.isDirty() && ("java".equalsIgnoreCase(file.getFileExtension()) || "beans.xml".equalsIgnoreCase(file.getName()))) {
+						cdiProject = new CDIProjectAsYouType(cdiProject, file);
+					}
 					if(onlyEqualNames) {
-						resolvedBeans = manager.getBeans(varName, true);
+						resolvedBeans = cdiProject.getBeans(varName, true);
 						if(resolvedBeans.isEmpty()) {
-							resolvedBeans = manager.getBeans(varName, false);
+							resolvedBeans = cdiProject.getBeans(varName, false);
 						}
 						beans.addAll(resolvedBeans);
 					} else {
-						resolvedBeans = manager.getNamedBeans(true);
+						resolvedBeans = cdiProject.getNamedBeans(true);
 						if(resolvedBeans.isEmpty()) {
-							resolvedBeans = manager.getBeans(varName, false);
+							resolvedBeans = cdiProject.getBeans(varName, false);
 						}
 						for (IBean bean : resolvedBeans) {
 							if(bean.getName().startsWith(varName)) {

@@ -109,7 +109,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 
 		List<TextProposal> proposals = null;
 		try {
-			 proposals = getCompletions(context.getResource(), document, elString.subSequence(0, elString.length()), position, returnEqualedVariablesOnly);
+			 proposals = getCompletions(context.getResource(), context, document, elString.subSequence(0, elString.length()), position, returnEqualedVariablesOnly);
 		} catch (StringIndexOutOfBoundsException e) {
 			log(e);
 		} catch (BadLocationException e) {
@@ -139,7 +139,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 	public ELResolutionImpl resolveELOperand(ELExpression operand,
 			ELContext context, boolean returnEqualedVariablesOnly, int offset) {
 		try {
-			return resolveELOperand(context.getResource(), operand, returnEqualedVariablesOnly, offset);
+			return resolveELOperand(context.getResource(), context, operand, returnEqualedVariablesOnly, offset);
 		} catch (StringIndexOutOfBoundsException e) {
 			log(e);
 		} catch (BadLocationException e) {
@@ -148,11 +148,11 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 		return null;
 	}
 
-	public List<TextProposal> getCompletions(IFile file, IDocument document, CharSequence prefix, 
+	public List<TextProposal> getCompletions(IFile file, ELContext context, IDocument document, CharSequence prefix, 
 			int position, boolean returnEqualedVariablesOnly) throws BadLocationException, StringIndexOutOfBoundsException {
 		List<TextProposal> completions = new ArrayList<TextProposal>();
 
-		ELResolutionImpl status = resolveELOperand(file, parseOperand("" + prefix), returnEqualedVariablesOnly, position); //$NON-NLS-1$
+		ELResolutionImpl status = resolveELOperand(file, context, parseOperand("" + prefix), returnEqualedVariablesOnly, position); //$NON-NLS-1$
 		if(status!=null) {
 			completions.addAll(status.getProposals());
 		}
@@ -160,7 +160,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 		return completions;
 	}
 
-	public ELResolutionImpl resolveELOperand(IFile file,
+	public ELResolutionImpl resolveELOperand(IFile file, ELContext context,
 			ELExpression operand, boolean returnEqualedVariablesOnly, int offset)
 			throws BadLocationException, StringIndexOutOfBoundsException {
 		if(!(operand instanceof ELInvocationExpression) || file == null) {
@@ -267,7 +267,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 		}
 		
 		if(!resolvedVariables.isEmpty() && resolvedVariables.iterator().next() instanceof IJSFVariable) {
-			return buildJavaResolution(resolution, left, expr, operand, resolvedVariables, returnEqualedVariablesOnly, offset);
+			return buildJavaResolution(resolution, context, left, expr, operand, resolvedVariables, returnEqualedVariablesOnly, offset);
 		}
 
 		//process segments one by one
@@ -294,14 +294,14 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 	}
 
 	//Method content copies code from the end AbstractELCompletionEngine.resolveELOperand
-	ELResolutionImpl buildJavaResolution(ELResolutionImpl resolution, ELInvocationExpression left, ELInvocationExpression expr,
+	ELResolutionImpl buildJavaResolution(ELResolutionImpl resolution, ELContext context, ELInvocationExpression left, ELInvocationExpression expr,
 			ELExpression operand, List<IVariable> resolvedVariables, boolean returnEqualedVariablesOnly, int offset) {
 		boolean varIsUsed = false;
 		// First segment is found - proceed with next tokens 
 		List<TypeInfoCollector.MemberInfo> members = new ArrayList<TypeInfoCollector.MemberInfo>();
 		JavaMemberELSegmentImpl segment = new JavaMemberELSegmentImpl(expr.getFirstToken());
 		for (IVariable var : resolvedVariables) {
-			TypeInfoCollector.MemberInfo member = getMemberInfoByVariable(var, returnEqualedVariablesOnly, offset);
+			TypeInfoCollector.MemberInfo member = getMemberInfoByVariable(var, context, returnEqualedVariablesOnly, offset);
 			if (member != null && !members.contains(member)) { 
 				members.add(member);
 				segment.setMemberInfo(member);
@@ -611,7 +611,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getMemberInfoByVariable(org.jboss.tools.common.el.core.resolver.IVariable, boolean)
 	 */
 	@Override
-	protected MemberInfo getMemberInfoByVariable(IVariable var,
+	protected MemberInfo getMemberInfoByVariable(IVariable var, ELContext context,
 			boolean onlyEqualNames, int offset) {
 		if(var instanceof IJSFVariable) {
 			return TypeInfoCollector.createMemberInfo(((IJSFVariable)var).getSourceMember());
@@ -624,7 +624,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#resolveVariables(org.eclipse.core.resources.IFile, org.jboss.tools.common.el.core.model.ELInvocationExpression, boolean, boolean)
 	 */
 	@Override
-	public List<IVariable> resolveVariables(IFile file,
+	public List<IVariable> resolveVariables(IFile file, ELContext context,
 			ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
 		return resolveVariablesInternal(file, expr, isFinal, onlyEqualNames);
 	}

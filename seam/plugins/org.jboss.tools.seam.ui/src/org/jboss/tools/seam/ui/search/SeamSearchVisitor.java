@@ -767,7 +767,7 @@ public class SeamSearchVisitor {
 						expr = expr.getLeft();
 					}
 				} else if (fVarMatchers != null) {
-					Var var = fELVarSearcher.findVarForEl(operand, fVarListForCurentValidatedNode, false);
+					Var var = fELVarSearcher.findVarForEl(operand, null, fVarListForCurentValidatedNode, false);
 					if (var != null){
 						if (matches(var)) {
 							ELInvocationExpression expr = token;

@@ -176,7 +176,7 @@ public class CDIProjectAsYouType implements ICDIProject {
 			if(d.getResource() == null || !d.getResource().getFullPath().equals(file.getFullPath())) {
 				continue;
 			}
-			System.out.println("Annotation " + d.getQualifiedName());
+//			System.out.println("Annotation " + d.getQualifiedName());
 			if((d.getKind() & AnnotationDefinition.STEREOTYPE) > 0) {
 				StereotypeElement s = new StereotypeElement();
 				initAnnotationElement(s, d);

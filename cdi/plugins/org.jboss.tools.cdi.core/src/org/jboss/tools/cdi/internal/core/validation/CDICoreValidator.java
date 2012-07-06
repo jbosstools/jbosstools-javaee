@@ -103,7 +103,7 @@ import org.jboss.tools.common.text.INodeReference;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.validation.ContextValidationHelper;
 import org.jboss.tools.common.validation.EditorValidationContext;
-import org.jboss.tools.common.validation.IAsYouTypeValidator;
+import org.jboss.tools.common.validation.IJavaElementValidator;
 import org.jboss.tools.common.validation.IProjectValidationContext;
 import org.jboss.tools.common.validation.IValidatingProjectSet;
 import org.jboss.tools.common.validation.IValidatingProjectTree;
@@ -114,7 +114,7 @@ import org.jboss.tools.jst.web.kb.internal.validation.KBValidator;
 /**
  * @author Alexey Kazakov
  */
-public class CDICoreValidator extends CDIValidationErrorManager implements IAsYouTypeValidator {
+public class CDICoreValidator extends CDIValidationErrorManager implements IJavaElementValidator {
 	public static final String ID = "org.jboss.tools.cdi.core.CoreValidator"; //$NON-NLS-1$
 	public static final String PROBLEM_TYPE = "org.jboss.tools.cdi.core.cdiproblem"; //$NON-NLS-1$
 	public static final String PREFERENCE_PAGE_ID = "org.jboss.tools.cdi.ui.preferences.CDIValidatorPreferencePage"; //$NON-NLS-1$

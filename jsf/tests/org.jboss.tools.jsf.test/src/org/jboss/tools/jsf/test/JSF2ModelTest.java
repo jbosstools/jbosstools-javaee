@@ -24,13 +24,14 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.parser.ELParser;
-import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
+import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.validation.ValidatorManager;
 import org.jboss.tools.jsf.jsf2.bean.el.JSF2ElResolver;
 import org.jboss.tools.jsf.jsf2.bean.model.IJSF2ManagedBean;
 import org.jboss.tools.jsf.jsf2.bean.model.IJSF2Project;
 import org.jboss.tools.jsf.jsf2.bean.model.JSF2ProjectFactory;
+import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
@@ -84,19 +85,20 @@ public class JSF2ModelTest extends TestCase {
 		ELInvocationExpression exp = (ELInvocationExpression)p.parse("#{myb}").getInstances().get(0).getExpression();
 
 		assertFalse(jsf2.isMetadataComplete());
-		List<IJSF2ManagedBean> bs = resolver.resolveVariables(f, exp, true, false, 5);
+		ELContext context = PageContextFactory.getInstance().createPageContext(f);
+		List<IJSF2ManagedBean> bs = resolver.resolveVariables(f, context, exp, true, false, 5);
 		assertFalse(bs.isEmpty());
 
 		replaceFile(webproject, "WebContent/WEB-INF/faces-config.complete", "WebContent/WEB-INF/faces-config.xml");
 		assertTrue(jsf2.isMetadataComplete());
-		bs = resolver.resolveVariables(f, exp, true, false, 5);
+		bs = resolver.resolveVariables(f, context, exp, true, false, 5);
 		assertTrue(bs.isEmpty());
 		beans = jsf2.getManagedBeans("mybean1");
 		assertTrue(beans.isEmpty());
 
 		replaceFile(webproject, "WebContent/WEB-INF/faces-config.original", "WebContent/WEB-INF/faces-config.xml");
 		assertFalse(jsf2.isMetadataComplete());
-		bs = resolver.resolveVariables(f, exp, true, false, 5);
+		bs = resolver.resolveVariables(f, context, exp, true, false, 5);
 		assertFalse(bs.isEmpty());
 		beans = jsf2.getManagedBeans("mybean1");
 		assertEquals(1, beans.size());
