@@ -671,7 +671,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getMemberInfoByVariable(org.jboss.tools.common.el.core.resolver.IVariable, boolean)
 	 */
 	@Override
-	protected MemberInfo getMemberInfoByVariable(IVariable var,
+	protected MemberInfo getMemberInfoByVariable(IVariable var, ELContext context,
 			boolean onlyEqualNames, int offset) {
 		return null;
 	}
@@ -681,7 +681,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#resolveVariables(org.eclipse.core.resources.IFile, org.jboss.tools.common.el.core.model.ELInvocationExpression, boolean, boolean)
 	 */
 	@Override
-	public List<IVariable> resolveVariables(IFile file,
+	public List<IVariable> resolveVariables(IFile file, ELContext context,
 			ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
 		return null;
 	}
