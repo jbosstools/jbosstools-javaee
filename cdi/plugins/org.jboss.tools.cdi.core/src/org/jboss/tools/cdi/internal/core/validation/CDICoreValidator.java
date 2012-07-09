@@ -280,7 +280,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			IReporter reporter) {
 		super.init(rootProject, validationHelper, context, manager, reporter);
 		setAsYouTypeValidation(false);
-		setMessageIdQuickFixAttributeName(MESSAGE_ID_ATTRIBUTE_NAME);
 		projectTree = validationHelper.getValidationContextManager().getValidatingProjectTree(this);
 		projectSet = projectTree.getBrunches().get(rootProject);
 		rootCdiProject = null;

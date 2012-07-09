@@ -89,8 +89,6 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	public static final String ID = "org.jboss.tools.seam.core.CoreValidator"; //$NON-NLS-1$
 	public static final String PROBLEM_TYPE = "org.jboss.tools.seam.core.seamproblem"; //$NON-NLS-1$
 
-	public static final String MESSAGE_ID_ATTRIBUTE_NAME = "Seam_message_id"; //$NON-NLS-1$
-	
 	public static final int NONUNIQUE_COMPONENT_NAME_MESSAGE_ID = 1;
 	public static final int DUPLICATE_REMOVE_MESSAGE_ID = 2;
 	public static final int DUPLICATE_DESTROY_MESSAGE_ID = 3;

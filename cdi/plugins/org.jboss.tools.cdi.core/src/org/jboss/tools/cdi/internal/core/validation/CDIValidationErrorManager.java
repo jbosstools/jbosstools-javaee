@@ -17,8 +17,6 @@ import org.jboss.tools.jst.web.kb.internal.validation.KBValidator;
 
 abstract public class CDIValidationErrorManager extends KBValidator {
 
-	public static final String MESSAGE_ID_ATTRIBUTE_NAME = "CDI_message_id"; //$NON-NLS-1$
-
 	public static final int ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID = 1;
 	public static final int ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID = 2;
 	public static final int ILLEGAL_DISPOSER_IN_SESSION_BEAN_ID = 3;
