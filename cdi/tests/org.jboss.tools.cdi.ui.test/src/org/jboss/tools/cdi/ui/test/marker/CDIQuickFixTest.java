@@ -12,7 +12,7 @@ public class CDIQuickFixTest extends TCKTest {
 	public void testConfigureProblemSeverity() throws CoreException {
 		util.checkPrpposal(tckProject,
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NonStaticProducerBroken.java",
-				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NonStaticProducerBroken.new",
+				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NonStaticProducerBroken.qfxresult",
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID,
 				ConfigureProblemSeverityMarkerResolution.class);
