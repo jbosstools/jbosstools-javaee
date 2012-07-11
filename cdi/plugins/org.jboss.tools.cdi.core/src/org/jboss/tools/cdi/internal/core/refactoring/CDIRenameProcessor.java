@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
+import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
@@ -28,14 +29,14 @@ import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
-import org.jboss.tools.common.refactoring.BaseFileChange;
+import org.jboss.tools.common.refactoring.FileChangeFactory;
 import org.jboss.tools.jst.web.kb.refactoring.RefactorSearcher;
 
 /**
  * @author Daniel Azarov
  */
 public abstract class CDIRenameProcessor extends AbstractCDIProcessor {
-	protected BaseFileChange lastChange;
+	protected TextFileChange lastChange;
 	protected IFile declarationFile=null;
 	
 	private String newName;
@@ -84,18 +85,18 @@ public abstract class CDIRenameProcessor extends AbstractCDIProcessor {
 	}
 	
 	// lets collect all changes for the same files in one MultiTextEdit
-	protected BaseFileChange getChange(IFile file){
+	protected TextFileChange getChange(IFile file){
 		if(lastChange != null && lastChange.getFile().equals(file))
 			return lastChange;
 		
 		for(int i=0; i < rootChange.getChildren().length; i++){
-			BaseFileChange change = (BaseFileChange)rootChange.getChildren()[i];
+			TextFileChange change = (TextFileChange)rootChange.getChildren()[i];
 			if(change.getFile().equals(file)){
 				lastChange = change;
 				return lastChange;
 			}
 		}
-		lastChange = new BaseFileChange(file);
+		lastChange = FileChangeFactory.getFileChange(file);
 		
 		MultiTextEdit root = new MultiTextEdit();
 		lastChange.setEdit(root);
@@ -115,7 +116,7 @@ public abstract class CDIRenameProcessor extends AbstractCDIProcessor {
 	protected void change(IFile file, int offset, int length, String text){
 		String key = file.getFullPath().toString()+" "+offset;
 		if(!keys.contains(key)){
-			BaseFileChange change = getChange(file);
+			TextFileChange change = getChange(file);
 			TextEdit edit = new ReplaceEdit(offset, length, text);
 			change.addEdit(edit);
 			keys.add(key);

@@ -23,6 +23,7 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
+import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.ISharableParticipant;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringArguments;
@@ -31,7 +32,7 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
-import org.jboss.tools.common.refactoring.BaseFileChange;
+import org.jboss.tools.common.refactoring.FileChangeFactory;
 import org.jboss.tools.common.util.BeanUtil;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jst.web.kb.refactoring.ELProjectSetExtension;
@@ -45,7 +46,7 @@ public class RenameMethodParticipant extends RenameParticipant implements IShara
 	private RenameMethodSearcher searcher;
 	private RefactoringStatus status;
 	private CompositeChange rootChange;
-	private BaseFileChange lastChange;
+	private TextFileChange lastChange;
 	private ArrayList<String> keys = new ArrayList<String>();
 	private ArrayList<Object> otherElements = new ArrayList<Object>();
 	
@@ -136,18 +137,18 @@ public class RenameMethodParticipant extends RenameParticipant implements IShara
 		return false;
 	}
 	
-	protected BaseFileChange getChange(IFile file){
+	protected TextFileChange getChange(IFile file){
 		if(lastChange != null && lastChange.getFile().equals(file))
 			return lastChange;
 		
 		for(int i=0; i < rootChange.getChildren().length; i++){
-			BaseFileChange change = (BaseFileChange)rootChange.getChildren()[i];
+			TextFileChange change = (TextFileChange)rootChange.getChildren()[i];
 			if(change.getFile().equals(file)){
 				lastChange = change;
 				return lastChange;
 			}
 		}
-		lastChange = new BaseFileChange(file);
+		lastChange = FileChangeFactory.getFileChange(file);
 		MultiTextEdit root = new MultiTextEdit();
 		lastChange.setEdit(root);
 		rootChange.add(lastChange);
@@ -158,7 +159,7 @@ public class RenameMethodParticipant extends RenameParticipant implements IShara
 	private void change(IFile file, int offset, int length, String text){
 		String key = file.getFullPath().toString()+" "+offset;
 		if(!keys.contains(key)){
-			BaseFileChange change = getChange(file);
+			TextFileChange change = getChange(file);
 			TextEdit edit = new ReplaceEdit(offset, length, text);
 			change.addEdit(edit);
 			keys.add(key);

@@ -21,13 +21,14 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
+import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.jboss.tools.cdi.core.CDICoreMessages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.common.EclipseUtil;
-import org.jboss.tools.common.refactoring.BaseFileChange;
+import org.jboss.tools.common.refactoring.FileChangeFactory;
 
 public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 	protected IBean selectedBean;
@@ -90,7 +91,7 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 		
 		ICompilationUnit compilationUnit = original.getWorkingCopy(pm);
 		
-		BaseFileChange fileChange = new BaseFileChange(file);
+		TextFileChange fileChange = FileChangeFactory.getFileChange(file);
 		
 		MultiTextEdit edit = new MultiTextEdit();
 
@@ -106,7 +107,7 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 				fileChange.setEdit(edit);
 				rootChange.add(fileChange);
 			}
-			fileChange = new BaseFileChange(file2);
+			fileChange = FileChangeFactory.getFileChange(file2);
 			
 			edit = new MultiTextEdit();
 		}else{

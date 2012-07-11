@@ -12,8 +12,8 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
+import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.text.edits.MultiTextEdit;
-import org.jboss.tools.common.refactoring.BaseFileChange;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.ui.el.refactoring.RenameMethodParticipant;
 import org.jboss.tools.test.util.JobUtils;
@@ -61,7 +61,7 @@ public class ELReferencesRenameTest extends ELRefactoringTest {
 		assertEquals("There is unexpected number of changes",changeList.size(), rootChange.getChildren().length);
 
 		for(int i = 0; i < rootChange.getChildren().length;i++){
-			BaseFileChange fileChange = (BaseFileChange)rootChange.getChildren()[i];
+			TextFileChange fileChange = (TextFileChange)rootChange.getChildren()[i];
 			IFile file = fileChange.getFile();
 			IMarker[] markers = file.findMarkers(null, true, IResource.DEPTH_INFINITE);
 			numberOfMarkers[i] = markers.length;
