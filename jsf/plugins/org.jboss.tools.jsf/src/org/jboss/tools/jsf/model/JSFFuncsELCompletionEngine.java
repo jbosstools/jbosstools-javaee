@@ -58,7 +58,8 @@ public class JSFFuncsELCompletionEngine extends JSFELCompletionEngine {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#getMemberInfoByVariable(org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine.IVariable, boolean)
 	 */
-	protected TypeInfoCollector.MemberInfo getMemberInfoByVariable(IJSFVariable var, boolean onlyEqualNames, int offset) {
+	@Override
+	protected TypeInfoCollector.MemberInfo getMemberInfoByVariable(IJSFVariable var, ELContext context, boolean onlyEqualNames, int offset) {
 		// Need to create artificial member info based on the Source Member type, but having only method named after the func's name
 		if (!(var instanceof Variable))
 			return null;
@@ -92,7 +93,7 @@ public class JSFFuncsELCompletionEngine extends JSFELCompletionEngine {
 		return resolveVariablesInternal(file, expr, isFinal, onlyEqualNames, offset);
 	}
 
-	public List<IJSFVariable> resolveVariablesInternal(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
+	private List<IJSFVariable> resolveVariablesInternal(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
 		ELContext context = PageContextFactory.createPageContext(file);
 
 		if (!(context instanceof XmlContextImpl)) {

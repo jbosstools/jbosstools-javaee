@@ -91,7 +91,7 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 	 * @param onlyEqualNames
 	 * @return
 	 */
-	public List<IJSFVariable> resolveVariables(IFile file, ELContext context, IModelNature project, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
+	private List<IJSFVariable> resolveVariables(IFile file, ELContext context, IModelNature project, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
 		List<IJSFVariable>resolvedVars = new ArrayList<IJSFVariable>();
 		
 		if (project == null)
