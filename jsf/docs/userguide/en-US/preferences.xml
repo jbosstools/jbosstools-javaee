@@ -139,11 +139,11 @@
       </para>
     </listitem>
      
-    <listitem>
+ <!--   <listitem>
       <para>
         <xref linkend="Verification"/>
       </para>
-    </listitem>
+  </listitem> -->
   </itemizedlist>
    
   <para>
@@ -1364,7 +1364,7 @@
     </figure>
   </section>
    
-  <section id="Verification">
+<!--  <section id="Verification">
 <?dbhtml filename="Verification.html"?>
     <title>Verification</title> 
     <para>
@@ -1396,7 +1396,7 @@
         </imageobject>
       </mediaobject>
     </figure>
-  </section>
+</section> -->
    
   <section id="JBossServerPreferences">
 <?dbhtml filename="View.html"?>
