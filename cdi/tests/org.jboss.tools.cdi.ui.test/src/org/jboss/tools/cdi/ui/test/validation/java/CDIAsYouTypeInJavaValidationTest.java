@@ -11,14 +11,12 @@
 package org.jboss.tools.cdi.ui.test.validation.java;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.source.Annotation;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
+import org.jboss.tools.common.base.test.validation.AbstractAsYouTypeValidationTest;
 import org.jboss.tools.common.base.test.validation.java.BaseAsYouTypeInJavaValidationTest;
-import org.jboss.tools.common.preferences.SeverityPreferences;
-import org.jboss.tools.jst.web.kb.WebKbPlugin;
-import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
 
 /**
  * 
@@ -26,47 +24,123 @@ import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
  *
  */
 public class CDIAsYouTypeInJavaValidationTest extends TCKTest {
-	private static final String PAGE_NAME = "JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/el/TestBean.java";
-
+	private static final String PAGE_NAME = "JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/NPEValidation.java";
+	private static final String RESOURCE_MARKER_TYPE = "org.jboss.tools.cdi.core.cdiproblem";
+	
 	private BaseAsYouTypeInJavaValidationTest baseTest = null;
 	protected IProject project;
 	
-	private static final String [][] EL2VALIDATE = 
+	private static final String [][] ANNOTATIONS2VALIDATE = 
 		{ 
-			{"#{namedBean.foos}", "\"foos\" cannot be resolved"}, 
-			{"#{snamedBean.foo}", "\"snamedBean\" cannot be resolved"},
-			{"#{['}", "EL syntax error: Expecting expression."}
+			{"@Inject", "Multiple beans are eligible for injection to the injection point [JSR-299 §5.2.1]"}, 
+			{"@Produces", "Producer cannot be declared in a decorator [JSR-299 §3.3.2]"}
 		};
 
 	public void setUp() throws Exception {
 		project = TCKTest.findTestProject();
 		if (baseTest == null) {
-			baseTest = new BaseAsYouTypeInJavaValidationTest(project);
+			baseTest = new BaseAsYouTypeInJavaValidationTest(project, RESOURCE_MARKER_TYPE);
 		}
 	}
 
-	public void testAsYouTypeInJavaValidation() throws JavaModelException, BadLocationException {
-/*
- * Reserved for a future test
- *
+	
+	public void testAsYouTypeInJavaValidation() throws BadLocationException, CoreException {
  		assertNotNull("Test project '" + TCKTest.MAIN_PROJECT_NAME + "' is not prepared", project);
-		baseTest.openEditor(PAGE_NAME);
-		IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
-		String defaultValidateUnresolvedEL = SeverityPreferences.ENABLE;
-		String defaultUnknownELVariableName = SeverityPreferences.IGNORE;
-		try {
-			defaultValidateUnresolvedEL = store.getString(ELSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL);
-			defaultUnknownELVariableName = store.getString(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME);
-			store.setValue(ELSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, SeverityPreferences.ENABLE);
-			store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, SeverityPreferences.ERROR);
-			for (int i = 0; i < EL2VALIDATE.length; i++) {
-				baseTest.doAsYouTipeInJavaValidationTest(EL2VALIDATE[i][0], EL2VALIDATE[i][1]);
+			for (int i = 0; i < ANNOTATIONS2VALIDATE.length; i++) {
+				baseTest.openEditor(PAGE_NAME);
+				try {
+					doAsYouTypeValidationMarkerAnnotationsRemovalTest(ANNOTATIONS2VALIDATE[i][0], ANNOTATIONS2VALIDATE[i][1]);
+				} finally {
+					baseTest.closeEditor();
+				}
 			}
-		} finally {
-			store.setValue(ELSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, defaultValidateUnresolvedEL);
-			store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, defaultUnknownELVariableName);
-			baseTest.closeEditor();
+	}
+	
+	
+	/**
+	 * The test procedure steps:
+	 * - Find EL by a given number
+	 * - Set up a broken EL and save the document => see problem marker appearance on that EL
+	 * - Set up a another broken EL => see annotation appearance on that EL instead of a problem marker 
+	 *   (an old problem marker has to disappear)
+	 * - Set up a good EL again => see annotation to disappear on that EL
+	 * 
+	 * @param goodEL
+	 * @param elToValidate
+	 * @param errorMessage
+	 * @param numberOfRegionToTest
+	 * @throws BadLocationException
+	 * @throws CoreException 
+	 */
+	public void doAsYouTypeValidationMarkerAnnotationsRemovalTest(String annotation, String errorMessage) throws BadLocationException, CoreException {
+
+		//============================
+		// The test procedure steps:
+		// - Find wrong annotation
+		//============================
+		
+		String documentContent = baseTest.getDocument().get();
+	
+		int start = (documentContent == null ? -1 : documentContent
+					.indexOf(annotation, 0));
+		assertFalse("No annotation " + annotation + " found in document", (start == -1));
+		int length = annotation.length();
+
+		// do check marker and marker annotation appeared here
+		int line = baseTest.getDocument().getLineOfOffset(start);
+		baseTest.assertResourceMarkerIsCreated(baseTest.getFile(), toRegex(errorMessage), line + 1);
+
+		Annotation problemAnnotation = baseTest.waitForAnnotation(
+				start, start + length, errorMessage, AbstractAsYouTypeValidationTest.MAX_SECONDS_TO_WAIT, true, true);
+		assertNotNull("Problem Marker Annotation for " + annotation + " not found!", problemAnnotation);
+		
+		String message = problemAnnotation.getText();
+		assertEquals(
+				"Not expected error message found in ProblemAnnotation. Expected: ["
+						+ errorMessage + "], Found: [" + message + "]",
+				errorMessage, message);
+		
+		//=================================================================================================
+		// - Remove broken Annotation => see error annotation to disappear 
+		//   (an old problem marker annotation has to disappear)
+		//=================================================================================================
+
+		baseTest.getDocument().replace(start, length, "");
+		
+		problemAnnotation = baseTest.waitForAnnotation(
+				start, start + length, null, AbstractAsYouTypeValidationTest.MAX_SECONDS_TO_WAIT, true, false); // Still use the same length (Just to have a place to look in)
+		assertNull("Problem Annotation has not disappeared!", problemAnnotation);
+
+		//=================================================================================================
+		// - Restore broken Annotation => see error annotation appearance 
+		//=================================================================================================
+
+		baseTest.getDocument().replace(start, 0, annotation);
+		
+		problemAnnotation = baseTest.waitForAnnotation(
+				start, start + length, errorMessage, AbstractAsYouTypeValidationTest.MAX_SECONDS_TO_WAIT, false, true);
+		
+		message = problemAnnotation.getText();
+		assertEquals(
+				"Not expected error message found in ProblemAnnotation. Expected: ["
+						+ errorMessage + "], Found: [" + message + "]",
+				errorMessage, message);
+
+		assertNotNull("No Problem Annotation found for wrong annotation " + annotation + "!", problemAnnotation);
+	}
+	
+	private String toRegex(String text) {
+		StringBuilder result = new StringBuilder(text);
+		
+		int i = -1;
+		while ((i = result.indexOf("[", i+1)) != -1) {
+			result.insert(i++, '\\');
 		}
- */
+		i = -1;
+		while ((i = result.indexOf("]", i+1)) != -1) {
+			result.insert(i++, '\\');
+		}
+		
+		return result.toString();
 	}
 }

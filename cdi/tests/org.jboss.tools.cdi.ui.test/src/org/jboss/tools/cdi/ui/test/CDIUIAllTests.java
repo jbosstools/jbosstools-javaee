@@ -65,12 +65,7 @@ public class CDIUIAllTests {
 		suite.addTestSuite(ELReferencesQueryParticipantTest.class);
 		suite.addTestSuite(CATest.class);
 		suite.addTestSuite(OpenCDINamedBeanDialogTest.class);
-
-		/*
-		 * The following test is reserved for CDI As-You-Type Validation:
-		 * 
-		 * suite.addTestSuite(CDIAsYouTypeInJavaValidationTest.class); 
-		 */
+		suite.addTestSuite(CDIAsYouTypeInJavaValidationTest.class); 
 
 		suiteAll.addTest(new CDICoreTestSetup(suite));
 
