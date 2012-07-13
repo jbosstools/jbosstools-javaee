@@ -12,7 +12,6 @@ package org.jboss.tools.cdi.ui.marker;
 
 import java.text.MessageFormat;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -26,9 +25,9 @@ import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDIImages;
+import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
-import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.refactoring.BaseMarkerResolution;
 import org.jboss.tools.common.refactoring.MarkerResolutionUtils;
 
@@ -42,19 +41,14 @@ public class AddLocalBeanMarkerResolution extends BaseMarkerResolution {
 	private static final String SPACE = " ";  //$NON-NLS-1$
 	
 	private IMethod method;
-	private IFile file;
 	
-	public AddLocalBeanMarkerResolution(IMethod method, IFile file){
+	public AddLocalBeanMarkerResolution(IMethod method){
+		super(CDIMarkerResolutionUtils.getJavaMember(method).getCompilationUnit());
 		this.label = MessageFormat.format(CDIUIMessages.ADD_LOCAL_BEAN_MARKER_RESOLUTION_TITLE, new Object[]{method.getDeclaringType().getElementName()});
 		this.method = method;
-		this.file = file;
 		init();
 	}
 
-	@Override
-	protected ICompilationUnit getCompilationUnit(){
-		return EclipseUtil.getCompilationUnit(file);
-	}
 
 	@Override
 	protected CompilationUnitChange getChange(ICompilationUnit compilationUnit){

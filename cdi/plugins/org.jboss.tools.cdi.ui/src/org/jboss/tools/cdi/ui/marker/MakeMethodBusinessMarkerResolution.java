@@ -23,44 +23,54 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.IMarkerResolution2;
+import org.eclipse.swt.graphics.Point;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.common.quickfix.IQuickFix;
 
 /**
  * @author Daniel Azarov
  */
-public class MakeMethodBusinessMarkerResolution implements IMarkerResolution2 {
+public class MakeMethodBusinessMarkerResolution implements IQuickFix {
 	private static final String PUBLIC = "public";  //$NON-NLS-1$
 	private static final String PRIVATE = "private";  //$NON-NLS-1$
 	private static final String PROTECTED = "protected";  //$NON-NLS-1$
 	private static final String SPACE = " ";  //$NON-NLS-1$
-	
 	
 	private String label;
 	private IMethod method;
 	private IType localInterface;
 	private IFile file;
 	
-	public MakeMethodBusinessMarkerResolution(IMethod method, IType localInterface, IFile file){
+	public MakeMethodBusinessMarkerResolution(IMethod method, IType localInterface){
 		this.label = MessageFormat.format(CDIUIMessages.MAKE_METHOD_BUSINESS_MARKER_RESOLUTION_TITLE, new Object[]{method.getElementName(), localInterface.getElementName()});
 		this.method = method;
 		this.localInterface = localInterface;
-		this.file = file;
+		try {
+			this.file = (IFile) method.getUnderlyingResource();
+		} catch (JavaModelException e) {
+			CDIUIPlugin.getDefault().logError(e);
+		}
 	}
 
 	@Override
 	public String getLabel() {
 		return label;
 	}
-
+	
 	@Override
 	public void run(IMarker marker) {
+		internal_run();
+	}
+
+	private void internal_run() {
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			if(original == null) {
@@ -154,6 +164,36 @@ public class MakeMethodBusinessMarkerResolution implements IMarkerResolution2 {
 	@Override
 	public Image getImage() {
 		return CDIImages.QUICKFIX_ADD;
+	}
+
+	@Override
+	public int getRelevance() {
+		return 100;
+	}
+
+	@Override
+	public void apply(IDocument document) {
+		internal_run();
+	}
+
+	@Override
+	public Point getSelection(IDocument document) {
+		return null;
+	}
+
+	@Override
+	public String getAdditionalProposalInfo() {
+		return label;
+	}
+
+	@Override
+	public String getDisplayString() {
+		return label;
+	}
+
+	@Override
+	public IContextInformation getContextInformation() {
+		return null;
 	}
 
 }

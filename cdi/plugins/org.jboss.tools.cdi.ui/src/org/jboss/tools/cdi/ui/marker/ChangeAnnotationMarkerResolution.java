@@ -35,6 +35,7 @@ public class ChangeAnnotationMarkerResolution extends BaseMarkerResolution {
 	private String[] qualifiedNames = new String[0];
 	
 	public ChangeAnnotationMarkerResolution(IAnnotation annotation){
+		super(CDIMarkerResolutionUtils.getJavaMember(annotation).getCompilationUnit());
 		this.annotation = annotation;
 		
 		changeString += annotation.getElementName();
@@ -104,11 +105,6 @@ public class ChangeAnnotationMarkerResolution extends BaseMarkerResolution {
 		return change;
 	}
 	
-	@Override
-	protected ICompilationUnit getCompilationUnit(){
-		return CDIMarkerResolutionUtils.getJavaMember(annotation).getCompilationUnit();
-	}
-
 	@Override
 	public Image getImage() {
 		return CDIImages.QUICKFIX_CHANGE;

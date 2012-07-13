@@ -12,11 +12,11 @@ package org.jboss.tools.cdi.ui.marker;
 
 import java.util.List;
 
-import org.eclipse.ui.IMarkerResolution;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.common.quickfix.IQuickFix;
 
 
 public interface ICDIMarkerResolutionGeneratorExtension{
 	public boolean shouldBeExtended(int id, IBean bean);
-	public List<IMarkerResolution> getResolutions(int id, IBean bean);
+	public List<IQuickFix> getResolutions(int id, IBean bean);
 }

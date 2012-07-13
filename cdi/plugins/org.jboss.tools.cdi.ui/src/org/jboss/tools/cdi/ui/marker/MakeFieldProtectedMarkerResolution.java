@@ -12,7 +12,6 @@ package org.jboss.tools.cdi.ui.marker;
 
 import java.text.MessageFormat;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -23,18 +22,22 @@ import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.ltk.core.refactoring.TextChange;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
-import org.eclipse.ui.IMarkerResolution2;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.CDIImages;
+import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
-import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.CommonPlugin;
+import org.jboss.tools.common.quickfix.IQuickFix;
 import org.jboss.tools.common.refactoring.MarkerResolutionUtils;
 import org.jboss.tools.common.refactoring.TestableResolutionWithDialog;
 import org.jboss.tools.common.ui.CommonUIPlugin;
@@ -42,19 +45,19 @@ import org.jboss.tools.common.ui.CommonUIPlugin;
 /**
  * @author Daniel Azarov
  */
-public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2, TestableResolutionWithDialog{
+public class MakeFieldProtectedMarkerResolution implements IQuickFix, TestableResolutionWithDialog{
 	private static final String PUBLIC = "public";  //$NON-NLS-1$
 	private static final String PROTECTED = "protected";  //$NON-NLS-1$
 
 	private String label;
 	private IField field;
-	private IFile file;
 	private String description;
+	private ICompilationUnit cUnit;
 	
-	public MakeFieldProtectedMarkerResolution(IField field, IFile file){
+	public MakeFieldProtectedMarkerResolution(IField field){
+		cUnit = CDIMarkerResolutionUtils.getJavaMember(field).getCompilationUnit();
 		this.label = MessageFormat.format(CDIUIMessages.MAKE_FIELD_PROTECTED_MARKER_RESOLUTION_TITLE, new Object[]{field.getElementName()});
 		this.field = field;
-		this.file = file;
 		description = getPreview();
 	}
 	
@@ -65,15 +68,15 @@ public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2, T
 
 	@Override
 	public void run(IMarker marker) {
-		internal_run(marker, false);
+		internal_run(false);
 	}
 	
 	@Override
 	public void runForTest(IMarker marker) {
-		internal_run(marker, true);
+		internal_run(true);
 	}
 	
-	private void internal_run(IMarker marker, boolean test){
+	private void internal_run(boolean test){
 		if(!test){
 			Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 			boolean cont = MessageDialog.openQuestion(shell, CDIUIMessages.QUESTION, CDIUIMessages.DECREASING_FIELD_VISIBILITY_MAY_CAUSE_COMPILATION_PROBLEMS);
@@ -81,17 +84,16 @@ public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2, T
 				return;
 		}
 		try{
-			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
-			if(original == null) {
+			if(cUnit == null) {
 				return;
 			}
-			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
+			ICompilationUnit compilationUnit = cUnit.getWorkingCopy(new NullProgressMonitor());
 
 			CompilationUnitChange change = getChange(compilationUnit);
 			
 			if(change.getEdit().hasChildren()){
 				change.perform(new NullProgressMonitor());
-				original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
+				cUnit.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
 			}
 			compilationUnit.discardWorkingCopy();
 		}catch(CoreException ex){
@@ -122,12 +124,18 @@ public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2, T
 	}
 	
 	private CompilationUnitChange getPreviewChange(){
-		try{
-			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+		if(cUnit != null){
+			try {
+				ICompilationUnit compilationUnit = cUnit.getWorkingCopy(new NullProgressMonitor());
+				
+				CompilationUnitChange change = getChange(compilationUnit);
+				
+				compilationUnit.discardWorkingCopy();
+				return change;
+			} catch (JavaModelException e) {
+				CommonPlugin.getDefault().logError(e);
+			}
 			
-			return getChange(original);
-		}catch(CoreException ex){
-			CDIUIPlugin.getDefault().logError(ex);
 		}
 		return null;
 	}
@@ -151,5 +159,35 @@ public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2, T
 	@Override
 	public Image getImage() {
 		return CDIImages.QUICKFIX_EDIT;
+	}
+
+	@Override
+	public int getRelevance() {
+		return 100;
+	}
+
+	@Override
+	public void apply(IDocument document) {
+		internal_run(false);
+	}
+
+	@Override
+	public Point getSelection(IDocument document) {
+		return null;
+	}
+
+	@Override
+	public String getAdditionalProposalInfo() {
+		return description;
+	}
+
+	@Override
+	public String getDisplayString() {
+		return label;
+	}
+
+	@Override
+	public IContextInformation getContextInformation() {
+		return null;
 	}
 }

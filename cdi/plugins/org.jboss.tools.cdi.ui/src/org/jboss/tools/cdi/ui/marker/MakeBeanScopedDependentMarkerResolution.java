@@ -14,7 +14,6 @@ import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -32,7 +31,6 @@ import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
-import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.refactoring.BaseMarkerResolution;
 
 /**
@@ -40,20 +38,14 @@ import org.jboss.tools.common.refactoring.BaseMarkerResolution;
  */
 public class MakeBeanScopedDependentMarkerResolution extends BaseMarkerResolution {
 	private IBean bean;
-	private IFile file;
 	private IAnnotation annotation;
 	
-	public MakeBeanScopedDependentMarkerResolution(IBean bean, IFile file){
+	public MakeBeanScopedDependentMarkerResolution(ICompilationUnit compilationUnit, IBean bean){
+		super(compilationUnit);
 		this.label = MessageFormat.format(CDIUIMessages.MAKE_BEAN_SCOPED_DEPENDENT_MARKER_RESOLUTION_TITLE, new Object[]{bean.getElementName()});
 		this.bean = bean;
-		this.file = file;
 		annotation = getScopeAnnotation();
 		init();
-	}
-	
-	@Override
-	protected ICompilationUnit getCompilationUnit(){
-		return EclipseUtil.getCompilationUnit(file);
 	}
 	
 	@Override

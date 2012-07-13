@@ -14,21 +14,24 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.IMarkerResolution2;
+import org.eclipse.swt.graphics.Point;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.internal.core.refactoring.AddQualifiersToBeanProcessor;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.wizard.AddQualifiersToBeanWizard;
+import org.jboss.tools.common.quickfix.IQuickFix;
 import org.jboss.tools.common.refactoring.TestableResolutionWithDialog;
 
 /**
  * @author Daniel Azarov
  */
-public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerResolution2, TestableResolutionWithDialog {
+public class MakeInjectedPointUnambiguousMarkerResolution implements IQuickFix, TestableResolutionWithDialog {
 	private String label;
 	private IInjectionPoint injectionPoint;
 	private List<IBean> beans;
@@ -48,36 +51,20 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerReso
 	
 	@Override
 	public void runForTest(IMarker marker){
-		internal_run(marker, true);
+		internal_run(true);
 	}
 	
 	@Override
 	public void run(IMarker marker) {
-		internal_run(marker, false);
+		internal_run(false);
 	}
 
-	private void internal_run(IMarker marker, boolean test) {
+	private void internal_run(boolean test) {
 		AddQualifiersToBeanProcessor processor = new AddQualifiersToBeanProcessor(label, injectionPoint, beans, selectedBean);
 		ProcessorBasedRefactoring refactoring = new ProcessorBasedRefactoring(processor);
 		AddQualifiersToBeanWizard wizard = new AddQualifiersToBeanWizard(refactoring);
 		wizard.showWizard();
 	}
-	
-//	private boolean checkBeans(){
-//		Set<IQualifier> qualifiers = selectedBean.getQualifiers();
-//		if(qualifiers.size() == 0)
-//			return true;
-//		
-//		for(IBean bean: beans){
-//			if(bean.equals(selectedBean))
-//				continue;
-//			if(MarkerResolutionUtils.checkBeanQualifiers(selectedBean, bean, qualifiers))
-//				return true;
-//				
-//		}
-//		return false;
-//	}
-	
 	
 	@Override
 	public String getDescription() {
@@ -87,6 +74,36 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerReso
 	@Override
 	public Image getImage() {
 		return CDIImages.QUICKFIX_EDIT;
+	}
+
+	@Override
+	public int getRelevance() {
+		return 100;
+	}
+
+	@Override
+	public void apply(IDocument document) {
+		internal_run(false);
+	}
+
+	@Override
+	public Point getSelection(IDocument document) {
+		return null;
+	}
+
+	@Override
+	public String getAdditionalProposalInfo() {
+		return label;
+	}
+
+	@Override
+	public String getDisplayString() {
+		return label;
+	}
+
+	@Override
+	public IContextInformation getContextInformation() {
+		return null;
 	}
 
 }

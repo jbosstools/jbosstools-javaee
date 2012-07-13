@@ -12,7 +12,6 @@ package org.jboss.tools.cdi.ui.marker;
 
 import java.text.MessageFormat;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
@@ -23,7 +22,6 @@ import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
-import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.refactoring.BaseMarkerResolution;
 
 /**
@@ -33,18 +31,12 @@ public class AddSerializableInterfaceMarkerResolution  extends BaseMarkerResolut
 	public static final String SERIALIZABLE = "java.io.Serializable";   //$NON-NLS-1$
 	
 	private IType type;
-	private IFile file;
 	
-	public AddSerializableInterfaceMarkerResolution(IType type, IFile file){
+	public AddSerializableInterfaceMarkerResolution(IType type){
+		super(type.getCompilationUnit());
 		this.label = MessageFormat.format(CDIUIMessages.ADD_SERIALIZABLE_INTERFACE_MARKER_RESOLUTION_TITLE, new Object[]{type.getElementName()});
 		this.type = type;
-		this.file = file;
 		init();
-	}
-
-	@Override
-	protected ICompilationUnit getCompilationUnit(){
-		return EclipseUtil.getCompilationUnit(file);
 	}
 
 	@Override

@@ -18,33 +18,41 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.IMarkerResolution2;
+import org.eclipse.swt.graphics.Point;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.internal.core.refactoring.DeleteAllDisposerAnnotationsProcessor;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.cdi.ui.wizard.DeletePreviewWizard;
+import org.jboss.tools.common.quickfix.IQuickFix;
 import org.jboss.tools.common.refactoring.MarkerResolutionUtils;
 import org.jboss.tools.common.refactoring.TestableResolutionWithRefactoringProcessor;
 
 /**
  * @author Daniel Azarov
  */
-public class DeleteAllDisposerDuplicantMarkerResolution implements IMarkerResolution2, TestableResolutionWithRefactoringProcessor {
+public class DeleteAllDisposerDuplicantMarkerResolution implements IQuickFix, TestableResolutionWithRefactoringProcessor {
 	private String label;
 	private IMethod method;
 	private IFile file;
 	private String description;
 	
-	public DeleteAllDisposerDuplicantMarkerResolution(IMethod method, IFile file){
+	public DeleteAllDisposerDuplicantMarkerResolution(IMethod method){
 		this.label = MessageFormat.format(CDIUIMessages.DELETE_ALL_DISPOSER_DUPLICANT_MARKER_RESOLUTION_TITLE, new Object[]{method.getElementName()});
 		this.method = method;
-		this.file = file;
+		try {
+			this.file = (IFile) method.getUnderlyingResource();
+		} catch (JavaModelException e) {
+			CDIUIPlugin.getDefault().logError(e);
+		}
 		description = getPreview();
 	}
 
@@ -53,13 +61,17 @@ public class DeleteAllDisposerDuplicantMarkerResolution implements IMarkerResolu
 		return label;
 	}
 	
-
-	@Override
-	public void run(IMarker marker) {
+	private void internal_run(){
 		DeleteAllDisposerAnnotationsProcessor processor = new DeleteAllDisposerAnnotationsProcessor(file, method, label);
 		ProcessorBasedRefactoring refactoring = new ProcessorBasedRefactoring(processor);
 		DeletePreviewWizard wizard = new DeletePreviewWizard(refactoring);
 		wizard.showWizard();
+	}
+	
+
+	@Override
+	public void run(IMarker marker) {
+		internal_run();
 	}
 	
 	@Override
@@ -103,6 +115,36 @@ public class DeleteAllDisposerDuplicantMarkerResolution implements IMarkerResolu
 	@Override
 	public Image getImage() {
 		return CDIImages.QUICKFIX_REMOVE;
+	}
+
+	@Override
+	public int getRelevance() {
+		return 100;
+	}
+
+	@Override
+	public void apply(IDocument document) {
+		internal_run();
+	}
+
+	@Override
+	public Point getSelection(IDocument document) {
+		return null;
+	}
+
+	@Override
+	public String getAdditionalProposalInfo() {
+		return description;
+	}
+
+	@Override
+	public String getDisplayString() {
+		return label;
+	}
+
+	@Override
+	public IContextInformation getContextInformation() {
+		return null;
 	}
 
 }

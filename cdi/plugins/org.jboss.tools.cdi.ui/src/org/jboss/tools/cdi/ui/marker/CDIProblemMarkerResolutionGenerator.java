@@ -31,13 +31,16 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.corext.util.JavaConventionsUtil;
+import org.eclipse.jdt.ui.text.java.IJavaCompletionProposal;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.IMarkerResolutionGenerator2;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.DocumentProviderRegistry;
 import org.eclipse.ui.texteditor.IDocumentProvider;
+import org.eclipse.wst.sse.ui.internal.reconcile.TemporaryAnnotation;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDIUtil;
@@ -57,12 +60,16 @@ import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.quickfix.IQuickFix;
+import org.jboss.tools.common.quickfix.IQuickFixGenerator;
+import org.jboss.tools.common.validation.java.TempJavaProblem;
+import org.jboss.tools.common.validation.java.TempJavaProblemAnnotation;
 
 /**
  * @author Daniel Azarov
  */
 public class CDIProblemMarkerResolutionGenerator implements
-		IMarkerResolutionGenerator2 {
+		IMarkerResolutionGenerator2, IQuickFixGenerator {
 	private static final String JAVA_EXTENSION = "java"; //$NON-NLS-1$
 	private static final String XML_EXTENSION = "xml"; //$NON-NLS-1$
 	private static final int MARKER_RESULUTION_NUMBER_LIMIT = 7;
@@ -89,6 +96,399 @@ public class CDIProblemMarkerResolutionGenerator implements
 
 		return -1; 
 	}
+	
+	private IQuickFix[] findResolutions(ICompilationUnit compilationUnit, int problemId, int offset, ICDIMarkerResolutionGeneratorExtension[] extensions) throws JavaModelException{
+		if (problemId == CDIValidationErrorManager.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID) {
+			IField field = findNonStaticField(compilationUnit, offset);
+			if(field != null){
+				return new IQuickFix[] {
+					new MakeFieldStaticMarkerResolution(field)
+				};
+			}
+		}else if (problemId == CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID || 
+				problemId == CDIValidationErrorManager.ILLEGAL_DISPOSER_IN_SESSION_BEAN_ID ||
+						problemId == CDIValidationErrorManager.ILLEGAL_OBSERVER_IN_SESSION_BEAN_ID) {
+			IMethod method = findMethod(compilationUnit, offset);
+			if(method != null){
+				List<IType> types = findLocalAnnotattedInterfaces(method);
+				if(types.size() == 0 && !Flags.isPublic(method.getFlags())){
+					return new IQuickFix[] {
+						new MakeMethodPublicMarkerResolution(method)
+					};
+				}else{
+					IQuickFix[] resolutions = new IQuickFix[types.size()+1];
+					for(int i = 0; i < types.size(); i++){
+						resolutions[i] = new MakeMethodBusinessMarkerResolution(method, types.get(i));
+					}
+					resolutions[types.size()] = new AddLocalBeanMarkerResolution(method);
+					return resolutions;
+				}
+			}
+		}else if (problemId == CDIValidationErrorManager.MULTIPLE_DISPOSERS_FOR_PRODUCER_ID) {
+			IMethod method = findMethod(compilationUnit, offset);
+			if(method != null){
+				return new IQuickFix[] {
+						new DeleteAllDisposerDuplicantMarkerResolution(method)
+					};
+			}
+		}else if (problemId == CDIValidationErrorManager.MULTIPLE_INJECTION_CONSTRUCTORS_ID) {
+			IMethod method = findMethod(compilationUnit, offset);
+			if(method != null){
+				return new IQuickFix[] {
+						new DeleteAllInjectedConstructorsMarkerResolution(method)
+					};
+			}
+		}else if(problemId == CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID ||
+				problemId == CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID){
+			
+			List<IMarkerResolution> resolutions = new ArrayList<IMarkerResolution>();
+			
+			IInjectionPoint injectionPoint = findInjectionPoint(compilationUnit, offset);
+			if(injectionPoint != null){
+				List<IBean> beans;
+				if(problemId == CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID){
+					beans = findBeans(injectionPoint);
+				}else{
+					beans = findLegalBeans(injectionPoint);
+				}
+				
+				for(int i = beans.size()-1; i >= 0; i--){
+					IBean bean = beans.get(i);
+					for(ICDIMarkerResolutionGeneratorExtension extension : extensions){
+						if(extension.shouldBeExtended(problemId, bean)){
+							List<IQuickFix> addings = extension.getResolutions(problemId, bean);
+							resolutions.addAll(addings);
+							beans.remove(bean);
+							break;
+						}
+					}
+				}
+				
+				if(beans.size() < MARKER_RESULUTION_NUMBER_LIMIT){
+					for(int i = 0; i < beans.size(); i++){
+						resolutions.add(new MakeInjectedPointUnambiguousMarkerResolution(injectionPoint, beans, i));
+					}
+				}else{
+					resolutions.add(new SelectBeanMarkerResolution(injectionPoint, beans));
+				}
+			}
+			return resolutions.toArray(new IQuickFix[]{});
+		}else if(problemId == CDIValidationErrorManager.NOT_PASSIVATION_CAPABLE_BEAN_ID){
+			IType type = findTypeWithNoSerializable(compilationUnit, offset);
+			
+			if(type != null){
+				return new IQuickFix[] {
+						new AddSerializableInterfaceMarkerResolution(type)
+					};
+			}
+		}else if(problemId == CDIValidationErrorManager.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD_ID){
+			IField field = findPublicField(compilationUnit, offset);
+			CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(field.getUnderlyingResource().getProject());
+			if(cdiNature != null){
+				ICDIProject cdiProject = cdiNature.getDelegate();
+				
+				if(cdiProject != null){
+					Set<IBean> beans = cdiProject.getBeans(field.getUnderlyingResource().getFullPath());
+					Iterator<IBean> iter = beans.iterator();
+					if(iter.hasNext()){
+						IBean bean = iter.next();
+						if(field != null){
+							return new IQuickFix[] {
+									new MakeFieldProtectedMarkerResolution(field),
+									new MakeBeanScopedDependentMarkerResolution(compilationUnit, bean)
+								};
+						}
+					}
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE_ID ||
+				problemId == CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_SCOPE_TYPE_ID ||
+				problemId == CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE_ID){
+			
+			TypeAndAnnotation ta = findTypeAndAnnotation(compilationUnit, offset, CDIConstants.RETENTION_ANNOTATION_TYPE_NAME);
+			if(ta != null){
+				if(ta.annotation == null){
+					return new IQuickFix[] {
+							new AddRetentionAnnotationMarkerResolution(ta.type)
+						};
+				}else{
+					return new IQuickFix[] {
+							new ChangeAnnotationMarkerResolution(ta.annotation, CDIConstants.RETENTION_POLICY_RUNTIME_TYPE_NAME)
+						};
+					
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE_ID){
+			TypeAndAnnotation ta = findTypeAndAnnotation(compilationUnit, offset, CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
+			if(ta != null){
+				if(ta.annotation == null){
+					return new IQuickFix[] {
+							new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME, CDIConstants.ELEMENT_TYPE_PARAMETER_NAME}),
+							new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_FIELD_NAME, CDIConstants.ELEMENT_TYPE_PARAMETER_NAME})
+						};
+				}else{
+					return new IQuickFix[] {
+							new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME, CDIConstants.ELEMENT_TYPE_PARAMETER_NAME}),
+							new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_FIELD_NAME, CDIConstants.ELEMENT_TYPE_PARAMETER_NAME})
+						};
+					
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE_ID){
+			TypeAndAnnotation ta = findTypeAndAnnotation(compilationUnit, offset, CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
+			if(ta != null){
+				if(ta.annotation == null){
+					return new IQuickFix[] {
+						new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME}),
+						new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME}),
+						new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME}),
+						new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_METHOD_NAME}),
+						new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_FIELD_NAME})
+					};
+				}else{
+					return new IQuickFix[] {
+						new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME}),
+						new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME}),
+						new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME}),
+						new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_METHOD_NAME}),
+						new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_FIELD_NAME})
+					};
+				
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE_ID){
+			TypeAndAnnotation ta = findTypeAndAnnotation(compilationUnit, offset, CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
+			if(ta != null){
+				if(ta.annotation == null){
+					return new IQuickFix[] {
+						new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME})
+					};
+				}else{
+					return new IQuickFix[] {
+						new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME})
+					};
+				
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER_ID ||
+				problemId == CDIValidationErrorManager.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_QUALIFIER_TYPE_MEMBER_ID ||
+				problemId == CDIValidationErrorManager.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER_ID ||
+				problemId == CDIValidationErrorManager.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_QUALIFIER_TYPE_MEMBER_ID){
+			IJavaElement element = findJavaElement(compilationUnit, offset);
+			if(element != null){
+				IAnnotation annotation = getAnnotation(element, CDIConstants.NON_BINDING_ANNOTATION_TYPE_NAME);
+				if(element instanceof IMember && annotation == null){
+					return new IQuickFix[] {
+						new AddAnnotationMarkerResolution((IMember)element, CDIConstants.NON_BINDING_ANNOTATION_TYPE_NAME)
+					};
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.DISPOSER_ANNOTATED_INJECT_ID){
+			IJavaElement element = findJavaElement(compilationUnit, offset);
+			if(element != null){
+				IJavaElement injectElement = findJavaElementByAnnotation(element, CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+				IJavaElement disposesElement = findJavaElementByAnnotation(element, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+				if(injectElement != null && disposesElement != null){
+					return new IQuickFix[] {
+						new DeleteAnnotationMarkerResolution(injectElement, CDIConstants.INJECT_ANNOTATION_TYPE_NAME),
+						new DeleteAnnotationMarkerResolution(disposesElement, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)
+					};
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.PRODUCER_ANNOTATED_INJECT_ID){
+			IJavaElement element = findJavaElement(compilationUnit, offset);
+			if(element != null){
+				IJavaElement injectElement = findJavaElementByAnnotation(element, CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+				IJavaElement produsesElement = findJavaElementByAnnotation(element, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
+				if(injectElement != null && produsesElement != null){
+					return new IQuickFix[] {
+						new DeleteAnnotationMarkerResolution(injectElement, CDIConstants.INJECT_ANNOTATION_TYPE_NAME),
+						new DeleteAnnotationMarkerResolution(produsesElement, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME)
+					};
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.OBSERVER_ANNOTATED_INJECT_ID){
+			IJavaElement element = findJavaElement(compilationUnit, offset);
+			if(element != null){
+				IJavaElement injectElement = findJavaElementByAnnotation(element, CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+				IJavaElement observerElement = findJavaElementByAnnotation(element, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
+				if(injectElement != null && observerElement != null){
+					return new IQuickFix[] {
+						new DeleteAnnotationMarkerResolution(injectElement, CDIConstants.INJECT_ANNOTATION_TYPE_NAME),
+						new DeleteAnnotationMarkerResolution(observerElement, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)
+					};
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES_ID){
+			IJavaElement element = findJavaElement(compilationUnit, offset);
+			if(element != null){
+				IJavaElement observerElement = findJavaElementByAnnotation(element, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
+				if(observerElement != null){
+					return new IQuickFix[] {
+						new DeleteAnnotationMarkerResolution(observerElement, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)
+					};
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.DISPOSER_IN_INTERCEPTOR_ID ||
+				problemId == CDIValidationErrorManager.DISPOSER_IN_DECORATOR_ID ||
+				problemId == CDIValidationErrorManager.CONSTRUCTOR_PARAMETER_ANNOTATED_DISPOSES_ID){
+			IJavaElement element = findJavaElement(compilationUnit, offset);
+			if(element != null){
+				IJavaElement disposerElement = findJavaElementByAnnotation(element, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+				if(disposerElement != null){
+					return new IQuickFix[] {
+						new DeleteAnnotationMarkerResolution(disposerElement, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)
+					};
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.PRODUCER_IN_INTERCEPTOR_ID ||
+				problemId == CDIValidationErrorManager.PRODUCER_IN_DECORATOR_ID){
+			IJavaElement element = findJavaElement(compilationUnit, offset);
+			if(element != null){
+				IJavaElement producerElement = findJavaElementByAnnotation(element, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
+				if(producerElement != null){
+					return new IQuickFix[] {
+						new DeleteAnnotationMarkerResolution(producerElement, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME)
+					};
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.STEREOTYPE_DECLARES_NON_EMPTY_NAME_ID){
+			TypeAndAnnotation ta = findTypeAndAnnotation(compilationUnit, offset, CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+			if(ta != null && ta.annotation != null && ta.type != null){
+				return new IQuickFix[] {
+					new ChangeAnnotationMarkerResolution(ta.annotation),
+					new DeleteAnnotationMarkerResolution(ta.type, CDIConstants.NAMED_QUALIFIER_TYPE_NAME)
+				};
+			}
+		}else if(problemId == CDIValidationErrorManager.INTERCEPTOR_HAS_NAME_ID ||
+				problemId == CDIValidationErrorManager.DECORATOR_HAS_NAME_ID){
+			TypeAndAnnotation ta = findTypeAndAnnotation(compilationUnit, offset, CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+			if(ta != null && ta.type != null){
+				CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(ta.type.getUnderlyingResource().getProject());
+				if(cdiNature != null){
+					ICDIProject cdiProject = cdiNature.getDelegate();
+					IType declarationType = findNamedDeclarationType(cdiProject, ta.type, problemId == CDIValidationErrorManager.DECORATOR_HAS_NAME_ID);
+					ArrayList<IMarkerResolution> resolutions = new ArrayList<IMarkerResolution>();
+					if(declarationType != null){
+						IAnnotation annotation = getAnnotation(declarationType, CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+						if(annotation != null){
+							resolutions.add(new DeleteAnnotationMarkerResolution(declarationType, CDIConstants.NAMED_QUALIFIER_TYPE_NAME));
+						}
+						
+						if(!declarationType.equals(ta.type)){
+							annotation = getAnnotation(ta.type, declarationType.getFullyQualifiedName());
+							if(annotation != null){
+								resolutions.add(new DeleteAnnotationMarkerResolution(ta.type, declarationType.getFullyQualifiedName()));
+							}
+						}
+					}
+					if(!resolutions.isEmpty()){
+						return resolutions.toArray(new IQuickFix[]{});
+					}
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.STEREOTYPE_IS_ANNOTATED_TYPED_ID){
+			TypeAndAnnotation ta = findTypeAndAnnotation(compilationUnit, offset, CDIConstants.TYPED_ANNOTATION_TYPE_NAME);
+			if(ta != null && ta.annotation != null && ta.type != null){
+				return new IQuickFix[] {
+					new DeleteAnnotationMarkerResolution(ta.type, CDIConstants.TYPED_ANNOTATION_TYPE_NAME)
+				};
+			}
+		}else if(problemId == CDIValidationErrorManager.INTERCEPTOR_ANNOTATED_SPECIALIZES_ID ||
+				problemId == CDIValidationErrorManager.DECORATOR_ANNOTATED_SPECIALIZES_ID){
+			TypeAndAnnotation ta = findTypeAndAnnotation(compilationUnit, offset, CDIConstants.SPECIALIZES_ANNOTATION_TYPE_NAME);
+			if(ta != null && ta.annotation != null && ta.type != null){
+				return new IQuickFix[] {
+					new DeleteAnnotationMarkerResolution(ta.type, CDIConstants.SPECIALIZES_ANNOTATION_TYPE_NAME)
+				};
+			}
+		}else if(problemId == CDIValidationErrorManager.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_DISPOSES_ID){
+			IJavaElement element = findJavaElement(compilationUnit, offset);
+			if(element != null){
+				IJavaElement producerElement = findJavaElementByAnnotation(element, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
+				IJavaElement disposerElement = findJavaElementByAnnotation(element, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+				if(producerElement != null && disposerElement != null){
+					return new IQuickFix[] {
+						new DeleteAnnotationMarkerResolution(producerElement, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME),
+						new DeleteAnnotationMarkerResolution(disposerElement, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)
+					};
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES_ID){
+			IJavaElement element = findJavaElement(compilationUnit, offset);
+			if(element != null){
+				IJavaElement producerElement = findJavaElementByAnnotation(element, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
+				IJavaElement observerElement = findJavaElementByAnnotation(element, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
+				if(producerElement != null && observerElement != null){
+					return new IQuickFix[] {
+						new DeleteAnnotationMarkerResolution(producerElement, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME),
+						new DeleteAnnotationMarkerResolution(observerElement, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)
+					};
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED_ID){
+			IJavaElement element = findJavaElement(compilationUnit, offset);
+			if(element != null){
+				IJavaElement disposerElement = findJavaElementByAnnotation(element, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+				IJavaElement observerElement = findJavaElementByAnnotation(element, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
+				if(disposerElement != null && observerElement != null){
+					return new IQuickFix[] {
+						new DeleteAnnotationMarkerResolution(disposerElement, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME),
+						new DeleteAnnotationMarkerResolution(observerElement, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)
+					};
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.OBSERVER_IN_DECORATOR_ID ||
+				problemId == CDIValidationErrorManager.OBSERVER_IN_INTERCEPTOR_ID){
+			IJavaElement element = findJavaElement(compilationUnit, offset);
+			if(element != null){
+				IJavaElement observerElement = findJavaElementByAnnotation(element, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
+				if(observerElement != null){
+					return new IQuickFix[] {
+						new DeleteAnnotationMarkerResolution(observerElement, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)
+					};
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.SESSION_BEAN_ANNOTATED_INTERCEPTOR_ID){
+			IJavaElement element = findJavaElement(compilationUnit, offset);
+			if(element != null){
+				IJavaElement interceptorElement = findJavaElementByAnnotation(element, CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME);
+				if(interceptorElement != null){
+					return new IQuickFix[] {
+						new DeleteAnnotationMarkerResolution(interceptorElement, CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME)
+					};
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.SESSION_BEAN_ANNOTATED_DECORATOR_ID){
+			IJavaElement element = findJavaElement(compilationUnit, offset);
+			if(element != null){
+				IJavaElement decoratorElement = findJavaElementByAnnotation(element, CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME);
+				if(decoratorElement != null){
+					return new IQuickFix[] {
+						new DeleteAnnotationMarkerResolution(decoratorElement, CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME)
+					};
+				}
+			}
+		}else if(problemId == CDIValidationErrorManager.PARAM_INJECTION_DECLARES_EMPTY_NAME_ID){
+			List<IMarkerResolution> resolutions = getAddNameResolutions(compilationUnit, offset);
+			return resolutions.toArray(new IQuickFix[]{});
+		}else if(problemId == CDIValidationErrorManager.MULTIPLE_DISPOSING_PARAMETERS_ID){
+			ILocalVariable parameter = findParameter(compilationUnit, offset);
+			if(parameter != null){
+				return new IQuickFix[] {
+					new DeleteAllOtherAnnotationsFromParametersMarkerResolution(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME, parameter, (IFile)parameter.getUnderlyingResource())
+				};
+			}
+		}else if(problemId == CDIValidationErrorManager.MULTIPLE_OBSERVING_PARAMETERS_ID){
+			ILocalVariable parameter = findParameter(compilationUnit, offset);
+			if(parameter != null){
+				return new IQuickFix[] {
+					new DeleteAllOtherAnnotationsFromParametersMarkerResolution(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME, parameter, (IFile)parameter.getUnderlyingResource())
+				};
+			}
+		}
+		return new IQuickFix[] {};
+	}
 
 	private IMarkerResolution[] findResolutions(IMarker marker)
 			throws CoreException {
@@ -114,395 +514,10 @@ public class CDIProblemMarkerResolutionGenerator implements
 		ICDIMarkerResolutionGeneratorExtension[] extensions = CDIQuickFixExtensionManager.getInstances();
 
 		if (JAVA_EXTENSION.equals(file.getFileExtension())) {
-			if (messageId == CDIValidationErrorManager.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID) {
-				IField field = findNonStaticField(file, start);
-				if(field != null){
-					return new IMarkerResolution[] {
-						new MakeFieldStaticMarkerResolution(field, file)
-					};
-				}
-			}else if (messageId == CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID || 
-					messageId == CDIValidationErrorManager.ILLEGAL_DISPOSER_IN_SESSION_BEAN_ID ||
-					messageId == CDIValidationErrorManager.ILLEGAL_OBSERVER_IN_SESSION_BEAN_ID) {
-				IMethod method = findMethod(file, start);
-				if(method != null){
-					List<IType> types = findLocalAnnotattedInterfaces(method);
-					if(types.size() == 0 && !Flags.isPublic(method.getFlags())){
-						return new IMarkerResolution[] {
-							new MakeMethodPublicMarkerResolution(method, file)
-						};
-					}else{
-						IMarkerResolution[] resolutions = new IMarkerResolution[types.size()+1];
-						for(int i = 0; i < types.size(); i++){
-							resolutions[i] = new MakeMethodBusinessMarkerResolution(method, types.get(i), file);
-						}
-						resolutions[types.size()] = new AddLocalBeanMarkerResolution(method, file);
-						return resolutions;
-					}
-				}
-			}else if (messageId == CDIValidationErrorManager.MULTIPLE_DISPOSERS_FOR_PRODUCER_ID) {
-				IMethod method = findMethod(file, start);
-				if(method != null){
-					return new IMarkerResolution[] {
-							new DeleteAllDisposerDuplicantMarkerResolution(method, file)
-						};
-				}
-			}else if (messageId == CDIValidationErrorManager.MULTIPLE_INJECTION_CONSTRUCTORS_ID) {
-				IMethod method = findMethod(file, start);
-				if(method != null){
-					return new IMarkerResolution[] {
-							new DeleteAllInjectedConstructorsMarkerResolution(method, file)
-						};
-				}
-			}else if(messageId == CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID ||
-					messageId == CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID){
-				
-				List<IMarkerResolution> resolutions = new ArrayList<IMarkerResolution>();
-				
-				IInjectionPoint injectionPoint = findInjectionPoint(file, start);
-				if(injectionPoint != null){
-					List<IBean> beans;
-					if(messageId == CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID){
-						beans = findBeans(injectionPoint);
-					}else{
-						beans = findLegalBeans(injectionPoint);
-					}
-					
-					for(int i = beans.size()-1; i >= 0; i--){
-						IBean bean = beans.get(i);
-						for(ICDIMarkerResolutionGeneratorExtension extension : extensions){
-							if(extension.shouldBeExtended(messageId, bean)){
-								List<IMarkerResolution> addings = extension.getResolutions(messageId, bean);
-								resolutions.addAll(addings);
-								beans.remove(bean);
-								break;
-							}
-						}
-					}
-					
-					if(beans.size() < MARKER_RESULUTION_NUMBER_LIMIT){
-						for(int i = 0; i < beans.size(); i++){
-							resolutions.add(new MakeInjectedPointUnambiguousMarkerResolution(injectionPoint, beans, i));
-						}
-					}else{
-						resolutions.add(new SelectBeanMarkerResolution(injectionPoint, beans));
-					}
-				}
-				return resolutions.toArray(new IMarkerResolution[]{});
-			}else if(messageId == CDIValidationErrorManager.NOT_PASSIVATION_CAPABLE_BEAN_ID){
-				IType type = findTypeWithNoSerializable(file, start);
-				
-				if(type != null){
-					return new IMarkerResolution[] {
-							new AddSerializableInterfaceMarkerResolution(type, file)
-						};
-				}
-			}else if(messageId == CDIValidationErrorManager.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD_ID){
-				IField field = findPublicField(file, start);
-				CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
-				if(cdiNature != null){
-					ICDIProject cdiProject = cdiNature.getDelegate();
-					
-					if(cdiProject != null){
-						Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
-						Iterator<IBean> iter = beans.iterator();
-						if(iter.hasNext()){
-							IBean bean = iter.next();
-							if(field != null){
-								return new IMarkerResolution[] {
-										new MakeFieldProtectedMarkerResolution(field, file),
-										new MakeBeanScopedDependentMarkerResolution(bean, file)
-									};
-							}
-						}
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE_ID ||
-					messageId == CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_SCOPE_TYPE_ID ||
-					messageId == CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE_ID){
-				
-				TypeAndAnnotation ta = findTypeAndAnnotation(file, start, CDIConstants.RETENTION_ANNOTATION_TYPE_NAME);
-				if(ta != null){
-					if(ta.annotation == null){
-						return new IMarkerResolution[] {
-								new AddRetentionAnnotationMarkerResolution(ta.type)
-							};
-					}else{
-						return new IMarkerResolution[] {
-								new ChangeAnnotationMarkerResolution(ta.annotation, CDIConstants.RETENTION_POLICY_RUNTIME_TYPE_NAME)
-							};
-						
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE_ID){
-				TypeAndAnnotation ta = findTypeAndAnnotation(file, start, CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
-				if(ta != null){
-					if(ta.annotation == null){
-						return new IMarkerResolution[] {
-								new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME, CDIConstants.ELEMENT_TYPE_PARAMETER_NAME}),
-								new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_FIELD_NAME, CDIConstants.ELEMENT_TYPE_PARAMETER_NAME})
-							};
-					}else{
-						return new IMarkerResolution[] {
-								new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME, CDIConstants.ELEMENT_TYPE_PARAMETER_NAME}),
-								new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_FIELD_NAME, CDIConstants.ELEMENT_TYPE_PARAMETER_NAME})
-							};
-						
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE_ID){
-				TypeAndAnnotation ta = findTypeAndAnnotation(file, start, CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
-				if(ta != null){
-					if(ta.annotation == null){
-						return new IMarkerResolution[] {
-							new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME}),
-							new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME}),
-							new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME}),
-							new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_METHOD_NAME}),
-							new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_FIELD_NAME})
-						};
-					}else{
-						return new IMarkerResolution[] {
-							new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME}),
-							new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME}),
-							new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME}),
-							new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_METHOD_NAME}),
-							new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_FIELD_NAME})
-						};
-					
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE_ID){
-				TypeAndAnnotation ta = findTypeAndAnnotation(file, start, CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
-				if(ta != null){
-					if(ta.annotation == null){
-						return new IMarkerResolution[] {
-							new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME})
-						};
-					}else{
-						return new IMarkerResolution[] {
-							new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME})
-						};
-					
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER_ID ||
-					messageId == CDIValidationErrorManager.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_QUALIFIER_TYPE_MEMBER_ID ||
-					messageId == CDIValidationErrorManager.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER_ID ||
-					messageId == CDIValidationErrorManager.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_QUALIFIER_TYPE_MEMBER_ID){
-				IJavaElement element = findJavaElement(file, start);
-				if(element != null){
-					IAnnotation annotation = getAnnotation(element, CDIConstants.NON_BINDING_ANNOTATION_TYPE_NAME);
-					if(element instanceof IMember && annotation == null){
-						return new IMarkerResolution[] {
-							new AddAnnotationMarkerResolution((IMember)element, CDIConstants.NON_BINDING_ANNOTATION_TYPE_NAME)
-						};
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.DISPOSER_ANNOTATED_INJECT_ID){
-				IJavaElement element = findJavaElement(file, start);
-				if(element != null){
-					IJavaElement injectElement = findJavaElementByAnnotation(element, CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
-					IJavaElement disposesElement = findJavaElementByAnnotation(element, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
-					if(injectElement != null && disposesElement != null){
-						return new IMarkerResolution[] {
-							new DeleteAnnotationMarkerResolution(injectElement, CDIConstants.INJECT_ANNOTATION_TYPE_NAME),
-							new DeleteAnnotationMarkerResolution(disposesElement, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)
-						};
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.PRODUCER_ANNOTATED_INJECT_ID){
-				IJavaElement element = findJavaElement(file, start);
-				if(element != null){
-					IJavaElement injectElement = findJavaElementByAnnotation(element, CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
-					IJavaElement produsesElement = findJavaElementByAnnotation(element, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
-					if(injectElement != null && produsesElement != null){
-						return new IMarkerResolution[] {
-							new DeleteAnnotationMarkerResolution(injectElement, CDIConstants.INJECT_ANNOTATION_TYPE_NAME),
-							new DeleteAnnotationMarkerResolution(produsesElement, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME)
-						};
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.OBSERVER_ANNOTATED_INJECT_ID){
-				IJavaElement element = findJavaElement(file, start);
-				if(element != null){
-					IJavaElement injectElement = findJavaElementByAnnotation(element, CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
-					IJavaElement observerElement = findJavaElementByAnnotation(element, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
-					if(injectElement != null && observerElement != null){
-						return new IMarkerResolution[] {
-							new DeleteAnnotationMarkerResolution(injectElement, CDIConstants.INJECT_ANNOTATION_TYPE_NAME),
-							new DeleteAnnotationMarkerResolution(observerElement, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)
-						};
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES_ID){
-				IJavaElement element = findJavaElement(file, start);
-				if(element != null){
-					IJavaElement observerElement = findJavaElementByAnnotation(element, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
-					if(observerElement != null){
-						return new IMarkerResolution[] {
-							new DeleteAnnotationMarkerResolution(observerElement, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)
-						};
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.DISPOSER_IN_INTERCEPTOR_ID ||
-					messageId == CDIValidationErrorManager.DISPOSER_IN_DECORATOR_ID ||
-					messageId == CDIValidationErrorManager.CONSTRUCTOR_PARAMETER_ANNOTATED_DISPOSES_ID){
-				IJavaElement element = findJavaElement(file, start);
-				if(element != null){
-					IJavaElement disposerElement = findJavaElementByAnnotation(element, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
-					if(disposerElement != null){
-						return new IMarkerResolution[] {
-							new DeleteAnnotationMarkerResolution(disposerElement, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)
-						};
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.PRODUCER_IN_INTERCEPTOR_ID ||
-					messageId == CDIValidationErrorManager.PRODUCER_IN_DECORATOR_ID){
-				IJavaElement element = findJavaElement(file, start);
-				if(element != null){
-					IJavaElement producerElement = findJavaElementByAnnotation(element, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
-					if(producerElement != null){
-						return new IMarkerResolution[] {
-							new DeleteAnnotationMarkerResolution(producerElement, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME)
-						};
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.STEREOTYPE_DECLARES_NON_EMPTY_NAME_ID){
-				TypeAndAnnotation ta = findTypeAndAnnotation(file, start, CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
-				if(ta != null && ta.annotation != null && ta.type != null){
-					return new IMarkerResolution[] {
-						new ChangeAnnotationMarkerResolution(ta.annotation),
-						new DeleteAnnotationMarkerResolution(ta.type, CDIConstants.NAMED_QUALIFIER_TYPE_NAME)
-					};
-				}
-			}else if(messageId == CDIValidationErrorManager.INTERCEPTOR_HAS_NAME_ID ||
-					messageId == CDIValidationErrorManager.DECORATOR_HAS_NAME_ID){
-				TypeAndAnnotation ta = findTypeAndAnnotation(file, start, CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
-				if(ta != null && ta.type != null){
-					CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
-					if(cdiNature != null){
-						ICDIProject cdiProject = cdiNature.getDelegate();
-						IType declarationType = findNamedDeclarationType(cdiProject, ta.type, messageId == CDIValidationErrorManager.DECORATOR_HAS_NAME_ID);
-						ArrayList<IMarkerResolution> resolutions = new ArrayList<IMarkerResolution>();
-						if(declarationType != null){
-							IAnnotation annotation = getAnnotation(declarationType, CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
-							if(annotation != null){
-								resolutions.add(new DeleteAnnotationMarkerResolution(declarationType, CDIConstants.NAMED_QUALIFIER_TYPE_NAME));
-							}
-							
-							if(!declarationType.equals(ta.type)){
-								annotation = getAnnotation(ta.type, declarationType.getFullyQualifiedName());
-								if(annotation != null){
-									resolutions.add(new DeleteAnnotationMarkerResolution(ta.type, declarationType.getFullyQualifiedName()));
-								}
-							}
-						}
-						if(!resolutions.isEmpty()){
-							return resolutions.toArray(new IMarkerResolution[]{});
-						}
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.STEREOTYPE_IS_ANNOTATED_TYPED_ID){
-				TypeAndAnnotation ta = findTypeAndAnnotation(file, start, CDIConstants.TYPED_ANNOTATION_TYPE_NAME);
-				if(ta != null && ta.annotation != null && ta.type != null){
-					return new IMarkerResolution[] {
-						new DeleteAnnotationMarkerResolution(ta.type, CDIConstants.TYPED_ANNOTATION_TYPE_NAME)
-					};
-				}
-			}else if(messageId == CDIValidationErrorManager.INTERCEPTOR_ANNOTATED_SPECIALIZES_ID ||
-					messageId == CDIValidationErrorManager.DECORATOR_ANNOTATED_SPECIALIZES_ID){
-				TypeAndAnnotation ta = findTypeAndAnnotation(file, start, CDIConstants.SPECIALIZES_ANNOTATION_TYPE_NAME);
-				if(ta != null && ta.annotation != null && ta.type != null){
-					return new IMarkerResolution[] {
-						new DeleteAnnotationMarkerResolution(ta.type, CDIConstants.SPECIALIZES_ANNOTATION_TYPE_NAME)
-					};
-				}
-			}else if(messageId == CDIValidationErrorManager.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_DISPOSES_ID){
-				IJavaElement element = findJavaElement(file, start);
-				if(element != null){
-					IJavaElement producerElement = findJavaElementByAnnotation(element, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
-					IJavaElement disposerElement = findJavaElementByAnnotation(element, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
-					if(producerElement != null && disposerElement != null){
-						return new IMarkerResolution[] {
-							new DeleteAnnotationMarkerResolution(producerElement, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME),
-							new DeleteAnnotationMarkerResolution(disposerElement, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)
-						};
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES_ID){
-				IJavaElement element = findJavaElement(file, start);
-				if(element != null){
-					IJavaElement producerElement = findJavaElementByAnnotation(element, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
-					IJavaElement observerElement = findJavaElementByAnnotation(element, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
-					if(producerElement != null && observerElement != null){
-						return new IMarkerResolution[] {
-							new DeleteAnnotationMarkerResolution(producerElement, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME),
-							new DeleteAnnotationMarkerResolution(observerElement, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)
-						};
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED_ID){
-				IJavaElement element = findJavaElement(file, start);
-				if(element != null){
-					IJavaElement disposerElement = findJavaElementByAnnotation(element, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
-					IJavaElement observerElement = findJavaElementByAnnotation(element, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
-					if(disposerElement != null && observerElement != null){
-						return new IMarkerResolution[] {
-							new DeleteAnnotationMarkerResolution(disposerElement, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME),
-							new DeleteAnnotationMarkerResolution(observerElement, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)
-						};
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.OBSERVER_IN_DECORATOR_ID ||
-					messageId == CDIValidationErrorManager.OBSERVER_IN_INTERCEPTOR_ID){
-				IJavaElement element = findJavaElement(file, start);
-				if(element != null){
-					IJavaElement observerElement = findJavaElementByAnnotation(element, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
-					if(observerElement != null){
-						return new IMarkerResolution[] {
-							new DeleteAnnotationMarkerResolution(observerElement, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)
-						};
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.SESSION_BEAN_ANNOTATED_INTERCEPTOR_ID){
-				IJavaElement element = findJavaElement(file, start);
-				if(element != null){
-					IJavaElement interceptorElement = findJavaElementByAnnotation(element, CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME);
-					if(interceptorElement != null){
-						return new IMarkerResolution[] {
-							new DeleteAnnotationMarkerResolution(interceptorElement, CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME)
-						};
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.SESSION_BEAN_ANNOTATED_DECORATOR_ID){
-				IJavaElement element = findJavaElement(file, start);
-				if(element != null){
-					IJavaElement decoratorElement = findJavaElementByAnnotation(element, CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME);
-					if(decoratorElement != null){
-						return new IMarkerResolution[] {
-							new DeleteAnnotationMarkerResolution(decoratorElement, CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME)
-						};
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.PARAM_INJECTION_DECLARES_EMPTY_NAME_ID){
-				List<IMarkerResolution> resolutions = getAddNameResolutions(file, start);
-				return resolutions.toArray(new IMarkerResolution[]{});
-			}else if(messageId == CDIValidationErrorManager.MULTIPLE_DISPOSING_PARAMETERS_ID){
-				ILocalVariable parameter = findParameter(file, start);
-				if(parameter != null){
-					return new IMarkerResolution[] {
-						new DeleteAllOtherAnnotationsFromParametersMarkerResolution(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME, parameter, file)
-					};
-				}
-			}else if(messageId == CDIValidationErrorManager.MULTIPLE_OBSERVING_PARAMETERS_ID){
-				ILocalVariable parameter = findParameter(file, start);
-				if(parameter != null){
-					return new IMarkerResolution[] {
-						new DeleteAllOtherAnnotationsFromParametersMarkerResolution(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME, parameter, file)
-					};
-				}
-			}
+			ICompilationUnit compilationUnit = EclipseUtil.getCompilationUnit(file);
+			
+			return findResolutions(compilationUnit, messageId, start, extensions);
+			
 		}else if (XML_EXTENSION.equals(file.getFileExtension())){
 			FileEditorInput input = new FileEditorInput(file);
 			IDocumentProvider provider = DocumentProviderRegistry.getDefault().getDocumentProvider(input);
@@ -572,13 +587,13 @@ public class CDIProblemMarkerResolutionGenerator implements
 		return new IMarkerResolution[] {};
 	}
 	
-	private List<IMarkerResolution> getAddNameResolutions(IFile file, int start){
+	private List<IMarkerResolution> getAddNameResolutions(ICompilationUnit compilationUnit, int start) throws JavaModelException{
 		List<IMarkerResolution> resolutions = new ArrayList<IMarkerResolution>();
-		ILocalVariable parameter = findParameter(file, start);
+		ILocalVariable parameter = findParameter(compilationUnit, start);
 		if(parameter != null){
 			IAnnotation namedAnnotation = getAnnotation(parameter, CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
 			if(namedAnnotation != null){
-				CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
+				CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(compilationUnit.getUnderlyingResource().getProject());
 				if(cdiNature == null)
 					return resolutions;
 				
@@ -588,7 +603,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 					return resolutions;
 				}
 				
-				Set<IBean> allBeans = CDIUtil.getFilteredBeans(cdiProject, file.getFullPath());
+				Set<IBean> allBeans = CDIUtil.getFilteredBeans(cdiProject, compilationUnit.getUnderlyingResource().getFullPath());
 				
 				IInjectionPoint ip = CDIUtil.findInjectionPoint(allBeans, parameter, start);
 				if(ip != null){
@@ -756,12 +771,12 @@ public class CDIProblemMarkerResolutionGenerator implements
 	}
 	
 	
-	private IInjectionPoint findInjectionPoint(IFile file, int start){
-		IJavaElement element = findJavaElement(file, start);
+	private IInjectionPoint findInjectionPoint(ICompilationUnit compilationUnit, int start) throws JavaModelException{
+		IJavaElement element = findJavaElement(compilationUnit, start);
 		if(element == null)
 			return null;
 		
-		CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
+		CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(compilationUnit.getUnderlyingResource().getProject());
 		if(cdiNature == null)
 			return null;
 		
@@ -771,7 +786,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 			return null;
 		}
 		
-		Set<IBean> allBeans = CDIUtil.getFilteredBeans(cdiProject, file.getFullPath());
+		Set<IBean> allBeans = CDIUtil.getFilteredBeans(cdiProject, compilationUnit.getUnderlyingResource().getFullPath());
 		
 		IInjectionPoint ip = CDIUtil.findInjectionPoint(allBeans, element, start);
 		
@@ -789,8 +804,8 @@ public class CDIProblemMarkerResolutionGenerator implements
 		return beans;
 	}
 	
-	private IMethod findMethod(IFile file, int start){
-		IJavaElement javaElement = findJavaElement(file, start);
+	private IMethod findMethod(ICompilationUnit compilationUnit, int start){
+		IJavaElement javaElement = findJavaElement(compilationUnit, start);
 		if(javaElement instanceof IMethod){
 			IMethod method = (IMethod)javaElement;
 			if(!method.isBinary())
@@ -799,8 +814,8 @@ public class CDIProblemMarkerResolutionGenerator implements
 		return null;
 	}
 
-	private IType findTypeWithNoSerializable(IFile file, int start) throws JavaModelException{
-		IJavaElement javaElement = findJavaElement(file, start);
+	private IType findTypeWithNoSerializable(ICompilationUnit compilationUnit, int start) throws JavaModelException{
+		IJavaElement javaElement = findJavaElement(compilationUnit, start);
 		if(javaElement instanceof IType){
 			IType type = (IType)javaElement;
 			if(!type.isBinary()){
@@ -830,8 +845,8 @@ public class CDIProblemMarkerResolutionGenerator implements
 		}
 	}
 	
-	private TypeAndAnnotation findTypeAndAnnotation(IFile file, int start, String annotationQualifiedName) throws JavaModelException{
-		IJavaElement javaElement = findJavaElement(file, start);
+	private TypeAndAnnotation findTypeAndAnnotation(ICompilationUnit compilationUnit, int start, String annotationQualifiedName) throws JavaModelException{
+		IJavaElement javaElement = findJavaElement(compilationUnit, start);
 		if(javaElement instanceof IType){
 			IType type = (IType)javaElement;
 			if(!type.isBinary()){
@@ -845,20 +860,18 @@ public class CDIProblemMarkerResolutionGenerator implements
 		return null;
 	}
 	
-	private IJavaElement findJavaElement(IFile file, int start){
+	private IJavaElement findJavaElement(ICompilationUnit compilationUnit, int start){
 		try{
-			ICompilationUnit compilationUnit = EclipseUtil.getCompilationUnit(file);
-			
 			return compilationUnit == null ? null : compilationUnit.getElementAt(start);
-		}catch(CoreException ex){
+		}catch(JavaModelException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
 		return null;
 		
 	}
 	
-	private ILocalVariable findParameter(IFile file, int start){
-		IJavaElement element = findJavaElement(file, start);
+	private ILocalVariable findParameter(ICompilationUnit compilationUnit, int start){
+		IJavaElement element = findJavaElement(compilationUnit, start);
 		if(element instanceof IMethod){
 			try {
 				for(ILocalVariable parameter : ((IMethod) element).getParameters()){
@@ -905,9 +918,9 @@ public class CDIProblemMarkerResolutionGenerator implements
 		return false;
 	}
 	
-	private IField findNonStaticField(IFile file, int start){
+	private IField findNonStaticField(ICompilationUnit compilationUnit, int start){
 		try{
-			IJavaElement javaElement = findJavaElement(file, start);
+			IJavaElement javaElement = findJavaElement(compilationUnit, start);
 			
 			if(javaElement instanceof IField){
 				IField field = (IField)javaElement;
@@ -920,9 +933,9 @@ public class CDIProblemMarkerResolutionGenerator implements
 		return null;
 	}
 
-	private IField findPublicField(IFile file, int start){
+	private IField findPublicField(ICompilationUnit compilationUnit, int start){
 		try{
-			IJavaElement javaElement = findJavaElement(file, start);
+			IJavaElement javaElement = findJavaElement(compilationUnit, start);
 			
 			if(javaElement instanceof IField){
 				IField field = (IField)javaElement;
@@ -1007,6 +1020,32 @@ public class CDIProblemMarkerResolutionGenerator implements
 				return ((IMember)element).getDeclaringType();
 		}
 		
+		return null;
+	}
+	
+	@Override
+	public boolean hasProposals(Annotation annotation) {
+		if(annotation instanceof TempJavaProblemAnnotation || annotation instanceof TemporaryAnnotation){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public IJavaCompletionProposal[] getProposals(Annotation annotation) {
+		if(annotation instanceof TempJavaProblemAnnotation){
+			int messageId = ((TempJavaProblemAnnotation) annotation).getId() - TempJavaProblem.TEMP_PROBLEM_ID;
+			ICompilationUnit compilationUnit = ((TempJavaProblemAnnotation) annotation).getCompilationUnit();
+			int start = ((TempJavaProblemAnnotation) annotation).getPosition();
+			
+			ICDIMarkerResolutionGeneratorExtension[] extensions = CDIQuickFixExtensionManager.getInstances();
+			
+			try {
+				return findResolutions(compilationUnit, messageId, start, extensions);
+			} catch (JavaModelException e) {
+				CDIUIPlugin.getDefault().logError(e);
+			}
+		}
 		return null;
 	}
 	

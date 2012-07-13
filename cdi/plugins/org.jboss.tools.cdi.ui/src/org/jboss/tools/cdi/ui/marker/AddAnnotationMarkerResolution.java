@@ -32,6 +32,7 @@ public class AddAnnotationMarkerResolution extends BaseMarkerResolution {
 	private String qualifiedName;
 	
 	public AddAnnotationMarkerResolution(IJavaElement element, String qualifiedName){
+		super(CDIMarkerResolutionUtils.getJavaMember(element).getCompilationUnit());
 		this.element = element;
 		this.qualifiedName = qualifiedName;
 		String shortName = CDIMarkerResolutionUtils.getShortName(qualifiedName);
@@ -59,11 +60,6 @@ public class AddAnnotationMarkerResolution extends BaseMarkerResolution {
 			
 		label = NLS.bind(CDIUIMessages.ADD_ANNOTATION_MARKER_RESOLUTION_TITLE, new String[]{shortName, element.getElementName(), type});
 		init();
-	}
-	
-	@Override
-	protected ICompilationUnit getCompilationUnit(){
-		return CDIMarkerResolutionUtils.getJavaMember(element).getCompilationUnit();
 	}
 	
 	@Override

@@ -13,11 +13,11 @@ package org.jboss.tools.cdi.seam.config.ui.marker;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.ui.IMarkerResolution;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.seam.solder.core.generic.IGenericBean;
 import org.jboss.tools.cdi.ui.marker.ICDIMarkerResolutionGeneratorExtension;
+import org.jboss.tools.common.quickfix.IQuickFix;
 
 public class CDIMarkerResolutionGeneratorExtension implements
 		ICDIMarkerResolutionGeneratorExtension {
@@ -29,7 +29,7 @@ public class CDIMarkerResolutionGeneratorExtension implements
 	}
 
 	@Override
-	public List<IMarkerResolution> getResolutions(int id, IBean bean) {
+	public List<IQuickFix> getResolutions(int id, IBean bean) {
 		return Collections.emptyList();
 	}
 

@@ -12,7 +12,6 @@ package org.jboss.tools.cdi.ui.marker;
 
 import java.text.MessageFormat;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IBuffer;
@@ -28,7 +27,6 @@ import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
-import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.refactoring.BaseMarkerResolution;
 
 /**
@@ -36,18 +34,12 @@ import org.jboss.tools.common.refactoring.BaseMarkerResolution;
  */
 public class MakeMethodPublicMarkerResolution extends BaseMarkerResolution {
 	private IMethod method;
-	private IFile file;
 	
-	public MakeMethodPublicMarkerResolution(IMethod method, IFile file){
+	public MakeMethodPublicMarkerResolution(IMethod method){
+		super(CDIMarkerResolutionUtils.getJavaMember(method).getCompilationUnit());
 		this.label = MessageFormat.format(CDIUIMessages.MAKE_METHOD_PUBLIC_MARKER_RESOLUTION_TITLE, new Object[]{method.getElementName()});
 		this.method = method;
-		this.file = file;
 		init();
-	}
-
-	@Override
-	protected ICompilationUnit getCompilationUnit(){
-		return EclipseUtil.getCompilationUnit(file);
 	}
 
 	@Override

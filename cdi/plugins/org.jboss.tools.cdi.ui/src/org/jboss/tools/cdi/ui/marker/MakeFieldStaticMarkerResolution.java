@@ -12,7 +12,6 @@ package org.jboss.tools.cdi.ui.marker;
 
 import java.text.MessageFormat;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IBuffer;
@@ -27,7 +26,6 @@ import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
-import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.refactoring.BaseMarkerResolution;
 
 /**
@@ -35,19 +33,14 @@ import org.jboss.tools.common.refactoring.BaseMarkerResolution;
  */
 public class MakeFieldStaticMarkerResolution extends BaseMarkerResolution {
 	private IField field;
-	private IFile file;
 	
-	public MakeFieldStaticMarkerResolution(IField field, IFile file){
+	public MakeFieldStaticMarkerResolution(IField field){
+		super(CDIMarkerResolutionUtils.getJavaMember(field).getCompilationUnit());
 		this.label = MessageFormat.format(CDIUIMessages.MAKE_FIELD_STATIC_MARKER_RESOLUTION_TITLE, new Object[]{field.getElementName()});
 		this.field = field;
-		this.file = file;
 		init();
 	}
 	
-	@Override
-	protected ICompilationUnit getCompilationUnit(){
-		return EclipseUtil.getCompilationUnit(file);
-	}
 	
 	@Override
 	protected CompilationUnitChange getChange(ICompilationUnit compilationUnit) {

@@ -31,17 +31,13 @@ public class AddTargetAnnotationMarkerResolution extends BaseMarkerResolution {
 	private String totalList;
 	
 	public AddTargetAnnotationMarkerResolution(IType type, String[] typeNames){
+		super(type.getCompilationUnit());
 		this.qualifiedNames = typeNames;
 		this.type = type;
 		shortNames = CDIMarkerResolutionUtils.getShortNames(qualifiedNames);
 		totalList = CDIMarkerResolutionUtils.OPEN_BRACE+CDIMarkerResolutionUtils.getTotalList(shortNames)+CDIMarkerResolutionUtils.CLOSE_BRACE;
 		label = NLS.bind(CDIUIMessages.ADD_TARGET_MARKER_RESOLUTION_TITLE, totalList, type.getElementName());
 		init();
-	}
-	
-	@Override
-	protected ICompilationUnit getCompilationUnit(){
-		return type.getCompilationUnit();
 	}
 	
 	@Override

@@ -28,16 +28,12 @@ public class AddRetentionAnnotationMarkerResolution extends BaseMarkerResolution
 	private IType type;
 	
 	public AddRetentionAnnotationMarkerResolution(IType type){
+		super(type.getCompilationUnit());
 		this.type = type;
 		label = NLS.bind(CDIUIMessages.ADD_RETENTION_MARKER_RESOLUTION_TITLE, type.getElementName());
 		init();
 	}
 
-	@Override
-	protected ICompilationUnit getCompilationUnit(){
-		return type.getCompilationUnit();
-	}
-	
 	@Override
 	protected CompilationUnitChange getChange(ICompilationUnit compilationUnit){
 		CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
