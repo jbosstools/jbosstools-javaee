@@ -28,10 +28,6 @@ import org.w3c.dom.Node;
 abstract public class AbstractCheckboxSelectItemTemplate extends AbstractSelectItemTemplate {
 
 	private static final String TYPE_CHECKBOX = "checkbox"; //$NON-NLS-1$
-
-	// style of span
-	private static final String SPAN_STYLE_VALUE = "-moz-user-modify: read-write;"; //$NON-NLS-1$
-
 	private String dir;
 	private String disabled;
 	private String enabledClass;
@@ -51,38 +47,33 @@ abstract public class AbstractCheckboxSelectItemTemplate extends AbstractSelectI
 			nsIDOMDocument visualDocument) {
 
 		readParentAttributes(sourceNode.getParentNode());
-
 		Element element = (Element) sourceNode;
 
 		nsIDOMElement input = visualDocument.createElement(HTML.TAG_INPUT);
 		nsIDOMElement label = visualDocument.createElement(HTML.TAG_LABEL);
-		// create span element
-		nsIDOMElement span = visualDocument.createElement(HTML.TAG_SPAN);
+		/*
+		 * https://issues.jboss.org/browse/JBIDE-8062
+		 * Put into DIV to allow focus in it's itemLabel
+		 */
+		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
+		VpeCreationData creationData = new VpeCreationData(div);
 
-		VpeCreationData creationData = new VpeCreationData(span);
-
-		// add title attribute to span
-		span.setAttribute(HTML.ATTR_TITLE, getTitle(sourceNode));
-		span.setAttribute(HTML.ATTR_STYLE, SPAN_STYLE_VALUE);
-
+		// add title attribute to div
+		div.setAttribute(HTML.ATTR_TITLE, getTitle(sourceNode));
 		input.setAttribute(HTML.ATTR_TYPE, TYPE_CHECKBOX);
 
 		if (attrPresents(dir)) {
 			input.setAttribute(HTML.ATTR_DIR, dir);
 		}
-
 		if (attrPresents(disabled) && Constants.TRUE.equalsIgnoreCase(disabled)) { 
 			label.setAttribute(HTML.ATTR_CLASS, disabledClass);
 		} else if (attrPresents(enabledClass)) {
 			label.setAttribute(HTML.ATTR_CLASS, enabledClass);
 		}
+		div.appendChild(input);
+		div.appendChild(label);
 
-		span.appendChild(input);
-		span.appendChild(label);
-
-		processOutputAttribute(pageContext, visualDocument, element, label,
-				creationData);
-
+		processOutputAttribute(pageContext, visualDocument, element, label, creationData);
 		return creationData;
 	}
 
