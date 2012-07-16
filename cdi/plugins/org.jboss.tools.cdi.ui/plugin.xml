@@ -548,5 +548,7 @@
 			markerType="org.jboss.tools.cdi.core.cdiproblem"
 			class="org.jboss.tools.cdi.ui.marker.CDIProblemMarkerResolutionGenerator"/>
 	</extension>
-
+	<extension point="org.jboss.tools.common.quickFix">
+		<quick-fix-generator generator-class="org.jboss.tools.cdi.ui.marker.CDIProblemMarkerResolutionGenerator" id="org.jboss.tools.cdi.ui.marker.CDIProblemMarkerResolutionGenerator" />
+    </extension>
 </plugin>
