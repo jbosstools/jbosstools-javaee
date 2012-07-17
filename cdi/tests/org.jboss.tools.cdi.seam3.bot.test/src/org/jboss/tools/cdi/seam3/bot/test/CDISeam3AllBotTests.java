@@ -22,9 +22,10 @@ import org.jboss.tools.cdi.seam3.bot.test.tests.MessageLoggerAnnotationTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.NamedPackagesTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.RequiresAnnotationTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.ResourceOpenOnTest;
-import org.jboss.tools.cdi.seam3.bot.test.tests.SeamConfigEEOpenOnTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.SeamConfigClassBaseOpenOnTest;
+import org.jboss.tools.cdi.seam3.bot.test.tests.SeamConfigEEOpenOnTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.SeamConfigInjectOpenOnTest;
+import org.jboss.tools.cdi.seam3.bot.test.tests.SeamConfigValidationTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.VetoAnnotationTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.junit.runner.RunWith;
@@ -50,7 +51,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	MessageLoggerAnnotationTest.class,
 	SeamConfigClassBaseOpenOnTest.class,
 	SeamConfigEEOpenOnTest.class,
-	SeamConfigInjectOpenOnTest.class
+	SeamConfigInjectOpenOnTest.class,
+	SeamConfigValidationTest.class
 	})
 public class CDISeam3AllBotTests extends AbstractTestSuite {
 	
