@@ -23,6 +23,7 @@ import org.jboss.tools.cdi.seam3.bot.test.tests.NamedPackagesTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.RequiresAnnotationTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.ResourceOpenOnTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.SeamConfigClassBaseOpenOnTest;
+import org.jboss.tools.cdi.seam3.bot.test.tests.SeamConfigCodeCompletionTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.SeamConfigEEOpenOnTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.SeamConfigInjectOpenOnTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.SeamConfigValidationTest;
@@ -52,7 +53,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	SeamConfigClassBaseOpenOnTest.class,
 	SeamConfigEEOpenOnTest.class,
 	SeamConfigInjectOpenOnTest.class,
-	SeamConfigValidationTest.class
+	SeamConfigValidationTest.class,
+	SeamConfigCodeCompletionTest.class,
 	})
 public class CDISeam3AllBotTests extends AbstractTestSuite {
 	
