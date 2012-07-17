@@ -32,13 +32,13 @@ import org.junit.Test;
 
 public class DecoratorFromWebBeanTest extends CDITestBase {
 	
-	private final String ACCOUNT = "Account";
+	private static final String ACCOUNT = "Account";
 	
-	private final String ACCOUNT_JAVA = ACCOUNT + ".java";
+	private static final String ACCOUNT_JAVA = ACCOUNT + ".java";
 	
-	private final String ACCOUNT_DECORATOR = "AccountDecorator";
+	private static final String ACCOUNT_DECORATOR = "AccountDecorator";
 	
-	private final String ACCOUNT_DECORATOR_JAVA = ACCOUNT_DECORATOR + ".java";
+	private static final String ACCOUNT_DECORATOR_JAVA = ACCOUNT_DECORATOR + ".java";
 	
 	@Override
 	public String getProjectName() {

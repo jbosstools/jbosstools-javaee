@@ -27,8 +27,8 @@ import org.junit.Test;
 
 public class BeansXMLValidationTest extends BeansXMLQuickFixTestBase {
 
-	private final String someBean = "Bean1";
-	private final String nonExistingPackage = "somePackage";
+	private static final String someBean = "Bean1";
+	private static final String nonExistingPackage = "somePackage";
 	
 	@Override
 	public String getProjectName() {

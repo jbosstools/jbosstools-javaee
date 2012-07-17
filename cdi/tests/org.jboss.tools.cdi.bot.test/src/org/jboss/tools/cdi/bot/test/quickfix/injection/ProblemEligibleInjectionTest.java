@@ -26,10 +26,10 @@ import org.junit.Test;
 
 public class ProblemEligibleInjectionTest extends EligibleInjectionQuickFixTestBase {
 	
-	private final String ANIMAL = "Animal";
-	private final String DOG = "Dog";
-	private final String BROKEN_FARM = "BrokenFarm";
-	private final String QUALIFIER = "Q1";
+	private static final String ANIMAL = "Animal";
+	private static final String DOG = "Dog";
+	private static final String BROKEN_FARM = "BrokenFarm";
+	private static final String QUALIFIER = "Q1";
 	
 	@Override
 	public String getProjectName() {

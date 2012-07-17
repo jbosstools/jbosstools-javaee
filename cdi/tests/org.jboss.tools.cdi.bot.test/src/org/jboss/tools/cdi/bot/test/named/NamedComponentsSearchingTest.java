@@ -32,12 +32,12 @@ import org.junit.Test;
 
 public class NamedComponentsSearchingTest extends CDITestBase {
 
-	private final CDIWizardBaseExt wizardExt = new CDIWizardBaseExt();
-	private final String beanName = "Bean1";
-	private final String stereotypeName = "Stereotype1";
-	private static SearchNamedDialogWizard namedDialog = null;
-	private final String BEAN_STEREOTYPE_PATH = "/resources/named/BeanWithStereotype.java.cdi";
-	private final String BEAN_STEREOTYPE_NAMED_PATH = "/resources/named/BeanWithStereotypeAndNamed.java.cdi";
+	private static final CDIWizardBaseExt wizardExt = new CDIWizardBaseExt();
+	private static final String beanName = "Bean1";
+	private static final String stereotypeName = "Stereotype1";
+	private SearchNamedDialogWizard namedDialog = null;
+	private static final String BEAN_STEREOTYPE_PATH = "/resources/named/BeanWithStereotype.java.cdi";
+	private static final String BEAN_STEREOTYPE_NAMED_PATH = "/resources/named/BeanWithStereotypeAndNamed.java.cdi";
 	
 	@Override
 	public String getProjectName() {

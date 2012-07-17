@@ -19,7 +19,7 @@ import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
 
 public abstract class AbstractValidationProvider implements IValidationProvider {
 
-	protected static List<ValidationProblem> problems = null;
+	protected List<ValidationProblem> problems = null;
 	
 	public AbstractValidationProvider() {		
 		problems = new ArrayList<ValidationProblem>();		

@@ -223,6 +223,7 @@ public class FindObserverForEventTest extends OpenOnBase {
 						eventsTable.containsItem(parametrizedEventItem.replace("XXX", "2Q2Event"))) {
 						allEventsFound = true;
 					}
+					break;
 				//observeQ1MyBean1
 				case 2:
 					if (eventsTable.containsItem(parametrizedEventItem.replace("XXX", "1Q1Event")) &&

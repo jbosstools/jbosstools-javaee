@@ -23,19 +23,19 @@ public class AssignableBeansDialog {
 
 	private SWTBot bot = null;
 	
-	private final String UNAVAILABLE_BEANS = "Unavailable Beans";
+	private static final String UNAVAILABLE_BEANS = "Unavailable Beans";
 	
-	private final String DECORATOR = "@Decorator";
+	private static final String DECORATOR = "@Decorator";
 	
-	private final String INTERCEPTOR = "@Interceptor";
+	private static final String INTERCEPTOR = "@Interceptor";
 	
-	private final String ELIMINATED_AMBIGUOUS = "Eliminated ambiguous";
+	private static final String ELIMINATED_AMBIGUOUS = "Eliminated ambiguous";
 	
-	private final String UNSELECTED_ALTERNATIVE = "Unselected @Alternative";
+	private static final String UNSELECTED_ALTERNATIVE = "Unselected @Alternative";
 	
-	private final String UNAVAILABLE_PRODUCER = "@Produces in unavailable bean"; 
+	private static final String UNAVAILABLE_PRODUCER = "@Produces in unavailable bean"; 
 	
-	private final String SPECIALIZED_BEANS = "Specialized beans";
+	private static final String SPECIALIZED_BEANS = "Specialized beans";
 			
 	public AssignableBeansDialog(SWTBotShell shell) {
 		this.bot = shell.bot();
