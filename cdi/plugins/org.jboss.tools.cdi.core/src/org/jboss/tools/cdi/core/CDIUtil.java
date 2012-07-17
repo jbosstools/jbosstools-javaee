@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.apache.tools.ant.util.FileUtils;
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -56,7 +57,7 @@ import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
-import org.jboss.tools.cdi.internal.core.impl.CDIProject;
+import org.jboss.tools.cdi.internal.core.impl.CDIProjectAsYouType;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
 import org.jboss.tools.cdi.internal.core.validation.AnnotationValidationDelegate;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
@@ -67,7 +68,6 @@ import org.jboss.tools.common.java.IAnnotationType;
 import org.jboss.tools.common.java.IJavaReference;
 import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.common.java.IParametedType;
-import org.jboss.tools.common.java.ITypeDeclaration;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
@@ -1268,6 +1268,16 @@ public class CDIUtil {
 			CDICorePlugin.getDefault().logError(ex);
 		}
 		return null;
+	}
+	
+	public static ICDIProject getCDIProject(IFile file, CDICoreNature cdiNature, boolean asYouType){
+		ICDIProject cdiProject = cdiNature.getDelegate();
+		
+		if(asYouType){
+			return new CDIProjectAsYouType(cdiProject, file);
+		}else{
+			return cdiProject;
+		}
 	}
 
 }
