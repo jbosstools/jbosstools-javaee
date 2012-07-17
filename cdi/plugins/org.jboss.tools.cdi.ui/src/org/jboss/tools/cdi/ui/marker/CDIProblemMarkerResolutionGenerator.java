@@ -35,8 +35,14 @@ import org.eclipse.jdt.ui.text.java.IJavaCompletionProposal;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.source.Annotation;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.IMarkerResolutionGenerator2;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.DocumentProviderRegistry;
 import org.eclipse.ui.texteditor.IDocumentProvider;
@@ -97,7 +103,84 @@ public class CDIProblemMarkerResolutionGenerator implements
 		return -1; 
 	}
 	
-	private IQuickFix[] findResolutions(ICompilationUnit compilationUnit, int problemId, int offset, ICDIMarkerResolutionGeneratorExtension[] extensions) throws JavaModelException{
+	private int getMessageID(TemporaryAnnotation annotation){
+		Integer attribute = ((Integer) annotation.getAttributes().get(CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME));
+		if (attribute != null)
+			return attribute.intValue();
+
+		return -1; 
+	}
+	
+	private IQuickFix[] findXMLResolutions(IFile file, int messageId, int start, int end, boolean asYouType) throws JavaModelException{
+		IJavaProject javaProject = EclipseUtil.getJavaProject(file.getProject());
+		
+		FileEditorInput input = new FileEditorInput(file);
+		IDocumentProvider provider = DocumentProviderRegistry.getDefault().getDocumentProvider(input);
+		try {
+			provider.connect(input);
+		} catch (CoreException e) {
+			CDIUIPlugin.getDefault().logError(e);
+		}
+		
+		IDocument document = provider.getDocument(input);
+		
+		String text="";
+		try {
+			text = document.get(start, end-start);
+		} catch (BadLocationException e) {
+			CDIUIPlugin.getDefault().logError(e);
+		} finally {
+			provider.disconnect(input);
+		}
+		boolean correctTypeName = JavaConventionsUtil.validatePackageName(text, javaProject).isOK();
+		
+		if(messageId == CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME_ID){
+			IJavaElement element = findJavaElementByQualifiedName(javaProject, text);
+			if(element == null && correctTypeName){
+				return new IQuickFix[] {
+					new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_BEAN_CLASS)
+				};
+			}
+		}else if(messageId == CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME_ID){
+			IJavaElement element = findJavaElementByQualifiedName(javaProject, text);
+			if(element == null && correctTypeName){
+				return new IQuickFix[] {
+					new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_STEREOTYPE)
+				};
+			}
+		}else if(messageId == CDIValidationErrorManager.ILLEGAL_ALTERNATIVE_BEAN_CLASS_ID){
+			IJavaElement element = getTypeToAddAlternativeToBean(javaProject, text, asYouType);
+			if(element != null){
+				return new IQuickFix[] {
+					new AddAnnotationMarkerResolution(element, CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME)
+				};
+			}
+		}else if(messageId == CDIValidationErrorManager.ILLEGAL_ALTERNATIVE_ANNOTATION_ID){
+			IJavaElement element = getTypeToAddAlternativeToStereotype(javaProject, text, asYouType);
+			if(element != null){
+				return new IQuickFix[] {
+					new AddAnnotationMarkerResolution(element, CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME)
+				};
+			}
+		}else if(messageId == CDIValidationErrorManager.UNKNOWN_DECORATOR_BEAN_CLASS_NAME_ID){
+			IJavaElement element = findJavaElementByQualifiedName(javaProject, text);
+			if(element == null && correctTypeName){
+				return new IQuickFix[] {
+					new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_DECORATOR)
+				};
+			}
+		}else if(messageId == CDIValidationErrorManager.UNKNOWN_INTERCEPTOR_CLASS_NAME_ID){
+			IJavaElement element = findJavaElementByQualifiedName(javaProject, text);
+			if(element == null && correctTypeName){
+				return new IQuickFix[] {
+					new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_INTERCEPTOR)
+				};
+			}
+		}
+		return new IQuickFix[]{};
+	}
+	
+	private IQuickFix[] findJavaResolutions(ICompilationUnit compilationUnit, int problemId, int offset, ICDIMarkerResolutionGeneratorExtension[] extensions, boolean asYouType) throws JavaModelException{
 		if (problemId == CDIValidationErrorManager.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID) {
 			IField field = findNonStaticField(compilationUnit, offset);
 			if(field != null){
@@ -143,7 +226,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 			
 			List<IMarkerResolution> resolutions = new ArrayList<IMarkerResolution>();
 			
-			IInjectionPoint injectionPoint = findInjectionPoint(compilationUnit, offset);
+			IInjectionPoint injectionPoint = findInjectionPoint(compilationUnit, offset, asYouType);
 			if(injectionPoint != null){
 				List<IBean> beans;
 				if(problemId == CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID){
@@ -185,7 +268,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 			IField field = findPublicField(compilationUnit, offset);
 			CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(field.getUnderlyingResource().getProject());
 			if(cdiNature != null){
-				ICDIProject cdiProject = cdiNature.getDelegate();
+				ICDIProject cdiProject = CDIUtil.getCDIProject((IFile)compilationUnit.getUnderlyingResource(), cdiNature, asYouType);
 				
 				if(cdiProject != null){
 					Set<IBean> beans = cdiProject.getBeans(field.getUnderlyingResource().getFullPath());
@@ -366,7 +449,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 			if(ta != null && ta.type != null){
 				CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(ta.type.getUnderlyingResource().getProject());
 				if(cdiNature != null){
-					ICDIProject cdiProject = cdiNature.getDelegate();
+					ICDIProject cdiProject = CDIUtil.getCDIProject((IFile)compilationUnit.getUnderlyingResource(), cdiNature, asYouType);;
 					IType declarationType = findNamedDeclarationType(cdiProject, ta.type, problemId == CDIValidationErrorManager.DECORATOR_HAS_NAME_ID);
 					ArrayList<IMarkerResolution> resolutions = new ArrayList<IMarkerResolution>();
 					if(declarationType != null){
@@ -470,7 +553,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 				}
 			}
 		}else if(problemId == CDIValidationErrorManager.PARAM_INJECTION_DECLARES_EMPTY_NAME_ID){
-			List<IMarkerResolution> resolutions = getAddNameResolutions(compilationUnit, offset);
+			List<IMarkerResolution> resolutions = getAddNameResolutions(compilationUnit, offset, asYouType);
 			return resolutions.toArray(new IQuickFix[]{});
 		}else if(problemId == CDIValidationErrorManager.MULTIPLE_DISPOSING_PARAMETERS_ID){
 			ILocalVariable parameter = findParameter(compilationUnit, offset);
@@ -499,7 +582,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 
 		final IFile file = (IFile) marker.getResource();
 		
-		IJavaProject javaProject = EclipseUtil.getJavaProject(file.getProject());
+		
 
 		Integer attribute = ((Integer) marker.getAttribute(IMarker.CHAR_START));
 		if (attribute == null)
@@ -516,78 +599,15 @@ public class CDIProblemMarkerResolutionGenerator implements
 		if (JAVA_EXTENSION.equals(file.getFileExtension())) {
 			ICompilationUnit compilationUnit = EclipseUtil.getCompilationUnit(file);
 			
-			return findResolutions(compilationUnit, messageId, start, extensions);
+			return findJavaResolutions(compilationUnit, messageId, start, extensions, false);
 			
 		}else if (XML_EXTENSION.equals(file.getFileExtension())){
-			FileEditorInput input = new FileEditorInput(file);
-			IDocumentProvider provider = DocumentProviderRegistry.getDefault().getDocumentProvider(input);
-			try {
-				provider.connect(input);
-			} catch (CoreException e) {
-				CDIUIPlugin.getDefault().logError(e);
-			}
-			
-			IDocument document = provider.getDocument(input);
-			
-			String text="";
-			try {
-				text = document.get(start, end-start);
-			} catch (BadLocationException e) {
-				CDIUIPlugin.getDefault().logError(e);
-			} finally {
-				provider.disconnect(input);
-			}
-			
-			boolean correctTypeName = JavaConventionsUtil.validatePackageName(text, javaProject).isOK();
-			
-			if(messageId == CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME_ID){
-				IJavaElement element = findJavaElementByQualifiedName(javaProject, text);
-				if(element == null && correctTypeName){
-					return new IMarkerResolution[] {
-						new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_BEAN_CLASS)
-					};
-				}
-			}else if(messageId == CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME_ID){
-				IJavaElement element = findJavaElementByQualifiedName(javaProject, text);
-				if(element == null && correctTypeName){
-					return new IMarkerResolution[] {
-						new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_STEREOTYPE)
-					};
-				}
-			}else if(messageId == CDIValidationErrorManager.ILLEGAL_ALTERNATIVE_BEAN_CLASS_ID){
-				IJavaElement element = getTypeToAddAlternativeToBean(javaProject, text);
-				if(element != null){
-					return new IMarkerResolution[] {
-						new AddAnnotationMarkerResolution(element, CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME)
-					};
-				}
-			}else if(messageId == CDIValidationErrorManager.ILLEGAL_ALTERNATIVE_ANNOTATION_ID){
-				IJavaElement element = getTypeToAddAlternativeToStereotype(javaProject, text);
-				if(element != null){
-					return new IMarkerResolution[] {
-						new AddAnnotationMarkerResolution(element, CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME)
-					};
-				}
-			}else if(messageId == CDIValidationErrorManager.UNKNOWN_DECORATOR_BEAN_CLASS_NAME_ID){
-				IJavaElement element = findJavaElementByQualifiedName(javaProject, text);
-				if(element == null && correctTypeName){
-					return new IMarkerResolution[] {
-						new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_DECORATOR)
-					};
-				}
-			}else if(messageId == CDIValidationErrorManager.UNKNOWN_INTERCEPTOR_CLASS_NAME_ID){
-				IJavaElement element = findJavaElementByQualifiedName(javaProject, text);
-				if(element == null && correctTypeName){
-					return new IMarkerResolution[] {
-						new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_INTERCEPTOR)
-					};
-				}
-			}
+			return findXMLResolutions(file, messageId, start, end, false);
 		}
 		return new IMarkerResolution[] {};
 	}
 	
-	private List<IMarkerResolution> getAddNameResolutions(ICompilationUnit compilationUnit, int start) throws JavaModelException{
+	private List<IMarkerResolution> getAddNameResolutions(ICompilationUnit compilationUnit, int start, boolean asYouType) throws JavaModelException{
 		List<IMarkerResolution> resolutions = new ArrayList<IMarkerResolution>();
 		ILocalVariable parameter = findParameter(compilationUnit, start);
 		if(parameter != null){
@@ -597,7 +617,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 				if(cdiNature == null)
 					return resolutions;
 				
-				ICDIProject cdiProject = cdiNature.getDelegate();
+				ICDIProject cdiProject = CDIUtil.getCDIProject((IFile)compilationUnit.getUnderlyingResource(), cdiNature, asYouType);
 				
 				if(cdiProject == null){
 					return resolutions;
@@ -628,7 +648,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		return resolutions;
 	}
 	
-	private IType getTypeToAddAlternativeToBean(IJavaProject javaProject, String qualifiedName){
+	private IType getTypeToAddAlternativeToBean(IJavaProject javaProject, String qualifiedName, boolean asYouType) throws JavaModelException{
 		IType type = null;
 		try {
 			type =  javaProject.findType(qualifiedName);
@@ -639,7 +659,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		if(type != null){
 			CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(javaProject.getProject());
 			if(cdiNature != null){
-				ICDIProject cdiProject = cdiNature.getDelegate();
+				ICDIProject cdiProject = CDIUtil.getCDIProject((IFile)type.getUnderlyingResource(), cdiNature, asYouType);
 				
 				if(cdiProject != null){
 					IClassBean classBean = cdiProject.getBeanClass(type);
@@ -652,7 +672,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		return null;
 	}
 
-	private IType getTypeToAddAlternativeToStereotype(IJavaProject javaProject, String qualifiedName){
+	private IType getTypeToAddAlternativeToStereotype(IJavaProject javaProject, String qualifiedName, boolean asYouType) throws JavaModelException{
 		IType type = null;
 		try {
 			type =  javaProject.findType(qualifiedName);
@@ -663,7 +683,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		if(type != null){
 			CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(javaProject.getProject());
 			if(cdiNature != null){
-				ICDIProject cdiProject = cdiNature.getDelegate();
+				ICDIProject cdiProject = CDIUtil.getCDIProject((IFile)type.getUnderlyingResource(), cdiNature, asYouType);
 				
 				if(cdiProject != null){
 					IStereotype stereotype = cdiProject.getStereotype(qualifiedName);
@@ -771,7 +791,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 	}
 	
 	
-	private IInjectionPoint findInjectionPoint(ICompilationUnit compilationUnit, int start) throws JavaModelException{
+	private IInjectionPoint findInjectionPoint(ICompilationUnit compilationUnit, int start, boolean asYouType) throws JavaModelException{
 		IJavaElement element = findJavaElement(compilationUnit, start);
 		if(element == null)
 			return null;
@@ -780,7 +800,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		if(cdiNature == null)
 			return null;
 		
-		ICDIProject cdiProject = cdiNature.getDelegate();
+		ICDIProject cdiProject = CDIUtil.getCDIProject((IFile)compilationUnit.getUnderlyingResource(), cdiNature, asYouType);
 		
 		if(cdiProject == null){
 			return null;
@@ -1034,14 +1054,31 @@ public class CDIProblemMarkerResolutionGenerator implements
 	@Override
 	public IJavaCompletionProposal[] getProposals(Annotation annotation) {
 		if(annotation instanceof TempJavaProblemAnnotation){
-			int messageId = ((TempJavaProblemAnnotation) annotation).getId() - TempJavaProblem.TEMP_PROBLEM_ID;
-			ICompilationUnit compilationUnit = ((TempJavaProblemAnnotation) annotation).getCompilationUnit();
-			int start = ((TempJavaProblemAnnotation) annotation).getPosition();
+			TempJavaProblemAnnotation javaAnnotation = (TempJavaProblemAnnotation) annotation;
 			
-			ICDIMarkerResolutionGeneratorExtension[] extensions = CDIQuickFixExtensionManager.getInstances();
+			int messageId = javaAnnotation.getId() - TempJavaProblem.TEMP_PROBLEM_ID;
+			ICompilationUnit compilationUnit = javaAnnotation.getCompilationUnit();
+			if(compilationUnit != null){
+				int start = javaAnnotation.getPosition();
+				
+				ICDIMarkerResolutionGeneratorExtension[] extensions = CDIQuickFixExtensionManager.getInstances();
+				
+				try {
+					return findJavaResolutions(compilationUnit, messageId, start, extensions, true);
+				} catch (JavaModelException e) {
+					CDIUIPlugin.getDefault().logError(e);
+				}
+			}
+		}else if(annotation instanceof TemporaryAnnotation){
+			TemporaryAnnotation tempAnnotation = (TemporaryAnnotation)annotation;
+			
+			IFile file = getFile();
+			int messageId = getMessageID(tempAnnotation);
+			int start = tempAnnotation.getPosition().getOffset();
+			int end = start + tempAnnotation.getPosition().getLength();
 			
 			try {
-				return findResolutions(compilationUnit, messageId, start, extensions);
+				return findXMLResolutions(file, messageId, start, end, true);
 			} catch (JavaModelException e) {
 				CDIUIPlugin.getDefault().logError(e);
 			}
@@ -1049,4 +1086,20 @@ public class CDIProblemMarkerResolutionGenerator implements
 		return null;
 	}
 	
+	private static IFile getFile(){
+		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		if(window != null){
+			IWorkbenchPage page = window.getActivePage();
+			if(page != null){
+				IEditorPart editor = page.getActiveEditor();
+				if(editor != null){
+					IEditorInput input = editor.getEditorInput();
+					if(input instanceof IFileEditorInput){
+						return ((IFileEditorInput) input).getFile();
+					}
+				}
+			}
+		}
+		return null;
+	}
 }
