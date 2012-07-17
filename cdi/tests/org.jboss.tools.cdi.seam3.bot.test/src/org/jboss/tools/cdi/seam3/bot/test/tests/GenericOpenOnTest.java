@@ -28,9 +28,9 @@ import org.junit.Test;
 
 public class GenericOpenOnTest extends Seam3TestBase {
 
-	private final String GENERIC_POINT_1 = "MyExtendedConfiguration ";	
-	private final String GENERIC_POINT_2 = "MyConfigurationProducer.getOneConfig()";	
-	private final String GENERIC_POINT_3 = "MyConfigurationProducer.getSecondConfig()";
+	private static final String GENERIC_POINT_1 = "MyExtendedConfiguration ";	
+	private static final String GENERIC_POINT_2 = "MyConfigurationProducer.getOneConfig()";	
+	private static final String GENERIC_POINT_3 = "MyConfigurationProducer.getSecondConfig()";
 	
 	private static String projectName = "generic";
 	

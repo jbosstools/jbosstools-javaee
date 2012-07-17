@@ -25,7 +25,7 @@ import org.junit.Test;
 public class SeamConfigEEOpenOnTest extends Seam3TestBase {
 
 	private static String projectName = "seamConfigEEOpenOn";
-	private final String SEAM_CONFIG = "seam-beans.xml";
+	private static final String SEAM_CONFIG = "seam-beans.xml";
 	
 	@BeforeClass
 	public static void setup() {

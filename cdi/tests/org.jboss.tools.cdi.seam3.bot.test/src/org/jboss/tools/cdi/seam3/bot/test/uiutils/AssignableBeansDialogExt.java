@@ -20,7 +20,7 @@ import org.jboss.tools.cdi.bot.test.uiutils.wizards.AssignableBeansDialog;
  */
 public class AssignableBeansDialogExt extends AssignableBeansDialog {
 
-	private final String ELIMINATED_DEFAULT_BEAN = "Eliminated @DefaultBean";
+	private static final String ELIMINATED_DEFAULT_BEAN = "Eliminated @DefaultBean";
 	
 	public AssignableBeansDialogExt(SWTBotShell shell) {
 		super(shell);	

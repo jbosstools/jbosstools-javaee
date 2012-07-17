@@ -28,15 +28,15 @@ import org.junit.Test;
  */
 public class NamedPackagesTest extends Seam3TestBase {
 
-	private final String CDI_SEAM_PACKAGE = "cdi.seam";
-	private final String CDI_TEST_PACKAGE = "cdi.test";
-	private final String ORG_JBOSS_PACKAGE = "org.jboss";
-	private static String projectName = "named";
+	private static final String CDI_SEAM_PACKAGE = "cdi.seam";
+	private static final String CDI_TEST_PACKAGE = "cdi.test";
+	private static final String ORG_JBOSS_PACKAGE = "org.jboss";
+	private static final String projectName = "named";
 	
-	private final String PACKAGE_INFO_JAVA_CDI = "package-info.java.cdi";
-	private final String PACKAGE_INFO_JAVA = "package-info.java";
+	private static final String PACKAGE_INFO_JAVA_CDI = "package-info.java.cdi";
+	private static final String PACKAGE_INFO_JAVA = "package-info.java";
 	
-	private final String MANAGER_JAVA = "Manager.java";
+	private static final String MANAGER_JAVA = "Manager.java";
 	
 	@After
 	public void waitForJobs() {

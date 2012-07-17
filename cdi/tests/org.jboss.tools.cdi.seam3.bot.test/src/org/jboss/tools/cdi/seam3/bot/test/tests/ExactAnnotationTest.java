@@ -24,8 +24,8 @@ import org.junit.Test;
  */
 public class ExactAnnotationTest extends SolderAnnotationTestBase {
 
-	private final String EXACT_INTERFACE = "exact-interface";
-	private final String EXACT_BEANS = "exact-beans";
+	private static final String EXACT_INTERFACE = "exact-interface";
+	private static final String EXACT_BEANS = "exact-beans";
 	
 	@After
 	public void waitForJobs() {
