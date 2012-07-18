@@ -51,7 +51,7 @@ public class InjectedPointHyperlinkDetectorTest extends TCKTest {
 				hyperlinks[index++] = new InjectedPointHyperlink(new Region(1,1), b, document);
 			}
 			
-			IInformationControl informationControl = InformationControlManager.showHyperlinks("Title", ((JavaEditor)part).getViewer(), hyperlinks, true);
+			IInformationControl informationControl = InformationControlManager.instance.showHyperlinks("Title", ((JavaEditor)part).getViewer(), hyperlinks, true);
 			
 			assertNotNull("InformationControl not found", informationControl);
 			informationControl.setVisible(false);
