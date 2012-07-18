@@ -2,7 +2,10 @@ package org.jboss.tools.cdi.ui.test.marker;
 
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
+import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
+import org.jboss.tools.cdi.ui.marker.MakeFieldStaticMarkerResolution;
+import org.jboss.tools.common.base.test.MarkerResolutionTestUtil;
 import org.jboss.tools.common.base.test.QuickFixTestUtil;
 import org.jboss.tools.common.ui.marker.ConfigureProblemSeverityMarkerResolution;
 
@@ -15,6 +18,7 @@ public class CDIQuickFixTest extends TCKTest {
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NonStaticProducerBroken.qfxresult",
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID,
-				ConfigureProblemSeverityMarkerResolution.class);
-	} 
+				MakeFieldStaticMarkerResolution.class);
+	}
+	
 }

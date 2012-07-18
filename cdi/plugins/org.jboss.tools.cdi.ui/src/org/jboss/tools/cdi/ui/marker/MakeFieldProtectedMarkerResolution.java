@@ -25,6 +25,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.ltk.core.refactoring.TextChange;
+import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Shell;
@@ -68,15 +69,15 @@ public class MakeFieldProtectedMarkerResolution implements IQuickFix, TestableRe
 
 	@Override
 	public void run(IMarker marker) {
-		internal_run(false);
+		do_run(false, false);
 	}
 	
 	@Override
 	public void runForTest(IMarker marker) {
-		internal_run(true);
+		do_run(false, true);
 	}
 	
-	private void internal_run(boolean test){
+	private void do_run(boolean leaveDirty, boolean test){
 		if(!test){
 			Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 			boolean cont = MessageDialog.openQuestion(shell, CDIUIMessages.QUESTION, CDIUIMessages.DECREASING_FIELD_VISIBILITY_MAY_CAUSE_COMPILATION_PROBLEMS);
@@ -92,6 +93,9 @@ public class MakeFieldProtectedMarkerResolution implements IQuickFix, TestableRe
 			CompilationUnitChange change = getChange(compilationUnit);
 			
 			if(change.getEdit().hasChildren()){
+				if(leaveDirty){
+					change.setSaveMode(TextFileChange.LEAVE_DIRTY);
+				}
 				change.perform(new NullProgressMonitor());
 				cUnit.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
 			}
@@ -168,7 +172,7 @@ public class MakeFieldProtectedMarkerResolution implements IQuickFix, TestableRe
 
 	@Override
 	public void apply(IDocument document) {
-		internal_run(false);
+		do_run(true, false);
 	}
 
 	@Override
