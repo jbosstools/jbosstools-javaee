@@ -10,35 +10,17 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
-import org.eclipse.jface.text.AbstractInformationControlManager;
 import org.eclipse.jface.text.IInformationControl;
 import org.eclipse.jface.text.IInformationControlCreator;
-import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 import org.jboss.tools.cdi.text.ext.hyperlink.xpl.HierarchyInformationControl;
-import org.jboss.tools.cdi.text.ext.hyperlink.xpl.InformationPresenter;
 
-public class InformationControlManager {
-	public static IInformationControl showHyperlinks(String title, ITextViewer viewer, IHyperlink[] hyperlinks){
-		return showHyperlinks(title, viewer, hyperlinks, false);
-	}
+public class InformationControlManager extends org.jboss.tools.common.text.ext.hyperlink.InformationControlManager {
+	public static final InformationControlManager instance = new InformationControlManager();
 	
-	public static IInformationControl showHyperlinks(String title, ITextViewer viewer, IHyperlink[] hyperlinks, boolean test){
-		InformationPresenter presenter= new InformationPresenter(viewer, getHierarchyPresenterControlCreator(title, hyperlinks));
-		presenter.setAnchor(AbstractInformationControlManager.ANCHOR_GLOBAL);
-		presenter.setSizeConstraints(60, 10, true, false);
-		presenter.install(viewer.getTextWidget());
-		if(test){
-			return presenter.showInformationForTest();
-		} else {
-			presenter.showInformation();
-			return null;
-		}
-	}
-	
-	private static IInformationControlCreator getHierarchyPresenterControlCreator(final String title, final IHyperlink[] hyperlinks) {
+	protected IInformationControlCreator getHierarchyPresenterControlCreator(final String title, final IHyperlink[] hyperlinks) {
 		return new IInformationControlCreator() {
 			public IInformationControl createInformationControl(Shell parent) {
 				int shellStyle= SWT.RESIZE;
@@ -49,4 +31,5 @@ public class InformationControlManager {
 			}
 		};
 	}
+
 }

@@ -48,7 +48,7 @@ public class EventListHyperlink extends AbstractHyperlink implements ITestableCD
 		if(hyperlinks.length == 1){
 			((EventHyperlink)hyperlinks[0]).doHyperlink(region);
 		}else{
-			InformationControlManager.showHyperlinks(CDIExtensionsMessages.CDI_EVENT_TITLE, viewer, hyperlinks);
+			InformationControlManager.instance.showHyperlinks(CDIExtensionsMessages.CDI_EVENT_TITLE, viewer, hyperlinks);
 		}
 	}
 

@@ -47,7 +47,7 @@ public class AlternativeInjectedPointListHyperlink extends AbstractHyperlink{
 		if(hyperlinks.length == 1){
 			((InjectedPointHyperlink)hyperlinks[0]).doHyperlink(region);
 		}else{
-			InformationControlManager.showHyperlinks(CDIExtensionsMessages.CDI_SHOW_ALL_ELIGIBLE_BEANS_TITLE, viewer, hyperlinks);
+			InformationControlManager.instance.showHyperlinks(CDIExtensionsMessages.CDI_SHOW_ALL_ELIGIBLE_BEANS_TITLE, viewer, hyperlinks);
 		}
 	}
 
