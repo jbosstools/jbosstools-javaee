@@ -60,7 +60,7 @@ public class GenericInjectedPointListHyperlink extends
 	}
 	
 	private void showHyperlinks(IHyperlink[] hyperlinks){
-		InformationControlManager.showHyperlinks(CDISeamExtMessages.CDI_SHOW_GENERIC_CONFIGURATION_POINTS_TITLE, viewer, hyperlinks);
+		InformationControlManager.instance.showHyperlinks(CDISeamExtMessages.CDI_SHOW_GENERIC_CONFIGURATION_POINTS_TITLE, viewer, hyperlinks);
 	}
 
 }
