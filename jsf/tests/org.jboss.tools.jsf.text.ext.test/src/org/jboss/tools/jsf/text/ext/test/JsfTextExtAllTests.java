@@ -30,7 +30,8 @@ public class JsfTextExtAllTests {
 				JSF2MessagesOpenOnTest.class,
 				JSF2CSSStylesheetOpenOnTest.class,
 				JSF2CCAttrsOpenOnTest.class,
-				JSF2XMLOpenOnTest.class),
+				JSF2XMLOpenOnTest.class,
+				JSPELHyperlinkUIParamTest.class),
 			"org.jboss.tools.jsf.text.ext.test",
 			new String[]{"projects/JSF2CompositeOpenOn"},
 			new String[]{"JSF2CompositeOpenOn"}));
