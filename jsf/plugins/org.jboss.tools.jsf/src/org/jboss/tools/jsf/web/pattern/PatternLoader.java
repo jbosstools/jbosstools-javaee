@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.web.pattern;
 import java.util.ArrayList;
 
 import org.jboss.tools.common.model.*;
+import org.jboss.tools.common.model.util.XModelObjectUtil;
 import org.jboss.tools.jsf.model.JSFConstants;
 import org.jboss.tools.jst.web.browser.wtp.RunOnServerContext;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
@@ -72,6 +73,9 @@ public class PatternLoader {
     
     String[] getFileSuffix(XModelObject webxml) {
     	String[] list = WebAppHelper.getWebAppContextParamValueList(webxml, "javax.faces.DEFAULT_SUFFIX");
+    	if(list != null && list.length == 1) {
+    		list = XModelObjectUtil.asStringArray(list[0].trim(), " ");
+    	}
     	return list == null || list.length == 0 || !list[0].startsWith(".") ? DEFAULT_SUFFIXES : list;
     }
     
