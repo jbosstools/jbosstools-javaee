@@ -55,27 +55,27 @@ public class JSPELHyperlinkUIParamTest  extends TestCase {
 	}
 
 	
-	public void testJSPELHyperlinkUIParam() throws PartInitException, BadLocationException {
+	public void testELHyperlinkUIParam() throws PartInitException, BadLocationException {
 		//Activate page, include model is lazy.
 		PageContextFactory.createPageContext(project.getFile(new Path("/WebContent/params/a.xhtml")));
 		String pageName = PROJECT_NAME+"/WebContent/params/b.xhtml";
 		String textToFind = "myparam1";
 		String[] resultEditor = new String[]{"a.xhtml", "Person.java"};
 		try {
-			doJSPELHyperlinkUIParam(pageName, textToFind, resultEditor);
+			doELHyperlinkUIParam(pageName, textToFind, resultEditor);
 		} finally {
 			WorkbenchUtils.closeAllEditors();
 		}
 		textToFind = "myparam2";
 		resultEditor = new String[]{"a.xhtml", "String.java"};
 		try {
-			doJSPELHyperlinkUIParam(pageName, textToFind, resultEditor);
+			doELHyperlinkUIParam(pageName, textToFind, resultEditor);
 		} finally {
 			WorkbenchUtils.closeAllEditors();
 		}
 	}
 	
-	private void doJSPELHyperlinkUIParam(String pageName, String template, String... editorName) throws BadLocationException {
+	private void doELHyperlinkUIParam(String pageName, String template, String... editorName) throws BadLocationException {
 		IEditorPart editor = WorkbenchUtils.openEditor(pageName);
 		assertTrue(editor instanceof JSPMultiPageEditor);
 		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
