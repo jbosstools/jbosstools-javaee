@@ -434,7 +434,7 @@ public class FacesConfigValidator extends ValidationErrorManager implements IVal
 
 }
 
-class JSFCheckFromViewId extends Check {
+class JSFCheckFromViewId extends JSFCheckToViewId {
 
 	public JSFCheckFromViewId(ValidationErrorManager manager) {
 		super(manager, JSFSeverityPreferences.INVALID_FROM_VIEW_ID, JSFConstants.ATT_FROM_VIEW_ID);
@@ -448,6 +448,9 @@ class JSFCheckFromViewId extends Check {
 		if(value != null && value.length() > 0 && !value.startsWith("*") && !value.startsWith("/")) {
 			fireMessage(object, JSFValidationMessage.VIEW_ID_NO_SLASH, attr);
 		}
+		if(value != null && value.length() > 0 && value.indexOf("*") < 0) {
+			checkEsists(object, value);
+		}
 	}
 }
 
@@ -456,6 +459,11 @@ class JSFCheckToViewId extends Check {
 	public JSFCheckToViewId(ValidationErrorManager manager) {
 		super(manager, JSFSeverityPreferences.INVALID_TO_VIEW_ID, JSFConstants.ATT_TO_VIEW_ID);
 	}
+
+	public JSFCheckToViewId(ValidationErrorManager manager, String preference, String attr) {
+		super(manager, preference, attr);
+	}
+
 	
 	public void check(XModelObject object) {			
 		String value = object.getAttributeValue(attr);
@@ -490,8 +498,14 @@ class JSFCheckToViewId extends Check {
 		if(o == null) {
 			JSFUrlPattern pattern = JSFWebProject.getInstance(model).getUrlPattern();
 			if(pattern != null && pattern.isJSFUrl(value)) {
-				value = pattern.getJSFPath(value);
-				o = model.getByPath(value);
+				List<String> vs = pattern.getJSFPaths(value);
+				for (String v: vs) {
+					o = model.getByPath(v);
+					if(o != null) break;
+				}
+				if(o == null) {
+					o = model.getByPath(pattern.getJSFPath(value));
+				}
 			}
 		}
 
