@@ -3,9 +3,9 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
- <body>
- #{myparam1}
- #{myparam2}
- #{myparam3}
- </body>
+ 
+	<ui:composition template="/params/b.xhtml">
+		<ui:param name="myparam3" value="#{person}" />    
+	</ui:composition>
+	
 </html>

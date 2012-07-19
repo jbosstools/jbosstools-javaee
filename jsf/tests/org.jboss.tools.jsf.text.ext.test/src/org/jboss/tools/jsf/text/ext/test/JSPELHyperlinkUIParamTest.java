@@ -10,6 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
@@ -26,7 +29,9 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlink;
 import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlinkDetector;
+import org.jboss.tools.jst.text.ext.hyperlink.ELVarListHyperlink;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.test.util.WorkbenchUtils;
 
@@ -58,24 +63,32 @@ public class JSPELHyperlinkUIParamTest  extends TestCase {
 	public void testELHyperlinkUIParam() throws PartInitException, BadLocationException {
 		//Activate page, include model is lazy.
 		PageContextFactory.createPageContext(project.getFile(new Path("/WebContent/params/a.xhtml")));
+		PageContextFactory.createPageContext(project.getFile(new Path("/WebContent/params/c.xhtml")));
 		String pageName = PROJECT_NAME+"/WebContent/params/b.xhtml";
 		String textToFind = "myparam1";
 		String[] resultEditor = new String[]{"a.xhtml", "Person.java"};
 		try {
-			doELHyperlinkUIParam(pageName, textToFind, resultEditor);
+			doELHyperlinkUIParam(pageName, textToFind, false, resultEditor);
 		} finally {
 			WorkbenchUtils.closeAllEditors();
 		}
 		textToFind = "myparam2";
 		resultEditor = new String[]{"a.xhtml", "String.java"};
 		try {
-			doELHyperlinkUIParam(pageName, textToFind, resultEditor);
+			doELHyperlinkUIParam(pageName, textToFind, false, resultEditor);
+		} finally {
+			WorkbenchUtils.closeAllEditors();
+		}
+		textToFind = "myparam3";
+		resultEditor = new String[]{"a.xhtml", "c.xhtml", "Person.java"};
+		try {
+			doELHyperlinkUIParam(pageName, textToFind, true, resultEditor);
 		} finally {
 			WorkbenchUtils.closeAllEditors();
 		}
 	}
 	
-	private void doELHyperlinkUIParam(String pageName, String template, String... editorName) throws BadLocationException {
+	private void doELHyperlinkUIParam(String pageName, String template, boolean hasList, String... editorName) throws BadLocationException {
 		IEditorPart editor = WorkbenchUtils.openEditor(pageName);
 		assertTrue(editor instanceof JSPMultiPageEditor);
 		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
@@ -91,6 +104,22 @@ public class JSPELHyperlinkUIParamTest  extends TestCase {
 		assertNotNull("Hyperlinks for EL:#{" + template + "} are not found",links);
 		
 		assertTrue("Hyperlinks for EL: #{" + template + "} are not found",links.length!=0);
+		
+		if(hasList) {
+			boolean found = false;
+			List<IHyperlink> list = new ArrayList<IHyperlink>();		
+			for(int i = 0; i < links.length; i++){
+				if(links[i] instanceof ELVarListHyperlink) {
+					found = true;
+					ELHyperlink[] ls = ((ELVarListHyperlink)links[i]).getHyperlinks();
+					for (ELHyperlink l: ls) list.add(l);
+				} else {
+					list.add(links[i]);
+				}
+			}
+			assertTrue(found);
+			links = list.toArray(new IHyperlink[0]);
+		}
 		
 		for(int i = 0; i < links.length; i++){
 			IHyperlink link = links[i];
