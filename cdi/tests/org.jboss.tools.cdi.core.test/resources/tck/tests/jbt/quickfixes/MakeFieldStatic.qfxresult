@@ -4,7 +4,7 @@ import javax.ejb.Stateless;
 import javax.enterprise.inject.Produces;
 
 @Stateless
-public class NonStaticProducerBroken {
+public class MakeFieldStatic {
 
 	@Produces public FunnelWeaver<String> anotherFunnelWeaver;
 }
