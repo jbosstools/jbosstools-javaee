@@ -44,7 +44,7 @@ public class CDIInstallWizardPage extends AbstractFacetWizardPage implements IFa
 	public CDIInstallWizardPage() {
 		super(CDIUIMessages.CDI_INSTALL_WIZARD_PAGE_FACET);
 		setTitle(CDIUIMessages.CDI_INSTALL_WIZARD_PAGE_FACET);
-		setImageDescriptor(CDIImages.getImageDescriptor(CDIImages.WELD_WIZARD_IMAGE_PATH));
+		setImageDescriptor(CDIImages.getImageDescriptor(CDIImages.CDI_PROJECT_IMAGE));
 		setDescription(CDIUIMessages.CDI_INSTALL_WIZARD_PAGE_CONFIGURE);
 	}
 

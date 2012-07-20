@@ -89,7 +89,7 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 	public NewBeanWizardPage() {
 		setTitle(CDIUIMessages.NEW_BEAN_WIZARD_PAGE_NAME);
 		setDescription(CDIUIMessages.NEW_BEAN_WIZARD_DESCRIPTION);
-		setImageDescriptor(CDIImages.getImageDescriptor(CDIImages.WELD_WIZARD_IMAGE_PATH));
+		setImageDescriptor(CDIImages.getImageDescriptor(CDIImages.CDI_CLASS_IMAGE));
 	}
 
 	public void setMayBeRegisteredInBeansXML(boolean b) {

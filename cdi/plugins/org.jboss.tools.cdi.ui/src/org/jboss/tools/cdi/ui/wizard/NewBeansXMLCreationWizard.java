@@ -74,7 +74,7 @@ public class NewBeansXMLCreationWizard extends BasicNewResourceWizard {
         mainPage = new WizardNewBeansXMLFileCreationPage("newFilePage1", getSelection());//$NON-NLS-1$
         mainPage.setTitle(CDIUIMessages.NEW_BEANS_XML_WIZARD_PAGE_NAME);
         mainPage.setDescription(CDIUIMessages.NEW_BEANS_XML_WIZARD_DESCRIPTION);
-        mainPage.setImageDescriptor(CDIImages.getImageDescriptor(CDIImages.WELD_WIZARD_IMAGE_PATH));
+        mainPage.setImageDescriptor(CDIImages.getImageDescriptor(CDIImages.CDI_BEANS_XML_IMAGE));
 
         mainPage.setFileName("beans.xml");
 

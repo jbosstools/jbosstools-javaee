@@ -57,7 +57,7 @@ public abstract class NewCDIAnnotationWizardPage extends NewAnnotationWizardPage
 	protected IFieldEditor target = null;
 	
 	public NewCDIAnnotationWizardPage() {
-		setImageDescriptor(CDIImages.getImageDescriptor(CDIImages.WELD_WIZARD_IMAGE_PATH));
+		setImageDescriptor(CDIImages.getImageDescriptor(CDIImages.CDI_ANNOTATION_IMAGE));
 	}
 
 	protected void createTypeMembers(IType newType, final ImportsManager imports, IProgressMonitor monitor) throws CoreException {

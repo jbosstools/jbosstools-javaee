@@ -111,7 +111,7 @@ public class CDIProjectWizard extends WebProjectWizard implements IExecutableExt
 	 */
 	@Override
 	protected ImageDescriptor getDefaultPageImageDescriptor() {
-		return CDIImages.getImageDescriptor(CDIImages.WELD_WIZARD_IMAGE_PATH);
+		return CDIImages.getImageDescriptor(CDIImages.CDI_PROJECT_IMAGE);
 	}
 
 	/*

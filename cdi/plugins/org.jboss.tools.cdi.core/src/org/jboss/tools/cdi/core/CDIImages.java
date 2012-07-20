@@ -48,7 +48,10 @@ public class CDIImages {
 	public static final Image QUICKFIX_EDIT = getImage("quickfixes/cdi_edit.png"); //$NON-NLS-1$
 	public static final Image QUICKFIX_CHANGE = getImage("quickfixes/cdi_change.png"); //$NON-NLS-1$
 
-	public static final String WELD_WIZARD_IMAGE_PATH = "wizard/WeldWizBan.gif"; //$NON-NLS-1$
+	public static final String CDI_PROJECT_IMAGE = "wizard/CDIProjectWizBan.png"; //$NON-NLS-1$
+	public static final String CDI_BEANS_XML_IMAGE = "wizard/CDIBeansXMLWizBan.png"; //$NON-NLS-1$
+	public static final String CDI_CLASS_IMAGE = "wizard/CDIClassWizBan.png"; //$NON-NLS-1$
+	public static final String CDI_ANNOTATION_IMAGE = "wizard/CDIAnnotationWizBan.png"; //$NON-NLS-1$
 
 	public static Image getImage(String key) {
 		return INSTANCE.createImageDescriptor(key).createImage();

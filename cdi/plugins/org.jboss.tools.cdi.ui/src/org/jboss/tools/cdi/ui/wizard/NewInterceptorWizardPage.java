@@ -14,9 +14,7 @@ package org.jboss.tools.cdi.ui.wizard;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -29,17 +27,9 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.dom.AST;
-import org.eclipse.jdt.core.dom.ASTParser;
-import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
-import org.eclipse.jdt.internal.corext.codemanipulation.AddUnimplementedConstructorsOperation;
-import org.eclipse.jdt.internal.corext.codemanipulation.AddUnimplementedMethodsOperation;
 import org.eclipse.jdt.internal.corext.codemanipulation.CodeGenerationSettings;
 import org.eclipse.jdt.internal.corext.codemanipulation.StubUtility;
-import org.eclipse.jdt.internal.corext.codemanipulation.StubUtility2;
-import org.eclipse.jdt.internal.corext.dom.ASTNodes;
 import org.eclipse.jdt.internal.corext.util.JavaConventionsUtil;
 import org.eclipse.jdt.internal.corext.util.JavaModelUtil;
 import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
@@ -47,9 +37,7 @@ import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
 import org.eclipse.jdt.internal.ui.dialogs.StatusUtil;
 import org.eclipse.jdt.internal.ui.preferences.JavaPreferencesSettings;
 import org.eclipse.jdt.ui.CodeGeneration;
-import org.eclipse.jdt.ui.PreferenceConstants;
 import org.eclipse.jdt.ui.wizards.NewClassWizardPage;
-import org.eclipse.jdt.ui.wizards.NewTypeWizardPage.ImportsManager;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.osgi.util.NLS;
@@ -58,7 +46,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
@@ -94,7 +81,7 @@ public class NewInterceptorWizardPage extends NewClassWizardPage {
 	public NewInterceptorWizardPage() {
 		setTitle(CDIUIMessages.NEW_INTERCEPTOR_WIZARD_PAGE_NAME);
 		setDescription(CDIUIMessages.NEW_INTERCEPTOR_WIZARD_DESCRIPTION);
-		setImageDescriptor(CDIImages.getImageDescriptor(CDIImages.WELD_WIZARD_IMAGE_PATH));
+		setImageDescriptor(CDIImages.getImageDescriptor(CDIImages.CDI_CLASS_IMAGE));
 	}
 
 	public void init(IStructuredSelection selection) {

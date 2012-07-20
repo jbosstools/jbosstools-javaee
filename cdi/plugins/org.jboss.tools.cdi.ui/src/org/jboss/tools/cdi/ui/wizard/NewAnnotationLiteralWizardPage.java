@@ -81,7 +81,7 @@ public class NewAnnotationLiteralWizardPage extends NewClassWizardPage {
 	public NewAnnotationLiteralWizardPage() {
 		setTitle(CDIUIMessages.NEW_ANNOTATION_LITERAL_WIZARD_PAGE_NAME);
 		setDescription(CDIUIMessages.NEW_ANNOTATION_LITERAL_WIZARD_DESCRIPTION);
-		setImageDescriptor(CDIImages.getImageDescriptor(CDIImages.WELD_WIZARD_IMAGE_PATH));
+		setImageDescriptor(CDIImages.getImageDescriptor(CDIImages.CDI_ANNOTATION_IMAGE));
 		
 		qualifiersProvider.setMulti(false);
 	}
