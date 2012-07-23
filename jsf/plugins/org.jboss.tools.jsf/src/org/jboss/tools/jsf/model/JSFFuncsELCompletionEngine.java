@@ -23,7 +23,6 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
-import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.el.core.ELCorePlugin;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.resolver.ELContext;
@@ -31,7 +30,6 @@ import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.ArtificialTypeInfo;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.jst.web.kb.internal.XmlContextImpl;
@@ -42,15 +40,6 @@ import org.jboss.tools.jst.web.kb.taglib.ITagLibrary;
 import org.jboss.tools.jst.web.kb.taglib.TagLibraryManager;
 
 public class JSFFuncsELCompletionEngine extends JSFELCompletionEngine {
-	private static final Image JSF_EL_PROPOSAL_IMAGE = JSFModelPlugin.getDefault().getImage(JSFModelPlugin.CA_JSF_EL_IMAGE_PATH);
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImage()
-	 */
-	public Image getELProposalImage() {
-		return JSF_EL_PROPOSAL_IMAGE;
-	}
 
 	public JSFFuncsELCompletionEngine() {}
 	
@@ -142,10 +131,6 @@ public class JSFFuncsELCompletionEngine extends JSFELCompletionEngine {
 		return result;
 	}
 
-	protected void setImage(TextProposal kbProposal) {
-		kbProposal.setImage(getELProposalImage());
-	}
-
 	static class Variable implements IJSFVariable {
 		IFile f;
 		String name;
@@ -164,6 +149,7 @@ public class JSFFuncsELCompletionEngine extends JSFELCompletionEngine {
 			this.funcResolvedMethod = null;
 		}
 
+		@Override
 		public String getName() {
 			return name;
 		}
@@ -253,6 +239,7 @@ public class JSFFuncsELCompletionEngine extends JSFELCompletionEngine {
 			return result;
 		}
 
+		@Override
 		public IMember getSourceMember() {
 			getKeys(); // Initialize source member
 			return funcSourceMember;

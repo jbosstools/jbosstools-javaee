@@ -34,7 +34,7 @@ public class SelectBeanMarkerResolution implements IQuickFix, TestableResolution
 	private String label;
 	private IInjectionPoint injectionPoint;
 	private List<IBean> beans;
-	
+
 	public SelectBeanMarkerResolution(IInjectionPoint injectionPoint, List<IBean> beans){
 		this.injectionPoint = injectionPoint;
 		this.label = CDIUIMessages.SELECT_BEAN_TITLE;
@@ -50,7 +50,7 @@ public class SelectBeanMarkerResolution implements IQuickFix, TestableResolution
 	public void runForTest(IMarker marker){
 		internal_run(true);
 	}
-	
+
 	@Override
 	public void run(IMarker marker) {
 		internal_run(false);
@@ -62,7 +62,7 @@ public class SelectBeanMarkerResolution implements IQuickFix, TestableResolution
 		SelectBeanWizard wizard = new SelectBeanWizard(refactoring);
 		wizard.showWizard();
 	}
-	
+
 	@Override
 	public String getDescription() {
 		return label;
@@ -70,7 +70,7 @@ public class SelectBeanMarkerResolution implements IQuickFix, TestableResolution
 
 	@Override
 	public Image getImage() {
-		return CDIImages.QUICKFIX_EDIT;
+		return CDIImages.getImage(CDIImages.QUICKFIX_EDIT);
 	}
 
 	@Override

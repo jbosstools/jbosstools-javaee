@@ -11,8 +11,6 @@
 package org.jboss.tools.cdi.ui.ca;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.jdt.core.jdom.IDOMNode;
-import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
@@ -29,6 +27,7 @@ import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.internal.core.ca.BeansXmlProcessor;
 import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.text.TextProposal;
+import org.jboss.tools.common.ui.CommonUIPlugin;
 import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
 import org.jboss.tools.jst.jsp.contentassist.computers.XmlTagCompletionProposalComputer;
 import org.jboss.tools.jst.web.kb.KbQuery;
@@ -106,7 +105,7 @@ public class BeansXmlCompletionProposalComputer extends XmlTagCompletionProposal
 			int replacementOffset = contentAssistRequest.getReplacementBeginPosition() - matchString.length();
 			int replacementLength = matchString.length();
 			int cursorPosition = getCursorPositionForProposedText(replacementString);
-			Image image = textProposal.getImage();
+			Image image = CommonUIPlugin.getImageDescriptorRegistry().get(textProposal.getImageDescriptor());
 			if (image == null) {
 				image = XMLEditorPluginImageHelper.getInstance().getImage(XMLEditorPluginImages.IMG_OBJ_TAG_GENERIC);
 			}

@@ -107,6 +107,6 @@ public class ChangeAnnotationMarkerResolution extends BaseMarkerResolution {
 	
 	@Override
 	public Image getImage() {
-		return CDIImages.QUICKFIX_CHANGE;
+		return CDIImages.getImage(CDIImages.QUICKFIX_CHANGE);
 	}
 }

@@ -23,6 +23,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.graphics.Image;
@@ -64,14 +65,14 @@ import org.jboss.tools.jst.web.kb.PageContextFactory;
  *
  */
 public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IVariable> {
-	private static final Image JSF2_EL_CC_ATTRS_PROPOSAL_IMAGE = JSFModelPlugin.getDefault().getImage(JSFModelPlugin.CA_JSF_MESSAGES_IMAGE_PATH);
+	private static final ImageDescriptor JSF2_EL_CC_ATTRS_PROPOSAL_IMAGE = JSFModelPlugin.getDefault().getImageDescriptorFromRegistry(JSFModelPlugin.CA_JSF_MESSAGES_IMAGE_PATH);
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImageForMember(org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo)
 	 */
 	@Override
-	public Image getELProposalImageForMember(MemberInfo memberInfo) {
+	public ImageDescriptor getELProposalImageForMember(MemberInfo memberInfo) {
 		return JSF2_EL_CC_ATTRS_PROPOSAL_IMAGE;
 	}
 
@@ -226,7 +227,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 				if(varName.startsWith(operand.getText())) {
 					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString(varName.substring(operand.getLength()));
-					proposal.setImage(getELProposalImageForMember(null));
+					proposal.setImageDescriptor(getELProposalImageForMember(null));
 					proposals.add(proposal);
 				}
 			}
@@ -250,13 +251,13 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString(varName.substring(operand.getLength()));
 					proposal.setLabel(varName);
-					proposal.setImage(getELProposalImageForMember(null));
+					proposal.setImageDescriptor(getELProposalImageForMember(null));
 					proposals.add(proposal);
 				} else if(returnEqualedVariablesOnly) {
 					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString(varName);
 					proposal.setLabel(varName);
-					proposal.setImage(getELProposalImageForMember(null));
+					proposal.setImageDescriptor(getELProposalImageForMember(null));
 					proposals.add(proposal);
 				}
 				segment.getVariables().add(var);
@@ -453,7 +454,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 						TextProposal kbProposal = new TextProposal();
 						kbProposal.setReplacementString(proposal);
 						kbProposal.setLabel(proposal);
-						kbProposal.setImage(getELProposalImageForMember(null));
+						kbProposal.setImageDescriptor(getELProposalImageForMember(null));
 
 						kbProposals.add(kbProposal);
 
@@ -464,7 +465,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 					TextProposal kbProposal = new TextProposal();
 					kbProposal.setReplacementString(proposal.substring(filter.length()));
 					kbProposal.setLabel(proposal);
-					kbProposal.setImage(getELProposalImageForMember(null));
+					kbProposal.setImageDescriptor(getELProposalImageForMember(null));
 					
 					kbProposals.add(kbProposal);
 				}
@@ -505,7 +506,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 						TextProposal kbProposal = new TextProposal();
 						kbProposal.setReplacementString(proposal);
 						kbProposal.setLabel(proposal);
-						kbProposal.setImage(getELProposalImageForMember(null));
+						kbProposal.setImageDescriptor(getELProposalImageForMember(null));
 
 						kbProposals.add(kbProposal);
 
@@ -522,7 +523,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 
 					kbProposal.setReplacementString(replacementString);
 					kbProposal.setLabel(proposal);
-					kbProposal.setImage(getELProposalImageForMember(null));
+					kbProposal.setImageDescriptor(getELProposalImageForMember(null));
 
 					kbProposals.add(kbProposal);
 				}
@@ -547,14 +548,14 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 				TextProposal proposal = new TextProposal();
 				proposal.setReplacementString("['" + key + "']"); //$NON-NLS-1$ //$NON-NLS-2$
 				proposal.setLabel("['" + key + "']");
-				proposal.setImage(getELProposalImageForMember(null));
+				proposal.setImageDescriptor(getELProposalImageForMember(null));
 
 				kbProposals.add(proposal);
 			} else {
 				TextProposal proposal = new TextProposal();
 				proposal.setReplacementString(key);
 				proposal.setLabel(key);
-				proposal.setImage(getELProposalImageForMember(null));
+				proposal.setImageDescriptor(getELProposalImageForMember(null));
 
 				kbProposals.add(proposal);
 			}

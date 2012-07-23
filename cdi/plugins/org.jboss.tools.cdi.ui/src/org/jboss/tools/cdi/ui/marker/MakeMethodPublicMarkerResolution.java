@@ -34,7 +34,7 @@ import org.jboss.tools.common.refactoring.BaseMarkerResolution;
  */
 public class MakeMethodPublicMarkerResolution extends BaseMarkerResolution {
 	private IMethod method;
-	
+
 	public MakeMethodPublicMarkerResolution(IMethod method){
 		super(CDIMarkerResolutionUtils.getJavaMember(method).getCompilationUnit());
 		this.label = MessageFormat.format(CDIUIMessages.MAKE_METHOD_PUBLIC_MARKER_RESOLUTION_TITLE, new Object[]{method.getElementName()});
@@ -45,20 +45,20 @@ public class MakeMethodPublicMarkerResolution extends BaseMarkerResolution {
 	@Override
 	protected CompilationUnitChange getChange(ICompilationUnit compilationUnit){
 		CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
-		
+
 		MultiTextEdit edit = new MultiTextEdit();
-		
+
 		change.setEdit(edit);
-		
+
 		try{
 			IBuffer buffer = compilationUnit.getBuffer();
-			
+
 			IMethod workingCopyMethod = CDIMarkerResolutionUtils.findWorkingCopy(compilationUnit, method);
 			if(workingCopyMethod != null){
 				int flag = workingCopyMethod.getFlags();
-				
+
 				String text = buffer.getText(workingCopyMethod.getSourceRange().getOffset(), workingCopyMethod.getSourceRange().getLength());
-	
+
 				// make method public
 				int position = workingCopyMethod.getSourceRange().getOffset();
 				if(!Flags.isPublic(flag)){
@@ -83,9 +83,9 @@ public class MakeMethodPublicMarkerResolution extends BaseMarkerResolution {
 		}
 		return change;
 	}
-	
+
 	@Override
 	public Image getImage() {
-		return CDIImages.QUICKFIX_EDIT;
+		return CDIImages.getImage(CDIImages.QUICKFIX_EDIT);
 	}
 }

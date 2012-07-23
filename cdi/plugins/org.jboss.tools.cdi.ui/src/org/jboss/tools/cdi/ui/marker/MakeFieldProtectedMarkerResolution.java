@@ -162,7 +162,7 @@ public class MakeFieldProtectedMarkerResolution implements IQuickFix, TestableRe
 
 	@Override
 	public Image getImage() {
-		return CDIImages.QUICKFIX_EDIT;
+		return CDIImages.getImage(CDIImages.QUICKFIX_EDIT);
 	}
 
 	@Override

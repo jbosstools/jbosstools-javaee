@@ -22,9 +22,9 @@ import java.util.TreeSet;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIImages;
@@ -76,7 +76,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImageForMember(org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo)
 	 */
 	@Override
-	public Image getELProposalImageForMember(MemberInfo memberInfo) {
+	public ImageDescriptor getELProposalImageForMember(MemberInfo memberInfo) {
 		return CDIImages.MESSAGE_BUNDLE_IMAGE;
 	}
 
@@ -301,7 +301,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 					if(varName.startsWith(operand.getText())) {
 						TextProposal proposal = new TextProposal();
 						proposal.setReplacementString(varName.substring(operand.getLength()));
-						proposal.setImage(getELProposalImageForMember(null));
+						proposal.setImageDescriptor(getELProposalImageForMember(null));
 						proposals.add(proposal);
 					}
 				}
@@ -324,7 +324,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 					proposal.setReplacementString(varName.substring(operand.getLength()));
 					proposal.setLabel(varName);
 					proposal.setPropertyName(null); // Since it's not a property
-					proposal.setImage(getELProposalImageForMember(null));
+					proposal.setImageDescriptor(getELProposalImageForMember(null));
 
 					List<XModelObject> objects = new ArrayList<XModelObject>();
 					IBundleModel bundleModel = BundleModelFactory.getBundleModel(var.f.getProject());
@@ -343,7 +343,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString(varName);
 					proposal.setLabel(varName);
-					proposal.setImage(getELProposalImageForMember(null));
+					proposal.setImageDescriptor(getELProposalImageForMember(null));
 					proposals.add(proposal);
 				}
 				resolution.getLastSegment().getVariables().add(var);
@@ -435,7 +435,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 						MessagesELTextProposal kbProposal = createProposal(mbr, key);
 						if (key.indexOf('.') == -1)	kbProposal.setReplacementString(key.substring(filter.length()));
 						else kbProposal.setReplacementString('[' + kbProposal.getReplacementString());
-						kbProposal.setImage(getELProposalImageForMember(null));
+						kbProposal.setImageDescriptor(getELProposalImageForMember(null));
 						kbProposals.add(kbProposal);
 					}
 				}
@@ -582,7 +582,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 			kbProposal.setLabel(proposal);
 		}
 		kbProposal.setAlternateMatch(proposal);
-		kbProposal.setImage(getELProposalImageForMember(null));
+		kbProposal.setImageDescriptor(getELProposalImageForMember(null));
 			
 		List<XModelObject> objects = new ArrayList<XModelObject>();
 		IBundleModel bundleModel = BundleModelFactory.getBundleModel(mbr.f.getProject());

@@ -178,7 +178,7 @@ public class CDIBeanQueryParticipant implements IQueryParticipant{
 			if(element instanceof CDIElementWrapper){
 				return CDIImages.getImageByElement(((CDIElementWrapper)element).getCDIElement());
 			}
-			return CDIImages.WELD_IMAGE;
+			return CDIImages.getImage(CDIImages.WELD_IMAGE);
 		}
 
 		@Override
@@ -193,9 +193,6 @@ public class CDIBeanQueryParticipant implements IQueryParticipant{
 				return text+cdiElement.getElementName()+BeanPresentationUtil.getCDIElementLocation(cdiElement, false);
 			}
 			return ""; //$NON-NLS-1$
-
 		}
-		
 	}
-
 }

@@ -19,7 +19,7 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
@@ -40,7 +40,7 @@ import org.jboss.tools.jsf.model.pv.JSFPromptingProvider;
  */
 public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompletionEngine.IJSFVariable> {
 
-	private static final Image JSF_EL_PROPOSAL_IMAGE = JSFModelPlugin.getDefault().getImage(JSFModelPlugin.CA_JSF_EL_IMAGE_PATH);
+	private static final ImageDescriptor JSF_EL_PROPOSAL_IMAGE = JSFModelPlugin.getDefault().getImageDescriptorFromRegistry(JSFModelPlugin.CA_JSF_EL_IMAGE_PATH);
 	private static ELParserFactory factory = ELParserUtil.getDefaultFactory();
 
 	/*
@@ -48,7 +48,7 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImageForMember(org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo)
 	 */
 	@Override
-	public Image getELProposalImageForMember(MemberInfo memberInfo) {
+	public ImageDescriptor getELProposalImageForMember(MemberInfo memberInfo) {
 		return JSF_EL_PROPOSAL_IMAGE;
 	}
 

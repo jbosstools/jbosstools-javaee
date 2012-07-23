@@ -13,10 +13,10 @@ package org.jboss.tools.cdi.ui.test;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
+import org.jboss.tools.common.ui.CommonUIPlugin;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 
 /**
@@ -28,9 +28,10 @@ public class CATest extends TestCase {
 	private ContentAssistantTestCase caTest = new ContentAssistantTestCase();
 	private static final String PAGE_NAME = "WebContent/test.jsp";
 	private String[] beanProposals = new String[] {"example", "example.com", "fishJBT", "game", "haddock", "salmon", "sheep", "tunaFarm", "whitefishJBT", "wolf"};
-	private Image[] beanImages = new Image[] {CDIImages.BEAN_CLASS_IMAGE, CDIImages.BEAN_CLASS_IMAGE, CDIImages.BEAN_CLASS_IMAGE, CDIImages.BEAN_CLASS_IMAGE, CDIImages.BEAN_CLASS_IMAGE, CDIImages.BEAN_CLASS_IMAGE, CDIImages.BEAN_CLASS_IMAGE, CDIImages.BEAN_CLASS_IMAGE, CDIImages.BEAN_CLASS_IMAGE, CDIImages.BEAN_CLASS_IMAGE};
+	Image beanClassImage = CommonUIPlugin.getImageDescriptorRegistry().get(CDIImages.BEAN_CLASS_IMAGE);
+	private Image[] beanImages = new Image[] {beanClassImage, beanClassImage, beanClassImage, beanClassImage, beanClassImage, beanClassImage, beanClassImage, beanClassImage, beanClassImage, beanClassImage};
 	private String[] propertyProposals = new String[] {"game.value", "game.initialize()"};
-	private Image[] propertyImages = new Image[] {CDIImages.BEAN_FIELD_IMAGE, CDIImages.BEAN_METHOD_IMAGE};
+	private Image[] propertyImages = new Image[] {CommonUIPlugin.getImageDescriptorRegistry().get(CDIImages.BEAN_FIELD_IMAGE), CommonUIPlugin.getImageDescriptorRegistry().get(CDIImages.BEAN_METHOD_IMAGE)};
 
 	public void setUp() {
 		project = TCKTest.findTestProject();

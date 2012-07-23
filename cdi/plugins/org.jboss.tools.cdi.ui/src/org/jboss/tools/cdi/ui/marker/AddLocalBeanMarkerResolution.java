@@ -91,7 +91,6 @@ public class AddLocalBeanMarkerResolution extends BaseMarkerResolution {
 	
 	@Override
 	public Image getImage() {
-		return CDIImages.QUICKFIX_ADD;
+		return CDIImages.getImage(CDIImages.QUICKFIX_ADD);
 	}
-
 }

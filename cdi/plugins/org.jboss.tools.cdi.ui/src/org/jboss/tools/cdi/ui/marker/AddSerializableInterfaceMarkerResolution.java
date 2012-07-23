@@ -29,9 +29,9 @@ import org.jboss.tools.common.refactoring.BaseMarkerResolution;
  */
 public class AddSerializableInterfaceMarkerResolution  extends BaseMarkerResolution {
 	public static final String SERIALIZABLE = "java.io.Serializable";   //$NON-NLS-1$
-	
+
 	private IType type;
-	
+
 	public AddSerializableInterfaceMarkerResolution(IType type){
 		super(type.getCompilationUnit());
 		this.label = MessageFormat.format(CDIUIMessages.ADD_SERIALIZABLE_INTERFACE_MARKER_RESOLUTION_TITLE, new Object[]{type.getElementName()});
@@ -42,22 +42,21 @@ public class AddSerializableInterfaceMarkerResolution  extends BaseMarkerResolut
 	@Override
 	protected CompilationUnitChange getChange(ICompilationUnit compilationUnit){
 		CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
-		
+
 		MultiTextEdit edit = new MultiTextEdit();
-		
+
 		change.setEdit(edit);
 		try{
 			CDIMarkerResolutionUtils.addInterfaceToClass(compilationUnit, type, SERIALIZABLE, edit);
 		} catch (JavaModelException e) {
 			CDIUIPlugin.getDefault().logError(e);
 		}
-		
+
 		return change;
 	}
 
 	@Override
 	public Image getImage() {
-		return CDIImages.QUICKFIX_ADD;
+		return CDIImages.getImage(CDIImages.QUICKFIX_ADD);
 	}
-
 }

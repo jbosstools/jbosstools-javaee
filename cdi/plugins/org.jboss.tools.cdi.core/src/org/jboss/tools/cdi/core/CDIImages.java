@@ -18,6 +18,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.internal.core.impl.EventBean;
 import org.jboss.tools.cdi.xml.CDIXMLImages;
+import org.jboss.tools.common.ui.CommonUIPlugin;
 
 public class CDIImages {
 
@@ -31,27 +32,31 @@ public class CDIImages {
 		}
 	}
 
-	public static final Image CDI_BEAN_IMAGE = getImage("search/cdi_bean.gif"); //$NON-NLS-1$
-	public static final Image WELD_IMAGE = getImage("search/weld_icon_16x.gif"); //$NON-NLS-1$
+	public static final ImageDescriptor CDI_BEAN_IMAGE = getImageDescriptor("search/cdi_bean.gif"); //$NON-NLS-1$
+	public static final ImageDescriptor WELD_IMAGE = getImageDescriptor("search/weld_icon_16x.gif"); //$NON-NLS-1$
 
-	public static final Image BEAN_CLASS_IMAGE = CDIXMLImages.BEAN_CLASS_IMAGE;
-	public static final Image BEAN_METHOD_IMAGE = getImage("bean_method.png"); //$NON-NLS-1$
-	public static final Image BEAN_FIELD_IMAGE = getImage("bean_field.png"); //$NON-NLS-1$
-	public static final Image INJECTION_POINT_IMAGE = getImage("injection_point.png"); //$NON-NLS-1$
-	public static final Image ANNOTATION_IMAGE = CDIXMLImages.ANNOTATION_IMAGE;
-	public static final Image CDI_EVENT_IMAGE = getImage("event.png"); //$NON-NLS-1$
+	public static final ImageDescriptor BEAN_CLASS_IMAGE = CDIXMLImages.BEAN_CLASS_IMAGE;
+	public static final ImageDescriptor BEAN_METHOD_IMAGE = getImageDescriptor("bean_method.png"); //$NON-NLS-1$
+	public static final ImageDescriptor BEAN_FIELD_IMAGE = getImageDescriptor("bean_field.png"); //$NON-NLS-1$
+	public static final ImageDescriptor INJECTION_POINT_IMAGE = getImageDescriptor("injection_point.png"); //$NON-NLS-1$
+	public static final ImageDescriptor ANNOTATION_IMAGE = CDIXMLImages.ANNOTATION_IMAGE;
+	public static final ImageDescriptor CDI_EVENT_IMAGE = getImageDescriptor("event.png"); //$NON-NLS-1$
 
-	public static final Image MESSAGE_BUNDLE_IMAGE = getImage("message_bundle.gif"); //$NON-NLS-1$
+	public static final ImageDescriptor MESSAGE_BUNDLE_IMAGE = getImageDescriptor("message_bundle.gif"); //$NON-NLS-1$
 
-	public static final Image QUICKFIX_ADD = getImage("quickfixes/cdi_add.png"); //$NON-NLS-1$
-	public static final Image QUICKFIX_REMOVE = getImage("quickfixes/cdi_remove.png"); //$NON-NLS-1$
-	public static final Image QUICKFIX_EDIT = getImage("quickfixes/cdi_edit.png"); //$NON-NLS-1$
-	public static final Image QUICKFIX_CHANGE = getImage("quickfixes/cdi_change.png"); //$NON-NLS-1$
+	public static final ImageDescriptor QUICKFIX_ADD = getImageDescriptor("quickfixes/cdi_add.png"); //$NON-NLS-1$
+	public static final ImageDescriptor QUICKFIX_REMOVE = getImageDescriptor("quickfixes/cdi_remove.png"); //$NON-NLS-1$
+	public static final ImageDescriptor QUICKFIX_EDIT = getImageDescriptor("quickfixes/cdi_edit.png"); //$NON-NLS-1$
+	public static final ImageDescriptor QUICKFIX_CHANGE = getImageDescriptor("quickfixes/cdi_change.png"); //$NON-NLS-1$
 
 	public static final String CDI_PROJECT_IMAGE = "wizard/CDIProjectWizBan.png"; //$NON-NLS-1$
 	public static final String CDI_BEANS_XML_IMAGE = "wizard/CDIBeansXMLWizBan.png"; //$NON-NLS-1$
 	public static final String CDI_CLASS_IMAGE = "wizard/CDIClassWizBan.png"; //$NON-NLS-1$
 	public static final String CDI_ANNOTATION_IMAGE = "wizard/CDIAnnotationWizBan.png"; //$NON-NLS-1$
+
+	public static Image getImage(ImageDescriptor descriptor) {
+		return CommonUIPlugin.getImageDescriptorRegistry().get(descriptor);
+	}
 
 	public static Image getImage(String key) {
 		return INSTANCE.createImageDescriptor(key).createImage();
@@ -102,8 +107,12 @@ public class CDIImages {
 		if (name == null) throw new MalformedURLException(CDICoreMessages.CDI_IMAGESIMAGE_NAME_CANNOT_BE_NULL);
 		return new URL(baseUrl, name);
 	}
-	
-	public static Image getImageByElement(ICDIElement element){
+
+	public static Image getImageByElement(ICDIElement element) {
+		return getImage(getImageDescriptorByElement(element));
+	}
+
+	public static ImageDescriptor getImageDescriptorByElement(ICDIElement element) {
 		if(element instanceof IClassBean){
 			return BEAN_CLASS_IMAGE;
 		}else if(element instanceof IInjectionPoint){

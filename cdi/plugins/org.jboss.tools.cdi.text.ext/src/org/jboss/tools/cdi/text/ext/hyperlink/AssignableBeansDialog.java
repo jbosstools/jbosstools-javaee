@@ -169,17 +169,20 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		}
 	}
 
+	@Override
 	protected Control createTitleMenuArea(Composite parent) {
 		Composite fViewMenuButtonComposite= (Composite) super.createTitleMenuArea(parent);
 		fFilterText = createFilterText(parent);
 		return fViewMenuButtonComposite;
 	}
 
+	@Override
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 		newShell.setText(CDIExtensionsMessages.ASSIGNABLE_BEANS_DIALOG_TITLE);
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout(2, false);
@@ -230,6 +233,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 
 		// PopupDialog
 		list.getTable().addMouseMoveListener(new MouseMoveListener() {
+			@Override
 			public void mouseMove(MouseEvent e) {
 				ViewerCell cell = list.getCell(new Point(e.x, e.y));
 				if(cell != null) {
@@ -242,6 +246,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 			}
 		});
 		list.getTable().addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseUp(MouseEvent e) {
 				gotoSelectedElement();
 			}
@@ -297,6 +302,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		});
 	}
 
+	@Override
 	protected Control getFocusControl() {
 		return getFilterText();
 	}
@@ -315,6 +321,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		fFilterText.setLayoutData(data);
 
 		fFilterText.addKeyListener(new KeyListener() {
+			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == 0x0D) // return
 					gotoSelectedElement();
@@ -325,6 +332,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 				if (e.character == 0x1B) // ESC
 					close();
 			}
+			@Override
 			public void keyReleased(KeyEvent e) {
 				// do nothing
 			}
@@ -336,6 +344,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		fFilterText.setText(""); //$NON-NLS-1$
 
 		fFilterText.addModifyListener(new ModifyListener() {
+			@Override
 			public void modifyText(ModifyEvent e) {
 				list.refresh();
 			}
@@ -346,10 +355,12 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		return AssignableBeansDialog.class.getName();
 	}
 
+	@Override
 	protected Point getDefaultSize() {
 		return new Point(700, 400);
 	}
 
+	@Override
 	protected Point getDefaultLocation(Point size) {
 		Display display = Display.getCurrent();
 		if(display == null) {
@@ -365,10 +376,13 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 	}
 
 	// PopupDialog
+	@Override
 	protected void fillDialogMenu(IMenuManager dialogMenu) {
 		super.fillDialogMenu(dialogMenu);
 		dialogMenu.add(new ShowHideAction());
 	}
+
+	@Override
 	protected IDialogSettings getDialogSettings() {
 		IDialogSettings settings = CDIExtensionsPlugin.getDefault().getDialogSettings().getSection(getId());
 		if(settings == null && filters != null && injectionPoint != null) {
@@ -381,6 +395,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		return settings;
 	}
 
+	@Override
 	public boolean close() {
 		saveFilterOptions();
 		return super.close();
@@ -435,6 +450,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 			super("Show/Hide panel", Action.AS_CHECK_BOX);
 			setChecked(showHideOptions);
 		}
+		@Override
 		public void run() {
 			setFiltersEnabled(isChecked());
 		}
@@ -587,6 +603,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 			this.bold = bold;
 		}
 
+		@Override
 		public void applyStyles(TextStyle textStyle) {
 			if (foreground != null) {
 				textStyle.foreground = foreground;
@@ -601,6 +618,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 	}
 
 	class LP extends StyledCellLabelProvider implements DelegatingStyledCellLabelProvider.IStyledLabelProvider {
+		@Override
 		public void update(ViewerCell cell) {
 			ELIGIBLE_QUALIFIER = DISABLED;
 			Object element = cell.getElement();
@@ -615,6 +633,8 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		public String getText(Object element) {
 			return getStyledText(element).getString();
 		}
+
+		@Override
 		public StyledString getStyledText(Object element) {
 			IBean b = (IBean)element;
 			RESOLVED_NAME = new DefaultStyler(black, true, false);
@@ -636,6 +656,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 			return sb;
 		}
 
+		@Override
 		public Image getImage(Object element) {
 			return CDIImages.getImageByElement((ICDIElement)element);
 		}

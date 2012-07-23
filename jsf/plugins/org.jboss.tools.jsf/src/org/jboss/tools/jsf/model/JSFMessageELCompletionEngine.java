@@ -20,9 +20,9 @@ import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
 import org.jboss.tools.common.el.core.ca.MessagesELTextProposal;
 import org.jboss.tools.common.el.core.model.ELArgumentInvocation;
@@ -64,14 +64,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVariable> {
-	private static final Image JSF_EL_MESSAGES_PROPOSAL_IMAGE = JSFModelPlugin.getDefault().getImage(JSFModelPlugin.CA_JSF_MESSAGES_IMAGE_PATH);
+	private static final ImageDescriptor JSF_EL_MESSAGES_PROPOSAL_IMAGE = JSFModelPlugin.getDefault().getImageDescriptorFromRegistry(JSFModelPlugin.CA_JSF_MESSAGES_IMAGE_PATH);
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImageForMember(org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo)
 	 */
 	@Override
-	public Image getELProposalImageForMember(MemberInfo memberInfo) {
+	public ImageDescriptor getELProposalImageForMember(MemberInfo memberInfo) {
 		return JSF_EL_MESSAGES_PROPOSAL_IMAGE;
 	}
 
@@ -262,7 +262,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 					if(varName.startsWith(operand.getText())) {
 						MessagesELTextProposal proposal = new MessagesELTextProposal();
 						proposal.setReplacementString(varName.substring(operand.getLength()));
-						proposal.setImage(getELProposalImageForMember(null));
+						proposal.setImageDescriptor(getELProposalImageForMember(null));
 
 						List<XModelObject> objects = new ArrayList<XModelObject>();
 
@@ -307,7 +307,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 					MessagesELTextProposal proposal = new MessagesELTextProposal();
 					proposal.setReplacementString(varName.substring(operand.getLength()));
 					proposal.setLabel(varName);
-					proposal.setImage(getELProposalImageForMember(null));
+					proposal.setImageDescriptor(getELProposalImageForMember(null));
 					List<XModelObject> objects = new ArrayList<XModelObject>();
 					IModelNature n = EclipseResourceUtil.getModelNature(var.f.getProject());
 					XModel model = n != null ? n.getModel() : null;
@@ -335,7 +335,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString(varName);
 					proposal.setLabel(varName);
-					proposal.setImage(getELProposalImageForMember(null));
+					proposal.setImageDescriptor(getELProposalImageForMember(null));
 					proposals.add(proposal);
 				}
 				resolution.getLastSegment().getVariables().add(var);
@@ -637,7 +637,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 			kbProposal.setLabel(proposal);
 		}
 		kbProposal.setAlternateMatch(proposal);
-		kbProposal.setImage(getELProposalImageForMember(null));
+		kbProposal.setImageDescriptor(getELProposalImageForMember(null));
 			
 		List<XModelObject> objects = new ArrayList<XModelObject>();
 		String locale = getPageLocale(mbr.f, currentOffset);

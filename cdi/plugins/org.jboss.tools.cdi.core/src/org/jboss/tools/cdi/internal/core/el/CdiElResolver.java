@@ -19,13 +19,12 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
-import org.jboss.tools.cdi.core.IBeanManager;
 import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
@@ -54,7 +53,7 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImageForMember(org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo)
 	 */
 	@Override
-	public Image getELProposalImageForMember(MemberInfo memberInfo) {
+	public ImageDescriptor getELProposalImageForMember(MemberInfo memberInfo) {
 		return (memberInfo instanceof TypeInfoCollector.FieldInfo)?CDIImages.BEAN_FIELD_IMAGE:CDIImages.BEAN_METHOD_IMAGE;
 	}
 
@@ -63,7 +62,7 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImage(org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberPresentation)
 	 */
 	@Override
-	protected Image getELProposalImage(MemberPresentation memberPresentation) {
+	protected ImageDescriptor getELProposalImage(MemberPresentation memberPresentation) {
 		return memberPresentation.isProperty()?CDIImages.BEAN_FIELD_IMAGE:CDIImages.BEAN_METHOD_IMAGE;
 	}
 
@@ -73,7 +72,7 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 	 */
 	@Override
 	protected void setImage(TextProposal kbProposal, IBean var) {
-		kbProposal.setImage(CDIImages.getImageByElement(var));
+		kbProposal.setImageDescriptor(CDIImages.getImageDescriptorByElement(var));
 	}
 
 	/* (non-Javadoc)

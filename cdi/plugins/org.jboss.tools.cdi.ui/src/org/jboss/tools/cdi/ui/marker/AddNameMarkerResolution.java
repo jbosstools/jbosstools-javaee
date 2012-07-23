@@ -24,6 +24,6 @@ public class AddNameMarkerResolution extends ChangeAnnotationMarkerResolution {
 	
 	@Override
 	public Image getImage() {
-		return CDIImages.QUICKFIX_ADD;
+		return CDIImages.getImage(CDIImages.QUICKFIX_ADD);
 	}
 }

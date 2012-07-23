@@ -21,10 +21,10 @@ import java.util.TreeSet;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
 import org.jboss.tools.common.el.core.ca.MessagesELTextProposal;
 import org.jboss.tools.common.el.core.model.ELArgumentInvocation;
@@ -71,10 +71,10 @@ import org.jboss.tools.seam.internal.core.el.SeamExpressionResolver.MessagesInfo
  */
 public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISeamContextVariable> {
 
-	private static final Image SEAM_EL_PROPOSAL_IMAGE = 
-		SeamCorePlugin.getDefault().getImage(SeamCorePlugin.CA_SEAM_EL_IMAGE_PATH);
-	private static final Image SEAM_MESSAGES_PROPOSAL_IMAGE = 
-		SeamCorePlugin.getDefault().getImage(SeamCorePlugin.CA_SEAM_MESSAGES_IMAGE_PATH);
+	private static final ImageDescriptor SEAM_EL_PROPOSAL_IMAGE = 
+		SeamCorePlugin.getDefault().getImageDescriptorFromRegistry(SeamCorePlugin.CA_SEAM_EL_IMAGE_PATH);
+	private static final ImageDescriptor SEAM_MESSAGES_PROPOSAL_IMAGE = 
+		SeamCorePlugin.getDefault().getImageDescriptorFromRegistry(SeamCorePlugin.CA_SEAM_MESSAGES_IMAGE_PATH);
 	
 	private static ELParserFactory factory = ELParserUtil.getJbossFactory();
 
@@ -89,7 +89,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImageForMember(org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo)
 	 */
 	@Override
-	public Image getELProposalImageForMember(MemberInfo memberInfo) {
+	public ImageDescriptor getELProposalImageForMember(MemberInfo memberInfo) {
 		return SEAM_EL_PROPOSAL_IMAGE;
 	}
 
@@ -176,9 +176,9 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 	@Override
 	protected void setImage(TextProposal proposal, ISeamContextVariable var) {
 		if (isSeamMessagesComponentVariable((ISeamContextVariable)var)) {
-			proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
+			proposal.setImageDescriptor(SEAM_MESSAGES_PROPOSAL_IMAGE);
 		} else {
-			proposal.setImage(getELProposalImageForMember(null));
+			proposal.setImageDescriptor(getELProposalImageForMember(null));
 		}
 	}
 
@@ -190,7 +190,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 	@Override
 	protected void setImage(TextProposal kbProposal, TypeInfoCollector.MemberPresentation proposal) {
 		if (proposal.getMember() instanceof MessagesInfo) {
-			kbProposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
+			kbProposal.setImageDescriptor(SEAM_MESSAGES_PROPOSAL_IMAGE);
 		} else {
 			super.setImage(kbProposal, proposal);
 		}
@@ -366,7 +366,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 			kbProposal.setLabel(proposal);
 		}
 		kbProposal.setAlternateMatch(proposal);
-		kbProposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
+		kbProposal.setImageDescriptor(SEAM_MESSAGES_PROPOSAL_IMAGE);
 
 		Map<String, List<XModelObject>> properties = mbr.getPropertiesMap();
 		List<XModelObject> ps = properties.get(proposal);

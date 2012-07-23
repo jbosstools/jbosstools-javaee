@@ -32,6 +32,7 @@ public class HierarchyInformationControl extends org.jboss.tools.common.text.ext
 		super(parent, title, shellStyle, tableStyle, hyperlinks);
 	}
 
+	@Override
 	protected BeanTableLabelProvider createTableLableProvider() {
 		return new BeanTableLabelProvider2();
 	}
@@ -40,7 +41,8 @@ public class HierarchyInformationControl extends org.jboss.tools.common.text.ext
 	protected String getId() {
 		return "org.jboss.tools.cdi.text.ext.InformationControl";
 	}
-	
+
+	@Override
 	protected boolean select2(SearchPattern patternMatcher, Object element) {
 		if (element instanceof IInformationItem) {
 			String name = ((IInformationItem)element).getCDIElement().getElementName();
@@ -55,6 +57,7 @@ public class HierarchyInformationControl extends org.jboss.tools.common.text.ext
 	}
 
 	class BeanTableLabelProvider2 extends BeanTableLabelProvider {
+		@Override
 		public void update(ViewerCell cell) {
 			Object element = cell.getElement();
 			StyledString styledString = getStyledText(element);
@@ -65,9 +68,12 @@ public class HierarchyInformationControl extends org.jboss.tools.common.text.ext
 			super.update(cell);
 		}
 
+		@Override
 		public String getText(Object element) {
 			return getStyledText(element).getString();
 		}
+
+		@Override
 		public StyledString getStyledText(Object element) {
 			StyledString sb = new StyledString();
 			if(element instanceof IHyperlink){
@@ -84,6 +90,7 @@ public class HierarchyInformationControl extends org.jboss.tools.common.text.ext
 			return sb;
 		}
 
+		@Override
 		public Image getImage(Object element) {
 			if(element instanceof IInformationItem){
 				ICDIElement cdiElement = ((IInformationItem)element).getCDIElement();
@@ -93,4 +100,3 @@ public class HierarchyInformationControl extends org.jboss.tools.common.text.ext
 		}		
 	}
 }
-

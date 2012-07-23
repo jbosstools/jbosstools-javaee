@@ -114,7 +114,7 @@ public class DeleteAllDisposerDuplicantMarkerResolution implements IQuickFix, Te
 
 	@Override
 	public Image getImage() {
-		return CDIImages.QUICKFIX_REMOVE;
+		return CDIImages.getImage(CDIImages.QUICKFIX_REMOVE);
 	}
 
 	@Override
@@ -146,5 +146,4 @@ public class DeleteAllDisposerDuplicantMarkerResolution implements IQuickFix, Te
 	public IContextInformation getContextInformation() {
 		return null;
 	}
-
 }

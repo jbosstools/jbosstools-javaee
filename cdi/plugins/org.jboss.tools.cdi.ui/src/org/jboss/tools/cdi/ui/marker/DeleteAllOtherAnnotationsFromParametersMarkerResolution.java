@@ -112,7 +112,7 @@ public class DeleteAllOtherAnnotationsFromParametersMarkerResolution implements 
 
 	@Override
 	public Image getImage() {
-		return CDIImages.QUICKFIX_REMOVE;
+		return CDIImages.getImage(CDIImages.QUICKFIX_REMOVE);
 	}
 
 	@Override
@@ -144,5 +144,4 @@ public class DeleteAllOtherAnnotationsFromParametersMarkerResolution implements 
 	public IContextInformation getContextInformation() {
 		return null;
 	}
-
 }

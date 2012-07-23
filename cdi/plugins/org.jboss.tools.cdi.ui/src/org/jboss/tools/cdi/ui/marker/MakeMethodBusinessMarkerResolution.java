@@ -163,7 +163,7 @@ public class MakeMethodBusinessMarkerResolution implements IQuickFix {
 
 	@Override
 	public Image getImage() {
-		return CDIImages.QUICKFIX_ADD;
+		return CDIImages.getImage(CDIImages.QUICKFIX_ADD);
 	}
 
 	@Override
@@ -195,5 +195,4 @@ public class MakeMethodBusinessMarkerResolution implements IQuickFix {
 	public IContextInformation getContextInformation() {
 		return null;
 	}
-
 }

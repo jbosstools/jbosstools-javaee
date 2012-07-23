@@ -123,7 +123,7 @@ public class DeleteAllInjectedConstructorsMarkerResolution implements IQuickFix,
 
 	@Override
 	public Image getImage() {
-		return CDIImages.QUICKFIX_REMOVE;
+		return CDIImages.getImage(CDIImages.QUICKFIX_REMOVE);
 	}
 
 	@Override
@@ -155,5 +155,4 @@ public class DeleteAllInjectedConstructorsMarkerResolution implements IQuickFix,
 	public IContextInformation getContextInformation() {
 		return null;
 	}
-
 }

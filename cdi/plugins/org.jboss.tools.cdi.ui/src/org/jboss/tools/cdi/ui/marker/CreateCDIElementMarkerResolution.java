@@ -123,7 +123,7 @@ public class CreateCDIElementMarkerResolution implements IQuickFix, TestableReso
 
 	@Override
 	public Image getImage() {
-		return CDIImages.QUICKFIX_EDIT;
+		return CDIImages.getImage(CDIImages.QUICKFIX_EDIT);
 	}
 
 	@Override
@@ -155,6 +155,4 @@ public class CreateCDIElementMarkerResolution implements IQuickFix, TestableReso
 	public IContextInformation getContextInformation() {
 		return null;
 	}
-
-
 }

@@ -16,7 +16,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
@@ -36,15 +36,15 @@ public class JSF2ElResolver extends AbstractELCompletionEngine<IJSF2ManagedBean>
 
 	private static ELParserFactory factory = ELParserUtil.getJbossFactory();
 
-	public static final Image JSF_EL_PROPOSAL_IMAGE = 
-		JSFModelPlugin.getDefault().getImage(JSFModelPlugin.CA_JSF_EL_IMAGE_PATH);
+	public static final ImageDescriptor JSF_EL_PROPOSAL_IMAGE = 
+		JSFModelPlugin.getDefault().getImageDescriptorFromRegistry(JSFModelPlugin.CA_JSF_EL_IMAGE_PATH);
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImageForMember(org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo)
 	 */
 	@Override
-	public Image getELProposalImageForMember(MemberInfo memberInfo) {
+	public ImageDescriptor getELProposalImageForMember(MemberInfo memberInfo) {
 		return JSF_EL_PROPOSAL_IMAGE;
 	}
 

@@ -36,7 +36,7 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IQuickFix, 
 	private IInjectionPoint injectionPoint;
 	private List<IBean> beans;
 	private IBean selectedBean;
-	
+
 	public MakeInjectedPointUnambiguousMarkerResolution(IInjectionPoint injectionPoint, List<IBean> beans, int index){
 		this.injectionPoint = injectionPoint;
 		this.beans = beans;
@@ -48,12 +48,12 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IQuickFix, 
 	public String getLabel() {
 		return label;
 	}
-	
+
 	@Override
 	public void runForTest(IMarker marker){
 		internal_run(true);
 	}
-	
+
 	@Override
 	public void run(IMarker marker) {
 		internal_run(false);
@@ -65,7 +65,7 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IQuickFix, 
 		AddQualifiersToBeanWizard wizard = new AddQualifiersToBeanWizard(refactoring);
 		wizard.showWizard();
 	}
-	
+
 	@Override
 	public String getDescription() {
 		return label;
@@ -73,7 +73,7 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IQuickFix, 
 
 	@Override
 	public Image getImage() {
-		return CDIImages.QUICKFIX_EDIT;
+		return CDIImages.getImage(CDIImages.QUICKFIX_EDIT);
 	}
 
 	@Override
@@ -105,5 +105,4 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IQuickFix, 
 	public IContextInformation getContextInformation() {
 		return null;
 	}
-
 }

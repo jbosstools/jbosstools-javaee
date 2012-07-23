@@ -12,7 +12,7 @@ package org.jboss.tools.cdi.core.test;
 
 import junit.framework.TestCase;
 
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.internal.core.impl.BeanField;
@@ -32,7 +32,7 @@ public class CDIImagesTest extends TestCase {
 	public void checkImageForCDIElement(ICDIElement element){
 		assertNotNull("CDI Element must be not null", element);
 		
-		Image image = CDIImages.getImageByElement(element);
+		ImageDescriptor image = CDIImages.getImageDescriptorByElement(element);
 		
 		assertNotNull("Icon image for CDI element - "+element.getClass()+" not loaded", image);
 		

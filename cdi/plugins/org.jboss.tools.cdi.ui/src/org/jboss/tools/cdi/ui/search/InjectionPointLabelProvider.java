@@ -19,13 +19,15 @@ import org.jboss.tools.cdi.core.util.BeanPresentationUtil;
 
 public class InjectionPointLabelProvider implements ILabelProvider {
 
+	@Override
 	public Image getImage(Object element) {
 		if(element instanceof CDIElementWrapper){
 			return CDIImages.getImageByElement(((CDIElementWrapper)element).getCDIElement());
 		}
-		return CDIImages.WELD_IMAGE;
+		return CDIImages.getImage(CDIImages.WELD_IMAGE);
 	}
 
+	@Override
 	public String getText(Object element) {
 		if(element instanceof CDIElementWrapper){
 			ICDIElement cdiElement = ((CDIElementWrapper)element).getCDIElement();
@@ -39,16 +41,20 @@ public class InjectionPointLabelProvider implements ILabelProvider {
 		return ""; //$NON-NLS-1$
 	}
 
+	@Override
 	public void addListener(ILabelProviderListener listener) {
 	}
 
+	@Override
 	public void dispose() {
 	}
 
+	@Override
 	public boolean isLabelProperty(Object element, String property) {
 		return false;
 	}
 
+	@Override
 	public void removeListener(ILabelProviderListener listener) {
 	}
 }

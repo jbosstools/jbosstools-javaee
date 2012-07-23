@@ -80,6 +80,6 @@ public class DeleteAnnotationMarkerResolution extends BaseMarkerResolution {
 	
 	@Override
 	public Image getImage() {
-		return CDIImages.QUICKFIX_REMOVE;
+		return CDIImages.getImage(CDIImages.QUICKFIX_REMOVE);
 	}
 }
