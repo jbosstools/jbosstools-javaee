@@ -34,6 +34,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.StyledString.Styler;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.TextStyle;
@@ -377,7 +378,7 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 
 	public class CDINamedBeanLabelProvider implements IStyledLabelProvider, ILabelProvider {
 		final Color gray = new Color(null, 128, 128, 128);
-		final Color black = new Color(null, 0, 0, 0);
+		final Color black = getShell().getDisplay().getSystemColor(SWT.COLOR_INFO_FOREGROUND);
 
 		final Styler NAME_STYLE = new CDIBeanStyler(black);
 		final Styler QUALIFIED_NAME_STYLE = new CDIBeanStyler(gray);

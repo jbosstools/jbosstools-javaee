@@ -585,7 +585,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 	}
 
 	static Color gray = new Color(null, 128, 128, 128);
-	static Color black = new Color(null, 0, 0, 0);
+	static Color black = Display.getDefault().getSystemColor(SWT.COLOR_INFO_FOREGROUND);
 
 	static Styler RESOLVED_NAME = new DefaultStyler(black, true, false);
 	static Styler ELIGIBLE_NAME = new DefaultStyler(black, false, false);
