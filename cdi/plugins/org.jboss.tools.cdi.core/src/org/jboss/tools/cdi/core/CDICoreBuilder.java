@@ -167,12 +167,14 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			}
 
 			n.cleanTypeFactory();
+
+			if(kind == FULL_BUILD) n.getClassPath().reset();
 		
 			//1. Check class path.
 			boolean isClassPathUpdated = n.getClassPath().update();
 	
 			JarSet newJars = new JarSet();
-			if(isClassPathUpdated) {
+			if(isClassPathUpdated || kind == FULL_BUILD) {
 				//2. Update class path. Removed paths will be cached to be applied to working copy of context. 
 				n.getClassPath().setSrcs(getResourceVisitor().srcs);
 				newJars = n.getClassPath().process();
@@ -204,7 +206,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			for (IBuildParticipantFeature p: buildParticipants) p.beginVisiting();
 
 			//5.2 Discover sources and build definitions.
-			if(isClassPathUpdated) {
+			if(isClassPathUpdated || kind == FULL_BUILD) {
 				buildJars(newJars);
 				
 				n.getClassPath().validateProjectDependencies();

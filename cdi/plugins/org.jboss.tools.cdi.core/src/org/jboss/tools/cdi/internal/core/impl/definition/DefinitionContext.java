@@ -330,7 +330,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 	}
 
 	public void newWorkingCopy(boolean forFullBuild) {
-		if(original != null) return;
+		if(original != null || workingCopy != null) return;
 		workingCopy = copy(forFullBuild);
 		workingCopy.original = this;
 	}
