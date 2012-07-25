@@ -68,6 +68,7 @@ import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.quickfix.IQuickFix;
 import org.jboss.tools.common.quickfix.IQuickFixGenerator;
+import org.jboss.tools.common.refactoring.MarkerResolutionUtils;
 import org.jboss.tools.common.validation.java.TempJavaProblem;
 import org.jboss.tools.common.validation.java.TempJavaProblemAnnotation;
 
@@ -104,10 +105,11 @@ public class CDIProblemMarkerResolutionGenerator implements
 	}
 	
 	private int getMessageID(TemporaryAnnotation annotation){
-		Integer attribute = ((Integer) annotation.getAttributes().get(CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME));
-		if (attribute != null)
-			return attribute.intValue();
-
+		if(annotation.getAttributes() != null){
+			Integer attribute = ((Integer) annotation.getAttributes().get(CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME));
+			if (attribute != null)
+				return attribute.intValue();
+		}
 		return -1; 
 	}
 	
@@ -1072,7 +1074,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		}else if(annotation instanceof TemporaryAnnotation){
 			TemporaryAnnotation tempAnnotation = (TemporaryAnnotation)annotation;
 			
-			IFile file = getFile();
+			IFile file = MarkerResolutionUtils.getFile();
 			int messageId = getMessageID(tempAnnotation);
 			int start = tempAnnotation.getPosition().getOffset();
 			int end = start + tempAnnotation.getPosition().getLength();
@@ -1086,20 +1088,5 @@ public class CDIProblemMarkerResolutionGenerator implements
 		return null;
 	}
 	
-	private static IFile getFile(){
-		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-		if(window != null){
-			IWorkbenchPage page = window.getActivePage();
-			if(page != null){
-				IEditorPart editor = page.getActiveEditor();
-				if(editor != null){
-					IEditorInput input = editor.getEditorInput();
-					if(input instanceof IFileEditorInput){
-						return ((IFileEditorInput) input).getFile();
-					}
-				}
-			}
-		}
-		return null;
-	}
+	
 }
