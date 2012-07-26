@@ -42,6 +42,9 @@
    <to-view-id>/pages/greeting3.xhtml?page=#{aaa.bbb}</to-view-id>
   </navigation-case>
  </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/pages/inputname222.xhtml</from-view-id>
+ </navigation-rule>
  <application>
   <action-listener>actionListener</action-listener>
  </application>
