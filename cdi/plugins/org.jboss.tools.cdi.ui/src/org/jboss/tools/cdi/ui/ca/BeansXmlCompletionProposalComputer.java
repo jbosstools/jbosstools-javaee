@@ -106,7 +106,7 @@ public class BeansXmlCompletionProposalComputer extends XmlTagCompletionProposal
 			int replacementLength = matchString.length();
 			int cursorPosition = getCursorPositionForProposedText(replacementString);
 			Image image = CommonUIPlugin.getImageDescriptorRegistry().get(textProposal.getImageDescriptor());
-			if (image == null) {
+			if (textProposal.getImageDescriptor() == null) {
 				image = XMLEditorPluginImageHelper.getInstance().getImage(XMLEditorPluginImages.IMG_OBJ_TAG_GENERIC);
 			}
 
