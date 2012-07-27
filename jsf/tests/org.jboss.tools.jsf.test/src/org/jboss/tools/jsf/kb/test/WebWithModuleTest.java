@@ -56,7 +56,7 @@ public class WebWithModuleTest extends TestCase {
 		IKbProject kbUtility = KbProjectFactory.getKbProject(utility, true);
 		assertNotNull(kbUtility);
 		int w = 0;
-		while(kbUtility.getTagLibraries().length == 0 && w++ < 50) {
+		while(kbUtility.getProjectTagLibraries().length == 0 && w++ < 50) {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
