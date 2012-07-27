@@ -75,7 +75,9 @@ import org.w3c.dom.NodeList;
 
 public class CreateJSF2CompositeCommandHandler extends AbstractHandler {
 
+	private static final Pattern USED_TAGLIBS_PATTERN = Pattern.compile("<([a-zA-Z]+\\d*)+:"); //$NON-NLS-1$
 	private final String IMPLEMENTATION = "composite:implementation";  //$NON-NLS-1$
+	private NameInputValidator nameInputValidator;
 	private JSPMultiPageEditor editor;
 	
 	@Override
@@ -148,39 +150,15 @@ public class CreateJSF2CompositeCommandHandler extends AbstractHandler {
 				/*
 				 * Get composite's name and namespace from the popup dialog
 				 */
+				if (nameInputValidator == null) {
+					nameInputValidator = new NameInputValidator(project);
+				} else {
+					nameInputValidator.setProject(project);
+				}
 				InputDialog dlg = new InputDialog(Display.getCurrent().getActiveShell(),
 						"Creating composite component", //$NON-NLS-1$
 						"Enter component's namespace and name:", "namespace:name", //$NON-NLS-1$ //$NON-NLS-2$
-						new IInputValidator() {
-					public String isValid(String newText) {
-						String trim = newText.trim();
-						String result = null;
-						String[] split = trim.split(":", 2); //$NON-NLS-1$
-						Pattern p = Pattern.compile("([a-zA-Z]+\\d*)+"); //$NON-NLS-1$ 
-						/*
-						 * Check the correct format.
-						 * Matcher will accept only word characters with optional numbers.
-						 */
-						if ((split.length != 2) || trim.startsWith(":") || trim.endsWith(":") //$NON-NLS-1$ //$NON-NLS-2$
-								|| (split[0].length() == 0) || (split[1].length() == 0)) {
-							result = "Component's name should fit in the pattern \"namespace:name\""; //$NON-NLS-1$
-						} else if(!p.matcher(split[0]).matches()) {
-							result = "Namespace '"+split[0]+"' has wrong spelling, please correct"; //$NON-NLS-1$ //$NON-NLS-2$
-						} else if(!p.matcher(split[1]).matches()) {
-							result = "Name '"+split[1]+"' has wrong spelling, please correct"; //$NON-NLS-1$ //$NON-NLS-2$
-						} else {
-							String nameSpaceURI = JSF2ResourceUtil.JSF2_URI_PREFIX + "/" + split[0];  //$NON-NLS-1$
-							Object fld = JSF2ResourceUtil.findResourcesFolderContainerByNameSpace(project, nameSpaceURI);
-							if (fld instanceof IFolder) {
-								IResource res = ((IFolder) fld).findMember(split[1]+ ".xhtml"); //$NON-NLS-1$
-								if ((res instanceof IFile) && ((IFile)res).exists() ) {
-									result = "Component with the same name already exists"; //$NON-NLS-1$
-								}
-							}
-						}
-						return result;
-					}
-				});
+						nameInputValidator);
 				if (dlg.open() == Window.OK) {
 					/*
 					 * Create all required files
@@ -224,16 +202,16 @@ public class CreateJSF2CompositeCommandHandler extends AbstractHandler {
 										if (ed instanceof JSPTextEditor) {
 											String libraryUri = JSF2ResourceUtil.JSF2_URI_PREFIX + "/" + split[0]; //$NON-NLS-1$
 											PaletteTaglibInserter PaletteTaglibInserter = new PaletteTaglibInserter();
-											Properties p = new Properties();
-											p.put("selectionProvider", editor.getSelectionProvider()); //$NON-NLS-1$
-											p.setProperty(URIConstants.LIBRARY_URI, libraryUri);
-											p.setProperty(URIConstants.LIBRARY_VERSION, ""); //$NON-NLS-1$
-											p.setProperty(URIConstants.DEFAULT_PREFIX, split[0]);
-											p.setProperty(JSPPaletteInsertHelper.PROPOPERTY_ADD_TAGLIB, "true"); //$NON-NLS-1$
-											p.setProperty(XModelObjectConstants.REFORMAT, "yes"); //$NON-NLS-1$
-											p.setProperty(XModelObjectConstants.START_TEXT, 
+											Properties properties = new Properties();
+											properties.put("selectionProvider", editor.getSelectionProvider()); //$NON-NLS-1$
+											properties.setProperty(URIConstants.LIBRARY_URI, libraryUri);
+											properties.setProperty(URIConstants.LIBRARY_VERSION, ""); //$NON-NLS-1$
+											properties.setProperty(URIConstants.DEFAULT_PREFIX, split[0]);
+											properties.setProperty(JSPPaletteInsertHelper.PROPOPERTY_ADD_TAGLIB, "true"); //$NON-NLS-1$
+											properties.setProperty(XModelObjectConstants.REFORMAT, "yes"); //$NON-NLS-1$
+											properties.setProperty(XModelObjectConstants.START_TEXT, 
 													"<%@ taglib uri=\""+libraryUri+"\" prefix=\"" +split[0]+ "\" %>\\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-											PaletteTaglibInserter.inserTaglib(ed.getTextViewer().getDocument(), p);
+											PaletteTaglibInserter.inserTaglib(ed.getTextViewer().getDocument(), properties);
 										}
 										/*
 										 * Add required taglibs to the composite file
@@ -255,8 +233,7 @@ public class CreateJSF2CompositeCommandHandler extends AbstractHandler {
 											/*
 											 * Parse selected fragment to find used taglibs
 											 */
-											Pattern p = Pattern.compile("<([a-zA-Z]+\\d*)+:"); //$NON-NLS-1$ 
-											Matcher m = p.matcher(replacedText);
+											Matcher m = USED_TAGLIBS_PATTERN.matcher(replacedText);
 											while (m.find()) {
 												if (sourceTaglibs.keySet().contains(m.group(1)) 
 														&& !requiredTaglibs.keySet().contains(m.group(1))) {
@@ -274,7 +251,7 @@ public class CreateJSF2CompositeCommandHandler extends AbstractHandler {
 													compositeTaglibs.add(map.item(i).getNodeName());
 												}
 												for (String key : requiredTaglibs.keySet()) {
-													String xmlns = "xmlns:"+key; //$NON-NLS-1$
+													String xmlns = "xmlns:" + key; //$NON-NLS-1$
 													if (!compositeTaglibs.contains(xmlns)) {
 														html.setAttribute(xmlns, requiredTaglibs.get(key));
 													}
@@ -292,6 +269,7 @@ public class CreateJSF2CompositeCommandHandler extends AbstractHandler {
 											JSPMultiPageEditor part = (JSPMultiPageEditor) PlatformUI
 													.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 													.openEditor(input, "org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor", true); //$NON-NLS-1$
+											part.setFocus();
 										}
 									}
 								}
@@ -313,5 +291,5 @@ public class CreateJSF2CompositeCommandHandler extends AbstractHandler {
 		}
 		return null;
 	}
-
+	
 }
