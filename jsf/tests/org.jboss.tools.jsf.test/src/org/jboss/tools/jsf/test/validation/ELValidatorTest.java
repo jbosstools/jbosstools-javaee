@@ -281,6 +281,17 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, messagePattern, false, 8);
 	}
 
+	public void testSyntaxErrorsInXML() throws CoreException, ValidationException {
+		IFile file = project.getFile("WebContent/pages/a.xml");
+
+		TestUtil.validate(file);
+
+		String messagePattern = MessageFormat.format(ELValidationMessages.EL_SYNTAX_ERROR, new Object[]{ElCoreMessages.OperationRule_ExpectingRBrace});
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, messagePattern, false, 9);
+
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, messagePattern, 8);
+	}
+
 	private long validateFile(String fileName, int numberOfMarkers) throws ValidationException {
 		Set<String> files = new HashSet<String>();
 		files.add(fileName);
