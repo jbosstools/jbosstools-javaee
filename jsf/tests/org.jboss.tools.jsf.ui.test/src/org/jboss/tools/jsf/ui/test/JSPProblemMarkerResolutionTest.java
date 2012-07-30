@@ -1,7 +1,6 @@
 package org.jboss.tools.jsf.ui.test;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,7 +8,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -17,7 +15,6 @@ import org.eclipse.jdt.ui.text.java.IJavaCompletionProposal;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jst.jsp.ui.internal.validation.JSPContentSourceValidator;
@@ -161,17 +158,22 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 
 		IMarker[] markers = findMarkers(jspFile, JSP_MARKER_TYPE, "Unknown tag (h:commandButton).");
 
-		assertEquals(1, markers.length);
+		assertEquals("Should be 1 marker here", 1, markers.length);
 
 		JSPProblemMarkerResolutionGenerator generator = new JSPProblemMarkerResolutionGenerator();
+		
+		boolean found = false;
 
 		for(IMarker marker : markers){
 			generator.hasResolutions(marker);
 			IMarkerResolution[] resolutions = generator.getResolutions(marker);
 			for(IMarkerResolution resolution : resolutions){
 				resolution.run(marker);
+				found = true;
 			}
 		}
+		
+		assertTrue("AddTLDMarkerResolution not found", found);
 
 		validate(jspFile);
 
@@ -185,25 +187,30 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 		
 		validate(jspFile);
 
-		assertMarkerIsCreated(jspFile, XHTML_MARKER_TYPE, "Unknown tag (ui:insert).", true, 8, 17, 31);
+		assertMarkerIsCreated(jspFile, XHTML_MARKER_TYPE, "Unknown tag (f:loadBundle).", true, 5);
 
-		IMarker[] markers = findMarkers(jspFile, XHTML_MARKER_TYPE, "Unknown tag (ui:insert).");
+		IMarker[] markers = findMarkers(jspFile, XHTML_MARKER_TYPE, "Unknown tag (f:loadBundle).");
 
-		assertEquals(3, markers.length);
+		assertEquals("Should be 1 marker here", 1, markers.length);
 
 		JSPProblemMarkerResolutionGenerator generator = new JSPProblemMarkerResolutionGenerator();
+		
+		boolean found = false;
 
 		for(IMarker marker : markers){
 			generator.hasResolutions(marker);
 			IMarkerResolution[] resolutions = generator.getResolutions(marker);
 			for(IMarkerResolution resolution : resolutions){
 				resolution.run(marker);
+				found = true;
 			}
 		}
+		
+		assertTrue("AddTLDMarkerResolution not found", found);
 
 		validate(jspFile);
 
-		assertMarkerIsNotCreated(jspFile, XHTML_MARKER_TYPE, "Unknown tag (ui:insert).");
+		assertMarkerIsNotCreated(jspFile, XHTML_MARKER_TYPE, "Unknown tag (f:loadBundle).");
 	}
 	
 	public void testQuickFixesForTemporaryAnnotationInJSP() throws PartInitException, BadLocationException{
