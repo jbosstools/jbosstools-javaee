@@ -33,7 +33,7 @@
       <wizard
             category="org.jboss.tools.seam.ui"
             class="org.jboss.tools.seam.ui.wizard.SeamActionWizard"
-            icon="$nl$/icons/seam16.png"
+            icon="$nl$/icons/seam_action.png"
             id="org.jboss.tools.seam.ui.wizard.SeamActionWizard"
             name="Seam Action">
          <description>
@@ -46,7 +46,7 @@
       <wizard
             category="org.jboss.tools.seam.ui"
             class="org.jboss.tools.seam.ui.wizard.SeamFormWizard"
-            icon="$nl$/icons/seam16.png"
+            icon="$nl$/icons/seam_form.png"
             id="org.jboss.tools.seam.ui.wizard.SeamFormWizard"
             name="Seam Form">
          <description>
@@ -59,7 +59,7 @@
  	  <wizard
             category="org.jboss.tools.seam.ui"
             class="org.jboss.tools.seam.ui.wizard.SeamConversationWizard"
-            icon="$nl$/icons/seam16.png"
+            icon="$nl$/icons/seam_conversation.png"
             id="org.jboss.tools.seam.ui.wizard.SeamConversationWizard"
             name="Seam Conversation">
          <description>
@@ -73,7 +73,7 @@
       <wizard
             category="org.jboss.tools.seam.ui"
             class="org.jboss.tools.seam.ui.wizard.SeamEntityWizard"
-            icon="$nl$/icons/seam16.png"
+            icon="$nl$/icons/seam_enity.png"
             id="org.jboss.tools.seam.ui.wizard.SeamEntityWizard"
             name="Seam Entity">
          <description>
@@ -86,7 +86,7 @@
             <wizard
             category="org.jboss.tools.seam.ui"
             class="org.jboss.tools.seam.ui.wizard.SeamGenerateEntitiesWizard"
-            icon="$nl$/icons/seam16.png"
+            icon="$nl$/icons/seam_generate_entity.png"
             id="org.jboss.tools.seam.ui.wizard.SeamGenerateEnitiesWizard"
             name="Seam Generate Entities">
          <description>

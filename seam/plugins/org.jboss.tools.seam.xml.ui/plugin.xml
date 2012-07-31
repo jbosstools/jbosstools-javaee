@@ -6,7 +6,7 @@
       <wizard 
          category="org.jboss.tools.seam.ui" 
          class="org.jboss.tools.seam.xml.ui.wizard.newfile.NewSeamComponentsFileWizard" 
-         icon="$nl$/images/seam16.png" 
+         icon="$nl$/images/seam_components_file.png" 
          id="org.jboss.tools.seam.xml.ui.wizard.newfile.NewSeamComponentsFileWizard" 
          name="Seam Components File" 
          project="false">

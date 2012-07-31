@@ -33,7 +33,7 @@ public class SeamUiImages {
 	
 	public static final Image SCOPE_IMAGE = getImage("view/scope.gif"); //$NON-NLS-1$
 	public static final Image PROJECT_IMAGE = getImage("view/seam_project.gif"); //$NON-NLS-1$
-	public static final Image COMPONENT_IMAGE = getImage("view/component.gif"); //$NON-NLS-1$
+	public static final Image COMPONENT_IMAGE = getImage("view/component.png"); //$NON-NLS-1$
 	public static final Image ROLE_IMAGE = getImage("view/role.gif"); //$NON-NLS-1$
 	public static final Image JAVA_IMAGE = getImage("view/java.gif"); //$NON-NLS-1$
 	public static final Image JAVA_BINARY_IMAGE = getImage("view/java_binary.gif"); //$NON-NLS-1$

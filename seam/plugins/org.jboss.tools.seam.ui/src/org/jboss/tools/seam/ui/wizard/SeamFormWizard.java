@@ -43,7 +43,7 @@ public class SeamFormWizard extends SeamBaseWizard implements INewWizard {
 	public SeamFormWizard() {
 		super(CREATE_SEAM_FORM);
 		setWindowTitle(SeamCoreMessages.SEAM_FORM_WIZARD_NEW_SEAM_FORM);
-		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamActionWizard.class, "SeamFormWizBan.png")); //$NON-NLS-1$
+		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamFormWizard.class, "SeamFormWizBan.png")); //$NON-NLS-1$
 	}
 
 	/*

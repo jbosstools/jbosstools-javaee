@@ -71,7 +71,7 @@ public class SeamGenerateEntitiesWizard extends SeamBaseWizard implements INewWi
 	public SeamGenerateEntitiesWizard() {
 		super(GENERATE_SEAM_ENTITIES);
 		setWindowTitle(SeamCoreMessages.GENERATE_SEAM_ENTITIES_WIZARD_TITLE);
-		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamGenerateEntitiesWizard.class, "SeamWebProjectWizBan.png"));	
+		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamGenerateEntitiesWizard.class, "SeamGenerateEntitiesWizBan.png"));	
 		addPage(page1);
 		addPage(page2);
 	}

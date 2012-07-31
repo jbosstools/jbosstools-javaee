@@ -36,7 +36,7 @@ public class SeamConversationWizard extends SeamBaseWizard implements INewWizard
 	public SeamConversationWizard() {
 		super(CREATE_SEAM_CONVERSATION);
 		setWindowTitle(SeamCoreMessages.SEAM_CONVERSATION_WIZARD_CREATE_NEW_CONVERSATION);
-		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamConversationWizard.class, "SeamWebProjectWizBan.png"));		
+		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamConversationWizard.class, "SeamConversationWizBan.png"));		
 	}
 
 	@Override

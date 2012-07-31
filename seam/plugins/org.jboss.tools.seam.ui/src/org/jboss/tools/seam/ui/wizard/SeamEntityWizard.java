@@ -43,7 +43,7 @@ public class SeamEntityWizard extends SeamBaseWizard implements INewWizard {
 	public SeamEntityWizard() {
 		super(CREATE_SEAM_ENTITY);
 		setWindowTitle(SeamCoreMessages.SEAM_ENTITY_WIZARD_NEW_SEAM_ENTITY);
-		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamEntityWizard.class, "SeamWebProjectWizBan.png"));
+		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamEntityWizard.class, "SeamEntityWizBan.png"));
 	}
 
 	@Override
