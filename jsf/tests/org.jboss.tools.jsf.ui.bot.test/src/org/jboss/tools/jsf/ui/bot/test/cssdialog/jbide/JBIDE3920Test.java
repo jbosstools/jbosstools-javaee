@@ -6,6 +6,7 @@ import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
 import org.jboss.tools.ui.bot.ext.gen.ActionItem;
+import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 
 public class JBIDE3920Test extends JSFAutoTestCase{
@@ -31,7 +32,7 @@ public class JBIDE3920Test extends JSFAutoTestCase{
 		eclipseEditor.setFocus();
 		eclipseEditor.insertText(CSS_CLASS_NAME+"{"); //$NON-NLS-1$
 		eclipseEditor.save();
-		eclipseEditor.contextMenu("Open CSS Dialog").click(); //$NON-NLS-1$
+		ContextMenuHelper.clickContextMenu(eclipseEditor, "Open CSS Dialog"); //$NON-NLS-1$
 		bot.shell("CSS Class").activate(); //$NON-NLS-1$
 		bot.tabItem("Text/Font").activate(); //$NON-NLS-1$
 		bot.comboBoxWithLabel("Font Style:").setSelection("italic"); //$NON-NLS-1$ //$NON-NLS-2$

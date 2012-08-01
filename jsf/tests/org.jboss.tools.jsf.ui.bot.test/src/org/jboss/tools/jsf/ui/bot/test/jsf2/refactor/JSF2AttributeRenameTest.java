@@ -21,6 +21,10 @@ public class JSF2AttributeRenameTest extends JSF2AbstractRefactorTest {
 		SWTBotEclipseEditor editor = bot
 				.editorByTitle("echo.xhtml").toTextEditor(); //$NON-NLS-1$
 		editor.selectRange(9, 29, 1);
+		// for Eclipse Juno focus has to be moved out and back from editor
+		packageExplorer.show();
+		packageExplorer.bot().tree().setFocus();
+		editor.setFocus();
 		bot.menu("Refactor").menu("Rename").click(); //$NON-NLS-1$ //$NON-NLS-2$
 		bot.shell("Rename Composite Attribute").activate(); //$NON-NLS-1$
 		bot.textWithLabel("New name:").setText("echo1"); //$NON-NLS-1$ //$NON-NLS-2$

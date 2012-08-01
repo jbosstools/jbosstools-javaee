@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007-2011 Red Hat, Inc.
+ * Copyright (c) 2007-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -18,6 +18,7 @@ import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
 import org.jboss.tools.ui.bot.ext.SWTBotExt;
 import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
+import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.gen.ActionItem;
 import org.jboss.tools.ui.bot.ext.helper.OpenOnHelper;
 import org.jboss.tools.ui.bot.ext.parts.SWTBotEditorExt;
@@ -159,10 +160,12 @@ public class OpenOnTest extends JSFAutoTestCase{
     SWTBotEditor compositeComponentEditor = OpenOnHelper.checkOpenOnFileIsOpened(
         SWTTestExt.bot, JSF2_TEST_PAGE, "<ez:input ", 5,
         0, 0, expectedOpenedFileName);
+    util.waitForAll(Timing.time3S());
     // Check open on for cc.attrs.submitlabel
     compositeComponentEditor = OpenOnHelper.checkOpenOnFileIsOpened(
         SWTTestExt.bot, expectedOpenedFileName, "value=\"#{cc.attrs.submitlabel}\"", 20,
         0, 0, expectedOpenedFileName);
+    util.waitForAll(Timing.time3S());
     String selectedText = compositeComponentEditor.toTextEditor().getSelection();
     String expectedSelectedText = "<composite:attribute name=\"submitlabel\"/>";
     assertTrue("Selected text in editor has to be " + expectedSelectedText

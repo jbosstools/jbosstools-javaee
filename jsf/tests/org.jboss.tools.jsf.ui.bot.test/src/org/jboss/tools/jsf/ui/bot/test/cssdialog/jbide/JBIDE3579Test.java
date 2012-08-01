@@ -6,6 +6,7 @@ import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
 import org.jboss.tools.ui.bot.ext.gen.ActionItem;
+import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 
 public class JBIDE3579Test extends JSFAutoTestCase{
@@ -35,10 +36,8 @@ public class JBIDE3579Test extends JSFAutoTestCase{
 		eclipseEditor.insertText("cssclass{\r\tcolor:red;\r\t" + //$NON-NLS-1$
 		"background-color:green;\r}"); //$NON-NLS-1$
 		eclipseEditor.save();
-		eclipseEditor.contextMenu("Open CSS Dialog").click(); //$NON-NLS-1$
-		
+		ContextMenuHelper.clickContextMenu(eclipseEditor, "Open CSS Dialog"); //$NON-NLS-1$		
 		//Test Create new CSS class
-
 		bot.shell("CSS Class").activate(); //$NON-NLS-1$
 		bot.button("Add CSS Class").click(); //$NON-NLS-1$
 		bot.shell("Enter New CSS Class Name").activate(); //$NON-NLS-1$
