@@ -28,3 +28,4 @@ Bundle-Localization: plugin
 Import-Package: org.eclipse.wst.sse.ui,
  org.jboss.tools.jst.web.tld
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Eclipse-BundleShape: jar

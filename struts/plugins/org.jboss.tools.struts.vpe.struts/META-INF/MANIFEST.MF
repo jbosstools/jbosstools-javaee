@@ -10,3 +10,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %vendorName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Eclipse-BundleShape: jar
