@@ -32,6 +32,11 @@ public class CDIValidationMessages {
 	public static String UNPROXYABLE_BEAN_TYPE_WITH_NPC;
 	public static String UNPROXYABLE_BEAN_FINAL_TYPE;
 	public static String UNPROXYABLE_BEAN_TYPE_WITH_FM;
+	public static String UNPROXYABLE_BEAN_ARRAY_TYPE_2;
+	public static String UNPROXYABLE_BEAN_PRIMITIVE_TYPE_2;
+	public static String UNPROXYABLE_BEAN_TYPE_WITH_NPC_2;
+	public static String UNPROXYABLE_BEAN_FINAL_TYPE_2;
+	public static String UNPROXYABLE_BEAN_TYPE_WITH_FM_2;
 	public static String DECORATOR_RESOLVES_TO_FINAL_CLASS;
 	public static String DECORATOR_RESOLVES_TO_FINAL_METHOD;
 	public static String DUPLCICATE_EL_NAME;

@@ -661,6 +661,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		// validate
 		validateTyped(bean);
 		validateBeanScope(bean);
+		validateNormalBeanScope(bean);
 
 		if (bean instanceof IProducer) {
 			validateProducer(context, (IProducer) bean);
@@ -1831,6 +1832,61 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			ITextSourceReference reference = injection.getDelegateAnnotation();
 			addProblem(CDIValidationMessages.ILLEGAL_BEAN_DECLARING_DELEGATE, CDIPreferences.ILLEGAL_BEAN_DECLARING_DELEGATE, reference, injection.getResource());
 		}
+	}
+
+	private void validateNormalBeanScope(IBean bean) {
+		if(bean.getScope()!=null && bean.getScope().isNorlmalScope()) {
+			ITextSourceReference reference = null;
+			Set<IScopeDeclaration> scopes = bean.getScopeDeclarations();
+			if(!scopes.isEmpty()) {
+				reference = scopes.iterator().next();
+			} else {
+				reference = bean.getNameLocation(false);
+			}
+			if(reference == null) {
+				return;
+			}
+			for (IParametedType type: bean.getLegalTypes()) {
+			 // - Array types cannot be proxied by the container.
+			String typeSignature = type.getSignature();
+			int kind = Signature.getTypeSignatureKind(typeSignature);
+			if(kind == Signature.ARRAY_TYPE_SIGNATURE) {
+				addProblem(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE_2, type.getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, bean.getResource());
+			} else if(type.isPrimitive()) {
+				// - Primitive types cannot be proxied by the container.
+				addProblem(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE_2, type.getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, bean.getResource());
+			} else if(type.getType().exists() && !"java.lang.Object".equals(type.getType().getFullyQualifiedName())) {
+				try {
+					if(Flags.isFinal(type.getType().getFlags())) {
+						// - Classes which are declared final cannot be proxied by the container.
+						addProblem(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE_2, type.getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, bean.getResource());
+					} else {
+						IMethod[] methods = type.getType().getMethods();
+						boolean hasDefaultConstructor = false;
+						boolean hasConstructor = false;
+						for (IMethod method : methods) {
+							hasConstructor = hasConstructor || method.isConstructor();
+							hasDefaultConstructor = hasDefaultConstructor || (method.isConstructor() && !Flags.isPrivate(method.getFlags()) && method.getParameterNames().length==0);
+							if(Flags.isFinal(method.getFlags())) {
+								// - Classes which have final methods cannot be proxied by the container.
+								addProblem(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM_2, type.getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, bean.getResource());
+								hasDefaultConstructor = true;
+								break;
+							}
+						}
+						if(!hasDefaultConstructor && hasConstructor) {
+							// - Classes which don't have a non-private constructor with no parameters cannot be proxied by the container.
+							addProblem(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC_2, type.getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, bean.getResource());
+						}
+					}
+				} catch (JavaModelException e) {
+					CDICorePlugin.getDefault().logError(e);
+				}
+			}
+
+			}
+		}
+		
 	}
 
 	/**
