@@ -8,6 +8,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
 import org.jboss.tools.ui.bot.ext.SWTUtilExt;
+import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.gen.ActionItem;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 
@@ -98,6 +99,7 @@ public class CSSSelectorJBIDE3288 extends JSFAutoTestCase{
 		SWTBotTreeItem tiStyleClass = tree.getAllItems()[0].expand().getNode("styleClass");
 		tiStyleClass.select(); //$NON-NLS-1$
 		tiStyleClass.click(); //$NON-NLS-1$
+		util.waitForButtonIsFound("...", Timing.time3S());
 		bot.button("...").click(); //$NON-NLS-1$
 	}
 	
