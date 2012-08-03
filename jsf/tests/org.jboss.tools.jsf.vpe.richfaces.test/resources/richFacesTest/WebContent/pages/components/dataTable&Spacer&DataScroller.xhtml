@@ -10,65 +10,17 @@
 	<link href="/WebContent/pages/components/main.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<rich:panel style="width : 780px; height : 702px;" id="dataTable">
-	<f:facet name="header">
-		<h:outputText value="Data Table &amp; Spacer &amp; DataScroller" />
-	</f:facet>
-	<rich:datascroller for="auction" maxPages="3" align="right"
-		boundaryControls="hide" styleClass="evenRow"
+	<rich:datascroller id="datascroller"
+		for="auction" maxPages="3" align="right" boundaryControls="hide" styleClass="evenRow"
 		inactiveStyle="text-align:center;color:red;font-style:italic;border-style:none;background-color:green;text-decoration:overline;font-weight:bolder;"
 		selectedStyle="text-align:right;color:Navy;font-style:italic;background-color:PaleVioletRed;text-decoration:overline;font-weight:bolder;"
 		style="text-align:center;color:Orchid;font-style:italic;font-size:small;background-color:Turquoise;text-decoration:line-through;font-weight:bolder;" />
-	<rich:spacer height="30" width="700"
-		style="background-color:red; width : 748px;" styleClass="btn" />
-	<rich:dataTable id="auction" value="#{auctionDataModel}"
-		columnClasses="col1,col2,col3,col4" var="item" rows="10" width="100%"
-		columnsWidth="50" bgcolor="green" border="10" headerClass="btn"
-		footerClass="btn" sortMode="multi" style="color:red" styleClass="btn">
-		<f:facet name="header">
-			<h:outputText value="Header of the table" />
-		</f:facet>
-		<f:facet name="footer">
-			<h:outputText value="Footer of the table" />
-		</f:facet>
-		<rich:column sortBy="#{item.description}"
-			sortIcon="/pages/images/icons/copy.gif">
-			<f:facet name="header">
-				<h:outputText value="Description" />
-			</f:facet>
-			<h:outputText value="#{item.description}" />
-		</rich:column>
+		
+	<rich:dataTable id="auction">
 		<rich:column>
-			<f:facet name="header">
-				<h:outputText value="Highest Bid" />
-			</f:facet>
-			<h:outputText id="highestBid" value="#{item.highestBid}">
-				<f:convertNumber pattern="$#,##0.00" />
-			</h:outputText>
-		</rich:column>
-		<rich:column>
-			<f:facet name="header">
-				<h:outputText value="Your Bid" />
-			</f:facet>
-
-			<rich:message for="bid" />
-			<br />
-			<h:inputText id="bid" value="#{item.bid}" label="Bid">
-				<f:validateDoubleRange minimum="0" maximum="1000000" />
-			</h:inputText>
-			<a4j:commandLink id="bid_link" actionListener="#{item.placeBid}"
-				value="Place a bid!" reRender="bid,amount,highestBid" />
-
-		</rich:column>
-		<rich:column>
-			<f:facet name="header">
-				<h:outputText value="Amount" />
-			</f:facet>
-			<h:outputText id="amount" value="#{item.amount}">
-				<f:convertNumber pattern="$#,##0.00" />
-			</h:outputText>
-		</rich:column>
+			Col1
+		</rich:column>	
 	</rich:dataTable>
-</rich:panel>
+
 </body>
 </html>

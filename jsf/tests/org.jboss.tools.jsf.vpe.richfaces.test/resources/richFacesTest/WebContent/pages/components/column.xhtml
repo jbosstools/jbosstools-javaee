@@ -81,10 +81,6 @@
 			</rich:columnGroup>
 		</f:facet>
 	</rich:dataTable>
-	<rich:panel id="column5">
-		<f:facet name="header">
-			<h:outputText value="Column" />
-		</f:facet>
 		<rich:dataTable id="table1" value="#{bookList.bookList}" var="book"
 			style="text-align:center;color:Orchid;font-style:italic;font-size:small;border-style:dotted;background-color:Turquoise;border-color:Orchid;text-decoration:underline;font-family:Arial;border-width:thick;font-weight:bolder"
 			columnClasses="evenRow, oddRow" sortMode="multi">
@@ -133,7 +129,6 @@
 				<h:outputText value="#{book.numOfCopies}" />
 			</rich:column>
 		</rich:dataTable>
-	</rich:panel>
 </h:form>
 </body>
 </html>

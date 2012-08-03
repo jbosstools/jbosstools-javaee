@@ -1,6 +1,6 @@
 <tests>
-	<test id="toolBar">
-			<TABLE WIDTH="100%" CLASS="dr-toolbar-ext rich-toolbar"
+	<test id="toolBar1">
+		<TABLE WIDTH="100%" CLASS="dr-toolbar-ext rich-toolbar"
 				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
 				<TBODY>
 					<TR VALIGN="middle">
@@ -69,15 +69,7 @@
 			</TABLE>
 	</test>
 	<test id="toolBar2">
-		<DIV CLASS="dr-pnl rich-panel">
-			<DIV CLASS="dr-pnl-h rich-panel-header"
-				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-				<SPAN CLASS="vpe-text">
-					Tool Bar &amp; Tool Bar  Group
-				</SPAN>
-			</DIV>
-			<DIV CLASS="dr-pnl-b rich-panel-body">
-					<TABLE WIDTH="100%" HEIGHT="26" CLASS="dr-toolbar-ext rich-toolbar btn"
+		<TABLE WIDTH="100%" HEIGHT="26" CLASS="dr-toolbar-ext rich-toolbar btn"
 						STYLE="/background-image: url\(.*resources/common/background.gif\);/">
 						<TBODY>
 							<TR VALIGN="middle">
@@ -169,8 +161,9 @@
 							</TR>
 						</TBODY>
 					</TABLE>
-				<FORM STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px;">
-						<TABLE WIDTH="100%" HEIGHT="34"
+	</test>
+	<test id="toolBar3">
+		<TABLE WIDTH="100%" HEIGHT="34"
 							CLASS="dr-toolbar-ext rich-toolbar evenRow"
 							STYLE="/background-image: url\(.*resources/common/background.gif\);/">
 							<TBODY>
@@ -285,107 +278,9 @@
 								</TR>
 							</TBODY>
 						</TABLE>
-				</FORM>
-				<FORM STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px;">
-					<TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
-						STYLE="margin-bottom: 4px; -moz-user-modify: read-write;">
-						<TBODY>
-							<TR>
-								<TD>
-									<DIV CLASS="dr-pnl rich-panel">
-										<DIV CLASS="dr-pnl-b rich-panel-body rich-laguna-panel-no-header">
-											<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
-												<TBODY>
-													<TR>
-														<TD>
-															<SPAN CLASS="vpe-text">
-																Group Separator:
-															</SPAN>
-														</TD>
-														<TD>
-															<A STYLE="-moz-user-modify: read-write;" CLASS="">
-																<SPAN CLASS="vpe-text">Line</SPAN>
-															</A>
-														</TD>
-														<TD>
-															<A STYLE="-moz-user-modify: read-write;" CLASS="">
-																<SPAN CLASS="vpe-text">Grid</SPAN>
-															</A>
-														</TD>
-														<TD>
-															<A STYLE="-moz-user-modify: read-write;" CLASS="">
-																<SPAN CLASS="vpe-text">Disc</SPAN>
-															</A>
-														</TD>
-														<TD>
-															<A STYLE="-moz-user-modify: read-write;" CLASS="">
-																<SPAN CLASS="vpe-text">Square</SPAN>
-															</A>
-														</TD>
-														<TD>
-															<A STYLE="-moz-user-modify: read-write;" CLASS="">
-																<SPAN CLASS="vpe-text">None</SPAN>
-															</A>
-														</TD>
-													</TR>
-												</TBODY>
-											</TABLE>
-										</DIV>
-									</DIV>
-								</TD>
-								<TD>
-									<SPAN STYLE="padding-left: 4px; -moz-user-modify: read-write;">
-										<BR STYLE="-moz-user-modify: read-write;" />
-
-									</SPAN>
-								</TD>
-								<TD>
-									<DIV CLASS="dr-pnl rich-panel">
-										<DIV CLASS="dr-pnl-b rich-panel-body rich-laguna-panel-no-header">
-											<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
-												<TBODY>
-													<TR>
-														<TD>
-															<SPAN CLASS="vpe-text">
-																Group Item Separator:
-															</SPAN>
-														</TD>
-														<TD>
-															<A STYLE="-moz-user-modify: read-write;" CLASS="">
-																<SPAN CLASS="vpe-text">Line</SPAN>
-															</A>
-														</TD>
-														<TD>
-															<A STYLE="-moz-user-modify: read-write;" CLASS="">
-																<SPAN CLASS="vpe-text">Grid</SPAN>
-															</A>
-														</TD>
-														<TD>
-															<A STYLE="-moz-user-modify: read-write;" CLASS="">
-																<SPAN CLASS="vpe-text">Disc</SPAN>
-															</A>
-														</TD>
-														<TD>
-															<A STYLE="-moz-user-modify: read-write;" CLASS="">
-																<SPAN CLASS="vpe-text">Square</SPAN>
-															</A>
-														</TD>
-														<TD>
-															<A STYLE="-moz-user-modify: read-write;" CLASS="">
-																<SPAN CLASS="vpe-text">None</SPAN>
-															</A>
-														</TD>
-													</TR>
-												</TBODY>
-											</TABLE>
-										</DIV>
-									</DIV>
-								</TD>
-							</TR>
-						</TBODY>
-					</TABLE>
-				</FORM>
-					<TABLE WIDTH="100%" HEIGHT="30" CLASS="dr-toolbar-ext rich-toolbar"
+	</test>
+	<test id="toolBar4">
+		<TABLE WIDTH="100%" HEIGHT="30" CLASS="dr-toolbar-ext rich-toolbar"
 						STYLE="/background-image: url\(.*resources/common/background.gif\); color: Cornsilk; font-style: italic; background-color: Orchid; text-decoration: underline; font-family: Arial Narrow,Bodoni MT; font-weight: bold;/">
 						<TBODY>
 							<TR VALIGN="middle">
@@ -468,7 +363,5 @@
 							</TR>
 						</TBODY>
 					</TABLE>
-			</DIV>
-		</DIV>
 	</test>
 </tests>

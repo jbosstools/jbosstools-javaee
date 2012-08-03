@@ -1,81 +1,39 @@
 <tests>
 	<test id="dataGrid">
-
 		<TABLE VALUE="#{bean.dtList}" VAR="data" COLUMNS="2" ELEMENTS="4"
-			ID="dataGrid" CLASS="dr-table rich-table">
+			CLASS="dr-table rich-table">
 			<COLGROUP SPAN="2">
 			</COLGROUP>
 			<TBODY>
-				<TR CLASS="dr-table-row rich-table-row">
-					<TD CLASS="dr-table-cell rich-table-cell">
-						<DIV CLASS="dr-pnl rich-panel">
-							<DIV CLASS="dr-pnl-h rich-panel-header"
-								STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-								<SPAN>
-									#{data.number}
-								</SPAN>
-							</DIV>
-							<DIV CLASS="dr-pnl-b rich-panel-body">
-								<SPAN>
-									#{data.field1}
-								</SPAN>
-							</DIV>
-						</DIV>
+				<TR CLASS="dr-table-row rich-table-row ">
+					<TD CLASS="dr-table-cell rich-table-cell ">
+						<SPAN CLASS="vpe-text">
+							#{data.field1}
+						</SPAN>
 					</TD>
-					<TD CLASS="dr-table-cell rich-table-cell">
-						<DIV CLASS="dr-pnl rich-panel">
-							<DIV CLASS="dr-pnl-h rich-panel-header"
-								STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-								<SPAN>
-									#{data.number}
-								</SPAN>
-							</DIV>
-							<DIV CLASS="dr-pnl-b rich-panel-body">
-								<SPAN>
-									#{data.field1}
-								</SPAN>
-							</DIV>
-						</DIV>
+					<TD CLASS="dr-table-cell rich-table-cell ">
+						<SPAN CLASS="vpe-text">
+							#{data.field1}
+						</SPAN>
 					</TD>
 				</TR>
-				<TR CLASS="dr-table-row rich-table-row">
-					<TD CLASS="dr-table-cell rich-table-cell">
-						<DIV CLASS="dr-pnl rich-panel">
-							<DIV CLASS="dr-pnl-h rich-panel-header"
-								STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-								<SPAN>
-									#{data.number}
-								</SPAN>
-							</DIV>
-							<DIV CLASS="dr-pnl-b rich-panel-body">
-								<SPAN>
-									#{data.field1}
-								</SPAN>
-							</DIV>
-						</DIV>
+				<TR CLASS="dr-table-row rich-table-row ">
+					<TD CLASS="dr-table-cell rich-table-cell ">
+						<SPAN CLASS="vpe-text">
+							#{data.field1}
+						</SPAN>
 					</TD>
-					<TD CLASS="dr-table-cell rich-table-cell">
-						<DIV CLASS="dr-pnl rich-panel">
-							<DIV CLASS="dr-pnl-h rich-panel-header"
-								STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-								<SPAN>
-									#{data.number}
-								</SPAN>
-							</DIV>
-							<DIV CLASS="dr-pnl-b rich-panel-body">
-								<SPAN>
-									#{data.field1}
-								</SPAN>
-							</DIV>
-						</DIV>
+					<TD CLASS="dr-table-cell rich-table-cell ">
+						<SPAN CLASS="vpe-text">
+							#{data.field1}
+						</SPAN>
 					</TD>
 				</TR>
 			</TBODY>
 		</TABLE>
 	</test>
+
 	<test id="dataGrid2">
-
-
 		<TABLE VALUE="#{bean.dtList}" VAR="data" ID="dataGrid2"
 			CLASS="dr-table rich-table">
 			<COLGROUP SPAN="1">
@@ -114,40 +72,32 @@
 			</TBODY>
 		</TABLE>
 	</test>
+
 	<test id="dataGrid3">
-		<DIV CLASS="dr-pnl rich-panel">
-			<DIV CLASS="dr-pnl-h rich-panel-header"
-				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-				<SPAN CLASS="vpe-text">
-					Data Grid and Data Scroller
-				</SPAN>
-			</DIV>
-			<DIV CLASS="dr-pnl-b rich-panel-body">
-				<TABLE WIDTH="600px" BORDER="15" BGCOLOR="color:red" ALIGN="center"
-					VALUE="#{dataTableScrollerBean.allCars}" VAR="car" COLUMNS="3"
-					ELEMENTS="9" STYLECLASS="btn" CAPTIONCLASS="btn" HEADERCLASS="evenRow"
-					FOOTERCLASS="oddRow" CLASS="dr-table rich-table btn">
-					<COLGROUP SPAN="3">
-					</COLGROUP>
-					<THEAD>
-						<TR CLASS="dr-table-header rich-table-header evenRow"
-							STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-							<TD CLASS="dr-table-headercell rich-table-headercell evenRow"
-								COLSPAN="100" SCOPE="colgroup">
-								<SPAN CLASS="vpe-text">
-									Header of Data Grid
-								</SPAN>
-							</TD>
-						</TR>
-					</THEAD>
-					<TFOOT>
-						<TR CLASS="dr-table-footer rich-table-footer oddRow"
-							STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-							<TD CLASS="dr-table-footercell rich-table-footercell oddRow"
-								COLSPAN="100" SCOPE="colgroup">
-								<DIV ALIGN="center" CLASS="rich-datascr"
-									STYLE="border-style: dotted; border-color: Cornsilk; text-align: center; color: Orchid; font-style: italic; background-color: DarkViolet; text-decoration: underline; font-family: Bodoni MT Black; width: 824px;">
-									<TABLE CELLSPACING="1" CELLPADDING="0" BORDER="0"
+
+		<TABLE WIDTH="600px" BORDER="15" BGCOLOR="color:red" ALIGN="center"
+			VALUE="#{dataTableScrollerBean.allCars}" VAR="car" COLUMNS="3"
+			ELEMENTS="9" STYLECLASS="btn" CAPTIONCLASS="btn" HEADERCLASS="evenRow"
+			FOOTERCLASS="oddRow" ID="dataGrid3" CLASS="dr-table rich-table btn">
+			<COLGROUP SPAN="3">
+			</COLGROUP>
+			<THEAD>
+				<TR CLASS="dr-table-header rich-table-header evenRow " STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+					<TD CLASS="dr-table-headercell rich-table-headercell evenRow "
+						COLSPAN="100" SCOPE="colgroup">
+						<SPAN CLASS="vpe-text">
+							Header of Data Grid
+						</SPAN>
+					</TD>
+				</TR>
+			</THEAD>
+			<TFOOT>
+				<TR CLASS="dr-table-footer rich-table-footer oddRow " STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+					<TD CLASS="dr-table-footercell rich-table-footercell oddRow "
+						COLSPAN="100" SCOPE="colgroup">
+						<DIV ALIGN="center" CLASS="rich-datascr"
+							STYLE="text-align: center; color: Orchid; font-style: italic; border-style: dotted; background-color: DarkViolet; border-color: Cornsilk; text-decoration: underline; font-family: Bodoni MT Black; width: 824px;">
+							<TABLE CELLSPACING="1" CELLPADDING="0" BORDER="0"
 										CLASS="rich-dtascroller-table">
 										<TBODY>
 											<TR>
@@ -200,596 +150,504 @@
 											</TR>
 										</TBODY>
 									</TABLE>
-								</DIV>
-							</TD>
-						</TR>
-					</TFOOT>
-					<TBODY>
-						<TR CLASS="dr-table-row rich-table-row">
-							<TD CLASS="dr-table-cell rich-table-cell">
-								<DIV CLASS="dr-pnl rich-panel" STYLE="width: 270px; height: 180px;">
-									<DIV CLASS="dr-pnl-h rich-panel-header"
-										STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-										<SPAN CLASS="vpe-text">
-											#{car.make} #{car.model}
+						</DIV>
+					</TD>
+				</TR>
+			</TFOOT>
+			<TBODY>
+				<TR CLASS="dr-table-row rich-table-row ">
+					<TD CLASS="dr-table-cell rich-table-cell ">
+						<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
+							<TBODY>
+								<TR CLASS="evenRow">
+									<TD>
+										<SPAN CLASS="label">
+											Price:
 										</SPAN>
-									</DIV>
-									<DIV CLASS="dr-pnl-b rich-panel-body pbody">
-										<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
-											<TBODY>
-												<TR CLASS="evenRow">
-													<TD>
-														<SPAN CLASS="label">
-															Price:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.price}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="oddRow">
-													<TD>
-														<SPAN CLASS="label">
-															Mileage:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.mileage}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="evenRow">
-													<TD>
-														<SPAN CLASS="label">
-															VIN:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.vin}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="oddRow">
-													<TD>
-														<SPAN CLASS="label">
-															Stock:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.stock}
-														</SPAN>
-													</TD>
-												</TR>
-											</TBODY>
-										</TABLE>
-									</DIV>
-								</DIV>
-							</TD>
-							<TD CLASS="dr-table-cell rich-table-cell">
-								<DIV CLASS="dr-pnl rich-panel" STYLE="width: 270px; height: 180px;">
-									<DIV CLASS="dr-pnl-h rich-panel-header"
-										STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+									</TD>
+									<TD>
 										<SPAN CLASS="vpe-text">
-											#{car.make} #{car.model}
+											#{car.price}
 										</SPAN>
-									</DIV>
-									<DIV CLASS="dr-pnl-b rich-panel-body pbody">
-										<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
-											<TBODY>
-												<TR CLASS="evenRow">
-													<TD>
-														<SPAN CLASS="label">
-															Price:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.price}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="oddRow">
-													<TD>
-														<SPAN CLASS="label">
-															Mileage:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.mileage}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="evenRow">
-													<TD>
-														<SPAN CLASS="label">
-															VIN:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.vin}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="oddRow">
-													<TD>
-														<SPAN CLASS="label">
-															Stock:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.stock}
-														</SPAN>
-													</TD>
-												</TR>
-											</TBODY>
-										</TABLE>
-									</DIV>
-								</DIV>
-							</TD>
-							<TD CLASS="dr-table-cell rich-table-cell">
-								<DIV CLASS="dr-pnl rich-panel" STYLE="width: 270px; height: 180px;">
-									<DIV CLASS="dr-pnl-h rich-panel-header"
-										STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+									</TD>
+								</TR>
+								<TR CLASS="oddRow">
+									<TD>
+										<SPAN CLASS="label">
+											Mileage:
+										</SPAN>
+									</TD>
+									<TD>
 										<SPAN CLASS="vpe-text">
-											#{car.make} #{car.model}
+											#{car.mileage}
 										</SPAN>
-									</DIV>
-									<DIV CLASS="dr-pnl-b rich-panel-body pbody">
-										<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
-											<TBODY>
-												<TR CLASS="evenRow">
-													<TD>
-														<SPAN CLASS="label">
-															Price:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.price}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="oddRow">
-													<TD>
-														<SPAN CLASS="label">
-															Mileage:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.mileage}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="evenRow">
-													<TD>
-														<SPAN CLASS="label">
-															VIN:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.vin}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="oddRow">
-													<TD>
-														<SPAN CLASS="label">
-															Stock:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.stock}
-														</SPAN>
-													</TD>
-												</TR>
-											</TBODY>
-										</TABLE>
-									</DIV>
-								</DIV>
-							</TD>
-						</TR>
-						<TR CLASS="dr-table-row rich-table-row">
-							<TD CLASS="dr-table-cell rich-table-cell">
-								<DIV CLASS="dr-pnl rich-panel" STYLE="width: 270px; height: 180px;">
-									<DIV CLASS="dr-pnl-h rich-panel-header"
-										STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+									</TD>
+								</TR>
+								<TR CLASS="evenRow">
+									<TD>
+										<SPAN CLASS="label">
+											VIN:
+										</SPAN>
+									</TD>
+									<TD>
 										<SPAN CLASS="vpe-text">
-											#{car.make} #{car.model}
+											#{car.vin}
 										</SPAN>
-									</DIV>
-									<DIV CLASS="dr-pnl-b rich-panel-body pbody">
-										<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
-											<TBODY>
-												<TR CLASS="evenRow">
-													<TD>
-														<SPAN CLASS="label">
-															Price:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.price}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="oddRow">
-													<TD>
-														<SPAN CLASS="label">
-															Mileage:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.mileage}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="evenRow">
-													<TD>
-														<SPAN CLASS="label">
-															VIN:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.vin}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="oddRow">
-													<TD>
-														<SPAN CLASS="label">
-															Stock:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.stock}
-														</SPAN>
-													</TD>
-												</TR>
-											</TBODY>
-										</TABLE>
-									</DIV>
-								</DIV>
-							</TD>
-							<TD CLASS="dr-table-cell rich-table-cell">
-								<DIV CLASS="dr-pnl rich-panel" STYLE="width: 270px; height: 180px;">
-									<DIV CLASS="dr-pnl-h rich-panel-header"
-										STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+									</TD>
+								</TR>
+								<TR CLASS="oddRow">
+									<TD>
+										<SPAN CLASS="label">
+											Stock:
+										</SPAN>
+									</TD>
+									<TD>
 										<SPAN CLASS="vpe-text">
-											#{car.make} #{car.model}
+											#{car.stock}
 										</SPAN>
-									</DIV>
-									<DIV CLASS="dr-pnl-b rich-panel-body pbody">
-										<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
-											<TBODY>
-												<TR CLASS="evenRow">
-													<TD>
-														<SPAN CLASS="label">
-															Price:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.price}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="oddRow">
-													<TD>
-														<SPAN CLASS="label">
-															Mileage:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.mileage}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="evenRow">
-													<TD>
-														<SPAN CLASS="label">
-															VIN:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.vin}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="oddRow">
-													<TD>
-														<SPAN CLASS="label">
-															Stock:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.stock}
-														</SPAN>
-													</TD>
-												</TR>
-											</TBODY>
-										</TABLE>
-									</DIV>
-								</DIV>
-							</TD>
-							<TD CLASS="dr-table-cell rich-table-cell">
-								<DIV CLASS="dr-pnl rich-panel" STYLE="width: 270px; height: 180px;">
-									<DIV CLASS="dr-pnl-h rich-panel-header"
-										STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+									</TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+					</TD>
+					<TD CLASS="dr-table-cell rich-table-cell ">
+						<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
+							<TBODY>
+								<TR CLASS="evenRow">
+									<TD>
+										<SPAN CLASS="label">
+											Price:
+										</SPAN>
+									</TD>
+									<TD>
 										<SPAN CLASS="vpe-text">
-											#{car.make} #{car.model}
+											#{car.price}
 										</SPAN>
-									</DIV>
-									<DIV CLASS="dr-pnl-b rich-panel-body pbody">
-										<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
-											<TBODY>
-												<TR CLASS="evenRow">
-													<TD>
-														<SPAN CLASS="label">
-															Price:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.price}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="oddRow">
-													<TD>
-														<SPAN CLASS="label">
-															Mileage:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.mileage}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="evenRow">
-													<TD>
-														<SPAN CLASS="label">
-															VIN:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.vin}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="oddRow">
-													<TD>
-														<SPAN CLASS="label">
-															Stock:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.stock}
-														</SPAN>
-													</TD>
-												</TR>
-											</TBODY>
-										</TABLE>
-									</DIV>
-								</DIV>
-							</TD>
-						</TR>
-						<TR CLASS="dr-table-row rich-table-row">
-							<TD CLASS="dr-table-cell rich-table-cell">
-								<DIV CLASS="dr-pnl rich-panel" STYLE="width: 270px; height: 180px;">
-									<DIV CLASS="dr-pnl-h rich-panel-header"
-										STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+									</TD>
+								</TR>
+								<TR CLASS="oddRow">
+									<TD>
+										<SPAN CLASS="label">
+											Mileage:
+										</SPAN>
+									</TD>
+									<TD>
 										<SPAN CLASS="vpe-text">
-											#{car.make} #{car.model}
+											#{car.mileage}
 										</SPAN>
-									</DIV>
-									<DIV CLASS="dr-pnl-b rich-panel-body pbody">
-										<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
-											<TBODY>
-												<TR CLASS="evenRow">
-													<TD>
-														<SPAN CLASS="label">
-															Price:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.price}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="oddRow">
-													<TD>
-														<SPAN CLASS="label">
-															Mileage:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.mileage}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="evenRow">
-													<TD>
-														<SPAN CLASS="label">
-															VIN:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.vin}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="oddRow">
-													<TD>
-														<SPAN CLASS="label">
-															Stock:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.stock}
-														</SPAN>
-													</TD>
-												</TR>
-											</TBODY>
-										</TABLE>
-									</DIV>
-								</DIV>
-							</TD>
-							<TD CLASS="dr-table-cell rich-table-cell">
-								<DIV CLASS="dr-pnl rich-panel" STYLE="width: 270px; height: 180px;">
-									<DIV CLASS="dr-pnl-h rich-panel-header"
-										STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+									</TD>
+								</TR>
+								<TR CLASS="evenRow">
+									<TD>
+										<SPAN CLASS="label">
+											VIN:
+										</SPAN>
+									</TD>
+									<TD>
 										<SPAN CLASS="vpe-text">
-											#{car.make} #{car.model}
+											#{car.vin}
 										</SPAN>
-									</DIV>
-									<DIV CLASS="dr-pnl-b rich-panel-body pbody">
-										<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
-											<TBODY>
-												<TR CLASS="evenRow">
-													<TD>
-														<SPAN CLASS="label">
-															Price:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.price}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="oddRow">
-													<TD>
-														<SPAN CLASS="label">
-															Mileage:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.mileage}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="evenRow">
-													<TD>
-														<SPAN CLASS="label">
-															VIN:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.vin}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="oddRow">
-													<TD>
-														<SPAN CLASS="label">
-															Stock:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.stock}
-														</SPAN>
-													</TD>
-												</TR>
-											</TBODY>
-										</TABLE>
-									</DIV>
-								</DIV>
-							</TD>
-							<TD CLASS="dr-table-cell rich-table-cell">
-								<DIV CLASS="dr-pnl rich-panel" STYLE="width: 270px; height: 180px;">
-									<DIV CLASS="dr-pnl-h rich-panel-header"
-										STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+									</TD>
+								</TR>
+								<TR CLASS="oddRow">
+									<TD>
+										<SPAN CLASS="label">
+											Stock:
+										</SPAN>
+									</TD>
+									<TD>
 										<SPAN CLASS="vpe-text">
-											#{car.make} #{car.model}
+											#{car.stock}
 										</SPAN>
-									</DIV>
-									<DIV CLASS="dr-pnl-b rich-panel-body pbody">
-										<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
-											<TBODY>
-												<TR CLASS="evenRow">
-													<TD>
-														<SPAN CLASS="label">
-															Price:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.price}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="oddRow">
-													<TD>
-														<SPAN CLASS="label">
-															Mileage:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.mileage}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="evenRow">
-													<TD>
-														<SPAN CLASS="label">
-															VIN:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.vin}
-														</SPAN>
-													</TD>
-												</TR>
-												<TR CLASS="oddRow">
-													<TD>
-														<SPAN CLASS="label">
-															Stock:
-														</SPAN>
-													</TD>
-													<TD>
-														<SPAN CLASS="vpe-text">
-															#{car.stock}
-														</SPAN>
-													</TD>
-												</TR>
-											</TBODY>
-										</TABLE>
-									</DIV>
-								</DIV>
-							</TD>
-						</TR>
-					</TBODY>
-				</TABLE>
-			</DIV>
-		</DIV>
+									</TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+					</TD>
+					<TD CLASS="dr-table-cell rich-table-cell ">
+						<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
+							<TBODY>
+								<TR CLASS="evenRow">
+									<TD>
+										<SPAN CLASS="label">
+											Price:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.price}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="oddRow">
+									<TD>
+										<SPAN CLASS="label">
+											Mileage:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.mileage}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="evenRow">
+									<TD>
+										<SPAN CLASS="label">
+											VIN:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.vin}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="oddRow">
+									<TD>
+										<SPAN CLASS="label">
+											Stock:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.stock}
+										</SPAN>
+									</TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+					</TD>
+				</TR>
+				<TR CLASS="dr-table-row rich-table-row ">
+					<TD CLASS="dr-table-cell rich-table-cell ">
+						<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
+							<TBODY>
+								<TR CLASS="evenRow">
+									<TD>
+										<SPAN CLASS="label">
+											Price:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.price}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="oddRow">
+									<TD>
+										<SPAN CLASS="label">
+											Mileage:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.mileage}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="evenRow">
+									<TD>
+										<SPAN CLASS="label">
+											VIN:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.vin}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="oddRow">
+									<TD>
+										<SPAN CLASS="label">
+											Stock:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.stock}
+										</SPAN>
+									</TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+					</TD>
+					<TD CLASS="dr-table-cell rich-table-cell ">
+						<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
+							<TBODY>
+								<TR CLASS="evenRow">
+									<TD>
+										<SPAN CLASS="label">
+											Price:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.price}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="oddRow">
+									<TD>
+										<SPAN CLASS="label">
+											Mileage:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.mileage}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="evenRow">
+									<TD>
+										<SPAN CLASS="label">
+											VIN:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.vin}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="oddRow">
+									<TD>
+										<SPAN CLASS="label">
+											Stock:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.stock}
+										</SPAN>
+									</TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+					</TD>
+					<TD CLASS="dr-table-cell rich-table-cell ">
+						<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
+							<TBODY>
+								<TR CLASS="evenRow">
+									<TD>
+										<SPAN CLASS="label">
+											Price:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.price}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="oddRow">
+									<TD>
+										<SPAN CLASS="label">
+											Mileage:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.mileage}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="evenRow">
+									<TD>
+										<SPAN CLASS="label">
+											VIN:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.vin}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="oddRow">
+									<TD>
+										<SPAN CLASS="label">
+											Stock:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.stock}
+										</SPAN>
+									</TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+					</TD>
+				</TR>
+				<TR CLASS="dr-table-row rich-table-row ">
+					<TD CLASS="dr-table-cell rich-table-cell ">
+						<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
+							<TBODY>
+								<TR CLASS="evenRow">
+									<TD>
+										<SPAN CLASS="label">
+											Price:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.price}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="oddRow">
+									<TD>
+										<SPAN CLASS="label">
+											Mileage:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.mileage}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="evenRow">
+									<TD>
+										<SPAN CLASS="label">
+											VIN:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.vin}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="oddRow">
+									<TD>
+										<SPAN CLASS="label">
+											Stock:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.stock}
+										</SPAN>
+									</TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+					</TD>
+					<TD CLASS="dr-table-cell rich-table-cell ">
+						<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
+							<TBODY>
+								<TR CLASS="evenRow">
+									<TD>
+										<SPAN CLASS="label">
+											Price:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.price}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="oddRow">
+									<TD>
+										<SPAN CLASS="label">
+											Mileage:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.mileage}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="evenRow">
+									<TD>
+										<SPAN CLASS="label">
+											VIN:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.vin}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="oddRow">
+									<TD>
+										<SPAN CLASS="label">
+											Stock:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.stock}
+										</SPAN>
+									</TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+					</TD>
+					<TD CLASS="dr-table-cell rich-table-cell ">
+						<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
+							<TBODY>
+								<TR CLASS="evenRow">
+									<TD>
+										<SPAN CLASS="label">
+											Price:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.price}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="oddRow">
+									<TD>
+										<SPAN CLASS="label">
+											Mileage:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.mileage}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="evenRow">
+									<TD>
+										<SPAN CLASS="label">
+											VIN:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.vin}
+										</SPAN>
+									</TD>
+								</TR>
+								<TR CLASS="oddRow">
+									<TD>
+										<SPAN CLASS="label">
+											Stock:
+										</SPAN>
+									</TD>
+									<TD>
+										<SPAN CLASS="vpe-text">
+											#{car.stock}
+										</SPAN>
+									</TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+					</TD>
+				</TR>
+			</TBODY>
+		</TABLE>
 	</test>
 </tests>

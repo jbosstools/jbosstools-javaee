@@ -20,150 +20,139 @@
 			<SPAN>footer1</SPAN>
 		</TD>
 	</test>
-	<test id="column5">
-		<DIV CLASS="dr-pnl rich-panel">
-			<DIV CLASS="dr-pnl-h rich-panel-header"
-				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-				<SPAN CLASS="vpe-text">
-					Column
-				</SPAN>
-			</DIV>
-			<DIV CLASS="dr-pnl-b rich-panel-body">
-				<TABLE ID="table1" VALUE="#{bookList.bookList}" VAR="book"
-					STYLE="border: thick dotted Orchid; text-align: center; color: Orchid; font-style: italic; font-size: small; background-color: Turquoise; text-decoration: underline; font-family: Arial; font-weight: bolder;"
-					COLUMNCLASSES="evenRow, oddRow" SORTMODE="multi" CLASS="dr-table rich-table">
-					<COLGROUP SPAN="3">
-					</COLGROUP>
-					<THEAD>
-						<TR CLASS="dr-table-header rich-table-header"
-							STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-							<TD CLASS="dr-table-headercell rich-table-headercell" COLSPAN="100"
-								SCOPE="colgroup">
-								<SPAN CLASS="vpe-text">
-									#{msg.pageTitle}
-								</SPAN>
-							</TD>
-						</TR>
-						<TR CLASS="dr-table-subheader rich-table-subheader">
-							<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
-								SCOPE="col">
-								<IMG SRC="/.*resources/column/sortable.gif/" STYLE="vertical-align: middle;" />
-								<SPAN>
-									<SPAN CLASS="vpe-text">
-										#{msg.priceColumnName}
-									</SPAN>
-								</SPAN>
-
-							</TD>
-							<TD STYLE="display: none;" CLASS="dr-table-subheadercell rich-table-subheadercell"
-								SCOPE="col">
-								<IMG SRC="/.*resources/column/sortable.gif/" STYLE="vertical-align: middle;" />
-								<SPAN>
-									<SPAN CLASS="vpe-text">
-										#{msg.titleColumnName}
-									</SPAN>
-								</SPAN>
-
-							</TD>
-							<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
-								SCOPE="col">
-								<IMG SRC="/.*resources/column/sortable.gif/" STYLE="vertical-align: middle;" />
-								<SPAN>
-									<SPAN CLASS="vpe-text">
-										#{msg.priceColumnName}
-									</SPAN>
-								</SPAN>
-
-							</TD>
-							<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
-								SCOPE="col">
-								<IMG SRC="/.*resources/column/sortable.gif/" STYLE="vertical-align: middle;" />
-								<SPAN>
-									<SPAN CLASS="vpe-text">
-										#{msg.titleColumnName}
-									</SPAN>
-								</SPAN>
-
-							</TD>
-						</TR>
-					</THEAD>
-					<TFOOT>
-						<TR CLASS="dr-table-subfooter rich-table-subfooter">
-							<TD CLASS="dr-table-subfootercell rich-table-subfootercell"
-								SCOPE="col">
-								<SPAN>
-									<SPAN CLASS="vpe-text">
-										#{msg.priceColumnName}
-									</SPAN>
-								</SPAN>
-							</TD>
-							<TD STYLE="display: none;" CLASS="dr-table-subfootercell rich-table-subfootercell"
-								SCOPE="col">
-								<SPAN>
-									<SPAN CLASS="vpe-text">
-										#{msg.titleColumnName}
-									</SPAN>
-								</SPAN>
-							</TD>
-							<TD CLASS="dr-table-subfootercell rich-table-subfootercell"
-								SCOPE="col">
-								<SPAN>
-									<SPAN CLASS="vpe-text">
-										#{msg.priceColumnName}
-									</SPAN>
-								</SPAN>
-							</TD>
-							<TD CLASS="dr-table-subfootercell rich-table-subfootercell"
-								SCOPE="col">
-								<SPAN>
-									<SPAN CLASS="vpe-text">
-										#{msg.titleColumnName}
-									</SPAN>
-								</SPAN>
-							</TD>
-						</TR>
-						<TR CLASS="dr-table-footer rich-table-footer"
-							STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-							<TD CLASS="dr-table-footercell rich-table-footercell" COLSPAN="100"
-								SCOPE="colgroup">
-								<SPAN CLASS="vpe-text">
-									#{msg.priceColumnName}
-								</SPAN>
-							</TD>
-						</TR>
-					</TFOOT>
-					<TR CLASS="dr-table-firstrow rich-table-firstrow">
-						<TD SORTBY="#{book.price}" ID="col2" STYLECLASS="btn"
-							CLASS="dr-table-cell rich-table-cell btn evenRow">
+	<test id="table1">
+		<TABLE VALUE="#{bookList.bookList}" VAR="book"
+			STYLE="border: thick dotted Orchid; text-align: center; color: Orchid; font-style: italic; font-size: small; background-color: Turquoise; text-decoration: underline; font-family: Arial; font-weight: bolder;"
+			COLUMNCLASSES="evenRow, oddRow" SORTMODE="multi" CLASS="dr-table rich-table">
+			<COLGROUP SPAN="3">
+			</COLGROUP>
+			<THEAD>
+				<TR CLASS="dr-table-header rich-table-header"
+					STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+					<TD CLASS="dr-table-headercell rich-table-headercell" COLSPAN="100"
+						SCOPE="colgroup">
+						<SPAN CLASS="vpe-text">
+							#{msg.pageTitle}
+						</SPAN>
+					</TD>
+				</TR>
+				<TR CLASS="dr-table-subheader rich-table-subheader">
+					<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
+						SCOPE="col">
+						<IMG SRC="/.*resources/column/sortable.gif/" STYLE="vertical-align: middle;" />
+						<SPAN>
 							<SPAN CLASS="vpe-text">
-								#{book.price}
+								#{msg.priceColumnName}
 							</SPAN>
-						</TD>
-					</TR>
-					<TR CLASS="dr-table-row rich-table-row">
-						<TD STYLE="display: none;" ID="col3" SORTBY="#{book.numOfCopies}"
-							VISIBLE="false" BREAKBEFORE="true"
-							CLASS="dr-table-cell rich-table-cell evenRow">
+						</SPAN>
+
+					</TD>
+					<TD STYLE="display: none;" CLASS="dr-table-subheadercell rich-table-subheadercell"
+						SCOPE="col">
+						<IMG SRC="/.*resources/column/sortable.gif/" STYLE="vertical-align: middle;" />
+						<SPAN>
 							<SPAN CLASS="vpe-text">
-								#{book.numOfCopies}
+								#{msg.titleColumnName}
 							</SPAN>
-						</TD>
-						<TD SORTBY="#{book.price}" ID="col4"
-							STYLE="border: thick dotted Cornsilk; text-align: center; color: Turquoise; font-style: italic; font-size: small; background-color: PaleVioletRed; text-decoration: line-through; font-family: Bookman Old Style; font-weight: bold;"
-							CLASS="dr-table-cell rich-table-cell oddRow">
+						</SPAN>
+
+					</TD>
+					<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
+						SCOPE="col">
+						<IMG SRC="/.*resources/column/sortable.gif/" STYLE="vertical-align: middle;" />
+						<SPAN>
 							<SPAN CLASS="vpe-text">
-								#{book.price}
+								#{msg.priceColumnName}
 							</SPAN>
-						</TD>
-						<TD ID="col5" SORTBY="#{book.numOfCopies}" VISIBLE="true"
-							CLASS="dr-table-cell rich-table-cell evenRow">
+						</SPAN>
+
+					</TD>
+					<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
+						SCOPE="col">
+						<IMG SRC="/.*resources/column/sortable.gif/" STYLE="vertical-align: middle;" />
+						<SPAN>
 							<SPAN CLASS="vpe-text">
-								#{book.numOfCopies}
+								#{msg.titleColumnName}
 							</SPAN>
-						</TD>
-					</TR>
-				</TABLE>
-			</DIV>
-		</DIV>
+						</SPAN>
+
+					</TD>
+				</TR>
+			</THEAD>
+			<TFOOT>
+				<TR CLASS="dr-table-subfooter rich-table-subfooter">
+					<TD CLASS="dr-table-subfootercell rich-table-subfootercell"
+						SCOPE="col">
+						<SPAN>
+							<SPAN CLASS="vpe-text">
+								#{msg.priceColumnName}
+							</SPAN>
+						</SPAN>
+					</TD>
+					<TD STYLE="display: none;" CLASS="dr-table-subfootercell rich-table-subfootercell"
+						SCOPE="col">
+						<SPAN>
+							<SPAN CLASS="vpe-text">
+								#{msg.titleColumnName}
+							</SPAN>
+						</SPAN>
+					</TD>
+					<TD CLASS="dr-table-subfootercell rich-table-subfootercell"
+						SCOPE="col">
+						<SPAN>
+							<SPAN CLASS="vpe-text">
+								#{msg.priceColumnName}
+							</SPAN>
+						</SPAN>
+					</TD>
+					<TD CLASS="dr-table-subfootercell rich-table-subfootercell"
+						SCOPE="col">
+						<SPAN>
+							<SPAN CLASS="vpe-text">
+								#{msg.titleColumnName}
+							</SPAN>
+						</SPAN>
+					</TD>
+				</TR>
+				<TR CLASS="dr-table-footer rich-table-footer"
+					STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+					<TD CLASS="dr-table-footercell rich-table-footercell" COLSPAN="100"
+						SCOPE="colgroup">
+						<SPAN CLASS="vpe-text">
+							#{msg.priceColumnName}
+						</SPAN>
+					</TD>
+				</TR>
+			</TFOOT>
+			<TR CLASS="dr-table-firstrow rich-table-firstrow">
+				<TD SORTBY="#{book.price}" ID="col2" STYLECLASS="btn"
+					CLASS="dr-table-cell rich-table-cell btn evenRow">
+					<SPAN CLASS="vpe-text">
+						#{book.price}
+					</SPAN>
+				</TD>
+			</TR>
+			<TR CLASS="dr-table-row rich-table-row">
+				<TD STYLE="display: none;" ID="col3" SORTBY="#{book.numOfCopies}"
+					VISIBLE="false" BREAKBEFORE="true" CLASS="dr-table-cell rich-table-cell evenRow">
+					<SPAN CLASS="vpe-text">
+						#{book.numOfCopies}
+					</SPAN>
+				</TD>
+				<TD SORTBY="#{book.price}" ID="col4"
+					STYLE="border: thick dotted Cornsilk; text-align: center; color: Turquoise; font-style: italic; font-size: small; background-color: PaleVioletRed; text-decoration: line-through; font-family: Bookman Old Style; font-weight: bold;"
+					CLASS="dr-table-cell rich-table-cell oddRow">
+					<SPAN CLASS="vpe-text">
+						#{book.price}
+					</SPAN>
+				</TD>
+				<TD ID="col5" SORTBY="#{book.numOfCopies}" VISIBLE="true"
+					CLASS="dr-table-cell rich-table-cell evenRow">
+					<SPAN CLASS="vpe-text">
+						#{book.numOfCopies}
+					</SPAN>
+				</TD>
+			</TR>
+		</TABLE>
 	</test>
 </tests>

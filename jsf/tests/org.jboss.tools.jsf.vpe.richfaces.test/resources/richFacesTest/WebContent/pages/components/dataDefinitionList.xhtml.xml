@@ -100,16 +100,8 @@
 		</DL>
 	</test>
 
-	<test id="dataDefinitionList1">
-		<DIV CLASS="dr-pnl rich-panel ">
-			<DIV VPE-FACET="header" CLASS="dr-pnl-h rich-panel-header "
-				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-				<SPAN CLASS="vpe-text">
-					Data Defenition list
-</SPAN>
-			</DIV>
-			<DIV CLASS="dr-pnl-b rich-panel-body ">
-				<FORM STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px;">
+	<test id="defList">
+
 					<DL
 						STYLE="border: thick dotted Cornsilk; text-align: center; color: PaleVioletRed; font-style: oblique; font-size: x-large; background-color: Grey; text-decoration: overline; font-family: Arial TUR; font-weight: bolder;"
 						CLASS="listClass">
@@ -153,8 +145,5 @@
 </SPAN>
 						</DD>
 					</DL>
-				</FORM>
-			</DIV>
-		</DIV>
 	</test>
 </tests>

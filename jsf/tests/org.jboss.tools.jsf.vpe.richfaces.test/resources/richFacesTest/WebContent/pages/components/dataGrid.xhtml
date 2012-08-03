@@ -14,34 +14,23 @@
 <h:form>
 	<rich:dataGrid value="#{bean.dtList}" var="data" columns="2"
 		elements="4" id="dataGrid">
-		<rich:panel>
-			<f:facet name="header">
-				<h:outputText value="#{data.number}"></h:outputText>
-			</f:facet>
-			<h:outputText value="#{data.field1}" />
-		</rich:panel>
+		<h:outputText value="#{data.field1}" />
 	</rich:dataGrid>
 
 	<rich:dataGrid value="#{bean.dtList}" var="data" id="dataGrid2">
             AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
             <h:outputText value="#{data.field1}" />
 	</rich:dataGrid>
-	<rich:panel id="dataGrid3">
-		<f:facet name="header">
-			<h:outputText value="Data Grid and Data Scroller" />
-		</f:facet>
+
 			<rich:dataGrid value="#{dataTableScrollerBean.allCars}" var="car"
 				columns="3" elements="9" width="600px" styleClass="btn"
 				align="center" bgcolor="color:red" border="15" captionClass="btn"
-				headerClass="evenRow" footerClass="oddRow">
+				headerClass="evenRow" footerClass="oddRow"
+				id="dataGrid3">
 				<f:facet name="header">
 					<h:outputText value="Header of Data Grid" />
 				</f:facet>
-				<rich:panel bodyClass="pbody"
-					style=" width : 270px; height : 180px;">
-					<f:facet name="header">
-						<h:outputText value="#{car.make} #{car.model}"></h:outputText>
-					</f:facet>
+
 					<h:panelGrid columns="2" rowClasses="evenRow, oddRow">
 						<h:outputText value="Price:" styleClass="label"></h:outputText>
 						<h:outputText value="#{car.price}" />
@@ -52,13 +41,13 @@
 						<h:outputText value="Stock:" styleClass="label"></h:outputText>
 						<h:outputText value="#{car.stock}" />
 					</h:panelGrid>
-				</rich:panel>
+
 				<f:facet name="footer">
 					<rich:datascroller
 						style="text-align:center; color:Orchid;font-style:italic;border-style:dotted;background-color:DarkViolet;border-color:Cornsilk;text-decoration:underline;font-family:Bodoni MT Black;border-font-weight:bolder; width : 824px; height:45"></rich:datascroller>
 				</f:facet>
 			</rich:dataGrid>
-	</rich:panel>
+
 </h:form>
 </body>
 </html>

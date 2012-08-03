@@ -84,39 +84,27 @@
 		</DIV>
 	</test>
 	<test id="complexCombo">
-		<DIV CLASS="dr-pnl rich-panel btn">
-			<DIV CLASS="dr-pnl-h rich-panel-header"
-				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-				<SPAN CLASS="vpe-text">
-					Combo Box
-				</SPAN>
-			</DIV>
-			<DIV CLASS="dr-pnl-b rich-panel-body">
-				<FORM STYLE="-moz-user-modify: read-write;">
-					<DIV STYLE="width: 150px;">
-						<DIV STYLE="position: static; z-index: 0;">
-							<DIV CLASS="rich-combobox-font rich-combobox" STYLE="position: static; z-index: 0;">
-								<DIV CLASS="rich-combobox-font rich-combobox-shell" STYLE="width: 150px; z-index: 1;">
-									<INPUT TYPE="text"
-										CLASS="rich-combobox-font-disabled rich-combobox-input-inactive"
-										STYLE="width: 133px;" VALUE="Enter some value" />
+		<DIV STYLE="width: 150px;">
+			<DIV STYLE="position: static; z-index: 0;">
+				<DIV CLASS="rich-combobox-font rich-combobox" STYLE="position: static; z-index: 0;">
+					<DIV CLASS="rich-combobox-font rich-combobox-shell" STYLE="width: 150px; z-index: 1;">
+						<INPUT TYPE="text"
+							CLASS="rich-combobox-font-disabled rich-combobox-input-inactive"
+							STYLE="width: 133px;" VALUE="Enter some value" />
 
-									<INPUT TYPE="text"
-										CLASS="rich-combobox-font-inactive rich-combobox-button-background rich-combobox-button-inactive"
-										READONLY="true" VPE-USER-TOGGLE-ID="0" STYLE="" />
+						<INPUT TYPE="text"
+							CLASS="rich-combobox-font-inactive rich-combobox-button-background rich-combobox-button-inactive"
+							READONLY="true" VPE-USER-TOGGLE-ID="0" STYLE="" />
 
-									<INPUT TYPE="text"
-										CLASS="rich-combobox-font-inactive rich-combobox-button-icon-inactive rich-combobox-button-inactive"
-										READONLY="true" VPE-USER-TOGGLE-ID="0" STYLE="" />
+						<INPUT TYPE="text"
+							CLASS="rich-combobox-font-inactive rich-combobox-button-icon-inactive rich-combobox-button-inactive"
+							READONLY="true" VPE-USER-TOGGLE-ID="0" STYLE="" />
 
-									<DIV CLASS="rich-combobox-strut rich-combobox-font" STYLE="width: 140px;">
-										Struts
-									</DIV>
-								</DIV>
-							</DIV>
+						<DIV CLASS="rich-combobox-strut rich-combobox-font" STYLE="width: 140px;">
+							Struts
 						</DIV>
 					</DIV>
-				</FORM>
+				</DIV>
 			</DIV>
 		</DIV>
 	</test>

@@ -19,14 +19,10 @@
 			<h:outputText value="#{book.price}" />
 		</rich:columns>
 	</rich:dataTable>
-	<rich:panel id="columns1" styleClass="btn" style=" height : 138px;">
-		<f:facet name="header">
-			<h:outputText value="Columns" />
-		</f:facet>
-		<rich:dataTable value="#{dataTableScrollerBean.model}" var="model"
-			width="750"
-			style="text-align:center;color:Orchid;font-style:italic;font-size:x-large;border-style:dotted;background-color:Turquoise;
-        				border-color:Cornsilk;text-decoration:overline;font-family:Agency FB,Arial,Arial Baltic,Arial Black,Arial CE,Arial CYR,Arial Cyr,Arial Greek,Arial Narrow,Arial Rounded MT Bold,Arial TUR,Blackadder ITC,Bodoni MT,Bodoni MT Black,Bodoni MT Condensed,Book Antiqua,Bookman Old Style,Bookshelf Symbol 7,Bradley Hand ITC,Calisto MT,Castellar,Century Gothic,Century Schoolbook,Comic Sans MS,Copperplate Gothic Bold,Copperplate Gothic Light,Courier,Courier New,Courier New Baltic,Courier New CE,Courier New CYR,Courier New Cyr,Courier New Greek,Courier New TUR,Curlz MT,Edwardian Script ITC,Elephant,Engravers MT,Eras Bold ITC,Eras Demi ITC,Eras Light ITC,Eras Medium ITC,Estrangelo Edessa,Felix Titling,Fixedsys,Forte,Franklin Gothic Book,Franklin Gothic Demi,Franklin Gothic Demi Cond,Franklin Gothic Heavy,Franklin Gothic Medium,Franklin Gothic Medium Cond,French Script MT,Garamond,Gautami,Georgia,Gigi,Gill Sans MT,Gill Sans MT Condensed,Gill Sans MT Ext Condensed Bold,Gill Sans Ultra Bold,Gill Sans Ultra Bold Condensed,Gloucester MT Extra Condensed,Goudy Old Style,Goudy Stout,Haettenschweiler,Impact,Imprint MT Shadow,Latha,Lucida Console,Lucida Sans,Lucida Sans Typewriter,Lucida Sans Unicode,MS Outlook,MS Reference Sans Serif,MS Reference Specialty,MS Sans Serif,MS Serif,MT Extra,MV Boli,Maiandra GD,Mangal,Marlett,Microsoft Sans Serif,Modern,Monotype Corsiva,OCR A Extended,Palace Script MT,Palatino Linotype,Papyrus,Perpetua,Perpetua Titling MT,Pristina,Raavi,Rage Italic,Rockwell,Rockwell Condensed,Rockwell Extra Bold,Roman,Script,Script MT Bold,Shruti,Small Fonts,Sylfaen,Symbol,System,Tahoma,Terminal,Times New Roman,Times New Roman Baltic,Times New Roman CE,Times New Roman CYR,Times New Roman Cyr,Times New Roman Greek,Times New Roman TUR,Trebuchet MS,Tunga,Tw Cen MT,Tw Cen MT Condensed,Tw Cen MT Condensed Extra Bold,Verdana,WST_Czec,WST_Engl,WST_Fren,WST_Germ,WST_Ital,WST_Span,WST_Swed,Webdings,Wingdings,Wingdings 2,Wingdings 3;border-width:thick;font-weight:bold;">
+
+		<rich:dataTable id="columns1"
+			value="#{dataTableScrollerBean.model}" var="model"	width="750"
+			style="text-align:center;color:Orchid;font-style:italic;font-size:x-large;border-style:dotted;background-color:Turquoise; border-color:Cornsilk;text-decoration:overline;font-family:Agency FB,Arial,Arial Baltic,Arial Black,Arial CE,Arial CYR,Arial Cyr,Arial Greek,Arial Narrow,Arial Rounded MT Bold,Arial TUR,Blackadder ITC,Bodoni MT,Bodoni MT Black,Bodoni MT Condensed,Book Antiqua,Bookman Old Style,Bookshelf Symbol 7,Bradley Hand ITC,Calisto MT,Castellar,Century Gothic,Century Schoolbook,Comic Sans MS,Copperplate Gothic Bold,Copperplate Gothic Light,Courier,Courier New,Courier New Baltic,Courier New CE,Courier New CYR,Courier New Cyr,Courier New Greek,Courier New TUR,Curlz MT,Edwardian Script ITC,Elephant,Engravers MT,Eras Bold ITC,Eras Demi ITC,Eras Light ITC,Eras Medium ITC,Estrangelo Edessa,Felix Titling,Fixedsys,Forte,Franklin Gothic Book,Franklin Gothic Demi,Franklin Gothic Demi Cond,Franklin Gothic Heavy,Franklin Gothic Medium,Franklin Gothic Medium Cond,French Script MT,Garamond,Gautami,Georgia,Gigi,Gill Sans MT,Gill Sans MT Condensed,Gill Sans MT Ext Condensed Bold,Gill Sans Ultra Bold,Gill Sans Ultra Bold Condensed,Gloucester MT Extra Condensed,Goudy Old Style,Goudy Stout,Haettenschweiler,Impact,Imprint MT Shadow,Latha,Lucida Console,Lucida Sans,Lucida Sans Typewriter,Lucida Sans Unicode,MS Outlook,MS Reference Sans Serif,MS Reference Specialty,MS Sans Serif,MS Serif,MT Extra,MV Boli,Maiandra GD,Mangal,Marlett,Microsoft Sans Serif,Modern,Monotype Corsiva,OCR A Extended,Palace Script MT,Palatino Linotype,Papyrus,Perpetua,Perpetua Titling MT,Pristina,Raavi,Rage Italic,Rockwell,Rockwell Condensed,Rockwell Extra Bold,Roman,Script,Script MT Bold,Shruti,Small Fonts,Sylfaen,Symbol,System,Tahoma,Terminal,Times New Roman,Times New Roman Baltic,Times New Roman CE,Times New Roman CYR,Times New Roman Cyr,Times New Roman Greek,Times New Roman TUR,Trebuchet MS,Tunga,Tw Cen MT,Tw Cen MT Condensed,Tw Cen MT Condensed Extra Bold,Verdana,WST_Czec,WST_Engl,WST_Fren,WST_Germ,WST_Ital,WST_Span,WST_Swed,Webdings,Wingdings,Wingdings 2,Wingdings 3;border-width:thick;font-weight:bold;">
 			<f:facet name="header">
 				<h:outputText value="Cars Available"></h:outputText>
 			</f:facet>
@@ -41,7 +37,6 @@
 					style="font-style:italic;" />
 			</rich:columns>
 		</rich:dataTable>
-	</rich:panel>
 </h:form>
 </body>
 </html>

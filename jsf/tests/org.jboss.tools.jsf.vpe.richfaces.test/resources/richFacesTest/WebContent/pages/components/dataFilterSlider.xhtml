@@ -124,11 +124,8 @@ body {
 	handleStyleClass="handleStyle" rangeStyleClass="rangeStyle"
 	trackStyleClass="trackStyle" trailerStyleClass="trailerStyle"
 	style="color:yellow" />
-<rich:panel id="dataFilterSliderWithDataTable">
-	<f:facet name="header">
-		<h:outputText value="Data Filter Slider" />
-	</f:facet>
-	<a4j:form id="form1" reRender="list-body" ajaxSubmit="true"
+
+	<a4j:form id="dataFilterSliderWithDataTable" reRender="list-body" ajaxSubmit="true"
 		ignoreDupResponses="true" requestDelay="100">
 		<a4j:region id="stat1">
 			<a4j:outputPanel id="slider-body">
@@ -189,6 +186,6 @@ body {
 			</a4j:outputPanel>
 		</a4j:region>
 	</a4j:form>
-</rich:panel>
+
 </body>
 </html>

@@ -27,17 +27,19 @@ import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+/**
+ * Default template for <code>rich:panel</code> component.
+ * <p>
+ * It is used to render <code>rich:panel</code> for RichFaces untill version 3.3.
+ */
 public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 	   
-		Element sourceElement = (Element)sourceNode;
-
-		nsIDOMElement div = visualDocument.createElement("div"); //$NON-NLS-1$
-		
-		VpeCreationData creationData = new VpeCreationData(div);		
-
 		ComponentUtil.setCSSLink(pageContext, "panel/panel.css", "richFacesPanel"); //$NON-NLS-1$ //$NON-NLS-2$
+		Element sourceElement = (Element)sourceNode;
+		nsIDOMElement div = visualDocument.createElement("div"); //$NON-NLS-1$
+		VpeCreationData creationData = new VpeCreationData(div);		
 		
 		String styleClass = "dr-pnl rich-panel"; //$NON-NLS-1$
 		String styleClassAttrName = "styleClass"; //$NON-NLS-1$
@@ -57,10 +59,13 @@ public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 		 * Find elements from the f:facet 
 		 */
 		Map<String, List<Node>> headerFacetChildren = null;
+		Map<String, List<Node>> footerFacetChildren = null;
 		Element headerFacet = SourceDomUtil.getFacetByName(pageContext,
 				sourceElement, RichFaces.NAME_FACET_HEADER);
+		Element footerFacet = SourceDomUtil.getFacetByName(pageContext,
+				sourceElement, RichFaces.NAME_FACET_FOOTER);
 		if (headerFacet != null) {
-			headerFacetChildren = VisualDomUtil.findFacetElements(headerFacet, pageContext);
+			headerFacetChildren = getHeaderFacetChildren(headerFacet, pageContext);
 			nsIDOMElement headerDiv = visualDocument.createElement(HTML.TAG_DIV);
 			/*
 			 * By adding attribute VPE-FACET to this visual node 
@@ -75,12 +80,15 @@ public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 			headerDiv.setAttribute(HTML.ATTR_CLASS, headerClass);
 			headerDiv.setAttribute(HTML.ATTR_STYLE, 
 					ComponentUtil.getHeaderBackgoundImgStyle());
-
-			VpeChildrenInfo headerInfo = new VpeChildrenInfo(headerDiv);
-			headerInfo.addSourceChild(headerFacet);
-			creationData.addChildrenInfo(headerInfo);
+			/*
+			 * https://issues.jboss.org/browse/JBIDE-6072
+			 * Render the header: differs for RF3.3 and RF4
+			 */
+			renderHeaderFacet(headerFacet, headerDiv, creationData, pageContext, visualDocument);
 		}
-
+		if (footerFacet != null) {
+			footerFacetChildren = getHeaderFacetChildren(footerFacet, pageContext);
+		}
 		/*
 		 * Encode rich:panel content
 		 */
@@ -103,7 +111,13 @@ public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 					bodyInfo.addSourceChild(node);
 				}
 		}
-		
+		boolean footerHtmlElementsPresents = ((footerFacetChildren != null) && (footerFacetChildren
+				.get(VisualDomUtil.FACET_HTML_TAGS).size() > 0));
+		if (footerHtmlElementsPresents) {
+				for (Node node : footerFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS)) {
+					bodyInfo.addSourceChild(node);
+				}
+		}
 		/*
 		 * Add the rest panel's content
 		 */
@@ -112,10 +126,25 @@ public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 			bodyInfo.addSourceChild(child);
 		}
 		creationData.addChildrenInfo(bodyInfo);
-
+		
 		return creationData;
 	}
 
+	protected void renderHeaderFacet(Element headerFacet, nsIDOMElement headerDiv, 
+			VpeCreationData creationData, VpePageContext pageContext, nsIDOMDocument visualDocument) {
+		VpeChildrenInfo headerInfo = new VpeChildrenInfo(headerDiv);
+		headerInfo.addSourceChild(headerFacet);
+		creationData.addChildrenInfo(headerInfo);
+	}
+	
+	protected Map<String, List<Node>> getHeaderFacetChildren(Element headerFacet, VpePageContext pageContext) {
+		return VisualDomUtil.findFacetElements(headerFacet, pageContext);
+	}
+	
+	protected Map<String, List<Node>> getFooterFacetChildren(Element footerFacet, VpePageContext pageContext) {
+		return VisualDomUtil.findFacetElements(footerFacet, pageContext);
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#isRecreateAtAttrChange(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Element, org.mozilla.interfaces.nsIDOMDocument, org.mozilla.interfaces.nsIDOMElement, java.lang.Object, java.lang.String, java.lang.String)
 	 */

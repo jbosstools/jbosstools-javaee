@@ -14,16 +14,8 @@
 			</LI>
 		</UL>
 	</test>
-	<test id="dataList2">
-		<DIV CLASS="dr-pnl rich-panel">
-			<DIV CLASS="dr-pnl-h rich-panel-header"
-				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-				<SPAN CLASS="vpe-text">
-					Data List
-				</SPAN>
-			</DIV>
-			<DIV CLASS="dr-pnl-b rich-panel-body">
-				<UL ID="list" VAR="book" VALUE="#{bookList.bookList}" ROWS="3"
+	<test id="list">
+				<UL VAR="book" VALUE="#{bookList.bookList}" ROWS="3"
 					ROWCLASSES="evenRow, oddRow" STYLECLASS="btn" CLASS="dr-list rich-datalist btn">
 					<LI CLASS="dr-list-item rich-list-item evenRow">
 						<SPAN CLASS="vpe-text">
@@ -49,7 +41,5 @@
 
 					</LI>
 				</UL>
-			</DIV>
-		</DIV>
 	</test>
 </tests>

@@ -49,12 +49,9 @@
 	<f:selectItem itemValue="suggestion 5" />
 </rich:comboBox>
 
-<rich:panel styleClass="btn" id="complexCombo">
-	<f:facet name="header">
-    	<h:outputText value="Combo Box"/>
-    </f:facet>
 	<form>
-		<rich:comboBox defaultLabel="Enter some value" width="150">
+		<rich:comboBox id="complexCombo" 
+		defaultLabel="Enter some value" width="150">
     		<f:selectItem itemValue="item 1"/>
     		<f:selectItem itemValue="item 2"/>
     		<f:selectItem itemValue="item 3"/>
@@ -68,6 +65,6 @@
     		<f:selectItem itemValue="item 12"/>
   		</rich:comboBox>
     </form>
-</rich:panel>	
+    
 </body>
 </html>

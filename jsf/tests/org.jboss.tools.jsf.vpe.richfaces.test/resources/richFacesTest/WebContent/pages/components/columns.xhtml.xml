@@ -5,58 +5,48 @@
 		</TD>
 	</test>
 	<test id="columns1">
-		<DIV CLASS="dr-pnl rich-panel btn" STYLE="height: 138px;">
-			<DIV CLASS="dr-pnl-h rich-panel-header"
-				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-				<SPAN CLASS="vpe-text">
-					Columns
-				</SPAN>
-			</DIV>
-			<DIV CLASS="dr-pnl-b rich-panel-body">
-				<TABLE WIDTH="750" VALUE="#{dataTableScrollerBean.model}" VAR="model"
-					STYLE="border: thick dotted Cornsilk; text-align: center; color: Orchid; font-style: italic; font-size: x-large; background-color: Turquoise; text-decoration: overline; font-weight: bold;"
-					CLASS="dr-table rich-table">
-					<COLGROUP SPAN="1">
-					</COLGROUP>
-					<THEAD>
-						<TR CLASS="dr-table-header rich-table-header"
-							STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-							<TD CLASS="dr-table-headercell rich-table-headercell" COLSPAN="100"
-								SCOPE="colgroup">
-								<SPAN CLASS="vpe-text">
-									Cars Available
-								</SPAN>
-							</TD>
-						</TR>
-						<TR CLASS="dr-table-subheader rich-table-subheader">
-							<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
-								SCOPE="col">
-								<IMG SRC="/.*resources/column/sortable.gif/" STYLE="vertical-align: middle;" />
-								<SPAN>
-									<SPAN CLASS="vpe-text">
-										#{columns.header}
-									</SPAN>
-								</SPAN>
+		<TABLE WIDTH="750" VALUE="#{dataTableScrollerBean.model}" VAR="model"
+			STYLE="border: thick dotted Cornsilk; text-align: center; color: Orchid; font-style: italic; font-size: x-large; background-color: Turquoise; text-decoration: overline; font-weight: bold;"
+			CLASS="dr-table rich-table">
+			<COLGROUP SPAN="1">
+			</COLGROUP>
+			<THEAD>
+				<TR CLASS="dr-table-header rich-table-header"
+					STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+					<TD CLASS="dr-table-headercell rich-table-headercell" COLSPAN="100"
+						SCOPE="colgroup">
+						<SPAN CLASS="vpe-text">
+							Cars Available
+						</SPAN>
+					</TD>
+				</TR>
+				<TR CLASS="dr-table-subheader rich-table-subheader">
+					<TD CLASS="dr-table-subheadercell rich-table-subheadercell"
+						SCOPE="col">
+						<IMG SRC="/.*resources/column/sortable.gif/" STYLE="vertical-align: middle;" />
+						<SPAN>
+							<SPAN CLASS="vpe-text">
+								#{columns.header}
+							</SPAN>
+						</SPAN>
 
-							</TD>
-						</TR>
-					</THEAD>
-					<TR CLASS="dr-table-firstrow rich-table-firstrow">
-						<TD VALUE="#{dataTableScrollerBean.columns}" VAR="columns"
-							INDEX="ind" SORTBY="#{model[ind].price}" CLASS="dr-table-cell rich-table-cell">
-							<SPAN CLASS="vpe-text">
-								#{model[ind].model}
-							</SPAN>
-							<SPAN CLASS="vpe-text">
-								#{model[ind].mileage} miles
-							</SPAN>
-							<SPAN STYLE="font-style: italic;">
-								#{model[ind].price}$
-							</SPAN>
-						</TD>
-					</TR>
-				</TABLE>
-			</DIV>
-		</DIV>
+					</TD>
+				</TR>
+			</THEAD>
+			<TR CLASS="dr-table-firstrow rich-table-firstrow">
+				<TD VALUE="#{dataTableScrollerBean.columns}" VAR="columns" INDEX="ind"
+					SORTBY="#{model[ind].price}" CLASS="dr-table-cell rich-table-cell">
+					<SPAN CLASS="vpe-text">
+						#{model[ind].model}
+					</SPAN>
+					<SPAN CLASS="vpe-text">
+						#{model[ind].mileage} miles
+					</SPAN>
+					<SPAN STYLE="font-style: italic;">
+						#{model[ind].price}$
+					</SPAN>
+				</TD>
+			</TR>
+		</TABLE>
 	</test>
 </tests>

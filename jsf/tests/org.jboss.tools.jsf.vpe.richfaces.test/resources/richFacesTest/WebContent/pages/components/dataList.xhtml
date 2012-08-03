@@ -12,7 +12,8 @@
 <body>
 <h1>dataList</h1>
 
-<rich:dataList var="data" value="#{bean.dtList}" rows="4" id="dataList">
+<rich:dataList var="data" value="#{bean.dtList}" rows="4" 
+	id="dataList">
 	<h:outputText value="field1:"></h:outputText>
 	<h:outputText value="#{data.field1} " />
 	<h:outputText value="field2:"></h:outputText>
@@ -22,11 +23,8 @@
 	<h:outputText value="number:"></h:outputText>
 	<h:outputText value="#{data.number}" />
 </rich:dataList>
-<rich:panel id="dataList2">
-	<f:facet name="header">
-		<h:outputText value="Data List" />
-	</f:facet>
-	<rich:dataList id="list" var="book" value="#{bookList.bookList}"
+
+<rich:dataList id="list" var="book" value="#{bookList.bookList}"
 		rows="3" rowClasses="evenRow, oddRow" title="Book Store"
 		styleClass="btn">
 		<h:outputText value="#{book.name}" />
@@ -38,6 +36,5 @@
 		<h:outputText value="#{book.numOfCopies} " />
 		<br />
 	</rich:dataList>
-</rich:panel>
 </body>
 </html>
