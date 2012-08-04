@@ -1851,6 +1851,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			String typeSignature = type.getSignature();
 			int kind = Signature.getTypeSignatureKind(typeSignature);
 			if(kind == Signature.ARRAY_TYPE_SIGNATURE) {
+				if("Object[]".equals(type.getSimpleName()) && bean.getLegalTypes().size() > 1) continue; //There is another type
 				addProblem(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE_2, type.getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, bean.getResource());
 			} else if(type.isPrimitive()) {
 				// - Primitive types cannot be proxied by the container.
