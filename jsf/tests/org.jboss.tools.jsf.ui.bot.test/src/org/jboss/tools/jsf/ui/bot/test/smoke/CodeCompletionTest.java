@@ -57,14 +57,13 @@ public class CodeCompletionTest extends JSFAutoTestCase{
         0, 
         expectedProposals);
     // Check content assist for #{msg. prefix
-    expectedProposals.clear();
-    expectedProposals.add("name : String - Person");
-    ContentAssistHelper.checkContentAssistContent(SWTTestExt.bot, 
+    ContentAssistHelper.checkContentAssistAutoProposal(SWTTestExt.bot, 
         FACELETS_TEST_PAGE,
         textForSelection, 
         16, 
         0, 
-        expectedProposals);
+        0,
+        "name");
   }
   /**
    * Test Code Completion functionality for resource
@@ -138,12 +137,18 @@ public class CodeCompletionTest extends JSFAutoTestCase{
         0);
     String contentAssistToUse = "jsfc";
     ContentAssistBot contentAssist = editor.contentAssist();
+    SWTBotShell[] shellsBeforeCA = bot.shells();
     contentAssist.checkContentAssist(contentAssistToUse, true);
     editor.save();
+    SWTBotShell caShell = contentAssist.getContentAssistShell(shellsBeforeCA, bot.shells());
+    if (caShell != null){
+      caShell.close();  
+    }    
     String expectedInsertedText = "<input " + contentAssistToUse + "=\"\"";
     assertTrue("Editor has to contain text '" + expectedInsertedText + "' but it doesn't\n" +
         "Editor Text is\n" + editor.getText(),
       editor.getText().contains(expectedInsertedText));
+    // hide Code Assist Window automatically opened when typing text
     // check jsfc attribute value Content Assist menu Content
     ContentAssistHelper.checkContentAssistContent(SWTTestExt.bot, 
         FACELETS_TEST_PAGE,
@@ -189,29 +194,21 @@ public class CodeCompletionTest extends JSFAutoTestCase{
         0);
     String textToInsert = "<ez:";
     compositeComponentContainerEditor.insertText(textToInsert);
-    SWTJBTExt.selectTextInSourcePane(SWTTestExt.bot, 
+    // Check content assist menu content for "<ez:"
+    String expectedInsertedText = "input action=\"\" value=\"\"></ez:input>";
+    ContentAssistHelper.checkContentAssistAutoProposal(SWTTestExt.bot, 
         JSF2_TEST_PAGE,
         textToInsert, 
         textToInsert.length(), 
         0, 
-        0);
-    // Check content assist menu content for "<ez:"
-    contentAssist.checkContentAssist("ez:input", true);
-    bot.sleep(Timing.time2S());
+        0,
+        expectedInsertedText);
     compositeComponentContainerEditor.save();
-    String currentLineText = compositeComponentContainerEditor.getTextOnCurrentLine();
-    String expectedInsertedText = "<ez:input value=\"\" action=\"\"></ez:input>";
-    if (!currentLineText.toLowerCase().contains(expectedInsertedText.toLowerCase())){
-      expectedInsertedText = "<ez:input action=\"\" value=\"\"></ez:input>";
-      assertTrue("Inserted text should be " + expectedInsertedText + " but is not.\n" 
-          + "Current line text is " + currentLineText,
-        currentLineText.toLowerCase().contains(expectedInsertedText.toLowerCase()));
-    }
     // Check content assist menu content for Composite Components attributes    
     ContentAssistHelper.checkContentAssistContent(SWTTestExt.bot, 
         JSF2_TEST_PAGE,
         expectedInsertedText, 
-        10, 
+        6, 
         0, 
         getCompositeComponentsAttributesProposalList());
     // Open Composite Component definition file
@@ -240,7 +237,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
     contentAssist.checkContentAssist("cc.attrs", true);
     bot.sleep(Timing.time2S());
     compositeComponentDefEditor.save();
-    currentLineText = compositeComponentDefEditor.getTextOnCurrentLine();
+    String currentLineText = compositeComponentDefEditor.getTextOnCurrentLine();
     expectedInsertedText = "#{cc.attrs}";
     assertTrue("Inserted text should be " + expectedInsertedText + " but is not.\n" 
         + "Current line text is " + currentLineText,

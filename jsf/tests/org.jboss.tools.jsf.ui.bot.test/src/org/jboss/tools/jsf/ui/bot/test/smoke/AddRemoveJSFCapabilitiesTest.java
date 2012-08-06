@@ -195,9 +195,16 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
         IDELabel.Menu.ADD_JSF_CAPABILITIES).click();
     } catch (WidgetNotFoundException wnfe){
       // From 3.1.0.RC1 version this menu is moved to Configure submenu
-      new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
-        IDELabel.Menu.PACKAGE_EXPLORER_CONFIGURE, false)).menu(
-        IDELabel.Menu.ADD_JSF_CAPABILITIES).click();
+      try{
+        new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
+            IDELabel.Menu.PACKAGE_EXPLORER_CONFIGURE, false)).menu(
+            IDELabel.Menu.ADD_JSF_CAPABILITIES).click();
+      }catch (WidgetNotFoundException wnfex){
+        // sometimes context menu is not created properly after first click
+        new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,
+            IDELabel.Menu.PACKAGE_EXPLORER_CONFIGURE, false)).menu(
+            IDELabel.Menu.ADD_JSF_CAPABILITIES).click();
+      }
     }
  
     delay();
