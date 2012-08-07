@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.internal.core.validation;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -105,6 +106,7 @@ import org.jboss.tools.common.validation.ContextValidationHelper;
 import org.jboss.tools.common.validation.EditorValidationContext;
 import org.jboss.tools.common.validation.IJavaElementValidator;
 import org.jboss.tools.common.validation.IProjectValidationContext;
+import org.jboss.tools.common.validation.IStringValidator;
 import org.jboss.tools.common.validation.IValidatingProjectSet;
 import org.jboss.tools.common.validation.IValidatingProjectTree;
 import org.jboss.tools.common.validation.ValidationUtil;
@@ -114,7 +116,7 @@ import org.jboss.tools.jst.web.kb.internal.validation.KBValidator;
 /**
  * @author Alexey Kazakov
  */
-public class CDICoreValidator extends CDIValidationErrorManager implements IJavaElementValidator {
+public class CDICoreValidator extends CDIValidationErrorManager implements IJavaElementValidator, IStringValidator {
 	public static final String ID = "org.jboss.tools.cdi.core.CoreValidator"; //$NON-NLS-1$
 	public static final String PROBLEM_TYPE = "org.jboss.tools.cdi.core.cdiproblem"; //$NON-NLS-1$
 	public static final String PREFERENCE_PAGE_ID = "org.jboss.tools.cdi.ui.preferences.CDIValidatorPreferencePage"; //$NON-NLS-1$
@@ -488,7 +490,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	 * @see org.jboss.tools.common.validation.IAsYouTypeValidator#validate(org.eclipse.wst.validation.internal.provisional.core.IValidator, org.eclipse.core.resources.IProject, org.eclipse.jface.text.IRegion, org.eclipse.wst.validation.internal.provisional.core.IValidationContext, org.eclipse.wst.validation.internal.provisional.core.IReporter, org.jboss.tools.common.validation.EditorValidationContext, org.jboss.tools.common.validation.IProjectValidationContext, org.eclipse.core.resources.IFile)
 	 */
 	@Override
-	public void validate(IValidator validatorManager, IProject rootProject, IRegion dirtyRegion, IValidationContext helper, IReporter reporter, EditorValidationContext validationContext, IProjectValidationContext projectContext, final IFile file) {
+	public void validate(IValidator validatorManager, IProject rootProject, Collection<IRegion> dirtyRegions, IValidationContext helper, IReporter reporter, EditorValidationContext validationContext, IProjectValidationContext projectContext, final IFile file) {
 		ContextValidationHelper validationHelper = new ContextValidationHelper();
 		validationHelper.setProject(rootProject);
 		validationHelper.setValidationContextManager(validationContext);
