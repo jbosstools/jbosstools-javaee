@@ -296,7 +296,6 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		} catch(CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
-		
 	}
 
 	private void addLinkedResourcesForUnknownType(IFile beansXml, String typeName) {
@@ -432,10 +431,12 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 
 	private abstract class AbstractTypeValidator implements TypeValidator {
 
+		@Override
 		public String getTypeElementName() {
 			return "class"; //$NON-NLS-1$
 		}
 
+		@Override
 		public String validateType(CDICoreValidator.CDIValidationContext context, IType type) throws JavaModelException {
 			if(!validateKindOfType(type)) {
 				return getIllegalTypeErrorMessage();
@@ -477,35 +478,43 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 
 	private class AlternativeClassValidator extends AbstractTypeValidator {
 
+		@Override
 		public boolean validateSourceType(CDICoreValidator.CDIValidationContext context, IType type) {
 			IClassBean classBean = context.getCdiProject().getBeanClass(type);
 			return classBean!=null && classBean.isAlternative();
 		}
 
+		@Override
 		public String getParrentElementname() {
 			return "alternatives"; //$NON-NLS-1$
 		}
 
+		@Override
 		public String getEmptyTypeErrorMessage() {
 			return CDIValidationMessages.EMPTY_ALTERNATIVE_BEAN_CLASS_NAME;
 		}
-		
+
+		@Override
 		public String getUnknownTypeErrorMessage() {
 			return CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME;
 		}
-		
+
+		@Override
 		public int getUnknownTypeErrorMessageId() {
 			return CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME_ID;
 		}
 
+		@Override
 		public String getIllegalTypeErrorMessage() {
 			return CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS;
 		}
 
+		@Override
 		public int getIllegalTypeErrorMessageId() {
 			return CDIValidationErrorManager.ILLEGAL_ALTERNATIVE_BEAN_CLASS_ID;
 		}
 
+		@Override
 		public String getDuplicateTypeErrorMessage() {
 			return CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE;
 		}
@@ -518,6 +527,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 
 	private class AlternativeStereotypeValidator extends AbstractTypeValidator {
 
+		@Override
 		public boolean validateSourceType(CDICoreValidator.CDIValidationContext context, IType type) {
 			IStereotype stereotype = context.getCdiProject().getStereotype(type);
 			return stereotype!=null && stereotype.isAlternative();
@@ -533,30 +543,37 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 			return "stereotype"; //$NON-NLS-1$
 		}
 
+		@Override
 		public String getParrentElementname() {
 			return "alternatives"; //$NON-NLS-1$
 		}
 
+		@Override
 		public String getEmptyTypeErrorMessage() {
 			return CDIValidationMessages.EMPTY_ALTERNATIVE_ANNOTATION_NAME;
 		}
 
+		@Override
 		public String getUnknownTypeErrorMessage() {
 			return CDIValidationMessages.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME;
 		}
 
+		@Override
 		public int getUnknownTypeErrorMessageId() {
 			return CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME_ID;
 		}
 
+		@Override
 		public String getIllegalTypeErrorMessage() {
 			return CDIValidationMessages.ILLEGAL_ALTERNATIVE_ANNOTATION;
 		}
 
+		@Override
 		public int getIllegalTypeErrorMessageId() {
 			return CDIValidationErrorManager.ILLEGAL_ALTERNATIVE_ANNOTATION_ID;
 		}
 
+		@Override
 		public String getDuplicateTypeErrorMessage() {
 			return CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE;
 		}
@@ -569,35 +586,43 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 
 	private class DecoratorTypeValidator extends AbstractTypeValidator {
 
+		@Override
 		public boolean validateSourceType(CDICoreValidator.CDIValidationContext context, IType type) {
 			IClassBean classBean = context.getCdiProject().getBeanClass(type);
 			return classBean instanceof IDecorator;
 		}
 
+		@Override
 		public String getParrentElementname() {
 			return "decorators"; //$NON-NLS-1$
 		}
 
+		@Override
 		public String getEmptyTypeErrorMessage() {
 			return CDIValidationMessages.EMPTY_DECORATOR_BEAN_CLASS_NAME;
 		}
-		
+
+		@Override
 		public String getUnknownTypeErrorMessage() {
 			return CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME;
 		}
-		
+
+		@Override
 		public int getUnknownTypeErrorMessageId() {
 			return CDIValidationErrorManager.UNKNOWN_DECORATOR_BEAN_CLASS_NAME_ID;
 		}
 
+		@Override
 		public String getIllegalTypeErrorMessage() {
 			return CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS;
 		}
 
+		@Override
 		public int getIllegalTypeErrorMessageId() {
 			return CDIValidationErrorManager.ILLEGAL_DECORATOR_BEAN_CLASS_ID;
 		}
 
+		@Override
 		public String getDuplicateTypeErrorMessage() {
 			return CDIValidationMessages.DUPLICATE_DECORATOR_CLASS;
 		}
@@ -610,35 +635,43 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 
 	private class InterceptorTypeValidator extends AbstractTypeValidator {
 
+		@Override
 		public boolean validateSourceType(CDICoreValidator.CDIValidationContext context, IType type) {
 			IClassBean classBean = context.getCdiProject().getBeanClass(type);
 			return classBean instanceof IInterceptor;
 		}
 
+		@Override
 		public String getParrentElementname() {
 			return "interceptors"; //$NON-NLS-1$
 		}
 
+		@Override
 		public String getEmptyTypeErrorMessage() {
 			return CDIValidationMessages.EMPTY_INTERCEPTOR_CLASS_NAME;
 		}
-		
+
+		@Override
 		public String getUnknownTypeErrorMessage() {
 			return CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME;
 		}
-		
+
+		@Override
 		public int getUnknownTypeErrorMessageId() {
 			return CDIValidationErrorManager.UNKNOWN_INTERCEPTOR_CLASS_NAME_ID;
 		}
 
+		@Override
 		public String getIllegalTypeErrorMessage() {
 			return CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS;
 		}
 
+		@Override
 		public int getIllegalTypeErrorMessageId() {
 			return CDIValidationErrorManager.ILLEGAL_INTERCEPTOR_CLASS_ID;
 		}
 
+		@Override
 		public String getDuplicateTypeErrorMessage() {
 			return CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS;
 		}
