@@ -108,7 +108,9 @@ public class ImportJSF12ProjectFromJBDS4x extends JSFAutoTestCase{
   @Override
   public void tearDown() throws Exception {
     if (eclipse.isProjectInPackageExplorer(PROJECT_TO_IMPORT_NAME)){
-      packageExplorer.deleteProject(ImportJSF12ProjectFromJBDS4x.PROJECT_TO_IMPORT_NAME, true);  
+      addIgnoredExceptionFromEclipseLog("null");
+      packageExplorer.deleteProject(ImportJSF12ProjectFromJBDS4x.PROJECT_TO_IMPORT_NAME, true);
+      removeIgnoredExceptionFromEclipseLog("null");
     }
     super.tearDown();
   }

@@ -196,13 +196,24 @@ public class CodeCompletionTest extends JSFAutoTestCase{
     compositeComponentContainerEditor.insertText(textToInsert);
     // Check content assist menu content for "<ez:"
     String expectedInsertedText = "input action=\"\" value=\"\"></ez:input>";
-    ContentAssistHelper.checkContentAssistAutoProposal(SWTTestExt.bot, 
-        JSF2_TEST_PAGE,
-        textToInsert, 
-        textToInsert.length(), 
-        0, 
-        0,
-        expectedInsertedText);
+    try{
+      ContentAssistHelper.checkContentAssistAutoProposal(SWTTestExt.bot, 
+          JSF2_TEST_PAGE,
+          textToInsert, 
+          textToInsert.length(), 
+          0, 
+          0,
+          expectedInsertedText);
+    } catch (AssertionError ae){
+      // because order of attributes is not guaranteed check 
+      // it has to be checked with different order 
+      expectedInsertedText = "input value=\"\" action=\"\"></ez:input>";
+      final String textOnCurrentLine = compositeComponentContainerEditor.getTextOnCurrentLine();
+      assertTrue("Text on current line should contain:\n" + 
+          "<ez:" + expectedInsertedText +
+          "\nbut is:\n" + textOnCurrentLine
+          , textOnCurrentLine.contains("<ez:" + expectedInsertedText));
+    }
     compositeComponentContainerEditor.save();
     // Check content assist menu content for Composite Components attributes    
     ContentAssistHelper.checkContentAssistContent(SWTTestExt.bot, 

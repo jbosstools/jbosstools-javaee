@@ -72,7 +72,9 @@ public abstract class AbstractFacesConfigEditingTest extends JSFAutoTestCase{
       if (gefObjectAddedViaViewTool != null){
         gefObjectAddedViaViewTool.click();
         bot.sleep(Timing.time1S());
+        addIgnoredExceptionFromEclipseLog("java.lang.Exception");
         gefViewer.clickContextMenu(IDELabel.Menu.DELETE);
+        removeIgnoredExceptionFromEclipseLog("java.lang.Exception");
         confirmViewDelete();
         bot.sleep(Timing.time1S());
       }
@@ -86,7 +88,8 @@ public abstract class AbstractFacesConfigEditingTest extends JSFAutoTestCase{
     }
     if (facesConfigEditor != null) {
       facesConfigEditor.toTextEditor().setText(originalContent);
-      facesConfigEditor.saveAndClose();
+      facesConfigEditor.save();
+      facesConfigEditor.close();
       bot.sleep(Timing.time1S());
     }
     super.tearDown();

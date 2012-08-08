@@ -87,6 +87,7 @@ public class MarkersTest extends JSFAutoTestCase{
         insertText.length(),
         expectedQuickFixes);
     editor.quickFix().useQuickFix(0);
+    util.waitForShellWithTextIsFound(IDELabel.Shell.PREFERENCES_FILTERED, Timing.time3S());
     final SWTBot botProperties = bot.shell(IDELabel.Shell.PREFERENCES_FILTERED).activate().bot();
     String selectedTreeItemLabel = botProperties.tree().selection().get(0,0);
     boolean isFilterValueOK = false;

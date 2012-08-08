@@ -72,7 +72,7 @@ public class CreateNewTemplateFromJSFProject extends JSFAutoTestCase{
     bot.sleep(Timing.time3S());
     packageExplorer.selectTreeItem(CreateNewTemplateFromJSFProject.TEST_PAGE_NAME,
         new String[]{CreateNewTemplateFromJSFProject.TEMPLATE_TEST_PROJECT_NAME,
-          "WebContent.pages"}).doubleClick();
+          "WebContent","pages"}).doubleClick();
     packageExplorer.deleteProject(CreateNewTemplateFromJSFProject.TEMPLATE_TEST_PROJECT_NAME, true);
         
 	}
