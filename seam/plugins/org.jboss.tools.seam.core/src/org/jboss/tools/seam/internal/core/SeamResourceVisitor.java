@@ -13,6 +13,7 @@ package org.jboss.tools.seam.internal.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -23,13 +24,13 @@ import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.jboss.tools.common.model.XModel;
-import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.jst.web.WebUtils;
 import org.jboss.tools.jst.web.model.helpers.InnerModelHelper;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
@@ -52,7 +53,7 @@ public class SeamResourceVisitor implements IResourceVisitor, IResourceDeltaVisi
 	
 	IPath[] outs = new IPath[0];
 	IPath[] srcs = new IPath[0];
-	IPath webinf = null;
+	IPath[] webinfs = new IPath[0];
 	
 	public SeamResourceVisitor(SeamProject p) {
 		this.p = p;
@@ -61,14 +62,16 @@ public class SeamResourceVisitor implements IResourceVisitor, IResourceDeltaVisi
 			getJavaSourceRoots(p.getProject());
 
 			XModel model = InnerModelHelper.createXModel(p.getProject());
-			if(model != null) {
-				XModelObject wio = FileSystemsHelper.getWebInf(model);
-				if(wio != null) {
-					IResource wir = (IResource)wio.getAdapter(IResource.class);
-					if(wir != null) {
-						webinf = wir.getFullPath();
+			IContainer[] cs = WebUtils.getWebRootFolders(p.getProject());
+			List<IPath> ws = new ArrayList<IPath>();
+			if(model != null && cs.length > 0) {
+				for (IContainer c: cs) {
+					IFolder f = c.getFolder(new Path("WEB-INF"));
+					if(f.exists()) {
+						ws.add(f.getFullPath());
 					}
 				}
+				webinfs = ws.toArray(new IPath[0]);
 			}
 		}
 	}
@@ -199,7 +202,7 @@ public class SeamResourceVisitor implements IResourceVisitor, IResourceDeltaVisi
 				return true;
 			}
 		}
-		if(webinf != null) {
+		for (IPath webinf: webinfs) {
 			if(webinf.isPrefixOf(path) || path.isPrefixOf(webinf)) {
 				return true;
 			}
