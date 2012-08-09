@@ -363,8 +363,6 @@ public class CodeCompletionTest extends JSFAutoTestCase{
         0, 
         0);
     compositeComponentContainerEditor.insertText("\n");
-    final String a4jLoadStyleTag = "<a4j:loadStyle src=\"";
-    compositeComponentContainerEditor.insertText(a4jLoadStyleTag + "\"/>\n");
     final String linkTag = "<link href=\"";
     compositeComponentContainerEditor.insertText(linkTag + "\"/>\n");
     final String hLinkTag = "<h:link value=\"";
@@ -372,8 +370,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
     compositeComponentContainerEditor.save();
     bot.sleep(Timing.time2S());
     checkCodeCompletionOfSourceAttribute(linkTag);
-    checkCodeCompletionOfSourceAttribute(hLinkTag);
-    checkCodeCompletionOfSourceAttribute(a4jLoadStyleTag);
+    checkCodeCompletionOfSourceAttribute(hLinkTag);    
   }
 
   /**
