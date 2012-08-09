@@ -15,6 +15,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.source.Annotation;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
+import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
+import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.common.base.test.validation.AbstractAsYouTypeValidationTest;
 import org.jboss.tools.common.base.test.validation.java.BaseAsYouTypeInJavaValidationTest;
 
@@ -25,25 +27,24 @@ import org.jboss.tools.common.base.test.validation.java.BaseAsYouTypeInJavaValid
  */
 public class CDIAsYouTypeInJavaValidationTest extends TCKTest {
 	private static final String PAGE_NAME = "JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/NPEValidation.java";
-	private static final String RESOURCE_MARKER_TYPE = "org.jboss.tools.cdi.core.cdiproblem";
-	
+
 	private BaseAsYouTypeInJavaValidationTest baseTest = null;
 	protected IProject project;
-	
+
 	private static final String [][] ANNOTATIONS2VALIDATE = 
 		{ 
-			{"@Inject", "Multiple beans are eligible for injection to the injection point [JSR-299 §5.2.1]"}, 
-			{"@Produces", "Producer cannot be declared in a decorator [JSR-299 §3.3.2]"}
+			{"@Inject", CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS}, 
+			{"@Produces", CDIValidationMessages.PRODUCER_IN_DECORATOR}
 		};
 
+	@Override
 	public void setUp() throws Exception {
 		project = TCKTest.findTestProject();
 		if (baseTest == null) {
-			baseTest = new BaseAsYouTypeInJavaValidationTest(project, RESOURCE_MARKER_TYPE);
+			baseTest = new BaseAsYouTypeInJavaValidationTest(project, CDICoreValidator.PROBLEM_TYPE);
 		}
 	}
 
-	
 	public void testAsYouTypeInJavaValidation() throws BadLocationException, CoreException {
  		assertNotNull("Test project '" + TCKTest.MAIN_PROJECT_NAME + "' is not prepared", project);
 			for (int i = 0; i < ANNOTATIONS2VALIDATE.length; i++) {
@@ -55,8 +56,7 @@ public class CDIAsYouTypeInJavaValidationTest extends TCKTest {
 				}
 			}
 	}
-	
-	
+
 	/**
 	 * The test procedure steps:
 	 * - Find EL by a given number
@@ -78,9 +78,9 @@ public class CDIAsYouTypeInJavaValidationTest extends TCKTest {
 		// The test procedure steps:
 		// - Find wrong annotation
 		//============================
-		
+
 		String documentContent = baseTest.getDocument().get();
-	
+
 		int start = (documentContent == null ? -1 : documentContent
 					.indexOf(annotation, 0));
 		assertFalse("No annotation " + annotation + " found in document", (start == -1));
@@ -93,20 +93,20 @@ public class CDIAsYouTypeInJavaValidationTest extends TCKTest {
 		Annotation problemAnnotation = baseTest.waitForAnnotation(
 				start, start + length, errorMessage, AbstractAsYouTypeValidationTest.MAX_SECONDS_TO_WAIT, true, true);
 		assertNotNull("Problem Marker Annotation for " + annotation + " not found!", problemAnnotation);
-		
+
 		String message = problemAnnotation.getText();
 		assertEquals(
 				"Not expected error message found in ProblemAnnotation. Expected: ["
 						+ errorMessage + "], Found: [" + message + "]",
 				errorMessage, message);
-		
+
 		//=================================================================================================
 		// - Remove broken Annotation => see error annotation to disappear 
 		//   (an old problem marker annotation has to disappear)
 		//=================================================================================================
 
 		baseTest.getDocument().replace(start, length, "");
-		
+
 		problemAnnotation = baseTest.waitForAnnotation(
 				start, start + length, null, AbstractAsYouTypeValidationTest.MAX_SECONDS_TO_WAIT, true, false); // Still use the same length (Just to have a place to look in)
 		assertNull("Problem Annotation has not disappeared!", problemAnnotation);
@@ -116,10 +116,10 @@ public class CDIAsYouTypeInJavaValidationTest extends TCKTest {
 		//=================================================================================================
 
 		baseTest.getDocument().replace(start, 0, annotation);
-		
+
 		problemAnnotation = baseTest.waitForAnnotation(
 				start, start + length, errorMessage, AbstractAsYouTypeValidationTest.MAX_SECONDS_TO_WAIT, false, true);
-		
+
 		message = problemAnnotation.getText();
 		assertEquals(
 				"Not expected error message found in ProblemAnnotation. Expected: ["
@@ -128,10 +128,10 @@ public class CDIAsYouTypeInJavaValidationTest extends TCKTest {
 
 		assertNotNull("No Problem Annotation found for wrong annotation " + annotation + "!", problemAnnotation);
 	}
-	
+
 	private String toRegex(String text) {
 		StringBuilder result = new StringBuilder(text);
-		
+
 		int i = -1;
 		while ((i = result.indexOf("[", i+1)) != -1) {
 			result.insert(i++, '\\');
@@ -140,7 +140,7 @@ public class CDIAsYouTypeInJavaValidationTest extends TCKTest {
 		while ((i = result.indexOf("]", i+1)) != -1) {
 			result.insert(i++, '\\');
 		}
-		
+
 		return result.toString();
 	}
 }
