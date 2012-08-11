@@ -15,6 +15,7 @@ import java.util.Set;
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IProducer;
 
 /**
@@ -56,6 +57,19 @@ public class SelectedAlternativeTest extends TCKTest {
 			}
 		}
 		assertEquals(2, producerCount);
+	}
+
+	/**
+	 * Producer declared in a class bean, which is an alternative. There is another bean with the same type.
+	 * Test that an injection point with that type is resolved to the producer.
+	 */
+	public void testProducerInAlternativeClassBean() {
+		IInjectionPoint p = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/lookup/injection/alternative/D.java", "b");
+		Set<IBean> unresolved = cdiProject.getBeans(false, p);
+		Set<IBean> resolved = cdiProject.getBeans(true, p);
+		assertEquals(1, resolved.size());
+		assertEquals(2, unresolved.size());
+		System.out.println("");
 	}
 
 }
