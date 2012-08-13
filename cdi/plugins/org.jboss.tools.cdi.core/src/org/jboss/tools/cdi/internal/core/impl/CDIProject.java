@@ -311,6 +311,12 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 					it.remove();
 				}
 			}
+			if(b instanceof IProducer && b instanceof IBeanMember) {
+				IBeanMember p = (IBeanMember)b;
+				if(p.getClassBean() != null && p.getClassBean().isAlternative()) {
+					containsAlternatives = true;
+				}
+			}
 			IBean bean = b.getSpecializedBean();
 			if(bean!=null && b.isEnabled()) {
 				if(disabled==null) {
@@ -322,6 +328,10 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 
 		if(disabled!=null) {
 			result.removeAll(disabled);
+		}
+		
+		if(result.size() < 2) {
+			return result;
 		}
 
 		if(containsAlternatives) {
