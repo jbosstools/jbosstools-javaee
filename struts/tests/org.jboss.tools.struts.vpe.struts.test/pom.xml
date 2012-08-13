@@ -13,6 +13,7 @@
 	<properties>
 		<coverage.filter>org.jboss.tools*</coverage.filter>
 		<emma.instrument.bundles>org.jboss.tools.struts,org.jboss.tools.struts.text.ext,org.jboss.tools.struts.vpe.struts</emma.instrument.bundles>
+		<surefire.timeout>3600</surefire.timeout>
 	</properties>	
 	<build>
 		<plugins>
@@ -20,9 +21,6 @@
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-surefire-plugin</artifactId>
 				<configuration>
-					<!-- timeout in seconds (60 mins) -->
-					<surefire.timeout>3600</surefire.timeout>
-					<forkedProcessTimeoutInSeconds>3600</forkedProcessTimeoutInSeconds>
 					<product>org.jboss.tools.tests</product>
 					<explodedBundles>
 						<bundle>org.jboss.tools.vpe</bundle>

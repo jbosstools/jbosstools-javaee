@@ -11,6 +11,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	<name>jsf.tests</name>
 	
 	<packaging>pom</packaging>
+	
+	<properties>
+		<surefire.timeout>3600</surefire.timeout>
+	</properties>
 
 	<profiles>
 		<profile>
@@ -70,10 +74,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 				<artifactId>tycho-surefire-plugin</artifactId>
 				<configuration>
 					<product>org.jboss.tools.tests.product</product>
-					<!-- default is 1800 sec = 30 min -->
-					<surefire.timeout>3600</surefire.timeout>
-					<forkedProcessTimeoutInSeconds>3600</forkedProcessTimeoutInSeconds>
-
 					<explodedBundles>
 						<bundle>org.jboss.tools.vpe</bundle>
 						<bundle>org.mozilla.xulrunner.cocoa.macosx</bundle>
