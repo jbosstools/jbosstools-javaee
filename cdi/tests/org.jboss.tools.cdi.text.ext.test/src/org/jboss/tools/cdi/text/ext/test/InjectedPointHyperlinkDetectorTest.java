@@ -11,7 +11,7 @@
 package org.jboss.tools.cdi.text.ext.test;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
@@ -61,7 +61,7 @@ public class InjectedPointHyperlinkDetectorTest extends TCKTest {
 	}
 
 	public void testInjectedPointHyperlinkDetector() throws Exception {
-		Set<IBean> beans = cdiProject.getBeans("/tck/JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/BasicLogger.java",	true);
+		Collection<IBean> beans = cdiProject.getBeans("/tck/JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/BasicLogger.java",	true);
 		IBean bean=null;
 		for(IBean b : beans){
 			bean = b;
@@ -92,7 +92,7 @@ public class InjectedPointHyperlinkDetectorTest extends TCKTest {
 	}
 
 	public void testInjectedPointHyperlinkDetectorWithComment() throws Exception {
-		Set<IBean> beans = cdiProject.getBeans("/tck/JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/BasicLogger.java",	true);
+		Collection<IBean> beans = cdiProject.getBeans("/tck/JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/BasicLogger.java",	true);
 		IBean bean=null;
 		for(IBean b : beans){
 			bean = b;
@@ -118,7 +118,7 @@ public class InjectedPointHyperlinkDetectorTest extends TCKTest {
 	}
 
 	public void testInjectedProducerMethodParametersHyperlinkDetector() throws Exception {
-		Set<IBean> beans = cdiProject.getBeans("/tck/JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/CustomProducerImpl.java",	true);
+		Collection<IBean> beans = cdiProject.getBeans("/tck/JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/CustomProducerImpl.java",	true);
 		IBean bean=null;
 		for(IBean b : beans){
 			bean = b;
@@ -145,7 +145,7 @@ public class InjectedPointHyperlinkDetectorTest extends TCKTest {
 	}
 	
 	public void testInjectedConstructorParametersHyperlinkDetector() throws Exception {
-		Set<IBean> beans = cdiProject.getBeans("/tck/JavaSource/org/jboss/jsr299/tck/tests/context/dependent/Fox.java",	true);
+		Collection<IBean> beans = cdiProject.getBeans("/tck/JavaSource/org/jboss/jsr299/tck/tests/context/dependent/Fox.java",	true);
 		IBean bean=null;
 		for(IBean b : beans){
 			bean = b;
@@ -164,7 +164,7 @@ public class InjectedPointHyperlinkDetectorTest extends TCKTest {
 	}
 	
 	public void testInjectedInitializerParametersHyperlinkDetector() throws Exception {
-		Set<IBean> beans = cdiProject.getBeans("/tck/JavaSource/org/jboss/jsr299/tck/tests/context/dependent/Fox.java",	true);
+		Collection<IBean> beans = cdiProject.getBeans("/tck/JavaSource/org/jboss/jsr299/tck/tests/context/dependent/Fox.java",	true);
 		IBean bean=null;
 		for(IBean b : beans){
 			bean = b;
