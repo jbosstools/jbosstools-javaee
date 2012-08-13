@@ -11,7 +11,7 @@
 package org.jboss.tools.cdi.seam.text.ext.test;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.Collection;
 
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.seam.solder.core.test.SeamSolderTest;
@@ -25,7 +25,7 @@ import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestRegion;
 
 public class InjectedPointHyperlinkTest extends SeamSolderTest {
 	public void testInjectedPointHyperlinkDetector() throws Exception {
-		Set<IBean> beans = getCDIProject().getBeans("/CDISolderTest/src/org/jboss/generic2/MessageManager.java",	true);
+		Collection<IBean> beans = getCDIProject().getBeans("/CDISolderTest/src/org/jboss/generic2/MessageManager.java",	true);
 		IBean bean=null;
 		for(IBean b : beans){
 			bean = b;
