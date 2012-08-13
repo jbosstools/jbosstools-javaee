@@ -2113,23 +2113,25 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			 * 6.6.4 Validation of passivation capable beans and dependencies
 			 * - If a managed bean which declares a passivating scope is not passivation capable, then the container automatically detects the problem and treats it as a deployment problem.
 	 		 */
-			IScope scope = bean.getScope();
-			if(scope!=null && scope.isNorlmalScope()) {
-				IAnnotationDeclaration normalScopeDeclaration = scope.getAnnotationDeclaration(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME);
-				if(normalScopeDeclaration != null) {
-					boolean passivatingScope = "true".equalsIgnoreCase("" + normalScopeDeclaration.getMemberValue("passivating"));
-					if(passivatingScope) {
-						boolean passivatingCapable = false;
-						Set<IParametedType> supers = bean.getAllTypes();
-						for (IParametedType type : supers) {
-							if("java.io.Serializable".equals(type.getType().getFullyQualifiedName())) {
-								passivatingCapable = true;
-								break;
+			if(bean.getScopeDeclarations().size()<2) { // Ignore broken beans with multiple scope declarations.
+				IScope scope = bean.getScope();
+				if(scope!=null && scope.isNorlmalScope()) {
+					IAnnotationDeclaration normalScopeDeclaration = scope.getAnnotationDeclaration(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME);
+					if(normalScopeDeclaration != null) {
+						boolean passivatingScope = "true".equalsIgnoreCase("" + normalScopeDeclaration.getMemberValue("passivating"));
+						if(passivatingScope) {
+							boolean passivatingCapable = false;
+							Set<IParametedType> supers = bean.getAllTypes();
+							for (IParametedType type : supers) {
+								if("java.io.Serializable".equals(type.getType().getFullyQualifiedName())) {
+									passivatingCapable = true;
+									break;
+								}
 							}
-						}
-						if(!passivatingCapable) {
-							ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange(), bean.getResource(), bean.getBeanClass());
-							addProblem(MessageFormat.format(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN, bean.getElementName(), scope.getSourceType().getElementName()), CDIPreferences.NOT_PASSIVATION_CAPABLE_BEAN, reference, bean.getResource(), NOT_PASSIVATION_CAPABLE_BEAN_ID);
+							if(!passivatingCapable) {
+								ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange(), bean.getResource(), bean.getBeanClass());
+								addProblem(MessageFormat.format(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN, bean.getElementName(), scope.getSourceType().getElementName()), CDIPreferences.NOT_PASSIVATION_CAPABLE_BEAN, reference, bean.getResource(), NOT_PASSIVATION_CAPABLE_BEAN_ID);
+							}
 						}
 					}
 				}
