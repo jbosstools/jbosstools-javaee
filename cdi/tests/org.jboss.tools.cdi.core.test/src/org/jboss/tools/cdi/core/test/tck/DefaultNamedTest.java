@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
@@ -27,7 +27,7 @@ public class DefaultNamedTest extends TCKTest {
 	 * @throws JavaModelException
 	 */
 	public void testStereotypeWithEmptyNamed() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.stereotype.defaultNamed.FallowDeer");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.stereotype.defaultNamed.FallowDeer");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong EL name.", "fallowDeer", bean.getName());

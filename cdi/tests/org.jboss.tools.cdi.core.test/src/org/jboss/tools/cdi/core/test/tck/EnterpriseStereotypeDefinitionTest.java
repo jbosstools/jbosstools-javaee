@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
@@ -28,7 +28,7 @@ public class EnterpriseStereotypeDefinitionTest extends TCKTest {
 	 */
 	public void testStereotypeDeclaredInheritedIsInherited()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.stereotype.enterprise.BorderCollieLocal");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.stereotype.enterprise.BorderCollieLocal");
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type",
 				"javax.enterprise.context.RequestScoped", bean.getScope()
@@ -42,7 +42,7 @@ public class EnterpriseStereotypeDefinitionTest extends TCKTest {
 	 */
 	public void testStereotypeNotDeclaredInheritedIsNotInherited()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.stereotype.enterprise.BarracudaLocal");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.stereotype.enterprise.BarracudaLocal");
 		IBean bean = beans.iterator().next();
 		assertFalse("Wrong scope type",
 				"javax.enterprise.context.RequestScoped".equals(bean.getScope()
@@ -56,7 +56,7 @@ public class EnterpriseStereotypeDefinitionTest extends TCKTest {
 	 */
 	public void testStereotypeDeclaredInheritedIsIndirectlyInherited()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.stereotype.enterprise.EnglishBorderCollieLocal");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.stereotype.enterprise.EnglishBorderCollieLocal");
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type",
 				"javax.enterprise.context.RequestScoped", bean.getScope()
@@ -70,7 +70,7 @@ public class EnterpriseStereotypeDefinitionTest extends TCKTest {
 	 */
 	public void testStereotypeNotDeclaredInheritedIsNotIndirectlyInherited()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.stereotype.enterprise.TameBarracudaLocal");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.stereotype.enterprise.TameBarracudaLocal");
 		IBean bean = beans.iterator().next();
 		assertFalse("Wrong scope type",
 				"javax.enterprise.context.RequestScoped".equals(bean.getScope()
@@ -84,7 +84,7 @@ public class EnterpriseStereotypeDefinitionTest extends TCKTest {
 	 */
 	public void testStereotypeScopeIsOverriddenByInheritedScope()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.stereotype.enterprise.ChihuahuaLocal");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.stereotype.enterprise.ChihuahuaLocal");
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type",
 				"javax.enterprise.context.SessionScoped", bean.getScope()
@@ -98,7 +98,7 @@ public class EnterpriseStereotypeDefinitionTest extends TCKTest {
 	 */
 	public void testStereotypeScopeIsOverriddenByIndirectlyInheritedScope()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.stereotype.enterprise.MexicanChihuahuaLocal");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.stereotype.enterprise.MexicanChihuahuaLocal");
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type",
 				"javax.enterprise.context.SessionScoped", bean.getScope()
@@ -106,10 +106,10 @@ public class EnterpriseStereotypeDefinitionTest extends TCKTest {
 	}
 
 	public void testAdditionalStereotype() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.stereotype.defaultNamed.Sambar");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.stereotype.defaultNamed.Sambar");
 		IBean bean = beans.iterator().next();
 		assertEquals("sambar", bean.getName());
-		Set<IStereotypeDeclaration> s = bean.getStereotypeDeclarations();
+		Collection<IStereotypeDeclaration> s = bean.getStereotypeDeclarations();
 		assertEquals(2, s.size());
 	}	
 }

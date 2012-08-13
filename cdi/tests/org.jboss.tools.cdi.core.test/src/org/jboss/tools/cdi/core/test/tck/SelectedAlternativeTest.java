@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.cdi.core.IBean;
@@ -48,7 +48,7 @@ public class SelectedAlternativeTest extends TCKTest {
 	 * • the alternative is a producer method, field or resource, and the bean class that declares the method or field is listed
 	 */
 	public void testSelectedAlternativeProducer() {
-		Set<IBean> beans = cdiProject.getBeans(new Path("/tck/JavaSource/org/jboss/jsr299/tck/tests/policy/EnabledSheepProducer.java"));
+		Collection<IBean> beans = cdiProject.getBeans(new Path("/tck/JavaSource/org/jboss/jsr299/tck/tests/policy/EnabledSheepProducer.java"));
 		int producerCount = 0;
 		for (IBean bean: beans) {
 			if(bean instanceof IProducer) {
@@ -65,8 +65,8 @@ public class SelectedAlternativeTest extends TCKTest {
 	 */
 	public void testProducerInAlternativeClassBean() {
 		IInjectionPoint p = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/lookup/injection/alternative/D.java", "b");
-		Set<IBean> unresolved = cdiProject.getBeans(false, p);
-		Set<IBean> resolved = cdiProject.getBeans(true, p);
+		Collection<IBean> unresolved = cdiProject.getBeans(false, p);
+		Collection<IBean> resolved = cdiProject.getBeans(true, p);
 		assertEquals(1, resolved.size());
 		assertEquals(2, unresolved.size());
 		System.out.println("");

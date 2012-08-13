@@ -10,9 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
-import java.util.Set;
+import java.util.Collection;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -35,7 +34,7 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 		IInjectionPointField field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/implementation/builtin/UserTransactionInjectedBean.java", "userTransaction");
 		assertNotNull(field);
 		
-		Set<IBean> beans = field.getCDIProject().getBeans(false, field);
+		Collection<IBean> beans = field.getCDIProject().getBeans(false, field);
 		assertFalse(beans.isEmpty());
 
 		IBean b = beans.iterator().next();
@@ -51,7 +50,7 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 		IInjectionPointField field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/implementation/builtin/DefaultValidatorFactoryInjectedBean.java", "defaultValidatorFactory");
 		assertNotNull(field);
 		
-		Set<IBean> beans = field.getCDIProject().getBeans(false, field);
+		Collection<IBean> beans = field.getCDIProject().getBeans(false, field);
 		assertFalse(beans.isEmpty());
 
 		IBean b = beans.iterator().next();
@@ -67,7 +66,7 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 		IInjectionPointField field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/implementation/builtin/DefaultValidatorInjectedBean.java", "defaultValidator");
 		assertNotNull(field);
 		
-		Set<IBean> beans = field.getCDIProject().getBeans(false, field);
+		Collection<IBean> beans = field.getCDIProject().getBeans(false, field);
 		assertFalse(beans.isEmpty());
 
 		IBean b = beans.iterator().next();
@@ -83,7 +82,7 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 		IInjectionPointField field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/implementation/builtin/PrincipalInjectedBean.java", "principal");
 		assertNotNull(field);
 		
-		Set<IBean> beans = field.getCDIProject().getBeans(false, field);
+		Collection<IBean> beans = field.getCDIProject().getBeans(false, field);
 		assertFalse(beans.isEmpty());
 
 		IBean b = beans.iterator().next();
@@ -99,7 +98,7 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 		IInjectionPointField field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/context/conversation/BuiltInConversation.java", "manager");
 		assertNotNull(field);
 		
-		Set<IBean> beans = field.getCDIProject().getBeans(false, field);
+		Collection<IBean> beans = field.getCDIProject().getBeans(false, field);
 		assertFalse(beans.isEmpty());
 
 		IBean b = beans.iterator().next();
@@ -115,7 +114,7 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 		IInjectionPointField field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/context/conversation/BuiltInConversation.java", "conversation");
 		assertNotNull(field);
 		
-		Set<IBean> beans = field.getCDIProject().getBeans(false, field);
+		Collection<IBean> beans = field.getCDIProject().getBeans(false, field);
 		assertFalse(beans.isEmpty());
 
 		IBean b = beans.iterator().next();
@@ -138,7 +137,7 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 		String c_active = "JavaSource/org/jboss/jsr299/tck/tests/jbt/builtin/ConversationImpl.changed";
 		String c_original = "JavaSource/org/jboss/jsr299/tck/tests/jbt/builtin/ConversationImpl.original";
 		
-		Set<IBean> beans = cdiProject.getBeans(CDIConstants.CONVERSATION_BEAN_NAME, false);
+		Collection<IBean> beans = cdiProject.getBeans(CDIConstants.CONVERSATION_BEAN_NAME, false);
 		assertEquals(1, beans.size());
 		IBean b = beans.iterator().next();
 		assertTrue(b instanceof IClassBean);
@@ -169,7 +168,7 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 		IInjectionPointField field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/BeanWithInjectionPointMetadata.java", "injectedMetadata");
 		assertNotNull(field);
 		
-		Set<IBean> beans = field.getCDIProject().getBeans(false, field);
+		Collection<IBean> beans = field.getCDIProject().getBeans(false, field);
 		assertFalse(beans.isEmpty());
 
 		IBean b = beans.iterator().next();

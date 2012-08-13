@@ -10,8 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.core.test.tck;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.JavaModelException;
@@ -32,9 +32,9 @@ public class ProducerMethodDefinitionTest extends TCKTest {
 	 * @throws JavaModelException 
 	 */
 	public void testBindingTypesAppliedToProducerMethodParameters() throws JavaModelException {
-		Set<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.implementation.producer.method.definition.Tarantula", "org.jboss.jsr299.tck.tests.implementation.producer.method.definition.Deadliest");
+		Collection<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.implementation.producer.method.definition.Tarantula", "org.jboss.jsr299.tck.tests.implementation.producer.method.definition.Deadliest");
 		IBean bean = beans.iterator().next();
-		Set<IInjectionPoint> injections = bean.getInjectionPoints();
+		Collection<IInjectionPoint> injections = bean.getInjectionPoints();
 		assertEquals("Wrong number of injection points in the producer.", 2, injections.size());
 		// TODO use real location for injection points.
 		assertLocationEquals(injections, 1287, 29);
@@ -45,7 +45,7 @@ public class ProducerMethodDefinitionTest extends TCKTest {
 
 	public void testParameterDefinition() {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/SpiderProducer.java");
-		Set<IBean> bs = cdiProject.getBeans(file.getFullPath());
+		Collection<IBean> bs = cdiProject.getBeans(file.getFullPath());
 		IProducerMethod producer = null;
 		for (IBean bean: bs) {
 			if(bean instanceof IProducerMethod) {
@@ -64,7 +64,7 @@ public class ProducerMethodDefinitionTest extends TCKTest {
 
 	public void testParameterDefinitionOnBrokenMethod() {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/SpiderProducer_Broken.java");
-		Set<IBean> bs = cdiProject.getBeans(file.getFullPath());
+		Collection<IBean> bs = cdiProject.getBeans(file.getFullPath());
 		IProducerMethod producer = null;
 		for (IBean bean: bs) {
 			if(bean instanceof IProducerMethod) {

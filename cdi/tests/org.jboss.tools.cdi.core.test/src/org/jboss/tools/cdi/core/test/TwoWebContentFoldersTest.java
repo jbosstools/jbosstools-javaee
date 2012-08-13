@@ -11,7 +11,7 @@
 package org.jboss.tools.cdi.core.test;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.Collection;
 
 import junit.framework.TestCase;
 
@@ -42,7 +42,7 @@ public class TwoWebContentFoldersTest extends TestCase {
 
 	public void testBeansXMLInDifferentWebContentFolders() throws CoreException, IOException {
 		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
-		Set<IBean> bs = cdi.getBeans("bean1", false);
+		Collection<IBean> bs = cdi.getBeans("bean1", false);
 		assertEquals(1, bs.size());
 		assertTrue(bs.iterator().next().isSelectedAlternative());
 		

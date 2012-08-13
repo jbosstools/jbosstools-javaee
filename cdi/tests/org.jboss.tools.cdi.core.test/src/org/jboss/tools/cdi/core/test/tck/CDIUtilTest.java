@@ -10,13 +10,12 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.ILocalVariable;
-import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
@@ -36,7 +35,7 @@ public class CDIUtilTest extends TCKTest {
 	 */
 	public void testMethodParameter() throws Exception {
 		IClassBean bean = getClassBean("org.jboss.jsr299.tck.tests.jbt.core.TestInjection", "JavaSource/org/jboss/jsr299/tck/tests/jbt/core/TestInjection.java");
-		Set<IInjectionPoint> injections = bean.getInjectionPoints();
+		Collection<IInjectionPoint> injections = bean.getInjectionPoints();
 		assertEquals(9, injections.size());
 		for (IInjectionPoint injectionPoint : injections) {
 			IAnnotationDeclaration declaration = CDIUtil.getAnnotationDeclaration(injectionPoint, "org.jboss.jsr299.tck.tests.jbt.core.TestQualifier");
@@ -58,8 +57,8 @@ public class CDIUtilTest extends TCKTest {
 	public void testFindInjectionPoint() throws Exception {
 		String path = "JavaSource/org/jboss/jsr299/tck/tests/jbt/core/TestInjection2.java";
 		IClassBean bean = getClassBean("org.jboss.jsr299.tck.tests.jbt.core.TestInjection2", path);
-		Set<IBean> bs = cdiProject.getBeans(new Path("/tck/" + path));
-		Set<IInjectionPointParameter> ps = CDIUtil.getInjectionPointParameters(bean); 
+		Collection<IBean> bs = cdiProject.getBeans(new Path("/tck/" + path));
+		Collection<IInjectionPointParameter> ps = CDIUtil.getInjectionPointParameters(bean); 
 		assertEquals("Unexpected number of injection points.", 10, ps.size());
 		int testcount = 0;
 		for (IInjectionPointParameter p: ps) {
@@ -88,8 +87,8 @@ public class CDIUtilTest extends TCKTest {
 
 	public void testFindInjectionPoint2() throws Exception {
 		String path = "JavaSource/org/jboss/jsr299/tck/tests/jbt/core/TestInjection2.java";
-		Set<IBean> bs = cdiProject.getBeans(new Path("/tck/" + path));
-		Set<IInjectionPoint> ps = new HashSet<IInjectionPoint>();
+		Collection<IBean> bs = cdiProject.getBeans(new Path("/tck/" + path));
+		Collection<IInjectionPoint> ps = new HashSet<IInjectionPoint>();
 		for (IBean b: bs) {
 			ps.addAll(b.getInjectionPoints());
 		}

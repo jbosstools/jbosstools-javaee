@@ -10,8 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.core.test.tck;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IType;
@@ -35,13 +35,13 @@ public class BeanDefinitionTest extends TCKTest {
 	 */
 	public void testBeanTypesNonEmpty() throws JavaModelException {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/RedSnapper.java");
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		Collection<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		assertEquals("There should be the only bean in org.jboss.jsr299.tck.tests.definition.bean.RedSnapper", 1, beans.size());
 		beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.definition.bean.RedSnapper");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.RedSnapper type", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertTrue("No legal types were found for org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", bean.getLegalTypes().size() > 0);
-		Set<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
+		Collection<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
 		assertEquals("There should be two type declarations in org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", declarations.size(), 2);
 		assertLocationEquals(declarations, 936, 10);
 		assertLocationEquals(declarations, 958, 6);
@@ -55,9 +55,9 @@ public class BeanDefinitionTest extends TCKTest {
 	 * @throws JavaModelException 
 	 */
 	public void testQualifiersNonEmpty() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.RedSnapper");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.RedSnapper");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.RedSnapper type", 1, beans.size());
-		Set<IQualifier> qs = beans.iterator().next().getQualifiers();
+		Collection<IQualifier> qs = beans.iterator().next().getQualifiers();
 		assertTrue("No qualifiers were found for org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", qs.size() > 0);
 
 // Use for next, more sophisticated test
@@ -93,7 +93,7 @@ public class BeanDefinitionTest extends TCKTest {
 	 *   
 	 */
 	public void testHasScopeType() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.RedSnapper");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.RedSnapper");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.RedSnapper type", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		IScope scope = bean.getScope();
@@ -109,7 +109,7 @@ public class BeanDefinitionTest extends TCKTest {
 	 * @throws JavaModelException
 	 */
 	public void testPrivitiveTypes() throws JavaModelException {
-		Set<IBean> beans = getBeans("java.lang.Integer");
+		Collection<IBean> beans = getBeans("java.lang.Integer");
 		assertFalse("Cannot find bean java.lang.Integer", beans.isEmpty());
 		beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.Animal");
 		assertFalse("Cannot find bean org.jboss.jsr299.tck.tests.definition.bean.Animal", beans.isEmpty());
@@ -125,7 +125,7 @@ public class BeanDefinitionTest extends TCKTest {
 	 * section 11.1 ba)
 	 */
 	public void testBeanTypes() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.Tarantula");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.Tarantula");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.Tarantula type", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertContainsBeanTypes(bean, "org.jboss.jsr299.tck.tests.definition.bean.Tarantula",
@@ -135,7 +135,7 @@ public class BeanDefinitionTest extends TCKTest {
 									 "org.jboss.jsr299.tck.tests.definition.bean.DeadlySpider",
 									 "org.jboss.jsr299.tck.tests.definition.bean.DeadlyAnimal");
 
-		Set<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
+		Collection<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
 		assertEquals("There should be three type declarations in org.jboss.jsr299.tck.tests.definition.bean.Tarantula bean.", declarations.size(), 3);
 		assertLocationEquals(declarations, 859, 9);
 		assertLocationEquals(declarations, 877, 6);
@@ -148,7 +148,7 @@ public class BeanDefinitionTest extends TCKTest {
 	 * @throws JavaModelException
 	 */
 	public void testAbstractApiType() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope type", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertContainsBeanTypes(bean, "org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope",
@@ -156,7 +156,7 @@ public class BeanDefinitionTest extends TCKTest {
 									 "org.jboss.jsr299.tck.tests.definition.bean.Animal",
 									 "java.lang.Object");
 
-		Set<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
+		Collection<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
 		assertEquals("There should be three type declarations in org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope bean.", declarations.size(), 2);
 		assertLocationEquals(declarations, 842, 16);
 		assertLocationEquals(declarations, 867, 16);
@@ -168,7 +168,7 @@ public class BeanDefinitionTest extends TCKTest {
 	 * @throws JavaModelException 
 	 */
 	public void testFinalApiType() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.DependentFinalTuna");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.DependentFinalTuna");
 		assertFalse("No beans found for org.jboss.jsr299.tck.tests.definition.bean.DependentFinalTuna type", beans.isEmpty());
 	}
 
@@ -179,7 +179,7 @@ public class BeanDefinitionTest extends TCKTest {
 	 * @throws JavaModelException 
 	 */
 	public void testMultipleStereotypes() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.ComplicatedTuna");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.ComplicatedTuna");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.ComplicatedTuna type", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type of org.jboss.jsr299.tck.tests.definition.bean.ComplicatedTuna bean", "javax.enterprise.context.RequestScoped", bean.getScope().getSourceType().getFullyQualifiedName());
@@ -192,7 +192,7 @@ public class BeanDefinitionTest extends TCKTest {
 	 * @throws JavaModelException 
 	 */
 	public void testBeanExtendsAnotherBean() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.Spider");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.Spider");
 		assertFalse("No beans found for org.jboss.jsr299.tck.tests.definition.bean.Spider type", beans.isEmpty());
 		beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.Tarantula");
 		assertFalse("No beans found for org.jboss.jsr299.tck.tests.definition.bean.Tarantula type", beans.isEmpty());
@@ -204,14 +204,14 @@ public class BeanDefinitionTest extends TCKTest {
 	 * @throws JavaModelException 
 	 */
 	public void testBeanClassOnSimpleBean() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.Horse");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.Horse");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.Horse type", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong Bean Class type of org.jboss.jsr299.tck.tests.definition.bean.Horse bean", "org.jboss.jsr299.tck.tests.definition.bean.Horse", bean.getBeanClass().getFullyQualifiedName());
 	}
 
 	public void testCyclicParametedType() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.AbstractJavaSource");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.AbstractJavaSource");
 		assertFalse(beans.isEmpty());
 		IBean bean = beans.iterator().next();
 		IParametedType t = ((ClassBean)bean).getDefinition().getParametedType();

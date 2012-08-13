@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
@@ -27,7 +27,7 @@ public class BeanSpecializationTest extends TCKTest {
 	 * @throws JavaModelException
 	 */
 	public void testSimpleSpecializingBeanHasQualifiersOfSpecializedAndSpecializingBean() throws JavaModelException {
-		Set<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.inheritance.specialization.simple.LazyFarmer", "org.jboss.jsr299.tck.tests.inheritance.specialization.simple.Landowner");
+		Collection<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.inheritance.specialization.simple.LazyFarmer", "org.jboss.jsr299.tck.tests.inheritance.specialization.simple.Landowner");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertContainsBeanTypes(false, bean, "org.jboss.jsr299.tck.tests.inheritance.specialization.simple.Farmer");
@@ -45,7 +45,7 @@ public class BeanSpecializationTest extends TCKTest {
 	 * @throws JavaModelException
 	 */
 	public void testEnterpriseSpecializingBeanHasQualifiersOfSpecializedAndSpecializingBean() throws JavaModelException {
-		Set<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.inheritance.specialization.enterprise.LazyFarmerLocal", "org.jboss.jsr299.tck.tests.inheritance.specialization.enterprise.Landowner");
+		Collection<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.inheritance.specialization.enterprise.LazyFarmerLocal", "org.jboss.jsr299.tck.tests.inheritance.specialization.enterprise.Landowner");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertContainsBeanTypes(false, bean, "org.jboss.jsr299.tck.tests.inheritance.specialization.enterprise.FarmerLocal");
@@ -63,7 +63,7 @@ public class BeanSpecializationTest extends TCKTest {
 	 * @throws JavaModelException
 	 */
 	public void testSimpleSpecializingBeanHasNameOfSpecializedBean() throws JavaModelException {
-		Set<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.inheritance.specialization.simple.LazyFarmer", "org.jboss.jsr299.tck.tests.inheritance.specialization.simple.Landowner");
+		Collection<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.inheritance.specialization.simple.LazyFarmer", "org.jboss.jsr299.tck.tests.inheritance.specialization.simple.Landowner");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Incorrect bean name", "farmer", bean.getName());
@@ -76,14 +76,14 @@ public class BeanSpecializationTest extends TCKTest {
 	 * @throws JavaModelException
 	 */
 	public void testEnterpriseSpecializingBeanHasNameOfSpecializedBean() throws JavaModelException {
-		Set<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.inheritance.specialization.enterprise.LazyFarmerLocal", "org.jboss.jsr299.tck.tests.inheritance.specialization.enterprise.Landowner");
+		Collection<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.inheritance.specialization.enterprise.LazyFarmerLocal", "org.jboss.jsr299.tck.tests.inheritance.specialization.enterprise.Landowner");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Incorrect bean name", "farmer", bean.getName());
 	}
 
 	public void testSimpleSpecializingBeanDefinesNameWhenSpecializedBeanIsNotNamed() throws JavaModelException {
-		Set<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.implementation.simple.lifecycle.TameLion", "org.jboss.jsr299.tck.tests.implementation.simple.lifecycle.Tame");
+		Collection<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.implementation.simple.lifecycle.TameLion", "org.jboss.jsr299.tck.tests.implementation.simple.lifecycle.Tame");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Incorrect bean name", "tameLion", bean.getName());

@@ -11,7 +11,7 @@
 
 package org.jboss.tools.cdi.core.test.tck;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -41,7 +41,7 @@ public class DecoratorDefinitionTest extends TCKTest {
 	 */
 	public void testDecoratedTypes() throws JavaModelException, CoreException {
 		IDecorator decorator = getDecorator("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/FooDecorator.java");
-		Set<IParametedType> types = decorator.getDecoratedTypes();
+		Collection<IParametedType> types = decorator.getDecoratedTypes();
 		assertContainsTypes(types,
 				"org.jboss.jsr299.tck.tests.decorators.definition.Foo",
 				"org.jboss.jsr299.tck.tests.decorators.definition.Bar",
@@ -93,7 +93,7 @@ public class DecoratorDefinitionTest extends TCKTest {
 		/*
 		 * Invocation getBeans(false, f) returns all beans that match type and qualifiers.
 		 */
-		Set<IBean> bs = cdiProject.getBeans(false, f);
+		Collection<IBean> bs = cdiProject.getBeans(false, f);
 		assertEquals(1, bs.size());
 		assertTrue(bs.iterator().next() instanceof IDecorator);
 		/*

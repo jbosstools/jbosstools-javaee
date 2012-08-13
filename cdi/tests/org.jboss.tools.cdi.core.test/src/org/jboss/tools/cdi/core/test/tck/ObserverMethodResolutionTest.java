@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IMethod;
@@ -31,7 +31,7 @@ public class ObserverMethodResolutionTest extends TCKTest {
 
 	public void testNonrelevantInjectionPoint() {
 		IInjectionPointField tamingEvent =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/event/fires/DogWhisperer.java", "tamingCommand");
-		Set<IObserverMethod> observers = tamingEvent.getCDIProject().resolveObserverMethods(tamingEvent);
+		Collection<IObserverMethod> observers = tamingEvent.getCDIProject().resolveObserverMethods(tamingEvent);
 		assertTrue(observers.isEmpty());
 	}
 
@@ -42,7 +42,7 @@ public class ObserverMethodResolutionTest extends TCKTest {
 		IInjectionPointField generalEvent =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/event/fires/DogWhisperer.java", "generalEvent");
 		assertNotNull(generalEvent);
 
-		Set<IObserverMethod> observers = generalEvent.getCDIProject().resolveObserverMethods(generalEvent);
+		Collection<IObserverMethod> observers = generalEvent.getCDIProject().resolveObserverMethods(generalEvent);
 		IObserverMethod tamedObserver = null;
 		IObserverMethod recognizedFriendObserver = null;
 		for (IObserverMethod m: observers) {
@@ -61,7 +61,7 @@ public class ObserverMethodResolutionTest extends TCKTest {
 		IInjectionPointField tamingEvent =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/event/fires/DogWhisperer.java", "tamingEvent");
 		assertNotNull(tamingEvent);
 
-		Set<IObserverMethod> observers = tamingEvent.getCDIProject().resolveObserverMethods(tamingEvent);
+		Collection<IObserverMethod> observers = tamingEvent.getCDIProject().resolveObserverMethods(tamingEvent);
 		assertFalse(observers.isEmpty());
 
 		IObserverMethod tamedObserver = null;
@@ -77,13 +77,13 @@ public class ObserverMethodResolutionTest extends TCKTest {
 		assertNotNull(tamedObserver);
 		assertNull(recognizedFriendObserver);
 
-		Set<IParameter> p = tamedObserver.getObservedParameters();
+		Collection<IParameter> p = tamedObserver.getObservedParameters();
 		assertTrue(p.size() == 1);
 
 		IParameter observerParameter = p.iterator().next();
 		assertFalse(observerParameter instanceof IInjectionPointParameter);
 
-		Set<IInjectionPoint> points = tamedObserver.getClassBean().getCDIProject().findObservedEvents(observerParameter);
+		Collection<IInjectionPoint> points = tamedObserver.getClassBean().getCDIProject().findObservedEvents(observerParameter);
 		assertTrue(points.size() == 1);
 		assertTrue(points.contains(tamingEvent));
 	}
@@ -92,7 +92,7 @@ public class ObserverMethodResolutionTest extends TCKTest {
 		IInjectionPointField solicitingEvent =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/event/fires/DogWhisperer.java", "solicitingEvent");
 		assertNotNull(solicitingEvent);
 
-		Set<IObserverMethod> observers = solicitingEvent.getCDIProject().resolveObserverMethods(solicitingEvent);
+		Collection<IObserverMethod> observers = solicitingEvent.getCDIProject().resolveObserverMethods(solicitingEvent);
 
 		IObserverMethod tamedObserver = null;
 		IObserverMethod recognizedFriendObserver = null;
@@ -116,7 +116,7 @@ public class ObserverMethodResolutionTest extends TCKTest {
 		IInjectionPointField friendlyEvent =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/event/fires/DogWhisperer.java", "friendlyEvent");
 		assertNotNull(friendlyEvent);
 
-		Set<IObserverMethod> observers = friendlyEvent.getCDIProject().resolveObserverMethods(friendlyEvent);
+		Collection<IObserverMethod> observers = friendlyEvent.getCDIProject().resolveObserverMethods(friendlyEvent);
 		assertFalse(observers.isEmpty());
 
 		IObserverMethod tamedObserver = null;
@@ -132,20 +132,20 @@ public class ObserverMethodResolutionTest extends TCKTest {
 		assertNull(tamedObserver);
 		assertNotNull(recognizedFriendObserver);
 
-		Set<IParameter> p = recognizedFriendObserver.getObservedParameters();
+		Collection<IParameter> p = recognizedFriendObserver.getObservedParameters();
 		assertTrue(p.size() == 1);
 
 		IParameter observerParameter = p.iterator().next();
 		assertFalse(observerParameter instanceof IInjectionPointParameter);
 
-		Set<IInjectionPoint> points = recognizedFriendObserver.getClassBean().getCDIProject().findObservedEvents(observerParameter);
+		Collection<IInjectionPoint> points = recognizedFriendObserver.getClassBean().getCDIProject().findObservedEvents(observerParameter);
 		assertTrue(points.size() == 1);
 		assertTrue(points.contains(friendlyEvent));
 	}
 
 	public void testResolveObserverMethod() {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/fires/DogWhisperer.java");
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		Collection<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		IClassBean cb = null;
 		for (IBean b: beans) {
 			if(b instanceof IClassBean) {
@@ -153,7 +153,7 @@ public class ObserverMethodResolutionTest extends TCKTest {
 			}
 		}
 		assertNotNull(cb);
-		Set<IInitializerMethod> ps = cb.getInitializers();
+		Collection<IInitializerMethod> ps = cb.getInitializers();
 		IInitializerMethod mp = ps.isEmpty() ? null : ps.iterator().next();
 		assertNotNull(mp);
 		assertEquals("foo", mp.getMethod().getElementName());
@@ -166,11 +166,11 @@ public class ObserverMethodResolutionTest extends TCKTest {
 		IInjectionPointField tamingEvent =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/event/fires/DogWhisperer.java", "tamingEvent");
 		assertNotNull(tamingEvent);
 		
-		Set<IBean> beans = tamingEvent.getCDIProject().getBeans(false, tamingEvent);
+		Collection<IBean> beans = tamingEvent.getCDIProject().getBeans(false, tamingEvent);
 		assertFalse(beans.isEmpty());
 
 		IBean b = beans.iterator().next();
-		Set<IQualifier> qs = b.getQualifiers();
+		Collection<IQualifier> qs = b.getQualifiers();
 		assertEquals(3, qs.size());
 		
 	}

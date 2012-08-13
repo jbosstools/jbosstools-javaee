@@ -11,8 +11,8 @@
 package org.jboss.tools.cdi.core.test;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -67,8 +67,8 @@ public class DependentProjectTest extends TestCase {
 		IKbProject kb2 = KbProjectFactory.getKbProject(project2, true);
 		((KbProject)kb2).store();
 		CDICoreNature cdi2 = CDICorePlugin.getCDI(project2, true);
-		Set<CDICoreNature> dependsOn = cdi2.getCDIProjects();
-		Set<CDICoreNature> usedBy = cdi2.getDependentProjects();
+		Collection<CDICoreNature> dependsOn = cdi2.getCDIProjects();
+		Collection<CDICoreNature> usedBy = cdi2.getDependentProjects();
 		assertEquals(1, dependsOn.size());
 		assertEquals(1, usedBy.size());
 		cdi2.reloadProjectDependencies();
@@ -127,7 +127,7 @@ public class DependentProjectTest extends TestCase {
 
 	private IProducer getProducer(String file) {
 		ICDIProject cdi2 = CDICorePlugin.getCDIProject(project2, true);
-		Set<IBean> beans = cdi2.getBeans(new Path("/CDITest2/src/test/Test1.java"));
+		Collection<IBean> beans = cdi2.getBeans(new Path("/CDITest2/src/test/Test1.java"));
 		IProducer producer = null;
 		for (IBean b: beans) {
 			if(b instanceof IProducer) {
@@ -150,7 +150,7 @@ public class DependentProjectTest extends TestCase {
 	public void testAlternativesInDependentProjects() throws CoreException {
 		ICDIProject cdi2 = CDICorePlugin.getCDIProject(project2, true);
 		IInjectionPointField f = getInjectionPointField(cdi2, "/src/cdi/test/alternative/case1/X.java", "a");
-		Set<IBean> bs = cdi2.getBeans(true, f);
+		Collection<IBean> bs = cdi2.getBeans(true, f);
 		assertEquals(1, bs.size());
 		assertEquals("A", bs.iterator().next().getBeanClass().getElementName());
 	}
@@ -166,7 +166,7 @@ public class DependentProjectTest extends TestCase {
 	public void testAlternativesInDependentProjects2() throws CoreException {
 		ICDIProject cdi2 = CDICorePlugin.getCDIProject(project2, true);
 		IInjectionPoint f = getInjectionPointField(cdi2, "/src/cdi/test/alternative/case2/X.java", "a");
-		Set<IBean> bs = cdi2.getBeans(true, f);
+		Collection<IBean> bs = cdi2.getBeans(true, f);
 		assertEquals(1, bs.size());
 		assertEquals("C", bs.iterator().next().getBeanClass().getElementName());
 	}
@@ -182,7 +182,7 @@ public class DependentProjectTest extends TestCase {
 	public void testAlternativesInDependentProjects3() throws CoreException {
 		ICDIProject cdi2 = CDICorePlugin.getCDIProject(project2, true);
 		IInjectionPoint f = getInjectionPointField(cdi2, "/src/cdi/test/alternative/case3/X.java", "a");
-		Set<IBean> bs = cdi2.getBeans(true, f);
+		Collection<IBean> bs = cdi2.getBeans(true, f);
 		assertEquals(1, bs.size());
 		assertEquals("B", bs.iterator().next().getBeanClass().getElementName());
 	}
@@ -198,7 +198,7 @@ public class DependentProjectTest extends TestCase {
 	public void testAlternativesInDependentProjects4_1() throws CoreException {
 		ICDIProject cdi2 = CDICorePlugin.getCDIProject(project2, true);
 		IInjectionPoint f = getInjectionPointField(cdi2, "/src/cdi/test/alternative/case4/X.java", "a");
-		Set<IBean> bs = cdi2.getBeans(true, f);
+		Collection<IBean> bs = cdi2.getBeans(true, f);
 		assertEquals(1, bs.size());
 		assertEquals("A", bs.iterator().next().getBeanClass().getElementName());
 	}
@@ -216,7 +216,7 @@ public class DependentProjectTest extends TestCase {
 		ICDIProject cdi1 = CDICorePlugin.getCDIProject(project1, true);
 		ICDIProject cdi2 = CDICorePlugin.getCDIProject(project2, true);
 		IInjectionPoint f = getInjectionPointField(cdi1, "/src/cdi/test/alternative/case4/Y.java", "b");
-		Set<IBean> bs = cdi2.getBeans(true, f);
+		Collection<IBean> bs = cdi2.getBeans(true, f);
 		assertEquals(1, bs.size());
 		assertEquals("B", bs.iterator().next().getBeanClass().getElementName());
 	}
@@ -232,7 +232,7 @@ public class DependentProjectTest extends TestCase {
 	public void testAlternativesInDependentProjects5() throws CoreException {
 		ICDIProject cdi2 = CDICorePlugin.getCDIProject(project2, true);
 		IInjectionPoint f = getInjectionPointField(cdi2, "/src/cdi/test/alternative/case5/X.java", "a");
-		Set<IBean> bs = cdi2.getBeans(true, f);
+		Collection<IBean> bs = cdi2.getBeans(true, f);
 		assertEquals(1, bs.size());
 		assertEquals("C", bs.iterator().next().getBeanClass().getElementName());
 	}
@@ -248,7 +248,7 @@ public class DependentProjectTest extends TestCase {
 	public void testAlternativesInDependentProjects6() throws CoreException {
 		ICDIProject cdi2 = CDICorePlugin.getCDIProject(project2, true);
 		IInjectionPoint f = getInjectionPointField(cdi2, "/src/cdi/test/alternative/case6/X.java", "a");
-		Set<IBean> bs = cdi2.getBeans(true, f);
+		Collection<IBean> bs = cdi2.getBeans(true, f);
 		assertEquals(2, bs.size());
 	}
 
@@ -263,7 +263,7 @@ public class DependentProjectTest extends TestCase {
 	public void testAlternativesInDependentProjects7() throws CoreException {
 		ICDIProject cdi2 = CDICorePlugin.getCDIProject(project2, true);
 		IInjectionPoint f = getInjectionPointField(cdi2, "/src/cdi/test/alternative/case7/X.java", "p");
-		Set<IBean> bs = cdi2.getBeans(true, f);
+		Collection<IBean> bs = cdi2.getBeans(true, f);
 		assertTrue(bs.isEmpty());
 	}
 
@@ -278,7 +278,7 @@ public class DependentProjectTest extends TestCase {
 	public void testAlternativesInDependentProjects8() throws CoreException {
 		ICDIProject cdi2 = CDICorePlugin.getCDIProject(project2, true);
 		IInjectionPoint f = getInjectionPointField(cdi2, "/src/cdi/test/alternative/case8/X.java", "p");
-		Set<IBean> bs = cdi2.getBeans(true, f);
+		Collection<IBean> bs = cdi2.getBeans(true, f);
 		assertEquals(1, bs.size());
 		IBean b = bs.iterator().next();
 		assertTrue(b instanceof IProducerMethod);
@@ -286,7 +286,7 @@ public class DependentProjectTest extends TestCase {
 
 	public void testIndirectDependency() throws CoreException, IOException {
 		ICDIProject cdi3 = CDICorePlugin.getCDIProject(project3, true);
-		Set<IBean> beans = cdi3.getBeans(new Path("/CDITest1/src/cdi/test/MyBean.java"));
+		Collection<IBean> beans = cdi3.getBeans(new Path("/CDITest1/src/cdi/test/MyBean.java"));
 		assertFalse(beans.isEmpty());
 		IQualifier q = cdi3.getQualifier("cdi.test.MyQualifier");
 		assertNotNull(q);		
@@ -294,13 +294,13 @@ public class DependentProjectTest extends TestCase {
 
 	public void testInjectionOfTypeRepeatedInJarCopies() throws CoreException {
 		ICDIProject cdi2 = CDICorePlugin.getCDIProject(project2, true);
-		Set<IBean> bs = cdi2.getBeans(new Path("/CDITest2/src/test/MyExampleInjection.java"));
+		Collection<IBean> bs = cdi2.getBeans(new Path("/CDITest2/src/test/MyExampleInjection.java"));
 		assertEquals(1, bs.size());
 		IBean b = bs.iterator().next();
-		Set<IInjectionPoint> ps = b.getInjectionPoints();
+		Collection<IInjectionPoint> ps = b.getInjectionPoints();
 		assertEquals(1, ps.size());
 		IInjectionPoint p = ps.iterator().next();
-		Set<IBean> injected = cdi2.getBeans(false, p);
+		Collection<IBean> injected = cdi2.getBeans(false, p);
 		assertEquals(1, injected.size());
 		IBean i = injected.iterator().next();
 		assertTrue(i instanceof IProducerMethod);
@@ -350,12 +350,12 @@ public class DependentProjectTest extends TestCase {
 	
 		IInjectionPoint point2 = getInjectionPointField(cdi2, "/src/test/BeanI.java", "i");
 		assertNotNull(point2);
-		Set<IBean> bs2 = cdi2.getBeans(false, point2);
+		Collection<IBean> bs2 = cdi2.getBeans(false, point2);
 		assertEquals(1, bs2.size());
 		
 		IInjectionPoint point3 = getInjectionPointField(cdi3, project2, "/src/test/BeanI.java", "i");
 		assertNotNull(point3);
-		Set<IBean> bs3 = cdi3.getBeans(false, point3);
+		Collection<IBean> bs3 = cdi3.getBeans(false, point3);
 		assertEquals(1, bs3.size());
 		
 		RemoveJarFromClasspathTest.replaceFile(project2, "/src/test/BeanI.changed", "/src/test/BeanI.java");
@@ -385,15 +385,15 @@ public class DependentProjectTest extends TestCase {
 
 	public void testFindObservedEvents() throws CoreException {
 		ICDIProject cdi1 = CDICorePlugin.getCDIProject(project1, true);
-		Set<IBean> bs = cdi1.getBeans(new Path("/CDITest1/src/cdi/test/observers/CDIBeanTest.java"));
+		Collection<IBean> bs = cdi1.getBeans(new Path("/CDITest1/src/cdi/test/observers/CDIBeanTest.java"));
 		assertFalse(bs.isEmpty());
 		IBean b = bs.iterator().next();
 		assertTrue(b instanceof IClassBean);
 		IClassBean cb = (IClassBean)b;
-		Set<IObserverMethod> ms = cb.getObserverMethods();
+		Collection<IObserverMethod> ms = cb.getObserverMethods();
 		assertEquals(1, ms.size());
 		IObserverMethod m = ms.iterator().next();
-		Set<IInjectionPoint> ps = cdi1.findObservedEvents(m.getObservedParameters().iterator().next());
+		Collection<IInjectionPoint> ps = cdi1.findObservedEvents(m.getObservedParameters().iterator().next());
 		assertEquals(1, ps.size());
 		IInjectionPoint p = ps.iterator().next();
 		assertTrue(p.getDeclaringProject() == CDICorePlugin.getCDIProject(project2, true));
@@ -405,7 +405,7 @@ public class DependentProjectTest extends TestCase {
 	public void testNonrelevantInjectionPointAtResolvingObserverMethods() {
 		ICDIProject cdi1 = CDICorePlugin.getCDIProject(project1, true);
 		IInjectionPointField tamingEvent =  getInjectionPointField(cdi1, "/src/cdi/test/observers/CDIBeanTest.java", "point");
-		Set<IObserverMethod> observers = tamingEvent.getCDIProject().resolveObserverMethods(tamingEvent);
+		Collection<IObserverMethod> observers = tamingEvent.getCDIProject().resolveObserverMethods(tamingEvent);
 		assertTrue(observers.isEmpty());
 	}
 
@@ -430,14 +430,14 @@ public class DependentProjectTest extends TestCase {
 
 	public static IInjectionPointField getInjectionPointField(ICDIProject cdi, IProject project, String beanClassFilePath, String fieldName) {
 		IFile file = project.getFile(beanClassFilePath);
-		Set<IBean> beans = cdi.getBeans(file.getFullPath());
+		Collection<IBean> beans = cdi.getBeans(file.getFullPath());
 		Iterator<IBean> it = beans.iterator();
 		while(it.hasNext()) {
 			IBean b = it.next();
 			if(b instanceof IProducer) it.remove();
 		}
 		assertEquals("Wrong number of the beans", 1, beans.size());
-		Set<IInjectionPoint> injections = beans.iterator().next().getInjectionPoints();
+		Collection<IInjectionPoint> injections = beans.iterator().next().getInjectionPoints();
 		for (IInjectionPoint injectionPoint : injections) {
 			if(injectionPoint instanceof IInjectionPointField) {
 				IInjectionPointField field = (IInjectionPointField)injectionPoint;

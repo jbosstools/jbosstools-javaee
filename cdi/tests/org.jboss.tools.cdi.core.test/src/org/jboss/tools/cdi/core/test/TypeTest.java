@@ -10,8 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test;
 
+import java.util.Collection;
 import java.util.ConcurrentModificationException;
-import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -73,7 +73,7 @@ public class TypeTest extends TestCase {
 
 		@Override
 		public void run() {
-			Set<IParametedType> types = t.getAllTypes();
+			Collection<IParametedType> types = t.getAllTypes();
 			size = types.size();
 			try {
 				for (IParametedType t1: types) {

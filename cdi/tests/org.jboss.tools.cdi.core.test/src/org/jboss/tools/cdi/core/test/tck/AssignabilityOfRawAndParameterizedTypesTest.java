@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
@@ -33,7 +33,7 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 	 * @throws CoreException 
 	 */
 	public void testAssignabilityToRawType() throws CoreException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Dao");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Dao");
 		assertEquals("Wrong number of the beans", 4, beans.size());
 	}
 
@@ -46,7 +46,7 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 	public void testAssignabilityOfParameterizedTypeWithActualTypesToParameterizedTypeWithActualTypes() throws CoreException {
 		IType type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(cdiProject.getNature().getProject()), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.MapProducer");
 		IParametedType parametedType = cdiProject.getNature().getTypeFactory().getParametedType(type, "QMap<QInteger;QInteger;>;");
-		Set<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[0]);
+		Collection<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[0]);
 		assertEquals("Wrong number of the beans", 2, beans.size());
 
 		type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(cdiProject.getNature().getProject()), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.IntegerHashMap");
@@ -64,7 +64,7 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 	 */
 	public void testAssignabilityOfParameterizedTypeWithActualTypesToParameterizedTypeWithWildcards() throws CoreException {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/parameterized/InjectedBean.java", "map");
-		Set<IBean> beans = cdiProject.getBeans(true, injection);
+		Collection<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		assertContainsBeanClass(beans, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.IntegerHashMap");
 	}
@@ -81,7 +81,7 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 	 */
 	public void testAssignabilityOfParameterizedTypeWithTypeVariablesToParameterizedTypeWithWildcards() throws CoreException {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/AssignabilityOfRawAndParameterizedTypes.java", "injection");
-		Set<IBean> beans = cdiProject.getBeans(true, injection);
+		Collection<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		assertContainsBeanTypes(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result", "java.lang.Object");
 	}
@@ -94,7 +94,7 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 	 */
 	public void testAssignabilityOfParameterizedTypeWithTypeVariablesToParameterizedTypeWithWildcards2() throws CoreException {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/AssignabilityOfRawAndParameterizedTypes.java", "injection2");
-		Set<IBean> beans = cdiProject.getBeans(true, injection);
+		Collection<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		assertContainsBeanTypes(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result", "java.lang.Object");
 	}
@@ -107,7 +107,7 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 	 */
 	public void testAssignabilityOfParameterizedTypeWithTypeVariablesToParameterizedTypeWithActualTypes() throws CoreException {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/AssignabilityOfRawAndParameterizedTypes.java", "injection3");
-		Set<IBean> beans = cdiProject.getBeans(true, injection);
+		Collection<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		assertContainsBeanTypes(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result", "java.lang.Object");
 	}
@@ -120,7 +120,7 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 	 */
 	public void testAssignabilityOfParameterizedTypeWithTypeVariablesToParameterizedTypeTypeVariable() throws CoreException {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/AssignabilityOfRawAndParameterizedTypes.java", "injection4");
-		Set<IBean> beans = cdiProject.getBeans(true, injection);
+		Collection<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		assertContainsBeanTypes(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result", "java.lang.Object");
 	}
@@ -131,7 +131,7 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 		//@Inject Set<String> s1;
 		//@Produces <X> HashSet<X> getSet()
 		IInjectionPointField injection = getInjectionPointField(cls, "s1");
-		Set<IBean> beans = cdiProject.getBeans(true, injection);
+		Collection<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		
 		//@Inject Set<? extends Set<String>> s2;

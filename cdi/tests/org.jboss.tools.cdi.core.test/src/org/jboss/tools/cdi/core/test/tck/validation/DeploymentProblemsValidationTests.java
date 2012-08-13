@@ -12,16 +12,14 @@
 package org.jboss.tools.cdi.core.test.tck.validation;
 
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.jboss.tools.cdi.core.IBean;
-import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
-import org.jboss.tools.cdi.core.IProducerField;
-import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
@@ -63,7 +61,7 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 9, 25, 26);
 		
 		IInjectionPointField p = getInjectionPointField(path, "s5");
-		Set<IBean> bs = cdiProject.getBeans(false, p);
+		Collection<IBean> bs = cdiProject.getBeans(false, p);
 		assertEquals(3, bs.size());
 		
 		Set<String> keys = new HashSet<String>();
@@ -76,7 +74,7 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 		assertTrue(keys.contains("TestNamed.foo6()"));
 		
 		IInjectionPointParameter pp = getInjectionPointParameter(path, "doSmth");
-		Set<IBean> bs2 = cdiProject.getBeans(false, pp);
+		Collection<IBean> bs2 = cdiProject.getBeans(false, pp);
 		assertEquals(3, bs2.size());
 		bs2.removeAll(bs);
 		assertTrue(bs2.isEmpty());

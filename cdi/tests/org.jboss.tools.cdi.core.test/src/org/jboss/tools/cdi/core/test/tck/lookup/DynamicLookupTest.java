@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck.lookup;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.core.IBean;
@@ -28,14 +28,14 @@ public class DynamicLookupTest extends TCKTest {
 	 */
 	public void testObtainsInjectsInstance() throws CoreException {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/lookup/dynamic/ObtainsInstanceBean.java", "paymentProcessor");
-		Set<IBean> beans = cdiProject.getBeans(true, injection);
+		Collection<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals(1, beans.size());
 		assertContainsBeanClass(beans, "org.jboss.jsr299.tck.tests.lookup.dynamic.AdvancedPaymentProcessor");
 	}
 
 	public void testObtainsInjectsProvider() throws CoreException {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/lookup/dynamic/ObtainsInstanceBean.java", "paymentProcessor2");
-		Set<IBean> beans = cdiProject.getBeans(true, injection);
+		Collection<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals(1, beans.size());
 		assertContainsBeanClass(beans, "org.jboss.jsr299.tck.tests.lookup.dynamic.AdvancedPaymentProcessor");
 	}
@@ -46,7 +46,7 @@ public class DynamicLookupTest extends TCKTest {
 	 */
 	public void testObtainsAmbiguousInjectsInstance() throws CoreException {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/lookup/dynamic/ObtainsInstanceBean.java", "anyPaymentProcessor");
-		Set<IBean> beans = cdiProject.getBeans(true, injection);
+		Collection<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals(3, beans.size());
 		assertContainsBeanClasses(beans, "org.jboss.jsr299.tck.tests.lookup.dynamic.AdvancedPaymentProcessor", "org.jboss.jsr299.tck.tests.lookup.dynamic.SimplePaymentProcessor", "org.jboss.jsr299.tck.tests.lookup.dynamic.RemotePaymentProcessor");
 	}

@@ -13,10 +13,10 @@ package org.jboss.tools.cdi.core.test.tck;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -164,20 +164,20 @@ public class TCKTest extends TestCase {
 		return tckP;
 	}
 
-	protected Set<IBean> getBeans(String typeName, String... qualifierNames) throws JavaModelException {
+	protected Collection<IBean> getBeans(String typeName, String... qualifierNames) throws JavaModelException {
 		return getBeans(true, typeName, qualifierNames);
 	}
 
-	protected Set<IBean> getBeans(boolean resolve, String typeName, String... qualifierNames) throws JavaModelException {
+	protected Collection<IBean> getBeans(boolean resolve, String typeName, String... qualifierNames) throws JavaModelException {
 		IParametedType type = getType(typeName);
 		assertNotNull("Can't find " + typeName + " type.", type);
-		Set<IType> qualifiers = new HashSet<IType>();
+		Collection<IType> qualifiers = new HashSet<IType>();
 		for (String name : qualifierNames) {
 			IType qualifier = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(cdiProject.getNature().getProject()), name);
 			assertNotNull("Can't find " + name + " type.", qualifier);
 			qualifiers.add(qualifier);
 		}
-		Set<IBean> beans = cdiProject.getBeans(resolve, type, qualifiers.toArray(new IType[0]));
+		Collection<IBean> beans = cdiProject.getBeans(resolve, type, qualifiers.toArray(new IType[0]));
 		assertNotNull("There is no beans with " + typeName + " type", beans);
 		return beans;
 	}
@@ -189,7 +189,7 @@ public class TCKTest extends TestCase {
 	protected IClassBean getClassBean(String fullyQualifiedTypeName, String path) {
 		IFile file = tckProject.getFile(path);
 		assertTrue(file.exists());
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		Collection<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		for (IBean bean : beans) {
 			if(bean instanceof IClassBean && (fullyQualifiedTypeName==null || fullyQualifiedTypeName.equals(bean.getBeanClass().getFullyQualifiedName()))) {
 				return (IClassBean)bean;
@@ -210,10 +210,10 @@ public class TCKTest extends TestCase {
 
 	protected IQualifierDeclaration getQualifierDeclarationFromClass(String beanFilePath, String annotationTypeName) throws JavaModelException {
 		IFile file = tckProject.getFile(beanFilePath);
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		Collection<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		assertFalse("Can't find any bean in " + beanFilePath, beans.isEmpty());
 		for (IBean bean : beans) {
-			Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
+			Collection<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
 			IParametedType type = getType(annotationTypeName);
 			for (IQualifierDeclaration declaration : declarations) {
 				if(declaration.getType() != null && type.getType().getElementName().equals(declaration.getType().getElementName())) {
@@ -227,7 +227,7 @@ public class TCKTest extends TestCase {
 
 	protected IAnnotationDeclaration createAnnotationDeclarationForAnnotation(String beanClassFilePath, String annotationTypeName) throws JavaModelException {
 		IFile file = tckProject.getFile(beanClassFilePath);
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		Collection<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		IBean bean = beans.iterator().next();
 		IType beanClass = bean.getBeanClass();
 		final IParametedType type = getType(annotationTypeName);
@@ -248,7 +248,7 @@ public class TCKTest extends TestCase {
 	}
 
 	protected void assertTheOnlyBean(String typeName) throws JavaModelException {
-		Set<IBean> beans = getBeans(typeName);
+		Collection<IBean> beans = getBeans(typeName);
 		assertEquals("There should be the only bean with " + typeName + " type", 1, beans.size());
 	}
 
@@ -280,7 +280,7 @@ public class TCKTest extends TestCase {
 		}		
 	}
 
-	public static void assertLocationEquals(Set<? extends ITextSourceReference> references, int startPosition, int length) {
+	public static void assertLocationEquals(Collection<? extends ITextSourceReference> references, int startPosition, int length) {
 		for (ITextSourceReference reference : references) {
 			if(reference.getStartPosition()==startPosition) {
 				assertLocationEquals(reference, startPosition, length);
@@ -303,7 +303,7 @@ public class TCKTest extends TestCase {
 			assertEquals("Wrong number of types.", typeNames.length, bean.getLegalTypes().size());
 		}
 		for (String typeName : typeNames) {
-			Set<IParametedType> types = bean.getLegalTypes();
+			Collection<IParametedType> types = bean.getLegalTypes();
 			StringBuffer allTypes = new StringBuffer("[");
 			boolean found = false;
 			for (IParametedType type : types) {
@@ -327,7 +327,7 @@ public class TCKTest extends TestCase {
 			assertEquals("Wrong number of types.", typeSignatures.length, bean.getLegalTypes().size());
 		}
 		for (String typeSignature : typeSignatures) {
-			Set<IParametedType> types = bean.getLegalTypes();
+			Collection<IParametedType> types = bean.getLegalTypes();
 			StringBuffer allTypes = new StringBuffer("[");
 			boolean found = false;
 			for (IParametedType type : types) {
@@ -342,7 +342,7 @@ public class TCKTest extends TestCase {
 		}
 	}
 
-	public static void assertDoesNotContainBeanClasses(Set<IBean> beans, String... beanClassNames) throws CoreException {
+	public static void assertDoesNotContainBeanClasses(Collection<IBean> beans, String... beanClassNames) throws CoreException {
 		StringBuffer sb = new StringBuffer("[");
 		for (String beanClassName : beanClassNames) {
 			sb.append(beanClassName).append("; ");
@@ -355,14 +355,14 @@ public class TCKTest extends TestCase {
 
 	protected IInjectionPointField getInjectionPointField(String beanClassFilePath, String fieldName) {
 		IFile file = tckProject.getFile(beanClassFilePath);
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		Collection<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		Iterator<IBean> it = beans.iterator();
 		while(it.hasNext()) {
 			IBean b = it.next();
 			if(b instanceof IProducer) it.remove();
 		}
 		assertEquals("Wrong number of the beans", 1, beans.size());
-		Set<IInjectionPoint> injections = beans.iterator().next().getInjectionPoints();
+		Collection<IInjectionPoint> injections = beans.iterator().next().getInjectionPoints();
 		for (IInjectionPoint injectionPoint : injections) {
 			if(injectionPoint instanceof IInjectionPointField) {
 				IInjectionPointField field = (IInjectionPointField)injectionPoint;
@@ -377,14 +377,14 @@ public class TCKTest extends TestCase {
 
 	protected IInjectionPointParameter getInjectionPointParameter(String beanClassFilePath, String methodName) {
 		IFile file = tckProject.getFile(beanClassFilePath);
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		Collection<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		Iterator<IBean> it = beans.iterator();
 		while(it.hasNext()) {
 			IBean b = it.next();
 			if(b instanceof IProducer) it.remove();
 		}
 		assertEquals("Wrong number of the beans", 1, beans.size());
-		Set<IInjectionPoint> injections = beans.iterator().next().getInjectionPoints();
+		Collection<IInjectionPoint> injections = beans.iterator().next().getInjectionPoints();
 		for (IInjectionPoint injectionPoint : injections) {
 			if(injectionPoint instanceof IInjectionPointParameter) {
 				IInjectionPointParameter param = (IInjectionPointParameter)injectionPoint;
@@ -397,11 +397,11 @@ public class TCKTest extends TestCase {
 		return null;
 	}
 
-	public static void assertContainsBeanClasses(Set<IBean> beans, String... beanClassNames) throws CoreException {
+	public static void assertContainsBeanClasses(Collection<IBean> beans, String... beanClassNames) throws CoreException {
 		assertContainsBeanClasses(true, beans, beanClassNames);
 	}
 
-	public static void assertContainsBeanClasses(boolean checkTheNumberOfBeans, Set<IBean> beans, String... beanClassNames) throws CoreException {
+	public static void assertContainsBeanClasses(boolean checkTheNumberOfBeans, Collection<IBean> beans, String... beanClassNames) throws CoreException {
 		if(checkTheNumberOfBeans) {
 			assertEquals("Wrong number of beans.", beanClassNames.length, beans.size());
 		}
@@ -415,11 +415,11 @@ public class TCKTest extends TestCase {
 		}
 	}
 
-	public static void assertContainsBeanClass(Set<IBean> beans, String beanClassName) throws CoreException {
+	public static void assertContainsBeanClass(Collection<IBean> beans, String beanClassName) throws CoreException {
 		assertTrue("Didn't find " + beanClassName, containsBeanClass(beans, beanClassName));
 	}
 
-	private static boolean doesNotContainBeanClass(Set<IBean> beans, String beanClassName) throws CoreException {
+	private static boolean doesNotContainBeanClass(Collection<IBean> beans, String beanClassName) throws CoreException {
 		for (IBean bean : beans) {
 			if(beanClassName.equals(bean.getBeanClass().getFullyQualifiedName())) {
 				return false;
@@ -428,7 +428,7 @@ public class TCKTest extends TestCase {
 		return true;
 	}
 
-	private static boolean containsBeanClass(Set<IBean> beans, String beanClassName) throws CoreException {
+	private static boolean containsBeanClass(Collection<IBean> beans, String beanClassName) throws CoreException {
 		for (IBean bean : beans) {
 			if(beanClassName.equals(bean.getBeanClass().getFullyQualifiedName())) {
 				return true;
@@ -437,11 +437,11 @@ public class TCKTest extends TestCase {
 		return false;
 	}
 
-	public static void assertContainsTypes(Set<IParametedType> types, String... typeNames) throws CoreException {
+	public static void assertContainsTypes(Collection<IParametedType> types, String... typeNames) throws CoreException {
 		assertContainsTypes(true, types, typeNames);
 	}
 
-	public static void assertContainsTypes(boolean checkTheNumberOfTypes, Set<IParametedType> types, String... typeNames) throws CoreException {
+	public static void assertContainsTypes(boolean checkTheNumberOfTypes, Collection<IParametedType> types, String... typeNames) throws CoreException {
 		if(checkTheNumberOfTypes) {
 			assertEquals("The number of types should be the same", typeNames.length, types.size());
 		}
@@ -450,7 +450,7 @@ public class TCKTest extends TestCase {
 		}
 	}
 
-	public static void assertContainsType(Set<IParametedType> types, String typeName) throws CoreException {
+	public static void assertContainsType(Collection<IParametedType> types, String typeName) throws CoreException {
 		StringBuffer allTheTypes = new StringBuffer("[ ");
 		for (IParametedType type : types) {
 			allTheTypes.append(type.getType().getFullyQualifiedName()).append(" ,");
@@ -462,7 +462,7 @@ public class TCKTest extends TestCase {
 		}
 	}
 
-	private static boolean containsType(Set<IParametedType> types, String typeName) throws CoreException {
+	private static boolean containsType(Collection<IParametedType> types, String typeName) throws CoreException {
 		for (IParametedType type : types) {
 			if(typeName.equals(type.getType().getFullyQualifiedName())) {
 				return true;
@@ -473,7 +473,7 @@ public class TCKTest extends TestCase {
 
 	public static void assertContainsQualifier(IBean bean, IQualifierDeclaration declaration) throws CoreException {
 		String typeName = declaration.getQualifier().getSourceType().getFullyQualifiedName();
-		Set<IQualifier> qualifiers = bean.getQualifiers();
+		Collection<IQualifier> qualifiers = bean.getQualifiers();
 		StringBuffer allTypes = new StringBuffer("[");
 		boolean found = false;
 		for (IQualifier qualifier : qualifiers) {
@@ -485,7 +485,7 @@ public class TCKTest extends TestCase {
 		}
 		allTypes.append("]");
 		assertTrue(bean.getResource().getFullPath() + " bean (qualifiers - " + allTypes.toString() + ") should have the qualifier with " + typeName + " type.", found);
-		Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations(true);
+		Collection<IQualifierDeclaration> declarations = bean.getQualifierDeclarations(true);
 		for (IQualifierDeclaration d : declarations) {
 			if(CDIProject.getAnnotationDeclarationKey(d).equals(CDIProject.getAnnotationDeclarationKey(declaration)) ) {
 				return;
@@ -499,7 +499,7 @@ public class TCKTest extends TestCase {
 	}
 
 	public static void assertContainsQualifierType(boolean theNumbersOfQualifierShouldBeTheSame, IBean bean, String... typeNames) {
-		Set<IQualifier> qualifiers = bean.getQualifiers();
+		Collection<IQualifier> qualifiers = bean.getQualifiers();
 
 		if(theNumbersOfQualifierShouldBeTheSame) {
 			assertEquals("Defferent numbers of qualifiers", typeNames.length, qualifiers.size());

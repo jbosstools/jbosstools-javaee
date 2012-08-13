@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.core.test.tck;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,7 +36,7 @@ public class InterceptorDefinitionTest extends TCKTest {
 	 * @throws JavaModelException 
 	 */
 	public void testStereotypeInterceptorBindings() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.interceptors.definition.SecureTransaction");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.interceptors.definition.SecureTransaction");
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertTrue("The bean should be an interceptor", bean instanceof IClassBean);
@@ -56,16 +57,16 @@ public class InterceptorDefinitionTest extends TCKTest {
 		//Y inherits X indirectly through Q. 
 		//X declares inheritable BindingA and BindingC and non-inheritable BindingB
 		//Q overrides declaring BindingC with another value.
-		Set<IBean> beans = getBeans(false, "org.jboss.jsr299.tck.tests.interceptors.definition.inheritance.Y");
+		Collection<IBean> beans = getBeans(false, "org.jboss.jsr299.tck.tests.interceptors.definition.inheritance.Y");
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		IClassBean bean = (IClassBean)beans.iterator().next();
 
-		Set<IInterceptorBinding> bs = bean.getInterceptorBindings();
+		Collection<IInterceptorBinding> bs = bean.getInterceptorBindings();
 		assertEquals("Wrong number of interceptor bindings", 2, bs.size());
 		assertContainsBindings(bs, "org.jboss.jsr299.tck.tests.interceptors.definition.inheritance.BindingA", "org.jboss.jsr299.tck.tests.interceptors.definition.inheritance.BindingC");
 		assertNotContainsBindings(bs, "tck.tests.interceptors.definition.inheritance.BindingB");
 
-		Set<IInterceptorBindingDeclaration> ds = bean.getInterceptorBindingDeclarations(true);
+		Collection<IInterceptorBindingDeclaration> ds = bean.getInterceptorBindingDeclarations(true);
 		assertEquals("Wrong number of interceptor binding declarations", 2, ds.size());
 		assertContainsBindingDeclarationWithValue(ds, "org.jboss.jsr299.tck.tests.interceptors.definition.inheritance.BindingC", "c2");
 
@@ -90,7 +91,7 @@ public class InterceptorDefinitionTest extends TCKTest {
 		IInterceptorBinding b = cdiProject.getInterceptorBinding("org.jboss.jsr299.tck.tests.jbt.validation.interceptors.StereotypeAndBinding");
 		assertNotNull(b);
 
-		Set<IBean> beans = getBeans(false, "org.jboss.jsr299.tck.tests.jbt.validation.interceptors.InterceptorWithStereotypeThatIsBinding");
+		Collection<IBean> beans = getBeans(false, "org.jboss.jsr299.tck.tests.jbt.validation.interceptors.InterceptorWithStereotypeThatIsBinding");
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertTrue("The bean should be an interceptor", bean instanceof IClassBean);
@@ -103,7 +104,7 @@ public class InterceptorDefinitionTest extends TCKTest {
 		/*
 		 * Invocation getBeans(false, f) returns all beans that match type and qualifiers.
 		 */
-		Set<IBean> bs = cdiProject.getBeans(false, f);
+		Collection<IBean> bs = cdiProject.getBeans(false, f);
 		assertEquals(1, bs.size());
 		assertTrue(bs.iterator().next() instanceof IInterceptor);
 		/*
@@ -113,7 +114,7 @@ public class InterceptorDefinitionTest extends TCKTest {
 		assertTrue(bs.isEmpty());
 	}
 
-	void assertContainsBindings(Set<IInterceptorBinding> bs, String... classNames) {
+	void assertContainsBindings(Collection<IInterceptorBinding> bs, String... classNames) {
 		Set<String> bsn = new HashSet<String>();
 		for (IInterceptorBinding b: bs) {
 			bsn.add(b.getSourceType().getFullyQualifiedName());
@@ -123,8 +124,8 @@ public class InterceptorDefinitionTest extends TCKTest {
 		}
 	}
 
-	void assertNotContainsBindings(Set<IInterceptorBinding> bs, String... classNames) {
-		Set<String> bsn = new HashSet<String>();
+	void assertNotContainsBindings(Collection<IInterceptorBinding> bs, String... classNames) {
+		Collection<String> bsn = new HashSet<String>();
 		for (IInterceptorBinding b: bs) {
 			bsn.add(b.getSourceType().getFullyQualifiedName());
 		}
@@ -133,7 +134,7 @@ public class InterceptorDefinitionTest extends TCKTest {
 		}
 	}
 
-	void assertContainsBindingDeclarationWithValue(Set<IInterceptorBindingDeclaration> bs, String className, String value) throws JavaModelException {
+	void assertContainsBindingDeclarationWithValue(Collection<IInterceptorBindingDeclaration> bs, String className, String value) throws JavaModelException {
 		for (IInterceptorBindingDeclaration b: bs) {
 			if(className.equals(b.getInterceptorBinding().getSourceType().getFullyQualifiedName())) {
 				IMemberValuePair[] ps = b.getMemberValuePairs();

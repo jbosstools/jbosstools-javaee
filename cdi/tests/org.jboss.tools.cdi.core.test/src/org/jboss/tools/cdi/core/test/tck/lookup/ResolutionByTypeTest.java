@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck.lookup;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,7 +40,7 @@ public class ResolutionByTypeTest extends TCKTest {
 	 * @throws CoreException 
 	 */
 	public void testDefaultBindingTypeAssumed() throws CoreException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Tuna");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Tuna");
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		assertContainsBeanTypes(false, beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Tuna");
 	}
@@ -51,7 +52,7 @@ public class ResolutionByTypeTest extends TCKTest {
 	 * @throws CoreException 
 	 */
 	public void testResolveByType() throws CoreException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Tuna", "javax.enterprise.inject.Default");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Tuna", "javax.enterprise.inject.Default");
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Animal", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.FishILike");
 		assertEquals("Wrong number of the beans", 3, beans.size());
@@ -65,7 +66,7 @@ public class ResolutionByTypeTest extends TCKTest {
 	 * @throws CoreException 
 	 */
 	public void testAllQualifiersSpecifiedForResolutionMustAppearOnBean() throws CoreException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Animal", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Chunky", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Whitefish");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Animal", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Chunky", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Whitefish");
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.ScottishFish", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Whitefish");
 		assertEquals("Wrong number of the beans", 2, beans.size());
@@ -81,7 +82,7 @@ public class ResolutionByTypeTest extends TCKTest {
 	public void testResolveByTypeWithTypeParameter() throws CoreException {
 		IType type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(cdiProject.getNature().getProject()), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.ScottishFishFarmer");
 		IParametedType parametedType = cdiProject.getNature().getTypeFactory().getParametedType(type, "QFarmer<QScottishFish;>;");
-		Set<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[0]);
+		Collection<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[0]);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		assertContainsBeanClasses(beans, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.ScottishFishFarmer");
 	}
@@ -95,7 +96,7 @@ public class ResolutionByTypeTest extends TCKTest {
 	public void testResolveByTypeWithArray() throws CoreException {
 		IType type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(cdiProject.getNature().getProject()), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.SpiderProducer");
 		IParametedType parametedType = cdiProject.getNature().getTypeFactory().getParametedType(type, "[QSpider;");
-		Set<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[0]);
+		Collection<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[0]);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		assertTrue("The bean should be a producer method.", beans.iterator().next() instanceof IProducerMethod);
 	}
@@ -107,12 +108,12 @@ public class ResolutionByTypeTest extends TCKTest {
 	 * @throws CoreException 
 	 */
 	public void testResolveByTypeWithPrimitives() throws CoreException {
-		Set<IBean> beans = getBeans("java.lang.Double", "javax.enterprise.inject.Any");
+		Collection<IBean> beans = getBeans("java.lang.Double", "javax.enterprise.inject.Any");
 		// There is checks for 2 beans (not for 3) in TCK but actually there is one more bean in another package which matches. So let's check for 3 beans.
 		assertEquals("Wrong number of the beans", 3, beans.size());
 		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/NumberProducer.java");
 		assertNotNull("Bean can't be a null", bean);
-		Set<IInjectionPoint> injections = bean.getInjectionPoints();
+		Collection<IInjectionPoint> injections = bean.getInjectionPoints();
 		assertEquals("Wrong number of the injection points", 2, injections.size());
 		for (IInjectionPoint injectionPoint : injections) {
 			beans = cdiProject.getBeans(true, injectionPoint);
@@ -122,11 +123,11 @@ public class ResolutionByTypeTest extends TCKTest {
 
 	public void testAbstractClassIsNotEligibleForInjection() throws CoreException {
 		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/chain/CurrentProject.java");
-		Set<IInjectionPoint> injections = bean.getInjectionPoints();
+		Collection<IInjectionPoint> injections = bean.getInjectionPoints();
 		assertEquals("Wrong number of the injection points", 1, injections.size());
 		IInjectionPoint injectionPoint = injections.iterator().next();
 		assertNotNull(injectionPoint);
-		Set<IBean> bs = cdiProject.getBeans(true, injectionPoint);
+		Collection<IBean> bs = cdiProject.getBeans(true, injectionPoint);
 		assertEquals(2, bs.size());
 		Set<String> names = new HashSet<String>();
 		System.out.println(bs.size());
@@ -147,7 +148,7 @@ public class ResolutionByTypeTest extends TCKTest {
 		IQualifierDeclaration expensiveQualifier = getQualifierDeclarationFromClass("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/RoundWhitefish.java", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Expensive");
 		IQualifierDeclaration whitefishQualifier = getQualifierDeclarationFromClass("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/RoundWhitefish.java", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Whitefish");
 		IParametedType type = getType("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Animal");
-		Set<IBean> beans = cdiProject.getBeans(true, type, new IQualifierDeclaration[]{expensiveQualifier, whitefishQualifier});
+		Collection<IBean> beans = cdiProject.getBeans(true, type, new IQualifierDeclaration[]{expensiveQualifier, whitefishQualifier});
 		assertContainsBeanClasses(beans, new String[]{"org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.RoundWhitefish", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Halibut"});
 	}
 
@@ -158,7 +159,7 @@ public class ResolutionByTypeTest extends TCKTest {
 	 * @throws CoreException 
 	 */
 	public void testPolicyNotAvailableInNonDeploymentArchive() throws CoreException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Spider");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Spider");
 		assertFalse("Wrong number of the beans", beans.isEmpty());
 		assertDoesNotContainBeanClasses(beans, new String[]{"org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.CrabSpider", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.DaddyLongLegs"});
 		beans = cdiProject.getBeans("crabSpider", true);
@@ -172,7 +173,7 @@ public class ResolutionByTypeTest extends TCKTest {
 	 * @throws CoreException 
 	 */
 	public void testBeanTypesOnManagedBean() throws CoreException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Canary");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Canary");
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Bird");
@@ -189,7 +190,7 @@ public class ResolutionByTypeTest extends TCKTest {
 	public void testGenericBeanTypesOnManagedBean() throws CoreException {
 		IType type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(cdiProject.getNature().getProject()), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Emu");
 		IParametedType parametedType = cdiProject.getNature().getTypeFactory().getParametedType(type, "QFlightlessBird<QAustralian;>;");
-		Set<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[0]);
+		Collection<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[0]);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		IBean bean = beans.iterator().next();
 
@@ -213,7 +214,7 @@ public class ResolutionByTypeTest extends TCKTest {
 	 * @throws CoreException 
 	 */
 	public void testBeanTypesOnProducerMethod() throws CoreException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Parrot");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Parrot");
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		assertContainsBeanTypes(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Parrot", "java.lang.Object");
 
@@ -232,7 +233,7 @@ public class ResolutionByTypeTest extends TCKTest {
 		IParametedType parametedType = cdiProject.getNature().getTypeFactory().getParametedType(type, "QCat<QEuropean;>;");
 		IQualifierDeclaration qualifier = getQualifierDeclarationFromClass("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/PetShop.java", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Tame");
 		assertNotNull("Can't find the qualifier.", qualifier);
-		Set<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[]{qualifier});
+		Collection<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[]{qualifier});
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		IBean bean = beans.iterator().next();
 
@@ -255,7 +256,7 @@ public class ResolutionByTypeTest extends TCKTest {
 		IParametedType parametedType = cdiProject.getNature().getTypeFactory().getParametedType(type, "QCat<QAfrican;>;");
 		IQualifierDeclaration qualifier = getQualifierDeclarationFromClass("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/PetShop.java", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Wild");
 		assertNotNull("Can't find the qualifier.", qualifier);
-		Set<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[]{qualifier});
+		Collection<IBean> beans = cdiProject.getBeans(true, parametedType, new IQualifierDeclaration[]{qualifier});
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		IBean bean = beans.iterator().next();
 
@@ -274,7 +275,7 @@ public class ResolutionByTypeTest extends TCKTest {
 	 * @throws CoreException 
 	 */
 	public void testBeanTypesOnProducerField() throws CoreException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Dove");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Dove");
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		assertContainsBeanTypes(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Dove", "java.lang.Object");
 
@@ -284,7 +285,7 @@ public class ResolutionByTypeTest extends TCKTest {
 
 	public void testInjectionResolutionOfRestrictedProducerField() throws CoreException {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/Zoo.java", "cats");
-		Set<IBean> beans = cdiProject.getBeans(true, injection);
+		Collection<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertTrue(bean instanceof IProducerField);
@@ -292,7 +293,7 @@ public class ResolutionByTypeTest extends TCKTest {
 
 	public void testInjectionResolutionOfRestrictedProducerMethod() throws CoreException {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/Zoo.java", "lions");
-		Set<IBean> beans = cdiProject.getBeans(true, injection);
+		Collection<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertTrue(bean instanceof IProducerMethod);

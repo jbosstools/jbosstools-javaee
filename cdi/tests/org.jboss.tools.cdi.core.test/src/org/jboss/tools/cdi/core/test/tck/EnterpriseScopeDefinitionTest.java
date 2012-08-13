@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
@@ -27,7 +27,7 @@ public class EnterpriseScopeDefinitionTest extends TCKTest {
 	 */
 	public void testScopeTypeDeclaredInheritedIsInherited()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.enterprise.BorderCollieLocal");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.enterprise.BorderCollieLocal");
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type",
 				"javax.enterprise.context.RequestScoped", bean.getScope()
@@ -41,7 +41,7 @@ public class EnterpriseScopeDefinitionTest extends TCKTest {
 	 */
 	public void testScopeTypeNotDeclaredInheritedIsNotInherited()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.enterprise.SiameseLocal");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.enterprise.SiameseLocal");
 		IBean bean = beans.iterator().next();
 		assertFalse("Wrong scope type",
 				"org.jboss.jsr299.tck.tests.definition.scope.enterprise.FooScoped"
@@ -56,7 +56,7 @@ public class EnterpriseScopeDefinitionTest extends TCKTest {
 	 */
 	public void testScopeTypeDeclaredInheritedIsIndirectlyInherited()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.enterprise.EnglishBorderCollieLocal");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.enterprise.EnglishBorderCollieLocal");
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type",
 				"javax.enterprise.context.RequestScoped", bean.getScope()
@@ -70,7 +70,7 @@ public class EnterpriseScopeDefinitionTest extends TCKTest {
 	 */
 	public void testScopeTypeNotDeclaredInheritedIsNotIndirectlyInherited()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.enterprise.BengalTigerLocal");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.enterprise.BengalTigerLocal");
 		IBean bean = beans.iterator().next();
 		assertFalse("Wrong scope type",
 				"org.jboss.jsr299.tck.tests.definition.scope.enterprise.FooScoped"

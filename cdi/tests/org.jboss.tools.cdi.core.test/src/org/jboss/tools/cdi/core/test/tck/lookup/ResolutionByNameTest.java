@@ -11,7 +11,7 @@
 
 package org.jboss.tools.cdi.core.test.tck.lookup;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -41,7 +41,7 @@ public class ResolutionByNameTest extends TCKTest {
 	 */
 	public void testAmbiguousELNamesResolved() throws CoreException {
 	    // Cod, Plaice and AlaskaPlaice are named "whitefishJBT" - Cod is a not-enabled policy, AlaskaPlaice specializes Plaice
-		Set<IBean> beans = cdiProject.getBeans("whitefishJBT", true);
+		Collection<IBean> beans = cdiProject.getBeans("whitefishJBT", true);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		assertContainsBeanClass(beans, "org.jboss.jsr299.tck.tests.lookup.byname.AlaskaPlaice");
 
@@ -80,7 +80,7 @@ public class ResolutionByNameTest extends TCKTest {
 	 */
 	public void testAbstractClassAnnotatedNamed() throws CoreException {
 		String abstractClass = "abstractClass";
-		Set<IBean> beans = cdiProject.getBeans(abstractClass, false);
+		Collection<IBean> beans = cdiProject.getBeans(abstractClass, false);
 		assertTrue(beans.isEmpty());
 		
 		beans = cdiProject.getBeans("producerInAbstractClass", false);
@@ -93,12 +93,12 @@ public class ResolutionByNameTest extends TCKTest {
 		IAnnotationDeclaration named = cb.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
 		assertEquals(abstractClass, named.getMemberValue(null));
 		
-		Set<IInjectionPoint> injections = cdiProject.getInjections("org.jboss.jsr299.tck.tests.jbt.lookup.NotBean");
+		Collection<IInjectionPoint> injections = cdiProject.getInjections("org.jboss.jsr299.tck.tests.jbt.lookup.NotBean");
 		assertEquals(2, injections.size());
 		for (IInjectionPoint p: injections) {
 			assertTrue(p instanceof IInjectionPointField);
 			IField f = ((IInjectionPointField)p).getField();
-			Set<IBean> bs = cdiProject.getBeans(false, p);
+			Collection<IBean> bs = cdiProject.getBeans(false, p);
 			if("f1".endsWith(f.getElementName())) {
 				assertEquals("Injection field f1 cannot be resolved to abstract class bean.", 0, bs.size());
 			} else if("f2".endsWith(f.getElementName())) {

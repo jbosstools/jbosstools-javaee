@@ -10,7 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.core.test.tck;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
@@ -28,8 +28,8 @@ public class NameDefinitionTest extends TCKTest {
 	 */
 	public void testNonDefaultNamed() throws JavaModelException {
 //		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/name/Moose.java");
-//		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.name.Moose");
+//		Collection<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.name.Moose");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.name.Moose type.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong EL name of org.jboss.jsr299.tck.tests.definition.name.Moose bean.", "aMoose", bean.getName());
@@ -44,7 +44,7 @@ public class NameDefinitionTest extends TCKTest {
 	 * @throws JavaModelException 
 	 */
 	public void testDefaultNamed() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.name.Haddock");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.name.Haddock");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.name.Haddock type.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertNotNull("org.jboss.jsr299.tck.tests.definition.name.Haddock bean should have an EL name.", bean.getName());
@@ -58,7 +58,7 @@ public class NameDefinitionTest extends TCKTest {
 	 * @throws JavaModelException 
 	 */
 	public void testStereotypeDefaultsName() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.name.RedSnapper");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.name.RedSnapper");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.name.RedSnapper type.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong EL name of org.jboss.jsr299.tck.tests.definition.name.RedSnapper bean.", "redSnapper", bean.getName());
@@ -71,7 +71,7 @@ public class NameDefinitionTest extends TCKTest {
 	 * @throws JavaModelException 
 	 */
 	public void testNotNamedInJava() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.name.SeaBass");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.name.SeaBass");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.name.SeaBass type.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertNull("org.jboss.jsr299.tck.tests.definition.name.SeaBass bean should not have any EL name.", bean.getName());
@@ -83,7 +83,7 @@ public class NameDefinitionTest extends TCKTest {
 	 * @throws JavaModelException 
 	 */
 	public void testNotNamedInStereotype() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.name.Minnow");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.name.Minnow");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.name.Minnow type.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertNull("org.jboss.jsr299.tck.tests.definition.name.Minnow bean should not have any EL name.", bean.getName());

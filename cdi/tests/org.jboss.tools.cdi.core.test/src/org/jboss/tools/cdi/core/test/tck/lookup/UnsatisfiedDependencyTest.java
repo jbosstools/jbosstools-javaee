@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck.lookup;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.core.IBean;
@@ -28,7 +28,7 @@ public class UnsatisfiedDependencyTest extends TCKTest {
 	 */
 	public void testUnsatisfiedDependency() throws CoreException {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/lookup/dependency/resolution/broken/unsatisfied/Bean_Broken.java", "vanilla");
-		Set<IBean> beans = cdiProject.getBeans(true, injection);
+		Collection<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals(0, beans.size());
 	}
 }

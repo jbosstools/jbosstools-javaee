@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
@@ -27,13 +27,13 @@ public class ScopeDefinitionTest extends TCKTest {
 	 * @throws JavaModelException
 	 */
 	public void testScopeTypesAreExtensible() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.Mullet");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.Mullet");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type",
 				"org.jboss.jsr299.tck.tests.definition.scope.AnotherScopeType",
 				bean.getScope().getSourceType().getFullyQualifiedName());
-		Set<IScopeDeclaration> declarations = bean.getScopeDeclarations();
+		Collection<IScopeDeclaration> declarations = bean.getScopeDeclarations();
 		assertEquals("Wrong number of scope declarations", 1, declarations
 				.size());
 		assertLocationEquals(declarations, 848, 17);
@@ -45,13 +45,13 @@ public class ScopeDefinitionTest extends TCKTest {
 	 * @throws JavaModelException
 	 */
 	public void testScopeDeclaredInJava() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.SeaBass");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.SeaBass");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type",
 				"javax.enterprise.context.RequestScoped", bean.getScope()
 						.getSourceType().getFullyQualifiedName());
-		Set<IScopeDeclaration> declarations = bean.getScopeDeclarations();
+		Collection<IScopeDeclaration> declarations = bean.getScopeDeclarations();
 		assertEquals("Wrong number of scope declarations", 1, declarations
 				.size());
 		assertLocationEquals(declarations, 898, 14);
@@ -63,7 +63,7 @@ public class ScopeDefinitionTest extends TCKTest {
 	 * @throws JavaModelException
 	 */
 	public void testDefaultScope() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.Order");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.Order");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type", "javax.enterprise.context.Dependent",
@@ -76,13 +76,13 @@ public class ScopeDefinitionTest extends TCKTest {
 	 * @throws JavaModelException
 	 */
 	public void testScopeSpecifiedAndStereotyped() throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.Minnow");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.Minnow");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type",
 				"javax.enterprise.context.RequestScoped", bean.getScope()
 						.getSourceType().getFullyQualifiedName());
-		Set<IScopeDeclaration> declarations = bean.getScopeDeclarations();
+		Collection<IScopeDeclaration> declarations = bean.getScopeDeclarations();
 		assertEquals("Wrong number of scope declarations", 1, declarations
 				.size());
 		assertLocationEquals(declarations, 920, 14);
@@ -95,12 +95,12 @@ public class ScopeDefinitionTest extends TCKTest {
 	 */
 	public void testMultipleIncompatibleScopeStereotypesWithScopeSpecified()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.Pollock");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.Pollock");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type", "javax.enterprise.context.Dependent",
 				bean.getScope().getSourceType().getFullyQualifiedName());
-		Set<IScopeDeclaration> declarations = bean.getScopeDeclarations();
+		Collection<IScopeDeclaration> declarations = bean.getScopeDeclarations();
 		assertEquals("Wrong number of scope declarations", 1, declarations
 				.size());
 		assertLocationEquals(declarations, 930, 10);
@@ -113,7 +113,7 @@ public class ScopeDefinitionTest extends TCKTest {
 	 */
 	public void testMultipleCompatibleScopeStereotypes()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.Grayling");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.Grayling");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type",
@@ -128,13 +128,13 @@ public class ScopeDefinitionTest extends TCKTest {
 	 */
 	public void testWebBeanScopeTypeOverridesStereotype()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.RedSnapper");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.RedSnapper");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type",
 				"javax.enterprise.context.RequestScoped", bean.getScope()
 						.getSourceType().getFullyQualifiedName());
-		Set<IScopeDeclaration> declarations = bean.getScopeDeclarations();
+		Collection<IScopeDeclaration> declarations = bean.getScopeDeclarations();
 		assertEquals("Wrong number of scope declarations", 1, declarations
 				.size());
 		assertLocationEquals(declarations, 915, 14);
@@ -147,7 +147,7 @@ public class ScopeDefinitionTest extends TCKTest {
 	 */
 	public void testScopeTypeDeclaredInheritedIsInherited()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.BorderCollie");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.BorderCollie");
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type",
 				"javax.enterprise.context.RequestScoped", bean.getScope()
@@ -161,7 +161,7 @@ public class ScopeDefinitionTest extends TCKTest {
 	 */
 	public void testScopeTypeNotDeclaredInheritedIsNotInherited()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.ShetlandPony");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.ShetlandPony");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type", "javax.enterprise.context.Dependent",
@@ -175,7 +175,7 @@ public class ScopeDefinitionTest extends TCKTest {
 	 */
 	public void testScopeTypeDeclaredInheritedIsBlockedByIntermediateScopeTypeMarkedInherited()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.GoldenRetriever");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.GoldenRetriever");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 	}
 
@@ -186,7 +186,7 @@ public class ScopeDefinitionTest extends TCKTest {
 	 */
 	public void testScopeTypeDeclaredInheritedIsBlockedByIntermediateScopeTypeNotMarkedInherited()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.GoldenLabrador");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.GoldenLabrador");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type", "javax.enterprise.context.Dependent",
@@ -200,7 +200,7 @@ public class ScopeDefinitionTest extends TCKTest {
 	 */
 	public void testScopeTypeDeclaredInheritedIsIndirectlyInherited()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.EnglishBorderCollie");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.EnglishBorderCollie");
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type",
 				"javax.enterprise.context.RequestScoped", bean.getScope()
@@ -214,7 +214,7 @@ public class ScopeDefinitionTest extends TCKTest {
 	 */
 	public void testScopeTypeNotDeclaredInheritedIsNotIndirectlyInherited()
 			throws JavaModelException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.MiniatureClydesdale");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.MiniatureClydesdale");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong scope type", "javax.enterprise.context.Dependent",

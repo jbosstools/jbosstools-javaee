@@ -11,7 +11,7 @@
 package org.jboss.tools.cdi.core.test.tck;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -119,7 +119,7 @@ public class NamedBeanRefactoringTest extends TCKTest {
 
 		assertNotNull("Can't get CDI project.", cdiProject);
 
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		Collection<IBean> beans = cdiProject.getBeans(file.getFullPath());
 
 		for (IBean bean : beans) {
 			if (bean.getName() != null && name.equals(bean.getName())) {

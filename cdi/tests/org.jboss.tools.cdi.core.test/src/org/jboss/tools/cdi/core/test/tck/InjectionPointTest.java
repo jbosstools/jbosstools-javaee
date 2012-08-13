@@ -10,16 +10,13 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
-import java.util.List;
-import java.util.Set;
+import java.util.Collection;
 
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
-import org.jboss.tools.cdi.core.IQualifierDeclaration;
-import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IParametedType;
 
 /**
@@ -33,7 +30,7 @@ public class InjectionPointTest extends TCKTest {
 	 */
 	public void testQualifierTypeAnnotatedConstructor() {
 		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/implementation/simple/lifecycle/Duck.java");
-		Set<IInjectionPointParameter> points = CDIUtil.getInjectionPointParameters(bean);
+		Collection<IInjectionPointParameter> points = CDIUtil.getInjectionPointParameters(bean);
 		assertEquals("There should be two injection point parameters in the bean.", 2, points.size());
 	}
 
@@ -43,7 +40,7 @@ public class InjectionPointTest extends TCKTest {
 	 */
 	public void testBindingTypeOnInitializerParameter() {
 		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/lifecycle/Mainz.java");
-		Set<IInjectionPointParameter> points = CDIUtil.getInjectionPointParameters(bean);
+		Collection<IInjectionPointParameter> points = CDIUtil.getInjectionPointParameters(bean);
 		assertEquals("There should be two injection point parameters in the bean.", 1, points.size());
 	}
 
@@ -51,7 +48,7 @@ public class InjectionPointTest extends TCKTest {
 	public void testMethodParameter() {
 		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/FarmBroken.java");
 		assertNotNull("Can't find the bean.", bean);
-		Set<IInjectionPoint> injections = bean.getInjectionPoints();
+		Collection<IInjectionPoint> injections = bean.getInjectionPoints();
 		for (IInjectionPoint injectionPoint : injections) {
 			if(injectionPoint instanceof IInjectionPointParameter) {
 				IInjectionPointParameter param = (IInjectionPointParameter)injectionPoint;
@@ -65,19 +62,19 @@ public class InjectionPointTest extends TCKTest {
 	public void testObserverMethodParameters() {
 		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/AnimalObserver.java");
 		assertNotNull("Can't find the bean.", bean);
-		Set<IInjectionPoint> injections = bean.getInjectionPoints();
+		Collection<IInjectionPoint> injections = bean.getInjectionPoints();
 		assertEquals(1, injections.size());
 	}
 
 	public void testDisposerMethodParameters() {
 		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/disposers/DisposerOk.java");
 		assertNotNull("Can't find the bean.", bean);
-		Set<IInjectionPoint> injections = bean.getInjectionPoints();
+		Collection<IInjectionPoint> injections = bean.getInjectionPoints();
 		assertEquals(2, injections.size());
 	}
 
 	public void testGetInjections() {
-		Set<IInjectionPoint> ps = cdiProject.getInjections("org.jboss.jsr299.tck.tests.lookup.injection.Fox");
+		Collection<IInjectionPoint> ps = cdiProject.getInjections("org.jboss.jsr299.tck.tests.lookup.injection.Fox");
 		assertTrue(!ps.isEmpty());
 
 		ps = cdiProject.getInjections("org.jboss.jsr299.tck.tests.context.dependent.Tarantula");
@@ -87,7 +84,7 @@ public class InjectionPointTest extends TCKTest {
 	public void testParameterInjectionsWithQualifierWithMemberValues() {
 		IInjectionPointParameter injectionPoint = getInjectionPointParameter("JavaSource/org/jboss/jsr299/tck/tests/lookup/injection/NamedParameters.java", "setA");
 		assertNotNull(injectionPoint);
-		Set<IBean> resolved = cdiProject.getBeans(false, injectionPoint);
+		Collection<IBean> resolved = cdiProject.getBeans(false, injectionPoint);
 		assertTrue(resolved.isEmpty());
 
 		injectionPoint = getInjectionPointParameter("JavaSource/org/jboss/jsr299/tck/tests/lookup/injection/NamedParameters.java", "setABC");
@@ -99,7 +96,7 @@ public class InjectionPointTest extends TCKTest {
 	public void testDefaultValuesInQualifierProperties() {
 		IInjectionPoint injectionPoint = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/lookup/qualifier/MyBean.java", "i");
 		assertNotNull(injectionPoint);
-		Set<IBean> resolved = cdiProject.getBeans(false, injectionPoint);
+		Collection<IBean> resolved = cdiProject.getBeans(false, injectionPoint);
 		assertFalse(resolved.isEmpty());
 	}
 }

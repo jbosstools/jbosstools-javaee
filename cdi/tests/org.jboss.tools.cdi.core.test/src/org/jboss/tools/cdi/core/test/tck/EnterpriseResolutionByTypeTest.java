@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.core.IBean;
@@ -27,7 +27,7 @@ public class EnterpriseResolutionByTypeTest extends TCKTest {
 	 * @throws CoreException 
 	 */
 	public void testBeanTypesOnSessionBean() throws CoreException {
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.CapercaillieLocal");
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.CapercaillieLocal");
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		assertContainsBeanTypes(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.CapercaillieLocal", "java.lang.Object");
 		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.ScottishBirdLocal");

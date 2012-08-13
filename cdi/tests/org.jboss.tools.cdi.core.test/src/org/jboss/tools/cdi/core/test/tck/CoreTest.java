@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanField;
@@ -32,12 +32,12 @@ public class CoreTest extends TCKTest {
 		assertTrue(beans.length>0);
 		for (IBean bean : beans) {
 			assertElementName(bean);
-			Set<IParametedType> types = bean.getAllTypes();
+			Collection<IParametedType> types = bean.getAllTypes();
 			for (IParametedType type : types) {
 				String name = type.getSimpleName();
 				assertNotNull(name);
 			}
-			Set<IInjectionPoint> points = bean.getInjectionPoints();
+			Collection<IInjectionPoint> points = bean.getInjectionPoints();
 			for (IInjectionPoint point : points) {
 				assertElementName(point);
 				if(point.getType()!=null) {
@@ -45,7 +45,7 @@ public class CoreTest extends TCKTest {
 				}
 			}
 			if(bean instanceof IClassBean) {
-				Set<IBeanMethod> methods = ((IClassBean)bean).getAllMethods();
+				Collection<IBeanMethod> methods = ((IClassBean)bean).getAllMethods();
 				for (IBeanMethod method : methods) {
 					assertElementName(method);
 				}
@@ -60,7 +60,7 @@ public class CoreTest extends TCKTest {
 
 	public void testFieldName() throws Exception {
 		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/jbt/core/NamedElement.java");
-		Set<IProducer> producers = bean.getProducers();
+		Collection<IProducer> producers = bean.getProducers();
 		assertEquals(2, producers.size());
 		boolean found = false;
 		for (IProducer producer : producers) {
@@ -75,7 +75,7 @@ public class CoreTest extends TCKTest {
 
 	public void testMethodName() throws Exception {
 		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/jbt/core/NamedElement.java");
-		Set<IProducer> producers = bean.getProducers();
+		Collection<IProducer> producers = bean.getProducers();
 		boolean found = false;
 		for (IProducer producer : producers) {
 			if(producer instanceof IBeanMethod) {
@@ -89,7 +89,7 @@ public class CoreTest extends TCKTest {
 
 	public void testParamName() throws Exception {
 		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/jbt/core/NamedElement.java");
-		Set<IInjectionPoint> injections = bean.getInjectionPoints();
+		Collection<IInjectionPoint> injections = bean.getInjectionPoints();
 		assertEquals(1, injections.size());
 		assertEquals("arg1", injections.iterator().next().getElementName());
 	}

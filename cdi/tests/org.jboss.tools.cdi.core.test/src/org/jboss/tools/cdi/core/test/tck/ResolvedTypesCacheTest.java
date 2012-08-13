@@ -11,14 +11,13 @@
 package org.jboss.tools.cdi.core.test.tck;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -64,7 +63,7 @@ public class ResolvedTypesCacheTest extends TCKTest {
 
 		IInjectionPointField injectionPoint = getInjectionPointField(PATH_A, "a");
 		assertNotNull(injectionPoint);
-		Set<IBean> bs = cdiProject.getBeans(true, injectionPoint);
+		Collection<IBean> bs = cdiProject.getBeans(true, injectionPoint);
 		assertEquals(1, bs.size());
 		IBean b = bs.iterator().next();
 		assertEquals("org.jboss.jsr299.tck.tests.jbt.resolution.cache.C$D", b.getBeanClass().getFullyQualifiedName());

@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
@@ -21,7 +21,7 @@ import org.jboss.tools.cdi.core.IBean;
 public class ResourceExclusionTest extends TCKTest {
 
 	public void testExclusion() throws JavaModelException {
-		Set<IBean> beans = cdiProject.getBeans("myExcludedBean", false);
+		Collection<IBean> beans = cdiProject.getBeans("myExcludedBean", false);
 		assertEquals("Wrong number of beans.", 0, beans.size());
 
 		beans = cdiProject.getBeans("myExcludedBean2", false);

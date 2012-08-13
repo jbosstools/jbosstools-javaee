@@ -10,8 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck.lookup;
 
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.core.IBean;
@@ -101,7 +101,7 @@ public class CircularDependencyTest extends TCKTest {
 	}
 
 	public IClassBean getOnlyClassBean(String type) throws CoreException {
-		Set<IBean> beans = getBeans(type);
+		Collection<IBean> beans = getBeans(type);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertTrue(bean instanceof IClassBean);
@@ -111,10 +111,10 @@ public class CircularDependencyTest extends TCKTest {
 
 	public void assertOnlyInjectionOfClassBeanReslovedToAnotherClassBean(String classBeanType, String injectionClassBeanType) throws CoreException {
 		IBean bean = getOnlyClassBean(classBeanType);
-		Set<IInjectionPoint> points = bean.getInjectionPoints();
+		Collection<IInjectionPoint> points = bean.getInjectionPoints();
 		assertEquals("Wrong number of the injections", 1, points.size());
 		IInjectionPoint point = points.iterator().next();
-		Set<IBean> beans = cdiProject.getBeans(true, point);
+		Collection<IBean> beans = cdiProject.getBeans(true, point);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		bean = beans.iterator().next();
 		assertTrue(bean instanceof IClassBean);
@@ -123,10 +123,10 @@ public class CircularDependencyTest extends TCKTest {
 
 	public void assertOnlyInjectionOfClassBeanReslovedToProducerMethodOfSameClass(String classBeanType) throws CoreException {
 		IBean bean = getOnlyClassBean(classBeanType);
-		Set<IInjectionPoint> points = bean.getInjectionPoints();
+		Collection<IInjectionPoint> points = bean.getInjectionPoints();
 		assertEquals("Wrong number of the injections", 1, points.size());
 		IInjectionPoint point = points.iterator().next();
-		Set<IBean> beans = cdiProject.getBeans(true, point);
+		Collection<IBean> beans = cdiProject.getBeans(true, point);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		bean = beans.iterator().next();
 		assertTrue(bean instanceof IProducerMethod);
@@ -135,8 +135,8 @@ public class CircularDependencyTest extends TCKTest {
 
 	public void assertOnlyInjectionConstructorOfClassBeanReslovedToAnotherClassBean(String classBeanType, String injectionClassBeanType) throws CoreException {
 		IBean bean = getOnlyClassBean(classBeanType);
-		Set<IInjectionPoint> allPoints = bean.getInjectionPoints();
-		Set<IInjectionPointParameter> points = new HashSet<IInjectionPointParameter>();
+		Collection<IInjectionPoint> allPoints = bean.getInjectionPoints();
+		Collection<IInjectionPointParameter> points = new HashSet<IInjectionPointParameter>();
 		for (IInjectionPoint injectionPoint : allPoints) {
 			if(injectionPoint instanceof IInjectionPointParameter) {
 				points.add((IInjectionPointParameter)injectionPoint);
@@ -144,7 +144,7 @@ public class CircularDependencyTest extends TCKTest {
 		}
 		assertEquals("Wrong number of the injections", 1, points.size());
 		IInjectionPoint point = points.iterator().next();
-		Set<IBean> beans = cdiProject.getBeans(true, point);
+		Collection<IBean> beans = cdiProject.getBeans(true, point);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		bean = beans.iterator().next();
 		assertTrue(bean instanceof IClassBean);
