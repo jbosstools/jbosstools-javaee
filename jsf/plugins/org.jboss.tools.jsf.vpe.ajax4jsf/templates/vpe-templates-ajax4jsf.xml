@@ -225,6 +225,10 @@
 	    <vpe:template children="yes" modify="no"
 	       class="org.jboss.tools.jsf.vpe.ajax4jsf.template.Ajax4JSFLogTemplate">
 	       <vpe:pseudoContent defaultText="no" />
+	       <vpe:resize>
+				<vpe:width width-attr="width" />
+				<vpe:height height-attr="height" />
+			</vpe:resize>
 	    </vpe:template>
     </vpe:tag>
     

@@ -1,43 +1,51 @@
 <tests>
 	<test id="log">
-	   <DIV STYLE="overflow: auto; width: 800px; height: 600px;">
-	       <BUTTON TYPE="button">Clear</BUTTON>
-	   </DIV>
+		<DIV STYLE="">
+			<BUTTON TYPE="button">
+				Clear
+			</BUTTON>
+		</DIV>
 	</test>
-    <test id="compliteLog">
-        <DIV>
-            <DIV>
-                <SPAN STYLE="-moz-user-modify: read-write;">
-                    <SPAN CLASS="vpe-text">
-                        f:verbatim
-                    </SPAN>
-                </SPAN>
-                <SPAN CLASS="vpe-text">
-                    Over Text For loadStyle
-                </SPAN>
-            </DIV>
-            <DIV STYLE="overflow: auto; color: red; background-color: red; width: 400px; height: 100px;"
-                CLASS="myClass">
-                    <BUTTON TYPE="button">Clear</BUTTON>
-            </DIV>
-        </DIV>
-    </test>
-    <test id="compliteLog2">
-        <DIV>
-            <DIV>
-                <SPAN STYLE="-moz-user-modify: read-write;">
-                    <SPAN CLASS="vpe-text">
-                        f:verbatim
-                    </SPAN>
-                </SPAN>
-                <SPAN CLASS="vpe-text">
-                    Over Text For loadStyle
-                </SPAN>
-            </DIV>
-            <DIV STYLE="overflow: auto; color: red; background-color: red; width: 350px; height: 250px;"
-                CLASS="myClass">
-                    <BUTTON TYPE="button">Clear</BUTTON>
-            </DIV>
-        </DIV>
-    </test>
+	<test id="compliteLog">
+		<DIV CLASS="vpe-text">
+			<DIV CLASS="vpe-text">
+				<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-write;">
+					<SPAN CLASS="vpe-text">
+						f:verbatim
+					</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					Over Text For loadStyle
+				</SPAN>
+			</DIV>
+			<DIV
+				STYLE="color: red; overflow: auto; background-color: red; width: 400px; height: 100px;"
+				CLASS="myClass">
+				<BUTTON TYPE="button">
+					Clear
+				</BUTTON>
+			</DIV>
+		</DIV>
+	</test>
+	<test id="compliteLog2">
+		<DIV CLASS="vpe-text">
+			<DIV CLASS="vpe-text">
+				<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-write;">
+					<SPAN CLASS="vpe-text">
+						f:verbatim
+					</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					Over Text For loadStyle
+				</SPAN>
+			</DIV>
+			<DIV
+				STYLE="color: red; overflow: auto; background-color: red; width: 350px; height: 250px;"
+				CLASS="myClass">
+				<BUTTON TYPE="button">
+					Clear
+				</BUTTON>
+			</DIV>
+		</DIV>
+	</test>
 </tests>

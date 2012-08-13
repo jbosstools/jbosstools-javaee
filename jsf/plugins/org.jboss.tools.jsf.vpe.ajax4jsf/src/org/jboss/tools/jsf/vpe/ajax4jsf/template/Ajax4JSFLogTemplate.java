@@ -11,16 +11,10 @@
 
 package org.jboss.tools.jsf.vpe.ajax4jsf.template;
 
-
-import java.util.List;
-
-import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.template.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
-import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
@@ -35,67 +29,56 @@ import org.w3c.dom.Node;
  * @author Igor Zhukov
  */
 public class Ajax4JSFLogTemplate extends VpeAbstractTemplate {
+	
+	private static final String CLEAR_BUTTON = "Clear"; //$NON-NLS-1$
 
-	/** DEFAULT_DIV_SIZE */
-	private final static String DEFAULT_WIDTH = "800px"; //$NON-NLS-1$
-	private final static String DEFAULT_HEIGHT = "600px"; //$NON-NLS-1$
-	private final static String DEFAULT_OVERFLOW = "auto"; //$NON-NLS-1$
-
-	private final static String CLEAR_BUTTON = "Clear"; //$NON-NLS-1$
-
-    /**
-     * The Constructor.
-     */
-    public Ajax4JSFLogTemplate() {
-        super();
-    }
-
-    /**
-	 * Creates a node of the visual tree on the node of the source tree.
-	 *
-	 * @param pageContext
-	 *            Contains the information on edited page.
-	 * @param sourceNode
-	 *            The current node of the source tree.
-	 * @param visualDocument
-	 *            The document of the visual tree.
-	 * @return The information on the created node of the visual tree.
-     */
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
-		// cast to Element
 		Element sourceElement = (Element) sourceNode;
-
 		nsIDOMElement divElement = visualDocument.createElement(HTML.TAG_DIV);
-
 		String style = sourceElement.getAttribute(HTML.ATTR_STYLE);
-		// set STYLE attributes
-		// check 'overflow' attribute
-		String parameterValue = VpeStyleUtil.getParameterFromStyleAttribute(style, HTML.STYLE_PARAMETER_OVERFLOW);
-		if (parameterValue == null || parameterValue.equals(Constants.EMPTY)) {
-			parameterValue = ComponentUtil.getAttribute(sourceElement, HTML.STYLE_PARAMETER_OVERFLOW, DEFAULT_OVERFLOW);
-			style = VpeStyleUtil.setParameterInStyle(style, HTML.STYLE_PARAMETER_OVERFLOW, parameterValue);
+		/*
+		 * Set OVERFLOW to the STYLE 
+		 */
+		if (sourceElement.hasAttribute(HTML.STYLE_PARAMETER_OVERFLOW)) {
+			style = VpeStyleUtil.setParameterInStyle(style, 
+					HTML.STYLE_PARAMETER_OVERFLOW, 
+					sourceElement.getAttribute(HTML.STYLE_PARAMETER_OVERFLOW));
 		}
-		// check 'width' attribute
-		parameterValue = VpeStyleUtil.getParameterFromStyleAttribute(style, HTML.ATTR_WIDTH);
-		if (parameterValue == null || parameterValue.equals(Constants.EMPTY)) {
-			parameterValue = ComponentUtil.getAttribute(sourceElement, HTML.ATTR_WIDTH, DEFAULT_WIDTH);
-			style = VpeStyleUtil.setParameterInStyle(style, HTML.ATTR_WIDTH, parameterValue);
+		/*
+		 * Set WIDTH to the STYLE 
+		 */
+		int size;
+		if (sourceElement.hasAttribute(HTML.ATTR_WIDTH)) {
+			size = VpeStyleUtil.cssSizeToInt(sourceElement.getAttribute(HTML.ATTR_WIDTH));
+			if (size != -1) {
+				style = VpeStyleUtil.setSizeInStyle(style, HTML.ATTR_WIDTH, size);
+			}
 		}
-		// check 'height' attribute
-		parameterValue = VpeStyleUtil.getParameterFromStyleAttribute(style, HTML.ATTR_HEIGHT);
-		if (parameterValue == null || parameterValue.equals(Constants.EMPTY)) {
-			parameterValue = ComponentUtil.getAttribute(sourceElement, HTML.ATTR_HEIGHT, DEFAULT_HEIGHT);
-			style = VpeStyleUtil.setParameterInStyle(style, HTML.ATTR_HEIGHT, parameterValue);
+		/*
+		 * Set HEIGHT to the STYLE 
+		 */
+		if (sourceElement.hasAttribute(HTML.ATTR_HEIGHT)) {
+			size = VpeStyleUtil.cssSizeToInt(sourceElement.getAttribute(HTML.ATTR_HEIGHT));
+			if (size != -1) {
+				style = VpeStyleUtil.setSizeInStyle(style, HTML.ATTR_HEIGHT, size);
+			}
 		}
+		/*
+		 * Set STYLE to the DIV 
+		 */
 		divElement.setAttribute(HTML.ATTR_STYLE, style);
 
-		// set CLASS attribute
-		String styleClass = ComponentUtil.getAttribute(sourceElement, RichFaces.ATTR_STYLE_CLASS);
-		if (!Constants.EMPTY.equals(styleClass)) {
-			divElement.setAttribute(HTML.ATTR_CLASS, styleClass);
+		/*
+		 * Set CLASS attribute to the DIV 
+		 */
+		if (sourceElement.hasAttribute(RichFaces.ATTR_STYLE_CLASS)) {
+			divElement.setAttribute(HTML.ATTR_CLASS, 
+					sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS));
 		}
 
-		// create 'Clear' button
+		/*
+		 * Create 'Clear' button
+		 */
         nsIDOMElement clearButton = visualDocument.createElement(HTML.TAG_BUTTON);
         clearButton.appendChild(visualDocument.createTextNode(CLEAR_BUTTON));
         clearButton.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_BUTTON);
