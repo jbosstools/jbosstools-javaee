@@ -12,7 +12,7 @@ package org.jboss.tools.cdi.seam.core.test.persistence;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Set;
+import java.util.Collection;
 
 import junit.framework.TestCase;
 
@@ -59,7 +59,7 @@ public class SeamPersistenceTest extends TestCase {
 		IInjectionPoint p = DependentProjectTest.getInjectionPointField(cdi, "/src/test/EntityManagerTest.java", "manager");
 		assertNotNull(p);
 
-		Set<IBean> bs = cdi.getBeans(false, p);
+		Collection<IBean> bs = cdi.getBeans(false, p);
 		assertEquals(1, bs.size());
 	}
 
@@ -68,7 +68,7 @@ public class SeamPersistenceTest extends TestCase {
 		IInjectionPoint p = DependentProjectTest.getInjectionPointField(cdi, "/src/test/EntityManager2Test.java", "manager");
 		assertNotNull(p);
 
-		Set<IBean> bs = cdi.getBeans(false, p);
+		Collection<IBean> bs = cdi.getBeans(false, p);
 		assertEquals(1, bs.size());
 	}
 
@@ -77,7 +77,7 @@ public class SeamPersistenceTest extends TestCase {
 		IInjectionPoint p = DependentProjectTest.getInjectionPointField(cdi, "/src/test/EntityManagerTest.java", "session");
 		assertNotNull(p);
 
-		Set<IBean> bs = cdi.getBeans(false, p);
+		Collection<IBean> bs = cdi.getBeans(false, p);
 		assertFalse(bs.isEmpty());
 	}
 
@@ -86,7 +86,7 @@ public class SeamPersistenceTest extends TestCase {
 		IInjectionPoint p = DependentProjectTest.getInjectionPointField(cdi, "/src/test/EntityManager2Test.java", "session");
 		assertNotNull(p);
 
-		Set<IBean> bs = cdi.getBeans(false, p);
+		Collection<IBean> bs = cdi.getBeans(false, p);
 		assertEquals(1, bs.size());
 	}
 }
