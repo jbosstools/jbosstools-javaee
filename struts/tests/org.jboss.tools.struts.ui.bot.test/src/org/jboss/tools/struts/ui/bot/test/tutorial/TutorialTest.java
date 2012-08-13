@@ -88,11 +88,17 @@ public class TutorialTest extends SWTTestExt {
     	util.waitForNonIgnoredJobs();
     }
     
-    /**
-     * 2.1. Starting Up
-     */
     @Test
-    public void testCreateProject() {
+    public void testTutorial() {
+    	createProject(); //2.1. Starting Up
+    	addJSPs(); //2.2. Creating the Application Components
+    	generateClasses(); //3. Generating Stub Coding
+    	coding(); //4. Coding the Various Files
+    	startServer(); //5. Compiling the Classes and Running the Application
+    	validators(); //6. Struts Validation Examples
+    }
+    
+    private void createProject() {
         eclipse.createNew(EntityType.STRUTS_PROJECT);
         bot.shell(IDELabel.Shell.NEW_STRUTS_PROJECT).activate();
         bot.textWithLabel(IDELabel.NewStrutsProjectDialog.NAME).setText(
@@ -120,11 +126,7 @@ public class TutorialTest extends SWTTestExt {
                 t.getNode("struts-config.xml"));
     }
 
-    /**
-     * 2.2. Creating the Application Components
-     */
-    @Test
-    public void testAddJSPs() {
+    private void addJSPs() {
         //2.2.1.1. Creating the Page Placeholders
         SWTBotView v = bot.viewByTitle(IDELabel.View.WEB_PROJECTS);
         v.show();
@@ -229,11 +231,7 @@ public class TutorialTest extends SWTTestExt {
         util.waitForNonIgnoredJobs();
     }
 
-    /**
-     * Chapter 3. Generating Stub Coding
-     */
-    @Test
-    public void testGenerateClasses() {
+    private void generateClasses() {
         StrutsUIEditorBot guiBot = new StrutsUIEditorBot(bot.activeEditor().getReference());
         guiBot.selectPage("Diagram");
         guiBot.clickContextMenu("Generate Java Code...");
@@ -247,11 +245,7 @@ public class TutorialTest extends SWTTestExt {
         Assert.assertTrue(status.contains("Form beans: 1"));
     }
 
-    /**
-     * Chapter 4. Coding the Various Files
-     */
-    @Test
-    public void testCoding() {
+    private void coding() {
     	SWTBotView pe = new SWTWorkbenchBot().viewByTitle("Package Explorer");
     	pe.show();
         SWTBotTree fTree = pe.bot().tree();
@@ -330,11 +324,7 @@ public class TutorialTest extends SWTTestExt {
         editor.saveAndClose();
     }
 
-    /**
-     * Chapter 5. Compiling the Classes and Running the Application
-     */
-    @Test
-    public void testStartServer() {
+    private void startServer() {
         servers.startServer(configuredState.getServer().name);
         configuredState.getServer().isRunning = true;
         StrutsUIEditorBot gui = new StrutsUIEditorBot(bot.activeEditor().getReference());
@@ -350,11 +340,7 @@ public class TutorialTest extends SWTTestExt {
         Assert.assertTrue(browser.getText().contains("Input name:"));
     }
 
-    /**
-     * Chapter 6. Struts Validation Examples
-     */
-    @Test
-    public void testValidators() {
+    private void validators() {
         //6.1. Starting Point
         SWTBotView v = bot.viewByTitle(IDELabel.View.WEB_PROJECTS);
         v.show();
