@@ -1132,7 +1132,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 					 *  - there are multiple disposer methods for a single producer method
 					 */
 					for (IBeanMethod disposerMethod : disposerMethods) {
-						Set<ITextSourceReference> disposerDeclarations = CDIUtil.getAnnotationPossitions(disposerMethod, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+						Collection<ITextSourceReference> disposerDeclarations = CDIUtil.getAnnotationPossitions(disposerMethod, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
 						for (ITextSourceReference declaration : disposerDeclarations) {
 							addProblem(CDIValidationMessages.MULTIPLE_DISPOSERS_FOR_PRODUCER, CDIPreferences.MULTIPLE_DISPOSERS_FOR_PRODUCER, declaration, bean.getResource(), MULTIPLE_DISPOSERS_FOR_PRODUCER_ID);
 						}
