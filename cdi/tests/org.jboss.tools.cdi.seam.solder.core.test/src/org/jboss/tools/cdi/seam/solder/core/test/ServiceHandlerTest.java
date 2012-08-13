@@ -11,7 +11,7 @@
 package org.jboss.tools.cdi.seam.solder.core.test;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
@@ -34,7 +34,7 @@ public class ServiceHandlerTest extends SeamSolderTest {
 
 		IInjectionPointField logger = getInjectionPointField(cdi, "src/org/jboss/service/UserListManager.java", "userQuery");
 
-		Set<IBean> bs = cdi.getBeans(false, logger);
+		Collection<IBean> bs = cdi.getBeans(false, logger);
 		assertEquals(1, bs.size());
 
 		IBean b = bs.iterator().next();

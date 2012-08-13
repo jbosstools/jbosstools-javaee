@@ -11,7 +11,7 @@
 package org.jboss.tools.cdi.seam.solder.core.test.v30;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
@@ -34,7 +34,7 @@ public class MessageLoggerTest extends SeamSolderTest {
 
 		IInjectionPointField logger = getInjectionPointField(cdi, "src/org/jboss/logger/LogAccess.java", "logger");
 
-		Set<IBean> bs = cdi.getBeans(false, logger);
+		Collection<IBean> bs = cdi.getBeans(false, logger);
 		assertEquals(1, bs.size());
 
 		IBean b = bs.iterator().next();
@@ -50,7 +50,7 @@ public class MessageLoggerTest extends SeamSolderTest {
 
 		IInjectionPointField bundle = getInjectionPointField(cdi, "src/org/jboss/logger/LogAccess.java", "bundle");
 
-		Set<IBean> bs = cdi.getBeans(false, bundle);
+		Collection<IBean> bs = cdi.getBeans(false, bundle);
 		assertEquals(1, bs.size());
 
 		IBean b = bs.iterator().next();

@@ -11,7 +11,7 @@
 package org.jboss.tools.cdi.seam.solder.core.test.v30;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -19,7 +19,6 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IProducerMethod;
-import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants30;
 
 /**
@@ -36,7 +35,7 @@ public class UnwrapsTest extends SeamSolderTest {
 
 		IInjectionPointField logger = getInjectionPointField(cdi, "src/org/jboss/unwraps/Unwrapped.java", "permission");
 
-		Set<IBean> bs = cdi.getBeans(false, logger);
+		Collection<IBean> bs = cdi.getBeans(false, logger);
 		assertEquals(1, bs.size());
 
 		IBean b = bs.iterator().next();

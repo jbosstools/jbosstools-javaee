@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.seam.solder.core.test;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -49,7 +50,7 @@ public class DefaultBeanTest extends SeamSolderTest {
 	public void testLegalTypesOfDefaultProducerBeanWithoutDefaultBeanAnnotation() throws CoreException {
 		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
 		IInjectionPointField injection = getInjectionPointField(cdi, "src/org/jboss/defaultbean/producer/Test1.java", "a");
-		Set<IBean> bs = cdi.getBeans(false, injection);
+		Collection<IBean> bs = cdi.getBeans(false, injection);
 		assertEquals(1, bs.size());
 		IBean b = bs.iterator().next();
 		assertTrue(b instanceof IProducerField);
@@ -91,7 +92,7 @@ public class DefaultBeanTest extends SeamSolderTest {
 		//    default class bean with qualifier @Small
 		IInjectionPointField injection = getInjectionPointField(cdi, javaPath, "small");
 
-		Set<IBean> bs = cdi.getBeans(false, injection);
+		Collection<IBean> bs = cdi.getBeans(false, injection);
 		assertEquals(1, bs.size());
 		IBean b = bs.iterator().next();
 		assertTrue(b instanceof IClassBean);		

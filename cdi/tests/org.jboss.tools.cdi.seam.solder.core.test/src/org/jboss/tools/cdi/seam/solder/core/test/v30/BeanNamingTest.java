@@ -11,7 +11,7 @@
 package org.jboss.tools.cdi.seam.solder.core.test.v30;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
@@ -37,7 +37,7 @@ public class BeanNamingTest extends SeamSolderTest {
 		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
 
 		//1. package @Named; class not annotated
-		Set<IBean> bs = cdi.getBeans(new Path("/CDISolderTest30/src/org/jboss/named/Dog.java"));
+		Collection<IBean> bs = cdi.getBeans(new Path("/CDISolderTest30/src/org/jboss/named/Dog.java"));
 		assertFalse(bs.isEmpty());
 		IBean b = findBeanByMemberName(bs, "Dog");
 		assertNotNull(b);
@@ -54,7 +54,7 @@ public class BeanNamingTest extends SeamSolderTest {
 		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
 		
 		//1. package @FullyQualified and @Named; class not annotated
-		Set<IBean> bs = cdi.getBeans(new Path("/CDISolderTest30/src/org/jboss/fullyqualified/Cat.java"));
+		Collection<IBean> bs = cdi.getBeans(new Path("/CDISolderTest30/src/org/jboss/fullyqualified/Cat.java"));
 		assertFalse(bs.isEmpty());
 		IBean b = bs.iterator().next();
 		assertEquals("org.jboss.fullyqualified.cat", b.getName());
@@ -76,7 +76,7 @@ public class BeanNamingTest extends SeamSolderTest {
 	public void testFullyQualifiedProducers() {
 		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
 		//1. package @FullyQualified
-		Set<IBean> bs = cdi.getBeans(new Path("/CDISolderTest30/src/org/jboss/fullyqualified/Elephant.java"));
+		Collection<IBean> bs = cdi.getBeans(new Path("/CDISolderTest30/src/org/jboss/fullyqualified/Elephant.java"));
 		
 		//1.1 producer method @Named
 		IBean b = findBeanByMemberName(bs, "getTail");
@@ -122,7 +122,7 @@ public class BeanNamingTest extends SeamSolderTest {
 		assertEquals("org.jboss.fullyqualified.black-eye", b.getName());
 	}
 
-	private IBean findBeanByMemberName(Set<IBean> bs, String memberName) {
+	private IBean findBeanByMemberName(Collection<IBean> bs, String memberName) {
 		for (IBean b: bs) {
 			if(b instanceof IClassBean) {
 				if(memberName.equals(((IClassBean)b).getBeanClass().getElementName())) {
@@ -143,7 +143,7 @@ public class BeanNamingTest extends SeamSolderTest {
 		// Package @FullyQualified and @Named
 
 		// 1. Class @Named("bird-of-prey")
-		Set<IBean> bs = cdi.getBeans("org.jboss.birds.bird-of-prey", false);
+		Collection<IBean> bs = cdi.getBeans("org.jboss.birds.bird-of-prey", false);
 		assertEquals(1, bs.size());
 		IBean b = bs.iterator().next();
 		assertTrue(b instanceof IClassBean);

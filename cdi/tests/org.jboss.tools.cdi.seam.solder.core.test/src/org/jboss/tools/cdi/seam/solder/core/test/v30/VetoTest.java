@@ -11,7 +11,7 @@
 package org.jboss.tools.cdi.seam.solder.core.test.v30;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -40,7 +40,7 @@ public class VetoTest extends SeamSolderTest {
 		assertNotNull(a);
 		Object name = a.getMemberValue(null);
 		assertEquals("tiger", name); //...and it is annotated with @Named("tiger")
-		Set<IBean> bs = cdi.getBeans("tiger", false);
+		Collection<IBean> bs = cdi.getBeans("tiger", false);
 		assertTrue(bs.isEmpty());    //...CDI model does not have a bean named "tiger"
 		bs = cdi.getBeans(d.getResource().getFullPath());
 		assertTrue(bs.isEmpty());    //...and does not loaded any beans form its resource
@@ -68,7 +68,7 @@ public class VetoTest extends SeamSolderTest {
 		assertNotNull(a);
 		Object name = a.getMemberValue(null);
 		assertEquals("bear", name); //...and it is annotated with @Named("bear")
-		Set<IBean> bs = cdi.getBeans("bear", false);
+		Collection<IBean> bs = cdi.getBeans("bear", false);
 		assertTrue(bs.isEmpty());    //...CDI model does not have a bean named "bear"
 		bs = cdi.getBeans(d.getResource().getFullPath());
 		assertTrue(bs.isEmpty());    //...and does not loaded any beans form its resource

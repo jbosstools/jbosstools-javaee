@@ -10,9 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.seam.solder.core.test;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -50,7 +50,7 @@ public class GenericBeanTest extends SeamSolderTest {
 		 */
 		IInjectionPointField injection = getInjectionPointField(cdi, "src/org/jboss/generic/MyBeanInjections.java", "first1");
 
-		Set<IBean> bs = cdi.getBeans(false, injection);
+		Collection<IBean> bs = cdi.getBeans(false, injection);
 		assertEquals(1, bs.size());
 		IBean b = bs.iterator().next();
 		assertTrue(b instanceof IProducerMethod);
@@ -121,10 +121,10 @@ public class GenericBeanTest extends SeamSolderTest {
 		 * each has that injection point; 
 		 * in all cases bean is produced by MyGenericBean.createMyFirstBean()
 		 */
-		Set<IInjectionPointField> injections = getGenericInjectionPointField(cdi, "src/org/jboss/generic/MyGenericBean2.java", "c");
+		Collection<IInjectionPointField> injections = getGenericInjectionPointField(cdi, "src/org/jboss/generic/MyGenericBean2.java", "c");
 		assertEquals(5, injections.size());
 		for (IInjectionPointField injection: injections) {
-			Set<IBean> bs = cdi.getBeans(false, injection);
+			Collection<IBean> bs = cdi.getBeans(false, injection);
 			assertEquals(1, bs.size());
 			IBean b = bs.iterator().next();
 			assertTrue(b instanceof IProducerMethod);
@@ -143,10 +143,10 @@ public class GenericBeanTest extends SeamSolderTest {
 		 * each has that injection point; 
 		 * in all cases we insert a dummy bean of type org.jboss.generic.MyGenericType
 		 */
-		Set<IInjectionPointField> injections = getGenericInjectionPointField(cdi, "src/org/jboss/generic/MyGenericBean2.java", "type");
+		Collection<IInjectionPointField> injections = getGenericInjectionPointField(cdi, "src/org/jboss/generic/MyGenericBean2.java", "type");
 		assertEquals(5, injections.size());
 		for (IInjectionPointField injection: injections) {
-			Set<IBean> bs = cdi.getBeans(false, injection);
+			Collection<IBean> bs = cdi.getBeans(false, injection);
 			assertEquals(1, bs.size());
 			IBean b = bs.iterator().next();
 			assertTrue(b instanceof IClassBean);
@@ -156,10 +156,10 @@ public class GenericBeanTest extends SeamSolderTest {
 	}
 	//TODO - more tests
 
-	protected Set<IInjectionPointField> getGenericInjectionPointField(ICDIProject cdi, String beanClassFilePath, String fieldName) {
-		Set<IInjectionPointField> result = new HashSet<IInjectionPointField>();
+	protected Collection<IInjectionPointField> getGenericInjectionPointField(ICDIProject cdi, String beanClassFilePath, String fieldName) {
+		Collection<IInjectionPointField> result = new HashSet<IInjectionPointField>();
 		IFile file = cdi.getNature().getProject().getFile(beanClassFilePath);
-		Set<IBean> beans = cdi.getBeans(file.getFullPath());
+		Collection<IBean> beans = cdi.getBeans(file.getFullPath());
 		Iterator<IBean> it = beans.iterator();
 		while(it.hasNext()) {
 			IBean b = it.next();
@@ -167,7 +167,7 @@ public class GenericBeanTest extends SeamSolderTest {
 		}
 
 		for (IBean b: beans) {
-			Set<IInjectionPoint> injections = b.getInjectionPoints();
+			Collection<IInjectionPoint> injections = b.getInjectionPoints();
 			for (IInjectionPoint injectionPoint : injections) {
 				if(injectionPoint instanceof IInjectionPointField) {
 					IInjectionPointField field = (IInjectionPointField)injectionPoint;
@@ -191,10 +191,10 @@ public class GenericBeanTest extends SeamSolderTest {
 		 * in all cases bean is produced by MyGenericBean.createMyFirstBean()
 		 */
 		IClassBean beanToBeVetoed = null;
-		Set<IInjectionPointField> injections = getGenericInjectionPointField(cdi, "src/org/jboss/generic2/MessageManager.java", "queue");
+		Collection<IInjectionPointField> injections = getGenericInjectionPointField(cdi, "src/org/jboss/generic2/MessageManager.java", "queue");
 		assertEquals(3, injections.size());
 		for (IInjectionPointField injection: injections) {
-			Set<IBean> bs = cdi.getBeans(false, injection);
+			Collection<IBean> bs = cdi.getBeans(false, injection);
 			assertTrue(bs.size() >= 1);
 			for (IBean b: bs) {
 				assertTrue(b instanceof GenericBeanProducerMethod);
@@ -219,7 +219,7 @@ public class GenericBeanTest extends SeamSolderTest {
 		injections = getGenericInjectionPointField(cdi, "src/org/jboss/generic2/MessageManager.java", "queue");		
 		assertEquals(2, injections.size());
 		for (IInjectionPointField injection: injections) {
-			Set<IBean> bs = cdi.getBeans(false, injection);
+			Collection<IBean> bs = cdi.getBeans(false, injection);
 			assertEquals(1, bs.size());
 			IBean b = bs.iterator().next();
 			assertTrue(b instanceof GenericBeanProducerMethod);
@@ -243,7 +243,7 @@ public class GenericBeanTest extends SeamSolderTest {
 		injections = getGenericInjectionPointField(cdi, "src/org/jboss/generic2/MessageManager.java", "queue");		
 		assertEquals(3, injections.size());
 		for (IInjectionPointField injection: injections) {
-			Set<IBean> bs = cdi.getBeans(false, injection);
+			Collection<IBean> bs = cdi.getBeans(false, injection);
 			assertTrue(bs.size() >= 1);
 			for (IBean b: bs) {
 				assertTrue(b instanceof GenericBeanProducerMethod);

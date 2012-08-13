@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.seam.solder.core.test.v30;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -58,7 +59,7 @@ public class DefaultBeanTest extends SeamSolderTest {
 		//    default class bean with qualifier @Small
 		IInjectionPointField injection = getInjectionPointField(cdi, javaPath, "small");
 
-		Set<IBean> bs = cdi.getBeans(false, injection);
+		Collection<IBean> bs = cdi.getBeans(false, injection);
 		assertEquals(1, bs.size());
 		IBean b = bs.iterator().next();
 		assertTrue(b instanceof IClassBean);		

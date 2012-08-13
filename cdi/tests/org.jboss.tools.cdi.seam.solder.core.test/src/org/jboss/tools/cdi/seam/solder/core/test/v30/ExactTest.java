@@ -11,7 +11,7 @@
 package org.jboss.tools.cdi.seam.solder.core.test.v30;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
@@ -35,7 +35,7 @@ public class ExactTest extends SeamSolderTest {
 	public void testExact() throws CoreException, IOException {
 		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
 
-		Set<IBean> bs = cdi.getBeans(new Path("/CDISolderTest30/src/org/jboss/exact/FishFactory.java"));
+		Collection<IBean> bs = cdi.getBeans(new Path("/CDISolderTest30/src/org/jboss/exact/FishFactory.java"));
 		assertEquals(2, bs.size());
 		IClassBean cls = null;
 		IProducerMethod mtd = null;
@@ -48,10 +48,10 @@ public class ExactTest extends SeamSolderTest {
 		}
 		assertNotNull(cls);
 		assertNotNull(mtd);
-		Set<IInjectionPoint> points = cls.getInjectionPoints();
+		Collection<IInjectionPoint> points = cls.getInjectionPoints();
 		int count = 0;
 		for (IInjectionPoint p: points) {
-			Set<IBean> injected = cdi.getBeans(false, p);
+			Collection<IBean> injected = cdi.getBeans(false, p);
 			IMember member = p.getSourceMember();
 			if(member.getElementName().equals("peacefulFish")) {
 				assertEquals(1, injected.size());
@@ -77,7 +77,7 @@ public class ExactTest extends SeamSolderTest {
 	public void testExactInDependentProject() throws CoreException, IOException {
 		ICDIProject cdi = getDependentCDIProject();
 
-		Set<IBean> bs = cdi.getBeans(new Path("/CDISolderTest30/src/org/jboss/exact/FishFactory.java"));
+		Collection<IBean> bs = cdi.getBeans(new Path("/CDISolderTest30/src/org/jboss/exact/FishFactory.java"));
 		assertEquals(2, bs.size());
 	}
 }
