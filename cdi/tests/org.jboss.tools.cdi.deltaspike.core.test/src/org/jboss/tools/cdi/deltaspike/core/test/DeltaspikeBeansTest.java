@@ -10,8 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.deltaspike.core.test;
 
+import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Path;
@@ -50,7 +50,7 @@ public class DeltaspikeBeansTest extends DeltaspikeCoreTest {
 		assertTrue(def.isAnnotationPresent(CDIConstants.NAMED_QUALIFIER_TYPE_NAME));
 		assertTrue(def.isAnnotationPresent(DeltaspikeConstants.EXCLUDE_ANNOTATION_TYPE_NAME));
 		
-		Set<IBean> bs = cdi.getBeans(def.getResource().getFullPath());
+		Collection<IBean> bs = cdi.getBeans(def.getResource().getFullPath());
 		assertTrue(bs.isEmpty());
 	}
 
@@ -70,7 +70,7 @@ public class DeltaspikeBeansTest extends DeltaspikeCoreTest {
 
 		IInjectionPointField f1 = DependentProjectTest.getInjectionPointField(cdi, project, "/src/deltaspike/message/MyBean.java", "messages"); //$NON-NLS-1$ //$NON-NLS-2$
 		assertNotNull(f1);
-		Set<IBean> bs = cdi.getBeans(true, f1);
+		Collection<IBean> bs = cdi.getBeans(true, f1);
 		assertEquals(1, bs.size());
 		
 		IInjectionPointField f2 = DependentProjectTest.getInjectionPointField(cdi, project, "/src/deltaspike/message/MyBean.java", "messageContext"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -83,12 +83,12 @@ public class DeltaspikeBeansTest extends DeltaspikeCoreTest {
 		IProject project = getTestProject();
 		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
 
-		Set<IBean> bs = cdi.getBeans(new Path("/DeltaspikeCoreTest/src/deltaspike/handler/MyHandlers.java")); //$NON-NLS-1$
+		Collection<IBean> bs = cdi.getBeans(new Path("/DeltaspikeCoreTest/src/deltaspike/handler/MyHandlers.java")); //$NON-NLS-1$
 		IClassBean cb = null;
 		for (IBean b: bs) {
 			if(b instanceof IClassBean) cb = (IClassBean)b;
 		}
-		Set<IInjectionPoint> ps = cb.getInjectionPoints();
+		Collection<IInjectionPoint> ps = cb.getInjectionPoints();
 		assertEquals(1, ps.size());
 		IInjectionPoint p = ps.iterator().next();
 		assertTrue(p instanceof IInjectionPointParameter);
@@ -104,7 +104,7 @@ public class DeltaspikeBeansTest extends DeltaspikeCoreTest {
 
 		DeltaspikeSecurityBindingConfiguration c = extension.getContext().getConfiguration("deltaspike.security.CustomSecurityBinding"); //$NON-NLS-1$
 		assertNotNull(c);
-		Set<DeltaspikeAuthorityMethod> as = c.getAuthorizerMembers();
+		Collection<DeltaspikeAuthorityMethod> as = c.getAuthorizerMembers();
 		assertEquals(3, as.size());
 		Map<AbstractMemberDefinition, SecurityBindingDeclaration> bs = c.getBoundMembers();
 		assertEquals(3, bs.size());
