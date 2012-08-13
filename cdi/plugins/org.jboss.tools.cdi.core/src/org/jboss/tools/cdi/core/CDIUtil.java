@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -214,13 +215,13 @@ public class CDIUtil {
 	 * @param beans
 	 * @param element
 	 */
-	public static IInjectionPoint findInjectionPoint(Set<IBean> beans, IJavaElement element, int position) {
+	public static IInjectionPoint findInjectionPoint(Collection<IBean> beans, IJavaElement element, int position) {
 		if (!(element instanceof IField) && !(element instanceof IMethod) && !(element instanceof ILocalVariable)) {
 			return null;
 		}
 
 		for (IBean bean : beans) {
-			Set<IInjectionPoint> injectionPoints = bean.getInjectionPoints();
+			Collection<IInjectionPoint> injectionPoints = bean.getInjectionPoints();
 			for (IInjectionPoint iPoint : injectionPoints) {
 				if (element != null && iPoint.isDeclaredFor(element)) {
 						return iPoint;
@@ -315,12 +316,12 @@ public class CDIUtil {
 			return null;
 		}
 		if (!scopeTypeName.equals(scope.getSourceType().getFullyQualifiedName())) {
-			Set<IScopeDeclaration> scopeDeclarations = scoped.getScopeDeclarations();
+			Collection<IScopeDeclaration> scopeDeclarations = scoped.getScopeDeclarations();
 			if (!scopeDeclarations.isEmpty()) {
 				return scopeDeclarations.iterator().next();
 			}
 			if (scoped instanceof IStereotyped) {
-				Set<IStereotypeDeclaration> stereoTypeDeclarations = ((IStereotyped) scoped).getStereotypeDeclarations();
+				Collection<IStereotypeDeclaration> stereoTypeDeclarations = ((IStereotyped) scoped).getStereotypeDeclarations();
 				for (IStereotypeDeclaration stereotypeDeclaration : stereoTypeDeclarations) {
 					IStereotype stereotype = stereotypeDeclaration.getStereotype();
 					IScope stereotypeScope = stereotype.getScope();
@@ -346,13 +347,13 @@ public class CDIUtil {
 	public static IAnnotationDeclaration getScopeDeclaration(IBean bean, String scopeTypeName) {
 		IScope scope = bean.getScope();
 		if (scopeTypeName.equals(scope.getSourceType().getFullyQualifiedName())) {
-			Set<IScopeDeclaration> scopeDeclarations = bean.getScopeDeclarations();
+			Collection<IScopeDeclaration> scopeDeclarations = bean.getScopeDeclarations();
 			for (IScopeDeclaration scopeDeclaration : scopeDeclarations) {
 				if (scopeTypeName.equals(scopeDeclaration.getScope().getSourceType().getFullyQualifiedName())) {
 					return scopeDeclaration;
 				}
 			}
-			Set<IStereotypeDeclaration> stereoTypeDeclarations = bean.getStereotypeDeclarations();
+			Collection<IStereotypeDeclaration> stereoTypeDeclarations = bean.getStereotypeDeclarations();
 			for (IStereotypeDeclaration stereotypeDeclaration : stereoTypeDeclarations) {
 				IScope stereotypeScope = stereotypeDeclaration.getStereotype().getScope();
 				if (stereotypeScope != null && scopeTypeName.equals(stereotypeScope.getSourceType().getFullyQualifiedName())) {
@@ -382,7 +383,7 @@ public class CDIUtil {
 			}
 		}
 		if(annotated instanceof IStereotyped) {
-			Set<IStereotypeDeclaration> stereoTypeDeclarations = ((IStereotyped)annotated).getStereotypeDeclarations();
+			Collection<IStereotypeDeclaration> stereoTypeDeclarations = ((IStereotyped)annotated).getStereotypeDeclarations();
 			for (IStereotypeDeclaration stereotypeDeclaration : stereoTypeDeclarations) {
 				if(getAnnotationDeclaration(stereotypeDeclaration.getStereotype(), annotation) != null) {
 					return stereotypeDeclaration;
@@ -468,7 +469,7 @@ public class CDIUtil {
 		if (qualifierDeclaration != null) {
 			return qualifierDeclaration;
 		}
-		Set<IStereotypeDeclaration> stereotypeDeclarations = stereotyped.getStereotypeDeclarations();
+		Collection<IStereotypeDeclaration> stereotypeDeclarations = stereotyped.getStereotypeDeclarations();
 		for (IStereotypeDeclaration declaration : stereotypeDeclarations) {
 			if (getQualifiedStereotypeDeclaration(declaration.getStereotype(), qualifierTypeName) != null) {
 				return declaration;
@@ -494,9 +495,9 @@ public class CDIUtil {
 	 * @param annotationTypeName
 	 * @return
 	 */
-	public static Set<ITextSourceReference> getAnnotationPossitions(IBeanMethod method, String annotationTypeName) {
+	public static Collection<ITextSourceReference> getAnnotationPossitions(IBeanMethod method, String annotationTypeName) {
 		List<IParameter> params = method.getParameters();
-		Set<ITextSourceReference> declarations = new HashSet<ITextSourceReference>();
+		Collection<ITextSourceReference> declarations = new HashSet<ITextSourceReference>();
 		for (IParameter param : params) {
 			ITextSourceReference declaration = param.getAnnotationPosition(annotationTypeName);
 			if (declaration != null) {
