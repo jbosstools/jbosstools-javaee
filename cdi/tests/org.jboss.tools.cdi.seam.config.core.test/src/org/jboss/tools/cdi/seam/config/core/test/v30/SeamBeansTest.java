@@ -11,11 +11,11 @@
 package org.jboss.tools.cdi.seam.config.core.test.v30;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -50,7 +50,7 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * ASSERT: Model contains 1 bean with type MyBean1.
 	 */
 	public void testModifyingATrivialBean() throws CoreException, IOException {
-		Set<IBean> beans = getBeansByClassName("org.jboss.beans.test01.MyBean1");
+		Collection<IBean> beans = getBeansByClassName("org.jboss.beans.test01.MyBean1");
 		assertEquals(1, beans.size());
 	}
 	
@@ -65,7 +65,7 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * ASSERT: Model contains 1 bean with type MyBean2.
 	 */
 	public void testReplacingATrivialBean() throws CoreException, IOException {
-		Set<IBean> beans = getBeansByClassName("org.jboss.beans.test01.MyBean2");
+		Collection<IBean> beans = getBeansByClassName("org.jboss.beans.test01.MyBean2");
 		assertEquals(1, beans.size());
 	}
 
@@ -79,7 +79,7 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * ASSERT: Model contains 2 beans with type MyBean3.
 	 */
 	public void testCreatingNewTrivialBean() throws CoreException, IOException {
-		Set<IBean> beans = getBeansByClassName("org.jboss.beans.test01.MyBean3");
+		Collection<IBean> beans = getBeansByClassName("org.jboss.beans.test01.MyBean3");
 		assertEquals(2, beans.size());
 
 		//The same in dependent project
@@ -99,7 +99,7 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * ASSERT: Model contains 3 beans with type MyBean4.
 	 */
 	public void testCreatingTwoNewTrivialBeans() throws CoreException, IOException {
-		Set<IBean> beans = getBeansByClassName("org.jboss.beans.test01.MyBean4");
+		Collection<IBean> beans = getBeansByClassName("org.jboss.beans.test01.MyBean4");
 		assertEquals(3, beans.size());
 
 		//The same in dependent project
@@ -124,10 +124,10 @@ public class SeamBeansTest extends SeamConfigTest {
 	 *
 	 */
 	public void testModifyingAQualifiedBean() throws CoreException, IOException {
-		Set<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test02.MyBean1", 
+		Collection<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test02.MyBean1", 
 				new String[]{"org.jboss.beans.test02.MyQualifier1"});
 		assertEquals(1, beans1.size());
-		Set<IBean> beans2 = cdiProject.getBeans(false, "org.jboss.beans.test02.MyBean1", 
+		Collection<IBean> beans2 = cdiProject.getBeans(false, "org.jboss.beans.test02.MyBean1", 
 				new String[]{"org.jboss.beans.test02.MyQualifier1",
 							 "org.jboss.beans.test02.MyQualifier2"});
 		assertEquals(1, beans2.size());
@@ -158,10 +158,10 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * ASSERT: Model contains 1 bean with type MyBean2 and qualifier MyQualifier2.
 	 */
 	public void testReplacingAQualifiedBean() throws CoreException, IOException {
-		Set<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test02.MyBean2", 
+		Collection<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test02.MyBean2", 
 				new String[]{"org.jboss.beans.test02.MyQualifier1"});
 		assertTrue(beans1.isEmpty());
-		Set<IBean> beans2 = cdiProject.getBeans(false, "org.jboss.beans.test02.MyBean2", 
+		Collection<IBean> beans2 = cdiProject.getBeans(false, "org.jboss.beans.test02.MyBean2", 
 				new String[]{"org.jboss.beans.test02.MyQualifier2"});
 		assertEquals(1, beans2.size());
 
@@ -193,7 +193,7 @@ public class SeamBeansTest extends SeamConfigTest {
 	 *
 	 */
 	public void testCreatingTwoNewQualifiedBeans() throws CoreException, IOException {
-		Set<IBean> beans = getBeansByClassName("org.jboss.beans.test01.MyBean4");
+		Collection<IBean> beans = getBeansByClassName("org.jboss.beans.test01.MyBean4");
 		assertEquals(3, beans.size());
 
 		//The same in dependent project
@@ -214,7 +214,7 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * ASSERT: Model contains 1 named bean with name "test03-1-b".
 	 */
 	public void testModifyingANamedBean() throws CoreException, IOException {
-		Set<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test03.MyBean1");
+		Collection<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test03.MyBean1");
 		assertEquals(1, beans1.size());
 		IBean b = beans1.iterator().next();
 		assertEquals("test03-1-b", b.getName());
@@ -239,7 +239,7 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * ASSERT: Model contains 1 named bean with name "test03-2-b".
 	 */
 	public void testReplacingANamedBean() throws CoreException, IOException {
-		Set<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test03.MyBean2");
+		Collection<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test03.MyBean2");
 		assertEquals(1, beans1.size());
 		IBean b = beans1.iterator().next();
 		assertEquals("test03-2-b", b.getName());
@@ -265,9 +265,9 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * ASSERT: Model contains named beans "test03-3-a", "test03-3-b", "test03-3-c".
 	 */
 	public void testCreatingNamedBeans() throws CoreException, IOException {
-		Set<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test03.MyBean3");
+		Collection<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test03.MyBean3");
 		assertEquals(3, beans.size());
-		Set<String> names = new HashSet<String>();
+		Collection<String> names = new HashSet<String>();
 		for (IBean b: beans) {
 			names.add(b.getName());
 		}
@@ -300,7 +300,7 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * ASSERT: That bean is field producer.
 	 */
 	public void testModifyingBeanWithFieldProducer() {
-		Set<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test04.MyType1");
+		Collection<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test04.MyType1");
 		assertEquals(1, beans.size());
 		IBean b = beans.iterator().next();
 		assertTrue(b instanceof IProducerField);
@@ -330,12 +330,12 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * ASSERT: That bean has name "test04-2-a".
 	 */
 	public void testModifyingBeanWithModifiedFieldProducer() {
-		Set<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test04.MyType2",
+		Collection<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test04.MyType2",
 				new String[]{"org.jboss.beans.test04.MyQualifier"});
 		assertEquals(1, beans.size());
 		IBean b = beans.iterator().next();
 		assertTrue(b instanceof IProducerField);
-		Set<IQualifierDeclaration> qs = b.getQualifierDeclarations();
+		Collection<IQualifierDeclaration> qs = b.getQualifierDeclarations();
 		Map<String, IQualifierDeclaration> map = new HashMap<String, IQualifierDeclaration>();
 		for (IQualifierDeclaration q: qs) {
 			map.put(q.getTypeName(), q);
@@ -363,12 +363,12 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * ASSERT: That bean has qualifier MyQualifier with kind="kind-04-3".
 	 */
 	public void testModifyingBeanWithFieldMadeProducer() {
-		Set<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test04.MyType3",
+		Collection<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test04.MyType3",
 				new String[]{"org.jboss.beans.test04.MyQualifier"});
 		assertEquals(1, beans.size());
 		IBean b = beans.iterator().next();
 		assertTrue(b instanceof IProducerField);
-		Set<IQualifierDeclaration> qs = b.getQualifierDeclarations();
+		Collection<IQualifierDeclaration> qs = b.getQualifierDeclarations();
 		Map<String, IQualifierDeclaration> map = new HashMap<String, IQualifierDeclaration>();
 		for (IQualifierDeclaration q: qs) {
 			map.put(q.getTypeName(), q);
@@ -390,7 +390,7 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * ASSERT: Model contains no bean with type MyType4.
 	 */
 	public void testReplacingBeanWithFieldProducer() {
-		Set<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test04.MyType4");
+		Collection<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test04.MyType4");
 		assertTrue(beans.isEmpty());
 	}
 
@@ -411,17 +411,17 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * ASSERT: That bean has injection point field with qualifier MyQualifier with kind="kind-04-5-a".
 	 */
 	public void testReplacingBeanWithModifiedFieldProducer() {
-		Set<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test04.MyType5",
+		Collection<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test04.MyType5",
 				new String[]{"org.jboss.beans.test04.MyQualifier"});
 		assertTrue(beans.isEmpty());
 		
 		beans = cdiProject.getBeans(false, "org.jboss.beans.test04.MyBean5", new String[0]);
 		assertEquals(1, beans.size());
 		IBean b = beans.iterator().next();
-		Set<IInjectionPoint> is = b.getInjectionPoints();
+		Collection<IInjectionPoint> is = b.getInjectionPoints();
 		assertEquals(1, is.size());
 		IInjectionPoint p = is.iterator().next();
-		Set<IQualifierDeclaration> qs = p.getQualifierDeclarations();
+		Collection<IQualifierDeclaration> qs = p.getQualifierDeclarations();
 		Map<String, IQualifierDeclaration> map = new HashMap<String, IQualifierDeclaration>();
 		for (IQualifierDeclaration q: qs) {
 			map.put(q.getTypeName(), q);
@@ -452,27 +452,27 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * ASSERT: That injection point is resolved to bean MyType6.
 	 */
 	public void testCreatingBeanWithFieldMadeProducer() {
-		Set<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test04.MyType6", new String[0]);
+		Collection<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test04.MyType6", new String[0]);
 		assertEquals(1, beans.size());
 		IBean b = beans.iterator().next();
 		assertTrue(b instanceof IProducerField);
 
-		Set<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test04.MyBean6", 
+		Collection<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test04.MyBean6", 
 				new String[]{"org.jboss.beans.test04.MyQualifier"});
 		assertEquals(1, beans1.size());
 		IBean b1 = beans1.iterator().next();
-		Set<IInjectionPoint> is1 = b1.getInjectionPoints();
+		Collection<IInjectionPoint> is1 = b1.getInjectionPoints();
 		assertTrue(is1.isEmpty());
 	
-		Set<IBean> beans2 = cdiProject.getBeans(false, "org.jboss.beans.test04.MyBean6", new String[0]);
+		Collection<IBean> beans2 = cdiProject.getBeans(false, "org.jboss.beans.test04.MyBean6", new String[0]);
 		assertEquals(1, beans2.size());
 		IBean b2 = beans2.iterator().next();
-		Set<IInjectionPoint> is2 = b2.getInjectionPoints();
+		Collection<IInjectionPoint> is2 = b2.getInjectionPoints();
 		assertEquals(1, is2.size());
 		
 		IInjectionPoint p = is2.iterator().next();
 		
-		Set<IBean> beansI = cdiProject.getBeans(false, p);
+		Collection<IBean> beansI = cdiProject.getBeans(false, p);
 		assertTrue(beansI.contains(b));
 	}
 
@@ -501,20 +501,20 @@ public class SeamBeansTest extends SeamConfigTest {
 	 *
 	 */
 	public void testCreatingBeanWithMethodMadeProducer() {
-		Set<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test05.MyType1", 
+		Collection<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test05.MyType1", 
 				new String[]{"org.jboss.beans.test05.MyQualifier"});
 		assertEquals(1, beans.size());
 		IBean b = beans.iterator().next();
 		assertTrue(b instanceof IProducerMethod);
 
-		Set<IInjectionPoint> is = b.getInjectionPoints();
+		Collection<IInjectionPoint> is = b.getInjectionPoints();
 		assertEquals(1, is.size());
 	
 		IInjectionPoint p = is.iterator().next();
-		Set<IBean> beansI = cdiProject.getBeans(false, p);
+		Collection<IBean> beansI = cdiProject.getBeans(false, p);
 		assertEquals(1, beansI.size());
 
-		Set<IBean> beans2 = cdiProject.getBeans(false, "org.jboss.beans.test05.MyType1", new String[0]);
+		Collection<IBean> beans2 = cdiProject.getBeans(false, "org.jboss.beans.test05.MyType1", new String[0]);
 		assertEquals(1, beans2.size());
 		IBean b2 = beans2.iterator().next();
 		
@@ -538,26 +538,26 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * 
 	 */
 	public void testCreatingBeanWithConstructor() {
-		Set<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test05.MyBean2", new String[0]);
+		Collection<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test05.MyBean2", new String[0]);
 		assertEquals(1, beans.size());
 		IBean b = beans.iterator().next();
 		assertTrue(b instanceof IClassBean);
 
-		Set<IInjectionPoint> is = b.getInjectionPoints();
+		Collection<IInjectionPoint> is = b.getInjectionPoints();
 		IInjectionPoint p = getParameterInjectionPoint(is);
 		assertNotNull(p);
 	
-		Set<IBean> beansI = cdiProject.getBeans(false, p);
+		Collection<IBean> beansI = cdiProject.getBeans(false, p);
 		assertEquals(1, beansI.size());
 
-		Set<IBean> beans2 = cdiProject.getBeans(false, "org.jboss.beans.test05.MyType1", new String[0]);
+		Collection<IBean> beans2 = cdiProject.getBeans(false, "org.jboss.beans.test05.MyType1", new String[0]);
 		assertEquals(1, beans2.size());
 		IBean b2 = beans2.iterator().next();
 		
 		assertTrue(beansI.contains(b2));
 	}
 
-	private IInjectionPoint getParameterInjectionPoint(Set<IInjectionPoint> is) {
+	private IInjectionPoint getParameterInjectionPoint(Collection<IInjectionPoint> is) {
 		Iterator<IInjectionPoint> it = is.iterator();
 		while(it.hasNext()) {
 			IInjectionPoint i = it.next();
@@ -584,7 +584,7 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * ASSERT: Injection point field 'two' in MyBean1 is not resolved to a bean.
 	 */
 	public void testVirtualFieldProducer() {
-		Set<IBean> beans = cdiProject.getBeans(false, "java.lang.String", 
+		Collection<IBean> beans = cdiProject.getBeans(false, "java.lang.String", 
 				new String[]{"org.jboss.beans.test06.MyQualifier"});
 		assertEquals(1, beans.size());
 		IBean b = beans.iterator().next();
@@ -593,11 +593,11 @@ public class SeamBeansTest extends SeamConfigTest {
 		String value = (String)d.getMemberValue(null);
 		assertEquals("one", value);
 		
-		Set<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test06.MyBean1", new String[0]);
+		Collection<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test06.MyBean1", new String[0]);
 		assertEquals(1, beans1.size());
 		IBean b1 = beans1.iterator().next();
 
-		Set<IInjectionPoint> is = b1.getInjectionPoints();
+		Collection<IInjectionPoint> is = b1.getInjectionPoints();
 		assertEquals(2, is.size());
 		IInjectionPoint one = null;
 		IInjectionPoint two = null;
@@ -619,7 +619,7 @@ public class SeamBeansTest extends SeamConfigTest {
 		assertNotNull(one);
 		assertNotNull(two);
 	
-		Set<IBean> beansI = cdiProject.getBeans(false, one);
+		Collection<IBean> beansI = cdiProject.getBeans(false, one);
 		assertEquals(1, beansI.size());
 		assertTrue(beansI.contains(b));
 		
@@ -655,7 +655,7 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * ASSERT: The other of them is a bean with type MyType1 InlineBeanQualifier qualifier.
 	 */
 	public void testVirtualFieldProducerWithNoBeanConstructor() {
-		Set<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test06.MyType1", 
+		Collection<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test06.MyType1", 
 				new String[]{"org.jboss.beans.test06.MyQualifier"});
 		assertEquals(1, beans.size());
 		IBean b = beans.iterator().next();
@@ -669,11 +669,11 @@ public class SeamBeansTest extends SeamConfigTest {
 //		assertNotNull(inlineBeanQ);
 //		Object inlineIndex1 = inlineBeanQ.getMemberValue(null);
 		
-		Set<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test06.MyBean2", new String[0]);
+		Collection<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test06.MyBean2", new String[0]);
 		assertEquals(1, beans1.size());
 		IBean b1 = beans1.iterator().next();
 
-		Set<IInjectionPoint> is = b1.getInjectionPoints();
+		Collection<IInjectionPoint> is = b1.getInjectionPoints();
 		assertEquals(2, is.size());
 		IInjectionPoint one = null;
 		IInjectionPoint two = null;
@@ -695,7 +695,7 @@ public class SeamBeansTest extends SeamConfigTest {
 		assertNotNull(one);
 		assertNotNull(two);
 	
-		Set<IBean> beansI = cdiProject.getBeans(false, two);
+		Collection<IBean> beansI = cdiProject.getBeans(false, two);
 		assertEquals(1, beansI.size());
 		assertTrue(beansI.contains(b));
 		
@@ -716,23 +716,23 @@ public class SeamBeansTest extends SeamConfigTest {
 	}
 
 	public void testVirtualFieldProducerForInterface() {
-		Set<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test06.MyInterface", 
+		Collection<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test06.MyInterface", 
 				new String[]{CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME});
 		assertEquals(1, beans.size());
 		IBean b = beans.iterator().next();
 		assertTrue(b instanceof IClassBean); // we keep it as a class bean
 		
-		Set<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test06.MyBean3", new String[0]);
+		Collection<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test06.MyBean3", new String[0]);
 		assertEquals(1, beans1.size());
 		IBean b1 = beans1.iterator().next();
 
-		Set<IInjectionPoint> is = b1.getInjectionPoints();
+		Collection<IInjectionPoint> is = b1.getInjectionPoints();
 		assertEquals(1, is.size());
 		IInjectionPoint i = is.iterator().next();
 		
 		assertNotNull(i);
 	
-		Set<IBean> beansI = cdiProject.getBeans(false, i);
+		Collection<IBean> beansI = cdiProject.getBeans(false, i);
 		assertEquals(1, beansI.size());
 		assertTrue(beansI.contains(b));
 		
@@ -749,7 +749,7 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * 
 	 */
 	public void testInnerBeanWithConstructor() {
-		Set<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test06.MyType1", 
+		Collection<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test06.MyType1", 
 				new String[]{CDIConstants.ANY_QUALIFIER_TYPE_NAME});
 		assertEquals(2, beans.size());
 		IBean inner = null;
@@ -771,10 +771,10 @@ public class SeamBeansTest extends SeamConfigTest {
 		Object inlineIndex = inlineBeanQ.getMemberValue(null);
 		assertNotNull(inlineIndex);
 
-		Set<IInjectionPoint> is = inner.getInjectionPoints();
+		Collection<IInjectionPoint> is = inner.getInjectionPoints();
 		IInjectionPoint p = getParameterInjectionPoint(is);
 		assertNotNull(p);
-		Set<IBean> bs = cdiProject.getBeans(false, p);
+		Collection<IBean> bs = cdiProject.getBeans(false, p);
 		assertEquals(1, bs.size());
 		
 	}
@@ -794,7 +794,7 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * ASSERT: Model of dependent project contains 1 named bean with name "test07-1-b".
 	 */
 	public void testModifyingBeanInDependentProject() throws CoreException, IOException {
-		Set<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test07.MyBean1");
+		Collection<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test07.MyBean1");
 		assertEquals(1, beans1.size());
 		IBean b = beans1.iterator().next();
 		assertEquals("test07-1-a", b.getName());
@@ -806,11 +806,11 @@ public class SeamBeansTest extends SeamConfigTest {
 		assertEquals("test07-1-b", b.getName());
 	}
 
-	protected Set<IBean> getBeansByClassName(String className) {
+	protected Collection<IBean> getBeansByClassName(String className) {
 		return cdiProject.getBeans(false, className, new String[0]);
 	}
 
-	protected Set<IBean> getBeansByClassNameInDependentProject(String className) {
+	protected Collection<IBean> getBeansByClassNameInDependentProject(String className) {
 		return cdiDependentProject.getBeans(false, className, new String[0]);
 	}
 
