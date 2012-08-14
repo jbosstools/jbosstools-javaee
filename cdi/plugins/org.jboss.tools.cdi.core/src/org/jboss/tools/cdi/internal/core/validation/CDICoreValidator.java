@@ -498,6 +498,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		setAsYouTypeValidation(true);
 		this.document = validationContext.getDocument();
 		rootCdiProject = new CDIProjectAsYouType(rootCdiProject, file);
+		validateResource(file);
 		disableProblemAnnotations(new ITextSourceReference() {
 			@Override
 			public int getStartPosition() {
@@ -513,8 +514,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			public int getLength() {
 				return document.getLength();
 			}
-		});
-		validateResource(file);
+		}, reporter);
 	}
 
 	/**
