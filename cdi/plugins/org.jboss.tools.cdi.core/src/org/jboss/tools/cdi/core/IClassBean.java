@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import java.util.Collection;
 import java.util.Set;
 
 import org.jboss.tools.common.java.IJavaReference;
@@ -61,7 +62,7 @@ public interface IClassBean extends IBean, IInterceptorBinded, IJavaReference {
 	 * 
 	 * @return all the directly derived classes that declare annotation @Specializes
 	 */
-	Set<? extends IClassBean> getSpecializingBeans();
+	Collection<? extends IClassBean> getSpecializingBeans();
 
 	/**
 	 * Returns class bean of super class of this bean, or null if it is not a bean.

@@ -10,7 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IType;
@@ -41,7 +43,7 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	protected AnnotationDeclaration produces;
 
 	ProducerMethod specialized = null;
-	Set<ProducerMethod> specializingProducerMethods = new HashSet<ProducerMethod>();
+	Map<String, ProducerMethod> specializingProducerMethods = null;
 
 	public ProducerMethod() {}
 
@@ -143,7 +145,12 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	public void setSpecializedBean(ProducerMethod other) {
 		specialized = other;
 		if(other != null) {
-			other.specializingProducerMethods.add(this);
+			synchronized (other) {
+				if(other.specializingProducerMethods == null) {
+					other.specializingProducerMethods = new HashMap<String, ProducerMethod>();
+				}
+				other.specializingProducerMethods.put(this.getBeanClass().getFullyQualifiedName(), this);
+			}
 		}
 	}
 
@@ -163,9 +170,11 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 		return scope != null && CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(scope.getSourceType().getFullyQualifiedName());
 	}
 
-	boolean hasEnabledSpecializingProducerMethod() {
-		for (ProducerMethod sb: specializingProducerMethods) {
-			if(sb.hasEnabledSpecializingProducerMethod() || sb.isEnabled()) return true;
+	synchronized boolean hasEnabledSpecializingProducerMethod() {
+		if(specializingProducerMethods != null) {
+			for (ProducerMethod sb: specializingProducerMethods.values()) {
+				if(sb.hasEnabledSpecializingProducerMethod() || sb.isEnabled()) return true;
+			}
 		}
 		return false;
 	}

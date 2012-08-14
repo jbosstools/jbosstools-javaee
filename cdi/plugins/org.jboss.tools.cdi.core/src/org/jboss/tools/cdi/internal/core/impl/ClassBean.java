@@ -11,9 +11,11 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -60,7 +62,7 @@ import org.jboss.tools.common.text.ITextSourceReference;
  */
 public class ClassBean extends AbstractBeanElement implements IClassBean {
 	protected ClassBean superClassBean = null;
-	protected Set<ClassBean> specializingClassBeans = new HashSet<ClassBean>();
+	protected Map<String, ClassBean> specializingClassBeans = new HashMap<String, ClassBean>();
 	
 	protected List<BeanField> fields = new ArrayList<BeanField>();
 	protected List<BeanMethod> methods = new ArrayList<BeanMethod>();
@@ -210,8 +212,11 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return result;
 	}
 
-	void addSpecializingClassBean(ClassBean bean) {
-		specializingClassBeans.add(bean);
+	 synchronized void addSpecializingClassBean(ClassBean bean) {
+		if(specializingClassBeans == null) {
+			specializingClassBeans = new Hashtable<String, ClassBean>();
+		}
+		specializingClassBeans.put(bean.getBeanClass().getFullyQualifiedName(), bean);
 	}
 
 	public ClassBean getSuperClassBean() {
@@ -403,8 +408,8 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return superClassBean;
 	}
 
-	public Set<ClassBean> getSpecializingBeans() {
-		return specializingClassBeans;
+	public synchronized Collection<ClassBean> getSpecializingBeans() {
+		return specializingClassBeans == null ? Collections.<ClassBean>emptySet() : specializingClassBeans.values();
 	}
 
 	public IAnnotationDeclaration getSpecializesAnnotationDeclaration() {
@@ -416,9 +421,11 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return scope != null && CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(scope.getSourceType().getFullyQualifiedName());
 	}
 
-	boolean hasEnabledSpecializingClassBean() {
-		for (ClassBean sb: specializingClassBeans) {
-			if(sb.hasEnabledSpecializingClassBean() || sb.isEnabled()) return true;
+	synchronized boolean hasEnabledSpecializingClassBean() {
+		if(specializingClassBeans != null) {
+			for (ClassBean sb: specializingClassBeans.values()) {
+				if(sb.hasEnabledSpecializingClassBean() || sb.isEnabled()) return true;
+			}
 		}
 		return false;
 	}
@@ -627,8 +634,8 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return getSourceMember();
 	}
 
-	public void cleanCache() {
-		specializingClassBeans.clear();
+	public synchronized void cleanCache() {
+		specializingClassBeans = null;
 		scope = null;
 	}
 }

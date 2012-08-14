@@ -979,7 +979,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			 */
 			if(bean.isEnabled() && specializedBean instanceof IClassBean) {
 				IClassBean supperClassBean = (IClassBean)specializedBean;
-				Set<? extends IClassBean> allSpecializingBeans = supperClassBean.getSpecializingBeans();
+				Collection<? extends IClassBean> allSpecializingBeans = supperClassBean.getSpecializingBeans();
 				if(allSpecializingBeans.size()>1) {
 					StringBuffer sb = new StringBuffer(bean.getElementName());
 					boolean moreThanTwo = false;
