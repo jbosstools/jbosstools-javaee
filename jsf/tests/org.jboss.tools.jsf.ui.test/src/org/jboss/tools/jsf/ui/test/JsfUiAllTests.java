@@ -24,6 +24,7 @@ import org.jboss.tools.jsf.jsp.ca.test.CAForELJavaAndJSTCompareTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForELinStyleTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForIDTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForInputTagSrcAttributeSuggestsFilePathsJBIDE1807Test;
+import org.jboss.tools.jsf.jsp.ca.test.CAForJSF2BeanMapValuesTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForJSF2BeansInJavaTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForJSF2BeansTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForUnclosedELTest;
@@ -63,6 +64,7 @@ public class JsfUiAllTests {
 		suite.addTestSuite(CAForUnclosedELTest.class);
 		suite.addTestSuite(CAForCompositeComponentTest.class);
 		suite.addTestSuite(CAForJSF2BeansTest.class);
+		suite.addTestSuite(CAForJSF2BeanMapValuesTest.class); 
 		suite.addTestSuite(CAForJSF2BeansInJavaTest.class);
 //		suite.addTestSuite(MissingKBBuilderTest.class);
 		suite.addTestSuite(CAForInputTagSrcAttributeSuggestsFilePathsJBIDE1807Test.class);
