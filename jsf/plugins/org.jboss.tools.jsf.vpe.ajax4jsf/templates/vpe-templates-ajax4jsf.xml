@@ -182,6 +182,11 @@
     </vpe:tag>
     
     <vpe:tag name="a4j:actionparam" case-sensitive="yes">
+    <vpe:if test="haschildren('true')">
+	    <vpe:template children="yes" modify="no" >
+	    	<div></div>
+	    </vpe:template>
+    </vpe:if>
 	    <vpe:template children="no" modify="no" >
 	    </vpe:template>
     </vpe:tag>
@@ -281,6 +286,11 @@
     </vpe:tag>
     
     <vpe:tag name="a4j:push" case-sensitive="yes">
+        <vpe:if test="haschildren('true')">
+	    <vpe:template children="yes" modify="no" >
+	    	<div></div>
+	    </vpe:template>
+    </vpe:if>
 	    <vpe:template children="no" modify="no" >
 	    </vpe:template>
     </vpe:tag>
