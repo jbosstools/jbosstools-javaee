@@ -668,7 +668,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			validateProducer(context, (IProducer) bean);
 		}
 
-		Collection<IInjectionPoint> points = bean.getInjectionPoints();
+		Collection<IInjectionPoint> points = bean instanceof IClassBean? ((IClassBean)bean).getInjectionPoints(false):bean.getInjectionPoints();
 		for (IInjectionPoint point : points) {
 			if(!isAsYouTypeValidation()) {
 				IType type = getTypeOfInjection(point);
