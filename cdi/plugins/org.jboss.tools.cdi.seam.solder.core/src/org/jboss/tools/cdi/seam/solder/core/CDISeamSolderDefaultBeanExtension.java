@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.solder.core;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -182,12 +183,11 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 		String defaultBeanAnnotationTypeName = getVersion().getDefaultBeanAnnotationTypeName();
 		ICDIProject cdiProject = CDICorePlugin.getCDIProject(file.getProject(), true);
 		if(cdiProject == null) return;
-		Set<IBean> bs = cdiProject.getBeans(file.getFullPath());
-		for (IBean bean: bs) {
+		for (IBean bean: cdiProject.getBeans(file.getFullPath())) {
 			if(isBeanDefault(bean)) {
 				ITextSourceReference a = bean.getAnnotation(defaultBeanAnnotationTypeName);
 				if(a == null) {
-					Set<ITypeDeclaration> ds = bean.getAllTypeDeclarations();
+					Collection<ITypeDeclaration> ds = bean.getAllTypeDeclarations();
 					if(!ds.isEmpty()) {
 						IMember e = bean instanceof IJavaReference ? ((IJavaReference)bean).getSourceMember() : bean.getBeanClass();
 						a = CDIUtil.convertToJavaSourceReference(ds.iterator().next(), e);
@@ -215,9 +215,8 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 							}
 						}
 					}
-					Set<IBean> bs2 = cdiProject.getBeans(false, type, qs);
 					StringBuilder otherDefaultBeans = new StringBuilder();
-					for (IBean b: bs2) {
+					for (IBean b: cdiProject.getBeans(false, type, qs)) {
 						try {
 						if(b != bean && isBeanDefault(b)
 								&& CDIProject.areMatchingQualifiers(bean.getQualifierDeclarations(), b.getQualifierDeclarations(true))) {
@@ -244,7 +243,7 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 	}
 
 	private IParametedType getDefaultType(IBean bean) {
-		Set<IParametedType> ts = bean.getLegalTypes();
+		Collection<IParametedType> ts = bean.getLegalTypes();
 		if(ts.size() < 3) {
 			for (IParametedType t: ts) {
 				if(!"java.lang.Object".equals(t.getType().getFullyQualifiedName())) {
@@ -266,7 +265,7 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 		return null;
 	}
 
-	private String createKey(IParametedType type, Set<IQualifierDeclaration> qs) {
+	private String createKey(IParametedType type, Collection<IQualifierDeclaration> qs) {
 		Set<String> ss = new TreeSet<String>();
 		for (IQualifierDeclaration q: qs) {
 			if(!q.getTypeName().equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME)

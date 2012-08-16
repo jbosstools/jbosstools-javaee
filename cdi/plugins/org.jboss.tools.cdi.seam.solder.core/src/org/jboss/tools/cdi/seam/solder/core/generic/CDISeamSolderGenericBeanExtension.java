@@ -139,8 +139,7 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 					cb.setDefinition(ti);
 					
 					p.addBean(cb);
-					Set<IProducer> producers = cb.getProducers();
-					for (IProducer producer: producers) {
+					for (IProducer producer: cb.getProducers()) {
 						p.addBean(producer);
 					}
 				}

@@ -144,8 +144,7 @@ public class GenericBeanValidator {
 	}
 
 	private IBean findGenericBean(IFile file, IMember member, CDICoreNature project) {
-		Set<IBean> bs = project.getDelegate().getBeans(file.getFullPath());
-		for (IBean b: bs) {
+		for (IBean b: project.getDelegate().getBeans(file.getFullPath())) {
 			if(b instanceof IClassBean) {
 				if(member.equals(((IClassBean)b).getBeanClass())) return b;
 			} else if(b instanceof IProducer) {
