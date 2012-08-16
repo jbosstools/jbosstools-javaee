@@ -33,10 +33,9 @@ public class DeltaspikeConfigPropertyExtension implements ICDIExtension, IInject
 		if(injection.isAnnotationPresent(CONFIG_PROPERTY_ANNOTATION_TYPE_NAME)) {
 			return true;
 		}
-		Set<IQualifierDeclaration> qs = injection.getQualifierDeclarations();
-		for (IQualifierDeclaration d: qs) {
+		for (IQualifierDeclaration d: injection.getQualifierDeclarations()) {
 			IQualifier q = d.getQualifier();
-			if(q.isAnnotationPresent(CONFIG_PROPERTY_ANNOTATION_TYPE_NAME)) {
+			if(q != null && q.isAnnotationPresent(CONFIG_PROPERTY_ANNOTATION_TYPE_NAME)) {
 				return true;
 			}
 		}

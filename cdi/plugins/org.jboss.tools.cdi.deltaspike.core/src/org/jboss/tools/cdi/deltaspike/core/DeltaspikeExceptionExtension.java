@@ -68,13 +68,11 @@ public class DeltaspikeExceptionExtension implements ICDIExtension, IProcessAnno
 	@Override
 	public void validateResource(IFile file, CDICoreValidator validator) {
 		ICDIProject cdi = CDICorePlugin.getCDIProject(file.getProject(), true);
-		Set<IBean> beans = cdi.getBeans(file.getFullPath());
-		for (IBean b: beans) {
+		for (IBean b: cdi.getBeans(file.getFullPath())) {
 			if(b instanceof IClassBean) {
 				IClassBean cb = (IClassBean)b;
 				boolean isExceptionHandler = cb.isAnnotationPresent(EXCEPTION_HANDLER_ANNOTATION_TYPE_NAME);
-				Set<IBeanMethod> ms = cb.getAllMethods();
-				for (IBeanMethod m: ms) {
+				for (IBeanMethod m: cb.getAllMethods()) {
 					for (IParameter p: m.getParameters()) {
 						if(isHandler(p)) {
 							if(!isExceptionHandler) {
