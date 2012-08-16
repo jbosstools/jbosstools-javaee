@@ -54,7 +54,7 @@ public class DefaultBeanTest extends SeamSolderTest {
 		assertEquals(1, bs.size());
 		IBean b = bs.iterator().next();
 		assertTrue(b instanceof IProducerField);
-		Set<IParametedType> ts = b.getLegalTypes();
+		Collection<IParametedType> ts = b.getLegalTypes();
 		Set<String> ss = new HashSet<String>();
 		for (IParametedType t: ts) {
 			ss.add(t.getType().getFullyQualifiedName());
