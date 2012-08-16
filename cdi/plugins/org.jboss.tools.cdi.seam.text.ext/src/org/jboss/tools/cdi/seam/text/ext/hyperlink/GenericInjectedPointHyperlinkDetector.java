@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.seam.text.ext.hyperlink;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -117,7 +118,7 @@ public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDete
 			return;
 		}
 		
-		Set<IBean> beans = cdiProject.getBeans(path);
+		Collection<IBean> beans = cdiProject.getBeans(path);
 		
 		Set<IInjectionPoint> injectionPoints = findInjectionPoints(beans, element, offset);
 		if(injectionPoints.isEmpty()) {
@@ -127,7 +128,7 @@ public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDete
 		Set<IBean> resultBeanSet2 = new HashSet<IBean>();
 
 		for (IInjectionPoint injectionPoint: injectionPoints) {
-			Set<IBean> resultBeanSet = cdiProject.getBeans(true, injectionPoint);
+			Collection<IBean> resultBeanSet = cdiProject.getBeans(true, injectionPoint);
 		
 			for (IBean b: resultBeanSet) {
 				IClassBean cb = null;
@@ -158,11 +159,11 @@ public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDete
 		}
 	}
 
-	public static Set<IInjectionPoint> findInjectionPoints(Set<IBean> beans, IJavaElement element, int position) {
+	public static Set<IInjectionPoint> findInjectionPoints(Collection<IBean> beans, IJavaElement element, int position) {
 		Set<IInjectionPoint> results = new HashSet<IInjectionPoint>();
 
 		for (IBean bean : beans) {
-			Set<IInjectionPoint> injectionPoints = bean.getInjectionPoints();
+			Collection<IInjectionPoint> injectionPoints = bean.getInjectionPoints();
 			for (IInjectionPoint iPoint : injectionPoints) {
 				if(element != null && iPoint.isDeclaredFor(element)) {
 					results.add(iPoint);

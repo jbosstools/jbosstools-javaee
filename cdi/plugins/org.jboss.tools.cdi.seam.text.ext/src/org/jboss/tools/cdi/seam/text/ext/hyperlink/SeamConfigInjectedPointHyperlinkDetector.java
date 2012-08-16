@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.seam.text.ext.hyperlink;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,7 +38,7 @@ public class SeamConfigInjectedPointHyperlinkDetector extends GenericInjectedPoi
 			return;
 		}
 		
-		Set<IBean> beans = cdiProject.getBeans(path);
+		Collection<IBean> beans = cdiProject.getBeans(path);
 		
 		Set<IInjectionPoint> injectionPoints = GenericInjectedPointHyperlinkDetector.findInjectionPoints(beans, element, offset);
 		if(injectionPoints.isEmpty()) {
@@ -47,8 +48,7 @@ public class SeamConfigInjectedPointHyperlinkDetector extends GenericInjectedPoi
 		Set<IBean> resultBeanSet2 = new HashSet<IBean>();
 
 		for (IInjectionPoint injectionPoint: injectionPoints) {
-			Set<IBean> resultBeanSet = cdiProject.getBeans(true, injectionPoint);
-			for (IBean b: resultBeanSet) {
+			for (IBean b: cdiProject.getBeans(true, injectionPoint)) {
 				if(b instanceof AbstractBeanElement) {
 					AbstractMemberDefinition def = ((AbstractBeanElement)b).getDefinition();
 					if(def instanceof IConfigDefinition) {
