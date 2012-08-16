@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.internal.core.refactoring;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -136,8 +137,7 @@ public class CDIMarkerResolutionUtils extends MarkerResolutionUtils{
 	
 	private static List<IQualifier> findQualifiersToDelete(IInjectionPoint injectionPoint, List<ValuedQualifier> qualifiers){
 		ArrayList<IQualifier> list = new ArrayList<IQualifier>();
-		Set<IQualifierDeclaration> declarations = injectionPoint.getQualifierDeclarations();
-		for(IQualifierDeclaration declaration : declarations){
+		for(IQualifierDeclaration declaration : injectionPoint.getQualifierDeclarations()){
 			if(!contains(declaration, qualifiers))
 				list.add(declaration.getQualifier());
 		}
@@ -280,8 +280,7 @@ public class CDIMarkerResolutionUtils extends MarkerResolutionUtils{
 	
 	private static boolean isBeanContainQualifier(IBean bean, ValuedQualifier valuedQualifier){
 		 
-		Set<IQualifier> qualifiers = bean.getQualifiers();
-		for(IQualifier q : qualifiers){
+		for(IQualifier q : bean.getQualifiers()){
 			IQualifierDeclaration declaration = CDIMarkerResolutionUtils.findQualifierDeclaration(bean, q);
 			ValuedQualifier vq = null;
 			if(declaration != null){
@@ -297,7 +296,7 @@ public class CDIMarkerResolutionUtils extends MarkerResolutionUtils{
 	}
 	
 	public static IQualifierDeclaration findQualifierDeclaration(IBean bean, IQualifier qualifier){
-		Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
+		Collection<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
 		
 		if(declarations == null)
 			return null;

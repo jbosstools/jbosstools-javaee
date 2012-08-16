@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -26,12 +27,12 @@ public interface IInterceptorBinded {
 	 * 
 	 * @return the set of interceptor binding declarations
 	 */
-	Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations(boolean includeInherited);
+	Collection<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations(boolean includeInherited);
 
 	/**
 	 * Obtains the interceptor bindings of the bean class or method or stereotype or interceptor binding type.
 	 * 
 	 * @return the set of interceptor bindings
 	 */
-	Set<IInterceptorBinding> getInterceptorBindings();
+	Collection<IInterceptorBinding> getInterceptorBindings();
 }

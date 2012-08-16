@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.refactoring;
 
+import java.util.Collection;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -36,7 +37,7 @@ public class DeleteAllInjectedConstructorsProcessor extends CDIRefactoringProces
 	}
 	
 	private void changeConstructors(IClassBean bean) throws JavaModelException {
-		Set<IBeanMethod> constructors = bean.getBeanConstructors();
+		Collection<IBeanMethod> constructors = bean.getBeanConstructors();
 		if(constructors.size()>1) {
 			ICompilationUnit original = constructors.iterator().next().getMethod().getCompilationUnit();
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());

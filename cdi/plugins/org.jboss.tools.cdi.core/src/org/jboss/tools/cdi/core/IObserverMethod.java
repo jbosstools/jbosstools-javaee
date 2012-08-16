@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
-import java.util.Set;
+import java.util.Collection;
 
 /**
  * Represents an observer method of a bean.
@@ -24,5 +24,5 @@ public interface IObserverMethod extends IBeanMethod {
 	 * 
 	 * @return the set of parameters of this method with @Observes annotation
 	 */
-	Set<IParameter> getObservedParameters();
+	Collection<IParameter> getObservedParameters();
 }

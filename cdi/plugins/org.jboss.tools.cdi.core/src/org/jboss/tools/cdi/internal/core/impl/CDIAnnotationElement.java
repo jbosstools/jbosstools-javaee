@@ -11,9 +11,9 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
@@ -33,7 +33,7 @@ public class CDIAnnotationElement extends CDIElement implements ICDIAnnotation, 
 
 	protected AnnotationDefinition definition;
 
-	Set<IMethod> nonbindingMethods = null;
+	Collection<IMethod> nonbindingMethods = null;
 
 	public CDIAnnotationElement() {}
 
@@ -41,14 +41,16 @@ public class CDIAnnotationElement extends CDIElement implements ICDIAnnotation, 
 		this.definition = definition;
 	}	
 
-	public Set<IMethod> getNonBindingMethods() {
+	public Collection<IMethod> getNonBindingMethods() {
 		if(nonbindingMethods == null) {
-			Set<IMethod> result = new HashSet<IMethod>();
-			List<AnnotationMemberDefinition> ms = definition.getMethods();
-			for (AnnotationMemberDefinition m: ms) {
+			Collection<IMethod> result = new ArrayList<IMethod>();
+			for (AnnotationMemberDefinition m: definition.getMethods()) {
 				if(m.getNonbindingAnnotation() != null) {
 					result.add(m.getMethod());
 				}
+			}
+			if(result.size() > 5) {
+				result = new HashSet<IMethod>(result);
 			}
 			nonbindingMethods = result;
 		}

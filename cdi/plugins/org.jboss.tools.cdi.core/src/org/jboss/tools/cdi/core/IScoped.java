@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -36,5 +37,5 @@ public interface IScoped {
 	 * 
 	 * @return the scope
 	 */
-	Set<IScopeDeclaration> getScopeDeclarations();
+	Collection<IScopeDeclaration> getScopeDeclarations();
 }

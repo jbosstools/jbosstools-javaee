@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -22,7 +23,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
@@ -250,8 +250,7 @@ public class CDIProjectAsYouType implements ICDIProject {
 					beans.add(bean);
 				}
 
-				Set<IProducer> ps = bean.getProducers();
-				for (IProducer producer: ps) {
+				for (IProducer producer: bean.getProducers()) {
 					beans.add(producer);
 				}
 			}
@@ -285,37 +284,37 @@ public class CDIProjectAsYouType implements ICDIProject {
 	}
 
 	@Override
-	public Set<IBean> getNamedBeans(boolean attemptToResolveAmbiguousNames) {
+	public Collection<IBean> getNamedBeans(boolean attemptToResolveAmbiguousNames) {
 		return project.getNamedBeans(attemptToResolveAmbiguousNames);
 	}
 
 	@Override
-	public Set<IBean> getBeans(String name,
+	public Collection<IBean> getBeans(String name,
 			boolean attemptToResolveAmbiguousNames) {
 		return project.getBeans(name, attemptToResolveAmbiguousNames);
 	}
 
 	@Override
-	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
+	public Collection<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
 			IParametedType beanType, IQualifierDeclaration... qualifiers) {
 		return project.getBeans(attemptToResolveAmbiguousDependency, beanType, qualifiers);
 	}
 
 	@Override
-	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
+	public Collection<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
 			IParametedType beanType, IType... qualifiers) {
 		return project.getBeans(attemptToResolveAmbiguousDependency, beanType, qualifiers);
 	}
 
 	@Override
-	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
+	public Collection<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
 			String fullyQualifiedBeanType,
 			String... fullyQualifiedQualifiersTypes) {
 		return project.getBeans(attemptToResolveAmbiguousDependency, fullyQualifiedBeanType, fullyQualifiedQualifiersTypes);
 	}
 
 	@Override
-	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
+	public Collection<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
 			IInjectionPoint injectionPoint) {
 		return project.getBeans(attemptToResolveAmbiguousDependency, injectionPoint);
 	}
@@ -326,7 +325,7 @@ public class CDIProjectAsYouType implements ICDIProject {
 	}
 
 	@Override
-	public Set<IBean> getBeans(IPath path) {
+	public Collection<IBean> getBeans(IPath path) {
 		if(path.equals(file.getFullPath())) {
 			return beans;
 		}
@@ -334,12 +333,11 @@ public class CDIProjectAsYouType implements ICDIProject {
 	}
 
 	@Override
-	public Set<IBean> getBeans(IJavaElement element) {
+	public Collection<IBean> getBeans(IJavaElement element) {
 		if(element.getResource() != null && element.getResource().getFullPath().equals(file.getFullPath())) {
 			Set<IBean> result = new HashSet<IBean>();
 			for (IBean bean: beans) {
 				if(bean instanceof IJavaReference) {
-					IMember m = ((IJavaReference)bean).getSourceMember();
 					if(((IJavaReference)bean).getSourceMember().equals(element)) {
 						result.add(bean);
 					}
@@ -425,7 +423,7 @@ public class CDIProjectAsYouType implements ICDIProject {
 	}
 
 	@Override
-	public Set<String> getScopeNames() {
+	public Collection<String> getScopeNames() {
 		return project.getScopeNames();
 	}
 
@@ -443,24 +441,24 @@ public class CDIProjectAsYouType implements ICDIProject {
 	}
 
 	@Override
-	public Set<IObserverMethod> resolveObserverMethods(IInjectionPoint injectionPoint) {
+	public Collection<IObserverMethod> resolveObserverMethods(IInjectionPoint injectionPoint) {
 		// TODO resolve in file
 		return project.resolveObserverMethods(injectionPoint);
 	}
 
 	@Override
-	public Set<IInjectionPoint> findObservedEvents(IParameter observedEventParameter) {
+	public Collection<IInjectionPoint> findObservedEvents(IParameter observedEventParameter) {
 		// TODO find in file
 		return project.findObservedEvents(observedEventParameter);
 	}
 
 	@Override
-	public Set<IBean> resolve(Set<IBean> beans) {
+	public Collection<IBean> resolve(Collection<IBean> beans) {
 		return project.resolve(beans);
 	}
 
 	@Override
-	public Set<IBeanMethod> resolveDisposers(IProducerMethod producer) {
+	public Collection<IBeanMethod> resolveDisposers(IProducerMethod producer) {
 		return project.resolveDisposers(producer);
 	}
 
@@ -525,7 +523,7 @@ public class CDIProjectAsYouType implements ICDIProject {
 	}
 
 	@Override
-	public Set<IInjectionPoint> getInjections(String fullyQualifiedTypeName) {
+	public Collection<IInjectionPoint> getInjections(String fullyQualifiedTypeName) {
 		return project.getInjections(fullyQualifiedTypeName);
 	}
 

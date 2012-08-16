@@ -11,7 +11,6 @@
 package org.jboss.tools.cdi.core;
 
 import java.util.Collection;
-import java.util.Set;
 
 import org.jboss.tools.common.java.IJavaReference;
 
@@ -27,35 +26,35 @@ public interface IClassBean extends IBean, IInterceptorBinded, IJavaReference {
 	 * 
 	 * @return a set of producers that are declared in this bean class.
 	 */
-	Set<IProducer> getProducers();
+	Collection<IProducer> getProducers();
 
 	/**
 	 * Returns a set of disposer methods that are declared in this bean class.
 	 * 
 	 * @return a set of disposer methods that are declared in this bean class.
 	 */
-	Set<IBeanMethod> getDisposers();
+	Collection<IBeanMethod> getDisposers();
 
 	/**
 	 * Returns a set of bean constructors of the bean.
 	 * 
 	 * @return a set of bean constructors of the bean.
 	 */
-	Set<IBeanMethod> getBeanConstructors();
+	Collection<IBeanMethod> getBeanConstructors();
 
 	/**
 	 * Returns a set of the methods that are declared in this bean class.
 	 * 
 	 * @return a set of the methods that are declared in this bean class.
 	 */
-	Set<IBeanMethod> getAllMethods();
+	Collection<IBeanMethod> getAllMethods();
 
 	/**
 	 * Returns a set of observer methods of the bean.
 	 * 
 	 * @return a set of observer methods of the bean
 	 */
-	Set<IObserverMethod> getObserverMethods();
+	Collection<IObserverMethod> getObserverMethods();
 
 	/**
 	 * Returns all the directly derived classes that declare annotation @Specializes
@@ -76,7 +75,7 @@ public interface IClassBean extends IBean, IInterceptorBinded, IJavaReference {
 	 * 
 	 * @return the initializer methods of the class bean
 	 */
-	Set<IInitializerMethod> getInitializers();
+	Collection<IInitializerMethod> getInitializers();
 
 	/**
 	 * Returns injection points declared in the bean class.
@@ -88,5 +87,5 @@ public interface IClassBean extends IBean, IInterceptorBinded, IJavaReference {
 	 * @param all
 	 * @return
 	 */
-	Set<IInjectionPoint> getInjectionPoints(boolean all);
+	Collection<IInjectionPoint> getInjectionPoints(boolean all);
 }

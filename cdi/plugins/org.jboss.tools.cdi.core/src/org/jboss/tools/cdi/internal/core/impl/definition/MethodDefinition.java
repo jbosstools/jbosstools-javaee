@@ -12,7 +12,7 @@ package org.jboss.tools.cdi.internal.core.impl.definition;
 
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -107,10 +107,9 @@ public class MethodDefinition extends BeanMemberDefinition {
 		return super.isCDIAnnotated() || isDisposer() || isObserver() || getPreDestroyMethod() != null || getPostConstructorMethod() != null || !getInterceptorBindings().isEmpty() || hasStereotypeDeclarations();
 	}
 
-	public Set<IInterceptorBinding> getInterceptorBindings() {
-		Set<IInterceptorBinding> result = new HashSet<IInterceptorBinding>();
-		Set<IInterceptorBindingDeclaration> declarations = ClassBean.getInterceptorBindingDeclarations(this);
-		for (IInterceptorBindingDeclaration declaration: declarations) {
+	public Collection<IInterceptorBinding> getInterceptorBindings() {
+		Collection<IInterceptorBinding> result = new ArrayList<IInterceptorBinding>();
+		for (IInterceptorBindingDeclaration declaration: ClassBean.getInterceptorBindingDeclarations(this)) {
 			result.add(declaration.getInterceptorBinding());
 		}
 		return result;

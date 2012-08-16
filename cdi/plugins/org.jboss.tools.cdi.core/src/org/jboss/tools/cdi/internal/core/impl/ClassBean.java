@@ -144,8 +144,8 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return result;
 	}
 
-	public Set<IBeanMethod> getBeanConstructors() {
-		Set<IBeanMethod> result = new HashSet<IBeanMethod>();
+	public Collection<IBeanMethod> getBeanConstructors() {
+		Collection<IBeanMethod> result = new ArrayList<IBeanMethod>();
 		IBeanMethod defaultConstructor = null;
 		for (BeanMethod m: methods) {
 			if(m.getDefinition().isConstructor()) {
@@ -223,8 +223,8 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return superClassBean;
 	}
 
-	public Set<IBeanMethod> getDisposers() {
-		Set<IBeanMethod> result = new HashSet<IBeanMethod>();
+	public Collection<IBeanMethod> getDisposers() {
+		Collection<IBeanMethod> result = new ArrayList<IBeanMethod>();
 		for (BeanMethod m: methods) {
 			if(m.isDisposer()) {
 				result.add(m);
@@ -233,7 +233,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return result;
 	}
 
-	public static Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations(AbstractMemberDefinition definition) {
+	public static Collection<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations(AbstractMemberDefinition definition) {
 		Set<IInterceptorBindingDeclaration> result = new HashSet<IInterceptorBindingDeclaration>();
 		List<IAnnotationDeclaration> as = definition.getAnnotations();
 		for (IAnnotationDeclaration a: as) {
@@ -248,12 +248,12 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IClassBean#getInterceptorBindings()
 	 */
-	public Set<IInterceptorBinding> getInterceptorBindings() {
+	public Collection<IInterceptorBinding> getInterceptorBindings() {
 		return CDIUtil.getAllInterceptorBindings(this);
 	}
 
-	public Set<IObserverMethod> getObserverMethods() {
-		Set<IObserverMethod> result = new HashSet<IObserverMethod>();
+	public Collection<IObserverMethod> getObserverMethods() {
+		Collection<IObserverMethod> result = new ArrayList<IObserverMethod>();
 		for (BeanMethod m: methods) {
 			if(m.isObserver() && m instanceof IObserverMethod) {
 				result.add((IObserverMethod)m);
@@ -262,8 +262,8 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return result;
 	}
 
-	public Set<IProducer> getProducers() {
-		Set<IProducer> result = new HashSet<IProducer>();
+	public Collection<IProducer> getProducers() {
+		Collection<IProducer> result = new ArrayList<IProducer>();
 		for (BeanMethod m: methods) {
 			if(m instanceof IProducer) {
 				result.add((IProducer)m);
@@ -277,7 +277,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return result;
 	}
 
-	public Set<ITypeDeclaration> getAllTypeDeclarations() {
+	public Collection<ITypeDeclaration> getAllTypeDeclarations() {
 		Set<IParametedType> ps = getDefinition().getInheritedTypes();
 		Set<ITypeDeclaration> result = new HashSet<ITypeDeclaration>();
 		for (IParametedType p: ps) {
@@ -303,8 +303,8 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	}
 
 	@Override
-	public Set<IInitializerMethod> getInitializers() {
-		Set<IInitializerMethod> result = new HashSet<IInitializerMethod>();
+	public Collection<IInitializerMethod> getInitializers() {
+		Collection<IInitializerMethod> result = new ArrayList<IInitializerMethod>();
 		for (BeanMethod m: methods) {
 			if(m instanceof IInitializerMethod) {
 				result.add((IInitializerMethod)m);
@@ -313,7 +313,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return result;
 	}
 
-	public Set<IInjectionPoint> getInjectionPoints() {
+	public Collection<IInjectionPoint> getInjectionPoints() {
 		return getInjectionPoints(true);
 	}
 
@@ -323,8 +323,8 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	 * @param all
 	 * @return
 	 */
-	public Set<IInjectionPoint> getInjectionPoints(boolean all) {
-		Set<IInjectionPoint> result = new HashSet<IInjectionPoint>();
+	public Collection<IInjectionPoint> getInjectionPoints(boolean all) {
+		Collection<IInjectionPoint> result = new ArrayList<IInjectionPoint>();
 		for (BeanField f: fields) {
 			if(f instanceof IInjectionPoint) {
 				result.add((IInjectionPoint)f);
@@ -345,13 +345,12 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return result;
 	}
 
-	public Set<IParametedType> getLegalTypes() {
+	public Collection<IParametedType> getLegalTypes() {
 		Set<IParametedType> result = new HashSet<IParametedType>();
 		AnnotationDeclaration d = getDefinition().getTypedAnnotation();
-		Set<IParametedType> all = getAllTypes();
+		Collection<IParametedType> all = getAllTypes();
 		if(d != null) {
-			Set<ITypeDeclaration> ts = getRestrictedTypeDeclarations(all);
-			result.addAll(ts);
+			result.addAll(getRestrictedTypeDeclarations(all));
 			ParametedType object = getObjectType(getBeanClass());
 			if(object != null) {
 				result.add(object);
@@ -365,11 +364,11 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBean#getAllTypes()
 	 */
-	public Set<IParametedType> getAllTypes() {
+	public Collection<IParametedType> getAllTypes() {
 		return getDefinition().getAllTypes();
 	}
 
-	public Set<ITypeDeclaration> getRestrictedTypeDeclaratios() {
+	public Collection<ITypeDeclaration> getRestrictedTypeDeclaratios() {
 		return getRestrictedTypeDeclarations(getAllTypes());
 	}
 
@@ -438,8 +437,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			if(getCDIProject().isClassAlternativeActivated(getDefinition().getQualifiedName())) {
 				return true;
 			}
-			Set<IStereotypeDeclaration> ds = getStereotypeDeclarations(true);
-			for (IStereotypeDeclaration d: ds) {
+			for (IStereotypeDeclaration d: getStereotypeDeclarations(true)) {
 				IStereotype s = d.getStereotype();
 				if(s != null && s.isAlternative() && !getCDIProject().getAlternatives(s.getSourceType().getFullyQualifiedName()).isEmpty()) {
 					return true;
@@ -485,8 +483,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		}
 		//3. Get default scope from stereotype.
 		Set<IScope> defaults = new HashSet<IScope>();
-		Set<IStereotypeDeclaration> ss = getStereotypeDeclarations();
-		for (IStereotypeDeclaration d: ss) {
+		for (IStereotypeDeclaration d: getStereotypeDeclarations()) {
 			IStereotype s = d.getStereotype();
 			IScope sc = s.getScope();
 			if(sc != null) {
@@ -495,8 +492,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		}
 		scb = getSuperClassBean();
 		while(scb != null) {
-			ss = scb.getStereotypeDeclarations();
-			for (IStereotypeDeclaration d: ss) {
+			for (IStereotypeDeclaration d: scb.getStereotypeDeclarations()) {
 				IStereotype s = d.getStereotype();
 				if(s.getInheritedDeclaration() == null) {
 					continue;
@@ -518,11 +514,10 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		}
 	}
 
-	protected Set<IQualifierDeclaration> getInheritedQualifierDeclarations() {
+	protected Collection<IQualifierDeclaration> getInheritedQualifierDeclarations() {
 		if(superClassBean == null) return Collections.emptySet();
-		Set<IQualifierDeclaration> result = new HashSet<IQualifierDeclaration>();
-		Set<IQualifierDeclaration> ds = superClassBean.getQualifierDeclarations(true);
-		for (IQualifierDeclaration d: ds) {
+		Collection<IQualifierDeclaration> result = new ArrayList<IQualifierDeclaration>();
+		for (IQualifierDeclaration d: superClassBean.getQualifierDeclarations(true)) {
 			if(d.getQualifier() != null && d.getQualifier().getInheritedDeclaration() != null) {
 				result.add(d);
 			} else if(isSpecializing()) {
@@ -532,11 +527,10 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return result;
 	}
 
-	protected Set<IInterceptorBindingDeclaration> getInheritedInterceptorBindingDeclarations() {
-		if(superClassBean == null) return Collections.emptySet();
+	protected Collection<IInterceptorBindingDeclaration> getInheritedInterceptorBindingDeclarations() {
+		if(superClassBean == null) return Collections.emptyList();
 		Set<IInterceptorBindingDeclaration> result = new HashSet<IInterceptorBindingDeclaration>();
-		Set<IInterceptorBindingDeclaration> ds = superClassBean.getInterceptorBindingDeclarations(true);
-		for (IInterceptorBindingDeclaration d: ds) {
+		for (IInterceptorBindingDeclaration d: superClassBean.getInterceptorBindingDeclarations(true)) {
 			if(d.getInterceptorBinding() != null && d.getInterceptorBinding().getInheritedDeclaration() != null) {
 				result.add(d);
 			} else if(isSpecializing()) {
@@ -549,8 +543,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	public Set<IStereotypeDeclaration> getInheritedStereotypDeclarations() {
 		if(superClassBean == null) return Collections.emptySet();
 		Set<IStereotypeDeclaration> result = new HashSet<IStereotypeDeclaration>();
-		Set<IStereotypeDeclaration> ds = superClassBean.getStereotypeDeclarations(true);
-		for (IStereotypeDeclaration d: ds) {
+		for (IStereotypeDeclaration d: superClassBean.getStereotypeDeclarations(true)) {
 			if(d.getStereotype() != null && d.getStereotype().getInheritedDeclaration() != null) {
 				result.add(d);
 			} else if(isSpecializing()) {
@@ -576,8 +569,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		if(getDefinition().getAlternativeAnnotation() != null && getCDIProject().isTypeAlternative(getBeanClass().getFullyQualifiedName())) {
 			return true;
 		}
-		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations(true);
-		for (IStereotypeDeclaration d: ds) {
+		for (IStereotypeDeclaration d: getStereotypeDeclarations(true)) {
 			IStereotype s = d.getStereotype();
 			if(s != null && s.isAlternative() && 
 					getCDIProject().isStereotypeAlternative(s.getSourceType().getFullyQualifiedName())	) return true;

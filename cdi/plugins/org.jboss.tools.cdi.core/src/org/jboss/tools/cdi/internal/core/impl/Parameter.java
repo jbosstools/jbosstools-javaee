@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -99,10 +101,9 @@ public class Parameter extends BeanMember implements IParameter {
 		return beanMethod;
 	}
 
-	public Set<IQualifier> getQualifiers() {
-		Set<IQualifier> result = new HashSet<IQualifier>();
-		Set<String> as = getAnnotationTypes();
-		for (String s: as) {
+	public Collection<IQualifier> getQualifiers() {
+		Collection<IQualifier> result = new ArrayList<IQualifier>();
+		for (String s: getAnnotationTypes()) {
 			IQualifier q = getCDIProject().getQualifier(s);
 			if (q != null) result.add(q);
 		}

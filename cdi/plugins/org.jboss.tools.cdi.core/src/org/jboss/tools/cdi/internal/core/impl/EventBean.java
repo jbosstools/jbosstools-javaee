@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,7 +45,7 @@ import org.jboss.tools.common.text.ITextSourceReference;
 public class EventBean extends CDIElement implements IBean {
 	IParametedType type;
 	IInjectionPoint point = null;
-	Set<IQualifier> qualifiers = null;
+	Collection<IQualifier> qualifiers = null;
 	
 	public EventBean(IParametedType type, IInjectionPoint point) {
 		this.type = type;
@@ -59,7 +60,7 @@ public class EventBean extends CDIElement implements IBean {
 		return new HashSet<IScopeDeclaration>();
 	}
 
-	public Set<IStereotypeDeclaration> getStereotypeDeclarations() {
+	public Collection<IStereotypeDeclaration> getStereotypeDeclarations() {
 		return new HashSet<IStereotypeDeclaration>();
 	}
 
@@ -105,19 +106,19 @@ public class EventBean extends CDIElement implements IBean {
 		return new HashSet<ITypeDeclaration>();
 	}
 
-	public Set<ITypeDeclaration> getRestrictedTypeDeclaratios() {
-		return new HashSet<ITypeDeclaration>();
+	public Collection<ITypeDeclaration> getRestrictedTypeDeclaratios() {
+		return new ArrayList<ITypeDeclaration>();
 	}
 
-	public Set<IQualifierDeclaration> getQualifierDeclarations() {
-		return new HashSet<IQualifierDeclaration>();
+	public Collection<IQualifierDeclaration> getQualifierDeclarations() {
+		return new ArrayList<IQualifierDeclaration>();
 	}
 
-	public Set<IQualifierDeclaration> getQualifierDeclarations(boolean includeInherited) {
-		return new HashSet<IQualifierDeclaration>();
+	public Collection<IQualifierDeclaration> getQualifierDeclarations(boolean includeInherited) {
+		return new ArrayList<IQualifierDeclaration>();
 	}
 
-	public Set<IQualifier> getQualifiers() {
+	public Collection<IQualifier> getQualifiers() {
 		if(qualifiers == null) {
 			computeQualifiers();
 		}
@@ -125,17 +126,15 @@ public class EventBean extends CDIElement implements IBean {
 	}
 	
 	void computeQualifiers() {
-		Set<IQualifier> qs = new HashSet<IQualifier>();
+		Collection<IQualifier> qs = null;
 		
-		boolean isParameter = point instanceof InjectionPointParameter;
-		
-		if(isParameter) {
+		if(point instanceof InjectionPointParameter) {
 			qs = ((InjectionPointParameter)point).getQualifiers();
 		} else if(point != null) {
-			Set<IQualifierDeclaration> ds = point.getQualifierDeclarations();
-			for (IQualifierDeclaration d: ds) {
+			qs = new ArrayList<IQualifier>();
+			for (IQualifierDeclaration d: point.getQualifierDeclarations()) {
 				IQualifier q = d.getQualifier();
-				if(q != null) qs.add(q);
+				if(q != null && !qs.contains(q)) qs.add(q);
 			}
 		}
 		

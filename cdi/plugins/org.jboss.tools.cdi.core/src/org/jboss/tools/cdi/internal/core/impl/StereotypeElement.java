@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -54,7 +55,7 @@ public class StereotypeElement extends CDIAnnotationElement implements IStereoty
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IInterceptorBinded#getInterceptorBindingDeclarations()
 	 */
-	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations(boolean includeInherited) {
+	public Collection<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations(boolean includeInherited) {
 		return ClassBean.getInterceptorBindingDeclarations(definition);
 	}
 
@@ -62,7 +63,7 @@ public class StereotypeElement extends CDIAnnotationElement implements IStereoty
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IInterceptorBinded#getInterceptorBindings()
 	 */
-	public Set<IInterceptorBinding> getInterceptorBindings() {
+	public Collection<IInterceptorBinding> getInterceptorBindings() {
 		return CDIUtil.getAllInterceptorBindings(this);
 	}
 
@@ -70,7 +71,7 @@ public class StereotypeElement extends CDIAnnotationElement implements IStereoty
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IStereotype#getStereotypeDeclarations()
 	 */
-	public Set<IStereotypeDeclaration> getStereotypeDeclarations() {
+	public Collection<IStereotypeDeclaration> getStereotypeDeclarations() {
 		Set<IStereotypeDeclaration> result = new HashSet<IStereotypeDeclaration>();
 		for (IAnnotationDeclaration d: definition.getAnnotations()) {
 			if(d instanceof IStereotypeDeclaration) {
@@ -86,8 +87,7 @@ public class StereotypeElement extends CDIAnnotationElement implements IStereoty
 	 */
 	public boolean isAlternative() {
 		if(getAlternativeDeclaration() != null) return true;
-		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
-		for (IStereotypeDeclaration d: ds) {
+		for (IStereotypeDeclaration d: getStereotypeDeclarations()) {
 			IStereotype s = d.getStereotype();
 			if(s != null && s.isAlternative()) return true;
 		}		
@@ -103,8 +103,7 @@ public class StereotypeElement extends CDIAnnotationElement implements IStereoty
 		if(!ss.isEmpty()) {
 			return ss.iterator().next().getScope();
 		}
-		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
-		for (IStereotypeDeclaration d: ds) {
+		for (IStereotypeDeclaration d: getStereotypeDeclarations()) {
 			IStereotype s = d.getStereotype();
 			IScope result = s.getScope();
 			if(result != null) {

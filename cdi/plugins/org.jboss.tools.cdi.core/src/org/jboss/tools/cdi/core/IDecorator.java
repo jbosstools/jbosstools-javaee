@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IParametedType;
@@ -34,5 +34,5 @@ public interface IDecorator extends IClassBean {
 	 * 
 	 * @return the set of decorated types
 	 */
-	Set<IParametedType> getDecoratedTypes();
+	Collection<IParametedType> getDecoratedTypes();
 }

@@ -63,9 +63,7 @@ public abstract class CDIRefactoringProcessor extends AbstractCDIProcessor {
 		if(cdiProject == null)
 			return null;
 		
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
-		
-		for(IBean bean : beans){
+		for(IBean bean : cdiProject.getBeans(file.getFullPath())) {
 			if(bean instanceof IClassBean)
 				return (IClassBean)bean;
 		}

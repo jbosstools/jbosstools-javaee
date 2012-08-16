@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import java.util.Collection;
 import java.util.Set;
 
 import org.jboss.tools.common.java.IAnnotationDeclaration;
@@ -42,7 +43,7 @@ public interface IInjectionPoint extends ICDIElement, IBeanMember {
 	 * 
 	 * @return the required qualifiers
 	 */
-	Set<IQualifierDeclaration> getQualifierDeclarations();
+	Collection<IQualifierDeclaration> getQualifierDeclarations();
 
 	/**
 	 * Returns true if the injection point declares @Default qualifier or doesn't declare any qualifier at all.

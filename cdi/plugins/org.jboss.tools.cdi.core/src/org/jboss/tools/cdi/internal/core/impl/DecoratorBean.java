@@ -10,8 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
@@ -33,11 +33,10 @@ public class DecoratorBean extends ClassBean implements IDecorator {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IDecorator#getDecoratedTypes()
 	 */
-	public Set<IParametedType> getDecoratedTypes() {
-		Set<IParametedType> result = new HashSet<IParametedType>();
+	public Collection<IParametedType> getDecoratedTypes() {
+		Collection<IParametedType> result = new ArrayList<IParametedType>();
 
-		Set<IParametedType> legalTypes = getLegalTypes();
-		for (IParametedType pt: legalTypes) {
+		for (IParametedType pt: getLegalTypes()) {
 			IType t = pt.getType();
 			try {
 				if(!t.isInterface()) continue;

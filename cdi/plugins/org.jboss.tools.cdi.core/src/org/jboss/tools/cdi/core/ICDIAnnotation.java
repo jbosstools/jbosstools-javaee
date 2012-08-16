@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.jdt.core.IMethod;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
@@ -38,5 +38,5 @@ public interface ICDIAnnotation extends ICDIElement, IAnnotationType {
 	 * 
 	 * @return set of members annotated with @Nonbinding
 	 */
-	Set<IMethod> getNonBindingMethods();
+	Collection<IMethod> getNonBindingMethods();
 }

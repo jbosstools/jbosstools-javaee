@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import java.util.Collection;
 import java.util.Set;
 
 import org.jboss.tools.common.java.IParametedType;
@@ -46,5 +47,5 @@ public interface IParameter extends IBeanMember {
 	 * 
 	 * @return qualifier declarations for this parameter
 	 */
-	public Set<IQualifierDeclaration> getQualifierDeclarations();
+	public Collection<IQualifierDeclaration> getQualifierDeclarations();
 }

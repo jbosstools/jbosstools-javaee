@@ -10,8 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.impl;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IObserverMethod;
@@ -28,8 +28,8 @@ public class ObserverMethod extends BeanMethod implements IObserverMethod {
 		return new InjectionPointParameter();
 	}
 
-	public Set<IParameter> getObservedParameters() {
-		Set<IParameter> result = new HashSet<IParameter>();
+	public Collection<IParameter> getObservedParameters() {
+		Collection<IParameter> result = new ArrayList<IParameter>(parameters.size());
 		for (IParameter p: parameters) {
 			if(p.isAnnotationPresent(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)) result.add(p);
 		}

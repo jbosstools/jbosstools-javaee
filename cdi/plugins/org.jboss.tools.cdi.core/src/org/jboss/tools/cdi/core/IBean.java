@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import java.util.Collection;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IType;
@@ -59,7 +60,7 @@ public interface IBean extends IScoped, IStereotyped, ICDIElement, IVariable, IA
 	 * 
 	 * @return the legal types
 	 */
-	Set<IParametedType> getLegalTypes();
+	Collection<IParametedType> getLegalTypes();
 
 	/**
 	 * Obtains all the types of the bean class or producer method or
@@ -67,7 +68,7 @@ public interface IBean extends IScoped, IStereotyped, ICDIElement, IVariable, IA
 	 * 
 	 * @return the legal types
 	 */
-	Set<IParametedType> getAllTypes();
+	Collection<IParametedType> getAllTypes();
 
 	/**
 	 * Obtains all the type declarations of the bean class or producer method or
@@ -75,7 +76,7 @@ public interface IBean extends IScoped, IStereotyped, ICDIElement, IVariable, IA
 	 * 
 	 * @return the type declarations
 	 */
-	Set<ITypeDeclaration> getAllTypeDeclarations();
+	Collection<ITypeDeclaration> getAllTypeDeclarations();
 
 	/**
 	 * Obtains the type declarations of the bean class or producer method or
@@ -84,7 +85,7 @@ public interface IBean extends IScoped, IStereotyped, ICDIElement, IVariable, IA
 	 * 
 	 * @return the type declarations
 	 */
-	Set<ITypeDeclaration> getRestrictedTypeDeclaratios();
+	Collection<ITypeDeclaration> getRestrictedTypeDeclaratios();
 
 	/**
 	 * Obtains the qualifier declarations of the bean class or producer method or field.
@@ -92,7 +93,7 @@ public interface IBean extends IScoped, IStereotyped, ICDIElement, IVariable, IA
 	 * 
 	 * @return the qualifiers
 	 */
-	Set<IQualifierDeclaration> getQualifierDeclarations();
+	Collection<IQualifierDeclaration> getQualifierDeclarations();
 
 	/**
 	 * Obtains the qualifier declarations of the bean class or producer method
@@ -101,7 +102,7 @@ public interface IBean extends IScoped, IStereotyped, ICDIElement, IVariable, IA
 	 * @param includeInherited if "true" then the result includes declarations of inherited qualifiers.
 	 * @return the qualifiers
 	 */
-	Set<IQualifierDeclaration> getQualifierDeclarations(boolean includeInherited);
+	Collection<IQualifierDeclaration> getQualifierDeclarations(boolean includeInherited);
 
 	/**
 	 * Obtains the qualifiers of the bean class or producer method or field.
@@ -110,7 +111,7 @@ public interface IBean extends IScoped, IStereotyped, ICDIElement, IVariable, IA
 	 *  
 	 * @return the qualifiers
 	 */
-	Set<IQualifier> getQualifiers();
+	Collection<IQualifier> getQualifiers();
 
 	/**
 	 * Determines if the bean is an alternative.
@@ -141,7 +142,7 @@ public interface IBean extends IScoped, IStereotyped, ICDIElement, IVariable, IA
 	 * 
 	 * @return the set of injection points of the bean
 	 */
-	Set<IInjectionPoint> getInjectionPoints();
+	Collection<IInjectionPoint> getInjectionPoints();
 
 	/**
 	 * Returns the bean which is specialized by this bean. May return null.

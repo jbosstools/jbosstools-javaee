@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import java.util.Collection;
 import java.util.Set;
 
 import org.jboss.tools.common.java.IAnnotated;
@@ -27,5 +28,5 @@ public interface IStereotyped extends IAnnotated {
 	 * 
 	 * @return the set of stereotype declarations
 	 */
-	Set<IStereotypeDeclaration> getStereotypeDeclarations();
+	Collection<IStereotypeDeclaration> getStereotypeDeclarations();
 }

@@ -206,8 +206,8 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		return allBeans.toArray(new IBean[allBeans.size()]);
 	}
 
-	public synchronized Set<IBean> getDeclaredBeans() {
-		return new HashSet<IBean>(declaredBeans);
+	public synchronized Collection<IBean> getDeclaredBeans() {
+		return new ArrayList<IBean>(declaredBeans);
 	}
 
 	public List<INodeReference> getAlternativeClasses() {
@@ -374,10 +374,9 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			beans.addAll(allBeans);
 		}
 		for (IBean b: beans) {
-			Set<IParametedType> types = b.getLegalTypes();
-			if(containsType(types, type)) {
+			if(containsType(b.getLegalTypes(), type)) {
 				try {
-					Set<IQualifierDeclaration> qsb = b.getQualifierDeclarations(true);
+					Collection<IQualifierDeclaration> qsb = b.getQualifierDeclarations(true);
 					if(areMatchingQualifiers(qsb, qs)) {
 						result.add(b);
 					}
@@ -394,7 +393,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getBeans(boolean, org.jboss.tools.cdi.core.IInjectionPoint)
 	 */
-	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, IInjectionPoint injectionPoint) {
+	public Collection<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, IInjectionPoint injectionPoint) {
 		if(injectionPoint.getDeclaringProject() != getDeclaringProject()) {
 			return injectionPoint.getDeclaringProject().getBeans(attemptToResolveAmbiguousDependency, injectionPoint);
 		}
@@ -425,13 +424,12 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			}
 		}
 		
-		Set<IQualifierDeclaration> qs = injectionPoint.getQualifierDeclarations();
+		Collection<IQualifierDeclaration> qs = injectionPoint.getQualifierDeclarations();
 		for (IQualifierDeclaration d: qs) {
 			if(CDIConstants.NEW_QUALIFIER_TYPE_NAME.equals(d.getTypeName())) {
 				IBean b = createNewBean(type, d);
 				if(b != null) {
-					Set<IParametedType> types = b.getLegalTypes();
-					if(containsType(types, type)) {
+					if(containsType(b.getLegalTypes(), type)) {
 						result.add(b);
 					}
 				}
@@ -448,8 +446,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		String injectionPointName = injectionPoint.getBeanName();
 
 		for (IBean b: beans) {
-			Set<IParametedType> types = b.getLegalTypes();
-			if(containsType(types, type)) {
+			if(containsType(b.getLegalTypes(), type)) {
 				try {
 					if(delegateInjectionPoint && b == injectionPoint.getClassBean()) {
 						continue;
@@ -458,7 +455,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 						//
 						continue;
 					}
-					Set<IQualifierDeclaration> qsb = b.getQualifierDeclarations(true);
+					Collection<IQualifierDeclaration> qsb = b.getQualifierDeclarations(true);
 					if(areMatchingQualifiers(qsb, qs)) {
 						result.add(b);
 					}
@@ -553,7 +550,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		return null;
 	}
 
-	public static boolean containsType(Set<IParametedType> types, IParametedType type) {
+	public static boolean containsType(Collection<IParametedType> types, IParametedType type) {
 		if(type == null) {
 			return false;
 		}
@@ -612,7 +609,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	 * @return
 	 * @throws CoreException
 	 */
-	public static boolean areMatchingQualifiers(Set<IQualifierDeclaration> beanQualifiers, IType... injectionQualifiers) throws CoreException {
+	public static boolean areMatchingQualifiers(Collection<IQualifierDeclaration> beanQualifiers, IType... injectionQualifiers) throws CoreException {
 		if(!beanQualifiers.isEmpty() || injectionQualifiers.length != 0) {
 
 			TreeSet<String> injectionKeys = new TreeSet<String>();
@@ -647,7 +644,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		return true;
 	}
 
-	public static boolean areMatchingEventQualifiers(Set<IQualifierDeclaration> eventQualifiers, Set<IQualifierDeclaration> paramQualifiers) throws CoreException {
+	public static boolean areMatchingEventQualifiers(Collection<IQualifierDeclaration> eventQualifiers, Collection<IQualifierDeclaration> paramQualifiers) throws CoreException {
 		if(!paramQualifiers.isEmpty()) {
 
 			TreeSet<String> paramKeys = new TreeSet<String>();
@@ -673,12 +670,12 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 
 	public static String getAnnotationDeclarationKey(IAnnotationDeclaration d) throws CoreException {
 		ICDIAnnotation annotation = (ICDIAnnotation)d.getAnnotation();
-		Set<IMethod> nb = annotation == null ? new HashSet<IMethod>() : annotation.getNonBindingMethods();
+		Collection<IMethod> nb = annotation == null ? new HashSet<IMethod>() : annotation.getNonBindingMethods();
 		return getAnnotationDeclarationKey(d, nb);
 	}
 
-	private static String getAnnotationDeclarationKey(IAnnotationDeclaration d, Set<IMethod> ignoredMembers) throws CoreException {
-		Set<IMethod> nb = ignoredMembers == null ? new HashSet<IMethod>() : ignoredMembers;
+	private static String getAnnotationDeclarationKey(IAnnotationDeclaration d, Collection<IMethod> ignoredMembers) throws CoreException {
+		Collection<IMethod> nb = ignoredMembers == null ? new ArrayList<IMethod>() : ignoredMembers;
 		IType type = d.getType();
 		StringBuffer result = new StringBuffer();
 		result.append(type.getFullyQualifiedName());
@@ -929,7 +926,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		return result;
 	}
 
-	public Set<IBean> resolve(Set<IBean> beans) {
+	public Collection<IBean> resolve(Collection<IBean> beans) {
 		if(beans.size() <= 1) {
 			return beans;
 		}
@@ -947,8 +944,8 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	 * This method looks for observed methods in all the set of related projects.
 	 * To this end, it activates all CDI projects in workspace. 
 	 */
-	public Set<IObserverMethod> resolveObserverMethods(IInjectionPoint injectionPoint) {
-		Set<IObserverMethod> result = new HashSet<IObserverMethod>();
+	public Collection<IObserverMethod> resolveObserverMethods(IInjectionPoint injectionPoint) {
+		Collection<IObserverMethod> result = new ArrayList<IObserverMethod>();
 		IParametedType eventType = getEventType(injectionPoint);
 		if(eventType != null) {
 			synchronized(this) {
@@ -978,9 +975,9 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		return result;
 	}
 
-	private void collectObserverMethods(IClassBean b, IParametedType eventType, IInjectionPoint injectionPoint, Set<IObserverMethod> result) {
+	private void collectObserverMethods(IClassBean b, IParametedType eventType, IInjectionPoint injectionPoint, Collection<IObserverMethod> result) {
 		for (IObserverMethod m: b.getObserverMethods()) {
-			Set<IParameter> params = m.getObservedParameters();
+			Collection<IParameter> params = m.getObservedParameters();
 			if(!params.isEmpty()) {
 				IParameter param = params.iterator().next();
 				IParametedType paramType = param.getType();
@@ -1054,7 +1051,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	}
 
 	private void collectObserverEvents(IClassBean b, IParameter observedEventParameter, Map<IField, IInjectionPoint> result) {
-		Set<IInjectionPoint> ps = b.getInjectionPoints();
+		Collection<IInjectionPoint> ps = b.getInjectionPoints();
 		for (IInjectionPoint p: ps) {
 			if(p instanceof IInjectionPointField) {
 				IParametedType eventType = getEventType(p);
@@ -1072,11 +1069,10 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		IClassBean cb = producer.getClassBean();
 		if(cb != null) {
 
-			Set<IParametedType> types = producer.getLegalTypes();
-			Set<IQualifierDeclaration> qs = producer.getQualifierDeclarations(true);
+			Collection<IParametedType> types = producer.getLegalTypes();
+			Collection<IQualifierDeclaration> qs = producer.getQualifierDeclarations(true);
 	
-			Set<IBeanMethod> ds = cb.getDisposers();
-			for (IBeanMethod m: ds) {
+			for (IBeanMethod m: cb.getDisposers()) {
 				List<IParameter> ps = m.getParameters();
 				IParameter match = null;
 				for (IParameter p: ps) {
@@ -1328,8 +1324,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 					beans.add(bean);
 				}
 
-				Set<IProducer> ps = bean.getProducers();
-				for (IProducer producer: ps) {
+				for (IProducer producer: bean.getProducers()) {
 					beans.add(producer);
 				}
 			}
@@ -1466,7 +1461,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	}
 
 	synchronized void buildInjectionPoinsByType(IBean b) {
-		Set<IInjectionPoint> ps = b.getInjectionPoints();
+		Collection<IInjectionPoint> ps = b.getInjectionPoints();
 		for (IInjectionPoint p: ps) {
 			IParametedType t = p.getType();
 			if(t == null || t.getType() == null) continue;
@@ -1549,10 +1544,9 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			beans.addAll(allBeans);
 		}
 		for (IBean b: beans) {
-			Set<IParametedType> types = b.getLegalTypes();
-			if(containsType(types, type)) {
+			if(containsType(b.getLegalTypes(), type)) {
 				try {
-					Set<IQualifierDeclaration> qsb = b.getQualifierDeclarations(true);
+					Collection<IQualifierDeclaration> qsb = b.getQualifierDeclarations(true);
 					if(areMatchingQualifiers(qsb, qualifiers)) {
 						result.add(b);
 					}

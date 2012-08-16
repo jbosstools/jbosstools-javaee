@@ -10,8 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaElement;
@@ -44,7 +44,7 @@ public interface IBeanManager {
 	 *            both beans would be included in the result list.  
 	 * @return all @Named beans
 	 */
-	Set<IBean> getNamedBeans(boolean attemptToResolveAmbiguousNames);
+	Collection<IBean> getNamedBeans(boolean attemptToResolveAmbiguousNames);
 
 	/**
 	 * Returns the set of beans which match the given EL name.
@@ -60,7 +60,7 @@ public interface IBeanManager {
 	 *            alternatives.
 	 * @return the matched beans
 	 */
-	Set<IBean> getBeans(String name, boolean attemptToResolveAmbiguousNames);
+	Collection<IBean> getBeans(String name, boolean attemptToResolveAmbiguousNames);
 
 	/**
 	 * Returns the set of beans which have the given required type and qualifier
@@ -82,7 +82,7 @@ public interface IBeanManager {
 	 * 
 	 * @return the resulting set of beans
 	 */
-	Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, IParametedType beanType, IQualifierDeclaration... qualifiers);
+	Collection<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, IParametedType beanType, IQualifierDeclaration... qualifiers);
 
 	/**
 	 * Returns the set of beans which have the given required type and qualifier
@@ -104,7 +104,7 @@ public interface IBeanManager {
 	 * 
 	 * @return the resulting set of beans
 	 */
-	Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, IParametedType beanType, IType... qualifiers);
+	Collection<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, IParametedType beanType, IType... qualifiers);
 
 	/**
 	 * Returns the set of beans which have the given required type and qualifier
@@ -126,7 +126,7 @@ public interface IBeanManager {
 	 * 
 	 * @return the resulting set of beans
 	 */
-	Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, String fullyQualifiedBeanType, String... fullyQualifiedQualifiersTypes);
+	Collection<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, String fullyQualifiedBeanType, String... fullyQualifiedQualifiersTypes);
 
 	/**
 	 * Returns the set of beans which are eligible for the given injection
@@ -143,7 +143,7 @@ public interface IBeanManager {
 
 	 * @return the resulting set of beans
 	 */
-	Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, IInjectionPoint injectionPoint);
+	Collection<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, IInjectionPoint injectionPoint);
 
 	/**
 	 * Returns the bean which is declared in the given IType.
@@ -159,7 +159,7 @@ public interface IBeanManager {
 	 * @param resource path
 	 * @return the set of beans by resource path.
 	 */
-	Set<IBean> getBeans(IPath path);
+	Collection<IBean> getBeans(IPath path);
 
 	/**
 	 * Returns the set of beans based on the Java element.
@@ -168,7 +168,7 @@ public interface IBeanManager {
 	 * @param element
 	 * @return
 	 */
-	public Set<IBean> getBeans(IJavaElement element);
+	public Collection<IBean> getBeans(IJavaElement element);
 	/**
 	 * Returns all the available qualifiers.
 	 * 
@@ -280,7 +280,7 @@ public interface IBeanManager {
 	 * 
 	 * @return names of all available scope annotations
 	 */
-	Set<String> getScopeNames();
+	Collection<String> getScopeNames();
 
 	/**
 	 * Returns scope model element for fully qualified name of scope annotation
@@ -307,7 +307,7 @@ public interface IBeanManager {
 	 * @return the set of observers for an event which is injected by given
 	 *         injection point
 	 */
-	Set<IObserverMethod> resolveObserverMethods(IInjectionPoint injectionPoint);
+	Collection<IObserverMethod> resolveObserverMethods(IInjectionPoint injectionPoint);
 
 	/**
 	 * Returns the set of injection points with event type observed by given 
@@ -317,7 +317,7 @@ public interface IBeanManager {
 	 * @return the set of injection points with event type observed by given 
 	 *         parameter of an observer method
 	 */
-	public Set<IInjectionPoint> findObservedEvents(IParameter observedEventParameter);
+	public Collection<IInjectionPoint> findObservedEvents(IParameter observedEventParameter);
 
 	/**
 	 * Applies the ambiguous dependency resolution rules to a set of beans.
@@ -326,7 +326,7 @@ public interface IBeanManager {
 	 *            a set of beans
 	 * @return resolved beans
 	 */
-	Set<IBean> resolve(Set<IBean> beans);
+	Collection<IBean> resolve(Collection<IBean> beans);
 
 	/**
 	 * Return the disposer methods which are bound to the producer method.
@@ -336,7 +336,7 @@ public interface IBeanManager {
 	 * 
 	 * @return bound disposer methods
 	 */
-	Set<IBeanMethod> resolveDisposers(IProducerMethod producer);
+	Collection<IBeanMethod> resolveDisposers(IProducerMethod producer);
 
 	/**
 	 * Tests the given annotation type to determine if it is a scope type.
@@ -476,5 +476,5 @@ public interface IBeanManager {
 	 * @param fullyQualifiedTypeName
 	 * @return
 	 */
-	Set<IInjectionPoint> getInjections(String fullyQualifiedTypeName);
+	Collection<IInjectionPoint> getInjections(String fullyQualifiedTypeName);
 }

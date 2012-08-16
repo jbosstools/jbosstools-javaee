@@ -11,8 +11,8 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
@@ -107,7 +107,7 @@ public class BeanMethod extends BeanMember implements IBeanMethod {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IInterceptorBinded#getInterceptorBindings()
 	 */
-	public Set<IInterceptorBinding> getInterceptorBindings() {
+	public Collection<IInterceptorBinding> getInterceptorBindings() {
 		return CDIUtil.getAllInterceptorBindings(this);
 	}
 

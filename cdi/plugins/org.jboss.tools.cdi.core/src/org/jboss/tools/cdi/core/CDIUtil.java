@@ -245,7 +245,7 @@ public class CDIUtil {
 	 *  
 	 * @param beans
 	 */
-	public static List<IBean> sortBeans(Set<IBean> beans) {
+	public static List<IBean> sortBeans(Collection<IBean> beans) {
 		Set<IBean> alternativeBeans = new HashSet<IBean>();
 		Set<IBean> selectedAlternativeBeans = new HashSet<IBean>();
 		Set<IBean> nonAlternativeBeans = new HashSet<IBean>();
@@ -577,8 +577,7 @@ public class CDIUtil {
 	public static Set<IType> getLocalInterfaces(ISessionBean bean) {
 		Set<IType> sourceTypes = new HashSet<IType>();
 		try {
-			Set<IParametedType> types = bean.getLegalTypes();
-			for (IParametedType type : types) {
+			for (IParametedType type : bean.getLegalTypes()) {
 				IType sourceType = type.getType();
 				if (sourceType == null) {
 					continue;
@@ -657,8 +656,7 @@ public class CDIUtil {
 			if (Flags.isStatic(method.getMethod().getFlags())) {
 				return null;
 			}
-			Set<IParametedType> types = bean.getLegalTypes();
-			for (IParametedType type : types) {
+			for (IParametedType type : bean.getLegalTypes()) {
 				IType sourceType = type.getType();
 				if (sourceType == null || sourceType.isInterface()) {
 					continue;
@@ -724,7 +722,7 @@ public class CDIUtil {
 	 * @return
 	 */
 	public static Set<IInjectionPointParameter> getInjectionPointParameters(IClassBean bean) {
-		Set<IInjectionPoint> points = bean.getInjectionPoints();
+		Collection<IInjectionPoint> points = bean.getInjectionPoints();
 		Set<IInjectionPointParameter> params = new HashSet<IInjectionPointParameter>();
 		for (IInjectionPoint injection : points) {
 			if(injection instanceof IInjectionPointParameter) {
@@ -985,7 +983,7 @@ public class CDIUtil {
 	 * @return
 	 */
 	public static boolean containsDefaultQualifier(IInjectionPoint point) {
-		Set<IQualifierDeclaration> declarations = point.getQualifierDeclarations();
+		Collection<IQualifierDeclaration> declarations = point.getQualifierDeclarations();
 		if(declarations.isEmpty()) {
 			return true;
 		}
@@ -1010,8 +1008,7 @@ public class CDIUtil {
 		}
 		boolean resolved = cdiNature.isStorageResolved();
 		if(resolved) {
-			Set<CDICoreNature> ps = cdiNature.getCDIProjects(true);
-			for (CDICoreNature p: ps) {
+			for (CDICoreNature p: cdiNature.getCDIProjects(true)) {
 				if(!p.isStorageResolved()) {
 					resolved = false;
 					break;
@@ -1057,10 +1054,9 @@ public class CDIUtil {
 		return cdiNature;
 	}
 
-	public static Set<IInterceptorBinding> getAllInterceptorBindings(IInterceptorBinded binded) {
-		Set<IInterceptorBindingDeclaration> ds = collectAdditionalInterceptorBindingDeclaratios(binded, new HashSet<IInterceptorBindingDeclaration>());
-		Set<IInterceptorBinding> result = new HashSet<IInterceptorBinding>();
-		for (IInterceptorBindingDeclaration d: ds) {
+	public static Collection<IInterceptorBinding> getAllInterceptorBindings(IInterceptorBinded binded) {
+		Collection<IInterceptorBinding> result = new ArrayList<IInterceptorBinding>();
+		for (IInterceptorBindingDeclaration d: collectAdditionalInterceptorBindingDeclaratios(binded, new HashSet<IInterceptorBindingDeclaration>())) {
 			IInterceptorBinding b = d.getInterceptorBinding();
 			if(b != null) result.add(b);
 		}
@@ -1073,13 +1069,12 @@ public class CDIUtil {
 	 * 
 	 * @return
 	 */
-	public static Set<IInterceptorBindingDeclaration> getAllInterceptorBindingDeclaratios(IInterceptorBinded binded) {
+	public static Collection<IInterceptorBindingDeclaration> getAllInterceptorBindingDeclaratios(IInterceptorBinded binded) {
 		return collectAdditionalInterceptorBindingDeclaratios(binded, new HashSet<IInterceptorBindingDeclaration>());
 	}
 
-	private static Set<IInterceptorBindingDeclaration> collectAdditionalInterceptorBindingDeclaratios(IInterceptorBinded binded, Set<IInterceptorBindingDeclaration> result) {
-		Set<IInterceptorBindingDeclaration> declarations = binded.getInterceptorBindingDeclarations(true);
-		for (IInterceptorBindingDeclaration declaration : declarations) {
+	private static Collection<IInterceptorBindingDeclaration> collectAdditionalInterceptorBindingDeclaratios(IInterceptorBinded binded, Set<IInterceptorBindingDeclaration> result) {
+		for (IInterceptorBindingDeclaration declaration : binded.getInterceptorBindingDeclarations(true)) {
 			if(!result.contains(declaration)) {
 				result.add(declaration);
 				IInterceptorBinding binding = declaration.getInterceptorBinding();
@@ -1107,8 +1102,7 @@ public class CDIUtil {
 	}
 
 	private static Set<IStereotypeDeclaration> collectInheritedStereotypDeclarations(IStereotyped stereotyped, Set<IStereotypeDeclaration> result) {
-		Set<IStereotypeDeclaration> declarations = stereotyped.getStereotypeDeclarations();
-		for (IStereotypeDeclaration declaration : declarations) {
+		for (IStereotypeDeclaration declaration : stereotyped.getStereotypeDeclarations()) {
 			if(!result.contains(declaration)) {
 				result.add(declaration);
 				collectInheritedStereotypDeclarations(declaration.getStereotype(), result);
@@ -1199,12 +1193,11 @@ public class CDIUtil {
 	 * @param injectionPoint
 	 * @return
 	 */
-	public static Set<IBean> getFilteredBeans(ICDIProject cdiProject, boolean attemptToResolveAmbiguousDependency, IInjectionPoint injectionPoint){
-		Set<IBean> beans = cdiProject.getBeans(attemptToResolveAmbiguousDependency, injectionPoint);
+	public static Collection<IBean> getFilteredBeans(ICDIProject cdiProject, boolean attemptToResolveAmbiguousDependency, IInjectionPoint injectionPoint){
 		HashSet<IJavaElement> elements = new HashSet<IJavaElement>();
-		HashSet<IBean> result = new HashSet<IBean>();
+		Collection<IBean> result = new ArrayList<IBean>();
 		
-		for(IBean bean : beans){
+		for(IBean bean : cdiProject.getBeans(attemptToResolveAmbiguousDependency, injectionPoint)){
 			IJavaElement element = getJavaElement(bean);
 			if(!elements.contains(element)){
 				elements.add(element);
@@ -1221,12 +1214,11 @@ public class CDIUtil {
 	 * @param path
 	 * @return
 	 */
-	public static Set<IBean> getFilteredBeans(ICDIProject cdiProject, IPath path){
-		Set<IBean> beans = cdiProject.getBeans(path);
+	public static Collection<IBean> getFilteredBeans(ICDIProject cdiProject, IPath path){
 		HashSet<IJavaElement> elements = new HashSet<IJavaElement>();
-		HashSet<IBean> result = new HashSet<IBean>();
+		Collection<IBean> result = new ArrayList<IBean>();
 		
-		for(IBean bean : beans){
+		for(IBean bean : cdiProject.getBeans(path)){
 			IJavaElement element = getJavaElement(bean);
 			if(!elements.contains(element)){
 				elements.add(element);
@@ -1238,12 +1230,12 @@ public class CDIUtil {
 	}
 	
 	public static List<IBean> getSortedBeans(ICDIProject cdiProject, boolean attemptToResolveAmbiguousDependency, IInjectionPoint injectionPoint){
-		Set<IBean> beans = getFilteredBeans(cdiProject, attemptToResolveAmbiguousDependency, injectionPoint);
+		Collection<IBean> beans = getFilteredBeans(cdiProject, attemptToResolveAmbiguousDependency, injectionPoint);
 		return sortBeans(beans);
 	}
 
 	public static List<IBean> getSortedBeans(ICDIProject cdiProject, IPath path){
-		Set<IBean> beans = getFilteredBeans(cdiProject, path);
+		Collection<IBean> beans = getFilteredBeans(cdiProject, path);
 		return sortBeans(beans);
 	}
 	

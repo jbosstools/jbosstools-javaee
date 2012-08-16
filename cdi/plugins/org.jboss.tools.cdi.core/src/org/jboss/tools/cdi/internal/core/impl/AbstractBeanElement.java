@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,7 +20,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
@@ -125,30 +126,27 @@ public abstract class AbstractBeanElement extends CDIElement implements IAnnotat
 	protected AnnotationDeclaration findNamedAnnotation() {
 		AnnotationDeclaration named = getDefinition().getNamedAnnotation();
 		if(named != null) return named;
-		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations(true);
-		for (IStereotypeDeclaration d: ds) {
+		for (IStereotypeDeclaration d: getStereotypeDeclarations(true)) {
 			StereotypeElement s = (StereotypeElement)d.getStereotype();
-			if(s == null) continue;
-			if(s.getNameDeclaration() != null) return s.getNameDeclaration();
+			if(s != null && s.getNameDeclaration() != null) return s.getNameDeclaration();
 		}
 		return null;
 	}
 
 	public boolean isAlternative() {
 		if(getDefinition().getAlternativeAnnotation() != null) return true;
-		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
-		for (IStereotypeDeclaration d: ds) {
+		for (IStereotypeDeclaration d: getStereotypeDeclarations()) {
 			IStereotype s = d.getStereotype();
 			if(s != null && s.isAlternative()) return true;
 		}		
 		return false;
 	}
 
-	public Set<IStereotypeDeclaration> getStereotypeDeclarations() {
+	public Collection<IStereotypeDeclaration> getStereotypeDeclarations() {
 		return getStereotypeDeclarations(false);
 	}
 
-	public Set<IStereotypeDeclaration> getStereotypeDeclarations(boolean includeInherited) {
+	public Collection<IStereotypeDeclaration> getStereotypeDeclarations(boolean includeInherited) {
 		Set<IStereotypeDeclaration> result = new HashSet<IStereotypeDeclaration>();
 		Set<IStereotype> ss = new HashSet<IStereotype>();
 		for (IAnnotationDeclaration d: definition.getAnnotations()) {
@@ -164,8 +162,7 @@ public abstract class AbstractBeanElement extends CDIElement implements IAnnotat
 			for (IStereotypeDeclaration d: delta1) {
 				IStereotype s = d.getStereotype();
 				if(s == null) continue;
-				Set<IStereotypeDeclaration> ds = s.getStereotypeDeclarations();
-				for (IStereotypeDeclaration d1: ds) {
+				for (IStereotypeDeclaration d1: s.getStereotypeDeclarations()) {
 					if(d1.getStereotype() != null) {
 						if(!result.contains(d1) && !delta2.contains(d1)) delta2.add(d1);
 					}
@@ -194,12 +191,12 @@ public abstract class AbstractBeanElement extends CDIElement implements IAnnotat
 		return Collections.emptySet();
 	}
 
-	public Set<IQualifierDeclaration> getQualifierDeclarations() {
+	public Collection<IQualifierDeclaration> getQualifierDeclarations() {
 		return getQualifierDeclarations(false);
 	}
 
-	public Set<IQualifierDeclaration> getQualifierDeclarations(boolean includeInherited) {
-		Set<IQualifierDeclaration> result = new HashSet<IQualifierDeclaration>();
+	public Collection<IQualifierDeclaration> getQualifierDeclarations(boolean includeInherited) {
+		Collection<IQualifierDeclaration> result = new ArrayList<IQualifierDeclaration>();
 		Set<IQualifier> qs = new HashSet<IQualifier>();
 		for(IAnnotationDeclaration a: definition.getAnnotations()) {
 			int k = getCDIProject().getNature().getDefinitions().getAnnotationKind(a.getType());
@@ -210,8 +207,7 @@ public abstract class AbstractBeanElement extends CDIElement implements IAnnotat
 			}
 		}
 		if(includeInherited) {
-			Set<IQualifierDeclaration> ds = getInheritedQualifierDeclarations();
-			for (IQualifierDeclaration d : ds) {
+			for (IQualifierDeclaration d : getInheritedQualifierDeclarations()) {
 				if (d.getQualifier() != null && !qs.contains(d.getQualifier())) {
 					result.add(d);
 				}
@@ -222,22 +218,21 @@ public abstract class AbstractBeanElement extends CDIElement implements IAnnotat
 		return result;
 	}
 
-	protected Set<IQualifierDeclaration> getInheritedQualifierDeclarations() {
-		return Collections.emptySet();
+	protected Collection<IQualifierDeclaration> getInheritedQualifierDeclarations() {
+		return Collections.emptyList();
 	}
 
-	protected Set<IInterceptorBindingDeclaration> getInheritedInterceptorBindingDeclarations() {
-		return Collections.emptySet();
+	protected Collection<IInterceptorBindingDeclaration> getInheritedInterceptorBindingDeclarations() {
+		return Collections.emptyList();
 	}
 
-	public Set<IQualifier> getQualifiers() {
+	public Collection<IQualifier> getQualifiers() {
 		IQualifier any = getCDIProject().getQualifier(CDIConstants.ANY_QUALIFIER_TYPE_NAME);
 		IQualifier def = getCDIProject().getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
 		IQualifier name = getCDIProject().getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
 
 		Set<IQualifier> result = new HashSet<IQualifier>();
-		Set<IQualifierDeclaration> ds = getQualifierDeclarations(true);
-		for (IQualifierDeclaration d: ds) {
+		for (IQualifierDeclaration d: getQualifierDeclarations(true)) {
 			IQualifier q = d.getQualifier();
 			if(q != null) result.add(q);
 		}
@@ -260,15 +255,14 @@ public abstract class AbstractBeanElement extends CDIElement implements IAnnotat
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IClassBean#getInterceptorBindingDeclarations()
 	 */
-	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations(boolean includeInherited) {
-		Set<IInterceptorBindingDeclaration> result = ClassBean.getInterceptorBindingDeclarations(definition);
+	public Collection<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations(boolean includeInherited) {
+		Collection<IInterceptorBindingDeclaration> result = ClassBean.getInterceptorBindingDeclarations(definition);
 		if(includeInherited) {
 			Set<IInterceptorBinding> qs = new HashSet<IInterceptorBinding>();
 			for (IInterceptorBindingDeclaration d: result) {
 				if(d.getInterceptorBinding() != null) qs.add(d.getInterceptorBinding());
 			}
-			Set<IInterceptorBindingDeclaration> ds = getInheritedInterceptorBindingDeclarations();
-			for (IInterceptorBindingDeclaration d : ds) {
+			for (IInterceptorBindingDeclaration d : getInheritedInterceptorBindingDeclarations()) {
 				if (d.getInterceptorBinding() != null && !qs.contains(d.getInterceptorBinding())) {
 					result.add(d);
 				}
@@ -292,12 +286,12 @@ public abstract class AbstractBeanElement extends CDIElement implements IAnnotat
 		return result;
 	}
 
-	public Set<ITypeDeclaration> getRestrictedTypeDeclarations(Set<IParametedType> alltypes) {
+	public Collection<ITypeDeclaration> getRestrictedTypeDeclarations(Collection<IParametedType> alltypes) {
 		Map<String, IParametedType> map = new HashMap<String, IParametedType>();
 		for (IParametedType t: alltypes) {
 			map.put(t.getType().getFullyQualifiedName(), t);
 		}
-		Set<ITypeDeclaration> result = new HashSet<ITypeDeclaration>();
+		Collection<ITypeDeclaration> result = new ArrayList<ITypeDeclaration>();
 		AnnotationDeclaration typed = getDefinition().getTypedAnnotation();
 		if(typed != null) {
 			int s = typed.getStartPosition();

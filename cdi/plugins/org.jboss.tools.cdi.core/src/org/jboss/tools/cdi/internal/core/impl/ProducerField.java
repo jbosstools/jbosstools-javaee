@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -63,8 +64,7 @@ public class ProducerField extends BeanField implements IProducerField {
 		AnnotationDeclaration d = getDefinition().getTypedAnnotation();
 		Set<IParametedType> all = getAllTypes();
 		if(d != null) {
-			Set<ITypeDeclaration> ts = getRestrictedTypeDeclarations(all);
-			result.addAll(ts);
+			result.addAll(getRestrictedTypeDeclarations(all));
 			ParametedType object = getObjectType(getBeanClass());
 			if(object != null) {
 				result.add(object);
@@ -85,7 +85,7 @@ public class ProducerField extends BeanField implements IProducerField {
 		return new HashSet<IParametedType>();
 	}
 
-	public Set<ITypeDeclaration> getRestrictedTypeDeclaratios() {
+	public Collection<ITypeDeclaration> getRestrictedTypeDeclaratios() {
 		return getRestrictedTypeDeclarations(getAllTypes());
 	}
 
@@ -125,8 +125,7 @@ public class ProducerField extends BeanField implements IProducerField {
 			if(classBean != null && !getCDIProject().getAlternatives(classBean.getBeanClass().getFullyQualifiedName()).isEmpty()) {
 				return true;
 			}
-			Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
-			for (IStereotypeDeclaration d: ds) {
+			for (IStereotypeDeclaration d: getStereotypeDeclarations()) {
 				IStereotype s = d.getStereotype();
 				if(s != null && s.isAlternative() && !getCDIProject().getAlternatives(s.getSourceType().getFullyQualifiedName()).isEmpty()) {
 					return true;
@@ -146,9 +145,8 @@ public class ProducerField extends BeanField implements IProducerField {
 		if(!ds.isEmpty()) {
 			return ds.iterator().next().getScope();
 		}
-		Set<IStereotypeDeclaration> ss = getStereotypeDeclarations();
 		Set<IScope> defaults = new HashSet<IScope>();
-		for (IStereotypeDeclaration d: ss) {
+		for (IStereotypeDeclaration d: getStereotypeDeclarations()) {
 			IStereotype s = d.getStereotype();
 			IScope sc = s.getScope();
 			if(sc != null) {
@@ -175,8 +173,7 @@ public class ProducerField extends BeanField implements IProducerField {
 		if(getCDIProject().isTypeAlternative(getBeanClass().getFullyQualifiedName())) {
 			return true;
 		}
-		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
-		for (IStereotypeDeclaration d: ds) {
+		for (IStereotypeDeclaration d: getStereotypeDeclarations()) {
 			IStereotype s = d.getStereotype();
 			if(s != null && s.isAlternative() && 
 					getCDIProject().isStereotypeAlternative(s.getSourceType().getFullyQualifiedName())	) return true;

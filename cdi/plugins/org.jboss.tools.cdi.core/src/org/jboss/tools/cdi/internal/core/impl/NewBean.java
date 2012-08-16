@@ -10,8 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBeanMethod;
@@ -34,8 +34,8 @@ public class NewBean extends ClassBean {
 		return true;
 	}
 
-	public Set<IQualifier> getQualifiers() {
-		Set<IQualifier> result = new HashSet<IQualifier>();
+	public Collection<IQualifier> getQualifiers() {
+		Collection<IQualifier> result = new ArrayList<IQualifier>(1);
 		IQualifier q = getCDIProject().getQualifier(CDIConstants.NEW_QUALIFIER_TYPE_NAME);
 		if(q != null) {
 			result.add(q);
@@ -51,15 +51,15 @@ public class NewBean extends ClassBean {
 		return false;
 	}
 
-	public Set<IObserverMethod> getObserverMethods() {
-		return new HashSet<IObserverMethod>();
+	public Collection<IObserverMethod> getObserverMethods() {
+		return new ArrayList<IObserverMethod>();
 	}
 
-	public Set<IProducer> getProducers() {
-		return new HashSet<IProducer>();
+	public Collection<IProducer> getProducers() {
+		return new ArrayList<IProducer>();
 	}
 
-	public Set<IBeanMethod> getDisposers() {
-		return new HashSet<IBeanMethod>();
+	public Collection<IBeanMethod> getDisposers() {
+		return new ArrayList<IBeanMethod>();
 	}
 }

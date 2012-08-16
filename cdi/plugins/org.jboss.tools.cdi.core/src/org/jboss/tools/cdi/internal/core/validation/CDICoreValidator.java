@@ -449,8 +449,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			}
 		}
 		
-		Set<String> scopes = rootCdiProject.getScopeNames();
-		for (String scopeName: scopes) {
+		for (String scopeName: rootCdiProject.getScopeNames()) {
 			IScope scope = rootCdiProject.getScope(scopeName);
 			IResource resource = scope.getResource();
 			if(shouldValidateResourceOfElement(resource) && notValidatedYet(resource)) {
@@ -562,7 +561,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 				beansXmlValidator.validateBeansXml(context, file);
 			}
 		} else {
-			Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+			Collection<IBean> beans = cdiProject.getBeans(file.getFullPath());
 			for (IBean bean : beans) {
 				validateBean(context, bean);
 			}
@@ -643,7 +642,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		String beanPath = null;
 		if(!isAsYouTypeValidation()) {
 			beanPath = bean.getResource().getFullPath().toOSString();
-			Set<IScopeDeclaration> scopeDeclarations = bean.getScopeDeclarations();
+			Collection<IScopeDeclaration> scopeDeclarations = bean.getScopeDeclarations();
 			for (IScopeDeclaration scopeDeclaration : scopeDeclarations) {
 				IScope scope = scopeDeclaration.getScope();
 				if (shouldValidateType(scope.getSourceType())) {
@@ -651,7 +650,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 				}
 			}
 			addLinkedStereotypes(beanPath, bean);
-			Set<IQualifierDeclaration> qualifierDeclarations = bean.getQualifierDeclarations();
+			Collection<IQualifierDeclaration> qualifierDeclarations = bean.getQualifierDeclarations();
 			for (IQualifierDeclaration qualifierDeclaration : qualifierDeclarations) {
 				IQualifier qualifier = qualifierDeclaration.getQualifier();
 				if (shouldValidateType(qualifier.getSourceType())) {
@@ -669,7 +668,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			validateProducer(context, (IProducer) bean);
 		}
 
-		Set<IInjectionPoint> points = bean.getInjectionPoints();
+		Collection<IInjectionPoint> points = bean.getInjectionPoints();
 		for (IInjectionPoint point : points) {
 			if(!isAsYouTypeValidation()) {
 				IType type = getTypeOfInjection(point);
@@ -694,7 +693,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			IClassBean classBean = (IClassBean)bean;
 			if(!isAsYouTypeValidation()) {
 				addLinkedInterceptorBindings(beanPath, classBean);
-				Set<IBeanMethod> methods = classBean.getAllMethods();
+				Collection<IBeanMethod> methods = classBean.getAllMethods();
 				for (IBeanMethod method : methods) {
 					addLinkedStereotypes(beanPath, method);
 					addLinkedInterceptorBindings(beanPath, method);
@@ -727,7 +726,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			 *    Suppose two beans are both available for injection in a certain war, and either:
 			 *     • the two beans have the same EL name and the name is not resolvable, or
 			 */
-			Set<IBean> beans = context.getCdiProject().getBeans(name, true);
+			Collection<IBean> beans = context.getCdiProject().getBeans(name, true);
 			if(beans.size()>1 && beans.contains(bean)) {
 				ITextSourceReference reference = bean.getNameLocation(true);
 				Set<String> names = new HashSet<String>();
@@ -760,7 +759,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 						xName.append(st.nextToken());
 						if(st.hasMoreTokens()) {
 							String xNameAsString = xName.toString();
-							Set<IBean> xBeans = context.getCdiProject().getBeans(xNameAsString, true);
+							Collection<IBean> xBeans = context.getCdiProject().getBeans(xNameAsString, true);
 							if(!xBeans.isEmpty()) {
 								String yName = name.substring(xNameAsString.length()+1);
 								IStatus status = JavaConventions.validateJavaTypeName(yName, CompilerOptions.VERSION_1_6, CompilerOptions.VERSION_1_6);
@@ -793,7 +792,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	 * Returns set of EL names which are declared in the resource
 	 */
 	private Set<String> getELNamesByResource(CDIValidationContext context, IPath resourcePath) {
-		Set<IBean> beans = context.getCdiProject().getBeans(resourcePath);
+		Collection<IBean> beans = context.getCdiProject().getBeans(resourcePath);
 		if(beans.isEmpty()) {
 			return Collections.emptySet();
 		}
@@ -821,8 +820,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 
 	private void addLinkedStereotypes(String beanPath, IStereotyped stereotyped) {
 		if(!isAsYouTypeValidation()) {
-			Set<IStereotypeDeclaration> stereotypeDeclarations = stereotyped.getStereotypeDeclarations();
-			for (IStereotypeDeclaration stereotypeDeclaration : stereotypeDeclarations) {
+			for (IStereotypeDeclaration stereotypeDeclaration : stereotyped.getStereotypeDeclarations()) {
 				IStereotype stereotype = stereotypeDeclaration.getStereotype();
 				if (shouldValidateType(stereotype.getSourceType())) {
 					getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, stereotype.getResource().getFullPath(), false);
@@ -833,8 +831,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 
 	private void addLinkedInterceptorBindings(String beanPath, IInterceptorBinded binded) {
 		if(!isAsYouTypeValidation()) {
-			Set<IInterceptorBindingDeclaration> bindingDeclarations = CDIUtil.getAllInterceptorBindingDeclaratios(binded);
-			for (IInterceptorBindingDeclaration bindingDeclaration : bindingDeclarations) {
+			for (IInterceptorBindingDeclaration bindingDeclaration : CDIUtil.getAllInterceptorBindingDeclaratios(binded)) {
 				IInterceptorBinding binding = bindingDeclaration.getInterceptorBinding();
 				if (shouldValidateType(binding.getSourceType())) {
 					getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, binding.getResource().getFullPath(), false);
@@ -871,8 +868,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 				ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange(), bean.getResource(), bean.getBeanClass());
 				addProblem(CDIValidationMessages.CONFLICTING_INTERCEPTOR_BINDINGS, CDIPreferences.CONFLICTING_INTERCEPTOR_BINDINGS, reference, bean.getResource());
 			}
-			Set<IBeanMethod> methods = bean.getAllMethods();
-			for (IBeanMethod method : methods) {
+			for (IBeanMethod method : bean.getAllMethods()) {
 				if(hasConflictedInterceptorBindings(method)) {
 					//TODO consider putting markers to interceptor bindings/stereotype declarations.
 					ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getMethod().getNameRange(), bean.getResource(), method.getMethod());
@@ -887,7 +883,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	}
 
 	private boolean hasConflictedInterceptorBindings(IInterceptorBinded binded) throws CoreException {
-		Set<IInterceptorBindingDeclaration> declarations = CDIUtil.getAllInterceptorBindingDeclaratios(binded);
+		Collection<IInterceptorBindingDeclaration> declarations = CDIUtil.getAllInterceptorBindingDeclaratios(binded);
 		if(declarations.size()>1) {
 			Map<String, String> keys = new HashMap<String, String>();
 			for (IInterceptorBindingDeclaration declaration : declarations) {
@@ -936,18 +932,13 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			 * 4.3.1. Direct and indirect specialization
 			 *  - X specializes Y but does not have some bean type of Y
 			 */
-			Set<IParametedType> beanTypes = bean.getLegalTypes();
-			Set<IParametedType> specializingBeanTypes = specializedBean.getLegalTypes();
+			Set<String> legalTypes = new HashSet<String>();
+			for (IParametedType type : bean.getLegalTypes()) {
+				if(type.getType() != null) legalTypes.add(type.getType().getFullyQualifiedName());
+			}
 			StringBuffer missingTypes = new StringBuffer();
-			for (IParametedType specializingType : specializingBeanTypes) {
-				boolean found = false;
-				for (IParametedType type : beanTypes) {
-					if(specializingType.getType().getFullyQualifiedName().equals(type.getType().getFullyQualifiedName())) {
-						found = true;
-						break;
-					}
-				}
-				if(!found) {
+			for (IParametedType specializingType : specializedBean.getLegalTypes()) {
+				if(!legalTypes.contains(specializingType.getType().getFullyQualifiedName())) {
 					if(missingTypes.length()>0) {
 						missingTypes.append(", ");
 					}
@@ -1004,9 +995,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	}
 
 	private void validateConstructors(IClassBean bean) {
-		Set<IBeanMethod> constructors = bean.getBeanConstructors();
+		Collection<IBeanMethod> constructors = bean.getBeanConstructors();
 		if(constructors.size()>1) {
-			Set<IAnnotationDeclaration> injects = new HashSet<IAnnotationDeclaration>();
+			Collection<IAnnotationDeclaration> injects = new ArrayList<IAnnotationDeclaration>();
 			for (IBeanMethod constructor : constructors) {
 				IAnnotationDeclaration inject = constructor.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 				if(inject!=null) {
@@ -1026,7 +1017,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	}
 
 	private void validateObserves(IClassBean bean) {
-		Set<IBeanMethod> observes = bean.getAllMethods();
+		Collection<IBeanMethod> observes = bean.getAllMethods();
 		if (observes.isEmpty()) {
 			return;
 		}
@@ -1035,7 +1026,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 				continue;
 			}
 			List<IParameter> params = observer.getParameters();
-			Set<ITextSourceReference> declarations = new HashSet<ITextSourceReference>();
+			Collection<ITextSourceReference> declarations = new ArrayList<ITextSourceReference>();
 			for (IParameter param : params) {
 				ITextSourceReference declaration = param.getAnnotationPosition(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
 				if (declaration != null) {
@@ -1114,17 +1105,16 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	}
 
 	private void validateDisposers(IClassBean bean) {
-		Set<IBeanMethod> disposers = bean.getDisposers();
+		Collection<IBeanMethod> disposers = bean.getDisposers();
 		if (disposers.isEmpty()) {
 			return;
 		}
 
 		Set<IBeanMethod> boundDisposers = new HashSet<IBeanMethod>();
-		Set<IProducer> producers = bean.getProducers();
-		for (IProducer producer : producers) {
+		for (IProducer producer : bean.getProducers()) {
 			if (producer instanceof IProducerMethod && producer.exists()) {
 				IProducerMethod producerMethod = (IProducerMethod) producer;
-				Set<IBeanMethod> disposerMethods = producer.getCDIProject().resolveDisposers(producerMethod);
+				Collection<IBeanMethod> disposerMethods = producer.getCDIProject().resolveDisposers(producerMethod);
 				boundDisposers.addAll(disposerMethods);
 				if (disposerMethods.size() > 1) {
 					/*
@@ -1151,7 +1141,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			 * 3.3.6. Declaring a disposer method
 			 *  - method has more than one parameter annotated @Disposes
 			 */
-			Set<ITextSourceReference> disposerDeclarations = new HashSet<ITextSourceReference>();
+			Collection<ITextSourceReference> disposerDeclarations = new ArrayList<ITextSourceReference>();
 			for (IParameter param : params) {
 				ITextSourceReference declaration = param.getAnnotationPosition(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
 				if (declaration != null  && param.exists()) {
@@ -1171,7 +1161,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			 * 10.4.2. Declaring an observer method
 			 *  - a observer method has a parameter annotated @Disposes.
 			 */
-			Set<ITextSourceReference> declarations = new HashSet<ITextSourceReference>();
+			Collection<ITextSourceReference> declarations = new ArrayList<ITextSourceReference>();
 			boolean observesExists = false;
 			declarations.addAll(disposerDeclarations);
 			for (IParameter param : params) {
@@ -1276,7 +1266,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	 * @param annotatedParams
 	 * @param errorKey
 	 */
-	private void validateSessionBeanMethod(IClassBean bean, IBeanMethod method, Set<ITextSourceReference> annotatedParams, String errorMessage, String preferencesKey, int id) {
+	private void validateSessionBeanMethod(IClassBean bean, IBeanMethod method, Collection<ITextSourceReference> annotatedParams, String errorMessage, String preferencesKey, int id) {
 		if (bean instanceof ISessionBean && annotatedParams != null) {
 			IMethod iMethod = CDIUtil.getBusinessMethodDeclaration((SessionBean)bean, method);
 			if(iMethod==null) {
@@ -1295,7 +1285,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 
 	private void validateProducer(CDIValidationContext context, IProducer producer) {
 		try {
-			Set<ITypeDeclaration> typeDeclarations = producer.getAllTypeDeclarations();
+			Collection<ITypeDeclaration> typeDeclarations = producer.getAllTypeDeclarations();
 			String[] typeVariables = producer.getBeanClass().getTypeParameterSignatures();
 			ITypeDeclaration typeDeclaration = null;
 			ITextSourceReference typeDeclarationReference = null;
@@ -1399,10 +1389,13 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			} else {
 				IProducerMethod producerMethod = (IProducerMethod) producer;
 				List<IParameter> params = producerMethod.getParameters();
-				Set<ITextSourceReference> observesDeclarations = new HashSet<ITextSourceReference>();
-				Set<ITextSourceReference> disposalDeclarations = new HashSet<ITextSourceReference>();
-				observesDeclarations.add(producerMethod.getAnnotation(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME));
-				disposalDeclarations.add(producerMethod.getAnnotation(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME));
+				Collection<ITextSourceReference> observesDeclarations = new ArrayList<ITextSourceReference>();
+				Collection<ITextSourceReference> disposalDeclarations = new ArrayList<ITextSourceReference>();
+				IAnnotationDeclaration producesDeclaration = producerMethod.getAnnotation(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
+				if(producesDeclaration != null) {
+					observesDeclarations.add(producesDeclaration);
+					disposalDeclarations.add(producesDeclaration);
+				}
 				for (IParameter param : params) {
 					/*
 					 * 3.3.6. Declaring a disposer method
@@ -1494,7 +1487,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 									}
 								}
 							} else {
-								Set<IBean> beans = context.getCdiProject().getBeans(superType.getResource().getFullPath());
+								Collection<IBean> beans = context.getCdiProject().getBeans(superType.getResource().getFullPath());
 								for (IBean iBean : beans) {
 									if(iBean instanceof IProducerMethod) {
 										IProducerMethod prMethod = (IProducerMethod)iBean;
@@ -1540,8 +1533,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 
 	private void saveAllSuperTypesAsLinkedResources(IClassBean bean) {
 		if(!isAsYouTypeValidation()) {
-			Set<IParametedType> types = bean.getAllTypes();
-			for (IParametedType type : types) {
+			for (IParametedType type : bean.getAllTypes()) {
 				IType superType = type.getType();
 				if(superType!=null && !superType.isBinary() && superType.getResource()!=null && superType!=bean.getBeanClass()) {
 					getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toOSString(), superType.getResource().getFullPath(), false);
@@ -1584,14 +1576,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	public void collectAllRelatedInjectionsForBean(IFile validatingResource, Set<IPath> relatedResources) {
 		CDIValidationContext context = getCDIContext(validatingResource);
 		ICDIProject cdiProject = context.getCdiProject();
-		Set<IBean> beans = cdiProject.getBeans(validatingResource.getFullPath());
-		for (IBean bean : beans) {
-			Set<IParametedType> types = bean.getAllTypes();
-			for (IParametedType type : types) {
+		for (IBean bean : cdiProject.getBeans(validatingResource.getFullPath())) {
+			for (IParametedType type : bean.getAllTypes()) {
 				IType superType = type.getType();
 				if(superType!=null) {
-					Set<IInjectionPoint> injections = cdiProject.getInjections(superType.getFullyQualifiedName());
-					for (IInjectionPoint injection : injections) {
+					for (IInjectionPoint injection : cdiProject.getInjections(superType.getFullyQualifiedName())) {
 						if(!injection.getClassBean().getBeanClass().isBinary() && injection.getClassBean()!=bean) {
 							relatedResources.add(injection.getResource().getFullPath());
 						}
@@ -1608,8 +1597,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	 * @return
 	 */
 	private boolean shouldIgnoreInjection(CDIValidationContext context, IType typeOfInjectionPoint, IInjectionPoint injection) {
-		Set<IInjectionPointValidatorFeature> injectionValidationFeatures = context.getInjectionValidationFeatures();
-		for (IInjectionPointValidatorFeature feature : injectionValidationFeatures) {
+		for (IInjectionPointValidatorFeature feature : context.getInjectionValidationFeatures()) {
 			if(feature.shouldIgnoreInjection(typeOfInjectionPoint, injection)) {
 				return true;
 			}
@@ -1618,8 +1606,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	}
 
 	private void validateInitializers(IClassBean bean) {
-		Set<IInitializerMethod> initializers = bean.getInitializers();
-		for (IInitializerMethod initializer: initializers) {
+		for (IInitializerMethod initializer: bean.getInitializers()) {
 			validateInitializerMethod(initializer);
 		}
 	}
@@ -1689,7 +1676,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		}
 
 		if(declaration!=null) {
-			Set<IBean> beans = cdiProject.getBeans(true, injection);
+			Collection<IBean> beans = cdiProject.getBeans(true, injection);
 			ITextSourceReference reference = injection instanceof IInjectionPointParameter?injection:declaration;
 			/*
 			 * 5.2.1. Unsatisfied and ambiguous dependencies
@@ -1699,8 +1686,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			if(!shouldIgnoreInjection(context, type, injection)) {
 				boolean instance = type!=null && CDIConstants.INSTANCE_TYPE_NAME.equals(type.getFullyQualifiedName());
 				if(!isAsYouTypeValidation()) {
-					Set<IBean> allBeans = cdiProject.getBeans(false, injection);
-					for (IBean bean : allBeans) {
+					for (IBean bean : cdiProject.getBeans(false, injection)) {
 						if(shouldValidateType(bean.getBeanClass())) {
 							try {
 								getValidationContext().addLinkedCoreResource(SHORT_ID, injection.getSourcePath().toOSString(), bean.getResource().getFullPath(), false);
@@ -1839,7 +1825,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	private void validateNormalBeanScope(IBean bean) {
 		if(bean.getScope()!=null && bean.getScope().isNorlmalScope()) {
 			ITextSourceReference reference = null;
-			Set<IScopeDeclaration> scopes = bean.getScopeDeclarations();
+			Collection<IScopeDeclaration> scopes = bean.getScopeDeclarations();
 			if(!scopes.isEmpty()) {
 				reference = scopes.iterator().next();
 			} else {
@@ -2075,7 +2061,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			 *  - managed bean has a class level interceptor binding and is declared final or has a non-static, non-private, final method
 			 *  - non-static, non-private, final method of a managed bean has a method level interceptor binding
 			 */
-			Set<IInterceptorBinding> bindings = bean.getInterceptorBindings();
+			Collection<IInterceptorBinding> bindings = bean.getInterceptorBindings();
 			if(!bindings.isEmpty()) {
 				if(Flags.isFinal(bean.getBeanClass().getFlags())) {
 					ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange(), bean.getResource(), bean.getBeanClass());
@@ -2091,8 +2077,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 					}
 				}
 			} else {
-				Set<IBeanMethod> beanMethods = bean.getAllMethods();
-				for (IBeanMethod method : beanMethods) {
+				for (IBeanMethod method : bean.getAllMethods()) {
 					if(!method.getInterceptorBindings().isEmpty()) {
 						if(Flags.isFinal(bean.getBeanClass().getFlags())) {
 							ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange(), bean.getResource(), bean.getBeanClass());
@@ -2121,8 +2106,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 						boolean passivatingScope = "true".equalsIgnoreCase("" + normalScopeDeclaration.getMemberValue("passivating"));
 						if(passivatingScope) {
 							boolean passivatingCapable = false;
-							Set<IParametedType> supers = bean.getAllTypes();
-							for (IParametedType type : supers) {
+							for (IParametedType type : bean.getAllTypes()) {
 								if("java.io.Serializable".equals(type.getType().getFullyQualifiedName())) {
 									passivatingCapable = true;
 									break;
@@ -2180,15 +2164,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		 * 3.4.2. Declaring a producer field
 		 *  - interceptor has a field annotated @Produces
 		 */
-		Set<IProducer> producers = interceptor.getProducers();
-		for (IProducer producer : producers) {
+		for (IProducer producer : interceptor.getProducers()) {
 			addProblem(CDIValidationMessages.PRODUCER_IN_INTERCEPTOR, CDIPreferences.PRODUCER_IN_INTERCEPTOR_OR_DECORATOR, producer.getProducesAnnotation(), interceptor.getResource(), PRODUCER_IN_INTERCEPTOR_ID);
 		}
 		/*
 		 * 9.2. Declaring the interceptor bindings of an interceptor
 		 *  - interceptor declared using @Interceptor does not declare any interceptor binding (Non-Portable behavior)
 		 */
-		Set<IInterceptorBinding> bindings = interceptor.getInterceptorBindings();
+		Collection<IInterceptorBinding> bindings = interceptor.getInterceptorBindings();
 		if(bindings.isEmpty()) {
 			ITextSourceReference declaration = interceptor.getAnnotation(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME);
 			if(declaration!=null) {
@@ -2207,8 +2190,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 					if(value instanceof Object[]) {
 						Object[] values = (Object[]) value;
 						if(values.length>1) {
-							Set<IBeanMethod> methods = interceptor.getAllMethods();
-							for (IBeanMethod method : methods) {
+							for (IBeanMethod method : interceptor.getAllMethods()) {
 								if(method.isLifeCycleCallbackMethod()) {
 									ITextSourceReference declaration = CDIUtil.getAnnotationDeclaration(interceptor, binding);
 									if(declaration==null) {
@@ -2268,15 +2250,13 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		 * 3.4.2. Declaring a producer field
 		 *  - decorator has a field annotated @Produces
 		 */
-		Set<IProducer> producers = decorator.getProducers();
-		for (IProducer producer : producers) {
+		for (IProducer producer : decorator.getProducers()) {
 			addProblem(CDIValidationMessages.PRODUCER_IN_DECORATOR, CDIPreferences.PRODUCER_IN_INTERCEPTOR_OR_DECORATOR, producer.getProducesAnnotation(), decorator.getResource(), PRODUCER_IN_DECORATOR_ID);
 		}
 
-		Set<IInjectionPoint> injections = decorator.getInjectionPoints(true);
 		Set<ITextSourceReference> delegates = new HashSet<ITextSourceReference>();
 		IInjectionPoint delegate = null;
-		for (IInjectionPoint injection : injections) {
+		for (IInjectionPoint injection : decorator.getInjectionPoints(true)) {
 			ITextSourceReference delegateAnnotation = injection.getDelegateAnnotation();
 			if(delegateAnnotation!=null) {
 				if(injection instanceof IInjectionPointField) {
@@ -2324,12 +2304,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 				IType delegateType = delegateParametedType.getType();
 				if(delegateType != null) {
 					if(!checkTheOnlySuper(context, decorator, delegateParametedType)) {
-						Set<IParametedType> decoratedParametedTypes = decorator.getDecoratedTypes();
 						List<String> supers = null;
 						if(!isAsYouTypeValidation() && shouldValidateType(delegateType)) {
 							getValidationContext().addLinkedCoreResource(SHORT_ID, decorator.getResource().getFullPath().toOSString(), delegateType.getResource().getFullPath(), false);
 						}
-						for (IParametedType decoratedParametedType : decoratedParametedTypes) {
+						for (IParametedType decoratedParametedType : decorator.getDecoratedTypes()) {
 							IType decoratedType = decoratedParametedType.getType();
 							if(decoratedType==null) {
 								continue;
@@ -2394,9 +2373,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	}
 
 	private List<String> getSuppers(IParametedType type) {
-		Set<IParametedType> types = ((ParametedType)type).getAllTypes();
 		List<String> signatures = new ArrayList<String>();
-		for (IParametedType superType : types) {
+		for (IParametedType superType : ((ParametedType)type).getAllTypes()) {
 			signatures.add(superType.getSignature());
 		}
 		signatures.add(type.getSignature());
@@ -2408,33 +2386,27 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	 *  - bean class or producer method or field specifies a @Typed annotation, and the value member specifies a class which does not correspond to a type in the unrestricted set of bean types of a bean
 	 */
 	private void validateTyped(IBean bean) {
-		Set<ITypeDeclaration> typedDeclarations = bean.getRestrictedTypeDeclaratios();
+		Collection<ITypeDeclaration> typedDeclarations = bean.getRestrictedTypeDeclaratios();
 		if (!typedDeclarations.isEmpty()) { 
-			Set<IParametedType> allTypes = bean.getAllTypes();
+			Set<String> allTypeNames = new HashSet<String>();
+			for (IParametedType type : bean.getAllTypes()) {
+				if(type.getType() != null) allTypeNames.add(type.getType().getFullyQualifiedName());
+			}
 			for (ITypeDeclaration typedDeclaration : typedDeclarations) {
 				IType typedType = typedDeclaration.getType();
-				if (typedType != null) {
-					boolean typeWasFound = false;
-					for (IParametedType type : allTypes) {
-						if (type != null && typedType.getFullyQualifiedName().equals(type.getType().getFullyQualifiedName())) {
-							typeWasFound = true;
-							break;
-						}
-					}
-					if (!typeWasFound) {
-						IMember e = bean instanceof IJavaReference ? ((IJavaReference)bean).getSourceMember() : bean.getBeanClass();
-						ITextSourceReference typedDeclarationReference = CDIUtil.convertToJavaSourceReference(typedDeclaration, e);
+				if (typedType != null && !allTypeNames.contains(typedType.getFullyQualifiedName())) {
+					IMember e = bean instanceof IJavaReference ? ((IJavaReference)bean).getSourceMember() : bean.getBeanClass();
+					ITextSourceReference typedDeclarationReference = CDIUtil.convertToJavaSourceReference(typedDeclaration, e);
 
-						String message = CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION;
-						addProblem(message, CDIPreferences.ILLEGAL_TYPE_IN_TYPED_DECLARATION, typedDeclarationReference, bean.getResource());
-					}
+					String message = CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION;
+					addProblem(message, CDIPreferences.ILLEGAL_TYPE_IN_TYPED_DECLARATION, typedDeclarationReference, bean.getResource());
 				}
 			}
 		}
 	}
 
 	private void validateBeanScope(IBean bean) {
-		Set<IScopeDeclaration> scopes = bean.getScopeDeclarations();
+		Collection<IScopeDeclaration> scopes = bean.getScopeDeclarations();
 		// 2.4.3. Declaring the bean scope
 		//   - bean class or producer method or field specifies multiple scope type annotations
 		//
@@ -2457,7 +2429,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		// Such bean definitions are invalid because they declares two
 		// stereotypes that have different default scopes and the bean does not
 		// explictly define a scope to resolve the conflict.
-		Set<IStereotypeDeclaration> stereotypeDeclarations = bean.getStereotypeDeclarations();
+		Collection<IStereotypeDeclaration> stereotypeDeclarations = bean.getStereotypeDeclarations();
 		if (!stereotypeDeclarations.isEmpty() && scopes.isEmpty()) {
 			Map<String, IStereotypeDeclaration> declarationMap = new HashMap<String, IStereotypeDeclaration>();
 			for (IStereotypeDeclaration stereotypeDeclaration : stereotypeDeclarations) {
@@ -2549,7 +2521,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 
 		// 2.7.1.1. Declaring the default scope for a stereotype
 		// - stereotype declares more than one scope
-		Set<IScopeDeclaration> scopeDeclarations = stereotype.getScopeDeclarations();
+		Collection<IScopeDeclaration> scopeDeclarations = stereotype.getScopeDeclarations();
 		if (scopeDeclarations.size() > 1) {
 			for (IScopeDeclaration scope : scopeDeclarations) {
 				addProblem(CDIValidationMessages.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, CDIPreferences.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, scope, stereotype.getResource());

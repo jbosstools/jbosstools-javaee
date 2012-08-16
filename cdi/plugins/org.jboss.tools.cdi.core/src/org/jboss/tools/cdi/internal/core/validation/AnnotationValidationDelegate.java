@@ -11,7 +11,7 @@
 
 package org.jboss.tools.cdi.internal.core.validation;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.JavaModelException;
@@ -78,8 +78,7 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 			 * - Stereotypes declared @Target(TYPE) may not be applied to stereotypes declared @Target({TYPE, METHOD, FIELD}),
 			 *   @Target(METHOD), @Target(FIELD) or @Target({METHOD, FIELD}).
 			 */
-			Set<IStereotypeDeclaration> stereotypes = stereotype.getStereotypeDeclarations();
-			for (IStereotypeDeclaration stereotypeDeclaration : stereotypes) {
+			for (IStereotypeDeclaration stereotypeDeclaration : stereotype.getStereotypeDeclarations()) {
 				IStereotype superStereotype = stereotypeDeclaration.getStereotype();
 				if(superStereotype!=null) {
 					Boolean result = CDIUtil.checkTargetAnnotation(superStereotype, TYPE_VARIANTS);
@@ -112,7 +111,7 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 			 * 9.1.2. Interceptor bindings for stereotypes
 			 * - If a stereotype declares interceptor bindings, it must be defined as @Target(TYPE).
 			 */
-			Set<IInterceptorBindingDeclaration> interceptorBindingDeclarations = stereotype.getInterceptorBindingDeclarations(false);
+			Collection<IInterceptorBindingDeclaration> interceptorBindingDeclarations = stereotype.getInterceptorBindingDeclarations(false);
 			if(!interceptorBindingDeclarations.isEmpty() && !CDIUtil.checkTargetAnnotation(target, TYPE_VARIANTS)) {
 				StringBuffer bindings = new StringBuffer();
 				boolean first = true;
@@ -135,7 +134,7 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 		 * - Interceptor binding types declared @Target(TYPE) may not be applied to interceptor binding types declared
 		 *   @Target({TYPE, METHOD}).
 		 */
-		Set<IInterceptorBindingDeclaration> declarations = binding.getInterceptorBindingDeclarations(false);
+		Collection<IInterceptorBindingDeclaration> declarations = binding.getInterceptorBindingDeclarations(false);
 		if(!declarations.isEmpty()) {
 			IAnnotationDeclaration target = binding.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
 			if(target!=null) {

@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.refactoring;
 
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -39,18 +39,14 @@ public class DeleteAllDisposerAnnotationsProcessor extends CDIRefactoringProcess
 	}
 	
 	private void changeDisposers(IClassBean bean) throws JavaModelException {
-		Set<IBeanMethod> disposers = bean.getDisposers();
-		if (disposers.isEmpty()) {
+		if (bean.getDisposers().isEmpty()) {
 			return;
 		}
 
-		Set<IBeanMethod> boundDisposers = new HashSet<IBeanMethod>();
-		Set<IProducer> producers = bean.getProducers();
-		for (IProducer producer : producers) {
+		for (IProducer producer : bean.getProducers()) {
 			if (producer instanceof IProducerMethod) {
 				IProducerMethod producerMethod = (IProducerMethod) producer;
-				Set<IBeanMethod> disposerMethods = producer.getCDIProject().resolveDisposers(producerMethod);
-				boundDisposers.addAll(disposerMethods);
+				Collection<IBeanMethod> disposerMethods = producer.getCDIProject().resolveDisposers(producerMethod);
 				ICompilationUnit original = producerMethod.getMethod().getCompilationUnit();
 				ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 				for (IBeanMethod disposerMethod : disposerMethods) {

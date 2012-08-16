@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.internal.core.el;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -116,7 +117,7 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 
 		String varName = expr.toString();
 
-		Set<IBean> resolvedBeans = null;
+		Collection<IBean> resolvedBeans = null;
 		if (varName != null) {
 			CDICoreNature nature = CDIUtil.getCDINatureWithProgress(project);
 			if(nature!=null) {
@@ -201,8 +202,7 @@ class BeanRelevanceCheck extends DefaultJavaRelevanceCheck {
 		IProject project = element.getJavaProject().getProject();
 		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
 		if(cdi != null) {
-			Set<IBean> beans = cdi.getBeans(element);
-			for (IBean b: beans) {
+			for (IBean b: cdi.getBeans(element)) {
 				if(b.getName() != null) {
 					names.add(b.getName());
 				}
