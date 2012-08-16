@@ -1,5 +1,5 @@
 <tests>
-	<test id="inputTextArea">
-		<TEXTAREA> inputTextArea </TEXTAREA>
+	<test id="inputTextAreaID">
+		<TEXTAREA> inputTextAreaValue </TEXTAREA>
 	</test>
 </tests>

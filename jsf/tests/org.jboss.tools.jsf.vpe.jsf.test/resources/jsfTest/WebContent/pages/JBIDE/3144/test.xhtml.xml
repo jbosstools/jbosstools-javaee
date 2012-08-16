@@ -1,7 +1,7 @@
 <tests>
 	<test id="test_el">
 		<FORM STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px;">
-			<UL CLASS="message" STYLE="-moz-user-modify: read-only;">
+			<UL CLASS="message" STYLE="color: green;">
 				<LI>
 					Error Messages
 				</LI>

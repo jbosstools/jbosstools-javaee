@@ -118,7 +118,10 @@
 	</vpe:tag>
 
 	<vpe:tag name="h:inputHidden" case-sensitive="yes">
-		<vpe:template children="no" modify="no">
+		<vpe:template children="yes" modify="no">
+		<div>
+			<input id="{@id}" type="hidden" name="{@id}" value="{@value}" />
+		</div>
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="yes">
@@ -391,10 +394,8 @@
 	</vpe:tag>
 
 	<vpe:tag name="h:selectBooleanCheckbox" case-sensitive="yes">
-		<vpe:if test="@disabled='on'"><!-- Gavr --><!-- added x: 15.02.05 -->
-			<vpe:template children="no" modify="no">
-				<input type="checkbox" disabled="on" checked="{@value}" class="{@styleClass}"
-					style="{@style}" border="{@border}" title="{tagstring()}" />
+		<vpe:template children="yes" modify="no"
+		class="org.jboss.tools.jsf.vpe.jsf.template.JsfSelectBooleanCheckbox">
 				<vpe:dnd>
 					<vpe:drag start-enable="yes" />
 					<vpe:drop container="yes">
@@ -402,11 +403,6 @@
 						<vpe:container-child tag-name="selectItems" />
 					</vpe:drop>
 				</vpe:dnd>
-			</vpe:template>
-		</vpe:if>
-		<vpe:template children="no" modify="no">
-			<input type="checkbox" checked="{@value}" class="{@styleClass}"
-				style="{@style}" border="{@border}" title="{tagstring()}" />
 		</vpe:template>
 	</vpe:tag>
 
@@ -912,10 +908,8 @@
 	</vpe:tag>
 
 	<vpe:tag name="h:messages">
-		<vpe:template children="no" modify="no">
-			<ul class="{@styleClass}" style="{@style}">
-				<li>Error Messages</li>
-			</ul>
+		<vpe:template children="yes" modify="no"
+			class="org.jboss.tools.jsf.vpe.jsf.template.JsfMessages">
 			<vpe:dnd>
 				<vpe:drag start-enable="yes" />
 				<vpe:drop container="no" />

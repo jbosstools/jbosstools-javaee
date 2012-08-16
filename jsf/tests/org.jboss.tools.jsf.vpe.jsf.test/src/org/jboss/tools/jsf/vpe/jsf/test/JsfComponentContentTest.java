@@ -46,8 +46,7 @@ public class JsfComponentContentTest extends ComponentContentTest {
 	}
 
 	public void testInputHidden() throws Throwable {
-		performInvisibleTagTest(
-				"components/inputHidden.jsp", "inputHidden"); //$NON-NLS-1$ //$NON-NLS-2$
+		performContentTest("components/inputHidden.jsp"); //$NON-NLS-1$
 	}
 
 	public void testInputSecret() throws Throwable {

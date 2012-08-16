@@ -16,9 +16,9 @@ import org.jboss.tools.vpe.editor.mapping.AttributeData;
 import org.jboss.tools.vpe.editor.mapping.VpeElementData;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
-import org.mozilla.interfaces.nsIDOMHTMLTextAreaElement;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
@@ -33,13 +33,6 @@ public class JsfInputTextAreaTemplate extends AbstractEditableJsfTemplate {
 
 		nsIDOMElement textArea = visualDocument
 				.createElement(HTML.TAG_TEXTAREA);
-		
-// Commented as fix for JBIDE-3012.		
-//		((nsIDOMHTMLTextAreaElement) textArea
-//				.queryInterface(nsIDOMHTMLTextAreaElement.NS_IDOMHTMLTEXTAREAELEMENT_IID))
-//				.setReadOnly(true);
-
-		VpeCreationData creationData = new VpeCreationData(textArea);
 
 		copyGeneralJsfAttributes(sourceElement, textArea);
 		ComponentUtil.copyDisabled(sourceElement, textArea);
@@ -65,6 +58,13 @@ public class JsfInputTextAreaTemplate extends AbstractEditableJsfTemplate {
 
 		}
 		textArea.appendChild(text);
+		/*
+		 * https://issues.jboss.org/browse/JBIDE-3225
+		 * Components should render usual text inside
+		 */
+		VpeCreationData creationData = VisualDomUtil.createTemplateWithTextContainer(
+				sourceElement, textArea, HTML.TAG_DIV, visualDocument);
+		
 		creationData.setElementData(elementData);
 
 		return creationData;
