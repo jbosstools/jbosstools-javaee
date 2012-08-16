@@ -18,18 +18,11 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
-import org.jboss.tools.tests.IAnnotationTest;
 
 /**
  * @author Alexey Kazakov
  */
 public class DefenitionErrorsValidationTest extends ValidationTest {
-
-	private IAnnotationTest annotationTest = new AbstractResourceMarkerTest();
-
-	protected IAnnotationTest getAnnotationTest() {
-		return annotationTest;
-	}
 
 	/**
 	 * 2.2.2. Restricting the bean types of a bean

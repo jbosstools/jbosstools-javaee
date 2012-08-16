@@ -15,8 +15,6 @@ import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IFile;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
-import org.jboss.tools.tests.AbstractResourceMarkerTest;
-import org.jboss.tools.tests.IAnnotationTest;
 
 /**
  * Wrong targets in CDI annotation types.
@@ -24,12 +22,6 @@ import org.jboss.tools.tests.IAnnotationTest;
  * @author Alexey Kazakov
  */
 public class AnnotationsValidationTest extends ValidationTest {
-
-	private IAnnotationTest annotationTest = new AbstractResourceMarkerTest();
-
-	protected IAnnotationTest getAnnotationTest() {
-		return annotationTest;
-	}
 
 	public void testQualifierWithMissingTarget() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/qualifier/broken/Hairy_MissingTarget.java");

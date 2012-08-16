@@ -728,12 +728,23 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			 */
 			Collection<IBean> beans = context.getCdiProject().getBeans(name, true);
 			if(beans.size()>1 && beans.contains(bean)) {
+				// We need to sort bean element names to make sure we report the same problem message for the same bean name for every validation process.
+				IBean[] sortedBeans = beans.toArray(new IBean[beans.size()]);
+				for (int i = sortedBeans.length - 1; i >= 0; i--) {
+					for (int j = 0; j < i; j++) {
+						if (sortedBeans[j].getElementName().compareTo(sortedBeans[j + 1].getElementName()) > 0) {
+							IBean t = sortedBeans[j];
+							sortedBeans[j] = sortedBeans[j+1];
+							sortedBeans[j+1] = t;
+						}
+					}
+				}
 				ITextSourceReference reference = bean.getNameLocation(true);
 				Set<String> names = new HashSet<String>();
 				String bName = bean.getElementName();
 				names.add(bName);
 				StringBuffer sb = new StringBuffer(bName);
-				for (IBean iBean : beans) {
+				for (IBean iBean : sortedBeans) {
 					if(!isAsYouTypeValidation()) {
 						getValidationContext().addLinkedCoreResource(SHORT_ID, name, iBean.getSourcePath(), true);
 					}
