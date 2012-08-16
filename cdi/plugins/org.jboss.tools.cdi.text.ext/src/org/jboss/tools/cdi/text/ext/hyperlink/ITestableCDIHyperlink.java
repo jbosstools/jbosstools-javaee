@@ -10,11 +10,11 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.jboss.tools.cdi.core.ICDIElement;
 
 public interface ITestableCDIHyperlink {
 	public ICDIElement getCDIElement();
-	public Set<? extends ICDIElement> getCDIElements();
+	public Collection<? extends ICDIElement> getCDIElements();
 }

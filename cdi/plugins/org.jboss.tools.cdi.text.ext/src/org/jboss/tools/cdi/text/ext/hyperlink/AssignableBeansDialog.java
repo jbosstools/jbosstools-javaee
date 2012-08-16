@@ -125,7 +125,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		this.injectionPoint = injectionPoint;
 		filters.init(injectionPoint);
 		initSettings();
-		beans = injectionPoint.getCDIProject().getBeans(false, injectionPoint);
+		beans = new HashSet<IBean>(injectionPoint.getCDIProject().getBeans(false, injectionPoint));
 		eligibleBeans = new HashSet<IBean>(beans);
 		for (int i = AssignableBeanFilters.OPTION_UNAVAILABLE_BEANS + 1; i < AssignableBeanFilters.OPTION_ELIMINATED_AMBIGUOUS; i++) {
 			Filter f = filters.getFilter(i);
@@ -133,7 +133,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 				f.filter(eligibleBeans);
 			}
 		}
-		resolvedBeans = injectionPoint.getCDIProject().getBeans(true, injectionPoint);
+		resolvedBeans = new HashSet<IBean>(injectionPoint.getCDIProject().getBeans(true, injectionPoint));
 	}
 
 	String computeTitle() {
@@ -144,8 +144,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 			IMethod m = ((IInjectionPointParameter)injectionPoint).getBeanMethod().getMethod();
 			result.append(m.getElementName()).append("(");
 		}
-		Set<IQualifierDeclaration> ds = injectionPoint.getQualifierDeclarations();
-		for (IQualifierDeclaration d: ds) {
+		for (IQualifierDeclaration d: injectionPoint.getQualifierDeclarations()) {
 			result.append("@").append(d.getType().getElementName()).append(" ");
 		}
 		

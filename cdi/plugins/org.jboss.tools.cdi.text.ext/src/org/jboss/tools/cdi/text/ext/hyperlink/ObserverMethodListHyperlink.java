@@ -10,7 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
@@ -23,9 +23,9 @@ import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 
 public class ObserverMethodListHyperlink extends AbstractHyperlink implements ITestableCDIHyperlink{
 	private ITextViewer viewer;
-	private Set<IObserverMethod> observerMethods;
+	private Collection<IObserverMethod> observerMethods;
 	
-	public ObserverMethodListHyperlink(ITextViewer viewer, IRegion region, Set<IObserverMethod> observerMethods, IDocument document){
+	public ObserverMethodListHyperlink(ITextViewer viewer, IRegion region, Collection<IObserverMethod> observerMethods, IDocument document){
 		this.viewer = viewer;
 		this.observerMethods = observerMethods;
 		setRegion(region);
@@ -61,7 +61,7 @@ public class ObserverMethodListHyperlink extends AbstractHyperlink implements IT
 		return null;
 	}
 
-	public Set<? extends ICDIElement> getCDIElements() {
+	public Collection<? extends ICDIElement> getCDIElements() {
 		return observerMethods;
 	}
 }

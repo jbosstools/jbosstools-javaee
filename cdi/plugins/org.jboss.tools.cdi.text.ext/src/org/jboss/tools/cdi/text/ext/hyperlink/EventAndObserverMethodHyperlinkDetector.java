@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -101,7 +102,7 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 				IInjectionPoint injectionPoint = findInjectedPoint(cdiProject, elements[0], position, input.getPath());
 				Set<IParameter> param = findObserverParameter(cdiProject, elements[0], offset, input.getPath());
 				if(injectionPoint != null){
-					Set<IObserverMethod> observerMethods = cdiProject.resolveObserverMethods(injectionPoint);
+					Collection<IObserverMethod> observerMethods = cdiProject.resolveObserverMethods(injectionPoint);
 
 					if(observerMethods.size() == 1){
 						hyperlinks.add(new ObserverMethodHyperlink(region, observerMethods.iterator().next(), document));
@@ -132,22 +133,18 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 	}
 	
 	private IInjectionPoint findInjectedPoint(ICDIProject cdiProject, IJavaElement element, int offset, IPath path){
-		Set<IBean> beans = cdiProject.getBeans(path);
-		
-		return CDIUtil.findInjectionPoint(beans, element, offset);
+		return CDIUtil.findInjectionPoint(cdiProject.getBeans(path), element, offset);
 	}
 	
 	private Set<IParameter> findObserverParameter(ICDIProject cdiProject, IJavaElement element, int offset, IPath path) throws JavaModelException {
 		HashSet<IParameter> result = new HashSet<IParameter>();
-		Set<IBean> beans = cdiProject.getBeans(path);
-		for (IBean bean: beans) {
+		for (IBean bean: cdiProject.getBeans(path)) {
 			if(bean instanceof IClassBean) {
-				Set<IObserverMethod> observers = ((IClassBean)bean).getObserverMethods();
-				for (IObserverMethod bm: observers) {
+				for (IObserverMethod bm: ((IClassBean)bean).getObserverMethods()) {
 					ISourceRange sr = bm.getMethod().getSourceRange();
 					if(sr.getOffset() <= offset && sr.getOffset() + sr.getLength() >= offset) {
 						IObserverMethod obs = (IObserverMethod)bm;
-						Set<IParameter> ps = obs.getObservedParameters();
+						Collection<IParameter> ps = obs.getObservedParameters();
 						if(!ps.isEmpty()) {
 							result.add(ps.iterator().next());
 						}

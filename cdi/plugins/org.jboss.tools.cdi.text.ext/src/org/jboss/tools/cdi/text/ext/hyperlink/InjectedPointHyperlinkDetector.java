@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -115,7 +116,7 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 			return;
 		}
 		
-		Set<IBean> beans = cdiProject.getBeans(path);
+		Collection<IBean> beans = cdiProject.getBeans(path);
 		
 		IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element, offset);
 		if(injectionPoint == null){
@@ -124,7 +125,7 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		
 		List<IBean> resultBeans = CDIUtil.getSortedBeans(cdiProject, true, injectionPoint);
 		
-		Set<IBean> assignableBeans = cdiProject.getBeans(false, injectionPoint);
+		Collection<IBean> assignableBeans = cdiProject.getBeans(false, injectionPoint);
 			
 		if(assignableBeans.size() > 0){
 			if(resultBeans.size() > 0){

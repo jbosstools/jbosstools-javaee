@@ -11,8 +11,8 @@
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
@@ -67,7 +67,7 @@ public class ProducerDisposerHyperlinkDetector extends AbstractHyperlinkDetector
 		if(project == null)
 			return null;
 		
-		Set<IBean> beans = getBeans(project, input.getPath());
+		Collection<IBean> beans = getBeans(project, input.getPath());
 		
 		if(beans == null)
 			return null;
@@ -123,7 +123,7 @@ public class ProducerDisposerHyperlinkDetector extends AbstractHyperlinkDetector
 		return null;
 	}
 	
-	private Set<IBean> getBeans(IProject project, IPath path){
+	private Collection<IBean> getBeans(IProject project, IPath path){
 		CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(project);
 		
 		if(cdiNature == null)
@@ -136,8 +136,7 @@ public class ProducerDisposerHyperlinkDetector extends AbstractHyperlinkDetector
 			return null;
 		
 		
-		Set<IBean> beans = cdiProject.getBeans(path);
-		return beans;
+		return cdiProject.getBeans(path);
 	}
 	
 	private IProducerMethod getProducer(IClassBean classBean, IMethod method){
