@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.seam.config.core.test;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -499,7 +500,7 @@ public class SeamDefinitionsTest extends SeamConfigTest {
 		IStereotype s = cdi.getStereotype("org.jboss.test608.SomeStereotype");
 		assertNotNull(s);
 		assertNotNull(s.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME));
-		Set<IInterceptorBinding> bs = s.getInterceptorBindings();
+		Collection<IInterceptorBinding> bs = s.getInterceptorBindings();
 		assertEquals(1, bs.size());
 		
 	}

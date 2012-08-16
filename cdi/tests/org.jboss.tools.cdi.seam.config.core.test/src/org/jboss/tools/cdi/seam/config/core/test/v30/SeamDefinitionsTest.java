@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.seam.config.core.test.v30;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -37,7 +38,6 @@ import org.jboss.tools.cdi.seam.config.core.definition.SeamMethodDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamParameterDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamVirtualFieldDefinition;
 import org.jboss.tools.cdi.seam.config.core.xml.Location;
-import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants30;
 import org.jboss.tools.common.java.IJavaAnnotation;
 import org.osgi.framework.Bundle;
@@ -500,7 +500,7 @@ public class SeamDefinitionsTest extends SeamConfigTest {
 		IStereotype s = cdi.getStereotype("org.jboss.test608.SomeStereotype");
 		assertNotNull(s);
 		assertNotNull(s.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME));
-		Set<IInterceptorBinding> bs = s.getInterceptorBindings();
+		Collection<IInterceptorBinding> bs = s.getInterceptorBindings();
 		assertEquals(1, bs.size());
 		
 	}
