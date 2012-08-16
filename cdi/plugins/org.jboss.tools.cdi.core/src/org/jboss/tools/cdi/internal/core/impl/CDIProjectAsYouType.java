@@ -83,6 +83,16 @@ public class CDIProjectAsYouType implements ICDIProject {
 	IInterceptorBinding interceptorBinding;
 
 	public CDIProjectAsYouType(ICDIProject project, IFile file) {
+		if(file.getProject() != project.getNature().getProject()) {
+			/**
+			 * Validation is done in context of the root project, 
+			 * however, at present as-you-type project based on the root project
+			 * appears to be too complicated to implement, so that currently
+			 * it will be based on the project of the file itself.
+			 */
+			ICDIProject p = CDICorePlugin.getCDIProject(file.getProject(), true);
+			if(p != null) project = p;
+		}
 		this.project = project;
 		this.file = file;
 		try {
