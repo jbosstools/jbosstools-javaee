@@ -11,8 +11,8 @@
 package org.jboss.tools.cdi.text.ext.test;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -525,7 +525,7 @@ public class CDIHyperlinkTestUtil extends TestCase{
 			return null;
 		}
 
-		protected ICDIElement findCDIElement(Set<? extends ICDIElement> elements, String elementPath){
+		protected ICDIElement findCDIElement(Collection<? extends ICDIElement> elements, String elementPath){
 			for(ICDIElement element : elements){
 				if(elementPath.equals(element.getSourcePath().toString()))
 					return element;
