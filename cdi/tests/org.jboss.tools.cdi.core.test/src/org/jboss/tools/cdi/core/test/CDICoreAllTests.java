@@ -54,6 +54,7 @@ import org.jboss.tools.cdi.core.test.tck.lookup.DynamicLookupTest;
 import org.jboss.tools.cdi.core.test.tck.lookup.ResolutionByNameTest;
 import org.jboss.tools.cdi.core.test.tck.lookup.ResolutionByTypeTest;
 import org.jboss.tools.cdi.core.test.tck.lookup.UnsatisfiedDependencyTest;
+import org.jboss.tools.cdi.core.test.tck.validation.AYTAnnotationValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.AYTDefenitionErrorsValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.AnnotationsValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.BeansXmlValidationTest;
@@ -134,6 +135,12 @@ public class CDICoreAllTests {
 
 		// As-you-type validation tests
 		suite.addTestSuite(AYTDefenitionErrorsValidationTest.class);
+//		suite.addTestSuite(DeploymentProblemsValidationTests.class);
+//		suite.addTestSuite(BeansXmlValidationTest.class);
+		suite.addTestSuite(AYTAnnotationValidationTest.class);
+//		suite.addTestSuite(CoreValidationTest.class);
+//		suite.addTestSuite(ELValidationTest.class);
+//		suite.addTestSuite(SuppressWarningsTests.class);
 
 		// Refactoring test
 		suite.addTestSuite(NamedBeanRefactoringTest.class);

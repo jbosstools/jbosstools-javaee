@@ -10,24 +10,17 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck.validation;
 
-import org.eclipse.core.resources.IFile;
 import org.jboss.tools.tests.IAnnotationTest;
 
 /**
  * @author Alexey Kazakov
  */
-public class AYTDefenitionErrorsValidationTest extends DefenitionErrorsValidationTest {
+public class AYTAnnotationValidationTest extends AnnotationsValidationTest {
 
 	private CDIAnnotationTest annotationTest = new CDIAnnotationTest();
 
 	@Override
 	protected IAnnotationTest getAnnotationTest() {
 		return annotationTest;
-	}
-
-	@Override
-	public void testBeanDoesNotHaveSomeTypeOfSpecializedBean() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/specialization/MissingTypeBeanBroken.java");
-		annotationTest.assertAnnotationsEqualToMarkers(file);
 	}
 }
