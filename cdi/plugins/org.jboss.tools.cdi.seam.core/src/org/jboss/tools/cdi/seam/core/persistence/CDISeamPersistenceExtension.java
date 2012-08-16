@@ -99,8 +99,7 @@ public class CDISeamPersistenceExtension implements ICDIExtension, IBuildPartici
 			ClassBean bean = new ClassBean();
 			bean.setParent(cdi);
 			bean.setDefinition(def);
-			Set<IProducer> ps = bean.getProducers();
-			for (IProducer p: ps) {
+			for (IProducer p: bean.getProducers()) {
 				if(isArtefact(p)) {
 					BeanMember m = (BeanMember)p;
 					TypeDeclaration d = m.getTypeDeclaration();

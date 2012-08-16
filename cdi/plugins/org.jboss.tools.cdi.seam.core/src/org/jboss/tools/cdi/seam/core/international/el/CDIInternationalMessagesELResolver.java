@@ -13,7 +13,6 @@ package org.jboss.tools.cdi.seam.core.international.el;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -611,9 +610,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		// Surround the "long" keys containing the dots with [' '] 
 		TreeSet<String> keys = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 		keys.addAll(mbr.getKeys());
-		Iterator<String> sortedKeys = keys.iterator();
-		while(sortedKeys.hasNext()) {
-			String key = sortedKeys.next();
+		for(String key: keys) {
 			if (key == null || key.length() == 0)
 				continue;
 			
