@@ -11,7 +11,7 @@
 package org.jboss.tools.cdi.ui.marker;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -273,10 +273,9 @@ public class CDIProblemMarkerResolutionGenerator implements
 				ICDIProject cdiProject = CDIUtil.getCDIProject((IFile)compilationUnit.getUnderlyingResource(), cdiNature, asYouType);
 				
 				if(cdiProject != null){
-					Set<IBean> beans = cdiProject.getBeans(field.getUnderlyingResource().getFullPath());
-					Iterator<IBean> iter = beans.iterator();
-					if(iter.hasNext()){
-						IBean bean = iter.next();
+					Collection<IBean> beans = cdiProject.getBeans(field.getUnderlyingResource().getFullPath());
+					if(!beans.isEmpty()){
+						IBean bean = beans.iterator().next();
 						if(field != null){
 							return new IQuickFix[] {
 									new MakeFieldProtectedMarkerResolution(field),
@@ -625,7 +624,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 					return resolutions;
 				}
 				
-				Set<IBean> allBeans = CDIUtil.getFilteredBeans(cdiProject, compilationUnit.getUnderlyingResource().getFullPath());
+				Collection<IBean> allBeans = CDIUtil.getFilteredBeans(cdiProject, compilationUnit.getUnderlyingResource().getFullPath());
 				
 				IInjectionPoint ip = CDIUtil.findInjectionPoint(allBeans, parameter, start);
 				if(ip != null){
@@ -808,7 +807,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 			return null;
 		}
 		
-		Set<IBean> allBeans = CDIUtil.getFilteredBeans(cdiProject, compilationUnit.getUnderlyingResource().getFullPath());
+		Collection<IBean> allBeans = CDIUtil.getFilteredBeans(cdiProject, compilationUnit.getUnderlyingResource().getFullPath());
 		
 		IInjectionPoint ip = CDIUtil.findInjectionPoint(allBeans, element, start);
 		

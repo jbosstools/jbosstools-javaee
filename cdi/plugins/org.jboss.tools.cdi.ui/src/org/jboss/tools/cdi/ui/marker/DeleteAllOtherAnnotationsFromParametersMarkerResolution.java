@@ -107,6 +107,11 @@ public class DeleteAllOtherAnnotationsFromParametersMarkerResolution implements 
 	
 	@Override
 	public String getDescription() {
+		if(description == null) {
+			System.out.println("compute description " + this);
+			description = getPreview();
+			System.out.println(description.length());
+		}
 		return description;
 	}
 

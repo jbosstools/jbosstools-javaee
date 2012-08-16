@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.refactoring;
 
+import java.util.Collection;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -103,7 +104,7 @@ public class CDIRefactorContributionFactory extends AbstractContributionFactory 
 		if(cdiProject == null)
 			return null;
 		
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		Collection<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		
 		for(IBean bean : beans){
 			if(bean.getName() != null){

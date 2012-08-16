@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -190,8 +191,7 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 
 			ICDIProject cdiProject = CDICorePlugin.getCDIProject(project, true);
 			if (cdiProject != null) {
-				Set<IBean> iter = cdiProject.getNamedBeans(false);
-				for (IBean bean: iter) {
+				for (IBean bean: cdiProject.getNamedBeans(false)) {
 					if (cdiProject == bean.getDeclaringProject()) {
 						contentProvider.add(new CDINamedBeanWrapper(bean
 								.getName(), project.getName(), bean),
@@ -291,7 +291,7 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 				}
 
 				String beanName = beanWrapper.getBeanName();
-				Set<IBean> beans = cdiProject
+				Collection<IBean> beans = cdiProject
 						.getBeans(beanName, true);
 				IBean bean = (beans == null || beans.isEmpty() ? null : beans.iterator().next());
 				return (bean != null);
@@ -457,7 +457,7 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 					ICDIProject cdiProject = CDICorePlugin.getCDIProject(
 							project, true);
 					if (cdiProject != null) {
-						Set<IBean> beans = cdiProject
+						Collection<IBean> beans = cdiProject
 								.getBeans(beanName, true);
 						if (!beans.isEmpty())
 							return beans.iterator().next();
@@ -518,7 +518,7 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 					mem.putString(DELETED, YES);
 					continue;
 				}
-				Set<IBean> beans = cdiProject
+				Collection<IBean> beans = cdiProject
 						.getBeans(beanName, true);
 				IBean bean = (beans == null || beans.isEmpty() ? null : beans.iterator().next()); 
 				if (bean == null)

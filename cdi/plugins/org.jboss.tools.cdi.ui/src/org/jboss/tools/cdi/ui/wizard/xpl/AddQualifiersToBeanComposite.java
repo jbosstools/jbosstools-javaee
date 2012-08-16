@@ -15,7 +15,6 @@ package org.jboss.tools.cdi.ui.wizard.xpl;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.OperationCanceledException;
@@ -609,16 +608,13 @@ public class AddQualifiersToBeanComposite extends Composite {
 	}
 
 	protected void moveAll(ValuedQualifier[] mods, boolean add2) {
-		int size = mods.length;
 		ArrayList<ValuedQualifier> list = new ArrayList<ValuedQualifier>();
-		for (int i = 0; i < size; i++) {
-			if (!contains(list, mods[i]))
-				list.add(mods[i]);
+		for (ValuedQualifier qualifier: mods) {
+			if (!contains(list, qualifier))
+				list.add(qualifier);
 		}
 		
-		Iterator<ValuedQualifier> iterator = list.iterator();
-		while (iterator.hasNext()) {
-			ValuedQualifier qualifier = iterator.next();
+		for (ValuedQualifier qualifier: list) {
 			if (add2) {
 				qualifiers.remove(qualifier);
 				deployed.add(qualifier);
@@ -653,9 +649,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 
 	public ArrayList<ValuedQualifier> getQualifiersToRemove() {
 		ArrayList<ValuedQualifier> list = new ArrayList<ValuedQualifier>();
-		Iterator<ValuedQualifier> iterator = originalQualifiers.iterator();
-		while (iterator.hasNext()) {
-			ValuedQualifier qualifier = iterator.next();
+		for (ValuedQualifier qualifier: originalQualifiers) {
 			if (!contains(deployed, qualifier))
 				list.add(qualifier);
 		}
@@ -664,9 +658,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 
 	public ArrayList<ValuedQualifier> getQualifiersToAdd() {
 		ArrayList<ValuedQualifier> list = new ArrayList<ValuedQualifier>();
-		Iterator<ValuedQualifier> iterator = deployed.iterator();
-		while (iterator.hasNext()) {
-			ValuedQualifier qualifier = iterator.next();
+		for (ValuedQualifier qualifier: deployed) {
 			if (!contains(originalQualifiers, qualifier))
 				list.add(qualifier);
 		}

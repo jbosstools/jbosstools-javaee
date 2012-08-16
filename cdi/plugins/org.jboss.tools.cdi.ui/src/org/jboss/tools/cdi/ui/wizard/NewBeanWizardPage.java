@@ -293,9 +293,7 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 			IJavaProject jp = root.getJavaProject();
 			ICDIProject cdi = NewCDIAnnotationWizardPage.getCDIProject(jp);
 			if(cdi != null) {
-				Set<String> scopes = cdi.getScopeNames();
-				String[] tags = scopes.toArray(new String[0]);
-				setScopes(tags);
+				setScopes(cdi.getScopeNames().toArray(new String[0]));
 			} else {
 				setScopes(new String[]{""});
 			}

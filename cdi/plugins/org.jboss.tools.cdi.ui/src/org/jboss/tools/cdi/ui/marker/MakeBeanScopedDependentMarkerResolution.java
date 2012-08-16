@@ -11,8 +11,6 @@
 package org.jboss.tools.cdi.ui.marker;
 
 import java.text.MessageFormat;
-import java.util.Iterator;
-import java.util.Set;
 
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IBuffer;
@@ -92,10 +90,7 @@ public class MakeBeanScopedDependentMarkerResolution extends BaseMarkerResolutio
 	}
 	
 	private IAnnotation getScopeAnnotation(){
-		Set<IScopeDeclaration> scopDeclarations = bean.getScopeDeclarations();
-		Iterator<IScopeDeclaration> iter = scopDeclarations.iterator();
-		while(iter.hasNext()){
-			IScopeDeclaration declaration = iter.next();
+		for(IScopeDeclaration declaration: bean.getScopeDeclarations()) {
 			if(declaration.getJavaAnnotation() != null) {
 				return declaration.getJavaAnnotation();
 			}
@@ -104,10 +99,7 @@ public class MakeBeanScopedDependentMarkerResolution extends BaseMarkerResolutio
 	}
 	
 	private String getFullyQualifiedName(){
-		Set<IScopeDeclaration> scopDeclarations = bean.getScopeDeclarations();
-		Iterator<IScopeDeclaration> iter = scopDeclarations.iterator();
-		while(iter.hasNext()){
-			IScopeDeclaration declaration = iter.next();
+		for(IScopeDeclaration declaration: bean.getScopeDeclarations()) {
 			return declaration.getScope().getSourceType().getFullyQualifiedName();
 		}
 		return null;

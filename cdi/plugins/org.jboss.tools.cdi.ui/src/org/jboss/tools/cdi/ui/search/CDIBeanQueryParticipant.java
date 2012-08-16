@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.search;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -78,12 +79,11 @@ public class CDIBeanQueryParticipant implements IQueryParticipant{
 	}
 	
 	private void searchInProject(ISearchRequestor requestor, QuerySpecification querySpecification, ICDIProject cdiProject, IProgressMonitor monitor, IJavaElement element){
-		Set<IBean> sourceBeans = cdiProject.getBeans(element);
+		Collection<IBean> sourceBeans = cdiProject.getBeans(element);
 		
 		Set<IInjectionPoint> injectionPoints = new HashSet<IInjectionPoint>();
 		for (IBean b: sourceBeans) {
-			Set<IParametedType> ts = b.getLegalTypes();
-			for (IParametedType t: ts) {
+			for (IParametedType t: b.getLegalTypes()) {
 				injectionPoints.addAll(cdiProject.getInjections(t.getType().getFullyQualifiedName()));
 			}
 		}
@@ -93,7 +93,7 @@ public class CDIBeanQueryParticipant implements IQueryParticipant{
 		for(IInjectionPoint injectionPoint : injectionPoints){
 			if(monitor.isCanceled())
 				break;
-			Set<IBean> resultBeans = cdiProject.getBeans(false, injectionPoint);
+			Collection<IBean> resultBeans = cdiProject.getBeans(false, injectionPoint);
 			monitor.worked(1);
 				
 			for(IBean cBean : resultBeans){

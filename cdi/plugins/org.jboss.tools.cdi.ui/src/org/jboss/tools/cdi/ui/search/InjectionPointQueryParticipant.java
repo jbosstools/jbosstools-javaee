@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.ui.search;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -94,12 +95,11 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 				if(cdiProject == null)
 					return;
 				
-				Set<IBean> beans = cdiProject.getBeans(element.getPath());
+				Collection<IBean> beans = cdiProject.getBeans(element.getPath());
 				
 				IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element, 0);
 				if(injectionPoint != null){
-					Set<IBean> resultBeanSet = cdiProject.getBeans(false, injectionPoint);
-					List<IBean> resultBeanList = CDIUtil.sortBeans(resultBeanSet);
+					List<IBean> resultBeanList = CDIUtil.sortBeans(cdiProject.getBeans(false, injectionPoint));
 					for(IBean bean : resultBeanList){
 						if(bean != null && containsInSearchScope(querySpecification, bean)){
 							CDIMatch match = new CDIMatch(bean);
@@ -123,8 +123,7 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 	
 	private void resolveObserverMethods(ICDIProject cdiProject, IInjectionPoint injectionPoint, ISearchRequestor requestor,
 			QuerySpecification querySpecification){
-		Set<IObserverMethod> observerMethods = cdiProject.resolveObserverMethods(injectionPoint);
-		for(IObserverMethod observerMethod : observerMethods){
+		for(IObserverMethod observerMethod : cdiProject.resolveObserverMethods(injectionPoint)){
 			if(containsInSearchScope(querySpecification, observerMethod)){
 				// match observer method
 				CDIMatch match = new CDIMatch(observerMethod);
@@ -138,8 +137,7 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 	
 	private void findObservedEvents(ICDIProject cdiProject, IParameter param, ISearchRequestor requestor,
 			QuerySpecification querySpecification){
-		Set<IInjectionPoint> events = cdiProject.findObservedEvents(param);
-		for(IInjectionPoint event : events){
+		for(IInjectionPoint event : cdiProject.findObservedEvents(param)){
 			if(containsInSearchScope(querySpecification, event)){
 				// match event
 				CDIMatch match = new CDIMatch(event);
@@ -151,14 +149,13 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 		}
 	}
 	
-	private IParameter findObserverParameter(Set<IBean> beans, IMethod method) throws JavaModelException {
+	private IParameter findObserverParameter(Collection<IBean> beans, IMethod method) throws JavaModelException {
 		for (IBean bean: beans) {
 			if(bean instanceof IClassBean) {
-				Set<IObserverMethod> observers = ((IClassBean)bean).getObserverMethods();
-				for (IObserverMethod bm: observers) {
+				for (IObserverMethod bm: ((IClassBean)bean).getObserverMethods()) {
 					if(bm.getMethod().equals(method)){
 						IObserverMethod obs = (IObserverMethod)bm;
-						Set<IParameter> ps = obs.getObservedParameters();
+						Collection<IParameter> ps = obs.getObservedParameters();
 						if(!ps.isEmpty()) {
 							return ps.iterator().next();
 						}

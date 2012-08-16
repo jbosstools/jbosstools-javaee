@@ -35,7 +35,6 @@ import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.internal.core.validation.AnnotationValidationDelegate;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
-import org.jboss.tools.cdi.ui.wizard.NewBeanWizardPage.CheckBoxEditorWrapper;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.ui.widget.editor.ITaggedFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.ListFieldEditor;
@@ -234,9 +233,7 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 			IJavaProject jp = root.getJavaProject();
 			ICDIProject cdi = getCDIProject(jp);
 			if(cdi != null) {
-				Set<String> scopes = cdi.getScopeNames();
-				String[] tags = scopes.toArray(new String[0]);
-				setScopes(tags);
+				setScopes(cdi.getScopeNames().toArray(new String[0]));
 			} else {
 				setScopes(new String[]{""});
 			}
