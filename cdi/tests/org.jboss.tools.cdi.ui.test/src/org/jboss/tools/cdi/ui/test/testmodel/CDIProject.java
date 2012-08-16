@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.ui.test.testmodel;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -227,7 +228,7 @@ public class CDIProject implements ICDIProject{
 	}
 
 	@Override
-	public Set<IBean> resolve(Set<IBean> beans) {
+	public Set<IBean> resolve(Collection<IBean> beans) {
 		return null;
 	}
 

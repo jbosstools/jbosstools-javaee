@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.test.testmodel;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -69,7 +70,7 @@ public class CDIBean extends CDIElement implements IClassBean{
 	}
 
 	@Override
-	public Set<IStereotypeDeclaration> getStereotypeDeclarations() {
+	public Collection<IStereotypeDeclaration> getStereotypeDeclarations() {
 		return null;
 	}
 
@@ -221,7 +222,7 @@ public class CDIBean extends CDIElement implements IClassBean{
 	}
 
 	@Override
-	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations(
+	public Collection<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations(
 			boolean includeInherited) {
 		return null;
 	}
