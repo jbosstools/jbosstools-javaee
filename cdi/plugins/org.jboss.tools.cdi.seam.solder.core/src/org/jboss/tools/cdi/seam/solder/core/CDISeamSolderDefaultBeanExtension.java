@@ -152,7 +152,7 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 	 
 	}
 
-	public Set<IBean> getResolvedBeans(Set<IBean> result) {
+	public Collection<IBean> getResolvedBeans(Collection<IBean> result) {
 		Set<IBean> defaultBeans = new HashSet<IBean>();
 		for (IBean b: result) {
 			if(isBeanDefault(b)) {

@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.solder.core.generic;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.internal.core.impl.AbstractBeanElement;
@@ -54,7 +54,7 @@ public class GenericClassBean extends ClassBean implements IGenericBean {
 	}
 
 	public IBean getGenericProducerBean() {
-		Set<IBean> bs = getCDIProject().getBeans(genericProducerBean.getTypeDefinition().getType().getPath());
+		Collection<IBean> bs = getCDIProject().getBeans(genericProducerBean.getTypeDefinition().getType().getPath());
 		for (IBean b: bs) {
 			if(b instanceof AbstractBeanElement) {
 				if(((AbstractBeanElement)b).getDefinition() == genericProducerBean) {
