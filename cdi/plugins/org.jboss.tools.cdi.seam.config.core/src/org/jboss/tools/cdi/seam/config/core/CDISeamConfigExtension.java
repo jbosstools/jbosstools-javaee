@@ -12,7 +12,6 @@ package org.jboss.tools.cdi.seam.config.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -126,8 +125,7 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 
 	public void buildDefinitions() {
 		List<SeamBeansDefinition> newDefinitions = new ArrayList<SeamBeansDefinition>();
-		 Set<IPath> paths = fileSet.getAllPaths();
-		 for (IPath p: paths) {
+		 for (IPath p: fileSet.getAllPaths()) {
 			 boolean isSeamBeans = false;
 			 XModelObject o = fileSet.getBeanXML(p);
 			 if(o == null) {
@@ -195,8 +193,7 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 	public void validateResource(IFile file, CDICoreValidator validator) {
 		SeamBeansDefinition def = context.getDefinition(file.getFullPath());
 		if(def != null) {
-			Set<SAXNodeProblem> nodes = def.getUnresolvedNodes();
-			for (SAXNodeProblem problem: nodes) {
+			for (SAXNodeProblem problem: def.getUnresolvedNodes()) {
 				SAXNode node = problem.getNode();
 				String problemId = problem.getProblemId();
 				String message = problem.getMessage();
@@ -213,8 +210,7 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 					validator.addError(message, CDISeamConfigPreferences.ANNOTATION_EXPECTED, ref, file);
 				}
 			}
-			Set<SeamBeanDefinition> bs = def.getBeanDefinitions();
-			for (SeamBeanDefinition b: bs) {
+			for (SeamBeanDefinition b: def.getBeanDefinitions()) {
 				List<SeamFieldDefinition> fs = b.getFields();
 				for (SeamFieldDefinition f: fs) {
 					List<SeamFieldValueDefinition> vs = f.getValueDefinitions();

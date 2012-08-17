@@ -46,7 +46,7 @@ import org.jboss.tools.common.model.XModelObject;
 public class SeamBeansDefinition {
 	IResource resource;
 	XModelObject file;
-	Set<SAXNodeProblem> unresolvedNodes = new HashSet<SAXNodeProblem>();
+	List<SAXNodeProblem> unresolvedNodes = new ArrayList<SAXNodeProblem>();
 	Set<String> possibleTypeNames = new HashSet<String>();
 
 	Set<SeamBeanDefinition> beanDefinitions = new HashSet<SeamBeanDefinition>();
@@ -73,7 +73,7 @@ public class SeamBeansDefinition {
 		return resource;
 	}
 
-	public Set<SAXNodeProblem> getUnresolvedNodes() {
+	public List<SAXNodeProblem> getUnresolvedNodes() {
 		return unresolvedNodes;
 	}
 
@@ -282,8 +282,7 @@ public class SeamBeansDefinition {
 	}
 
 	private IParametedType getCollection(ParametedType t) {
-		Set<IParametedType> is = t.getAllTypes();
-		for (IParametedType i: is) {
+		for (IParametedType i: t.getAllTypes()) {
 			if("java.util.Collection".equals(i.getType().getFullyQualifiedName())) {
 				return i;
 			}
@@ -292,8 +291,7 @@ public class SeamBeansDefinition {
 	}
 
 	private IParametedType getMap(ParametedType t) {
-		Set<IParametedType> is = t.getAllTypes();
-		for (IParametedType i: is) {
+		for (IParametedType i: t.getAllTypes()) {
 			if("java.util.Map".equals(i.getType().getFullyQualifiedName())) {
 				return i;
 			}
