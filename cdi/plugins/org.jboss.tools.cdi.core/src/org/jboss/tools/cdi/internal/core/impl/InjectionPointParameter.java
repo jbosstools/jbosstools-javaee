@@ -10,13 +10,10 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
-import java.util.Set;
-
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
-import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.text.ITextSourceReference;
 
@@ -35,15 +32,6 @@ public class InjectionPointParameter extends Parameter implements
 	@Override
 	public ITextSourceReference getDelegateAnnotation() {
 		return getAnnotationPosition(CDIConstants.DELEGATE_STEREOTYPE_TYPE_NAME);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.jboss.tools.cdi.core.IInjectionPoint#getQualifierDeclarations()
-	 */
-	@Override
-	public Set<IQualifierDeclaration> getQualifierDeclarations() {
-		return super.getQualifierDeclarations();
 	}
 
 	/*

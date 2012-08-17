@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -59,8 +60,8 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 		return new InjectionPointParameter();
 	}
 
-	public Set<ITypeDeclaration> getAllTypeDeclarations() {
-		Set<ITypeDeclaration> result = new HashSet<ITypeDeclaration>();
+	public Collection<ITypeDeclaration> getAllTypeDeclarations() {
+		Collection<ITypeDeclaration> result = new HashSet<ITypeDeclaration>();
 		if(typeDeclaration != null && typeDeclaration.getStartPosition() > 0) {
 			result.add(typeDeclaration);
 		}
@@ -75,8 +76,8 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 		return getClassBean().getBeanClass();
 	}
 
-	public Set<IInjectionPoint> getInjectionPoints() {
-		HashSet<IInjectionPoint> result = new HashSet<IInjectionPoint>();
+	public Collection<IInjectionPoint> getInjectionPoints() {
+		Collection<IInjectionPoint> result = new ArrayList<IInjectionPoint>();
 		for (IParameter p: parameters) {
 			if(p instanceof IInjectionPoint) {
 				result.add((IInjectionPoint)p);
@@ -85,10 +86,10 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 		return result;
 	}
 
-	public Set<IParametedType> getLegalTypes() {
-		Set<IParametedType> result = new HashSet<IParametedType>();
+	public Collection<IParametedType> getLegalTypes() {
+		Collection<IParametedType> result = new HashSet<IParametedType>();
 		AnnotationDeclaration d = getDefinition().getTypedAnnotation();
-		Set<IParametedType> all = getAllTypes();
+		Collection<IParametedType> all = getAllTypes();
 		if(d != null) {
 			result.addAll(getRestrictedTypeDeclarations(all));
 			ParametedType object = getObjectType(getBeanClass());
@@ -104,11 +105,11 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBean#getAllTypes()
 	 */
-	public Set<IParametedType> getAllTypes() {
+	public Collection<IParametedType> getAllTypes() {
 		if(typeDeclaration != null) {
 			return typeDeclaration.getAllTypes();
 		}
-		return new HashSet<IParametedType>();
+		return new ArrayList<IParametedType>(0);
 	}
 
 	public Collection<ITypeDeclaration> getRestrictedTypeDeclaratios() {
@@ -207,7 +208,7 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 
 	//same as ProducerField.getScope
 	public IScope getScope() {
-		Set<IScopeDeclaration> ds = getScopeDeclarations();
+		Collection<IScopeDeclaration> ds = getScopeDeclarations();
 		if(!ds.isEmpty()) {
 			return ds.iterator().next().getScope();
 		}

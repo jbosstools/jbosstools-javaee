@@ -12,9 +12,7 @@ package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.ILocalVariable;
@@ -89,7 +87,7 @@ public class Parameter extends BeanMember implements IParameter {
 		return getDefinition().getVariable();
 	}
 
-	public Set<String> getAnnotationTypes() {
+	public Collection<String> getAnnotationTypes() {
 		return getDefinition().getAnnotationTypes();
 	}
 
@@ -110,8 +108,8 @@ public class Parameter extends BeanMember implements IParameter {
 		return result;
 	}
 
-	public Set<IQualifierDeclaration> getQualifierDeclarations() {
-		Set<IQualifierDeclaration> result = new HashSet<IQualifierDeclaration>();
+	public Collection<IQualifierDeclaration> getQualifierDeclarations() {
+		Collection<IQualifierDeclaration> result = new ArrayList<IQualifierDeclaration>();
 		
 		List<IAnnotationDeclaration> ds = definition.getAnnotations();
 		for (IAnnotationDeclaration d: ds) {

@@ -12,9 +12,7 @@ package org.jboss.tools.cdi.internal.core.refactoring;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IAnnotation;
@@ -259,15 +257,15 @@ public class CDIMarkerResolutionUtils extends MarkerResolutionUtils{
 		return null;
 	}
 	
-	public static boolean checkBeanQualifiers(IBean selectedBean, IBean bean, Set<IQualifier> qualifiers){
-		HashSet<ValuedQualifier> valuedQualifiers = new HashSet<ValuedQualifier>();
+	public static boolean checkBeanQualifiers(IBean selectedBean, IBean bean, Collection<IQualifier> qualifiers){
+		Collection<ValuedQualifier> valuedQualifiers = new ArrayList<ValuedQualifier>();
 		for(IQualifier qualifier : qualifiers){
 			valuedQualifiers.add(new ValuedQualifier(qualifier));
 		}
 		return checkValuedQualifiers(selectedBean, bean, valuedQualifiers);
 	}
 	
-	public static boolean checkValuedQualifiers(IBean selectedBean, IBean bean, Set<ValuedQualifier> qualifiers){
+	public static boolean checkValuedQualifiers(IBean selectedBean, IBean bean, Collection<ValuedQualifier> qualifiers){
 		for(ValuedQualifier qualifier : qualifiers){
 			if(!isBeanContainQualifier(bean, qualifier)){
 				return false;

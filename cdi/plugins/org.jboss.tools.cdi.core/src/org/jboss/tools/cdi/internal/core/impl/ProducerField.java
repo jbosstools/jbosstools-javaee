@@ -10,9 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -39,8 +39,8 @@ public class ProducerField extends BeanField implements IProducerField {
 
 	public ProducerField() {}
 
-	public Set<ITypeDeclaration> getAllTypeDeclarations() {
-		Set<ITypeDeclaration> result = new HashSet<ITypeDeclaration>();
+	public Collection<ITypeDeclaration> getAllTypeDeclarations() {
+		Collection<ITypeDeclaration> result = new ArrayList<ITypeDeclaration>(1);
 		if(typeDeclaration != null && typeDeclaration.getStartPosition() > 0) {
 			result.add(typeDeclaration);
 		}
@@ -55,16 +55,15 @@ public class ProducerField extends BeanField implements IProducerField {
 		return getClassBean().getBeanClass();
 	}
 
-	public Set<IInjectionPoint> getInjectionPoints() {
-		return new HashSet<IInjectionPoint>();
+	public Collection<IInjectionPoint> getInjectionPoints() {
+		return new ArrayList<IInjectionPoint>(0);
 	}
 
-	public Set<IParametedType> getLegalTypes() {
-		Set<IParametedType> result = new HashSet<IParametedType>();
+	public Collection<IParametedType> getLegalTypes() {
 		AnnotationDeclaration d = getDefinition().getTypedAnnotation();
-		Set<IParametedType> all = getAllTypes();
+		Collection<IParametedType> all = getAllTypes();
 		if(d != null) {
-			result.addAll(getRestrictedTypeDeclarations(all));
+			Collection<IParametedType> result = new HashSet<IParametedType>(getRestrictedTypeDeclarations(all));
 			ParametedType object = getObjectType(getBeanClass());
 			if(object != null) {
 				result.add(object);
@@ -78,11 +77,11 @@ public class ProducerField extends BeanField implements IProducerField {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBean#getAllTypes()
 	 */
-	public Set<IParametedType> getAllTypes() {
+	public Collection<IParametedType> getAllTypes() {
 		if(typeDeclaration != null) {
 			return typeDeclaration.getAllTypes();
 		}
-		return new HashSet<IParametedType>();
+		return new ArrayList<IParametedType>(0);
 	}
 
 	public Collection<ITypeDeclaration> getRestrictedTypeDeclaratios() {
@@ -141,11 +140,11 @@ public class ProducerField extends BeanField implements IProducerField {
 	}
 
 	public IScope getScope() {
-		Set<IScopeDeclaration> ds = getScopeDeclarations();
+		Collection<IScopeDeclaration> ds = getScopeDeclarations();
 		if(!ds.isEmpty()) {
 			return ds.iterator().next().getScope();
 		}
-		Set<IScope> defaults = new HashSet<IScope>();
+		Collection<IScope> defaults = new HashSet<IScope>();
 		for (IStereotypeDeclaration d: getStereotypeDeclarations()) {
 			IStereotype s = d.getStereotype();
 			IScope sc = s.getScope();

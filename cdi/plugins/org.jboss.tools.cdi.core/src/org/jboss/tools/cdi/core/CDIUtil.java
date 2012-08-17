@@ -721,9 +721,9 @@ public class CDIUtil {
 	 * @param bean
 	 * @return
 	 */
-	public static Set<IInjectionPointParameter> getInjectionPointParameters(IClassBean bean) {
+	public static Collection<IInjectionPointParameter> getInjectionPointParameters(IClassBean bean) {
 		Collection<IInjectionPoint> points = bean.getInjectionPoints();
-		Set<IInjectionPointParameter> params = new HashSet<IInjectionPointParameter>();
+		Collection<IInjectionPointParameter> params = new ArrayList<IInjectionPointParameter>();
 		for (IInjectionPoint injection : points) {
 			if(injection instanceof IInjectionPointParameter) {
 				params.add((IInjectionPointParameter)injection);

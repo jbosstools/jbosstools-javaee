@@ -10,8 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl.definition;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.cdi.xml.beans.model.CDIBeansConstants;
@@ -28,10 +28,10 @@ import org.jboss.tools.common.text.INodeReference;
 public class BeansXMLDefinition implements CDIBeansConstants {
 
 	private IPath path;
-	private Set<INodeReference> typeAlternatives = new HashSet<INodeReference>();
-	private Set<INodeReference> stereotypeAlternatives = new HashSet<INodeReference>();
-	private Set<INodeReference> decorators = new HashSet<INodeReference>();
-	private Set<INodeReference> interceptors = new HashSet<INodeReference>();
+	private Collection<INodeReference> typeAlternatives = new ArrayList<INodeReference>();
+	private Collection<INodeReference> stereotypeAlternatives = new ArrayList<INodeReference>();
+	private Collection<INodeReference> decorators = new ArrayList<INodeReference>();
+	private Collection<INodeReference> interceptors = new ArrayList<INodeReference>();
 
 	public BeansXMLDefinition() {}
 
@@ -82,19 +82,19 @@ public class BeansXMLDefinition implements CDIBeansConstants {
 		return path;
 	}
 
-	public Set<INodeReference> getTypeAlternatives() {
+	public Collection<INodeReference> getTypeAlternatives() {
 		return typeAlternatives;
 	}
 
-	public Set<INodeReference> getStereotypeAlternatives() {
+	public Collection<INodeReference> getStereotypeAlternatives() {
 		return stereotypeAlternatives;
 	}
 
-	public Set<INodeReference> getDecorators() {
+	public Collection<INodeReference> getDecorators() {
 		return decorators;
 	}
 
-	public Set<INodeReference> getInterceptors() {
+	public Collection<INodeReference> getInterceptors() {
 		return interceptors;
 	}
 

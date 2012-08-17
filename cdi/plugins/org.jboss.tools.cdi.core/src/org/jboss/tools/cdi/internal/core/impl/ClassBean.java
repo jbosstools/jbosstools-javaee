@@ -164,17 +164,19 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	}
 
 	public void setSuperClassBean(IClassBean bean) {
-		if(!(bean instanceof ClassBean)) return;
-		
-		HashSet<IClassBean> beans = new HashSet<IClassBean>();
-		beans.add(this);
-		IClassBean b = bean;
-		while(b != null) {
-			if(beans.contains(b)) {
-				bean = null;
-				break;
+		if(!(bean instanceof ClassBean) || bean == this) return;
+
+		if(bean.getSuperClassBean() != null) {
+			HashSet<IClassBean> beans = new HashSet<IClassBean>();
+			beans.add(this);
+			IClassBean b = bean;
+			while(b != null) {
+				if(beans.contains(b)) {
+					bean = null;
+					break;
+				}
+				b = b.getSuperClassBean();
 			}
-			b = b.getSuperClassBean();
 		}		
 		
 		superClassBean = (ClassBean)bean;
@@ -234,7 +236,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	}
 
 	public static Collection<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations(AbstractMemberDefinition definition) {
-		Set<IInterceptorBindingDeclaration> result = new HashSet<IInterceptorBindingDeclaration>();
+		Collection<IInterceptorBindingDeclaration> result = new ArrayList<IInterceptorBindingDeclaration>();
 		List<IAnnotationDeclaration> as = definition.getAnnotations();
 		for (IAnnotationDeclaration a: as) {
 			if(a instanceof InterceptorBindingDeclaration) {
@@ -461,7 +463,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 
 	protected void computeScope() {
 		//1. Declaration of scope in the class.
-		Set<IScopeDeclaration> scopes = getScopeDeclarations();
+		Collection<IScopeDeclaration> scopes = getScopeDeclarations();
 		if(!scopes.isEmpty()) {
 			scope = scopes.iterator().next().getScope();
 			return;

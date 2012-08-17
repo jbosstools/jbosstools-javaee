@@ -271,12 +271,12 @@ public abstract class AbstractBeanElement extends CDIElement implements IAnnotat
 		return result;
 	}
 
-	public Set<IScopeDeclaration> getScopeDeclarations() {
+	public Collection<IScopeDeclaration> getScopeDeclarations() {
 		return getScopeDeclarations(getCDIProject().getNature(), definition.getAnnotations());
 	}
 
-	public static Set<IScopeDeclaration> getScopeDeclarations(CDICoreNature n, List<? extends IAnnotationDeclaration> ds) {
-		Set<IScopeDeclaration> result = new HashSet<IScopeDeclaration>();
+	public static Collection<IScopeDeclaration> getScopeDeclarations(CDICoreNature n, List<? extends IAnnotationDeclaration> ds) {
+		Collection<IScopeDeclaration> result = new ArrayList<IScopeDeclaration>(1);
 		for (IAnnotationDeclaration d: ds) {
 			int k = n.getDefinitions().getAnnotationKind(d.getType());
 			if(k > 0 && (k & AnnotationDefinition.SCOPE) > 0 && d instanceof IScopeDeclaration) {

@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.extension.feature;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.jboss.tools.cdi.core.IBean;
 
@@ -28,6 +28,6 @@ public interface IAmbiguousBeanResolverFeature extends ICDIFeature {
 	 * @param result
 	 * @return
 	 */
-	public Set<IBean> getResolvedBeans(Set<IBean> result);
+	public Collection<IBean> getResolvedBeans(Collection<IBean> result);
 
 }

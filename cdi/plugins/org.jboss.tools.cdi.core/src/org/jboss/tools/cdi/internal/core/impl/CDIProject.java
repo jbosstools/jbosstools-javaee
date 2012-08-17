@@ -115,7 +115,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 
 	public CDIProject() {}
 
-	public CDIProject getModifiedCopy(IFile file, Set<IBean> beans) {
+	public CDIProject getModifiedCopy(IFile file, Collection<IBean> beans) {
 		CDIProject p = null;
 		try {
 			p = (CDIProject)clone();
@@ -128,7 +128,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		synchronized(this) {
 			p.allBeans.addAll(allBeans);
 		}
-		Set<IBean> oldBeans = getBeans(file.getFullPath());
+		Collection<IBean> oldBeans = getBeans(file.getFullPath());
 		p.allBeans.removeAll(oldBeans);
 		p.allBeans.addAll(beans);
 		
@@ -239,8 +239,8 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	public List<INodeReference> getAlternatives(String fullQualifiedTypeName) {
 		List<INodeReference> result = new ArrayList<INodeReference>();
 		synchronized (allBeansXMLData) {
-			Set<INodeReference> typeAlternatives = allBeansXMLData.getTypeAlternatives();
-			Set<INodeReference> stereotypeAlternatives = allBeansXMLData.getStereotypeAlternatives();
+			Collection<INodeReference> typeAlternatives = allBeansXMLData.getTypeAlternatives();
+			Collection<INodeReference> stereotypeAlternatives = allBeansXMLData.getStereotypeAlternatives();
 			for (INodeReference r: typeAlternatives) {
 				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
 			}
@@ -269,7 +269,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		return null;
 	}
 
-	public Set<IBean> getBeans(String name,	boolean attemptToResolveAmbiguousNames) {
+	public Collection<IBean> getBeans(String name,	boolean attemptToResolveAmbiguousNames) {
 		Set<IBean> result = new HashSet<IBean>();
 		synchronized (this) {
 			Set<IBean> beans = beansByName.get(name);
@@ -281,7 +281,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		return getResolvedBeans(result, attemptToResolveAmbiguousNames);
 	}
 
-	public Set<IBean> getResolvedBeans(Set<IBean> result, boolean attemptToResolveAmbiguousness) {
+	public Collection<IBean> getResolvedBeans(Collection<IBean> result, boolean attemptToResolveAmbiguousness) {
 		if(result.size() > 1) {
 			Iterator<IBean> it = result.iterator();
 			while(it.hasNext()) {
@@ -358,7 +358,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		return result;
 	}
 
-	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
+	public Collection<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
 			IParametedType beanType, IQualifierDeclaration... qualifiers) {
 		Set<IBean> result = new HashSet<IBean>();
 		IParametedType type = beanType;
@@ -717,11 +717,8 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		return result.toString();
 	}
 
-	public synchronized Set<IBean> getBeans(IPath path) {
-		Set<IBean> result = new HashSet<IBean>();
-		Set<IBean> beans = beansByPath.get(path);
-		if(beans != null && !beans.isEmpty()) result.addAll(beans);
-		return result;
+	public synchronized Collection<IBean> getBeans(IPath path) {
+		return (beansByPath.containsKey(path)) ? new ArrayList<IBean>(beansByPath.get(path)) : new ArrayList<IBean>(0);
 	}
 	
 	static int q = 0;
@@ -750,8 +747,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	public List<INodeReference> getDecoratorClasses(String fullQualifiedTypeName) {
 		List<INodeReference> result = new ArrayList<INodeReference>();
 		synchronized (allBeansXMLData) {
-			Set<INodeReference> decorators = allBeansXMLData.getDecorators();
-			for (INodeReference r: decorators) {
+			for (INodeReference r: allBeansXMLData.getDecorators()) {
 				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
 			}
 		}
@@ -770,8 +766,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			String fullQualifiedTypeName) {
 		List<INodeReference> result = new ArrayList<INodeReference>();
 		synchronized (allBeansXMLData) {
-			Set<INodeReference> interceptors = allBeansXMLData.getInterceptors();
-			for (INodeReference r: interceptors) {
+			for (INodeReference r: allBeansXMLData.getInterceptors()) {
 				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
 			}
 		}
@@ -1507,15 +1502,15 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getNamedBeans(boolean)
 	 */
-	public Set<IBean> getNamedBeans(boolean attemptToResolveAmbiguousNames) {
+	public Collection<IBean> getNamedBeans(boolean attemptToResolveAmbiguousNames) {
 		//TODO use a cache for named beans with attemptToResolveAmbiguousNames==true
-		Set<IBean> result = new HashSet<IBean>();
+		Collection<IBean> result = new HashSet<IBean>();
 		synchronized (this) {
 			if(attemptToResolveAmbiguousNames) {
 				Set<String> names = new HashSet<String>();
 				for (IBean bean : namedBeans) {
 					if(!names.contains(bean.getName())) {
-						Set<IBean> beans = getBeans(bean.getName(), attemptToResolveAmbiguousNames);
+						Collection<IBean> beans = getBeans(bean.getName(), attemptToResolveAmbiguousNames);
 						if(beans.isEmpty()) {
 							result.add(bean);
 						} else {
@@ -1535,11 +1530,11 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getBeans(boolean, org.eclipse.jdt.core.IType, org.eclipse.jdt.core.IType[])
 	 */
-	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
+	public Collection<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
 			IParametedType beanType, IType... qualifiers) {
-		Set<IBean> result = new HashSet<IBean>();
+		Collection<IBean> result = new HashSet<IBean>();
 		IParametedType type = beanType;
-		Set<IBean> beans = new HashSet<IBean>();
+		Collection<IBean> beans = new ArrayList<IBean>();
 		synchronized(this) {
 			beans.addAll(allBeans);
 		}
@@ -1563,7 +1558,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getBeans(boolean, java.lang.String, java.lang.String[])
 	 */
-	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
+	public Collection<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
 			String fullyQualifiedBeanType,
 			String... fullyQualifiedQualifiersTypes) {
 		IType type = getNature().getType(fullyQualifiedBeanType);

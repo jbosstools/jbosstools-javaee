@@ -11,7 +11,6 @@
 package org.jboss.tools.cdi.core;
 
 import java.util.Collection;
-import java.util.Set;
 
 /**
  * This interface if common protocol to have access to scoped of bean class or

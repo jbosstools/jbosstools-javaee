@@ -12,9 +12,7 @@ package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -56,16 +54,16 @@ public class EventBean extends CDIElement implements IBean {
 		return getCDIProject().getScope(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
 	}
 
-	public Set<IScopeDeclaration> getScopeDeclarations() {
-		return new HashSet<IScopeDeclaration>();
+	public Collection<IScopeDeclaration> getScopeDeclarations() {
+		return new ArrayList<IScopeDeclaration>(0);
 	}
 
 	public Collection<IStereotypeDeclaration> getStereotypeDeclarations() {
-		return new HashSet<IStereotypeDeclaration>();
+		return new ArrayList<IStereotypeDeclaration>(0);
 	}
 
 	public List<IAnnotationDeclaration> getAnnotations() {
-		return new ArrayList<IAnnotationDeclaration>();
+		return new ArrayList<IAnnotationDeclaration>(0);
 	}
 
 	public IAnnotationDeclaration getAnnotation(String annotationTypeName) {
@@ -92,18 +90,18 @@ public class EventBean extends CDIElement implements IBean {
 		return null;
 	}
 
-	public Set<IParametedType> getLegalTypes() {
+	public Collection<IParametedType> getLegalTypes() {
 		return getAllTypes();
 	}
 
-	public Set<IParametedType> getAllTypes() {
-		Set<IParametedType> result = new HashSet<IParametedType>();
+	public Collection<IParametedType> getAllTypes() {
+		ArrayList<IParametedType> result = new ArrayList<IParametedType>(1);
 		result.add(type);
 		return result;
 	}
 
-	public Set<ITypeDeclaration> getAllTypeDeclarations() {
-		return new HashSet<ITypeDeclaration>();
+	public Collection<ITypeDeclaration> getAllTypeDeclarations() {
+		return new ArrayList<ITypeDeclaration>(0);
 	}
 
 	public Collection<ITypeDeclaration> getRestrictedTypeDeclaratios() {
@@ -153,8 +151,8 @@ public class EventBean extends CDIElement implements IBean {
 		return null;
 	}
 
-	public Set<IInjectionPoint> getInjectionPoints() {
-		return new HashSet<IInjectionPoint>();
+	public Collection<IInjectionPoint> getInjectionPoints() {
+		return new ArrayList<IInjectionPoint>(0);
 	}
 
 	public IBean getSpecializedBean() {

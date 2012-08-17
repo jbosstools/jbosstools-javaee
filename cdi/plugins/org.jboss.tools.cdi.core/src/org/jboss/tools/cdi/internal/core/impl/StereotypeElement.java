@@ -10,11 +10,10 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
@@ -72,7 +71,7 @@ public class StereotypeElement extends CDIAnnotationElement implements IStereoty
 	 * @see org.jboss.tools.cdi.core.IStereotype#getStereotypeDeclarations()
 	 */
 	public Collection<IStereotypeDeclaration> getStereotypeDeclarations() {
-		Set<IStereotypeDeclaration> result = new HashSet<IStereotypeDeclaration>();
+		Collection<IStereotypeDeclaration> result = new ArrayList<IStereotypeDeclaration>();
 		for (IAnnotationDeclaration d: definition.getAnnotations()) {
 			if(d instanceof IStereotypeDeclaration) {
 				result.add((IStereotypeDeclaration)d);
@@ -99,7 +98,7 @@ public class StereotypeElement extends CDIAnnotationElement implements IStereoty
 	 * @see org.jboss.tools.cdi.core.IScoped#getScope()
 	 */
 	public IScope getScope() {
-		Set<IScopeDeclaration> ss = getScopeDeclarations();
+		Collection<IScopeDeclaration> ss = getScopeDeclarations();
 		if(!ss.isEmpty()) {
 			return ss.iterator().next().getScope();
 		}
@@ -117,7 +116,7 @@ public class StereotypeElement extends CDIAnnotationElement implements IStereoty
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IScoped#getScopeDeclarations()
 	 */
-	public Set<IScopeDeclaration> getScopeDeclarations() {
+	public Collection<IScopeDeclaration> getScopeDeclarations() {
 		return ProducerField.getScopeDeclarations(getCDIProject().getNature(), definition.getAnnotations());
 	}
 
