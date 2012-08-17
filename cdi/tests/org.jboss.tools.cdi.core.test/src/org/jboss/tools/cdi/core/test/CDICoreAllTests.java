@@ -55,6 +55,7 @@ import org.jboss.tools.cdi.core.test.tck.lookup.ResolutionByNameTest;
 import org.jboss.tools.cdi.core.test.tck.lookup.ResolutionByTypeTest;
 import org.jboss.tools.cdi.core.test.tck.lookup.UnsatisfiedDependencyTest;
 import org.jboss.tools.cdi.core.test.tck.validation.AYTAnnotationValidationTest;
+import org.jboss.tools.cdi.core.test.tck.validation.AYTBeansXmlValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.AYTDefenitionErrorsValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.AYTDeploymentProblemsValidationTests;
 import org.jboss.tools.cdi.core.test.tck.validation.AYTSuppressWarningsTests;
@@ -138,7 +139,7 @@ public class CDICoreAllTests {
 		// As-you-type validation tests
 		suite.addTestSuite(AYTDefenitionErrorsValidationTest.class);
 		suite.addTestSuite(AYTDeploymentProblemsValidationTests.class);
-//		suite.addTestSuite(BeansXmlValidationTest.class);
+		suite.addTestSuite(AYTBeansXmlValidationTest.class);
 		suite.addTestSuite(AYTAnnotationValidationTest.class);
 		suite.addTestSuite(AYTSuppressWarningsTests.class);
 
@@ -162,7 +163,7 @@ public class CDICoreAllTests {
 		suiteAll.addTestSuite(EnableCDISupportForJarTest.class);
 		suiteAll.addTestSuite(DependentProjectValidationTest.class);
 		suiteAll.addTest(new CDICoreTestSetup(suite));
-		
+
 		suite = new TestSuite(BuilderOrderValidationTest.class.getName());
 		suite.addTestSuite(BuilderOrderValidationTest.class);
 		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suite,
