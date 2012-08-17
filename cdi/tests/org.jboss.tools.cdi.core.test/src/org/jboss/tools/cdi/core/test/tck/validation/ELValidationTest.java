@@ -32,22 +32,22 @@ public class ELValidationTest extends ValidationTest {
 			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, "foo"), 6);
 			file = tckProject.getFile("WebContent/elValidation.xhtml");
 			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, "foo"), 9);
-	
+
 			IFile namedBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/el/NamedBean.java");
 			IFile newNamedBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/el/NewNamedBean.validation");
 			namedBean.setContents(newNamedBean.getContents(), IFile.FORCE, new NullProgressMonitor());
 			TestUtil.validate(namedBean);
-	
+
 			file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/el/TestBean.java");
 			AbstractResourceMarkerTest.assertMarkerIsCreated(file, MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, "foo"), 6);
 			file = tckProject.getFile("WebContent/elValidation.xhtml");
 			AbstractResourceMarkerTest.assertMarkerIsCreated(file, MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, "foo"), 9);
-	
+
 			newNamedBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/el/NamedBean.java");
 			namedBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/el/NamedBean.validation");
 			newNamedBean.setContents(namedBean.getContents(), IFile.FORCE, new NullProgressMonitor());
 			TestUtil.validate(newNamedBean);
-	
+
 			file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/el/TestBean.java");
 			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, "foo"), 6);
 			file = tckProject.getFile("WebContent/elValidation.xhtml");

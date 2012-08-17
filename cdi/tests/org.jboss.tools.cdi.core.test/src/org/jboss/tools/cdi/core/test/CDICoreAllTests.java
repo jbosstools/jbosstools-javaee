@@ -57,6 +57,7 @@ import org.jboss.tools.cdi.core.test.tck.lookup.UnsatisfiedDependencyTest;
 import org.jboss.tools.cdi.core.test.tck.validation.AYTAnnotationValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.AYTDefenitionErrorsValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.AYTDeploymentProblemsValidationTests;
+import org.jboss.tools.cdi.core.test.tck.validation.AYTSuppressWarningsTests;
 import org.jboss.tools.cdi.core.test.tck.validation.AnnotationsValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.BeansXmlValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.BuilderOrderValidationTest;
@@ -139,9 +140,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(AYTDeploymentProblemsValidationTests.class);
 //		suite.addTestSuite(BeansXmlValidationTest.class);
 		suite.addTestSuite(AYTAnnotationValidationTest.class);
-//		suite.addTestSuite(CoreValidationTest.class);
-//		suite.addTestSuite(ELValidationTest.class);
-//		suite.addTestSuite(SuppressWarningsTests.class);
+		suite.addTestSuite(AYTSuppressWarningsTests.class);
 
 		// Refactoring test
 		suite.addTestSuite(NamedBeanRefactoringTest.class);
