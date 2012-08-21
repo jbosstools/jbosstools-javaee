@@ -22,6 +22,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
+import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.CDISmokeBotTests;
@@ -64,6 +65,14 @@ public class BeansEditorTest extends CDITestBase {
 		editResourceUtil.copyResource("resources/beans.xml", descPath);
 		editResourceUtil.copyResource("resources/Foo.jav_", "src/cdi/Foo.java");
 		editResourceUtil.copyResource("resources/Bar.jav_", "src/cdi/Bar.java");
+		/**
+		 * project should be located in workspace after previous test
+		 */
+		try {
+			projectExplorer.selectProject("CDIWizardTest");
+		} catch (WidgetNotFoundException wnfe) {
+			fail("project should be located in workspace");
+		}
 	}
 	
 	@Override
