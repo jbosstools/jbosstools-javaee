@@ -583,10 +583,8 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IClassBean#getAllMethods()
 	 */
-	public Set<IBeanMethod> getAllMethods() {
-		Set<IBeanMethod> result = new HashSet<IBeanMethod>();
-		result.addAll(methods);
-		return result;
+	public Collection<IBeanMethod> getAllMethods() {
+		return new ArrayList<IBeanMethod>(methods);
 	}
 
 	/*

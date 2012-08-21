@@ -287,69 +287,43 @@ public abstract class AbstractBeanElement extends CDIElement implements IAnnotat
 	}
 
 	public Collection<ITypeDeclaration> getRestrictedTypeDeclarations(Collection<IParametedType> alltypes) {
+		AnnotationDeclaration typed = getDefinition().getTypedAnnotation();
+		if(typed == null) {
+			return new ArrayList<ITypeDeclaration>(0);
+		}
 		Map<String, IParametedType> map = new HashMap<String, IParametedType>();
 		for (IParametedType t: alltypes) {
 			map.put(t.getType().getFullyQualifiedName(), t);
 		}
 		Collection<ITypeDeclaration> result = new ArrayList<ITypeDeclaration>();
-		AnnotationDeclaration typed = getDefinition().getTypedAnnotation();
-		if(typed != null) {
-			int s = typed.getStartPosition();
-			int l = typed.getLength();
-			try {
-				String txt = null;
-				if(s >= 0 && typed.getResource() instanceof IFile) {
-					AbstractTypeDefinition td = getDefinition().getTypeDefinition();
-					if(getDefinition().getOriginalDefinition() != null) {
-						ITextSourceReference r = getDefinition().getOriginalDefinition();
-						String content = FileUtil.readStream((IFile)r.getResource());
-						if(content != null && content.length() > s + l) {
-							txt = content.substring(s);
-						}
-					} else if(td != null) {
-						String content = td.getContent();
-						if(content != null && content.length() > s + l) {
-							txt = content.substring(s, s + l);
-						}
-					}					
-				}
-				
-				Object value = typed.getMemberValue(null);
-				if(value == null) return result;
-				IMember member = (IMember)definition.getMember();
-				IType declaringType = member instanceof IType ? (IType)member : member.getDeclaringType();
-				if(value instanceof Object[]) {
-					Object[] os = (Object[])value;
-					for (int i = 0; i < os.length; i++) {
-						String rawTypeName = os[i].toString();
-						String typeName = rawTypeName;
-						if(!typeName.endsWith(";")) typeName = "Q" + typeName + ";";
-						ParametedType p = getCDIProject().getNature().getTypeFactory().getParametedType(declaringType, typeName);
-						if(p != null) {
-							int offset = 0;
-							int length = 0;
-							if(txt != null) {
-								int q = txt.indexOf(rawTypeName);
-								if(q >= 0) {
-									offset = s + q;
-									length = rawTypeName.length();
-								}
-							}
-							IParametedType other = p.getType() == null ? null : map.get(p.getType().getFullyQualifiedName());
-							if(other != null) {
-								String s1 = p.getSignature();
-								String s2 = other.getSignature();
-								if(!s1.equals(s2) && Signature.getArrayCount(s1) == Signature.getArrayCount(s2)) {
-									p.setSignature(s2);
-								}
-								result.add(new TypeDeclaration((ParametedType)other, typed.getResource(), offset, length));
-							} else {
-								result.add(new TypeDeclaration(p, typed.getResource(), offset, length));
-							}
-						}
+		int s = typed.getStartPosition();
+		int l = typed.getLength();
+		try {
+			String txt = null;
+			if(s >= 0 && typed.getResource() instanceof IFile) {
+				AbstractTypeDefinition td = getDefinition().getTypeDefinition();
+				if(getDefinition().getOriginalDefinition() != null) {
+					ITextSourceReference r = getDefinition().getOriginalDefinition();
+					String content = FileUtil.readStream((IFile)r.getResource());
+					if(content != null && content.length() > s + l) {
+						txt = content.substring(s);
 					}
-				} else if(value != null) {
-					String rawTypeName = value.toString();
+				} else if(td != null) {
+					String content = td.getContent();
+					if(content != null && content.length() > s + l) {
+						txt = content.substring(s, s + l);
+					}
+				}
+			}
+			
+			Object value = typed.getMemberValue(null);
+			if(value == null) return result;
+			IMember member = (IMember)definition.getMember();
+			IType declaringType = member instanceof IType ? (IType)member : member.getDeclaringType();
+			if(value instanceof Object[]) {
+				Object[] os = (Object[])value;
+				for (int i = 0; i < os.length; i++) {
+					String rawTypeName = os[i].toString();
 					String typeName = rawTypeName;
 					if(!typeName.endsWith(";")) typeName = "Q" + typeName + ";";
 					ParametedType p = getCDIProject().getNature().getTypeFactory().getParametedType(declaringType, typeName);
@@ -376,9 +350,36 @@ public abstract class AbstractBeanElement extends CDIElement implements IAnnotat
 						}
 					}
 				}
-			} catch (CoreException e) {
-				CDICorePlugin.getDefault().logError(e);
+			} else if(value != null) {
+				String rawTypeName = value.toString();
+				String typeName = rawTypeName;
+				if(!typeName.endsWith(";")) typeName = "Q" + typeName + ";";
+				ParametedType p = getCDIProject().getNature().getTypeFactory().getParametedType(declaringType, typeName);
+				if(p != null) {
+					int offset = 0;
+					int length = 0;
+					if(txt != null) {
+						int q = txt.indexOf(rawTypeName);
+						if(q >= 0) {
+							offset = s + q;
+							length = rawTypeName.length();
+						}
+					}
+					IParametedType other = p.getType() == null ? null : map.get(p.getType().getFullyQualifiedName());
+					if(other != null) {
+						String s1 = p.getSignature();
+						String s2 = other.getSignature();
+						if(!s1.equals(s2) && Signature.getArrayCount(s1) == Signature.getArrayCount(s2)) {
+							p.setSignature(s2);
+						}
+						result.add(new TypeDeclaration((ParametedType)other, typed.getResource(), offset, length));
+					} else {
+						result.add(new TypeDeclaration(p, typed.getResource(), offset, length));
+					}
+				}
 			}
+		} catch (CoreException e) {
+			CDICorePlugin.getDefault().logError(e);
 		}
 		return result;
 	}

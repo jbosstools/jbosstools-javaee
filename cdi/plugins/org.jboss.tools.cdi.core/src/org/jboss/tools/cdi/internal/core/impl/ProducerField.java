@@ -144,20 +144,19 @@ public class ProducerField extends BeanField implements IProducerField {
 		if(!ds.isEmpty()) {
 			return ds.iterator().next().getScope();
 		}
-		Collection<IScope> defaults = new HashSet<IScope>();
+		IScope defaultScope = null;
 		for (IStereotypeDeclaration d: getStereotypeDeclarations()) {
 			IStereotype s = d.getStereotype();
 			IScope sc = s.getScope();
 			if(sc != null) {
-				defaults.add(sc);
+				if(defaultScope == null) {
+					defaultScope = sc;
+				} else if(defaultScope != sc) {
+					return null;
+				}
 			}
 		}
-		if(defaults.size() == 1) {
-			return defaults.iterator().next();
-		} else if(defaults.size() > 1) {
-			return null;
-		}
-		return getCDIProject().getScope(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
+		return defaultScope != null ? defaultScope : getCDIProject().getScope(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
 	}
 
 	public IAnnotationDeclaration getProducesAnnotation() {

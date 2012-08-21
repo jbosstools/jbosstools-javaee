@@ -99,6 +99,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	private Set<IBean> declaredBeans = new HashSet<IBean>();
 	private Map<IPath, Set<IBean>> beansByPath = new HashMap<IPath, Set<IBean>>();
 	private Map<String, Set<IBean>> beansByName = new HashMap<String, Set<IBean>>();
+	private List<Set<IBean>> beansByTypes = new ArrayList<Set<IBean>>();
 	private Set<IBean> namedBeans = new HashSet<IBean>();
 	private Map<IType, IClassBean> classBeans = new HashMap<IType, IClassBean>();
 	private Set<IBean> alternatives = new HashSet<IBean>();
@@ -113,7 +114,9 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	BeansXMLData allBeansXMLData = new BeansXMLData();
 	BeansXMLData projectBeansXMLData = new BeansXMLData();
 
-	public CDIProject() {}
+	public CDIProject() {
+		for (int i = 0; i < BEANS_BY_TYPE_SIZE; i++) beansByTypes.add(new HashSet<IBean>());
+	}
 
 	public CDIProject getModifiedCopy(IFile file, Collection<IBean> beans) {
 		CDIProject p = null;
@@ -291,7 +294,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 				}
 			}
 		}
-		if(result.size() < 1 || !attemptToResolveAmbiguousness) {
+		if(result.isEmpty() || !attemptToResolveAmbiguousness) {
 			return result;
 		}
 		
@@ -369,11 +372,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		Set<IQualifierDeclaration> qs = new HashSet<IQualifierDeclaration>();
 		if(qualifiers != null) for (IQualifierDeclaration d: qualifiers) qs.add(d);
 		
-		Set<IBean> beans = new HashSet<IBean>();
-		synchronized(this) {
-			beans.addAll(allBeans);
-		}
-		for (IBean b: beans) {
+		for (IBean b: getBeansByLegalType(type)) {
 			if(containsType(b.getLegalTypes(), type)) {
 				try {
 					Collection<IQualifierDeclaration> qsb = b.getQualifierDeclarations(true);
@@ -387,6 +386,22 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		}
 
 		return getResolvedBeans(result, attemptToResolveAmbiguousDependency);
+	}
+
+	static int BEANS_BY_TYPE_SIZE = 167;
+	static int OBJECT_INDEX = Math.abs("java.lang.Object".hashCode()) % BEANS_BY_TYPE_SIZE;
+	
+	static int toTypeIndex(IType type) {
+		return Math.abs(type.getFullyQualifiedName().hashCode()) % BEANS_BY_TYPE_SIZE;
+	}
+
+	private IBean[] getBeansByLegalType(IParametedType type) {
+		if(type.getType() == null) return new IBean[0];
+		int index = toTypeIndex(type.getType());
+		Collection<IBean> bs = index == OBJECT_INDEX ? allBeans : beansByTypes.get(index);
+		synchronized (this) {
+			return bs.toArray(new IBean[bs.size()]);
+		}
 	}
 
 	/*
@@ -404,6 +419,14 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		}
 		
 		IType jType = type.getType();
+		boolean isObjectType = jType != null && "java.lang.Object".equals(jType.getFullyQualifiedName());
+		
+		if(isObjectType && injectionPoint.getAnnotation(CDIConstants.ANY_QUALIFIER_TYPE_NAME) != null) {
+			synchronized(this) {
+				result.addAll(allBeans);
+			}
+			return getResolvedBeans(result, attemptToResolveAmbiguousDependency);
+		}
 	
 		if(jType != null && CDIConstants.EVENT_TYPE_NAME.equals(jType.getFullyQualifiedName())) {
 			List<? extends IParametedType> ps = type.getParameters();
@@ -437,16 +460,12 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			}				
 		}
 	
-		Set<IBean> beans = new HashSet<IBean>();
-		synchronized(this) {
-			beans.addAll(allBeans);
-		}
 		boolean delegateInjectionPoint = injectionPoint.isDelegate();
 
 		String injectionPointName = injectionPoint.getBeanName();
-
-		for (IBean b: beans) {
-			if(containsType(b.getLegalTypes(), type)) {
+		
+		for (IBean b: getBeansByLegalType(type)) {
+			if(isObjectType || containsType(b.getLegalTypes(), type)) {
 				try {
 					if(delegateInjectionPoint && b == injectionPoint.getClassBean()) {
 						continue;
@@ -559,7 +578,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		for (IParametedType t: types) {
 			IType jType1 = t.getType();
 			if(jType1 == null || !jType.getFullyQualifiedName().equals(jType1.getFullyQualifiedName())) continue;
-			if(!((ParametedType)t).getArrayPrefix().equals(((ParametedType)type).getArrayPrefix())) continue;
+			if(((ParametedType)t).getArrayIndex() != ((ParametedType)type).getArrayIndex()) continue;
 			if(((ParametedType)t).isAssignableTo((ParametedType)type, false)) {
 				return true;
 			}
@@ -574,7 +593,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			}
 		}
 
-		TreeSet<String> injectionKeys = new TreeSet<String>();
+		Set<String> injectionKeys = new HashSet<String>();
 		for (IQualifierDeclaration d: injectionQualifiers) {
 			injectionKeys.add(getAnnotationDeclarationKey(d));
 		}
@@ -586,7 +605,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			injectionKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
 		}
 
-		TreeSet<String> beanKeys = new TreeSet<String>();
+		Set<String> beanKeys = new HashSet<String>();
 		if(beanQualifiers.isEmpty()) {
 			beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
 		} else for (IQualifierDeclaration d: beanQualifiers) {
@@ -612,7 +631,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	public static boolean areMatchingQualifiers(Collection<IQualifierDeclaration> beanQualifiers, IType... injectionQualifiers) throws CoreException {
 		if(!beanQualifiers.isEmpty() || injectionQualifiers.length != 0) {
 
-			TreeSet<String> injectionKeys = new TreeSet<String>();
+			Set<String> injectionKeys = new HashSet<String>();
 			for (IType d: injectionQualifiers) {
 				injectionKeys.add(d.getFullyQualifiedName().replace('$', '.'));
 			}
@@ -622,7 +641,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 					injectionKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
 				}
 		
-				TreeSet<String> beanKeys = new TreeSet<String>();
+				Set<String> beanKeys = new HashSet<String>();
 				if(beanQualifiers.isEmpty()) {
 					beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
 				} else {
@@ -1357,6 +1376,8 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			allBeans.clear();
 			declaredBeans.clear();
 			injectionPointsByType.clear();
+			
+			for (int i = 0; i < BEANS_BY_TYPE_SIZE; i++) beansByTypes.get(i).clear();
 		}
 
 		classBeans = newClassBeans;
@@ -1452,6 +1473,14 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			if(bean.getDeclaringProject() == this) {
 				declaredBeans.add(bean);
 			}
+			for (IParametedType t: bean.getLegalTypes()) {
+				if(t.getType() != null && t.getType().exists()) {
+					int index = toTypeIndex(t.getType());
+					if(index != OBJECT_INDEX) {
+						beansByTypes.get(index).add(bean);
+					}
+				}
+			}
 		}
 	}
 
@@ -1534,11 +1563,8 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			IParametedType beanType, IType... qualifiers) {
 		Collection<IBean> result = new HashSet<IBean>();
 		IParametedType type = beanType;
-		Collection<IBean> beans = new ArrayList<IBean>();
-		synchronized(this) {
-			beans.addAll(allBeans);
-		}
-		for (IBean b: beans) {
+
+		for (IBean b: getBeansByLegalType(type)) {
 			if(containsType(b.getLegalTypes(), type)) {
 				try {
 					Collection<IQualifierDeclaration> qsb = b.getQualifierDeclarations(true);

@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -61,7 +60,7 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	}
 
 	public Collection<ITypeDeclaration> getAllTypeDeclarations() {
-		Collection<ITypeDeclaration> result = new HashSet<ITypeDeclaration>();
+		Collection<ITypeDeclaration> result = new ArrayList<ITypeDeclaration>(1);
 		if(typeDeclaration != null && typeDeclaration.getStartPosition() > 0) {
 			result.add(typeDeclaration);
 		}
@@ -212,20 +211,19 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 		if(!ds.isEmpty()) {
 			return ds.iterator().next().getScope();
 		}
-		Set<IScope> defaults = new HashSet<IScope>();
+		IScope defaultScope = null;
 		for (IStereotypeDeclaration d: getStereotypeDeclarations()) {
 			IStereotype s = d.getStereotype();
 			IScope sc = s.getScope();
 			if(sc != null) {
-				defaults.add(sc);
+				if(defaultScope == null) {
+					defaultScope = sc;
+				} else if(defaultScope != sc) {
+					return null;
+				}
 			}
 		}
-		if(defaults.size() == 1) {
-			return defaults.iterator().next();
-		} else if(defaults.size() > 1) {
-			return null;
-		}
-		return getCDIProject().getScope(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
+		return defaultScope != null ? defaultScope : getCDIProject().getScope(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
 	}
 
 	public IAnnotationDeclaration getProducesAnnotation() {
