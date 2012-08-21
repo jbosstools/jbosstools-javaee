@@ -33,6 +33,7 @@
 							<url>http://download.devel.redhat.com/released/JBEAP-4.3.0/CP03/zip/jboss-eap-noauth-4.3.0.GA_CP03.zip</url>
 							<md5>18dc28785c8b156b36e2d92db699064a</md5>
 							<unpack>true</unpack>
+							<skip>${skipPrivateRequirements}</skip>
 						</configuration>
 					</execution>
 					<execution>
@@ -46,6 +47,7 @@
 							<md5>79b37541804f49844ea7322c0ff599c1</md5>
 							<unpack>true</unpack>
 							<outputDirectory>${requirementsDirectory}/jboss-eap-4.3/seam</outputDirectory>
+							<skip>${skipPrivateRequirements}</skip>
 						</configuration>
 					</execution>
 					<execution>
@@ -58,6 +60,7 @@
 							<url>http://download.devel.redhat.com/released/JBEAP-4.3.0/CP03_FP01/zip/jboss-eap-fp-4.3.0.CP03-FP01.zip</url>
 							<md5>38fe2a2a55edc5239ba680eff3b29533</md5>
 							<unpack>true</unpack>
+							<skip>${skipPrivateRequirements}</skip>
 						</configuration>
 					</execution>
 					<execution>
@@ -70,6 +73,7 @@
 							<url>http://download.jboss.org/jbosstools/test-runtimes/jbds-seamfp-patch.zip</url>
 							<md5>c3af3b56add0acccb72db88de477f3c7</md5>
 							<unpack>true</unpack>
+							<skip>${skipPrivateRequirements}</skip>
 						</configuration>
 					</execution>
 				</executions>
@@ -78,6 +82,7 @@
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-surefire-plugin</artifactId>
 				<configuration>
+					<skip>${skipPrivateRequirements}</skip>
 					<explodedBundles>
 						<bundle>org.jboss.tools.seam.ui.test</bundle>
 						<bundle>org.jboss.tools.seam.core.test</bundle>
