@@ -47,7 +47,19 @@ public class WizardTest extends CDITestBase {
 	}
 		
 	@Test
-	public void testQualifier() {
+	public void testComponentsWizards() {
+		testQualifier();
+		testScope();
+		testIBinding();
+		testStereotype();
+		testDecorator();
+		testInterceptor();
+		testBeansXml();
+		testBean();
+		testAnnLiteral();
+	}
+	
+	private void testQualifier() {
 		wizardExt.qualifier(getPackageName(), "Q1", false, false).finish();
 		util.waitForNonIgnoredJobs();
 		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
@@ -73,8 +85,7 @@ public class WizardTest extends CDITestBase {
 		assertTrue(code.startsWith("/**"));
 	}
 	
-	@Test
-	public void testScope() {
+	private void testScope() {
 		wizardExt.scope(getPackageName(), "Scope1", true, false, true, false).finish();
 		util.waitForNonIgnoredJobs();
 		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
@@ -116,8 +127,7 @@ public class WizardTest extends CDITestBase {
 		assertTrue(code.startsWith("/**"));
 	}
 	
-	@Test
-	public void testIBinding() {
+	private void testIBinding() {
 		CDIWizardBase w = wizardExt.binding(getPackageName(), "B1", null, true, false);
 		assertEquals(2, w.getTargets().size());
 		w.finish();
@@ -172,8 +182,7 @@ public class WizardTest extends CDITestBase {
 		assertTrue(code.contains("@B2"));
 	}
 	
-	@Test
-	public void testStereotype() {
+	private void testStereotype() {
 		CDIWizardBase w = wizardExt.stereotype(getPackageName(), "S1", null, null, false, false, false, false,
 				false);
 		assertEquals(9, w.getScopes().size());
@@ -229,8 +238,7 @@ public class WizardTest extends CDITestBase {
 		assertFalse(code.startsWith("/**"));
 	}
 	
-	@Test
-	public void testDecorator() {
+	private void testDecorator() {
 		bot.sleep(Timing.time1S());
 		CDIWizardBase w = wizardExt.decorator(getPackageName(), "", "java.lang.Comparable", null, true, true, false, false);
 		w.finish();
@@ -265,8 +273,7 @@ public class WizardTest extends CDITestBase {
 		assertTrue(code.startsWith("/**"));
 	}
 	
-	@Test
-	public void testInterceptor() {
+	private void testInterceptor() {
 		CDIWizardBase w = wizardExt.interceptor(getPackageName(), "I1", "B2", null, null, false);
 		w.finish();
 		util.waitForNonIgnoredJobs();
@@ -297,8 +304,7 @@ public class WizardTest extends CDITestBase {
 		assertTrue(code.contains("extends Date"));
 	}
 	
-	@Test
-	public void testBeansXml() {
+	private void testBeansXml() {
 		CDIWizardBase w = new NewCDIFileWizard(CDIWizardType.BEANS_XML).run();
 		w.setSourceFolder(getProjectName() + "/WebContent/WEB-INF");
 		assertFalse(w.canFinish());		
@@ -310,8 +316,7 @@ public class WizardTest extends CDITestBase {
 		w.cancel();
 	}
 	
-	@Test
-	public void testBean() {
+	private void testBean() {
 		CDIWizardBase w = wizardExt.bean(getPackageName(), "Bean1", true, true, false, false, false, false, null, null, null, null);
 		w.finish();
 		util.waitForNonIgnoredJobs();
@@ -355,8 +360,7 @@ public class WizardTest extends CDITestBase {
 		assertTrue(code.startsWith("/**"));
 	}
 	
-	@Test
-	public void testAnnLiteral() {
+	private void testAnnLiteral() {
 		CDIWizardBase w = wizardExt.annLiteral(getPackageName(), "AnnL1", true, false, true, false, getPackageName() + ".Q1");
 		w.finish();
 		util.waitForNonIgnoredJobs();
