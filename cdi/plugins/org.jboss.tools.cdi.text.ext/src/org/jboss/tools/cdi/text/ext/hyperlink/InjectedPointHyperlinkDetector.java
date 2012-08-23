@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaElement;
@@ -98,7 +99,7 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 				}
 			}
 
-			findInjectedBeans(cdiNature, elements[0], position, input.getPath(), hyperlinks);
+			findInjectedBeans(cdiNature, elements[0], position, input.getPath(), hyperlinks, textEditor.isDirty());
 			
 			if (hyperlinks != null && !hyperlinks.isEmpty()) {
 				return (IHyperlink[])hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);
@@ -109,8 +110,8 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		return null;
 	}
 	
-	protected void findInjectedBeans(CDICoreNature nature, IJavaElement element, int offset, IPath path, ArrayList<IHyperlink> hyperlinks){
-		ICDIProject cdiProject = nature.getDelegate();
+	protected void findInjectedBeans(CDICoreNature nature, IJavaElement element, int offset, IPath path, ArrayList<IHyperlink> hyperlinks, boolean dirty) throws JavaModelException{
+		ICDIProject cdiProject = CDIUtil.getCDIProject((IFile)element.getUnderlyingResource(), nature, dirty);
 		
 		if(cdiProject == null){
 			return;

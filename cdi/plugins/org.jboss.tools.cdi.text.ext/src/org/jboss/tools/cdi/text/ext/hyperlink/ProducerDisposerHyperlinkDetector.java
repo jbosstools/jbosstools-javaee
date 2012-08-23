@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaElement;
@@ -67,7 +68,12 @@ public class ProducerDisposerHyperlinkDetector extends AbstractHyperlinkDetector
 		if(project == null)
 			return null;
 		
-		Collection<IBean> beans = getBeans(project, input.getPath());
+		Collection<IBean> beans=null;
+		try {
+			beans = getBeans(project, input.getPath(), (IFile)input.getUnderlyingResource(), textEditor.isDirty());
+		} catch (JavaModelException jme) {
+			CDIExtensionsPlugin.getDefault().logError(jme);
+		}
 		
 		if(beans == null)
 			return null;
@@ -123,14 +129,14 @@ public class ProducerDisposerHyperlinkDetector extends AbstractHyperlinkDetector
 		return null;
 	}
 	
-	private Collection<IBean> getBeans(IProject project, IPath path){
+	private Collection<IBean> getBeans(IProject project, IPath path, IFile file, boolean dirty){
 		CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(project);
 		
 		if(cdiNature == null)
 			return null;
 		
 		
-		ICDIProject cdiProject = cdiNature.getDelegate();
+		ICDIProject cdiProject = CDIUtil.getCDIProject(file, cdiNature, dirty);
 		
 		if(cdiProject == null)
 			return null;

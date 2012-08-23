@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaElement;
@@ -97,7 +98,7 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 					position = offset;
 				}
 			}
-			ICDIProject cdiProject = cdiNature.getDelegate();
+			ICDIProject cdiProject = CDIUtil.getCDIProject((IFile)input.getUnderlyingResource(), cdiNature, textEditor.isDirty());
 			if(cdiProject != null){
 				IInjectionPoint injectionPoint = findInjectedPoint(cdiProject, elements[0], position, input.getPath());
 				Set<IParameter> param = findObserverParameter(cdiProject, elements[0], offset, input.getPath());
