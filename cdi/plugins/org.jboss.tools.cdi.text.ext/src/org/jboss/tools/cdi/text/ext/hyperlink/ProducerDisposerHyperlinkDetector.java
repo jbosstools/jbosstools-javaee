@@ -30,6 +30,7 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
+import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
@@ -43,12 +44,20 @@ import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 
 public class ProducerDisposerHyperlinkDetector extends AbstractHyperlinkDetector {
+	protected IFile file;
 	
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer,
 			IRegion region, boolean canShowMultipleHyperlinks) {
 		ITextEditor textEditor= (ITextEditor)getAdapter(ITextEditor.class);
 		if (region == null || !(textEditor instanceof JavaEditor))
 			return null;
+		
+		if(textEditor.getEditorInput() instanceof IFileEditorInput){
+			file = ((IFileEditorInput)textEditor.getEditorInput()).getFile();
+		}
+		if(file == null){
+			return null;
+		}
 		
 		int offset= region.getOffset();
 		
@@ -68,12 +77,7 @@ public class ProducerDisposerHyperlinkDetector extends AbstractHyperlinkDetector
 		if(project == null)
 			return null;
 		
-		Collection<IBean> beans=null;
-		try {
-			beans = getBeans(project, input.getPath(), (IFile)input.getUnderlyingResource(), textEditor.isDirty());
-		} catch (JavaModelException jme) {
-			CDIExtensionsPlugin.getDefault().logError(jme);
-		}
+		Collection<IBean> beans = getBeans(project, input.getPath(), textEditor.isDirty());
 		
 		if(beans == null)
 			return null;
@@ -129,7 +133,7 @@ public class ProducerDisposerHyperlinkDetector extends AbstractHyperlinkDetector
 		return null;
 	}
 	
-	private Collection<IBean> getBeans(IProject project, IPath path, IFile file, boolean dirty){
+	private Collection<IBean> getBeans(IProject project, IPath path, boolean dirty){
 		CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(project);
 		
 		if(cdiNature == null)

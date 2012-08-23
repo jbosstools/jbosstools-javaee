@@ -32,6 +32,7 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
+import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDIUtil;
@@ -44,13 +45,20 @@ import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 
 public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDetector{
-	
+	protected IFile file;
 
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer,
 			IRegion region, boolean canShowMultipleHyperlinks) {
 		ITextEditor textEditor= (ITextEditor)getAdapter(ITextEditor.class);
 		if (region == null || !(textEditor instanceof JavaEditor))
 			return null;
+		
+		if(textEditor.getEditorInput() instanceof IFileEditorInput){
+			file = ((IFileEditorInput)textEditor.getEditorInput()).getFile();
+		}
+		if(file == null){
+			return null;
+		}
 		
 		int offset= region.getOffset();
 		
@@ -98,7 +106,7 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 					position = offset;
 				}
 			}
-			ICDIProject cdiProject = CDIUtil.getCDIProject((IFile)input.getUnderlyingResource(), cdiNature, textEditor.isDirty());
+			ICDIProject cdiProject = CDIUtil.getCDIProject(file, cdiNature, textEditor.isDirty());
 			if(cdiProject != null){
 				IInjectionPoint injectionPoint = findInjectedPoint(cdiProject, elements[0], position, input.getPath());
 				Set<IParameter> param = findObserverParameter(cdiProject, elements[0], offset, input.getPath());

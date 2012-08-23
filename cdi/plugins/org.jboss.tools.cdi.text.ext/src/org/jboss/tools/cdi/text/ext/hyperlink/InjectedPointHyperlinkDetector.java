@@ -31,6 +31,7 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
+import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDIUtil;
@@ -43,6 +44,7 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 	private IRegion region;
 	protected IDocument document;
 	protected ITextViewer viewer;
+	protected IFile file;
 
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer,
 			IRegion region, boolean canShowMultipleHyperlinks) {
@@ -52,6 +54,13 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		ITextEditor textEditor= (ITextEditor)getAdapter(ITextEditor.class);
 		if (region == null || !(textEditor instanceof JavaEditor))
 			return null;
+		
+		if(textEditor.getEditorInput() instanceof IFileEditorInput){
+			file = ((IFileEditorInput)textEditor.getEditorInput()).getFile();
+		}
+		if(file == null){
+			return null;
+		}
 		
 		int offset= region.getOffset();
 		
@@ -110,8 +119,8 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		return null;
 	}
 	
-	protected void findInjectedBeans(CDICoreNature nature, IJavaElement element, int offset, IPath path, ArrayList<IHyperlink> hyperlinks, boolean dirty) throws JavaModelException{
-		ICDIProject cdiProject = CDIUtil.getCDIProject((IFile)element.getUnderlyingResource(), nature, dirty);
+	protected void findInjectedBeans(CDICoreNature nature, IJavaElement element, int offset, IPath path, ArrayList<IHyperlink> hyperlinks, boolean dirty){
+		ICDIProject cdiProject = CDIUtil.getCDIProject(file, nature, dirty);
 		
 		if(cdiProject == null){
 			return;
