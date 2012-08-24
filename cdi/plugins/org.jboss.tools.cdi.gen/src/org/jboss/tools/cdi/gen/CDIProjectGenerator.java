@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.gen;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -27,10 +28,12 @@ import org.jboss.tools.cdi.gen.model.GenAnnotationReference;
 import org.jboss.tools.cdi.gen.model.GenClass;
 import org.jboss.tools.cdi.gen.model.GenField;
 import org.jboss.tools.cdi.gen.model.GenInterface;
+import org.jboss.tools.cdi.gen.model.GenMember;
 import org.jboss.tools.cdi.gen.model.GenMethod;
 import org.jboss.tools.cdi.gen.model.GenProject;
 import org.jboss.tools.cdi.gen.model.GenQualifier;
 import org.jboss.tools.cdi.gen.model.GenType;
+import org.jboss.tools.cdi.gen.model.GenVariable;
 import org.jboss.tools.common.zip.UnzipOperation;
 import org.osgi.framework.Bundle;
 
@@ -48,8 +51,11 @@ public class CDIProjectGenerator {
 	int packageCount = 50;
 	int interfaceCount = 50;
 	int qualifierCount = 50;
-	int classCount = 300;
-	int injectionsPerClassCount = 20;
+	int classCount = 500;
+	int producersPerClass = 3;
+	int fieldInjectionsPerClassCount = 20;
+	int initMethodsPerClass = 3;
+	int paramsPerInitMethod = 2;
 	
 	public CDIProjectGenerator() {}
 
@@ -57,11 +63,10 @@ public class CDIProjectGenerator {
 		this.workspaceLocation = workspaceLocation;
 	}
 
-	public void generate() {
-		project.setName("GeneratedProject");
+	public void generate(String projectName) {
+		project.setName(projectName);
 		createPackages();
 		createTypes();
-		//TODO
 		project.flush(workspaceLocation);
 	}
 
@@ -87,6 +92,10 @@ public class CDIProjectGenerator {
 	}
 
 	void createTypes() {
+		// void type
+		GenClass voidType = new GenClass();
+		voidType.setFullyQualifiedName("void");
+		// String type
 		GenClass string = new GenClass();
 		string.setFullyQualifiedName("java.lang.String");
 
@@ -111,10 +120,13 @@ public class CDIProjectGenerator {
 		}
 
 		List<String> beanNames = new ArrayList<String>();
+
+		//@Named type
 		GenQualifier named = new GenQualifier();
 		named.setName("Named");
 		named.setPackageName("javax.inject");
-		
+
+		//Classes
 		GenClass[] classes = new GenClass[classCount];
 		for (int i = 0; i < classCount; i++) {
 			String name = "MyBean" + i;
@@ -131,12 +143,14 @@ public class CDIProjectGenerator {
 			classes[i] = type;
 			project.addType(type);
 		}
+		//Mix classes array
 		for (int i = classes.length - 1; i > 0; i--) {
 			int j = seed.nextInt(i);
 			GenClass c = classes[i];
 			classes[i] = classes[j];
 			classes[j] = c;
 		}
+		//Generate inheritance
 		for (int i = 0; i < classes.length; i++) {
 			int j = seed.nextInt(classes.length);
 			if(i != j && (classes[j].getExtendedType() != null || !classes[j].getImplementedTypes().isEmpty())) {
@@ -144,6 +158,44 @@ public class CDIProjectGenerator {
 			} else {
 				j = seed.nextInt(interfaceCount);
 				classes[i].addImplementedType(interfaces[j]);
+			}
+		}
+
+		GenAnnotation disposeType = new GenAnnotation();
+		disposeType.setFullyQualifiedName(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+		GenAnnotationReference dispose = new GenAnnotationReference();
+		dispose.setAnnotation(disposeType);
+
+		//Producers
+		List<GenMethod> producers = new ArrayList<GenMethod>();
+		GenAnnotation producesType = new GenAnnotation();
+		producesType.setFullyQualifiedName(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
+		GenAnnotationReference produces = new GenAnnotationReference();
+		produces.setAnnotation(producesType);
+		for (int i = 0; i < classes.length; i++) {
+			for (int j = 0; j < producersPerClass; j++) {
+				GenMethod producer = new GenMethod();
+				producer.addAnnotation(produces);
+				GenClass c = classes[seed.nextInt(classes.length)];
+				producer.setReturnType(c);
+				producer.setName("produceC" + i + "M" + j);
+				GenQualifier q = qualifiers[seed.nextInt(qualifierCount)];
+				producer.addQualifierAnnotation(q, "qpvalue" + i + "_" + j);
+			
+				classes[i].addMethod(producer);
+				producers.add(producer);
+				
+				//Disposer
+				GenMethod disposer = new GenMethod();
+				disposer.setReturnType(voidType);
+				disposer.setName("disposeC" + i + "M" + j);
+				GenVariable v = new GenVariable();
+				v.setName("p0");
+				v.setType(getRandomSuperType(c, 0.6f));
+				v.addAnnotation(dispose);
+				v.addQualifierAnnotation(q, "qpvalue" + i + "_" + j);
+				disposer.addParameter(v);
+				classes[i].addMethod(disposer);
 			}
 		}
 		
@@ -154,17 +206,15 @@ public class CDIProjectGenerator {
 		inject.setAnnotation(injectType);
 
 		for (int i = 0; i < classes.length; i++) {
-			for (int j = 0; j < injectionsPerClassCount; j++) {
+			for (int j = 0; j < fieldInjectionsPerClassCount; j++) {
 				GenField f = new GenField();
 				f.setName("f" + j);
 				f.addAnnotation(inject);
-				GenClass c = classes[seed.nextInt(classes.length)];
-				for (GenAnnotationReference q: c.getQualifiers()) {
+				GenMember beanMember = getRandomBeanMember(classes, producers);
+				for (GenAnnotationReference q: beanMember.getQualifiers()) {
 					f.addAnnotation(q);
 				}
-				while(c.getExtendedType() != null) c = c.getExtendedType();
-				GenType type = c;
-				if(!c.getImplementedTypes().isEmpty() && seed.nextFloat() < 0.6f) type = c.getImplementedTypes().get(0);
+				GenType type = getRandomSuperType(beanMember.getType(), 0.6f);
 				f.setType(type);
 				classes[i].addField(f);
 			}
@@ -173,8 +223,29 @@ public class CDIProjectGenerator {
 			nameProperty.setReturnType(string);
 			nameProperty.setName("getName");
 			classes[i].addMethod(nameProperty);
+			
+			//initializers
+			for (int j = 0; j < initMethodsPerClass; j++) {
+				GenMethod m = new GenMethod();
+				m.addAnnotation(inject);
+				m.setReturnType(voidType);
+				m.setName("initC" + i + "M" + j);
+				for (int k = 0; k < paramsPerInitMethod; k++) {
+					GenVariable v = new GenVariable();
+					v.setName("p" + k);
+					GenMember beanMember = getRandomBeanMember(classes, producers);
+					for (GenAnnotationReference q: beanMember.getQualifiers()) {
+						v.addAnnotation(q);
+					}
+					GenType type = getRandomSuperType(beanMember.getType(), 0.6f);
+					v.setType(type);
+					m.addParameter(v);
+				}
+				
+				classes[i].addMethod(m);
+			}
 		}
-		
+	
 		//EL
 		for (int i = 0; i < classes.length; i++) {
 			GenField f = new GenField();
@@ -188,6 +259,29 @@ public class CDIProjectGenerator {
 
 	private String getRandomPackage() {
 		return project.getPackages().get(seed.nextInt(project.getPackages().size()));
+	}
+
+	private GenMember getRandomBeanMember(GenClass[] classes, List<GenMethod> producers) {
+		if(seed.nextFloat() < 0.6f) {
+			return classes[seed.nextInt(classes.length)];
+		} else {
+			return producers.get(seed.nextInt(producers.size()));
+		}
+	}
+
+	private GenType getRandomSuperType(GenType type, float level) {
+		if(type instanceof GenClass) {
+			GenClass c = (GenClass)type;
+			while(c.getExtendedType() != null) c = c.getExtendedType();
+			type = c;
+		}
+		if(seed.nextFloat() < level) {
+			Collection<GenInterface> is = type.getImplementedTypes();
+			if(!is.isEmpty()) {
+				type = is.iterator().next();
+			}
+		}		
+		return type;
 	}
 
 	private static File TEMPLATE_FOLDER;

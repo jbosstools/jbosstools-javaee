@@ -10,28 +10,66 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.gen.model;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public class GenMember {
-	protected Set<GenAnnotationReference> annotations = new HashSet<GenAnnotationReference>();
+public abstract class GenMember {
+	private GenMember parent;
+	private List<GenAnnotationReference> annotations = new ArrayList<GenAnnotationReference>();
+	private List<GenAnnotationReference> qualifierAnnotations = new ArrayList<GenAnnotationReference>();
 	String name;
 	GenVisibility visibility = GenVisibility.LOCAL;
 
 	public GenMember() {}
 
+	public GenMember getParent() {
+		return parent;
+	}
+
+	public void setParent(GenMember parent) {
+		this.parent = parent;
+	}
+
+	/**
+	 * May return null if this member is not a type and is not added to a type.
+	 * @return
+	 */
+	public GenType getDeclaringType() {
+		return parent != null ? parent.getDeclaringType() : null;
+	}
+
 	public void addAnnotation(GenAnnotationReference annotation) {
 		annotations.add(annotation);
+		if(getDeclaringType() != null) {
+			new GenImportsCollector(getDeclaringType()).addImports(annotation);
+		}
 	}
 	
-	public Set<GenAnnotationReference> getAnnotations() {
+	public Collection<GenAnnotationReference> getAnnotations() {
 		return annotations;
+	}
+
+	public void addQualifierAnnotation(GenQualifier q, String value) {
+		GenAnnotationReference a = new GenAnnotationReference();
+		a.setAnnotation(q);		
+
+		if(value != null) {
+			a.getValues().put("value", "\"" + value + "\"");
+		}
+		
+		addAnnotation(a);
+		qualifierAnnotations.add(a);
+	}
+
+	public Collection<GenAnnotationReference> getQualifiers() {
+		return qualifierAnnotations;
 	}
 
 	public void setName(String name) {
@@ -56,7 +94,13 @@ public class GenMember {
 		}
 	}
 
+	public abstract GenType getType();
+
 	public void flushAnnotations(BodyWriter sb) {
+		flushAnnotations(sb, false);
+	}
+
+	public void flushAnnotations(BodyWriter sb, boolean separateBySpace) {
 		for (GenAnnotationReference a: getAnnotations()) {
 			sb.append("@").append(a.getTypeName());
 			Map<String, Object> vs = a.getValues();
@@ -69,7 +113,7 @@ public class GenMember {
 				}
 				sb.append(")");
 			}
-			sb.newLine();
+			if(separateBySpace) sb.append(" "); else sb.newLine();
 		}
 	}
 

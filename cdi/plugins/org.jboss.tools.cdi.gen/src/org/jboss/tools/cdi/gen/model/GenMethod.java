@@ -10,14 +10,18 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.gen.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
 public class GenMethod extends GenMember {
-	GenType returnType;
-	boolean isAbstract = false;
+	private GenType returnType;
+	private boolean isAbstract = false;
+	private List<GenVariable> parameters = new ArrayList<GenVariable>();
 	
 	public GenMethod() {
 		setVisibility(GenVisibility.PUBLIC);
@@ -39,12 +43,35 @@ public class GenMethod extends GenMember {
 		return returnType;
 	}
 
+	public GenType getType() {
+		return getReturnType();
+	}
+
+	public List<GenVariable> getParameters() {
+		return parameters;
+	}
+
+	public void addParameter(GenVariable p) {
+		parameters.add(p);
+		if(getDeclaringType() != null) {
+			new GenImportsCollector(getDeclaringType()).addImports(p);
+		}
+	}
+
 	public void flush(BodyWriter sb) {
 		flushAnnotations(sb);
 		flushVisibility(sb);
 		sb.append(returnType.getTypeName()).append(" ").append(getName());
 		sb.append("(");
-		//TODO parameters
+		boolean first = true;
+		for (GenVariable v: getParameters()) {
+			if(first) {
+				first = false;
+			} else {
+				sb.append(", ");
+			}
+			v.flush(sb);
+		}
 		sb.append(")");
 		if(isAbstract()) {
 			sb.append(";").newLine();
@@ -53,7 +80,7 @@ public class GenMethod extends GenMember {
 			if(!"void".equals(returnType.getTypeName())) {
 				sb.append("return null;").newLine();
 			}		
-			sb.decreaseIndent().append("}");
+			sb.decreaseIndent().append("}").newLine();
 		}
 	}
 

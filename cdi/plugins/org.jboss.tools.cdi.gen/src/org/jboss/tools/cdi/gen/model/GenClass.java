@@ -11,9 +11,7 @@
 package org.jboss.tools.cdi.gen.model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 
@@ -22,56 +20,23 @@ import java.util.Set;
  */
 public class GenClass extends GenType {
 	GenClass extendedType;
-	List<GenInterface> implementedTypes = new ArrayList<GenInterface>();
-	Set<GenAnnotationReference> qualifierAnnotations = new HashSet<GenAnnotationReference>();
 	List<GenField> fields = new ArrayList<GenField>();
 	
 	public GenClass() {}
 	
 	public void setExtendedType(GenClass extendedType) {
 		this.extendedType = extendedType;
-		addImport(extendedType.getFullyQualifiedName());
-	}
-
-	public void addImplementedType(GenInterface implementedType) {
-		if(!implementedTypes.contains(implementedType)) {
-			implementedTypes.add(implementedType);
-			addImport(implementedType.getFullyQualifiedName());
-		}
+		getDeclaringType().addImport(extendedType.getFullyQualifiedName());
 	}
 
 	public GenClass getExtendedType() {
 		return extendedType;
 	}
 
-	public List<GenInterface> getImplementedTypes() {
-		return implementedTypes;
-	}
-
-	public void addQualifierAnnotation(GenQualifier q, String value) {
-		addImport(q.getFullyQualifiedName());
-		
-		GenAnnotationReference a = new GenAnnotationReference();
-		a.setAnnotation(q);
-		
-
-		if(value != null) {
-			a.getValues().put("value", "\"" + value + "\"");
-		}
-		
-		addAnnotation(a);
-		qualifierAnnotations.add(a);
-	}
-
-	public Set<GenAnnotationReference> getQualifiers() {
-		return qualifierAnnotations;
-	}
-
 	public void addField(GenField f) {
 		fields.add(f);
-		addImport(f.getType().getFullyQualifiedName());
-		for (GenAnnotationReference a: f.getAnnotations()) {
-			addImport(a.getFullyQualifiedName());
+		if(getDeclaringType() != null) {
+			new GenImportsCollector(getDeclaringType()).addImports(f);
 		}
 	}
 
@@ -79,7 +44,7 @@ public class GenClass extends GenType {
 		sb.append("package ").append(getPackageName()).append(";").newLine().newLine();
 	
 		//imports
-		for (String i: imports) {
+		for (String i: getImports()) {
 			sb.append("import ").append(i).append(";").newLine();
 		}
 		sb.append("\n");
@@ -92,7 +57,7 @@ public class GenClass extends GenType {
 			sb.append(" extends ").append(extendedType.getTypeName());
 		}
 		int imported = 0;
-		for (GenInterface in: implementedTypes) {
+		for (GenInterface in: getImplementedTypes()) {
 			if(imported == 0) {
 				sb.append(" implements ");
 			} else {

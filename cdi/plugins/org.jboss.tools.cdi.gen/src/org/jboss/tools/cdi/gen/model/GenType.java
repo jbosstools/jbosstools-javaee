@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.gen.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,8 +24,9 @@ import org.jboss.tools.cdi.core.CDIConstants;
  *
  */
 public class GenType extends GenMember implements CDIConstants {
-	Set<String> imports = new HashSet<String>();
-	String packageName;
+	private Set<String> imports = new HashSet<String>();
+	private String packageName;
+	private List<GenInterface> implementedTypes = new ArrayList<GenInterface>();
 	
 	List<GenMethod> methods = new ArrayList<GenMethod>();
 
@@ -48,6 +50,14 @@ public class GenType extends GenMember implements CDIConstants {
 		return getName();
 	}
 
+	public GenType getType() {
+		return this;
+	}
+
+	public GenType getDeclaringType() {
+		return getParent() instanceof GenType ? getParent().getDeclaringType() : this;
+	}
+
 	public void setFullyQualifiedName(String qn) {
 		int dot = qn.lastIndexOf('.');
 		setTypeName(dot < 0 ? qn : qn.substring(dot + 1));
@@ -55,15 +65,33 @@ public class GenType extends GenMember implements CDIConstants {
 	}
 
 	public String getFullyQualifiedName() {
-		return getPackageName() + "." + getName();
+		return getPackageName().length() == 0 ? getName() : getPackageName() + "." + getName();
+	}
+
+	public Collection<String> getImports() {
+		return imports;
 	}
 
 	public void addImport(String type) {
+		if(type.startsWith("java.lang.") && type.lastIndexOf(".") == 9) return;
+		if(type.indexOf('.') < 0) return;
 		imports.add(type);
+	}
+
+	public void addImplementedType(GenInterface implementedType) {
+		if(!implementedTypes.contains(implementedType)) {
+			implementedTypes.add(implementedType);
+			getDeclaringType().addImport(implementedType.getFullyQualifiedName());
+		}
+	}
+
+	public Collection<GenInterface> getImplementedTypes() {
+		return implementedTypes;
 	}
 
 	public void addMethod(GenMethod method) {
 		methods.add(method);
+		new GenImportsCollector(getDeclaringType()).addImports(method);
 	}
 
 	public void flushMethods(BodyWriter sb) {

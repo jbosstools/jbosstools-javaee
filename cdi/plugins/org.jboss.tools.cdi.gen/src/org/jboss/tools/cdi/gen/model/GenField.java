@@ -15,20 +15,11 @@ package org.jboss.tools.cdi.gen.model;
  * @author Viacheslav Kabanovich
  *
  */
-public class GenField extends GenMember {
-	GenType type;
-	String initValue;
+public class GenField extends GenVariable {
+	private String initValue;
 	
 	public GenField() {
 		setVisibility(GenVisibility.PROTECTED);
-	}
-
-	public void setType(GenType type) {
-		this.type = type;
-	}
-
-	public GenType getType() {
-		return type;
 	}
 
 	public void setInitValue(String s) {
@@ -38,7 +29,7 @@ public class GenField extends GenMember {
 	public void flush(BodyWriter sb) {
 		flushAnnotations(sb);
 		flushVisibility(sb);
-		sb.append(type.getTypeName()).append(" ").append(getName());
+		sb.append(getType().getTypeName()).append(" ").append(getName());
 		if(initValue != null) {
 			sb.append(" = ").append(initValue);
 		}

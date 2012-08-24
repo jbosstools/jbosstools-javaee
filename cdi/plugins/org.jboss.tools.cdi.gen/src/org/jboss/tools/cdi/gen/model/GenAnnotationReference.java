@@ -19,24 +19,22 @@ import java.util.Map;
  *
  */
 public class GenAnnotationReference {
-	String packageName;
-	String typeName;
-	Map<String, Object> values = new HashMap<String, Object>();
+	private GenAnnotation annotation;
+	private Map<String, Object> values = new HashMap<String, Object>();
 	
 	public GenAnnotationReference() {		
 	}
 
-	public void setAnnotation(GenAnnotation type) {
-		packageName = type.getPackageName();
-		typeName = type.getTypeName();
+	public void setAnnotation(GenAnnotation annotation) {
+		this.annotation = annotation;
 	}
 
 	public String getPackageName() {
-		return packageName;
+		return annotation.getPackageName();
 	}
 
 	public String getTypeName() {
-		return typeName;
+		return annotation.getTypeName();
 	}
 
 	public Map<String, Object> getValues() {
@@ -48,6 +46,6 @@ public class GenAnnotationReference {
 	}
 
 	public String getFullyQualifiedName() {
-		return getPackageName() + "." + getTypeName();
+		return annotation.getFullyQualifiedName();
 	}
 }
