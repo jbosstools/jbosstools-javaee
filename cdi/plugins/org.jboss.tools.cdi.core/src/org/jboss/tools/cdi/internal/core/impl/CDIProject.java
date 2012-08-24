@@ -134,6 +134,14 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		Collection<IBean> oldBeans = getBeans(file.getFullPath());
 		p.allBeans.removeAll(oldBeans);
 		p.allBeans.addAll(beans);
+
+		p.beansByTypes = new ArrayList<Set<IBean>>();
+		for (int i = 0; i < BEANS_BY_TYPE_SIZE; i++) {
+			Set<IBean> bs = new HashSet<IBean>(beansByTypes.get(i));
+			bs.removeAll(oldBeans);
+			bs.addAll(beans);
+			p.beansByTypes.add(bs);
+		}
 		
 		Set<IBean> oldNamedBeans = null;
 		for (IBean b: oldBeans) {
@@ -388,7 +396,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		return getResolvedBeans(result, attemptToResolveAmbiguousDependency);
 	}
 
-	static int BEANS_BY_TYPE_SIZE = 167;
+	static int BEANS_BY_TYPE_SIZE = 367;
 	static int OBJECT_INDEX = Math.abs("java.lang.Object".hashCode()) % BEANS_BY_TYPE_SIZE;
 	
 	static int toTypeIndex(IType type) {
