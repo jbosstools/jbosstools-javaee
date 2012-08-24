@@ -22,6 +22,7 @@ import java.util.Set;
 public class GenMember {
 	protected Set<GenAnnotationReference> annotations = new HashSet<GenAnnotationReference>();
 	String name;
+	GenVisibility visibility = GenVisibility.LOCAL;
 
 	public GenMember() {}
 
@@ -41,7 +42,21 @@ public class GenMember {
 		return name;
 	}
 
-	public void flushAnnotations(StringBuilder sb) {
+	public void setVisibility(GenVisibility visibility) {
+		this.visibility = visibility;
+	}
+
+	public GenVisibility getVisibility() {
+		return visibility;
+	}
+
+	public void flushVisibility(BodyWriter sb) {
+		if(visibility != GenVisibility.LOCAL) {
+			sb.append(visibility.toString()).append(" ");
+		}
+	}
+
+	public void flushAnnotations(BodyWriter sb) {
 		for (GenAnnotationReference a: getAnnotations()) {
 			sb.append("@").append(a.getTypeName());
 			Map<String, Object> vs = a.getValues();
@@ -54,7 +69,7 @@ public class GenMember {
 				}
 				sb.append(")");
 			}
-			sb.append("\n");
+			sb.newLine();
 		}
 	}
 

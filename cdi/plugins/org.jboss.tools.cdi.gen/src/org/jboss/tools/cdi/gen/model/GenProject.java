@@ -86,7 +86,7 @@ public class GenProject {
 			} else if(type instanceof GenQualifier) {
 				flushQualifier(f, templates, (GenQualifier)type);
 			} else if(type instanceof GenClass) {
-				StringBuilder content = new StringBuilder();
+				BodyWriter content = new BodyWriter();
 				((GenClass)type).flush(content);
 				FileUtil.writeFile(f, content.toString());
 			}

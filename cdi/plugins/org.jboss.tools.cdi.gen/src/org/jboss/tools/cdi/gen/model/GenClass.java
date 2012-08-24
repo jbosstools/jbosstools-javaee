@@ -75,17 +75,19 @@ public class GenClass extends GenType {
 		}
 	}
 
-	public void flush(StringBuilder sb) {
-		sb.append("package ").append(getPackageName()).append(";\n\n");
+	public void flush(BodyWriter sb) {
+		sb.append("package ").append(getPackageName()).append(";").newLine().newLine();
+	
 		//imports
 		for (String i: imports) {
-			sb.append("import ").append(i).append(";\n");
+			sb.append("import ").append(i).append(";").newLine();
 		}
 		sb.append("\n");
 		//annotations
 		flushAnnotations(sb);
 		//header
-		sb.append("public class ").append(getTypeName());
+		flushVisibility(sb);
+		sb.append("class ").append(getTypeName());
 		if(extendedType != null) {
 			sb.append(" extends ").append(extendedType.getTypeName());
 		}
@@ -99,15 +101,18 @@ public class GenClass extends GenType {
 			imported++;
 			sb.append(in.getTypeName());
 		}
-		sb.append(" {\n");
+		sb.append(" {").newLine().increaseIndent();
 		
 		for (GenField f: fields) {
 			f.flush(sb);
-			sb.append("\n");
+			sb.newLine();
 		}
+	
+		flushMethods(sb);
+
 		//TODO body
 		
-		sb.append("}");
+		sb.decreaseIndent().append("}");
 	}
 
 }

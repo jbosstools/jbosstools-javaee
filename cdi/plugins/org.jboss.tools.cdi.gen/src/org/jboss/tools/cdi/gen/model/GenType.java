@@ -10,7 +10,9 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.gen.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -23,8 +25,11 @@ import org.jboss.tools.cdi.core.CDIConstants;
 public class GenType extends GenMember implements CDIConstants {
 	Set<String> imports = new HashSet<String>();
 	String packageName;
+	
+	List<GenMethod> methods = new ArrayList<GenMethod>();
 
 	public GenType() {
+		setVisibility(GenVisibility.PUBLIC);
 	}
 
 	public void setPackageName(String packageName) {
@@ -43,12 +48,29 @@ public class GenType extends GenMember implements CDIConstants {
 		return getName();
 	}
 
+	public void setFullyQualifiedName(String qn) {
+		int dot = qn.lastIndexOf('.');
+		setTypeName(dot < 0 ? qn : qn.substring(dot + 1));
+		setPackageName(dot < 0 ? "" : qn.substring(0, dot));
+	}
+
 	public String getFullyQualifiedName() {
 		return getPackageName() + "." + getName();
 	}
 
 	public void addImport(String type) {
 		imports.add(type);
+	}
+
+	public void addMethod(GenMethod method) {
+		methods.add(method);
+	}
+
+	public void flushMethods(BodyWriter sb) {
+		for (GenMethod m: methods) {
+			m.flush(sb);
+			sb.newLine();
+		}
 	}
 
 }

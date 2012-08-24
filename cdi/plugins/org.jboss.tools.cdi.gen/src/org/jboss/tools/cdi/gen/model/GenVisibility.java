@@ -15,33 +15,17 @@ package org.jboss.tools.cdi.gen.model;
  * @author Viacheslav Kabanovich
  *
  */
-public class GenField extends GenMember {
-	GenType type;
-	String initValue;
-	
-	public GenField() {
-		setVisibility(GenVisibility.PROTECTED);
+public enum GenVisibility {
+	PUBLIC("public"),
+	PROTECTED("protected"),
+	PRIVATE("private"),
+	LOCAL("");
+	String value;
+	GenVisibility(String value) {
+		this.value = value;
 	}
 
-	public void setType(GenType type) {
-		this.type = type;
-	}
-
-	public GenType getType() {
-		return type;
-	}
-
-	public void setInitValue(String s) {
-		initValue = s;
-	}
-
-	public void flush(BodyWriter sb) {
-		flushAnnotations(sb);
-		flushVisibility(sb);
-		sb.append(type.getTypeName()).append(" ").append(getName());
-		if(initValue != null) {
-			sb.append(" = ").append(initValue);
-		}
-		sb.append(";").newLine();
+	public String toString() {
+		return value;
 	}
 }

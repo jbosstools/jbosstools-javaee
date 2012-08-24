@@ -12,18 +12,22 @@ package org.jboss.tools.cdi.gen;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.gen.model.GenAnnotation;
 import org.jboss.tools.cdi.gen.model.GenAnnotationReference;
 import org.jboss.tools.cdi.gen.model.GenClass;
 import org.jboss.tools.cdi.gen.model.GenField;
 import org.jboss.tools.cdi.gen.model.GenInterface;
+import org.jboss.tools.cdi.gen.model.GenMethod;
 import org.jboss.tools.cdi.gen.model.GenProject;
 import org.jboss.tools.cdi.gen.model.GenQualifier;
 import org.jboss.tools.cdi.gen.model.GenType;
@@ -83,6 +87,9 @@ public class CDIProjectGenerator {
 	}
 
 	void createTypes() {
+		GenClass string = new GenClass();
+		string.setFullyQualifiedName("java.lang.String");
+
 		GenInterface[] interfaces = new GenInterface[interfaceCount];
 		for (int i = 0; i < interfaceCount; i++) {
 			String name = "MyInterface" + i;
@@ -102,6 +109,12 @@ public class CDIProjectGenerator {
 			project.addType(type);
 			qualifiers[i] = type;
 		}
+
+		List<String> beanNames = new ArrayList<String>();
+		GenQualifier named = new GenQualifier();
+		named.setName("Named");
+		named.setPackageName("javax.inject");
+		
 		GenClass[] classes = new GenClass[classCount];
 		for (int i = 0; i < classCount; i++) {
 			String name = "MyBean" + i;
@@ -110,8 +123,12 @@ public class CDIProjectGenerator {
 			type.setTypeName(name);
 			GenQualifier q = qualifiers[seed.nextInt(qualifierCount)];
 			type.addQualifierAnnotation(q, "qvalue" + i);
+
+			String beanName = "bean" + (beanNames.size() + 1);
+			type.addQualifierAnnotation(named, beanName);
+			beanNames.add(beanName);
+
 			classes[i] = type;
-			
 			project.addType(type);
 		}
 		for (int i = classes.length - 1; i > 0; i--) {
@@ -132,10 +149,10 @@ public class CDIProjectGenerator {
 		
 		//Injections
 		GenAnnotation injectType = new GenAnnotation();
-		injectType.setPackageName("javax.inject");
-		injectType.setTypeName("Inject");
+		injectType.setFullyQualifiedName(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 		GenAnnotationReference inject = new GenAnnotationReference();
 		inject.setAnnotation(injectType);
+
 		for (int i = 0; i < classes.length; i++) {
 			for (int j = 0; j < injectionsPerClassCount; j++) {
 				GenField f = new GenField();
@@ -151,6 +168,21 @@ public class CDIProjectGenerator {
 				f.setType(type);
 				classes[i].addField(f);
 			}
+			// getName();
+			GenMethod nameProperty = new GenMethod();
+			nameProperty.setReturnType(string);
+			nameProperty.setName("getName");
+			classes[i].addMethod(nameProperty);
+		}
+		
+		//EL
+		for (int i = 0; i < classes.length; i++) {
+			GenField f = new GenField();
+			f.setName("el");
+			f.setType(string);
+			String beanName = beanNames.get(seed.nextInt(beanNames.size()));
+			f.setInitValue("\"#{" + beanName + ".name}\"");
+			classes[i].addField(f);
 		}
 	}
 
