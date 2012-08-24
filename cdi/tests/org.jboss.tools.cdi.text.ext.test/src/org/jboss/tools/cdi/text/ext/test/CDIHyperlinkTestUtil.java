@@ -14,11 +14,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
@@ -55,6 +57,7 @@ import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
+import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditorPart;
 import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlinkDetector;
@@ -76,6 +79,15 @@ public class CDIHyperlinkTestUtil extends TestCase{
 		checkRegions(fullyQualifiedName, editorInput, editorPart, regionList, hlDetector);
 	}
 	
+	protected static ISourceViewer getViewer(IEditorPart editor){
+		if(editor instanceof JavaEditor){
+			return ((JavaEditor)editor).getViewer();
+		}else{
+			Assert.fail("editor must be instanceof JavaEditor");
+		}
+		return null;
+	}
+	
 	public static void checkRegions(IProject project, String fileName, List<TestRegion> regionList, AbstractHyperlinkDetector hlDetector) throws Exception {
 		IFile file = project.getFile(fileName);
 
@@ -86,6 +98,35 @@ public class CDIHyperlinkTestUtil extends TestCase{
 		IEditorPart editorPart = openFileInEditor(file);
 
 		checkRegions(fileName, editorInput, editorPart, regionList, hlDetector);
+	}
+	
+	public static void checkRegionsForAsYouType(IProject project, String fileName, String newContent, List<TestRegion> regionList, AbstractHyperlinkDetector hlDetector) throws Exception {
+		IFile file = project.getFile(fileName);
+		IFile nFile = project.getFile(newContent);
+
+		assertNotNull("The file \"" + fileName + "\" is not found", file);
+		assertTrue("The file \"" + fileName + "\" is not found", file.isAccessible());
+
+		assertNotNull("The file \"" + newContent + "\" is not found", nFile);
+		assertTrue("The file \"" + newContent + "\" is not found", nFile.isAccessible());
+
+		IEditorInput editorInput = new FileEditorInput(file);
+		IEditorPart editorPart = openFileInEditor(file);
+		try{
+			ISourceViewer viewer = getViewer(editorPart);
+			
+			IDocument document = viewer.getDocument();
+			
+			String text = FileUtil.getContentFromEditorOrFile(nFile);
+			
+			document.set(text);
+	
+			checkRegions(fileName, editorInput, editorPart, regionList, hlDetector);
+		}finally{
+			if(editorPart.isDirty()){
+				editorPart.doSave(new NullProgressMonitor());
+			}
+		}
 	}
 	
 	private static void checkRegions(String fileName, IEditorInput editorInput, IEditorPart editorPart, List<TestRegion> regionList, AbstractHyperlinkDetector hlDetector) throws Exception {

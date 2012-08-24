@@ -65,7 +65,7 @@ public class XMLInjectedPointHyperlinkDetector extends InjectedPointHyperlinkDet
 		if(!(input instanceof FileEditorInput))
 			return null;
 		
-		IFile file = ((FileEditorInput)input).getFile();
+		file = ((FileEditorInput)input).getFile();
 
 		if(file == null)
 			return null;

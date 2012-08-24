@@ -55,9 +55,6 @@ public class ProducerDisposerHyperlinkDetector extends AbstractHyperlinkDetector
 		if(textEditor.getEditorInput() instanceof IFileEditorInput){
 			file = ((IFileEditorInput)textEditor.getEditorInput()).getFile();
 		}
-		if(file == null){
-			return null;
-		}
 		
 		int offset= region.getOffset();
 		

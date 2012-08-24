@@ -16,10 +16,9 @@ import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.hyperlink.EventAndObserverMethodHyperlinkDetector;
 import org.jboss.tools.cdi.text.ext.hyperlink.EventListHyperlink;
-import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlink;
 import org.jboss.tools.cdi.text.ext.hyperlink.ObserverMethodListHyperlink;
-import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestRegion;
 import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestHyperlink;
+import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestRegion;
 
 public class EventAndObserverMethodHyperlinkDetectorTest extends TCKTest {
 
@@ -61,6 +60,34 @@ public class EventAndObserverMethodHyperlinkDetectorTest extends TCKTest {
 		regionList.add(new TestRegion(/*1334, 42*/"stringEventWithAnyAndNonRuntimeBindingType",  new TestHyperlink[]{new TestHyperlink(ObserverMethodListHyperlink.class, CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_OBSERVER_METHODS, elementPaths)}));
 
 		CDIHyperlinkTestUtil.checkRegions(tckProject, "JavaSource/org/jboss/jsr299/tck/tests/event/bindingTypes/EventEmitter.java", regionList, new EventAndObserverMethodHyperlinkDetector());
+	}
+	
+	public void testEventHyperlinkDetectorForAsYouType() throws Exception {
+		String[] elementPaths = new String[]{
+				"/tck/JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/observers/ClassFragmentLogger.java",
+				"/tck/JavaSource/org/jboss/jsr299/tck/tests/event/eventTypes/EventTypeFamilyObserver.java"
+		};
+		
+		ArrayList<TestRegion> regionList = new ArrayList<TestRegion>();
+		
+		regionList.add(new TestRegion(/*959, 6*/"Inject",   new TestHyperlink[]{new TestHyperlink(ObserverMethodListHyperlink.class, CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_OBSERVER_METHODS, elementPaths)}));
+		regionList.add(new TestRegion(/*967, 16*/"Any Event<EventType",  new TestHyperlink[]{new TestHyperlink(ObserverMethodListHyperlink.class, CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_OBSERVER_METHODS, elementPaths)}));
+		regionList.add(new TestRegion(/*985, 11*/"stringEvent",  new TestHyperlink[]{new TestHyperlink(ObserverMethodListHyperlink.class, CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_OBSERVER_METHODS, elementPaths)}));
+		regionList.add(new TestRegion(/*1006, 6*/"Inject",  new TestHyperlink[]{new TestHyperlink(ObserverMethodListHyperlink.class, CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_OBSERVER_METHODS, elementPaths)}));
+		regionList.add(new TestRegion(/*1014, 3*/"Any",  new TestHyperlink[]{new TestHyperlink(ObserverMethodListHyperlink.class, CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_OBSERVER_METHODS, elementPaths)}));
+		regionList.add(new TestRegion(/*1019, 34*/"NonRuntimeBindingType Event<EventType",  new TestHyperlink[]{new TestHyperlink(ObserverMethodListHyperlink.class, CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_OBSERVER_METHODS, elementPaths)}));
+		regionList.add(new TestRegion(/*1055, 42*/"stringEventWithAnyAndNonRuntimeBindingType",  new TestHyperlink[]{new TestHyperlink(ObserverMethodListHyperlink.class, CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_OBSERVER_METHODS, elementPaths)}));
+		regionList.add(new TestRegion(/*1107, 6*/"Inject",  new TestHyperlink[]{new TestHyperlink(ObserverMethodListHyperlink.class, CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_OBSERVER_METHODS, elementPaths)}));
+		regionList.add(new TestRegion(/*1115, 34*/"NonRuntimeBindingType Event<EventType",  new TestHyperlink[]{new TestHyperlink(ObserverMethodListHyperlink.class, CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_OBSERVER_METHODS, elementPaths)}));
+		regionList.add(new TestRegion(/*1151, 36*/"stringEventWithOnlyNonRuntimeBindingType",  new TestHyperlink[]{new TestHyperlink(ObserverMethodListHyperlink.class, CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_OBSERVER_METHODS, elementPaths)}));
+		regionList.add(new TestRegion(/*1235, 11*/"stringEvent",  new TestHyperlink[]{new TestHyperlink(ObserverMethodListHyperlink.class, CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_OBSERVER_METHODS, elementPaths)}));
+		regionList.add(new TestRegion(/*1334, 42*/"stringEventWithAnyAndNonRuntimeBindingType",  new TestHyperlink[]{new TestHyperlink(ObserverMethodListHyperlink.class, CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_OBSERVER_METHODS, elementPaths)}));
+		
+		CDIHyperlinkTestUtil.checkRegionsForAsYouType(tckProject,
+				"JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/TestEvents.java",
+				"JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/TestEvents.qfxresult",
+				regionList,
+				new EventAndObserverMethodHyperlinkDetector());
 	}
 
 	public void testObserverMethodHyperlinkDetector() throws Exception {

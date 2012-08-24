@@ -1266,7 +1266,7 @@ public class CDIUtil {
 	public static ICDIProject getCDIProject(IFile file, CDICoreNature cdiNature, boolean asYouType){
 		ICDIProject cdiProject = cdiNature.getDelegate();
 		
-		if(asYouType){
+		if(asYouType && file != null){
 			return new CDIProjectAsYouType(cdiProject, file);
 		}else{
 			return cdiProject;
