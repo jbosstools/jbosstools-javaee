@@ -34,7 +34,9 @@ public class JSF {
 	public static final String ATTR_FOR = "for"; //$NON-NLS-1$
 
 	public static final String ATTR_ID = "id";//$NON-NLS-1$
-
+	
+	public static final String ATTR_IMAGE = "image"; //$NON-NLS-1$
+	
 	public static final String ATTR_ITEM_LABEL = "itemLabel"; //$NON-NLS-1$
 	
 	public static final String ATTR_ITEM_VALUE = "itemValue"; //$NON-NLS-1$
@@ -60,6 +62,8 @@ public class JSF {
 	public static final String ATTR_LAYOUT = "layout"; //$NON-NLS-1$
 
 	public static final String ATTR_TITLE = "title"; //$NON-NLS-1$
+	
+	public static final String ATTR_TYPE = "type"; //$NON-NLS-1$
 
 	public static final String ATTR_LANG = "lang"; //$NON-NLS-1$
 	
@@ -68,4 +72,9 @@ public class JSF {
 	public static final String ATTR_DEFAULT = "default"; //$NON-NLS-1$
 	
 	public static final String CUSTOM_COMPONENT_ATTR_PREFIX="cc.attrs."; //$NON-NLS-1$
+	
+	public static final String ATTR_SRC = "src"; //$NON-NLS-1$
+	
+	public static final String VALUE_BUTTON = "button"; //$NON-NLS-1$
+	
 }
