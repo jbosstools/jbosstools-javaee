@@ -57,8 +57,7 @@
 											<INPUT CLASS="barsearch" />
 										</TD>
 										<TD CLASS="dr-toolbar-int rich-toolbar-item" STYLE="">
-											<INPUT TYPE="button" CLASS="barsearchbutton" VALUE="Search"
-												STYLE="-moz-user-modify: read-only;" />
+											<INPUT TYPE="button" CLASS="barsearchbutton" VALUE="Search"/>
 										</TD>
 									</TR>
 								</TBODY>
@@ -267,8 +266,7 @@
 													</TD>
 													<TD CLASS="dr-toolbar-int rich-toolbar-item"
 														STYLE="color: PaleVioletRed; font-size: medium; font-style: italic; background-color: FloralWhite; font-family: Arial TUR; font-weight: bolder;">
-														<INPUT TYPE="button" CLASS="barsearchbutton" VALUE="Search"
-															STYLE="-moz-user-modify: read-only;" />
+														<INPUT TYPE="button" CLASS="barsearchbutton" VALUE="Search"/>
 
 													</TD>
 												</TR>
