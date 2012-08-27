@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.QualifiedName;
 import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlink;
 import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlinkDetector;
+import org.jboss.tools.jst.text.ext.hyperlink.ELVarListHyperlink;
 import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil;
 import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestHyperlink;
 import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestRegion;
@@ -134,7 +135,13 @@ public class ELExprPartitionerTest extends TestCase {
 		regionList.add(new TestRegion("possibilitie", new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'NumberGuess.getPossibilities() - org.jboss.seam.example.numberguess'", "NumberGuess.java")}));
 		
 		regionList.add(new TestRegion("#{", new TestHyperlink[]{}));
-		regionList.add(new TestRegion("_localVariabl", new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'Iterator.next() - java.util'")}));
+		regionList.add(new TestRegion("_localVariabl",
+				new TestHyperlink[]{
+					new TestHyperlink(ELHyperlink.class, "Open Definition of '_localVariable' in 'giveup.jspx'"),
+					new TestHyperlink(ELHyperlink.class, "Open 'Iterator.next() - java.util'")
+					
+				}));
+				
 		regionList.add(new TestRegion("intValu", new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'Integer.intValue() - java.lang'")}));
 		
 		HyperlinkTestUtil.checkRegions(project, PAGE_NAME, regionList, new ELHyperlinkDetector());
