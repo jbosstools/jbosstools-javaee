@@ -1,17 +1,106 @@
 <tests>
-	<test id="commandButton1">
-		<input type="button" value="commandButton"/>
+	<test id="div1">
+		<DIV ID="div1" STYLE="-moz-user-modify: read-write;">
+			<INPUT TYPE="button" VALUE="commandButton1" />
+			<INPUT TYPE="button" VALUE="commandButton2" />
+			<INPUT TYPE="reset" VALUE="commandButton3" />
+			<INPUT TYPE="submit" VALUE="commandButton4" />
+			<INPUT TYPE="image" SRC="/.*ve/unresolved_image.gif/" />
+			<INPUT TYPE="" VALUE="commandButton6" />
+		</DIV>
 	</test>
-	<test id="commandButton2">
-		<input type="button" value="commandButton1" />
+
+	<test id="div2">
+		<DIV ID="div2" STYLE="-moz-user-modify: read-write;">
+			<DIV CLASS="vpe-text">
+				<DIV CLASS="vpe-text">
+				</DIV>
+				<INPUT TYPE="button" VALUE="cb1" />
+			</DIV>
+			<DIV CLASS="vpe-text">
+				<DIV CLASS="vpe-text">
+				</DIV>
+				<INPUT TYPE="button" VALUE="cb2" />
+			</DIV>
+			<DIV CLASS="vpe-text">
+				<DIV CLASS="vpe-text">
+				</DIV>
+				<INPUT TYPE="reset" VALUE="cb3" />
+			</DIV>
+			<DIV CLASS="vpe-text">
+				<DIV CLASS="vpe-text">
+				</DIV>
+				<INPUT TYPE="submit" VALUE="cb4" />
+			</DIV>
+			<DIV CLASS="vpe-text">
+				<DIV CLASS="vpe-text">
+				</DIV>
+				<INPUT TYPE="image" SRC="/.*ve/unresolved_image.gif/" />
+			</DIV>
+			<DIV CLASS="vpe-text">
+				<DIV CLASS="vpe-text">
+				</DIV>
+				<INPUT TYPE="" VALUE="cb6" />
+			</DIV>
+		</DIV>
 	</test>
-	<test id="commandButton3">
-		<input type="reset" value="commandButton3" />
-	</test>
-	<test id="commandButton4">
-		<input type="submit" value="commandButton4" />
-	</test>
-	<test id="commandButton5">
-		<input type="image"  SRC="/.*ve/unresolved_image.gif/" />
+
+	<test id="div3">
+		<DIV ID="div3" STYLE="-moz-user-modify: read-write;">
+			<DIV CLASS="vpe-text">
+				<DIV CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+						with some text
+					</SPAN>
+				</DIV>
+				<INPUT TYPE="button" VALUE="cb1" />
+
+			</DIV>
+			<DIV CLASS="vpe-text">
+				<DIV CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+						with some text
+					</SPAN>
+				</DIV>
+				<INPUT TYPE="button" VALUE="cb2" />
+
+			</DIV>
+			<DIV CLASS="vpe-text">
+				<DIV CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+						with some text
+					</SPAN>
+				</DIV>
+				<INPUT TYPE="reset" VALUE="cb3" />
+
+			</DIV>
+			<DIV CLASS="vpe-text">
+				<DIV CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+						with some text
+					</SPAN>
+				</DIV>
+				<INPUT TYPE="submit" VALUE="cb4" />
+
+			</DIV>
+			<DIV CLASS="vpe-text">
+				<DIV CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+						with some text
+					</SPAN>
+				</DIV>
+				<INPUT TYPE="image" SRC="/.*ve/unresolved_image.gif/" />
+
+			</DIV>
+			<DIV CLASS="vpe-text">
+				<DIV CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+						with some text
+					</SPAN>
+				</DIV>
+				<INPUT TYPE="" VALUE="cb6" />
+
+			</DIV>
+		</DIV>
 	</test>
 </tests>
