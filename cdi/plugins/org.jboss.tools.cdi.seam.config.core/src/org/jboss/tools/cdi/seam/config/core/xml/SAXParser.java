@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.jboss.tools.common.CommonPlugin;
-import org.jboss.tools.common.Messages;
+import org.jboss.tools.common.core.Messages;
 import org.jboss.tools.common.xml.SAXValidator;
 import org.jboss.tools.common.xml.XMLEntityResolverImpl;
 import org.xml.sax.Attributes;
@@ -31,7 +31,6 @@ import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
  * 
