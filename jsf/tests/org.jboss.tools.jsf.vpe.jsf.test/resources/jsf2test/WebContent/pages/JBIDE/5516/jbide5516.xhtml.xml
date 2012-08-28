@@ -1,41 +1,43 @@
 <tests>
 	<test id="jbide5516">
 		<DIV ID="jbide5516">
-			<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
-				<TABLE BORDER="0" STYLE="margin-right: auto; margin-left: auto;">
+			<DIV VPE:INCLUDE-ELEMENT="yes">
+
+				<TABLE BORDER="0"
+					STYLE="margin-right: auto; margin-left: auto;">
 					<TBODY>
 						<TR>
 							<TD>
-								<DIV CLASS="vpe-text">
-									<DIV CLASS="vpe-text">
-									</DIV>
+								<SPAN CLASS="vpe-text">
+									<SPAN CLASS="vpe-text">
+									</SPAN>
 									<INPUT TYPE="submit" VALUE="1" />
 
-								</DIV>
+								</SPAN>
 							</TD>
 							<TD>
-								<DIV CLASS="vpe-text">
-									<DIV CLASS="vpe-text">
-									</DIV>
+								<SPAN CLASS="vpe-text">
+									<SPAN CLASS="vpe-text">
+									</SPAN>
 									<INPUT TYPE="submit" VALUE="2" />
 
-								</DIV>
+								</SPAN>
 							</TD>
 							<TD>
-								<DIV CLASS="vpe-text">
-									<DIV CLASS="vpe-text">
-									</DIV>
+								<SPAN CLASS="vpe-text">
+									<SPAN CLASS="vpe-text">
+									</SPAN>
 									<INPUT TYPE="submit" VALUE="3" />
 
-								</DIV>
+								</SPAN>
 							</TD>
 							<TD>
-								<DIV CLASS="vpe-text">
-									<DIV CLASS="vpe-text">
-									</DIV>
+								<SPAN CLASS="vpe-text">
+									<SPAN CLASS="vpe-text">
+									</SPAN>
 									<INPUT TYPE="submit" VALUE="4" />
 
-								</DIV>
+								</SPAN>
 							</TD>
 						</TR>
 					</TBODY>

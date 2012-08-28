@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.vpe.jsf.template;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.jboss.tools.vpe.editor.util.VpeStyleUtil;
@@ -36,8 +37,11 @@ public class JsfCommandButton extends VpeAbstractTemplate {
 			input.setAttribute(HTML.ATTR_CLASS, sourceElement.getAttribute(JSF.ATTR_STYLE_CLASS));
 		}
 		if (sourceElement.hasAttribute(JSF.ATTR_DISABLED)) {
+			/*
+			 * CommandButton is Disabled
+			 */
 			String disabled = sourceElement.getAttribute(JSF.ATTR_DISABLED);
-			if ("true".equalsIgnoreCase(disabled)) { //$NON-NLS-1$
+			if (Constants.TRUE.equalsIgnoreCase(disabled)) {
 				input.setAttribute(JSF.ATTR_DISABLED, JSF.ATTR_DISABLED);
 			}
 		}
@@ -45,20 +49,30 @@ public class JsfCommandButton extends VpeAbstractTemplate {
 			input.setAttribute(JSF.ATTR_DIR, sourceElement.getAttribute(JSF.ATTR_DIR));
 		} 
 		if (sourceElement.hasAttribute(JSF.ATTR_IMAGE)) {
-//		1) attr: +image -> type=image
+			/*
+			 * TYPE is IMAGE
+			 */
 			input.setAttribute(JSF.ATTR_TYPE,JSF.ATTR_IMAGE);
 			input.setAttribute(JSF.ATTR_SRC, 
 					VpeStyleUtil.addFullPathToImgSrc(
 							sourceElement.getAttribute(JSF.ATTR_IMAGE), pageContext, true));
-		} else if (sourceElement.hasAttribute(JSF.ATTR_TYPE)) { 
-//		2) attr: +type -> type=type
-			input.setAttribute(JSF.ATTR_TYPE, sourceElement.getAttribute(JSF.ATTR_TYPE));
+		} else if (sourceElement.hasAttribute(JSF.ATTR_TYPE)) {
+			/*
+			 * TYPE attribute presents
+			 */
+			String type = sourceElement.getAttribute(JSF.ATTR_TYPE);
+			if (Constants.EMPTY.equalsIgnoreCase(type)) {
+				type = HTML.VALUE_TYPE_SUBMIT;
+			}
+			input.setAttribute(JSF.ATTR_TYPE, type);
 			if (sourceElement.hasAttribute(JSF.ATTR_VALUE)) {
 				input.setAttribute(JSF.ATTR_VALUE, sourceElement.getAttribute(JSF.ATTR_VALUE));
 			}
 		} else {
-//		3) attr: -type -> type=button
-			input.setAttribute(JSF.ATTR_TYPE, JSF.VALUE_BUTTON);
+			/*
+			 * No TYPE attribute is specified
+			 */
+			input.setAttribute(HTML.ATTR_TYPE, HTML.VALUE_TYPE_SUBMIT);
 			if (sourceElement.hasAttribute(JSF.ATTR_VALUE)) {
 				input.setAttribute(JSF.ATTR_VALUE, sourceElement.getAttribute(JSF.ATTR_VALUE));
 			}
@@ -69,7 +83,7 @@ public class JsfCommandButton extends VpeAbstractTemplate {
 		 * Components should render usual text inside
 		 */
 		VpeCreationData creationData = VisualDomUtil.createTemplateWithTextContainer(
-				sourceElement, input, HTML.TAG_DIV, visualDocument);
+				sourceElement, input, HTML.TAG_SPAN, visualDocument);
 		
 		return creationData;
 	}

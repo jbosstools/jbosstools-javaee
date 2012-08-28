@@ -37,7 +37,7 @@ User Name
 
 </P>
 <P STYLE="-moz-user-modify: read-only;">
-<INPUT TYPE="button" VALUE="LOgin" STYLE="-moz-user-modify: read-only;"/>
+<INPUT TYPE="submit" VALUE="LOgin"/>
 
 </P>
 </DIV>

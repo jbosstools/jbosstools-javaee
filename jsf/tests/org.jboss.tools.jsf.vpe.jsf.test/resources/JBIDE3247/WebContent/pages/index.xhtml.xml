@@ -4,44 +4,44 @@
 			<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
 <!-- h:inputHidden id="currentPage" replace, because if on page two fields, two elements with equal id has been used, but should be used only one -->
 <TABLE BORDER="0"
-					STYLE="margin-right: auto; margin-left: auto; -moz-user-modify: read-write;">
-					<TBODY>
-						<TR>
-							<TD>
-								<DIV CLASS="vpe-text">
-									<DIV CLASS="vpe-text">
-									</DIV>
-									<INPUT TYPE="submit" VALUE="&lt;&lt;" />
+	STYLE="margin-right: auto; margin-left: auto; -moz-user-modify: read-write;">
+	<TBODY>
+		<TR>
+			<TD>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<INPUT TYPE="submit" VALUE="&lt;&lt;" />
 
-								</DIV>
-							</TD>
-							<TD>
-								<DIV CLASS="vpe-text">
-									<DIV CLASS="vpe-text">
-									</DIV>
-									<INPUT TYPE="submit" VALUE="&lt;" />
+				</SPAN>
+			</TD>
+			<TD>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<INPUT TYPE="submit" VALUE="&lt;" />
 
-								</DIV>
-							</TD>
-							<TD>
-								<DIV CLASS="vpe-text">
-									<DIV CLASS="vpe-text">
-									</DIV>
-									<INPUT TYPE="submit" VALUE="&gt;" />
+				</SPAN>
+			</TD>
+			<TD>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<INPUT TYPE="submit" VALUE="&gt;" />
 
-								</DIV>
-							</TD>
-							<TD>
-								<DIV CLASS="vpe-text">
-									<DIV CLASS="vpe-text">
-									</DIV>
-									<INPUT TYPE="submit" VALUE="&gt;&gt;" />
+				</SPAN>
+			</TD>
+			<TD>
+				<SPAN CLASS="vpe-text">
+					<SPAN CLASS="vpe-text">
+					</SPAN>
+					<INPUT TYPE="submit" VALUE="&gt;&gt;" />
 
-								</DIV>
-							</TD>
-						</TR>
-					</TBODY>
-				</TABLE>
+				</SPAN>
+			</TD>
+		</TR>
+	</TBODY>
+</TABLE>
 			</DIV>
 			<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
 				<SPAN CLASS="message" STYLE="-moz-user-modify: read-only;">
