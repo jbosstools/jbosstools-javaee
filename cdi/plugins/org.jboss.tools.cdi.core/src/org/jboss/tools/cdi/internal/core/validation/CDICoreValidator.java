@@ -829,6 +829,21 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		return parametedType==null?null:parametedType.getType();
 	}
 
+//	private void addLinkedBeanTypes(IBean bean) {
+//		if(!isAsYouTypeValidation()) {
+//			Collection<IParametedType> types = bean.getAllTypes();
+//			for (IParametedType type : types) {
+//				IType iType = type.getType();
+//				if(iType!=null && !iType.isBinary()) {
+//					IResource resource = iType.getResource();
+//					if(resource!=null) {
+//						getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, stereotype.getResource().getFullPath(), false);
+//					}
+//				}
+//			}
+//		}
+//	}
+
 	private void addLinkedStereotypes(String beanPath, IStereotyped stereotyped) {
 		if(!isAsYouTypeValidation()) {
 			for (IStereotypeDeclaration stereotypeDeclaration : stereotyped.getStereotypeDeclarations()) {
@@ -1542,7 +1557,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		return false;
 	}
 
-	private void saveAllSuperTypesAsLinkedResources(IClassBean bean) {
+	private void saveAllSuperTypesAsLinkedResources(IBean bean) {
 		if(!isAsYouTypeValidation()) {
 			for (IParametedType type : bean.getAllTypes()) {
 				IType superType = type.getType();
@@ -2398,7 +2413,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	 */
 	private void validateTyped(IBean bean) {
 		Collection<ITypeDeclaration> typedDeclarations = bean.getRestrictedTypeDeclaratios();
-		if (!typedDeclarations.isEmpty()) { 
+		if (!typedDeclarations.isEmpty()) {
+			saveAllSuperTypesAsLinkedResources(bean);
 			Set<String> allTypeNames = new HashSet<String>();
 			for (IParametedType type : bean.getAllTypes()) {
 				if(type.getType() != null) allTypeNames.add(type.getType().getFullyQualifiedName());
