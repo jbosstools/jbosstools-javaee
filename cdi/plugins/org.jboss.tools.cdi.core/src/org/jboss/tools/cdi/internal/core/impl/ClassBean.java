@@ -629,6 +629,12 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	public synchronized void cleanCache() {
 		specializingClassBeans = null;
 		scope = null;
-		getDefinition().getParametedType().cleanCache();
+		getDefinition().resetParametedType();
+		for (BeanMethod m: methods) {
+			m.setMethod(m.getMethod()); // type update
+		}
+		for (BeanField f: fields) {
+			f.setField(f.getField()); // type update
+		}
 	}
 }
