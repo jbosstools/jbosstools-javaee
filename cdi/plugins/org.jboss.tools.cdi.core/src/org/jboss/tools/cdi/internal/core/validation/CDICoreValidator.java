@@ -829,21 +829,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		return parametedType==null?null:parametedType.getType();
 	}
 
-//	private void addLinkedBeanTypes(IBean bean) {
-//		if(!isAsYouTypeValidation()) {
-//			Collection<IParametedType> types = bean.getAllTypes();
-//			for (IParametedType type : types) {
-//				IType iType = type.getType();
-//				if(iType!=null && !iType.isBinary()) {
-//					IResource resource = iType.getResource();
-//					if(resource!=null) {
-//						getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, stereotype.getResource().getFullPath(), false);
-//					}
-//				}
-//			}
-//		}
-//	}
-
 	private void addLinkedStereotypes(String beanPath, IStereotyped stereotyped) {
 		if(!isAsYouTypeValidation()) {
 			for (IStereotypeDeclaration stereotypeDeclaration : stereotyped.getStereotypeDeclarations()) {
