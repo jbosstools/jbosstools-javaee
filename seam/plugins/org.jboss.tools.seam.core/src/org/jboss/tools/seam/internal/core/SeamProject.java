@@ -958,7 +958,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 						affectedComponents.add(c);
 					}
 				} else {
-					if(loaded instanceof ISeamXmlComponentDeclaration) {
+					if(loaded instanceof ISeamXmlComponentDeclaration && c != null) {
 						ISeamXmlComponentDeclaration xml = (ISeamXmlComponentDeclaration)loaded;
 						onXMLLoadedDeclaration(c, oldClassName, xml);
 					}
