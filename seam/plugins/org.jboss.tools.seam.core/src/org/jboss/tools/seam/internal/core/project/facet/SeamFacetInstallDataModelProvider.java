@@ -72,7 +72,8 @@ public class SeamFacetInstallDataModelProvider extends
 		names.add(ISeamFacetDataModelProperties.DB_ALREADY_EXISTS);
 		names.add(ISeamFacetDataModelProperties.RECREATE_TABLES_AND_DATA_ON_DEPLOY);
 
-		names.add(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH);
+		names.add(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATHS_ARRAY);
+		names.add(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_NAME);
 
 		// Code generation group
 		names.add(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER);

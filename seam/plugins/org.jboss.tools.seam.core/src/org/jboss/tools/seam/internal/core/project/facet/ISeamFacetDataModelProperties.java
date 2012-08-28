@@ -242,9 +242,14 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	String HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto"; //$NON-NLS-1$
 
 	/**
-	 * Driver file name 
+	 * Driver file names
 	 */
-	String JDBC_DRIVER_JAR_PATH = "driver.file"; //$NON-NLS-1$
+	String JDBC_DRIVER_JAR_PATHS_ARRAY = "driver.files.array"; //$NON-NLS-1$
+
+	/**
+	 * Driver file name
+	 */
+	String JDBC_DRIVER_JAR_NAME = "driver.file"; //$NON-NLS-1$
 
 	// TODO: should be moved to org.jboss.tools.seam.ui.wizard.IParameter
 	// why is this a property when it is always derivable from sesion_bean_package_name ?

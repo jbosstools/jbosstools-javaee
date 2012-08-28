@@ -191,7 +191,7 @@ public class Seam23FacetInstallDelegate extends Seam2FacetInstallDelegate {
 	 * @param destFolder
 	 */
 	public static void copyDBDriverToProject(IProject project, IDataModel model, File destFolder) {
-		Object drvrs = model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH);
+		Object drvrs = model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATHS_ARRAY);
 		if(drvrs!=null) {
 			String[] drvrsStrings = (String[])drvrs;
 			if(drvrsStrings.length>0) {

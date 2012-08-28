@@ -11,6 +11,7 @@
 
 package org.jboss.tools.seam.internal.core.project.facet;
 
+import java.io.File;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IProject;
@@ -99,8 +100,12 @@ public class SeamFacetPreInstallDelegate implements IDelegate {
 					DriverInstance i = DriverManager.getInstance().getDriverInstanceByID(props.get(
 									"org.eclipse.datatools.connectivity.driverDefinitionID").toString()); //$NON-NLS-1$
 					if(i != null) {
-						model.setProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH,
-								i.getJarListAsArray());
+						String[] drivers = i.getJarListAsArray();
+						model.setProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATHS_ARRAY, drivers);
+						if(drivers.length>0) {
+							File file = new File(drivers[0]);
+							model.setProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_NAME, file.getName());
+						}
 					}
 				}
 			}
