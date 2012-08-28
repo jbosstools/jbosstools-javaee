@@ -421,7 +421,7 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 		if (server != null) {
 			IDeployableServer jbs = (IDeployableServer) server.loadAdapter(IDeployableServer.class, new NullProgressMonitor());
 			if (jbs != null) {
-				String[] driverJars = (String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH);
+				String[] driverJars = (String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATHS_ARRAY);
 				if(driverJars!=null) {
 					String configFolder = jbs.getConfigDirectory();
 					if(model.getStringProperty(ISeamFacetDataModelProperties.SEAM_LIBRARY_PROVIDER).equals(SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_COPY_LIBRARIES)){

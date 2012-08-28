@@ -216,8 +216,8 @@ public class SeamProjectCreator {
 		ejbFilterSet.addFilter("testProjectName", testProjectName); //$NON-NLS-1$
 
 		ejbFilterSet.addFilter("runtimeName", WtpUtils.getServerRuntimeName(seamWebProject)); //$NON-NLS-1$
-		if (model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH) != null) {
-			File driver = new File(((String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH))[0]);
+		if (model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATHS_ARRAY) != null) {
+			File driver = new File(((String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATHS_ARRAY))[0]);
 			ejbFilterSet.addFilter("driverJar", " " + driver.getName() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		} else {
 			ejbFilterSet.addFilter("driverJar", ""); //$NON-NLS-1$ //$NON-NLS-2$

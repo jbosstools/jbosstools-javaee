@@ -202,7 +202,8 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		config.setStringProperty(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "org.entity.beans");
 		config.setStringProperty(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, "org.test.beans");
 		config.setStringProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, "noop-connection");
-		config.setProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH, new String[] { "noop-driver.jar" });
+		config.setProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATHS_ARRAY, new String[] { "noop-driver.jar" });
+		config.setProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_NAME, "noop-driver.jar");
 		config.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, true);
 		config.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_TEMPLATES_AND_LIBRARIES_COPYING, true);
 		return config;

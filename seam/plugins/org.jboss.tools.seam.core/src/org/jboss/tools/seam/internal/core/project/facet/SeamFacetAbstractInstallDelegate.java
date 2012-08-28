@@ -882,8 +882,8 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener, 
 			if(serverRuntimeName!=null) {
 				ejbFilterSet.addFilter("runtimeName", serverRuntimeName); //$NON-NLS-1$
 			}
-			if (model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH) != null) {
-				File driver = new File(((String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH))[0]);
+			if (model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATHS_ARRAY) != null) {
+				File driver = new File(((String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATHS_ARRAY))[0]);
 				ejbFilterSet.addFilter("driverJar", " " + driver.getName() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				viewFilterSetCollection.addFilterSet(getDriverFilterSet(model));
 			} else {
@@ -915,8 +915,8 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener, 
 	}
 
 	public static FilterSet getDriverFilterSet(IDataModel model) {
-		if (model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH) != null) {
-			File driver = new File(((String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH))[0]);
+		if (model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATHS_ARRAY) != null) {
+			File driver = new File(((String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATHS_ARRAY))[0]);
 			FilterSet dbTypeFilterSet = new FilterSet();
 			dbTypeFilterSet.addFilter("database.type", driver.getName());
 			return dbTypeFilterSet;
