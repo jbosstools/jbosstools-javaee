@@ -18,7 +18,9 @@ import java.util.TreeSet;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
@@ -31,13 +33,12 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
+import org.jboss.tools.common.base.test.contentassist.CATestUtil;
 import org.jboss.tools.common.el.core.ELCorePlugin;
 import org.jboss.tools.common.el.core.ca.preferences.ELContentAssistPreferences;
-import org.jboss.tools.common.base.test.contentassist.CATestUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
-import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
@@ -284,8 +285,9 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 	/**
 	 * Test for http://jira.jboss.com/jira/browse/JBIDE-1803
 	 *          http://jira.jboss.com/jira/browse/JBIDE-2007
+	 * @throws CoreException 
 	 */
-	public void testVarAttributes() {
+	public void testVarAttributes() throws CoreException {
 		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
 
 		IFile component = project.getFile("src/action/demo/TestComponentForVarAttributes.java");
@@ -293,26 +295,17 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 		IFile emptyComponent = project.getFile("src/action/demo/TestComponentForVarAttributes.2");
 		try{
 			FileUtil.copyContent(newComponent, component, true, false, new NullProgressMonitor());
-		}catch(Exception e){
-			JUnitUtils.fail("Error during changing 'TestComponentForVarAttributes.java' content to 'TestComponentForVarAttributes.1'", e);
-		}
-		JobUtils.waitForIdle(3000);
 
-		checkProposals("/WebContent/varAttributes.xhtml", 458, new String[]{"test.name"}, false);
-		checkProposals("/WebContent/varAttributes.xhtml", 640, new String[]{"item.name"}, false);
+			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 
-		try{
+			checkProposals("/WebContent/varAttributes.xhtml", 458, new String[]{"test.name"}, false);
+			checkProposals("/WebContent/varAttributes.xhtml", 640, new String[]{"item.name"}, false);
+		} finally {
 			FileUtil.copyContent(emptyComponent, component, true, false, new NullProgressMonitor());
-		}catch(Exception e){
-			JUnitUtils.fail("Error during changing 'TestComponentForVarAttributes.java' content to 'TestComponentForVarAttributes.2'", e);
+			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 		}
-		JobUtils.waitForIdle();
 	}
 
-
-	
-	
-	
 	/**
 	 * Do not use this set as is because of colon used instead of dot to separate items of level 2 and more
 	 * @return
