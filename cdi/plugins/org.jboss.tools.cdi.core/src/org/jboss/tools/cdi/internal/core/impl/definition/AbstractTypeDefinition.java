@@ -84,7 +84,7 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 		}
 	}
 
-	public IParametedType getParametedType() {
+	public ParametedType getParametedType() {
 		return parametedType;
 	}
 
