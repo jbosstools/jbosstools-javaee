@@ -31,6 +31,7 @@ import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefContextMenu;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditPart;
 import org.eclipse.swtbot.swt.finder.SWTBot;
+import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.matchers.AbstractMatcher;
 import org.eclipse.swtbot.swt.finder.matchers.WidgetOfType;
@@ -332,12 +333,16 @@ public class TutorialTest extends SWTTestExt {
         gui.save();
         util.waitForNonIgnoredJobs();
         new SWTBotGefContextMenu(gui.getControl(), "Run on Server").click();
-        SWTBotBrowserExt browser = new SWTBotExt().browserExt();
-        bot.sleep(7500);
-        browser.refresh();
-        bot.sleep(5000);
-        L.info(browser.getText());
-        Assert.assertTrue(browser.getText().contains("Input name:"));
+        try {
+        	SWTBotBrowserExt browser = new SWTBotExt().browserExt();
+        	 bot.sleep(7500);
+             browser.refresh();
+             bot.sleep(5000);
+             L.info(browser.getText());
+             Assert.assertTrue(browser.getText().contains("Input name:"));
+        } catch (WidgetNotFoundException wnfe) {
+        	fail("Warning dialog shows when deploying app - known issue JBIDE-11306");
+        }
     }
 
     private void validators() {

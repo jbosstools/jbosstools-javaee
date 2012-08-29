@@ -48,7 +48,8 @@ public class RunStrutsProjectOnServer extends SWTTestExt {
 		swtJbtExt.stopApplicationServer(0);
 		swtJbtExt.removeProjectFromServers(StrutsAllBotTests.STRUTS_PROJECT_NAME);
 		SWTJBTExt.deleteApplicationServer(bot, 0);
-		assertTrue("Displayed HTML page has wrong content",
+		assertTrue("Displayed HTML page has wrong content. Application was not" +
+				" deployed by struts tools - known issue JBIDE-11306",
 				(browserText != null)
 					&& (browserText.indexOf("<TITLE>KickStart: Input name</TITLE>") > -1));
 	}
