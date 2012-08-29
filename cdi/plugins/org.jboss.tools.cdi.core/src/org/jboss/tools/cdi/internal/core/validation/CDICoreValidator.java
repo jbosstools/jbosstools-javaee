@@ -552,6 +552,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 				}					
 			}
 		}
+		Set<IPath> resources = new HashSet<IPath>();
+		collectAllRelatedInjections(file, resources);
+		for (IPath p: resources) {
+			getValidationContext().addLinkedCoreResource(SHORT_ID, p.toOSString(), file.getFullPath(), false);
+		}					
 
 		CDIValidationContext context = null;
 		ICDIProject cdiProject = null;
