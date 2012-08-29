@@ -341,6 +341,7 @@ public class TutorialTest extends SWTTestExt {
              L.info(browser.getText());
              Assert.assertTrue(browser.getText().contains("Input name:"));
         } catch (WidgetNotFoundException wnfe) {
+        	bot.shell("Warning").bot().button(IDELabel.Button.CLOSE).click();
         	fail("Warning dialog shows when deploying app - known issue JBIDE-11306");
         }
     }
