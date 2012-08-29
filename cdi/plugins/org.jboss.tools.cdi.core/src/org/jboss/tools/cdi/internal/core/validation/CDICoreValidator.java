@@ -95,6 +95,7 @@ import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.CDIProjectAsYouType;
 import org.jboss.tools.cdi.internal.core.impl.SessionBean;
 import org.jboss.tools.cdi.internal.core.impl.definition.Dependencies;
+import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IJavaReference;
 import org.jboss.tools.common.java.IParametedType;
@@ -284,6 +285,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			IReporter reporter) {
 		super.init(rootProject, validationHelper, context, manager, reporter);
 		setAsYouTypeValidation(false);
+		validatatingAll = false;
 		projectTree = validationHelper.getValidationContextManager().getValidatingProjectTree(this);
 		projectSet = projectTree.getBrunches().get(rootProject);
 		rootCdiProject = null;
@@ -357,7 +359,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 						validationContext.addVariableNameForELValidation(SHORT_ID, name);
 					}
 				}
-				
+
 				// Get all the paths of related resources for given file. These
 				// links were saved in previous validation process.
 				Set<String> oldReletedResources = getValidationContext().getVariableNamesByCoreResource(SHORT_ID, currentFile.getFullPath(), false);
@@ -403,6 +405,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		return OK_STATUS;
 	}
 
+	private boolean validatatingAll;
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#validateAll(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.validation.IProjectValidationContext, org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager, org.eclipse.wst.validation.internal.provisional.core.IReporter)
@@ -410,6 +414,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	public IStatus validateAll(IProject project, ContextValidationHelper validationHelper, IProjectValidationContext context, ValidatorManager manager, IReporter reporter)
 			throws ValidationException {
 		init(project, validationHelper, context, manager, reporter);
+		validatatingAll = true;
 
 		if (rootCdiProject == null) {
 			return OK_STATUS;
@@ -450,7 +455,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 				filesToValidate.add((IFile)resource);
 			}
 		}
-		
+
 		for (String scopeName: rootCdiProject.getScopeNames()) {
 			IScope scope = rootCdiProject.getScope(scopeName);
 			IResource resource = scope.getResource();
@@ -1553,16 +1558,18 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	}
 
 	private void collectAllRelatedInjections(IFile validatingResource, Set<IPath> relatedResources) {
-		CDIValidationContext context = getCDIContext(validatingResource);
-		ICDIProject cdiProject = context.getCdiProject();
-		collectAllRelatedInjectionsForBean(validatingResource, relatedResources);
-		if("beans.xml".equals(validatingResource.getName().toLowerCase())) {
-			List<INodeReference> nodes = cdiProject.getAlternativeClasses();
-			collectAllRelatedInjectionsForNode(nodes, relatedResources);
-			nodes = cdiProject.getDecoratorClasses();
-			collectAllRelatedInjectionsForNode(nodes, relatedResources);
-			nodes = cdiProject.getInterceptorClasses();
-			collectAllRelatedInjectionsForNode(nodes, relatedResources);
+		if(!validatatingAll && !asYouTypeValidation) {
+			CDIValidationContext context = getCDIContext(validatingResource);
+			ICDIProject cdiProject = context.getCdiProject();
+			collectAllRelatedInjectionsForBean(validatingResource, relatedResources);
+			if("beans.xml".equals(validatingResource.getName().toLowerCase())) {
+				List<INodeReference> nodes = cdiProject.getAlternativeClasses();
+				collectAllRelatedInjectionsForNode(nodes, relatedResources);
+				nodes = cdiProject.getDecoratorClasses();
+				collectAllRelatedInjectionsForNode(nodes, relatedResources);
+				nodes = cdiProject.getInterceptorClasses();
+				collectAllRelatedInjectionsForNode(nodes, relatedResources);
+			}
 		}
 	}
 
@@ -1583,19 +1590,47 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		}
 	}
 
-	public void collectAllRelatedInjectionsForBean(IFile validatingResource, Set<IPath> relatedResources) {
-		CDIValidationContext context = getCDIContext(validatingResource);
-		ICDIProject cdiProject = context.getCdiProject();
-		for (IBean bean : cdiProject.getBeans(validatingResource.getFullPath())) {
-			for (IParametedType type : bean.getAllTypes()) {
-				IType superType = type.getType();
-				if(superType!=null) {
-					for (IInjectionPoint injection : cdiProject.getInjections(superType.getFullyQualifiedName())) {
-						if(!injection.getClassBean().getBeanClass().isBinary() && injection.getClassBean()!=bean) {
-							relatedResources.add(injection.getSourcePath()); //injection.getResource().getFullPath();
+	void collectAllRelatedInjectionsForBean(IFile validatingResource, Set<IPath> relatedResources) {
+		if(!validatatingAll && !asYouTypeValidation) {
+			CDIValidationContext context = getCDIContext(validatingResource);
+			ICDIProject cdiProject = context.getCdiProject();
+			Collection<IBean> beans = cdiProject.getBeans(validatingResource.getFullPath());
+			if(!beans.isEmpty()) {
+				for (IBean bean : beans) {
+					for (IParametedType type : bean.getAllTypes()) {
+						IType superType = type.getType();
+						if(superType!=null) {
+							collectAllRelatedInjectionsForType(cdiProject, superType, bean, relatedResources);
 						}
 					}
 				}
+			} else if(validatingResource.getName().toLowerCase().endsWith(".java")) {
+				ICompilationUnit unit = EclipseUtil.getCompilationUnit(validatingResource);
+				if(unit!=null) {
+					try {
+						IType[] types = unit.getAllTypes();
+						for (IType type : types) {
+							ParametedType parametedType = ((CDIProject)cdiProject).getNature().getTypeFactory().newParametedType(type);
+							Collection<IParametedType> allTypes = parametedType.getAllTypes();
+							for (IParametedType iParametedType : allTypes) {
+								IType t = iParametedType.getType();
+								if(t!=null) {
+									collectAllRelatedInjectionsForType(cdiProject, t, null, relatedResources);
+								}
+							}
+						}
+					} catch (JavaModelException e) {
+						CDICorePlugin.getDefault().logError(e);
+					}
+				}
+			}
+		}
+	}
+
+	private void collectAllRelatedInjectionsForType(ICDIProject cdiProject, IType type, IBean bean, Set<IPath> relatedResources) {
+		for (IInjectionPoint injection : cdiProject.getInjections(type.getFullyQualifiedName())) {
+			if(!injection.getClassBean().getBeanClass().isBinary() && injection.getClassBean()!=bean) {
+				relatedResources.add(injection.getResource().getFullPath());
 			}
 		}
 	}
