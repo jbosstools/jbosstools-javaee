@@ -1558,7 +1558,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	}
 
 	private void collectAllRelatedInjections(IFile validatingResource, Set<IPath> relatedResources) {
-		if(!validatatingAll && !asYouTypeValidation) {
+		if(!asYouTypeValidation) {
 			CDIValidationContext context = getCDIContext(validatingResource);
 			ICDIProject cdiProject = context.getCdiProject();
 			collectAllRelatedInjectionsForBean(validatingResource, relatedResources);
@@ -1591,7 +1591,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	}
 
 	void collectAllRelatedInjectionsForBean(IFile validatingResource, Set<IPath> relatedResources) {
-		if(!validatatingAll && !asYouTypeValidation) {
+		if(!asYouTypeValidation) {
 			CDIValidationContext context = getCDIContext(validatingResource);
 			ICDIProject cdiProject = context.getCdiProject();
 			Collection<IBean> beans = cdiProject.getBeans(validatingResource.getFullPath());
