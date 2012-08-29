@@ -115,4 +115,24 @@ public class IncrementalValidationTest extends ValidationTest {
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 		}
 	}
+
+	public void testRestrictedType() throws Exception {
+		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
+		try {
+			IFile bean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/typed/NewBean.java");
+			AbstractResourceMarkerTest.assertMarkerIsCreated(bean, CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION, 5);
+			IFile interfaceFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/typed/LocalExtendedBean.java");
+			IFile modifiedFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/typed/LocalExtendedBean.changed");
+			interfaceFile.setContents(modifiedFile.getContents(), IFile.FORCE, new NullProgressMonitor());
+			TestUtil.validate(bean);
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(bean, CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION, 5);
+		
+			IFile originalFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/typed/LocalExtendedBean.original");
+			interfaceFile.setContents(originalFile.getContents(), IFile.FORCE, new NullProgressMonitor());
+			TestUtil.validate(bean);
+			AbstractResourceMarkerTest.assertMarkerIsCreated(bean, CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION, 5);
+		} finally {
+			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+		}
+	}
 }
