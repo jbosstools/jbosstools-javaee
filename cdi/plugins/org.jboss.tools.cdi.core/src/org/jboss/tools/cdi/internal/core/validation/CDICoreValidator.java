@@ -12,8 +12,10 @@ package org.jboss.tools.cdi.internal.core.validation;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -730,15 +732,12 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			if(beans.size()>1 && beans.contains(bean)) {
 				// We need to sort bean element names to make sure we report the same problem message for the same bean name for every validation process.
 				IBean[] sortedBeans = beans.toArray(new IBean[beans.size()]);
-				for (int i = sortedBeans.length - 1; i >= 0; i--) {
-					for (int j = 0; j < i; j++) {
-						if (sortedBeans[j].getElementName().compareTo(sortedBeans[j + 1].getElementName()) > 0) {
-							IBean t = sortedBeans[j];
-							sortedBeans[j] = sortedBeans[j+1];
-							sortedBeans[j+1] = t;
-						}
+				Arrays.sort(sortedBeans, new Comparator<IBean>() {
+					@Override
+					public int compare(IBean o1, IBean o2) {
+						return o1.getElementName().compareTo(o2.getElementName());
 					}
-				}
+				});
 				ITextSourceReference reference = bean.getNameLocation(true);
 				Set<String> names = new HashSet<String>();
 				String bName = bean.getElementName();
@@ -1593,7 +1592,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 				if(superType!=null) {
 					for (IInjectionPoint injection : cdiProject.getInjections(superType.getFullyQualifiedName())) {
 						if(!injection.getClassBean().getBeanClass().isBinary() && injection.getClassBean()!=bean) {
-							relatedResources.add(injection.getResource().getFullPath());
+							relatedResources.add(injection.getSourcePath()); //injection.getResource().getFullPath();
 						}
 					}
 				}

@@ -11,7 +11,6 @@
 package org.jboss.tools.cdi.core;
 
 import java.util.Collection;
-import java.util.Set;
 
 import org.jboss.tools.common.java.IParametedType;
 

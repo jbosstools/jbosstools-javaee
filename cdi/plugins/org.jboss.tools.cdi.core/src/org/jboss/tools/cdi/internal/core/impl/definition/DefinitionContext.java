@@ -426,7 +426,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 			result = null;
 		}
 		if(result == null || usedAnnotations.containsKey(fullyQualifiedName) 
-				|| (result.getType().getResource() != null && result.getType().getResource().getProject() != project.getProject())
+				|| (result.getType().getJavaProject() != null && result.getType().getJavaProject().getProject() != project.getProject())
 				) {
 			//3. Look in annotations loaded by used projects
 			Set<CDICoreNature> ns = project.getCDIProjects(false);

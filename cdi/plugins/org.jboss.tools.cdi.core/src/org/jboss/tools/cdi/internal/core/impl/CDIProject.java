@@ -583,9 +583,10 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		}
 		IType jType = type.getType();
 		if(jType == null) return false;
+		String typeName = jType.getFullyQualifiedName();
 		for (IParametedType t: types) {
 			IType jType1 = t.getType();
-			if(jType1 == null || !jType.getFullyQualifiedName().equals(jType1.getFullyQualifiedName())) continue;
+			if(jType1 == null || !jType.getElementName().equals(jType1.getElementName()) || !typeName.equals(jType1.getFullyQualifiedName())) continue;
 			if(((ParametedType)t).getArrayIndex() != ((ParametedType)type).getArrayIndex()) continue;
 			if(((ParametedType)t).isAssignableTo((ParametedType)type, false)) {
 				return true;
@@ -595,38 +596,38 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	}
 
 	public static boolean areMatchingQualifiers(Collection<IQualifierDeclaration> beanQualifiers, Collection<IQualifierDeclaration> injectionQualifiers) throws CoreException {
+		if(beanQualifiers.isEmpty() && injectionQualifiers.isEmpty()) {
+			return true;
+		}
+
+		Set<String> keys = new HashSet<String>();
+		for (IQualifierDeclaration d: injectionQualifiers) {
+			keys.add(getAnnotationDeclarationKey(d));
+		}
+
+		if(keys.contains(CDIConstants.ANY_QUALIFIER_TYPE_NAME)) {
+			return true;
+		}
+		if(keys.isEmpty()) {
+			keys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+		}
+
 		if(beanQualifiers.isEmpty()) {
-			if(injectionQualifiers.isEmpty()) {
-				return true;
+			keys.remove(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+		} else {
+			int beanKeySize = 0;
+			String beanKey = null;
+			for (IQualifierDeclaration d: beanQualifiers) {
+				beanKeySize++;
+				beanKey = getAnnotationDeclarationKey(d);
+				keys.remove(beanKey);
+			}
+			if(beanKeySize == 1 && beanKey.startsWith(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)) {
+				keys.remove(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
 			}
 		}
 
-		Set<String> injectionKeys = new HashSet<String>();
-		for (IQualifierDeclaration d: injectionQualifiers) {
-			injectionKeys.add(getAnnotationDeclarationKey(d));
-		}
-
-		if(injectionKeys.contains(CDIConstants.ANY_QUALIFIER_TYPE_NAME)) {
-			return true;
-		}
-		if(injectionKeys.isEmpty()) {
-			injectionKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
-		}
-
-		Set<String> beanKeys = new HashSet<String>();
-		if(beanQualifiers.isEmpty()) {
-			beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
-		} else for (IQualifierDeclaration d: beanQualifiers) {
-			beanKeys.add(getAnnotationDeclarationKey(d));
-		}
-		if(beanKeys.size() == 1 && beanKeys.iterator().next().startsWith(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)) {
-			beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
-		}
-
-		for(String k: injectionKeys) {
-			if(!beanKeys.contains(k)) return false;
-		}
-		return true;
+		return keys.isEmpty();
 	}
 
 	/**
@@ -637,38 +638,38 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	 * @throws CoreException
 	 */
 	public static boolean areMatchingQualifiers(Collection<IQualifierDeclaration> beanQualifiers, IType... injectionQualifiers) throws CoreException {
-		if(!beanQualifiers.isEmpty() || injectionQualifiers.length != 0) {
+		if(beanQualifiers.isEmpty() && injectionQualifiers.length == 0) {
+			return true;
+		}
 
-			Set<String> injectionKeys = new HashSet<String>();
-			for (IType d: injectionQualifiers) {
-				injectionKeys.add(d.getFullyQualifiedName().replace('$', '.'));
-			}
+		Set<String> keys = new HashSet<String>();
+		for (IType d: injectionQualifiers) {
+			keys.add(d.getFullyQualifiedName().replace('$', '.'));
+		}
 	
-			if(!injectionKeys.contains(CDIConstants.ANY_QUALIFIER_TYPE_NAME)) {
-				if(injectionKeys.isEmpty()) {
-					injectionKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
-				}
-		
-				Set<String> beanKeys = new HashSet<String>();
-				if(beanQualifiers.isEmpty()) {
-					beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
-				} else {
-					for (IAnnotationDeclaration d: beanQualifiers) {
-						beanKeys.add(d.getTypeName().replace('$', '.'));
-					}
-				}
-				if(beanKeys.size() == 1 && beanKeys.iterator().next().startsWith(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)) {
-					beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
-				}
-		
-				for(String k: injectionKeys) {
-					if(!beanKeys.contains(k)) { 
-						return false;
-					}
-				}
+		if(keys.contains(CDIConstants.ANY_QUALIFIER_TYPE_NAME)) {
+			return true;
+		}
+
+		if(keys.isEmpty()) {
+			keys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+		}
+		if(beanQualifiers.isEmpty()) {
+			keys.remove(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+		} else {
+			int beanKeySize = 0;
+			String beanKey = null;
+			for (IAnnotationDeclaration d: beanQualifiers) {
+				beanKeySize++;
+				beanKey = d.getTypeName().replace('$', '.');
+				keys.remove(beanKey);
+			}
+			if(beanKeySize == 1 && beanKey.startsWith(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)) {
+				keys.remove(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
 			}
 		}
-		return true;
+	
+		return keys.isEmpty();
 	}
 
 	public static boolean areMatchingEventQualifiers(Collection<IQualifierDeclaration> eventQualifiers, Collection<IQualifierDeclaration> paramQualifiers) throws CoreException {
@@ -705,8 +706,8 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		Collection<IMethod> nb = ignoredMembers == null ? new ArrayList<IMethod>() : ignoredMembers;
 		IType type = d.getType();
 		StringBuffer result = new StringBuffer();
-		result.append(type.getFullyQualifiedName());
-		if(CDIConstants.NAMED_QUALIFIER_TYPE_NAME.equals(type.getFullyQualifiedName())) {
+		result.append(d.getTypeName());
+		if(CDIConstants.NAMED_QUALIFIER_TYPE_NAME.equals(d.getTypeName())) {
 			//Declared name is excluded from comparison; names should be compared by invoking getName() method.
 			return result.toString();
 		}
