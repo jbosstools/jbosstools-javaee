@@ -105,8 +105,12 @@ public class SeamConfigValidationTest extends Seam3TestBase {
 	}
 	
 	private static void assertExpectedCount(int realCount, int expectedCount) {
-		assertTrue("Expected count: " + expectedCount + " real count: " + realCount, 
-				realCount == expectedCount);
+		String knowsIssue = "";
+		if (realCount == 0 && expectedCount == 4) {
+			knowsIssue = ". Known issue JBIDE-12335";
+		}
+		assertTrue("Expected count: " + expectedCount + " real count: " + realCount
+				+ knowsIssue, realCount == expectedCount);
 	}
 	
 	private IMarker getMarkerByLocation(IMarker[] markers, int location) {
