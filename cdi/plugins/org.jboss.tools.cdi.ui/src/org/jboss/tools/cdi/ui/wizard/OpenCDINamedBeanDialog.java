@@ -18,7 +18,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -378,53 +377,82 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 
 	public class CDINamedBeanLabelProvider implements IStyledLabelProvider, ILabelProvider {
 		final Color gray = new Color(null, 128, 128, 128);
-		final Color black = getShell().getDisplay().getSystemColor(SWT.COLOR_INFO_FOREGROUND);
 
-		final Styler NAME_STYLE = new CDIBeanStyler(black);
-		final Styler QUALIFIED_NAME_STYLE = new CDIBeanStyler(gray);
-		final Styler BEAN_PATH_STYLE = new CDIBeanStyler(gray);
+		Styler nameStyle;
+		final Styler beanPathStyle = new CDIBeanStyler(gray);
 
+		private Styler getNameStyle() {
+			if(nameStyle==null) {
+				Color black = getShell().getDisplay().getSystemColor(SWT.COLOR_INFO_FOREGROUND);
+				nameStyle = new CDIBeanStyler(black);
+			}
+			return nameStyle;
+		}
+
+		@Override
 		public Image getImage(Object element) {
 			if (element instanceof CDINamedBeanWrapper) {
 				return CDIImages.getImageByElement(((CDINamedBeanWrapper)element).getBean());
 			}
 			return null;
 		}
-		
+
+		public String getTextString(Object element) {
+			StringBuffer text = new StringBuffer();
+			if (element instanceof CDINamedBeanWrapper) {
+				CDINamedBeanWrapper beanWrapper = (CDINamedBeanWrapper) element;
+				//1. bean name
+				text.append(beanWrapper.getBeanName());
+				//2. bean location
+				IBean b = beanWrapper.getBean();
+				if (b != null) {
+					String beanLocation = BeanPresentationUtil.getBeanLocation(b, true);
+					text.append(beanLocation);
+				}
+			}
+			return text.toString();
+		}
+
+		@Override
 		public String getText(Object element) {
 			return getStyledText(element).getString();
 		}
 
+		@Override
 		public StyledString getStyledText(Object element) {
 			StyledString styledString = new StyledString();			
 			if (element instanceof CDINamedBeanWrapper) {
 				CDINamedBeanWrapper beanWrapper = (CDINamedBeanWrapper) element;
 				//1. bean name
-				styledString.append(beanWrapper.getBeanName(), NAME_STYLE);
+				styledString.append(beanWrapper.getBeanName(), getNameStyle());
 				//2. bean location
 				IBean b = beanWrapper.getBean();
 				if (b != null) {
 					String beanLocation = BeanPresentationUtil.getBeanLocation(b, true);
-					styledString.append(beanLocation, BEAN_PATH_STYLE);
+					styledString.append(beanLocation, beanPathStyle);
 				}
 			}
 			return styledString;
 		}
 
+		@Override
 		public void addListener(ILabelProviderListener listener) {
 		}
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
+		@Override
 		public void removeListener(ILabelProviderListener listener) {
 		}
 	}
-	
+
 	public class CDINamedBeanWrapper {
 		private String beanName;
 		private String projectName;
@@ -472,13 +500,13 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 			if(!(obj instanceof CDINamedBeanWrapper)) {
 				return false;
 			}
-			String s1 = new CDINamedBeanLabelProvider().getText(this);
-			String s2 = new CDINamedBeanLabelProvider().getText(obj);
+			String s1 = new CDINamedBeanLabelProvider().getTextString(this);
+			String s2 = new CDINamedBeanLabelProvider().getTextString(obj);
 			return s1.equals(s2);
 		}
 	
 		public int hashCode() {
-			return new CDINamedBeanLabelProvider().getText(this).hashCode();
+			return new CDINamedBeanLabelProvider().getTextString(this).hashCode();
 		}
 	}
 	
