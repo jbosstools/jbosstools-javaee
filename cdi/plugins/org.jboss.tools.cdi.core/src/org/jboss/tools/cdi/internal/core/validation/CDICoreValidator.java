@@ -696,11 +696,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		if (bean instanceof IInterceptor) {
 			validateInterceptor((IInterceptor) bean);
 		}
-
 		if (bean instanceof IDecorator) {
 			validateDecorator(context, (IDecorator) bean);
 		}
-
 		if (bean instanceof IClassBean) {
 			IClassBean classBean = (IClassBean)bean;
 			if(!isAsYouTypeValidation()) {
