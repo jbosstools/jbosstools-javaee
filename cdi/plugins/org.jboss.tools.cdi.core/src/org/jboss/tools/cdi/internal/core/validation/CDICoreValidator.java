@@ -1630,7 +1630,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	private void collectAllRelatedInjectionsForType(ICDIProject cdiProject, IType type, IBean bean, Set<IPath> relatedResources) {
 		for (IInjectionPoint injection : cdiProject.getInjections(type.getFullyQualifiedName())) {
 			if(!injection.getClassBean().getBeanClass().isBinary() && injection.getClassBean()!=bean) {
-				relatedResources.add(injection.getResource().getFullPath());
+				relatedResources.add(injection.getSourcePath());
 			}
 		}
 	}
