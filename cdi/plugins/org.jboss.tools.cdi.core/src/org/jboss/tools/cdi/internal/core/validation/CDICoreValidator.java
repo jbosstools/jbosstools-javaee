@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -954,14 +955,18 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			for (IParametedType type : bean.getLegalTypes()) {
 				if(type.getType() != null) legalTypes.add(type.getType().getFullyQualifiedName());
 			}
-			StringBuffer missingTypes = new StringBuffer();
+			Set<String> missingTypesSet = new TreeSet<String>();
 			for (IParametedType specializingType : specializedBean.getLegalTypes()) {
 				if(!legalTypes.contains(specializingType.getType().getFullyQualifiedName())) {
-					if(missingTypes.length()>0) {
-						missingTypes.append(", ");
-					}
-					missingTypes.append(specializingType.getType().getElementName());
+					missingTypesSet.add(specializingType.getType().getElementName());
 				}
+			}
+			StringBuffer missingTypes = new StringBuffer();
+			for (String type: missingTypesSet) {
+				if(missingTypes.length() > 0) {
+					missingTypes.append(", ");
+				}
+				missingTypes.append(type);
 			}
 			if(missingTypes.length()>0) {
 				addProblem(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, CDIPreferences.MISSING_TYPE_IN_SPECIALIZING_BEAN,
@@ -990,19 +995,21 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 				IClassBean supperClassBean = (IClassBean)specializedBean;
 				Collection<? extends IClassBean> allSpecializingBeans = supperClassBean.getSpecializingBeans();
 				if(allSpecializingBeans.size()>1) {
-					StringBuffer sb = new StringBuffer(bean.getElementName());
-					boolean moreThanTwo = false;
+					Set<String> specializingBeanNames = new TreeSet<String>();
 					for (IClassBean specializingBean : allSpecializingBeans) {
-						if(specializingBean!=bean && specializingBean.isEnabled()) {
-							sb.append(", ").append(specializingBean.getElementName());
-							moreThanTwo = true;
+						if(specializingBean != bean && specializingBean.isEnabled()) {
+							specializingBeanNames.add(specializingBean.getElementName());
 							if(!isAsYouTypeValidation() && shouldValidateType(specializingBean.getBeanClass())) {
 								getValidationContext().addLinkedCoreResource(SHORT_ID, specializingBean.getResource().getFullPath().toOSString(), bean.getSourcePath(), false);
 								getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toOSString(), specializingBean.getResource().getFullPath(), false);
 							}
 						}
 					}
-					if(moreThanTwo && specializesDeclaration!=null) {
+					if(!specializingBeanNames.isEmpty() && specializesDeclaration!=null) {
+						StringBuffer sb = new StringBuffer(bean.getElementName());
+						for (String name: specializingBeanNames) {
+							sb.append(", ").append(name);
+						}
 						addProblem(CDIValidationMessages.INCONSISTENT_SPECIALIZATION, CDIPreferences.INCONSISTENT_SPECIALIZATION,
 								new String[]{sb.toString(), supperClassBean.getElementName()},
 								specializesDeclaration, bean.getResource());
