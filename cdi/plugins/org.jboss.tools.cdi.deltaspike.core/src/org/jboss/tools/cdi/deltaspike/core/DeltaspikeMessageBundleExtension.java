@@ -61,9 +61,9 @@ public class DeltaspikeMessageBundleExtension implements ICDIExtension, IBuildPa
 	public void buildDefinitions(FileSet fileSet) {
 		DeltaspikeMessageBundleDefinitionContext workingCopy = (DeltaspikeMessageBundleDefinitionContext)context.getWorkingCopy();
 		
-		Map<IPath, Set<IType>> is = fileSet.getInterfaces();
+		Map<IPath, List<IType>> is = fileSet.getInterfaces();
 		for (IPath path: is.keySet()) {
-			Set<IType> ts = is.get(path);
+			List<IType> ts = is.get(path);
 			for (IType t: ts) {
 				InterfaceDefinition i = new InterfaceDefinition(t, context);
 				List<IAnnotationDeclaration> as = i.getAnnotations();
