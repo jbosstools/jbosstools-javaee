@@ -150,7 +150,7 @@ public class IncrementalValidationTest extends ValidationTest {
 			IFile bean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/ExtensionManager.java");
 			AbstractResourceMarkerTest.assertMarkerIsNotCreated(bean, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
 			IFile interfaceFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/IExtension.java");
-			IFile modifiedFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/IExtension.broken");
+			IFile modifiedFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/IExtension.changed");
 			interfaceFile.setContents(modifiedFile.getContents(), IFile.FORCE, new NullProgressMonitor());
 			TestUtil.validate(bean);
 			AbstractResourceMarkerTest.assertMarkerIsCreated(bean, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
