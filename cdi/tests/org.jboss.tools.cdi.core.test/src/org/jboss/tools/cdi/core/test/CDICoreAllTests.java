@@ -137,6 +137,9 @@ public class CDICoreAllTests {
 		suite.addTestSuite(SuppressWarningsTests.class);
 		suite.addTestSuite(IncrementalValidationTest.class);
 
+		// As-you-type model tests
+		suite.addTestSuite(CDIProjectAsYouTypeTest.class);
+
 		// As-you-type validation tests
 		suite.addTestSuite(CDIProjectAsYouTypeTest.class);
 		suite.addTestSuite(AYTDefenitionErrorsValidationTest.class);
