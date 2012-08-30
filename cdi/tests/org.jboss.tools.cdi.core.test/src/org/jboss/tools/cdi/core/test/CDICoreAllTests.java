@@ -19,6 +19,7 @@ import org.jboss.tools.cdi.core.test.ca.BeansXmlCATest;
 import org.jboss.tools.cdi.core.test.extension.ExtensionFactoryTest;
 import org.jboss.tools.cdi.core.test.extension.ExtensionManagerTest;
 import org.jboss.tools.cdi.core.test.extension.ExtensionsInSrsAndUsedProjectTest;
+import org.jboss.tools.cdi.core.test.project.CDIProjectAsYouTypeTest;
 import org.jboss.tools.cdi.core.test.project.EnableCDISupportForJarTest;
 import org.jboss.tools.cdi.core.test.project.EnableCDISupportForWarTest;
 import org.jboss.tools.cdi.core.test.tck.AssignabilityOfRawAndParameterizedTypesTest;
@@ -137,6 +138,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(IncrementalValidationTest.class);
 
 		// As-you-type validation tests
+		suite.addTestSuite(CDIProjectAsYouTypeTest.class);
 		suite.addTestSuite(AYTDefenitionErrorsValidationTest.class);
 		suite.addTestSuite(AYTDeploymentProblemsValidationTests.class);
 		suite.addTestSuite(AYTBeansXmlValidationTest.class);
