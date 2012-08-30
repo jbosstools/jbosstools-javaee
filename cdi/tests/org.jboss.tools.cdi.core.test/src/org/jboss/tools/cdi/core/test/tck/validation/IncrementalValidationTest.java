@@ -126,11 +126,31 @@ public class IncrementalValidationTest extends ValidationTest {
 			interfaceFile.setContents(modifiedFile.getContents(), IFile.FORCE, new NullProgressMonitor());
 			TestUtil.validate(bean);
 			AbstractResourceMarkerTest.assertMarkerIsNotCreated(bean, CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION, 5);
-		
+
 			IFile originalFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/typed/LocalExtendedBean.original");
 			interfaceFile.setContents(originalFile.getContents(), IFile.FORCE, new NullProgressMonitor());
 			TestUtil.validate(bean);
 			AbstractResourceMarkerTest.assertMarkerIsCreated(bean, CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION, 5);
+		} finally {
+			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+		}
+	}
+
+	public void testInjections() throws Exception {
+		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
+		try {
+			IFile bean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/ExtensionManager.java");
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(bean, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
+			IFile interfaceFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/IExtension.java");
+			IFile modifiedFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/IExtension.broken");
+			interfaceFile.setContents(modifiedFile.getContents(), IFile.FORCE, new NullProgressMonitor());
+			TestUtil.validate(bean);
+			AbstractResourceMarkerTest.assertMarkerIsCreated(bean, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
+
+			IFile originalFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/IExtension.original");
+			interfaceFile.setContents(originalFile.getContents(), IFile.FORCE, new NullProgressMonitor());
+			TestUtil.validate(bean);
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(bean, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
 		} finally {
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 		}
