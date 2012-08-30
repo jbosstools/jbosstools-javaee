@@ -76,7 +76,7 @@ public class CDIProjectAsYouType implements ICDIProject {
 	ICDIProject project;
 	IFile file;
 
-	Collection<IBean> beans = new HashSet<IBean>();
+	Collection<IBean> beans = new ArrayList<IBean>();
 	StereotypeElement stereotype;
 	QualifierElement qualifier;
 	ScopeElement scope;

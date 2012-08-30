@@ -10,8 +10,10 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.scanner;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,9 +28,9 @@ import org.jboss.tools.common.model.XModelObject;
 public class FileSet {
 	private Set<IPath> allpaths = new HashSet<IPath>();
 	private Set<IPath> nonmodel = new HashSet<IPath>();
-	private Map<IPath, Set<IType>> annotations = new HashMap<IPath, Set<IType>>();
-	private Map<IPath, Set<IType>> interfaces = new HashMap<IPath, Set<IType>>();
-	private Map<IPath, Set<IType>> classes = new HashMap<IPath, Set<IType>>();
+	private Map<IPath, List<IType>> annotations = new HashMap<IPath, List<IType>>();
+	private Map<IPath, List<IType>> interfaces = new HashMap<IPath, List<IType>>();
+	private Map<IPath, List<IType>> classes = new HashMap<IPath, List<IType>>();
 	private Map<IPath, IPackageDeclaration> packages = new HashMap<IPath, IPackageDeclaration>();
 	private Map<IPath, XModelObject> beanXMLs = new HashMap<IPath, XModelObject>();
 
@@ -92,10 +94,10 @@ public class FileSet {
 		return true;
 	}
 
-	private void add(Map<IPath, Set<IType>> target, IPath path, IType type) {
-		Set<IType> ts = target.get(path);
+	private void add(Map<IPath, List<IType>> target, IPath path, IType type) {
+		List<IType> ts = target.get(path);
 		if(ts == null) {
-			ts = new HashSet<IType>();
+			ts = new ArrayList<IType>();
 			target.put(path, ts);
 		}
 		ts.add(type);
@@ -114,15 +116,15 @@ public class FileSet {
 		return nonmodel;
 	}
 	
-	public Map<IPath, Set<IType>> getAnnotations() {
+	public Map<IPath, List<IType>> getAnnotations() {
 		return annotations;
 	}
 
-	public Map<IPath, Set<IType>> getInterfaces() {
+	public Map<IPath, List<IType>> getInterfaces() {
 		return interfaces;
 	}
 
-	public Map<IPath, Set<IType>> getClasses() {
+	public Map<IPath, List<IType>> getClasses() {
 		return classes;
 	}
 

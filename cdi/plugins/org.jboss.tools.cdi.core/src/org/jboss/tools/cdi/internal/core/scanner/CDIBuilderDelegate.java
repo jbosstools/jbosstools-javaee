@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.scanner;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -50,19 +51,17 @@ public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 	public void build(FileSet fileSet, DefinitionContext context) {
 		Set<IPath> ps = fileSet.getAllPaths();
 		for (IPath p: ps) context.clean(p);
-		Map<IPath, Set<IType>> as = fileSet.getAnnotations();
+		Map<IPath, List<IType>> as = fileSet.getAnnotations();
 		for (IPath f: as.keySet()) {
-			Set<IType> ts = as.get(f);
-			for (IType type: ts) {
+			for (IType type: as.get(f)) {
 				//this builds annotation definition
 				context.getAnnotationKind(type);
 			}
 		}
 		
-		Map<IPath, Set<IType>> is = fileSet.getInterfaces();
+		Map<IPath, List<IType>> is = fileSet.getInterfaces();
 		for (IPath f: is.keySet()) {
-			Set<IType> ts = is.get(f);
-			for (IType type: ts) {
+			for (IType type: is.get(f)) {
 				// Jars present package-info as binary interface 
 				// whereas sources present it as compilation unit with package declaration. 
 				if(type.getElementName().equals("package-info")) {
@@ -73,10 +72,9 @@ public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 			}
 		}
 		
-		Map<IPath, Set<IType>> cs = fileSet.getClasses();
+		Map<IPath, List<IType>> cs = fileSet.getClasses();
 		for (IPath f: cs.keySet()) {
-			Set<IType> ts = cs.get(f);
-			for (IType type: ts) {
+			for (IType type: cs.get(f)) {
 				TypeDefinition def = new TypeDefinition();
 				def.setType(type, context, 0);
 				context.addType(f, type.getFullyQualifiedName(), def);

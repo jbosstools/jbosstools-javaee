@@ -97,7 +97,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 
 	private Set<IBean> allBeans = new HashSet<IBean>();
 	private Set<IBean> declaredBeans = new HashSet<IBean>();
-	private Map<IPath, Set<IBean>> beansByPath = new HashMap<IPath, Set<IBean>>();
+	private Map<IPath, List<IBean>> beansByPath = new HashMap<IPath, List<IBean>>();
 	private Map<String, Set<IBean>> beansByName = new HashMap<String, Set<IBean>>();
 	private List<Set<IBean>> beansByTypes = new ArrayList<Set<IBean>>();
 	private Set<IBean> namedBeans = new HashSet<IBean>();
@@ -265,7 +265,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	public IClassBean getBeanClass(IType type) {
 		IPath path = type.getPath();
 		synchronized (this) {
-			Set<IBean> bs = beansByPath.get(path);
+			List<IBean> bs = beansByPath.get(path);
 			if(bs != null) {
 				for (IBean b: bs) {
 					if(b instanceof IClassBean) {
@@ -1442,9 +1442,9 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		synchronized(this) {
 			String name = bean.getName();
 			IPath path = bean.getSourcePath();
-			Set<IBean> bs = beansByPath.get(path);
+			List<IBean> bs = beansByPath.get(path);
 			if(bs == null) {
-				bs = new HashSet<IBean>();
+				bs = new ArrayList<IBean>();
 				beansByPath.put(path, bs);
 			}
 			bs.add(bean);

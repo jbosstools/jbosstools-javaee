@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaProject;
@@ -38,7 +39,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 	private Set<String> types = new HashSet<String>();
 	private Map<IPath, Set<IPath>> childPaths = new HashMap<IPath, Set<IPath>>();
 	private Map<IPath, Set<String>> resources = new HashMap<IPath, Set<String>>();
-	private Map<String, TypeDefinition> typeDefinitions = new HashMap<String, TypeDefinition>();
+	private Map<String, TypeDefinition> typeDefinitions = new TreeMap<String, TypeDefinition>();
 	private Map<String, AnnotationDefinition> annotations = new HashMap<String, AnnotationDefinition>();
 	private Map<String, AnnotationDefinition> usedAnnotations = new HashMap<String, AnnotationDefinition>();
 
