@@ -11,8 +11,8 @@
 package org.jboss.tools.cdi.seam.solder.core;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
@@ -63,10 +63,9 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 	public void buildDefinitions(FileSet fileSet) {
 		LoggerDefinitionContext workingCopy = (LoggerDefinitionContext)context.getWorkingCopy();
 		
-		Map<IPath, Set<IType>> is = fileSet.getInterfaces();
+		Map<IPath, List<IType>> is = fileSet.getInterfaces();
 		for (IPath path: is.keySet()) {
-			Set<IType> ts = is.get(path);
-			for (IType t: ts) {
+			for (IType t: is.get(path)) {
 				InterfaceDefinition i = new InterfaceDefinition(t, context);
 				if(i.isAnnotationPresent(getVersion().getMessageLoggerAnnotationTypeName())) {
 					TypeDefinition d = new TypeDefinition();
