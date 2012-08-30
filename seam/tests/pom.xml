@@ -45,6 +45,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 
 		<module>org.jboss.tools.seamfp.core.test</module>
 		<module>org.jboss.tools.seamfp.ui.test</module>
+		<module>org.jboss.tools.runtime.seam.detector.test</module>
 	</modules>
 	
 	<properties>
