@@ -116,6 +116,10 @@ public class IncrementalValidationTest extends ValidationTest {
 		}
 	}
 
+	/**
+	 * See https://issues.jboss.org/browse/JBIDE-12503
+	 * @throws Exception
+	 */
 	public void testRestrictedType() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		try {
@@ -136,7 +140,11 @@ public class IncrementalValidationTest extends ValidationTest {
 		}
 	}
 
-	public void testInjections() throws Exception {
+	/**
+	 * See https://issues.jboss.org/browse/JBIDE-12503
+	 * @throws Exception
+	 */
+	public void testInjectionsWithInterface() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		try {
 			IFile bean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/ExtensionManager.java");
