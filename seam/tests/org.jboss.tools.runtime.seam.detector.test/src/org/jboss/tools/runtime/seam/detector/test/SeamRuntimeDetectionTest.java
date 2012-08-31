@@ -101,13 +101,13 @@ public class SeamRuntimeDetectionTest extends Assert implements IJBossRuntimePlu
 	
 	@Test
 	public void testRuntimeDetectors() {
-		Set<IRuntimeDetector> detectors = RuntimeCoreActivator.getRuntimeDetectors();
+		Set<IRuntimeDetector> detectors = RuntimeCoreActivator.getDefault().getRuntimeDetectors();
 		assertTrue("Runtime detectors don't exist.", detectors.size() > 0);
 		assertTrue(handlerExists("org.jboss.tools.runtime.handlers.SeamHandler"));
 	}
 	
 	private boolean handlerExists(String id) {
-		Set<IRuntimeDetector> detectors = RuntimeCoreActivator.getRuntimeDetectors();
+		Set<IRuntimeDetector> detectors = RuntimeCoreActivator.getDefault().getRuntimeDetectors();
 		boolean found = false;
 		Iterator<IRuntimeDetector> i = detectors.iterator();
 		while(i.hasNext()) {
@@ -272,7 +272,7 @@ public class SeamRuntimeDetectionTest extends Assert implements IJBossRuntimePlu
 	
 	/* Pass to all handlers the list of runtime definitions and let them initialize them */
 	private void initializeDefinitions(List<RuntimeDefinition> runtimeDefinitions) {
-		Set<IRuntimeDetector> detectors = RuntimeCoreActivator
+		Set<IRuntimeDetector> detectors = RuntimeCoreActivator.getDefault()
 				.getRuntimeDetectors();
 		for (IRuntimeDetector detector : detectors) {
 			if (detector.isEnabled()) {
