@@ -535,7 +535,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		}
 		displaySubtask(CDIValidationMessages.VALIDATING_RESOURCE, new String[] {file.getProject().getName(), file.getName()});
 
-		if(!isAsYouTypeValidation() && !validatatingAll) {
+		if(!isAsYouTypeValidation()) {
 			coreHelper.getValidationContextManager().addValidatedProject(this, file.getProject());
 	
 			Set<IPath> dd = getCDIContext(file).getDependencies().getDirectDependencies(file.getFullPath());
@@ -552,11 +552,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 					getValidationContext().addLinkedCoreResource(SHORT_ID, p.toOSString(), file.getFullPath(), false);
 				}					
 			}
-			Set<IPath> resources = new HashSet<IPath>();
-			collectAllRelatedInjections(file, resources);
-			for (IPath p: resources) {
-				getValidationContext().addLinkedCoreResource(SHORT_ID, p.toOSString(), file.getFullPath(), false);
-			}					
 		}
 
 		CDIValidationContext context = null;
