@@ -115,7 +115,7 @@ public class SeamHandler extends AbstractRuntimeDetector {
 	}
 
 	@Override
-	public RuntimeDefinition getServerDefinition(File root,
+	public RuntimeDefinition getRuntimeDefinition(File root,
 			IProgressMonitor monitor) {
 		if (monitor.isCanceled() || root == null) {
 			return null;

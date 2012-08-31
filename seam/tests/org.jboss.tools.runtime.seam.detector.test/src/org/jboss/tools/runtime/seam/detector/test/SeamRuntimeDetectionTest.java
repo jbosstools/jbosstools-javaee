@@ -287,11 +287,11 @@ public class SeamRuntimeDetectionTest extends Assert implements IJBossRuntimePlu
 						new NullProgressMonitor());
 		
 		// Shouldn't this be done by the framework somehow??
-		runtimePath.getServerDefinitions().clear();
+		runtimePath.getRuntimeDefinitions().clear();
 		for (RuntimeDefinition serverDefinition : serverDefinitions) {
 			serverDefinition.setRuntimePath(runtimePath);
 		}
-		runtimePath.getServerDefinitions().addAll(serverDefinitions);
+		runtimePath.getRuntimeDefinitions().addAll(serverDefinitions);
 		return serverDefinitions;
 	}
 	
