@@ -111,6 +111,7 @@ import org.jboss.tools.common.validation.EditorValidationContext;
 import org.jboss.tools.common.validation.IJavaElementValidator;
 import org.jboss.tools.common.validation.IProjectValidationContext;
 import org.jboss.tools.common.validation.IStringValidator;
+import org.jboss.tools.common.validation.ITypedReporter;
 import org.jboss.tools.common.validation.IValidatingProjectSet;
 import org.jboss.tools.common.validation.IValidatingProjectTree;
 import org.jboss.tools.common.validation.ValidationUtil;
@@ -506,6 +507,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		this.document = validationContext.getDocument();
 		rootCdiProject = new CDIProjectAsYouType(rootCdiProject, file);
 		validateResource(file);
+		if(reporter instanceof ITypedReporter) {
+			((ITypedReporter)reporter).addTypeForFile(getMarkerType());
+		}
 		disableProblemAnnotations(new ITextSourceReference() {
 			@Override
 			public int getStartPosition() {
