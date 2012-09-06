@@ -15,6 +15,7 @@ import org.eclipse.jdt.ui.text.java.IJavaCompletionProposal;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jst.jsp.ui.internal.validation.JSPContentSourceValidator;
@@ -243,13 +244,15 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 			document.replace(region.getOffset(), region.getLength(), "");
 			
 			// Find annotation
-			TemporaryAnnotation problemAnnotation = waitForProblemAnnotationAppearance(viewer, "Unknown tag (", MAX_SECONDS_TO_WAIT);
+			IAnnotationModel annotationModel = viewer.getAnnotationModel();
+			TemporaryAnnotation problemAnnotation = waitForProblemAnnotationAppearance(annotationModel, "Unknown tag (", MAX_SECONDS_TO_WAIT);
+			Position position = annotationModel.getPosition(problemAnnotation);
 			assertNotNull("No Unknown tag TemporaryAnnotation found", problemAnnotation);
 			
 			problemAnnotation.setAdditionalFixInfo(document);
 			// get all relevant quick fixes for this annotation
-			if(QuickFixManager.getInstance().hasProposals(problemAnnotation)){
-				List<IJavaCompletionProposal> proposals = QuickFixManager.getInstance().getProposals(problemAnnotation);
+			if(QuickFixManager.getInstance().hasProposals(problemAnnotation, position)){
+				List<IJavaCompletionProposal> proposals = QuickFixManager.getInstance().getProposals(problemAnnotation, position);
 				assertTrue("No quick fixes found", proposals.size() > 0);
 				assertEquals("Add tag library definition quick fix not found", AddTLDMarkerResolution.class, proposals.get(0).getClass());
 			}else{
@@ -261,7 +264,7 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 	}
 	
 	private TemporaryAnnotation waitForProblemAnnotationAppearance(
-			final SourceViewer viewer, final String name, final int seconds) {
+			final IAnnotationModel annotationModel, final String name, final int seconds) {
 		final TemporaryAnnotation[] result = new TemporaryAnnotation[]{null};
 
 		Display.getDefault().syncExec(new Runnable() {
@@ -280,7 +283,7 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 					}
 
 					//boolean found = false;
-					IAnnotationModel annotationModel = viewer.getAnnotationModel();
+					//IAnnotationModel annotationModel = viewer.getAnnotationModel();
 					Iterator it = annotationModel.getAnnotationIterator();
 					while (it.hasNext()) {
 						Object o = it.next();

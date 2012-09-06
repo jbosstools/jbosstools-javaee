@@ -33,6 +33,7 @@ import org.eclipse.jdt.internal.corext.util.JavaConventionsUtil;
 import org.eclipse.jdt.ui.text.java.IJavaCompletionProposal;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.IMarkerResolutionGenerator2;
@@ -1038,7 +1039,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 	}
 	
 	@Override
-	public boolean hasProposals(Annotation annotation) {
+	public boolean hasProposals(Annotation annotation, Position position) {
 		if(annotation instanceof TempJavaProblemAnnotation || annotation instanceof TemporaryAnnotation){
 			return true;
 		}
@@ -1046,14 +1047,14 @@ public class CDIProblemMarkerResolutionGenerator implements
 	}
 
 	@Override
-	public IJavaCompletionProposal[] getProposals(Annotation annotation) {
+	public IJavaCompletionProposal[] getProposals(Annotation annotation, Position position) {
 		if(annotation instanceof TempJavaProblemAnnotation){
 			TempJavaProblemAnnotation javaAnnotation = (TempJavaProblemAnnotation) annotation;
 			
 			int messageId = javaAnnotation.getId() - TempJavaProblem.TEMP_PROBLEM_ID;
 			ICompilationUnit compilationUnit = javaAnnotation.getCompilationUnit();
 			if(compilationUnit != null){
-				int start = javaAnnotation.getPosition();
+				int start = position.getOffset();
 				
 				ICDIMarkerResolutionGeneratorExtension[] extensions = CDIQuickFixExtensionManager.getInstances();
 				
