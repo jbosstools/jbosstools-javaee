@@ -12,7 +12,6 @@ package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -30,7 +29,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
@@ -86,36 +84,12 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	CDICoreNature n;
 	private ICDIProject declaringProject = this;
 
-	private Map<String, StereotypeElement> stereotypes = new HashMap<String, StereotypeElement>();
-	private Map<IPath, StereotypeElement> stereotypesByPath = new HashMap<IPath, StereotypeElement>();
-	private Map<String, InterceptorBindingElement> interceptorBindings = new HashMap<String, InterceptorBindingElement>();
-	private Map<IPath, InterceptorBindingElement> interceptorBindingsByPath = new HashMap<IPath, InterceptorBindingElement>();
-	private Map<String, QualifierElement> qualifiers = new HashMap<String, QualifierElement>();
-	private Map<IPath, QualifierElement> qualifiersByPath = new HashMap<IPath, QualifierElement>();
-	private Map<String, ScopeElement> scopes = new HashMap<String, ScopeElement>();
-	private Map<IPath, ScopeElement> scopesByPath = new HashMap<IPath, ScopeElement>();
-
-	private Set<IBean> allBeans = new HashSet<IBean>();
-	private Set<IBean> declaredBeans = new HashSet<IBean>();
-	private Map<IPath, List<IBean>> beansByPath = new HashMap<IPath, List<IBean>>();
-	private Map<String, Set<IBean>> beansByName = new HashMap<String, Set<IBean>>();
-	private List<Set<IBean>> beansByTypes = new ArrayList<Set<IBean>>();
-	private Set<IBean> namedBeans = new HashSet<IBean>();
-	private Map<IType, IClassBean> classBeans = new HashMap<IType, IClassBean>();
-	private Set<IBean> alternatives = new HashSet<IBean>();
-	private Set<IDecorator> decorators = new HashSet<IDecorator>();
-	private Set<IInterceptor> interceptors = new HashSet<IInterceptor>();
-
-	private Set<IType> allTypes = new HashSet<IType>();
-	private Map<TypeDefinition, ClassBean> definitionToClassbeans = new HashMap<TypeDefinition, ClassBean>();
-
-	private Map<String, Set<IInjectionPoint>> injectionPointsByType = new HashMap<String, Set<IInjectionPoint>>();
+	private CDICache cache = new CDICache();
 
 	BeansXMLData allBeansXMLData = new BeansXMLData();
 	BeansXMLData projectBeansXMLData = new BeansXMLData();
 
 	public CDIProject() {
-		for (int i = 0; i < BEANS_BY_TYPE_SIZE; i++) beansByTypes.add(new HashSet<IBean>());
 	}
 
 	public CDIProject getModifiedCopy(IFile file, Collection<IBean> beans) {
@@ -126,70 +100,10 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			e.printStackTrace();
 			return null;
 		}
+		synchronized (cache) {
+			p.cache = cache.getModifiedCopy(file, beans);
+		}
 		p.declaringProject = this;
-		p.allBeans = new HashSet<IBean>();
-		synchronized(this) {
-			p.allBeans.addAll(allBeans);
-		}
-		Collection<IBean> oldBeans = getBeans(file.getFullPath());
-		p.allBeans.removeAll(oldBeans);
-		p.allBeans.addAll(beans);
-
-		p.beansByTypes = new ArrayList<Set<IBean>>();
-		for (int i = 0; i < BEANS_BY_TYPE_SIZE; i++) {
-			Set<IBean> bs = new HashSet<IBean>(beansByTypes.get(i));
-			bs.removeAll(oldBeans);
-			bs.addAll(beans);
-			p.beansByTypes.add(bs);
-		}
-		
-		Set<IBean> oldNamedBeans = null;
-		for (IBean b: oldBeans) {
-			if(b.getName() != null) {
-				if(oldNamedBeans == null) oldNamedBeans = new HashSet<IBean>();
-				oldNamedBeans.add(b);
-			}
-		}
-		Set<IBean> newNamedBeans = null;
-		for (IBean b: beans) {
-			if(b.getName() != null) {
-				if(newNamedBeans == null) newNamedBeans = new HashSet<IBean>();
-				newNamedBeans.add(b);
-			}
-		}
-		if(newNamedBeans != null || oldNamedBeans != null) {
-			p.namedBeans = new HashSet<IBean>();
-			p.beansByName = new HashMap<String, Set<IBean>>();
-			synchronized(this) {
-				p.namedBeans.addAll(namedBeans);
-				if(oldNamedBeans != null) p.namedBeans.removeAll(oldNamedBeans);
-				if(newNamedBeans != null) p.namedBeans.addAll(newNamedBeans);
-				for (String n: beansByName.keySet()) {
-					Set<IBean> bs = new HashSet<IBean>(beansByName.get(n));
-					p.beansByName.put(n, bs);
-				}
-				if(oldNamedBeans != null) {
-					for (IBean b: oldNamedBeans) {
-						String n = b.getName();
-						Set<IBean> bs = p.beansByName.get(n);
-						if(bs != null && bs.contains(b)) {
-							bs.remove(b);
-						}
-					}
-				}
-				if(newNamedBeans != null) {
-					for (IBean b: newNamedBeans) {
-						String n = b.getName();
-						Set<IBean> bs = p.beansByName.get(n);
-						if(bs == null) {
-							bs = new HashSet<IBean>();
-							p.beansByName.put(n, bs);
-						}
-						bs.add(b);
-					}
-				}
-			}
-		}
 		
 		return p;
 	}
@@ -213,12 +127,12 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getBeans()
 	 */
-	public synchronized IBean[] getBeans() {
-		return allBeans.toArray(new IBean[allBeans.size()]);
+	public IBean[] getBeans() {
+		return cache.getBeans();
 	}
 
-	public synchronized Collection<IBean> getDeclaredBeans() {
-		return new ArrayList<IBean>(declaredBeans);
+	public Collection<IBean> getDeclaredBeans() {
+		return cache.getDeclaredBeans();
 	}
 
 	public List<INodeReference> getAlternativeClasses() {
@@ -264,15 +178,13 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 
 	public IClassBean getBeanClass(IType type) {
 		IPath path = type.getPath();
-		synchronized (this) {
-			List<IBean> bs = beansByPath.get(path);
-			if(bs != null) {
-				for (IBean b: bs) {
-					if(b instanceof IClassBean) {
-						IClassBean result = (IClassBean)b;
-						if(type.getFullyQualifiedName().equals(result.getBeanClass().getFullyQualifiedName())) {
-							return result;
-						}
+		synchronized (cache) {
+			Collection<IBean> bs = cache.getBeans(path);
+			for (IBean b: bs) {
+				if(b instanceof IClassBean) {
+					IClassBean result = (IClassBean)b;
+					if(type.getFullyQualifiedName().equals(result.getBeanClass().getFullyQualifiedName())) {
+						return result;
 					}
 				}
 			}
@@ -282,9 +194,9 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 
 	public Collection<IBean> getBeans(String name,	boolean attemptToResolveAmbiguousNames) {
 		Set<IBean> result = new HashSet<IBean>();
-		synchronized (this) {
-			Set<IBean> beans = beansByName.get(name);
-			if(beans == null || beans.isEmpty()) {
+		synchronized (cache) {
+			Collection<IBean> beans = cache.getBeans(name);
+			if(beans.isEmpty()) {
 				return result;
 			}
 			result.addAll(beans);
@@ -380,7 +292,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		Set<IQualifierDeclaration> qs = new HashSet<IQualifierDeclaration>();
 		if(qualifiers != null) for (IQualifierDeclaration d: qualifiers) qs.add(d);
 		
-		for (IBean b: getBeansByLegalType(type)) {
+		for (IBean b: cache.getBeansByLegalType(type)) {
 			if(containsType(b.getLegalTypes(), type)) {
 				try {
 					Collection<IQualifierDeclaration> qsb = b.getQualifierDeclarations(true);
@@ -394,22 +306,6 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		}
 
 		return getResolvedBeans(result, attemptToResolveAmbiguousDependency);
-	}
-
-	static int BEANS_BY_TYPE_SIZE = 367;
-	static int OBJECT_INDEX = Math.abs("java.lang.Object".hashCode()) % BEANS_BY_TYPE_SIZE;
-	
-	static int toTypeIndex(IType type) {
-		return Math.abs(type.getFullyQualifiedName().hashCode()) % BEANS_BY_TYPE_SIZE;
-	}
-
-	private IBean[] getBeansByLegalType(IParametedType type) {
-		if(type.getType() == null) return new IBean[0];
-		int index = toTypeIndex(type.getType());
-		Collection<IBean> bs = index == OBJECT_INDEX ? allBeans : beansByTypes.get(index);
-		synchronized (this) {
-			return bs.toArray(new IBean[bs.size()]);
-		}
 	}
 
 	/*
@@ -430,8 +326,8 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		boolean isObjectType = jType != null && "java.lang.Object".equals(jType.getFullyQualifiedName());
 		
 		if(isObjectType && injectionPoint.getAnnotation(CDIConstants.ANY_QUALIFIER_TYPE_NAME) != null) {
-			synchronized(this) {
-				result.addAll(allBeans);
+			synchronized(cache) {
+				result.addAll(cache.getAllBeans());
 			}
 			return getResolvedBeans(result, attemptToResolveAmbiguousDependency);
 		}
@@ -472,7 +368,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 
 		String injectionPointName = injectionPoint.getBeanName();
 		
-		for (IBean b: getBeansByLegalType(type)) {
+		for (IBean b: cache.getBeansByLegalType(type)) {
 			if(isObjectType || containsType(b.getLegalTypes(), type)) {
 				try {
 					if(delegateInjectionPoint && b == injectionPoint.getClassBean()) {
@@ -745,21 +641,22 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		return result.toString();
 	}
 
-	public synchronized Collection<IBean> getBeans(IPath path) {
-		return (beansByPath.containsKey(path)) ? new ArrayList<IBean>(beansByPath.get(path)) : new ArrayList<IBean>(0);
+	public Collection<IBean> getBeans(IPath path) {
+		return cache.getBeans(path);
 	}
 	
 	static int q = 0;
 
-	public synchronized Set<IBean> getBeans(IJavaElement element) {
+	public Set<IBean> getBeans(IJavaElement element) {
 		Set<IBean> result = new HashSet<IBean>();
-		for (IBean bean: allBeans) {
+		synchronized (cache) {
+		for (IBean bean: cache.getAllBeans()) {
 			if(bean instanceof IJavaReference) {
-				IMember m = ((IJavaReference)bean).getSourceMember();
 				if(((IJavaReference)bean).getSourceMember().equals(element)) {
 					result.add(bean);
 				}
 			}
+		}
 		}
 		return result;
 	}
@@ -836,37 +733,37 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getQualifiers()
 	 */
-	public synchronized IQualifier[] getQualifiers() {
-		return qualifiers.values().toArray(new IQualifier[qualifiers.size()]);
+	public IQualifier[] getQualifiers() {
+		return cache.getQualifiers();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getStereotypes()
 	 */
-	public synchronized IStereotype[] getStereotypes() {
-		return stereotypes.values().toArray(new IStereotype[stereotypes.size()]);
+	public IStereotype[] getStereotypes() {
+		return cache.getStereotypes();
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getAlternatives()
 	 */
-	public synchronized IBean[] getAlternatives() {
-		return alternatives.toArray(new IBean[alternatives.size()]);
+	public IBean[] getAlternatives() {
+		return cache.getAlternatives();
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getDecorators()
 	 */
-	public synchronized IDecorator[] getDecorators() {
-		return decorators.toArray(new IDecorator[decorators.size()]);
+	public IDecorator[] getDecorators() {
+		return cache.getDecorators();
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getInterceptors()
 	 */
-	public synchronized IInterceptor[] getInterceptors() {
-		return interceptors.toArray(new IInterceptor[interceptors.size()]);
+	public IInterceptor[] getInterceptors() {
+		return cache.getInterceptors();
 	}
 
 	public boolean isNormalScope(IType annotationType) {
@@ -971,8 +868,8 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		Collection<IObserverMethod> result = new ArrayList<IObserverMethod>();
 		IParametedType eventType = getEventType(injectionPoint);
 		if(eventType != null) {
-			synchronized(this) {
-				for (IBean b: allBeans) {
+			synchronized(cache) {
+				for (IBean b: cache.getAllBeans()) {
 					if(b instanceof IClassBean) {
 						collectObserverMethods((IClassBean)b, eventType, injectionPoint, result);
 					}
@@ -1045,8 +942,8 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		Map<IField, IInjectionPoint> result = new HashMap<IField, IInjectionPoint>();
 
 		if(observedEventParameter.getBeanMethod() instanceof IObserverMethod) {
-			synchronized(this) {
-				for (IBean b: allBeans) {
+			synchronized(cache) {
+				for (IBean b: cache.getAllBeans()) {
 					if(b instanceof IClassBean) {
 						collectObserverEvents((IClassBean)b, observedEventParameter, result);
 					}
@@ -1144,7 +1041,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getStereotype(java.lang.String)
 	 */
 	public StereotypeElement getStereotype(String qualifiedName) {
-		return stereotypes.get(qualifiedName.replace('$', '.'));
+		return cache.getStereotype(qualifiedName);
 	}
 
 	/*
@@ -1152,7 +1049,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getStereotype(org.eclipse.core.runtime.IPath)
 	 */
 	public StereotypeElement getStereotype(IPath path) {
-		return stereotypesByPath.get(path);
+		return cache.getStereotype(path);
 	}
 
 	/*
@@ -1160,16 +1057,15 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getStereotype(org.eclipse.jdt.core.IType)
 	 */
 	public StereotypeElement getStereotype(IType type) {
-		IPath path = type.getPath();
-		return stereotypesByPath.get(path);
+		return getStereotype(type.getPath());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getInterceptorBindings()
 	 */
-	public synchronized IInterceptorBinding[] getInterceptorBindings() {
-		return interceptorBindings.values().toArray(new IInterceptorBinding[interceptorBindings.size()]);
+	public IInterceptorBinding[] getInterceptorBindings() {
+		return cache.getInterceptorBindings();
 	}
 
 	/*
@@ -1177,7 +1073,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getInterceptorBinding(java.lang.String)
 	 */
 	public InterceptorBindingElement getInterceptorBinding(String qualifiedName) {
-		return interceptorBindings.get(qualifiedName.replace('$', '.'));
+		return cache.getInterceptorBinding(qualifiedName);
 	}
 
 	/*
@@ -1185,32 +1081,32 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getInterceptorBinding(org.eclipse.core.runtime.IPath)
 	 */
 	public IInterceptorBinding getInterceptorBinding(IPath path) {
-		return interceptorBindingsByPath.get(path);
+		return cache.getInterceptorBinding(path);
 	}
 
 	public QualifierElement getQualifier(String qualifiedName) {
-		return qualifiers.get(qualifiedName.replace('$', '.'));
+		return cache.getQualifier(qualifiedName);
 	}
 
 	public QualifierElement getQualifier(IPath path) {
-		return qualifiersByPath.get(path);
+		return cache.getQualifier(path);
 	}
 
-	public synchronized Set<String> getScopeNames() {
-		Set<String> result = new HashSet<String>();
-		result.addAll(scopes.keySet());
-		return result;
+	public Set<String> getScopeNames() {
+		return cache.getScopeNames();
 	}
 
 	public ScopeElement getScope(String qualifiedName) {
-		return scopes.get(qualifiedName.replace('$', '.'));
+		return cache.getScope(qualifiedName);
 	}
 
 	public IScope getScope(IPath path) {
-		return scopesByPath.get(path);
+		return cache.getScope(path);
 	}
 
-	public synchronized void update(boolean updateDependent) {
+	public void update(boolean updateDependent) {
+		synchronized (cache) {
+			
 		rebuildXML();
 		rebuildAnnotationTypes();
 		rebuildBeans();
@@ -1240,51 +1136,38 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			}
 		}
 		CDICorePlugin.fire(new CDIProjectChangeEvent(this));
+		
+		}
 	}
 
-	synchronized void rebuildAnnotationTypes() {
-		stereotypes.clear();
-		stereotypesByPath.clear();
-		interceptorBindings.clear();
-		qualifiers.clear();
-		qualifiersByPath.clear();
-		interceptorBindingsByPath.clear();
-		scopes.clear();
-		scopesByPath.clear();
+	void rebuildAnnotationTypes() {
+		synchronized (cache) {
+			
+		cache.cleanAnnotations();
 		List<AnnotationDefinition> ds = n.getAllAnnotations();
 		for (AnnotationDefinition d: ds) {
 			if((d.getKind() & AnnotationDefinition.STEREOTYPE) > 0) {
 				StereotypeElement s = new StereotypeElement();
 				initAnnotationElement(s, d);
-				stereotypes.put(d.getQualifiedName().replace('$', '.'), s);
-				if(d.getResource() != null && d.getResource().getFullPath() != null) {
-					stereotypesByPath.put(d.getResource().getFullPath(), s);
-				}
+				cache.add(s);
 			}
 			if((d.getKind() & AnnotationDefinition.INTERCEPTOR_BINDING) > 0) {
 				InterceptorBindingElement s = new InterceptorBindingElement();
 				initAnnotationElement(s, d);
-				interceptorBindings.put(d.getQualifiedName().replace('$', '.'), s);
-				if(d.getResource() != null && d.getResource().getFullPath() != null) {
-					interceptorBindingsByPath.put(d.getResource().getFullPath(), s);
-				}
+				cache.add(s);
 			}
 			if((d.getKind() & AnnotationDefinition.QUALIFIER) > 0) {
 				QualifierElement s = new QualifierElement();
 				initAnnotationElement(s, d);
-				qualifiers.put(d.getQualifiedName().replace('$', '.'), s);
-				if(d.getResource() != null && d.getResource().getFullPath() != null) {
-					qualifiersByPath.put(d.getResource().getFullPath(), s);
-				}
+				cache.add(s);
 			}
 			if((d.getKind() & AnnotationDefinition.SCOPE) > 0) {
 				ScopeElement s = new ScopeElement();
 				initAnnotationElement(s, d);
-				scopes.put(d.getQualifiedName().replace('$', '.'), s);
-				if(d.getResource() != null && d.getResource().getFullPath() != null) {
-					scopesByPath.put(d.getResource().getFullPath(), s);
-				}
+				cache.add(s);
 			}
+		}
+
 		}
 	}
 
@@ -1314,7 +1197,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		ImplementationCollector ic = new ImplementationCollector(typeDefinitions);
 
 		for (TypeDefinition typeDefinition : typeDefinitions) {
-			ClassBean bean = definitionToClassbeans.get(typeDefinition);
+			ClassBean bean = cache.definitionToClassbeans.get(typeDefinition);
 			if(bean != null && (bean.getDefinition() == typeDefinition)
 				&& (updateLevel == 0 || (updateLevel == 1 && typeDefinition.getType().isBinary()))) {
 				//Type definitions are rebuilt when changed, otherwise old bean should be reused.
@@ -1375,23 +1258,11 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			}
 		}	
 
-		synchronized (this) {
-			beansByPath.clear();
-			beansByName.clear();
-			namedBeans.clear();
-			alternatives.clear();
-			decorators.clear();
-			interceptors.clear();
-			allBeans.clear();
-			declaredBeans.clear();
-			injectionPointsByType.clear();
-			
-			for (int i = 0; i < BEANS_BY_TYPE_SIZE; i++) beansByTypes.get(i).clear();
-		}
+		cache.clean();
 
-		classBeans = newClassBeans;
-		definitionToClassbeans = newDefinitionToClassbeans;
-		allTypes = newAllTypes;
+		cache.classBeans = newClassBeans;
+		cache.definitionToClassbeans = newDefinitionToClassbeans;
+		cache.allTypes = newAllTypes;
 		for (IBean bean: beans) {
 			addBean(bean);
 		}
@@ -1413,7 +1284,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	 */
 	private int getUpdateLevel(Set<IType> newAllTypes) {
 		int result = 0;
-		for (IType t: allTypes) {
+		for (IType t: cache.getAllTypes()) {
 			if(!t.exists() || !newAllTypes.contains(t)) {
 				if(t.isBinary()) {
 					return 2;
@@ -1423,7 +1294,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			}
 		}
 		for (IType t: newAllTypes) {
-			if(!allTypes.contains(t)) {
+			if(!cache.containsType(t)) {
 				if(t.isBinary()) {
 					return 2;
 				} else {
@@ -1439,73 +1310,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			//Prevented double bean from library common for this and used project
 			return;
 		}
-		synchronized(this) {
-			String name = bean.getName();
-			IPath path = bean.getSourcePath();
-			List<IBean> bs = beansByPath.get(path);
-			if(bs == null) {
-				bs = new ArrayList<IBean>();
-				beansByPath.put(path, bs);
-			}
-			bs.add(bean);
-			buildInjectionPoinsByType(bean);
-			boolean isAbstract = (bean instanceof ClassBean) && !((ClassBean)bean).getDefinition().hasBeanConstructor();
-			if(isAbstract) {
-				return;
-			}
-			if(name != null && name.length() > 0) {
-				Set<IBean> bsn = beansByName.get(name);
-				if(bsn == null) {
-					bsn = new HashSet<IBean>();
-					beansByName.put(name, bsn);				
-				}
-				bsn.add(bean);
-				namedBeans.add(bean);
-			}
-			if(bean.isAlternative()) {
-				alternatives.add(bean);
-			}
-			if(bean instanceof IDecorator) {
-				decorators.add((IDecorator)bean);
-			}
-			if(bean instanceof IInterceptor) {
-				interceptors.add((IInterceptor)bean);
-			}
-			if(bean instanceof IClassBean) {
-				IClassBean c = (IClassBean)bean;
-				IType t = c.getBeanClass();
-				if(t != null && !classBeans.containsKey(t)) {
-					classBeans.put(t, c);
-				}
-			}
-			allBeans.add(bean);
-			if(bean.getDeclaringProject() == this) {
-				declaredBeans.add(bean);
-			}
-			for (IParametedType t: bean.getLegalTypes()) {
-				if(t.getType() != null && t.getType().exists()) {
-					int index = toTypeIndex(t.getType());
-					if(index != OBJECT_INDEX) {
-						beansByTypes.get(index).add(bean);
-					}
-				}
-			}
-		}
-	}
-
-	synchronized void buildInjectionPoinsByType(IBean b) {
-		Collection<IInjectionPoint> ps = b.getInjectionPoints();
-		for (IInjectionPoint p: ps) {
-			IParametedType t = p.getType();
-			if(t == null || t.getType() == null) continue;
-			String n = t.getType().getFullyQualifiedName();
-			Set<IInjectionPoint> s = injectionPointsByType.get(n);
-			if(s == null) {
-				s = new HashSet<IInjectionPoint>();
-				injectionPointsByType.put(n, s);
-			}
-			s.add(p);
-		}
+		cache.addBean(bean, bean.getDeclaringProject() == this);
 	}
 
 	void rebuildXML() {
@@ -1543,10 +1348,10 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	public Collection<IBean> getNamedBeans(boolean attemptToResolveAmbiguousNames) {
 		//TODO use a cache for named beans with attemptToResolveAmbiguousNames==true
 		Collection<IBean> result = new HashSet<IBean>();
-		synchronized (this) {
+		synchronized (cache) {
 			if(attemptToResolveAmbiguousNames) {
 				Set<String> names = new HashSet<String>();
-				for (IBean bean : namedBeans) {
+				for (IBean bean : cache.getNamedBeans()) {
 					if(!names.contains(bean.getName())) {
 						Collection<IBean> beans = getBeans(bean.getName(), attemptToResolveAmbiguousNames);
 						if(beans.isEmpty()) {
@@ -1558,7 +1363,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 					}
 				}
 			} else {
-				result.addAll(namedBeans);
+				result.addAll(cache.getNamedBeans());
 			}
 		}
 		return result;
@@ -1573,7 +1378,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		Collection<IBean> result = new HashSet<IBean>();
 		IParametedType type = beanType;
 
-		for (IBean b: getBeansByLegalType(type)) {
+		for (IBean b: cache.getBeansByLegalType(type)) {
 			if(containsType(b.getLegalTypes(), type)) {
 				try {
 					Collection<IQualifierDeclaration> qsb = b.getQualifierDeclarations(true);
@@ -1608,9 +1413,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	}
 
 	public Set<IInjectionPoint> getInjections(String fullyQualifiedTypeName) {
-		Set<IInjectionPoint> result = injectionPointsByType.get(fullyQualifiedTypeName);
-		if(result == null) result = Collections.emptySet();		
-		return result;
+		return cache.getInjections(fullyQualifiedTypeName);
 	}
 
 	/**

@@ -39,7 +39,11 @@ public class CDIAnnotationElement extends CDIElement implements ICDIAnnotation, 
 
 	public void setDefinition(AnnotationDefinition definition) {
 		this.definition = definition;
-	}	
+	}
+
+	public AnnotationDefinition getDefinition() {
+		return definition;
+	}
 
 	public Collection<IMethod> getNonBindingMethods() {
 		if(nonbindingMethods == null) {
