@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -41,6 +42,7 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanMethod;
+import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IDecorator;
@@ -62,7 +64,6 @@ import org.jboss.tools.cdi.internal.core.scanner.CDIBuilderDelegate;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.cdi.internal.core.scanner.ImplementationCollector;
 import org.jboss.tools.common.CommonPlugin;
-import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.java.IJavaReference;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.text.INodeReference;
@@ -72,7 +73,7 @@ import org.jboss.tools.common.text.INodeReference;
  * @author Viacheslav Kabanovich 
  *
  */
-public class CDIProjectAsYouType implements ICDIProject {
+public class CDIProjectAsYouType implements ICDIProject, ICDIElement {
 	ICDIProject project;
 	IFile file;
 
@@ -243,7 +244,12 @@ public class CDIProjectAsYouType implements ICDIProject {
 			} else {
 				bean = new ClassBean();
 			}
-			bean.setParent((CDIElement)project);
+			/*
+			 * Parent can be either 'this' or 'project'. In the second case, it is an original project
+			 * that will return 'unmodified' data. In the first case, correctness of 'declaring project'
+			 * needs attention.
+			 */
+			bean.setParent(this);  
 			bean.setDefinition(typeDefinition);
 			
 			newDefinitionToClassbeans.put(typeDefinition, bean);
@@ -550,6 +556,55 @@ public class CDIProjectAsYouType implements ICDIProject {
 	@Override
 	public void update(boolean updateDependent) {
 		//nothing
+	}
+
+	/**
+	 *
+	 */
+
+	@Override
+	public ICDIProject getCDIProject() {
+		return this;
+	}
+
+	@Override
+	public ICDIProject getDeclaringProject() {
+		return ((ICDIElement)project).getDeclaringProject();
+	}
+
+	@Override
+	public IPath getSourcePath() {
+		return getResource().getFullPath();
+	}
+
+	@Override
+	public IResource getResource() {
+		return getNature().getProject();
+	}
+
+	@Override
+	public boolean exists() {
+		return true;
+	}
+
+	@Override
+	public String getElementName() {
+		return getNature().getProject().getName();
+	}
+
+	@Override
+	public boolean isTypeAlternative(String qualifiedName) {
+		return project.isTypeAlternative(qualifiedName);
+	}
+
+	@Override
+	public boolean isStereotypeAlternative(String qualifiedName) {
+		return project.isStereotypeAlternative(qualifiedName);
+	}
+
+	@Override
+	public boolean isClassAlternativeActivated(String fullQualifiedTypeName) {
+		return project.isClassAlternativeActivated(fullQualifiedTypeName);
 	}
 
 }

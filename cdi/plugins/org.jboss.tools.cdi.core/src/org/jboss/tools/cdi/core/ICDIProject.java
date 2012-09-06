@@ -18,4 +18,8 @@ public interface ICDIProject extends IBeanManager {
 	public CDICoreNature getNature();
 	public void setNature(CDICoreNature n);
 	public void update(boolean updateDependent);
+	
+	public boolean isTypeAlternative(String qualifiedName);
+	public boolean isStereotypeAlternative(String qualifiedName);
+	public boolean isClassAlternativeActivated(String fullQualifiedTypeName);
 }

@@ -28,11 +28,11 @@ import org.jboss.tools.common.java.ParametedTypeFactory;
  *
  */
 public abstract class CDIElement implements ICDIElement {
-	protected CDIElement parent;
+	protected ICDIElement parent;
 	protected IPath source;
 
 	@Override
-	public CDIProject getCDIProject() {
+	public ICDIProject getCDIProject() {
 		return parent != null ? parent.getCDIProject() : null;
 	}
 
@@ -42,7 +42,7 @@ public abstract class CDIElement implements ICDIElement {
 	}
 
 	public CDIExtensionManager getExtensionManager() {
-		CDIProject project = getCDIProject();
+		ICDIProject project = getCDIProject();
 		return project == null ? null : project.getNature().getExtensionManager();
 	}
 
@@ -55,11 +55,11 @@ public abstract class CDIElement implements ICDIElement {
 		}
 	}
 
-	public void setParent(CDIElement parent) {
+	public void setParent(ICDIElement parent) {
 		this.parent = parent;
 	}
 
-	public CDIElement getParent() {
+	public ICDIElement getParent() {
 		return parent;
 	}
 
