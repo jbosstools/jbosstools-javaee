@@ -320,8 +320,22 @@ public class CDIProject implements ICDIProject{
 
 	@Override
 	public Set<IBean> getBeans(IJavaElement element) {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean isTypeAlternative(String qualifiedName) {
+		return false;
+	}
+
+	@Override
+	public boolean isStereotypeAlternative(String qualifiedName) {
+		return false;
+	}
+
+	@Override
+	public boolean isClassAlternativeActivated(String fullQualifiedTypeName) {
+		return false;
 	}
 
 }
