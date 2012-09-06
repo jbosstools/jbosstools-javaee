@@ -199,7 +199,7 @@ public class SeamRuntimeDetectionTest extends Assert implements IJBossRuntimePlu
 	}
 	private void setServerDefinitionsEnabledRecurse(RuntimeDefinition def, boolean enabled) {
 		def.setEnabled(enabled);
-		List<RuntimeDefinition> nested = def.getIncludedServerDefinitions();
+		List<RuntimeDefinition> nested = def.getIncludedRuntimeDefinitions();
 		Iterator<RuntimeDefinition> i = nested.iterator();
 		while(i.hasNext()) {
 			setServerDefinitionsEnabledRecurse(i.next(), enabled);
@@ -232,7 +232,7 @@ public class SeamRuntimeDetectionTest extends Assert implements IJBossRuntimePlu
 		count = countSeamRuntimesForVersion(version);
 		assertEquals(1, count);
 		
-		List<RuntimeDefinition> nested = def1.getIncludedServerDefinitions();
+		List<RuntimeDefinition> nested = def1.getIncludedRuntimeDefinitions();
 		System.out.println(nested.size());
 	}
 	
@@ -347,8 +347,8 @@ public class SeamRuntimeDetectionTest extends Assert implements IJBossRuntimePlu
 		for (RuntimeDefinition serverDefinition:RuntimeUIActivator.getDefault().getServerDefinitions()){
 			String type = serverDefinition.getType();
 			if (EAP.equals(type)) {
-				assertTrue("EAP has to include server definitions", serverDefinition.getIncludedServerDefinitions().size() > 0);
-				for(RuntimeDefinition included:serverDefinition.getIncludedServerDefinitions()) {
+				assertTrue("EAP has to include server definitions", serverDefinition.getIncludedRuntimeDefinitions().size() > 0);
+				for(RuntimeDefinition included:serverDefinition.getIncludedRuntimeDefinitions()) {
 					assertTrue("Invalid parent definition", included.getParent() == serverDefinition);
 				}
 			}

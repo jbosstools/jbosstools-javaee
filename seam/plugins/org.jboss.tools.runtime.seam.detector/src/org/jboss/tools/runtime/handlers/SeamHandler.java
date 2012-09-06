@@ -12,59 +12,57 @@ package org.jboss.tools.runtime.handlers;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.jar.Attributes;
-import java.util.jar.JarFile;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.jboss.tools.runtime.core.model.AbstractRuntimeDetector;
+import org.jboss.tools.runtime.core.model.AbstractRuntimeDetectorDelegate;
 import org.jboss.tools.runtime.core.model.RuntimeDefinition;
+import org.jboss.tools.runtime.core.util.RuntimeJarUtil;
 import org.jboss.tools.seam.core.SeamUtil;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 
-public class SeamHandler extends AbstractRuntimeDetector {
+public class SeamHandler extends AbstractRuntimeDetectorDelegate {
 
 	private final static String seamJarName = "jboss-seam.jar";
 	private final static String seamVersionAttributeName = "Seam-Version";
 	private static final String SEAM = "SEAM"; // NON-NLS-1$
 	
-	private static File getSeamRoot(RuntimeDefinition serverDefinition) {
-		String type = serverDefinition.getType();
+	private static File getSeamRoot(RuntimeDefinition runtimeDefinition) {
+		String type = runtimeDefinition.getType();
 		if (SEAM.equals(type)) {
-			return serverDefinition.getLocation();
+			return runtimeDefinition.getLocation();
 		}
 		return null;
 	}
 	
 	@Override
-	public void initializeRuntimes(List<RuntimeDefinition> serverDefinitions) {
+	public void initializeRuntimes(List<RuntimeDefinition> runtimeDefinitions) {
 		
 		Map<String, SeamRuntime> map = new HashMap<String,SeamRuntime>();
 
-		for(RuntimeDefinition serverDefinition:serverDefinitions) {
-			if (serverDefinition.isEnabled()) {
-				String type = serverDefinition.getType();
+		for(RuntimeDefinition runtimeDefinition:runtimeDefinitions) {
+			if (runtimeDefinition.isEnabled()) {
+				String type = runtimeDefinition.getType();
 				if (SEAM.equals(type)) {
-					addSeam(map, serverDefinition,
-							serverDefinition.getLocation());
+					addSeam(map, runtimeDefinition,
+							runtimeDefinition.getLocation());
 				}
 			}
-			initializeRuntimes(serverDefinition.getIncludedServerDefinitions());
+			initializeRuntimes(runtimeDefinition.getIncludedRuntimeDefinitions());
 		}
 		SeamRuntimeManager.getInstance().save();
 	}
 
 	private static void addSeam(Map<String, SeamRuntime> map,
-			RuntimeDefinition serverDefinition, File seamFile) {
+			RuntimeDefinition runtimeDefinition, File seamFile) {
 		if (seamFile.exists() && seamFile.canRead() && seamFile.isDirectory()) {
 			SeamVersion seamVersion = getSeamVersion(seamFile.getAbsolutePath());
 			if (seamVersion != null) {
-				String name = "Seam " + serverDefinition.getName() + " " + seamVersion; //$NON-NLS-1$ //$NON-NLS-2$
+				String name = "Seam " + runtimeDefinition.getName() + " " + seamVersion; //$NON-NLS-1$ //$NON-NLS-2$
 				addSeam(map, seamFile.getAbsolutePath(), seamVersion, name);
 			}
 		}
@@ -154,31 +152,31 @@ public class SeamHandler extends AbstractRuntimeDetector {
 				return null;
 			}
 		}
-		try {
-			JarFile jar = new JarFile(jarFile);
-			Attributes attributes = jar.getManifest().getMainAttributes();
-			String version = attributes.getValue(seamVersionAttributeName);
-			if (version == null) {
-				// Seam 2.3
-				version = attributes.getValue("Implementation-Version");
-			}
-			return version;
-		} catch (IOException e) {
-			return null;
-		}
+		String[] attributes = new String[]{seamVersionAttributeName, RuntimeJarUtil.IMPLEMENTATION_VERSION};
+		return RuntimeJarUtil.getImplementationVersion(jarFile, attributes);
 	}
 
 	@Override
-	public boolean exists(RuntimeDefinition serverDefinition) {
-		if (serverDefinition == null || serverDefinition.getLocation() == null) {
+	public boolean exists(RuntimeDefinition runtimeDefinition) {
+		if (runtimeDefinition == null || runtimeDefinition.getLocation() == null) {
 			return false;
 		}
-		File seamRoot = getSeamRoot(serverDefinition);
+		File seamRoot = getSeamRoot(runtimeDefinition);
 		if (seamRoot == null || !seamRoot.isDirectory()) {
 			return false;
 		}
 		String path = seamRoot.getAbsolutePath();
 		return seamExists(path);
+	}
+
+	@Override
+	public void computeIncludedRuntimeDefinition(
+			RuntimeDefinition runtimeDefinition) {
+	}
+
+	@Override
+	public String getVersion(RuntimeDefinition runtimeDefinition) {
+		return runtimeDefinition.getVersion();
 	}
 
 }
