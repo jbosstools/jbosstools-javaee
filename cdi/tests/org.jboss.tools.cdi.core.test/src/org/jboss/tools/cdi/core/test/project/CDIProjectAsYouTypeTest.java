@@ -45,7 +45,7 @@ public class CDIProjectAsYouTypeTest extends TCKTest {
 
 		try {
 			CDIProjectAsYouType ayt = new CDIProjectAsYouType(cdiProject, f);
-			Collection<IBean> bs = getInjectedBeans(ayt);
+			Collection<IBean> bs = getInjectedBeans(ayt, false);
 			assertEquals(2, bs.size());
 
 			ISourceViewer s = getTextViewer(editorPart);
@@ -53,24 +53,36 @@ public class CDIProjectAsYouTypeTest extends TCKTest {
 			modifyDocument(s.getDocument(), "create()", "_create()");
 
 			ayt = new CDIProjectAsYouType(cdiProject, f);
-			bs = getInjectedBeans(ayt);
+			//1. 'ayt' will be used both to find the injection point and to request beans.
+			bs = getInjectedBeans(ayt, false);
+			assertEquals(1, bs.size());
+			//2. 'ayt' will be used to find the injection point, but beans will be requested 
+			//from CDI project referenced by that injection point.
+			//Current implementation (JBIDE-12546) sets to class bean 'ayt' as parent,
+			//so that now this check does not seem necessary, but implementation may be changed in future.
+			bs = getInjectedBeans(ayt, true);
 			assertEquals(1, bs.size());
 			
 			modifyDocument(s.getDocument(), "_create()", "create()");
 
 			ayt = new CDIProjectAsYouType(cdiProject, f);
-			bs = getInjectedBeans(ayt);
+			bs = getInjectedBeans(ayt, false);
+			assertEquals(2, bs.size());
+			bs = getInjectedBeans(ayt, true);
 			assertEquals(2, bs.size());
 		} finally {
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeEditor(editorPart, false);
 		}
 	}
 
-	private Collection<IBean> getInjectedBeans(CDIProjectAsYouType ayt) {
+	private Collection<IBean> getInjectedBeans(CDIProjectAsYouType ayt, boolean testProjectOfInjectedPoint) {
 		Collection<IBean> bs = ayt.getBeans(true, "org.jboss.jsr299.tck.tests.jbt.lookup.duplicateName.TwoNamedProducers");
 		IBean b = bs.iterator().next();
 		Collection<IInjectionPoint> ps =  b.getInjectionPoints();
 		IInjectionPoint p = ps.iterator().next();
+		if(testProjectOfInjectedPoint) {
+			return p.getCDIProject().getBeans(true, p);
+		}
 		return ayt.getBeans(true, p);
 	}
 
