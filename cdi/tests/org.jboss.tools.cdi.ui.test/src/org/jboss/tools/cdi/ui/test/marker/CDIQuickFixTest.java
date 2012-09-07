@@ -114,38 +114,38 @@ public class CDIQuickFixTest extends TCKTest {
 				DeleteAnnotationMarkerResolution.class, true);
 	}
 	
-	public void _testCreateBeanClassResolution() throws CoreException{
+	public void testCreateBeanClassResolution() throws CoreException{
 		util.checkProposal(tckProject,
 				"WebContent/WEB-INF/beans.xml",
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NonExistingAlternative.qfxresult",
-				"",
+				"com.acme.NonExistingClass",
 				CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME_ID,
 				CreateCDIElementMarkerResolution.class, false);
 	}
 
-	public void _testCreateStereotypeResolution() throws CoreException{
+	public void testCreateStereotypeResolution() throws CoreException{
 		util.checkProposal(tckProject,
 				"WebContent/WEB-INF/beans.xml",
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NonExistingStereotype.qfxresult",
-				"",
+				"com.acme.NotExistingStereotype",
 				CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME_ID,
 				CreateCDIElementMarkerResolution.class, false);
 	}
 	
-	public void _testCreateDecoratorResolution() throws CoreException{
+	public void testCreateDecoratorResolution() throws CoreException{
 		util.checkProposal(tckProject,
 				"WebContent/WEB-INF/beans.xml",
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NonExistingDecorator.qfxresult",
-				"",
+				"com.acme.NonExistingDecoratorClass",
 				CDIValidationErrorManager.UNKNOWN_DECORATOR_BEAN_CLASS_NAME_ID,
 				CreateCDIElementMarkerResolution.class, false);
 	}
 
-	public void _testCreateInterceptorResolution() throws CoreException{
+	public void testCreateInterceptorResolution() throws CoreException{
 		util.checkProposal(tckProject,
 				"WebContent/WEB-INF/beans.xml",
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NonExistingInterceptor.qfxresult",
-				"",
+				"com.acme.NonExistingInterceptorClass",
 				CDIValidationErrorManager.UNKNOWN_INTERCEPTOR_CLASS_NAME_ID,
 				CreateCDIElementMarkerResolution.class, false);
 	}

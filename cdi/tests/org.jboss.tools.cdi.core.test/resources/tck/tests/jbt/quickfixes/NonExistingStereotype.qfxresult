@@ -3,7 +3,7 @@
 	<alternatives>
 		<stereotype>
 			<!-- Some comment -->
-			org.jboss.jsr299.tck.tests.policy.broken.not.policy.stereotype.NotExistingStereotype
+			com.acme.NotExistingStereotype
 		</stereotype>
 	</alternatives>
 </beans>
