@@ -1,10 +1,6 @@
 package org.jboss.tools.cdi.ui.test.marker;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.marker.AddAnnotationMarkerResolution;
@@ -40,6 +36,7 @@ public class CDIQuickFixTest extends TCKTest {
 		util.checkProposal(tckProject,
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/MakeFieldStatic.java",
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/MakeFieldStatic.qfxresult",
+				"@Produces",
 				CDIValidationErrorManager.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID,
 				MakeFieldStaticMarkerResolution.class, true);
 	}
@@ -48,6 +45,7 @@ public class CDIQuickFixTest extends TCKTest {
 		util.checkProposal(tckProject,
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/AddLocalBean.java",
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/AddLocalBean.qfxresult",
+				"@Produces",
 				CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID,
 				AddLocalBeanMarkerResolution.class, true);
 	}
@@ -56,6 +54,7 @@ public class CDIQuickFixTest extends TCKTest {
 		util.checkProposal(tckProject,
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/MakeMethodPublic.java",
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/MakeMethodPublic.qfxresult",
+				"@Produces",
 				CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID,
 				MakeMethodPublicMarkerResolution.class, true);
 	}
@@ -65,6 +64,7 @@ public class CDIQuickFixTest extends TCKTest {
 		util.checkProposal(tckProject,
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/AddSerializable.java",
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/AddSerializable.qfxresult",
+				"AddSerializable",
 				CDIValidationErrorManager.NOT_PASSIVATION_CAPABLE_BEAN_ID,
 				AddSerializableInterfaceMarkerResolution.class, true);
 	}
@@ -73,6 +73,7 @@ public class CDIQuickFixTest extends TCKTest {
 		util.checkProposal(tckProject,
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/AddRetention.java",
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/AddRetention.qfxresult",
+				"AddRetention",
 				CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE_ID,
 				AddRetentionAnnotationMarkerResolution.class, true);
 	}
@@ -81,6 +82,7 @@ public class CDIQuickFixTest extends TCKTest {
 		util.checkProposal(tckProject,
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/ChangeAnnotation.java",
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/ChangeAnnotation.qfxresult",
+				"@Retention(value = null)",
 				CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE_ID,
 				ChangeAnnotationMarkerResolution.class, true);
 	}
@@ -89,6 +91,7 @@ public class CDIQuickFixTest extends TCKTest {
 		util.checkProposal(tckProject,
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/AddTarget.java",
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/AddTarget.qfxresult",
+				"AddTarget",
 				CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE_ID,
 				AddTargetAnnotationMarkerResolution.class, true);
 	}
@@ -97,6 +100,7 @@ public class CDIQuickFixTest extends TCKTest {
 		util.checkProposal(tckProject,
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/AddAnnotation.java",
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/AddAnnotation.qfxresult",
+				"abc",
 				CDIValidationErrorManager.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_QUALIFIER_TYPE_MEMBER_ID,
 				AddAnnotationMarkerResolution.class, true);
 	}
@@ -105,6 +109,7 @@ public class CDIQuickFixTest extends TCKTest {
 		util.checkProposal(tckProject,
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/DeleteAnnotation.java",
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/DeleteAnnotation.qfxresult",
+				"@Inject",
 				CDIValidationErrorManager.CONSTRUCTOR_PARAMETER_ANNOTATED_DISPOSES_ID,
 				DeleteAnnotationMarkerResolution.class, true);
 	}
@@ -113,6 +118,7 @@ public class CDIQuickFixTest extends TCKTest {
 		util.checkProposal(tckProject,
 				"WebContent/WEB-INF/beans.xml",
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NonExistingAlternative.qfxresult",
+				"",
 				CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME_ID,
 				CreateCDIElementMarkerResolution.class, false);
 	}
@@ -121,6 +127,7 @@ public class CDIQuickFixTest extends TCKTest {
 		util.checkProposal(tckProject,
 				"WebContent/WEB-INF/beans.xml",
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NonExistingStereotype.qfxresult",
+				"",
 				CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME_ID,
 				CreateCDIElementMarkerResolution.class, false);
 	}
@@ -129,6 +136,7 @@ public class CDIQuickFixTest extends TCKTest {
 		util.checkProposal(tckProject,
 				"WebContent/WEB-INF/beans.xml",
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NonExistingDecorator.qfxresult",
+				"",
 				CDIValidationErrorManager.UNKNOWN_DECORATOR_BEAN_CLASS_NAME_ID,
 				CreateCDIElementMarkerResolution.class, false);
 	}
@@ -137,6 +145,7 @@ public class CDIQuickFixTest extends TCKTest {
 		util.checkProposal(tckProject,
 				"WebContent/WEB-INF/beans.xml",
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NonExistingInterceptor.qfxresult",
+				"",
 				CDIValidationErrorManager.UNKNOWN_INTERCEPTOR_CLASS_NAME_ID,
 				CreateCDIElementMarkerResolution.class, false);
 	}
