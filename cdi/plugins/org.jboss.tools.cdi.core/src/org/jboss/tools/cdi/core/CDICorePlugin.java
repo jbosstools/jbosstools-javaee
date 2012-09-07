@@ -21,10 +21,12 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.jboss.tools.cdi.internal.core.event.CDIProjectChangeEvent;
 import org.jboss.tools.cdi.internal.core.event.ICDIProjectChangeListener;
 import org.jboss.tools.common.log.BaseUIPlugin;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -187,6 +189,40 @@ public class CDICorePlugin extends BaseUIPlugin {
 		for (ICDIProjectChangeListener l : ls) {
 			l.projectChanged(event);
 		}
+	}
+
+	boolean cacheIsLoaded = false;
+	ICDICache cache;
+
+	public ICDICache getDBCache() {
+		if(!cacheIsLoaded) {
+			synchronized (this) {
+				if(!cacheIsLoaded) {
+					try {
+						Bundle b = Platform.getBundle("org.jboss.tools.cdi.db");
+						if(b != null) {
+							try {
+								Class c = b.loadClass("org.jboss.tools.cdi.db.CDIDataBase");
+								if(c != null) {
+									cache = (ICDICache)c.newInstance();
+								}
+							} catch (ClassNotFoundException e) {
+								logError(e);
+							} catch (InstantiationException e) {
+								logError(e);
+							} catch (IllegalAccessException e) {
+								logError(e);
+							}
+						}
+					} catch (Throwable t) {
+						logError(t);
+					} finally {
+						cacheIsLoaded = true;
+					}
+				}				
+			}
+		}		
+		return cache;
 	}
 
 }

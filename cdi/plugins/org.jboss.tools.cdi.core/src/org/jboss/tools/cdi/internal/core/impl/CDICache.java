@@ -63,16 +63,24 @@ public class CDICache implements Cloneable {
 
 	private Map<String, Set<IInjectionPoint>> injectionPointsByType = new HashMap<String, Set<IInjectionPoint>>();
 
-	private static int BEANS_BY_TYPE_SIZE = 367;
+	private int beansByTypeSize;
+	private int objectIndex;
 
 	public CDICache() {
-		for (int i = 0; i < BEANS_BY_TYPE_SIZE; i++) beansByTypes.add(new HashSet<IBean>());
+		setBeansByTypeSize(21);
 	}
 
-	private static int OBJECT_INDEX = Math.abs("java.lang.Object".hashCode()) % BEANS_BY_TYPE_SIZE;
+	public synchronized void setBeansByTypeSize(int beansByTypeSize) {
+		List<Set<IBean>> beansByTypes = new ArrayList<Set<IBean>>();
+		for (int i = 0; i < beansByTypeSize; i++) beansByTypes.add(new HashSet<IBean>());
+		this.beansByTypes = beansByTypes;
+		this.beansByTypeSize = beansByTypeSize;
+		objectIndex = Math.abs("java.lang.Object".hashCode()) % beansByTypeSize;
+	}
+
 	
-	private static int toTypeIndex(IType type) {
-		return Math.abs(type.getFullyQualifiedName().hashCode()) % BEANS_BY_TYPE_SIZE;
+	private int toTypeIndex(IType type) {
+		return Math.abs(type.getFullyQualifiedName().hashCode()) % beansByTypeSize;
 	}
 
 	public synchronized IBean[] getBeans() {
@@ -87,13 +95,11 @@ public class CDICache implements Cloneable {
 		return new ArrayList<IBean>(declaredBeans);
 	}
 
-	public IBean[] getBeansByLegalType(IParametedType type) {
+	public synchronized IBean[] getBeansByLegalType(IParametedType type) {
 		if(type.getType() == null) return new IBean[0];
 		int index = toTypeIndex(type.getType());
-		Collection<IBean> bs = index == OBJECT_INDEX ? allBeans : beansByTypes.get(index);
-		synchronized (this) {
-			return bs.toArray(new IBean[bs.size()]);
-		}
+		Collection<IBean> bs = index == objectIndex ? allBeans : beansByTypes.get(index);
+		return bs.toArray(new IBean[bs.size()]);
 	}
 
 	public synchronized IQualifier[] getQualifiers() {
@@ -183,7 +189,7 @@ public class CDICache implements Cloneable {
 		p.allBeans.addAll(beans);
 
 		p.beansByTypes = new ArrayList<Set<IBean>>();
-		for (int i = 0; i < BEANS_BY_TYPE_SIZE; i++) {
+		for (int i = 0; i < beansByTypeSize; i++) {
 			Set<IBean> bs = new HashSet<IBean>(beansByTypes.get(i));
 			bs.removeAll(oldBeans);
 			bs.addAll(beans);
@@ -313,7 +319,7 @@ public class CDICache implements Cloneable {
 		for (IParametedType t: bean.getLegalTypes()) {
 			if(t.getType() != null && t.getType().exists()) {
 				int index = toTypeIndex(t.getType());
-				if(index != OBJECT_INDEX) {
+				if(index != objectIndex) {
 					beansByTypes.get(index).add(bean);
 				}
 			}
@@ -346,7 +352,7 @@ public class CDICache implements Cloneable {
 		declaredBeans.clear();
 		injectionPointsByType.clear();
 		
-		for (int i = 0; i < BEANS_BY_TYPE_SIZE; i++) beansByTypes.get(i).clear();
+		for (int i = 0; i < beansByTypeSize; i++) beansByTypes.get(i).clear();
 	}
 
 	public synchronized void cleanAnnotations() {

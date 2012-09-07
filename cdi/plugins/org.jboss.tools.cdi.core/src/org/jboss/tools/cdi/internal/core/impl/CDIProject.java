@@ -92,7 +92,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	BeansXMLData projectBeansXMLData = new BeansXMLData();
 
 	public CDIProject() {
-		//TODO create dbCache instance
+		dbCache = CDICorePlugin.getDefault().getDBCache();
 	}
 
 	public CDIProject getModifiedCopy(IFile file, Collection<IBean> beans) {
@@ -1276,6 +1276,13 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 
 		cache.clean();
 
+		//Variable size of beans-by-type cache.
+		int beansByTypeSize = typeDefinitions.size() / 10;
+		if(beansByTypeSize < 10) beansByTypeSize = 10;
+		if(beansByTypeSize > 367) beansByTypeSize = 367;
+
+		cache.setBeansByTypeSize(beansByTypeSize);
+
 		cache.classBeans = newClassBeans;
 		cache.definitionToClassbeans = newDefinitionToClassbeans;
 		cache.allTypes = newAllTypes;
@@ -1284,7 +1291,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		}
 	
 	}
-
+	
 	/**
 	 * Compares sets this.allTypes and newAllTypes
 	 * Returns 
