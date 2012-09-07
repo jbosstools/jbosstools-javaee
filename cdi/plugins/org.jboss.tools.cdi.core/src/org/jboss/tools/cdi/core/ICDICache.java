@@ -21,7 +21,7 @@ public interface ICDICache {
 	 * @param project
 	 * @param bean
 	 */
-	public void rebuild(ICDIProject project, Collection<IBean> bean);
+	public void rebuild(ICDIProject project, Collection<IBean> beans);
 
 	/**
 	 * Returns all beans that has 'legalType' as one of legal types.
