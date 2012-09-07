@@ -105,4 +105,9 @@ public class CDIQualifier implements IQualifier{
 	public String getElementName() {
 		return null;
 	}
+
+	@Override
+	public int getId() {
+		return 0;
+	}
 }

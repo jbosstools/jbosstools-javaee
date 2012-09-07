@@ -295,4 +295,10 @@ public class CDIBean extends CDIElement implements IClassBean{
 	public IJavaElement getSourceElement() {
 		return getSourceMember();
 	}
+
+	@Override
+	public int getId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

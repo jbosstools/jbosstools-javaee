@@ -160,4 +160,9 @@ public class CDIInjectionPoint implements IInjectionPoint {
 	public IJavaElement getSourceElement() {
 		return getSourceMember();
 	}
+
+	@Override
+	public int getId() {
+		return 0;
+	}
 }
