@@ -28,8 +28,20 @@ import org.jboss.tools.common.java.ParametedTypeFactory;
  *
  */
 public abstract class CDIElement implements ICDIElement {
+	static int LAST_ID = 0;
+	protected int id;
 	protected ICDIElement parent;
 	protected IPath source;
+
+	public CDIElement() {
+		synchronized (this) {
+			id = LAST_ID++;
+		}
+	}
+
+	public int getId() {
+		return id;
+	}
 
 	@Override
 	public ICDIProject getCDIProject() {

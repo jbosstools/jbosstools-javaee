@@ -21,6 +21,12 @@ import org.eclipse.core.runtime.IPath;
 public interface ICDIElement {
 
 	/**
+	 * Returns unique id of this object. It is assigned only for the current session.
+	 * @return
+	 */
+	int getId();
+
+	/**
 	 * Returns CDI project that contains this object.
 	 * @return
 	 */

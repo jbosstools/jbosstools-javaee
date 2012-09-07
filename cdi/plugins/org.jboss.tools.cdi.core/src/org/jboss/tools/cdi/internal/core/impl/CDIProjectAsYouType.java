@@ -607,4 +607,9 @@ public class CDIProjectAsYouType implements ICDIProject, ICDIElement {
 		return project.isClassAlternativeActivated(fullQualifiedTypeName);
 	}
 
+	@Override
+	public int getId() {
+		return ((ICDIElement)project).getId();
+	}
+
 }

@@ -40,6 +40,7 @@ import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IBuiltInBean;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
+import org.jboss.tools.cdi.core.ICDICache;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IDecorator;
@@ -85,11 +86,13 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	private ICDIProject declaringProject = this;
 
 	private CDICache cache = new CDICache();
+	private ICDICache dbCache;
 
 	BeansXMLData allBeansXMLData = new BeansXMLData();
 	BeansXMLData projectBeansXMLData = new BeansXMLData();
 
 	public CDIProject() {
+		//TODO create dbCache instance
 	}
 
 	public CDIProject getModifiedCopy(IFile file, Collection<IBean> beans) {
@@ -368,6 +371,14 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 
 		String injectionPointName = injectionPoint.getBeanName();
 		
+		Collection<IBean> beans = null;
+		
+		//DB
+		if(dbCache != null) {
+			beans = dbCache.getBeansByLegalType(this, type.getType().getFullyQualifiedName());
+		}
+		//Compare with result from cache.
+
 		for (IBean b: cache.getBeansByLegalType(type)) {
 			if(isObjectType || containsType(b.getLegalTypes(), type)) {
 				try {
@@ -1120,6 +1131,11 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			for (IBuildParticipantFeature bp: bs) {
 				bp.buildBeans(this);
 			}
+		}
+
+		// DB
+		if(dbCache != null) {
+			dbCache.rebuild(this, cache.getAllBeans());
 		}
 		
 		Set<IBeanStoreFeature> beanStores = n.getExtensionManager().getFeatures(IBeanStoreFeature.class);
