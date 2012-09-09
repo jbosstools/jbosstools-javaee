@@ -194,32 +194,29 @@ public class CodeCompletionTest extends JSFAutoTestCase{
         0);
     String textToInsert = "<ez:";
     compositeComponentContainerEditor.insertText(textToInsert);
+    SWTJBTExt.selectTextInSourcePane(SWTTestExt.bot, 
+        JSF2_TEST_PAGE,
+        textToInsert, 
+        textToInsert.length(), 
+        0, 
+        0);
     // Check content assist menu content for "<ez:"
-    String expectedInsertedText = "input action=\"\" value=\"\"></ez:input>";
-    try{
-      ContentAssistHelper.checkContentAssistAutoProposal(SWTTestExt.bot, 
-          JSF2_TEST_PAGE,
-          textToInsert, 
-          textToInsert.length(), 
-          0, 
-          0,
-          expectedInsertedText);
-    } catch (AssertionError ae){
-      // because order of attributes is not guaranteed check 
-      // it has to be checked with different order 
-      expectedInsertedText = "input value=\"\" action=\"\"></ez:input>";
-      final String textOnCurrentLine = compositeComponentContainerEditor.getTextOnCurrentLine();
-      assertTrue("Text on current line should contain:\n" + 
-          "<ez:" + expectedInsertedText +
-          "\nbut is:\n" + textOnCurrentLine
-          , textOnCurrentLine.contains("<ez:" + expectedInsertedText));
-    }
+    contentAssist.checkContentAssist("ez:input", true);
+    bot.sleep(Timing.time2S());
     compositeComponentContainerEditor.save();
+    String currentLineText = compositeComponentContainerEditor.getTextOnCurrentLine();
+    String expectedInsertedText = "<ez:input value=\"\" action=\"\"></ez:input>";
+    if (!currentLineText.toLowerCase().contains(expectedInsertedText.toLowerCase())){
+      expectedInsertedText = "<ez:input action=\"\" value=\"\"></ez:input>";
+      assertTrue("Inserted text should be " + expectedInsertedText + " but is not.\n" 
+          + "Current line text is " + currentLineText,
+        currentLineText.toLowerCase().contains(expectedInsertedText.toLowerCase()));
+    }
     // Check content assist menu content for Composite Components attributes    
     ContentAssistHelper.checkContentAssistContent(SWTTestExt.bot, 
         JSF2_TEST_PAGE,
         expectedInsertedText, 
-        6, 
+        10, 
         0, 
         getCompositeComponentsAttributesProposalList());
     // Open Composite Component definition file
@@ -248,7 +245,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
     contentAssist.checkContentAssist("cc.attrs", true);
     bot.sleep(Timing.time2S());
     compositeComponentDefEditor.save();
-    String currentLineText = compositeComponentDefEditor.getTextOnCurrentLine();
+    currentLineText = compositeComponentDefEditor.getTextOnCurrentLine();
     expectedInsertedText = "#{cc.attrs}";
     assertTrue("Inserted text should be " + expectedInsertedText + " but is not.\n" 
         + "Current line text is " + currentLineText,

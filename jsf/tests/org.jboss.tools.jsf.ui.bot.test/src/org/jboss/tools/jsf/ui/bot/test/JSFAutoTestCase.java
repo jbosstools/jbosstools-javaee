@@ -11,6 +11,7 @@ import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 import org.jboss.tools.vpe.ui.bot.test.VPEAutoTestCase;
+import org.jboss.tools.vpe.ui.bot.test.tools.SWTBotWebBrowser;
 
 public abstract class JSFAutoTestCase extends VPEAutoTestCase {
 
@@ -118,5 +119,40 @@ public abstract class JSFAutoTestCase extends VPEAutoTestCase {
   protected static String stripCSSText(String editorText){
     return editorText.replaceAll("\n", "").replaceAll("\t", "").replaceAll("\r", "").replaceAll(" ", "");
   }
-
+  /**
+   * Asserts if Visual Editor contains node with value valueToContain
+   * @param webBrowser
+   * @param valueToContain
+   * @param fileName
+   */
+  protected static void assertVisualEditorContainsNodeWithValue (SWTBotWebBrowser webBrowser,
+      String valueToContain,
+      String fileName){
+    assertTrue("Visual Representation of file " + fileName
+        + " has to contain node with "
+        + valueToContain
+        + " value but it doesn't",
+        webBrowser.containsNodeWithValue(webBrowser,
+            valueToContain));
+    
+  }
+  
+  /**
+   * Asserts if Visual Editor doesn't contain node with particular attributes
+   * @param webBrowser
+   * @param valueToContain
+   * @param fileName
+   */
+  protected static void assertVisualEditorNotContainNodeWithValue (SWTBotWebBrowser webBrowser,
+      String valueToContain,
+      String fileName){
+    
+    assertFalse("Visual Representation of file " + fileName
+        + " cannot contain node with "
+        + valueToContain
+        + " value but it does",
+        webBrowser.containsNodeWithValue(webBrowser, 
+            valueToContain));
+    
+  }
 }

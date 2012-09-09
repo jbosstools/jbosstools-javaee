@@ -16,8 +16,11 @@ import org.jboss.tools.jsf.ui.bot.test.CSSStyleDialogVariables;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
 import org.jboss.tools.jsf.ui.bot.test.UnknownTagDialogVariables;
 import org.jboss.tools.ui.bot.ext.CompareUtils;
+import org.jboss.tools.ui.bot.ext.SWTBotExt;
+import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
+import org.jboss.tools.vpe.ui.bot.test.tools.SWTBotWebBrowser;
 
 public class SetTemplateForUnknownTagTest extends JSFAutoTestCase {
 	
@@ -25,13 +28,14 @@ public class SetTemplateForUnknownTagTest extends JSFAutoTestCase {
 	private static final String TAG_URI = "http://java.sun.com/jsf/html";//$NON-NLS-1$
 	private static final String DISPALY_TAG = "b";//$NON-NLS-1$
 	private static final String CHILDREN_ALLOWS = "yes";//$NON-NLS-1$
+	private static final String TEMPLATE_VALUE = "myValue";
 	
 	public void testSetTemplateForUnknownTag() throws Throwable{
 		openTestPage();
 		setEditor(bot.editorByTitle(TEST_PAGE).toTextEditor());
 		setEditorText(getEditor().getText());
 		getEditor().navigateTo(13, 0);
-		getEditor().insertText("<h:unknowntag></h:unknowntag>");//$NON-NLS-1$
+		getEditor().insertText("<" + SetTemplateForUnknownTagTest.TAG_NAME + "></" + SetTemplateForUnknownTagTest.TAG_NAME + ">");//$NON-NLS-1$
 		getEditor().save();
 		getEditor().navigateTo(13,5);
 		setUpTemplate();
@@ -49,7 +53,7 @@ public class SetTemplateForUnknownTagTest extends JSFAutoTestCase {
 		bot.textWithLabel(UnknownTagDialogVariables.TAG_URI_FIELD).setText(TAG_URI);
 		bot.textWithLabel(UnknownTagDialogVariables.DISPLAY_TAG).setText(DISPALY_TAG);
 		bot.checkBoxWithLabel(UnknownTagDialogVariables.ALLOW_CHILDREN_CHECKBOX).click();
-		bot.textWithLabel(UnknownTagDialogVariables.VALUE_FIELD).setText("myValue");//$NON-NLS-1$
+		bot.textWithLabel(UnknownTagDialogVariables.VALUE_FIELD).setText(SetTemplateForUnknownTagTest.TEMPLATE_VALUE);//$NON-NLS-1$
 		bot.textWithLabel(UnknownTagDialogVariables.TAG_STYLE_FIELD).setText("color:red");//$NON-NLS-1$
 		bot.buttonWithTooltip(UnknownTagDialogVariables.EDIT_TAG_STYLE_TIP).click();
 		String returnValue = setStyles();
@@ -60,7 +64,11 @@ public class SetTemplateForUnknownTagTest extends JSFAutoTestCase {
 		  + "Expected: " + "font-family:Arial;color:black;"
 		  + "Value: " + returnValue
 		  ,CompareUtils.compareStyleAttributes("font-family:Arial;color:black;", returnValue));//$NON-NLS-1$
-		checkVPE("templates/SetTemplateForUnknownTag.xml");//$NON-NLS-1$
+		bot.toolbarButtonWithTooltip(SWTJBTExt.isRunningOnMacOs() ? 
+        IDELabel.ToolbarButton.REFRESH_MAC_OS: IDELabel.ToolbarButton.REFRESH).click();
+		assertVisualEditorContainsNodeWithValue(new SWTBotWebBrowser(TEST_PAGE, new SWTBotExt()),
+		    SetTemplateForUnknownTagTest.TEMPLATE_VALUE, 
+		    TEST_PAGE);
 	}
 	
 	private void editTemplate() throws Throwable{
@@ -84,7 +92,14 @@ public class SetTemplateForUnknownTagTest extends JSFAutoTestCase {
       bot.shell(WidgetVariables.PREF_FILTER_SHELL_TITLE).activate();
       bot.button(WidgetVariables.OK_BUTTON).click();
     }
-		checkVPE("templates/EditedTemplateForUnknownTag.xml"); //$NON-NLS-1$
+    bot.toolbarButtonWithTooltip(SWTJBTExt.isRunningOnMacOs() ? 
+        IDELabel.ToolbarButton.REFRESH_MAC_OS: IDELabel.ToolbarButton.REFRESH).click();
+    assertVisualEditorNotContainNodeWithValue(new SWTBotWebBrowser(TEST_PAGE, new SWTBotExt()),
+        SetTemplateForUnknownTagTest.TEMPLATE_VALUE, 
+        TEST_PAGE);
+    assertVisualEditorNotContainNodeWithValue(new SWTBotWebBrowser(TEST_PAGE, new SWTBotExt()),
+        SetTemplateForUnknownTagTest.TAG_NAME, 
+        TEST_PAGE);
 	}
 	
 	private void removeTemplate() throws Throwable{
@@ -95,7 +110,14 @@ public class SetTemplateForUnknownTagTest extends JSFAutoTestCase {
 		bot.button(WidgetVariables.REMOVE_BUTTON).click();
 		bot.shell(WidgetVariables.PREF_FILTER_SHELL_TITLE).activate();
 		bot.button(WidgetVariables.OK_BUTTON).click();
-		checkVPE("templates/RemoveUnknownTemplate.xml"); //$NON-NLS-1$
+		bot.toolbarButtonWithTooltip(SWTJBTExt.isRunningOnMacOs() ? 
+        IDELabel.ToolbarButton.REFRESH_MAC_OS: IDELabel.ToolbarButton.REFRESH).click();
+		assertVisualEditorNotContainNodeWithValue(new SWTBotWebBrowser(TEST_PAGE, new SWTBotExt()),
+        SetTemplateForUnknownTagTest.TEMPLATE_VALUE, 
+        TEST_PAGE);
+    assertVisualEditorContainsNodeWithValue(new SWTBotWebBrowser(TEST_PAGE, new SWTBotExt()),
+        SetTemplateForUnknownTagTest.TAG_NAME, 
+        TEST_PAGE);
 	}
 	
 	private String setStyles(){
