@@ -25,6 +25,7 @@ import org.jboss.tools.cdi.ui.test.search.CDISearchParticipantTest;
 import org.jboss.tools.cdi.ui.test.search.ELReferencesQueryParticipantTest;
 import org.jboss.tools.cdi.ui.test.search.FiveDependentProjectsSearchParticipantTest;
 import org.jboss.tools.cdi.ui.test.search.FiveDependentProjectsTestSetup;
+import org.jboss.tools.cdi.ui.test.validation.java.CDIAsYouTypeCDIAndELValidatorsMassagesProcessingTest;
 import org.jboss.tools.cdi.ui.test.validation.java.CDIAsYouTypeInJavaSupressWarningsTest;
 import org.jboss.tools.cdi.ui.test.validation.java.CDIAsYouTypeInJavaValidationTest;
 import org.jboss.tools.cdi.ui.test.wizard.AddQualifiersToBeanWizardTest;
@@ -67,7 +68,8 @@ public class CDIUIAllTests {
 		suite.addTestSuite(CATest.class);
 		suite.addTestSuite(OpenCDINamedBeanDialogTest.class);
 		suite.addTestSuite(CDIAsYouTypeInJavaValidationTest.class); 
-		suite.addTestSuite(CDIAsYouTypeInJavaSupressWarningsTest.class); 
+		suite.addTestSuite(CDIAsYouTypeInJavaSupressWarningsTest.class);
+		suite.addTestSuite(CDIAsYouTypeCDIAndELValidatorsMassagesProcessingTest.class);
 
 		suiteAll.addTest(new CDICoreTestSetup(suite));
 
