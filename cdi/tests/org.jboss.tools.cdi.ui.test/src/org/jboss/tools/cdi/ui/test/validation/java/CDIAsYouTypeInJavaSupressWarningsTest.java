@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2012 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributor:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.cdi.ui.test.validation.java;
 
 import org.eclipse.core.resources.IProject;
@@ -10,6 +20,11 @@ import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.common.base.test.validation.AbstractAsYouTypeValidationTest;
 import org.jboss.tools.common.base.test.validation.java.BaseAsYouTypeInJavaValidationTest;
 
+/**
+ * 
+ * @author Victor V. Rubezhny
+ *
+ */
 public class CDIAsYouTypeInJavaSupressWarningsTest extends TCKTest {
 	private static final String PAGE_NAME = "JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/TestNamed.java";
 
