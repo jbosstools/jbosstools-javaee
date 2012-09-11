@@ -374,7 +374,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		Collection<IBean> beans = null;
 		
 		//DB
-		if(dbCache != null) {
+		if(dbCache != null && type.getType() != null) {
 			beans = dbCache.getBeansByLegalType(this, type.getType().getFullyQualifiedName());
 		}
 		//Compare with result from cache.
