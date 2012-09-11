@@ -56,6 +56,7 @@ public class CDIProjectGenerator {
 	int fieldInjectionsPerClassCount = 20;
 	int initMethodsPerClass = 3;
 	int paramsPerInitMethod = 2;
+	int elInstancesPerClass = 20;
 	
 	public CDIProjectGenerator() {}
 
@@ -223,6 +224,12 @@ public class CDIProjectGenerator {
 			nameProperty.setReturnType(string);
 			nameProperty.setName("getName");
 			classes[i].addMethod(nameProperty);
+
+			// getSelf();
+			GenMethod selfProperty = new GenMethod();
+			selfProperty.setReturnType(classes[i]);
+			selfProperty.setName("getSelf");
+			classes[i].addMethod(selfProperty);
 			
 			//initializers
 			for (int j = 0; j < initMethodsPerClass; j++) {
@@ -248,12 +255,14 @@ public class CDIProjectGenerator {
 	
 		//EL
 		for (int i = 0; i < classes.length; i++) {
-			GenField f = new GenField();
-			f.setName("el");
-			f.setType(string);
-			String beanName = beanNames.get(seed.nextInt(beanNames.size()));
-			f.setInitValue("\"#{" + beanName + ".name}\"");
-			classes[i].addField(f);
+			for (int k = 0; k < elInstancesPerClass; k++) {
+				GenField f = new GenField();
+				f.setName("el" + k);
+				f.setType(string);
+				String beanName = beanNames.get(seed.nextInt(beanNames.size()));
+				f.setInitValue("\"#{" + beanName + ".self.self.name}\"");
+				classes[i].addField(f);
+			}
 		}
 	}
 
