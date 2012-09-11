@@ -444,6 +444,10 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 		performInvisibleTagTest("components/validator.xhtml", "validator"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
+	public void testDataTableFacets() throws Throwable {
+		performContentTest("JBIDE/5768/dataTable.xhtml"); //$NON-NLS-1$
+	}
+	
 	@Override
 	protected String getTestProjectName() {
 		return RichFacesAllTests.IMPORT_PROJECT_NAME;

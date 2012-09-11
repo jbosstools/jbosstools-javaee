@@ -1,0 +1,99 @@
+<tests>
+	<test id="t1">
+
+		<TABLE BORDER="1" STYLE="border: 1px solid red;" VALUE="#{user.trees}"
+			CLASS="dr-table rich-table">
+			<COLGROUP SPAN="2">
+			</COLGROUP>
+			<THEAD>
+				<TR CLASS="dr-table-header rich-table-header " 
+					STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+					<TD CLASS="dr-table-headercell rich-table-headercell " COLSPAN="100"
+						SCOPE="colgroup">
+						<SPAN CLASS="vpe-text">
+							HEADER
+						</SPAN>
+						<SPAN CLASS="vpe-text">
+							*H1*
+						</SPAN>
+						<SPAN CLASS="vpe-text">
+							*H2*
+						</SPAN>
+					</TD>
+				</TR>
+			</THEAD>
+			<TFOOT>
+				<TR CLASS="dr-table-footer rich-table-footer " 
+					STYLE="/background-image: url\(.*resources/common/background.gif\);/">
+					<TD CLASS="dr-table-footercell rich-table-footercell " COLSPAN="100"
+						SCOPE="colgroup">
+						<SPAN CLASS="vpe-text">
+							FOOTER
+						</SPAN>
+						<SPAN CLASS="vpe-text">
+							*F3*
+						</SPAN>
+						<SPAN CLASS="vpe-text">
+							*F4*
+						</SPAN>
+					</TD>
+				</TR>
+			</TFOOT>
+			<TR CLASS="dr-table-firstrow rich-table-firstrow">
+				<TD CLASS="dr-table-cell rich-table-cell">
+					<SPAN CLASS="vpe-text">
+						Col1
+					</SPAN>
+				</TD>
+				<TD CLASS="dr-table-cell rich-table-cell">
+					<SPAN CLASS="vpe-text">
+						Col2
+					</SPAN>
+				</TD>
+			</TR>
+		</TABLE>
+	</test>
+
+	<test id="t2">
+
+		<TABLE BORDER="1" STYLE="border: 1px solid green;" VALUE="#{user.trees}"
+			CLASS="dr-table rich-table">
+			<COLGROUP SPAN="2">
+			</COLGROUP>
+			<TR>
+				<TD COLSPAN="100">
+					<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+						<SPAN STYLE="-moz-user-modify: read-only;">
+							<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+								head_include
+							</SPAN>
+						</SPAN>
+					</DIV>
+				</TD>
+			</TR>
+			<TR>
+				<TD COLSPAN="100">
+					<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
+						<SPAN STYLE="-moz-user-modify: read-only;">
+							<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+								foot_include
+							</SPAN>
+						</SPAN>
+					</DIV>
+				</TD>
+			</TR>
+			<TR CLASS="dr-table-firstrow rich-table-firstrow">
+				<TD CLASS="dr-table-cell rich-table-cell">
+					<SPAN CLASS="vpe-text">
+						Col1
+					</SPAN>
+				</TD>
+				<TD CLASS="dr-table-cell rich-table-cell">
+					<SPAN CLASS="vpe-text">
+						Col2
+					</SPAN>
+				</TD>
+			</TR>
+		</TABLE>
+	</test>
+</tests>
