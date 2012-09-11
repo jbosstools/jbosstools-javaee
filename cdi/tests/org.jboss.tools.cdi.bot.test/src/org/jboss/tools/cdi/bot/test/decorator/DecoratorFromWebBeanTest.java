@@ -19,7 +19,6 @@ import org.jboss.tools.cdi.bot.test.editor.BeansEditor;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.NewCDIFileWizard;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBase;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -44,12 +43,7 @@ public class DecoratorFromWebBeanTest extends CDITestBase {
 	public String getProjectName() {
 		return "DecoratorFromWebBean";
 	}
-	
-	@Before
-	public void prepareWorkspace() {
-		
-	}
-	
+
 	@After
 	public void cleanUp() {
 		projectExplorer.deleteAllProjects();
@@ -57,8 +51,6 @@ public class DecoratorFromWebBeanTest extends CDITestBase {
 	
 	@Test
 	public void testCreatingDecoratorWithMenu() {
-		
-		importCDITestProject(getProjectName());
 		
 		String[] path = (getProjectName() + "/" + CDIConstants.SRC
 				+ "/" + getPackageName()).split("/");
@@ -107,8 +99,6 @@ public class DecoratorFromWebBeanTest extends CDITestBase {
 	
 	@Test
 	public void testCreatingDecoratorWithWizard() {
-		
-		importCDITestProject(getProjectName());
 		
 		CDIWizardBase decoratorWizard = new NewCDIFileWizard(
 				CDIWizardType.DECORATOR).run();

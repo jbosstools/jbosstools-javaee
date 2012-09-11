@@ -38,12 +38,7 @@ public class NamedComponentsSearchingTest extends CDITestBase {
 	private SearchNamedDialogWizard namedDialog = null;
 	private static final String BEAN_STEREOTYPE_PATH = "/resources/named/BeanWithStereotype.java.cdi";
 	private static final String BEAN_STEREOTYPE_NAMED_PATH = "/resources/named/BeanWithStereotypeAndNamed.java.cdi";
-	
-	@Override
-	public String getProjectName() {
-		return "CDINamedSearching";
-	}
-	
+
 	@After
 	public void waitForJobs() {
 		editResourceUtil.deletePackage(getProjectName(), getPackageName());

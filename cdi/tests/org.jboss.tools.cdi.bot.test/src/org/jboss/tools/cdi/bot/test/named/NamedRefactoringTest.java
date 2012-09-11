@@ -35,12 +35,7 @@ public class NamedRefactoringTest extends JSFTestBase {
 	private static final String INDEX_XHTML_2= "index2.xhtml";
 	private static final String INDEX_XHTML_3= "index3.xhtml";
 	private static final String NEW_NAMED_PARAM = "bean2";	
-	
-	@Override
-	public String getProjectName() {
-		return "CDIRefactoring";
-	}
-			
+
 	@After
 	public void waitForJobs() {
 		editResourceUtil.deletePackage(getProjectName(), getPackageName());

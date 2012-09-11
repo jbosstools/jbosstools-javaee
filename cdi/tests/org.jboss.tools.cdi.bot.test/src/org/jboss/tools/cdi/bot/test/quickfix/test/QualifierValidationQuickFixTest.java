@@ -28,12 +28,7 @@ import org.junit.Test;
 public class QualifierValidationQuickFixTest extends CDITestBase {
 	
 	private static IValidationProvider validationProvider = new QualifierValidationProvider();
-	
-	@Override
-	public String getProjectName() {
-		return "CDIQuickFixQualifierTest";
-	}
-	
+
 	public IValidationProvider validationProvider() {
 		return validationProvider;
 	}
@@ -49,7 +44,8 @@ public class QualifierValidationQuickFixTest extends CDITestBase {
 		editResourceUtil.replaceInEditor("@Target({ TYPE, METHOD, PARAMETER, FIELD })", 
 				"@Target({ TYPE, FIELD })");
 		
-		quickFixHelper.checkQuickFix(ValidationType.TARGET, getProjectName(), validationProvider());
+		quickFixHelper.checkQuickFix(ValidationType.TARGET, 
+				"@Target({TYPE, METHOD, FIELD, PARAMETER})", getProjectName(), validationProvider());
 		
 		editResourceUtil.replaceInEditor("@Target({TYPE, METHOD, FIELD, PARAMETER})", "");
 		

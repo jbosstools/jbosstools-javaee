@@ -30,11 +30,6 @@ public class BeansXMLValidationTest extends BeansXMLQuickFixTestBase {
 	private static final String someBean = "Bean1";
 	private static final String nonExistingPackage = "somePackage";
 	
-	@Override
-	public String getProjectName() {
-		return "CDIBeansValidation";
-	}
-	
 	@BeforeClass
 	public static void setup() {
 		problems.show();		

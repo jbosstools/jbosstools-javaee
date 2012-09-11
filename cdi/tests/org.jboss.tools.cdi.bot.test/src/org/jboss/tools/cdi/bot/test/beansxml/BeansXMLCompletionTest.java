@@ -41,11 +41,6 @@ public class BeansXMLCompletionTest extends CDITestBase {
 	private static final List<String> BEANS_XML_TAGS = Arrays.asList(
 			"alternatives", "decorators", "interceptors");
 
-	@Override
-	public String getProjectName() {
-		return "CDIBeansCodeCompletion";
-	}
-	
 	@Test
 	public void testPossibleCompletionInBeansXML() {
 		

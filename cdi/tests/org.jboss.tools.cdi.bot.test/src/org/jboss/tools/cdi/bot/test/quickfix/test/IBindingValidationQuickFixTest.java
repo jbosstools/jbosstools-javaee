@@ -29,11 +29,6 @@ public class IBindingValidationQuickFixTest extends CDITestBase {
 	
 	private static IValidationProvider validationProvider = new InterceptorBindingValidationProvider();
 
-	@Override
-	public String getProjectName() {
-		return "CDIQuickFixIBindingTest";
-	}
-	
 	public IValidationProvider validationProvider() {
 		return validationProvider;
 	}

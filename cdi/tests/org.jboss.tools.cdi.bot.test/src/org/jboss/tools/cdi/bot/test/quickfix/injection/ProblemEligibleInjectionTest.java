@@ -31,11 +31,6 @@ public class ProblemEligibleInjectionTest extends EligibleInjectionQuickFixTestB
 	private static final String BROKEN_FARM = "BrokenFarm";
 	private static final String QUALIFIER = "Q1";
 	
-	@Override
-	public String getProjectName() {
-		return "CDIMultipleInjections";
-	}
-	
 	@After
 	public void waitForJobs() {
 		editResourceUtil.deletePackage(getProjectName(), getPackageName());		

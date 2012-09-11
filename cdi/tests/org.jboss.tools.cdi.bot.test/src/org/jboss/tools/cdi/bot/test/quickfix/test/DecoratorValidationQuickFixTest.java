@@ -29,11 +29,6 @@ public class DecoratorValidationQuickFixTest extends CDITestBase {
 	
 	private static IValidationProvider validationProvider = new DecoratorValidationProvider();
 
-	@Override
-	public String getProjectName() {
-		return "CDIQuickFixDecoratorTest";
-	}
-	
 	public IValidationProvider validationProvider() {
 		return validationProvider;
 		

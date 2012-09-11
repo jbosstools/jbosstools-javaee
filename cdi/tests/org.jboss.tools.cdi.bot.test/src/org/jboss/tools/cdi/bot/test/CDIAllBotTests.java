@@ -30,7 +30,6 @@ import org.jboss.tools.cdi.bot.test.quickfix.test.QualifierValidationQuickFixTes
 import org.jboss.tools.cdi.bot.test.quickfix.test.QuickFixProposalsDescriptionTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.ScopeValidationQuickFixTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.StereotypeValidationQuickFixTest;
-import org.jboss.tools.cdi.bot.test.wizard.CDISupportTest;
 import org.jboss.tools.cdi.bot.test.wizard.CDIWebProjectWizardTest;
 import org.jboss.tools.cdi.bot.test.wizard.ConfigurationPresetTest;
 import org.jboss.tools.cdi.bot.test.wizard.DynamicWebProjectWithCDITest;
@@ -41,23 +40,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
- * This test suite requires JBoss AS 6 or newer
- * 
- * System properties:
- *  -Dswtbot.test.properties.file=$PATH
- *  -Dusage_reporting_enabled=$BOOLEAN
- *  
- *  Format of swtbot.properties file:
- *  SERVER=EAP|JBOSS_AS,<server version>,<jre version to run with>|default,<server home>
- *  
- *  Sample swtbot.properties file:
  *
- *  SERVER=JBOSS_AS,6.0,default,/home/jjankovi/Dokumenty/Red_Hat_Stuff/Runtimes/jboss-6.0.0.Final
- *  JAVA=1.6,/space/java/sdk/jdk1.6.0_22
- *  
- *  
- *  Suite duration: aprox. 30min
- * 
  * @author Lukas Jungmann
  * @author Jaroslav Jankovic
  */
@@ -68,7 +51,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	
 	ConfigurationPresetTest.class,
 	FacetTest.class, 
-	CDISupportTest.class,
 	CDIWebProjectWizardTest.class,
 	DynamicWebProjectWithCDITest.class,
 	WizardTest.class,

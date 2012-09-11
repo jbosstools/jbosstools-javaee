@@ -69,7 +69,7 @@ public class BeansEditorTest extends CDITestBase {
 		 * project should be located in workspace after previous test
 		 */
 		try {
-			projectExplorer.selectProject("CDIWizardTest");
+			projectExplorer.selectProject("CDIProject");
 		} catch (WidgetNotFoundException wnfe) {
 			fail("project should be located in workspace");
 		}
@@ -78,11 +78,6 @@ public class BeansEditorTest extends CDITestBase {
 	@Override
 	public void prepareWorkspace() {
 		new ProjectExplorer().openFile(getProjectName(), descPath.split("/"));								
-	}
-	
-	@Override
-	public String getProjectName() {
-		return "CDIWizardTest";
 	}
 			
 	@Test

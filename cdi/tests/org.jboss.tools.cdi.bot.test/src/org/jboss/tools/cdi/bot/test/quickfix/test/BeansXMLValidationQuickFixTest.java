@@ -24,11 +24,6 @@ import org.junit.Test;
 
 public class BeansXMLValidationQuickFixTest extends BeansXMLQuickFixTestBase {
 
-	@Override
-	public String getProjectName() {
-		return "CDIQuickFixBeanXMLTest";
-	}
-	
 	@Test
 	public void testNoBeanComponent() {
 

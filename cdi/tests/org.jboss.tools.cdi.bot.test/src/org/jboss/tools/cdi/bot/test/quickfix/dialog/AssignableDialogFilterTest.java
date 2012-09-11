@@ -14,7 +14,6 @@ package org.jboss.tools.cdi.bot.test.quickfix.dialog;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.AssignableBeansDialog;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AssignableDialogFilterTest extends CDITestBase {
@@ -25,12 +24,7 @@ public class AssignableDialogFilterTest extends CDITestBase {
 	public String getProjectName() {
 		return "AssignableDialogFilterTest";
 	}
-	
-	@BeforeClass
-	public static void prepareWS() {
-		importCDITestProject("AssignableDialogFilterTest");
-	}
-	
+
 	@Test
 	public void testFilterAssignableBeans() {
 		

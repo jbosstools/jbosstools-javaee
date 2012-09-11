@@ -24,11 +24,6 @@ import org.junit.Test;
 
 public class FindObserverForEventTest extends OpenOnBase {
 
-	@Override
-	public String getProjectName() {
-		return "CDIObserverTest";
-	}
-	
 	@Test
 	public void testSimpleCaseObserverFinding() {
 

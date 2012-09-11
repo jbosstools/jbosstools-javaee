@@ -28,12 +28,7 @@ import org.junit.Test;
 public class ScopeValidationQuickFixTest extends CDITestBase {
 	
 	private static IValidationProvider validationProvider = new ScopeValidationProvider();
-	
-	@Override
-	public String getProjectName() {
-		return "CDIQuickFixScopeTest";
-	}
-	
+
 	public IValidationProvider validationProvider() {
 		return validationProvider;
 	}

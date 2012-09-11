@@ -28,12 +28,7 @@ import org.junit.Test;
 public class BeanValidationQuickFixTest extends CDITestBase {
 	
 	private static IValidationProvider validationProvider = new BeanValidationProvider();
-
-	@Override
-	public String getProjectName() {
-		return "CDIQuickFixBeanTest";
-	}
-		
+	
 	public IValidationProvider validationProvider() {
 		return validationProvider;
 	}

@@ -26,11 +26,6 @@ import org.junit.Test;
 
 public class OpenOnTest extends OpenOnBase {
 	
-	@Override
-	public String getProjectName() {
-		return "CDIOpenOnTest";
-	}
-	
 	@Test
 	public void testBeanInjectOpenOn() {
 

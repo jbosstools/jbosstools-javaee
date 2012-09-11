@@ -160,7 +160,7 @@ public class BeansXMLQuickFixTestBase extends CDITestBase {
 		
 		quickFixHelper.openQuickFix(validationProblem);	
 		QuickFixDialogWizard qfWizard = new QuickFixDialogWizard();
-		qfWizard.setFix(qfWizard.getAvailableFixes().get(0));
+		qfWizard.setFix(qfWizard.getDefaultCDIQuickFix());
 		qfWizard.setResource(qfWizard.getResources().get(0));
 		qfWizard.finishWithWait();
 	}

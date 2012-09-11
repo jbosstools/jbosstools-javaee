@@ -55,5 +55,23 @@ public class QuickFixDialogWizard extends Wizard {
 		}
 		return resources;
 	}
+
+	public String getDefaultCDIQuickFix() {
+		for (String fix : getAvailableFixes()) {
+			if (fix.contains("Configure") 
+					|| fix.contains("Add @Suppress")) continue;
+			return fix;
+		}
+		throw new IllegalStateException("No default CDI quick fix is provided " +
+				"for validation problem");
+	}
+	
+	public String getCDIQuickFix(String text) {
+		for (String fix : getAvailableFixes()) {
+			if (fix.contains(text)) return fix;
+			
+		}
+		throw new IllegalStateException("No CDI quick fix contains " + text);
+	}
 	
 }

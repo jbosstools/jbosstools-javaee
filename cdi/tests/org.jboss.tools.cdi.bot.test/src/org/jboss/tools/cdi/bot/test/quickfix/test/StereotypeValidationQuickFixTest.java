@@ -28,12 +28,7 @@ import org.junit.Test;
 public class StereotypeValidationQuickFixTest extends CDITestBase {
 	
 	private static IValidationProvider validationProvider = new StereotypeValidationProvider();
-	
-	@Override
-	public String getProjectName() {
-		return "CDIQuickFixStereotypeTest";
-	}
-	
+
 	public IValidationProvider validationProvider() {
 		return validationProvider;
 	}
@@ -49,7 +44,8 @@ public class StereotypeValidationQuickFixTest extends CDITestBase {
 		editResourceUtil.replaceInEditor("@Target({ TYPE, METHOD, FIELD })", 
 				"@Target({ TYPE, FIELD })");
 		
-		quickFixHelper.checkQuickFix(ValidationType.TARGET, getProjectName(), validationProvider());
+		quickFixHelper.checkQuickFix(ValidationType.TARGET, "@Target({TYPE, METHOD, FIELD})", 
+				getProjectName(), validationProvider());
 
 		editResourceUtil.replaceInEditor("@Target({TYPE, METHOD, FIELD})", "");
 		

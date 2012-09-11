@@ -44,13 +44,13 @@ public class CDITestBase extends SWTTestExt {
 	private static SWTBotEclipseEditor ed;
 	
 	protected static final Logger LOGGER = Logger.getLogger(CDITestBase.class.getName());
-	public static final CDIProjectHelper projectHelper = new CDIProjectHelper(); 
-	public static final BeansXMLHelper beansHelper = new BeansXMLHelper();
-	public static final CDIWizardHelper wizard = new CDIWizardHelper();
-	public static final CDIWizardBaseExt wizardExt = new CDIWizardBaseExt();
-	public static final OpenOnHelper openOnUtil = new OpenOnHelper();
-	public static final EditorResourceHelper editResourceUtil = new EditorResourceHelper();
-	public static final QuickFixHelper quickFixHelper = new QuickFixHelper();
+	protected static final CDIProjectHelper projectHelper = new CDIProjectHelper(); 
+	protected static final BeansXMLHelper beansHelper = new BeansXMLHelper();
+	protected static final CDIWizardHelper wizard = new CDIWizardHelper();
+	protected static final CDIWizardBaseExt wizardExt = new CDIWizardBaseExt();
+	protected static final OpenOnHelper openOnUtil = new OpenOnHelper();
+	protected static final EditorResourceHelper editResourceUtil = new EditorResourceHelper();
+	protected static final QuickFixHelper quickFixHelper = new QuickFixHelper();
 	
 	public SWTBotEclipseEditor getEd() {
 		return ed;
@@ -63,7 +63,8 @@ public class CDITestBase extends SWTTestExt {
 	@Before
 	public void prepareWorkspace() {
 		if (!projectHelper.projectExists(getProjectName())) {
-			projectHelper.createCDIProjectWithDynamicWizard(getProjectName());
+//			projectHelper.createCDIProjectWithDynamicWizard(getProjectName());
+			importCDITestProject(getProjectName());
 		}
 	}
 	

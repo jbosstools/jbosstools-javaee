@@ -44,7 +44,7 @@ public class CDIRefactorWizard extends Wizard{
 	 */
 	public List<String> getAffectedFiles() {		
 		for (SWTBotTreeItem ti : bot().tree().getTreeItem(RENAME_TEXT_LABEL).getItems()) {			
-			affectedFiles.add(ti.getText());
+			affectedFiles.add(ti.getText().split(" - ")[0]); // remove package offset
 		}
 		return affectedFiles;
 	}

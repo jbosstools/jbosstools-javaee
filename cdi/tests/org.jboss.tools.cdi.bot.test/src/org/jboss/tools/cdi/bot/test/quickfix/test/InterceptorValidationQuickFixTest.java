@@ -29,11 +29,6 @@ public class InterceptorValidationQuickFixTest extends CDITestBase {
 	
 	private static IValidationProvider validationProvider = new InterceptorValidationProvider();
 	
-	@Override
-	public String getProjectName() {
-		return "CDIQuickFixInterceptorTest";
-	}
-	
 	public IValidationProvider validationProvider() {
 		return validationProvider;
 	}

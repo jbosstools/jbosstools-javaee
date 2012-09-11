@@ -40,6 +40,12 @@ public class QuickFixHelper {
 	private SWTUtilExt util = SWTBotFactory.getUtil();
 	private SWTBotExt bot = SWTBotFactory.getBot();
 	
+	
+	public void checkQuickFix(ValidationType validationType, String projectName,
+			IValidationProvider validationProvider) {
+		checkQuickFix(validationType, null, projectName, validationProvider);
+	}
+	
 	/**
 	 * checkQuickFix is the most important method in this class. It
 	 * gets validation error prior to component type and annotation type,
@@ -49,12 +55,12 @@ public class QuickFixHelper {
 	 * @param validationType
 	 * @param compType
 	 */
-	public void checkQuickFix(ValidationType validationType, String projectName,
+	public void checkQuickFix(ValidationType validationType, String text, String projectName,
 			IValidationProvider validationProvider) {
 		SWTBotTreeItem validationProblem = getProblem(
 				validationType, projectName, validationProvider);		
 		assertNotNull(validationProblem);
-		resolveQuickFix(validationProblem);
+		resolveQuickFix(validationProblem, text);
 		validationProblem = getProblem(
 				validationType, projectName, validationProvider);		
 		assertNull(validationProblem);
@@ -95,12 +101,22 @@ public class QuickFixHelper {
 	 * chooses first option and confirms it (resolve it)
 	 * @param ti
 	 */
-	private void resolveQuickFix(SWTBotTreeItem ti) {
+	private void resolveQuickFix(SWTBotTreeItem ti, String text) {
 		openQuickFix(ti);
 		
 		QuickFixDialogWizard qfWizard = new QuickFixDialogWizard();
 		
-		String firstFix = qfWizard.getAvailableFixes().get(0);				
+		/**
+		 * if text is not specified, choose the first CDI 
+		 * quickfix available proposal. Otherwise choose
+		 * the one contains entered text
+		 */
+		String firstFix = null;
+		if (text == null) {
+			 firstFix = qfWizard.getDefaultCDIQuickFix();
+		} else {
+			firstFix = qfWizard.getCDIQuickFix(text);
+		}
 		String firstResource = qfWizard.getResources().get(0);
 		
 		qfWizard.setFix(firstFix).setResource(firstResource).finish();

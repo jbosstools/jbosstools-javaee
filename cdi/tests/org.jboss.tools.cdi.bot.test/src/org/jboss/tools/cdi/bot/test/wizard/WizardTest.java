@@ -33,10 +33,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ CDIAllBotTests.class, CDISmokeBotTests.class })
 public class WizardTest extends CDITestBase {
 
-	public String getProjectName() {
-		return "CDIWizardTest";
-	}
-	
 	@Override
 	public void waitForJobs() {
 		util.waitForNonIgnoredJobs();
