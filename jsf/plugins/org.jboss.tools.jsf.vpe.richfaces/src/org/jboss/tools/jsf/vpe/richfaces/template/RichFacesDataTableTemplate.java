@@ -84,25 +84,26 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		 */
 		Element header = SourceDomUtil.getFacetByName(pageContext,
 				sourceElement, RichFaces.NAME_FACET_HEADER);
-		Map<String, List<Node>> headerFacetChildren = VisualDomUtil.findFacetElements(header, pageContext);
-		boolean headerJsfElementPresents = headerFacetChildren.get(VisualDomUtil.FACET_JSF_TAG).size() > 0;
+		boolean tableFacetHasChildren = false;
+		if (header != null) {
+			tableFacetHasChildren = header.getChildNodes().getLength() > 0;
+		}
 		boolean hasColumnWithHeader = RichFaces.hasColumnWithFacet(columns, RichFaces.NAME_FACET_HEADER);
-		if(headerJsfElementPresents || hasColumnWithHeader) {
+		if(tableFacetHasChildren || hasColumnWithHeader) {
 			nsIDOMElement thead = visualDocument.createElement(HTML.TAG_THEAD);
 			table.appendChild(thead);
 			String headerClass = sourceElement.hasAttribute(RichFaces.ATTR_HEADER_CLASS) 
 					? sourceElement.getAttribute(RichFaces.ATTR_HEADER_CLASS) : null;
-			if(headerJsfElementPresents) {
-				Node node = headerFacetChildren.get(VisualDomUtil.FACET_JSF_TAG).get(0);
+			if(tableFacetHasChildren) {
 				/*
 				 * Encode Header for the whole table first 
 				 */
 				encodeTableHeaderOrFooterFacet(pageContext, creationData,
-						thead, columnsLength, visualDocument, node,
+						thead, columnsLength, visualDocument, header,
 						"dr-table-header rich-table-header", //$NON-NLS-1$
 						"dr-table-header-continue rich-table-header-continue", //$NON-NLS-1$
 						"dr-table-headercell rich-table-headercell", //$NON-NLS-1$
-						headerClass, HTML.TAG_TD);
+						headerClass, HTML.TAG_TD, true);
 			}
 			if(hasColumnWithHeader) {
 				nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
@@ -123,13 +124,16 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 
 		/*
 		 * Encode Footer
+		 * Facet cannot be found inside UI:INCLUDE tag
 		 */
 		Element footer = SourceDomUtil.getFacetByName(pageContext,
 				sourceElement, RichFaces.NAME_FACET_FOOTER);
-		Map<String, List<Node>> footerFacetChildren = VisualDomUtil.findFacetElements(footer, pageContext);
-		boolean footerJsfElementPresents = footerFacetChildren.get(VisualDomUtil.FACET_JSF_TAG).size() > 0;
+		tableFacetHasChildren = false;
+		if (footer != null) {
+			tableFacetHasChildren = footer.getChildNodes().getLength() > 0;
+		}
 		boolean hasColumnWithFooter = RichFaces.hasColumnWithFacet(columns, RichFaces.NAME_FACET_FOOTER);
-		if (footerJsfElementPresents || hasColumnWithFooter) {
+		if (tableFacetHasChildren || hasColumnWithFooter) {
 			nsIDOMElement tfoot = visualDocument.createElement(HTML.TAG_TFOOT);
 			table.appendChild(tfoot);
 			String footerClass = sourceElement.hasAttribute(RichFaces.ATTR_FOOTER_CLASS) 
@@ -149,17 +153,16 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 						"dr-table-subfootercell rich-table-subfootercell", //$NON-NLS-1$
 						footerClass, RichFaces.NAME_FACET_FOOTER, HTML.TAG_TD);
 			}
-			if (footerJsfElementPresents) {
-				Node node = footerFacetChildren.get(VisualDomUtil.FACET_JSF_TAG).get(0);
+			if (tableFacetHasChildren) {
 				/*
 				 * Encode Footer for the whole table
 				 */
 				encodeTableHeaderOrFooterFacet(pageContext, creationData,
-						tfoot, columnsLength, visualDocument, node,
+						tfoot, columnsLength, visualDocument, footer,
 						"dr-table-footer rich-table-footer", //$NON-NLS-1$
 						"dr-table-footer-continue rich-table-footer-continue", //$NON-NLS-1$
 						"dr-table-footercell rich-table-footercell", //$NON-NLS-1$
-						footerClass,HTML.TAG_TD);
+						footerClass,HTML.TAG_TD, true);
 			}
 		}
 
@@ -254,14 +257,34 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 			nsIDOMElement parentTheadOrTfood, int columns,
 			nsIDOMDocument visualDocument, Node facetBody,
 			String skinFirstRowClass, String skinRowClass,
-			String skinCellClass, String facetBodyClass, String facetVisualNode) {
+			String skinCellClass, String facetBodyClass, 
+			String facetVisualNode, boolean encodeAllFacetChildrenManually) {
 		
 		if (null == facetBody) {
-			RichFacesTemplatesActivator.getDefault().logError("Facet Body is null !"); //$NON-NLS-1$
+			RichFacesTemplatesActivator.getDefault().logError("Facet Body is 'null' in <rich:dataTable> !!"); //$NON-NLS-1$
 		}
-		
-		boolean isColumnGroup = facetBody.getNodeName().endsWith(RichFaces.TAG_COLUMN_GROUP);
-		boolean isSubTable = facetBody.getNodeName().endsWith(RichFaces.TAG_SUB_TABLE);
+		NodeList allFacetElements = facetBody.getChildNodes();
+		int length = allFacetElements.getLength();
+		Node child = null;
+		boolean isColumnGroup = false;
+		boolean isSubTable = false;
+		if (length > 0) {
+			for (int i = 0; i < length; i++) {
+				child = allFacetElements.item(i);
+				if (child.getNodeName().endsWith(RichFaces.TAG_COLUMN_GROUP)) {
+					isColumnGroup = true;
+					facetBody = child;
+					break;
+				} else if (child.getNodeName().endsWith(RichFaces.TAG_SUB_TABLE)) {
+					isSubTable = true;
+					facetBody = child;
+					break;
+				}
+			}			
+		} else {
+			isColumnGroup = facetBody.getNodeName().endsWith(RichFaces.TAG_COLUMN_GROUP);
+			isSubTable = facetBody.getNodeName().endsWith(RichFaces.TAG_SUB_TABLE);		
+		}
 		if(isColumnGroup) {
 			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encodeSubTable(pageContext, creationData, (Element)facetBody, visualDocument, parentTheadOrTfood);
 		} else if(isSubTable) {
@@ -290,9 +313,16 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 			
 			td.setAttribute(HTML.ATTR_SCOPE, "colgroup"); //$NON-NLS-1$
 
-			VpeChildrenInfo child = new VpeChildrenInfo(td);
-			child.addSourceChild(facetBody);
-			creationData.addChildrenInfo(child);
+			VpeChildrenInfo childrenInfo = new VpeChildrenInfo(td);
+			if (encodeAllFacetChildrenManually) {
+				for (int i = 0; i < length; i++) {
+					childrenInfo.addSourceChild(allFacetElements.item(i));
+				}
+				creationData.addChildrenInfo(childrenInfo);
+			} else {
+				childrenInfo.addSourceChild(facetBody);
+				creationData.addChildrenInfo(childrenInfo);
+			}
 		}
 	}
 

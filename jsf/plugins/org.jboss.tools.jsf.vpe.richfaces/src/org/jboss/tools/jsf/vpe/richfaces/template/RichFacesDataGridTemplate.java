@@ -93,7 +93,7 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 					"dr-table-header rich-table-header", //$NON-NLS-1$
 					"dr-table-header-continue rich-table-header-continue", //$NON-NLS-1$
 					"dr-table-headercell rich-table-headercell", //$NON-NLS-1$
-					headerClass, HTML.TAG_TD);
+					headerClass, HTML.TAG_TD, false);
 		}
 
 		/*
@@ -111,7 +111,7 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 					"dr-table-footer rich-table-footer", //$NON-NLS-1$
 					"dr-table-footer-continue rich-table-footer-continue", //$NON-NLS-1$
 					"dr-table-footercell rich-table-footercell", //$NON-NLS-1$
-					footerClass, HTML.TAG_TD);
+					footerClass, HTML.TAG_TD, false);
 		}
 
 		nsIDOMElement tbody = visualDocument.createElement(HTML.TAG_TBODY);
