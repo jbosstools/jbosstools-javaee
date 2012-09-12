@@ -517,7 +517,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 	 */
 	private boolean isRelevant(ELInvocationExpression expr, Variable variable) {
 		LexicalToken t = expr.getFirstToken();
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append(t.getText());
 		boolean ok = sb.toString().equals(variable.name);
 		while(!ok && t != null && t != expr.getLastToken()) {
@@ -540,23 +540,24 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 					return;
 
 				String propertyName = segment.getToken().getText();
-
+				
 				IProperty prop = bundle.getProperty(StringUtil.trimQuotes(propertyName));
-				if(prop == null) continue;
-				Map<String, LocalizedValue> values = ((PropertyImpl)prop).getValues();
-				for (LocalizedValue value: values.values()) {
-					XModelObject p = value.getObject();
-					segment.addObject(p);
-					segment.setBaseName(variable.basename);
-
-					PositionHolder h = PositionHolder.getPosition(p, null);
-					h.update();
-					segment.setMessagePropertySourceReference(h.getStart(), prop.getName().length());
-
-					IFile propFile = (IFile)p.getAdapter(IFile.class);
-					if(propFile == null)
-						continue;
-					segment.setMessageBundleResource(propFile);
+				if(prop != null) {
+					Map<String, LocalizedValue> values = ((PropertyImpl)prop).getValues();
+					for (LocalizedValue value: values.values()) {
+						XModelObject p = value.getObject();
+						segment.addObject(p);
+						segment.setBaseName(variable.basename);
+	
+						PositionHolder h = PositionHolder.getPosition(p, null);
+						h.update();
+						segment.setMessagePropertySourceReference(h.getStart(), prop.getName().length());
+	
+						IFile propFile = (IFile)p.getAdapter(IFile.class);
+						if(propFile == null)
+							continue;
+						segment.setMessageBundleResource(propFile);
+					}
 				}
 			}
 		}
