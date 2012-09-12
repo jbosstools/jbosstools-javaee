@@ -49,6 +49,12 @@ public class AssignableBeansHyperlink extends AbstractHyperlink implements ITest
 	}
 
 	public Set<? extends ICDIElement> getCDIElements() {
-		return null;
+		Display display = Display.getCurrent();
+		if(display == null) {
+			display = Display.getDefault();
+		}
+		AssignableBeansDialog dialog = new AssignableBeansDialog(display.getActiveShell());
+		dialog.setInjectionPoint(injectionPoint);
+		return dialog.beans;
 	}
 }
