@@ -285,13 +285,13 @@ public class SeamRuntimeDetectionTest extends Assert implements IJBossRuntimePlu
 		List<RuntimeDefinition> serverDefinitions = locator
 				.searchForRuntimes(runtimePath.getPath(),
 						new NullProgressMonitor());
-		
-		// Shouldn't this be done by the framework somehow??
-		runtimePath.getRuntimeDefinitions().clear();
-		for (RuntimeDefinition serverDefinition : serverDefinitions) {
-			serverDefinition.setRuntimePath(runtimePath);
-		}
-		runtimePath.getRuntimeDefinitions().addAll(serverDefinitions);
+//		
+//		// Shouldn't this be done by the framework somehow??
+//		runtimePath.getRuntimeDefinitions().clear();
+//		for (RuntimeDefinition serverDefinition : serverDefinitions) {
+//			serverDefinition.setRuntimePath(runtimePath);
+//		}
+//		runtimePath.getRuntimeDefinitions().addAll(serverDefinitions);
 		return serverDefinitions;
 	}
 	
@@ -301,11 +301,11 @@ public class SeamRuntimeDetectionTest extends Assert implements IJBossRuntimePlu
 		return runtimePath;
 	}
 	private void setRuntimePaths(RuntimePath runtimePath, boolean save) {
-		Set<RuntimePath> runtimePaths = RuntimeUIActivator.getDefault().getRuntimePaths();
-		runtimePaths.clear();
-		runtimePaths.add(runtimePath);
+		//Set<RuntimePath> runtimePaths = RuntimeUIActivator.getDefault().getRuntimePaths();
+		//runtimePaths.clear();
+		//runtimePaths.add(runtimePath);
 		if( save )
-			RuntimeUIActivator.getDefault().saveRuntimePaths();
+			RuntimeUIActivator.getDefault().saveRuntimePreferences();
 	}
 
 
