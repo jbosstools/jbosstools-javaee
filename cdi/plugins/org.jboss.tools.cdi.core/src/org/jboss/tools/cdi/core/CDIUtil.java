@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.apache.tools.ant.util.FileUtils;
 import org.eclipse.core.resources.IContainer;
@@ -246,32 +247,32 @@ public class CDIUtil {
 	 * @param beans
 	 */
 	public static List<IBean> sortBeans(Collection<IBean> beans) {
-		Set<IBean> alternativeBeans = new HashSet<IBean>();
-		Set<IBean> selectedAlternativeBeans = new HashSet<IBean>();
-		Set<IBean> nonAlternativeBeans = new HashSet<IBean>();
-		Set<IBean> decorators = new HashSet<IBean>();
-		Set<IBean> interceptors = new HashSet<IBean>();
+		TreeMap<String, IBean> alternativeBeans = new TreeMap<String, IBean>();
+		TreeMap<String, IBean> selectedAlternativeBeans = new TreeMap<String, IBean>();
+		TreeMap<String, IBean> nonAlternativeBeans = new TreeMap<String, IBean>();
+		TreeMap<String, IBean> decorators = new TreeMap<String, IBean>();
+		TreeMap<String, IBean> interceptors = new TreeMap<String, IBean>();
 
 		for (IBean bean : beans) {
 			if (bean.isSelectedAlternative()) {
-				selectedAlternativeBeans.add(bean);
+				selectedAlternativeBeans.put(bean.getElementName(), bean);
 			} else if (bean.isAlternative()) {
-				alternativeBeans.add(bean);
+				alternativeBeans.put(bean.getElementName(), bean);
 			} else if (bean instanceof IDecorator) {
-				decorators.add(bean);
+				decorators.put(bean.getElementName(), bean);
 			} else if (bean instanceof IInterceptor) {
-				interceptors.add(bean);
+				interceptors.put(bean.getElementName(), bean);
 			} else {
-				nonAlternativeBeans.add(bean);
+				nonAlternativeBeans.put(bean.getElementName(), bean);
 			}
 		}
 
 		ArrayList<IBean> sortedBeans = new ArrayList<IBean>();
-		sortedBeans.addAll(selectedAlternativeBeans);
-		sortedBeans.addAll(nonAlternativeBeans);
-		sortedBeans.addAll(alternativeBeans);
-		sortedBeans.addAll(decorators);
-		sortedBeans.addAll(interceptors);
+		sortedBeans.addAll(selectedAlternativeBeans.values());
+		sortedBeans.addAll(nonAlternativeBeans.values());
+		sortedBeans.addAll(alternativeBeans.values());
+		sortedBeans.addAll(decorators.values());
+		sortedBeans.addAll(interceptors.values());
 		return sortedBeans;
 	}
 
