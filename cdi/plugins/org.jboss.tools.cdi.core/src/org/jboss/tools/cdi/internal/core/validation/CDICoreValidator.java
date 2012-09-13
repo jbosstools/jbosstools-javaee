@@ -505,6 +505,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		init(rootProject, validationHelper, projectContext, validatorManager, reporter);
 		setAsYouTypeValidation(true);
 		this.document = validationContext.getDocument();
+		if(rootCdiProject == null) {
+			return;
+		}
 		rootCdiProject = new CDIProjectAsYouType(rootCdiProject, file);
 		validateResource(file);
 		if(reporter instanceof ITypedReporter) {
