@@ -87,10 +87,6 @@ public class Parameter extends BeanMember implements IParameter {
 		return getDefinition().getVariable();
 	}
 
-	public Collection<String> getAnnotationTypes() {
-		return getDefinition().getAnnotationTypes();
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IParameter#getBeanMethod()
@@ -101,9 +97,11 @@ public class Parameter extends BeanMember implements IParameter {
 
 	public Collection<IQualifier> getQualifiers() {
 		Collection<IQualifier> result = new ArrayList<IQualifier>();
-		for (String s: getAnnotationTypes()) {
-			IQualifier q = getCDIProject().getQualifier(s);
-			if (q != null) result.add(q);
+		for (IAnnotationDeclaration s: getAnnotations()) {
+			if(s instanceof IQualifierDeclaration) {
+				IQualifier q = ((IQualifierDeclaration)s).getQualifier();
+				if (q != null) result.add(q);
+			}
 		}
 		return result;
 	}

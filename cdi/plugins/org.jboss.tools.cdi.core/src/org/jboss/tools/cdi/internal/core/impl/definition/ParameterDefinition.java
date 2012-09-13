@@ -10,16 +10,12 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.impl.definition;
 
-import java.util.Set;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.ILocalVariable;
-import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.common.java.ParametedType;
 import org.jboss.tools.common.java.TypeDeclaration;
-import org.jboss.tools.common.text.ITextSourceReference;
 
 public class ParameterDefinition extends BeanMemberDefinition {
 	protected MethodDefinition methodDefinition;
@@ -65,10 +61,6 @@ public class ParameterDefinition extends BeanMemberDefinition {
 
 	public MethodDefinition getMethodDefinition() {
 		return methodDefinition;
-	}
-
-	public Set<String> getAnnotationTypes() {
-		return annotationsByType.keySet();
 	}
 
 	public ILocalVariable getVariable() {

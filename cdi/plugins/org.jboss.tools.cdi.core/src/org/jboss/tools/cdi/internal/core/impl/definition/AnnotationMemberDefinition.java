@@ -48,7 +48,7 @@ public class AnnotationMemberDefinition extends AbstractMemberDefinition {
 	}
 
 	public AnnotationDeclaration getNonbindingAnnotation() {
-		return annotationsByType.get(CDIConstants.NON_BINDING_ANNOTATION_TYPE_NAME);
+		return getAnnotation(CDIConstants.NON_BINDING_ANNOTATION_TYPE_NAME);
 	}
 
 }

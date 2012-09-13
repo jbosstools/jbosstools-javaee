@@ -135,22 +135,22 @@ public class TypeDefinition extends AbstractTypeDefinition {
 	}
 
 	public AnnotationDeclaration getDecoratorAnnotation() {
-		return annotationsByType.get(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME);
+		return getAnnotation(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME);
 	}
 
 	public AnnotationDeclaration getInterceptorAnnotation() {
-		return annotationsByType.get(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME);
+		return getAnnotation(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME);
 	}
 	
 	public AnnotationDeclaration getStatefulAnnotation() {
-		return annotationsByType.get(CDIConstants.STATEFUL_ANNOTATION_TYPE_NAME);
+		return getAnnotation(CDIConstants.STATEFUL_ANNOTATION_TYPE_NAME);
 	}
 
 	public AnnotationDeclaration getStatelessAnnotation() {
-		return annotationsByType.get(CDIConstants.STATELESS_ANNOTATION_TYPE_NAME);
+		return getAnnotation(CDIConstants.STATELESS_ANNOTATION_TYPE_NAME);
 	}
 
 	public AnnotationDeclaration getSingletonAnnotation() {
-		return annotationsByType.get(CDIConstants.SINGLETON_ANNOTATION_TYPE_NAME);
+		return getAnnotation(CDIConstants.SINGLETON_ANNOTATION_TYPE_NAME);
 	}
 }

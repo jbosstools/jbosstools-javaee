@@ -41,14 +41,14 @@ public class BeanMemberDefinition extends AbstractMemberDefinition {
 	}
 
 	public AnnotationDeclaration getProducesAnnotation() {
-		return annotationsByType.get(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
+		return getAnnotation(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
 	}
 
 	public AnnotationDeclaration getInjectAnnotation() {
-		return annotationsByType.get(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+		return getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 	}
 
 	public AnnotationDeclaration getDelegateAnnotation() {
-		return annotationsByType.get(CDIConstants.DELEGATE_STEREOTYPE_TYPE_NAME);
+		return getAnnotation(CDIConstants.DELEGATE_STEREOTYPE_TYPE_NAME);
 	}
 }

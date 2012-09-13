@@ -157,7 +157,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	}
 
 	public void annotationKindChanged(String typeName, IRootDefinitionContext context) {
-		AnnotationDeclaration a = annotationsByType.get(typeName);
+		AnnotationDeclaration a = getAnnotation(typeName);
 		if(a == null) return;
 		Iterator<IAnnotationDeclaration> it = annotations.iterator();
 		while(it.hasNext()) {
@@ -171,7 +171,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 
 	public void removeAnnotation(IAnnotationDeclaration a) {
 		String name = ((AnnotationDeclaration)a).getTypeName();
-		IAnnotationDeclaration b = annotationsByType.get(name);
+		IAnnotationDeclaration b = getAnnotation(name);
 		if(a == b) {
 			annotationsByType.remove(name);
 			annotations.remove(a);
@@ -211,19 +211,19 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	}
 
 	public AnnotationDeclaration getNamedAnnotation() {
-		return annotationsByType.get(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+		return getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
 	}
 
 	public AnnotationDeclaration getTypedAnnotation() {
-		return annotationsByType.get(CDIConstants.TYPED_ANNOTATION_TYPE_NAME);
+		return getAnnotation(CDIConstants.TYPED_ANNOTATION_TYPE_NAME);
 	}
 
 	public AnnotationDeclaration getAlternativeAnnotation() {
-		return annotationsByType.get(CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME);
+		return getAnnotation(CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME);
 	}
 
 	public AnnotationDeclaration getSpecializesAnnotation() {
-		return annotationsByType.get(CDIConstants.SPECIALIZES_ANNOTATION_TYPE_NAME);
+		return getAnnotation(CDIConstants.SPECIALIZES_ANNOTATION_TYPE_NAME);
 	}
 
 	public IResource getResource() {

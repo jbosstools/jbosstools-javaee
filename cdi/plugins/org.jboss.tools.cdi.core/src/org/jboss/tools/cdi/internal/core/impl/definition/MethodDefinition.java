@@ -144,11 +144,11 @@ public class MethodDefinition extends BeanMemberDefinition {
 	}
 
 	public AnnotationDeclaration getPreDestroyMethod() {
-		return annotationsByType.get(CDIConstants.PRE_DESTROY_TYPE_NAME);
+		return getAnnotation(CDIConstants.PRE_DESTROY_TYPE_NAME);
 	}
 
 	public AnnotationDeclaration getPostConstructorMethod() {
-		return annotationsByType.get(CDIConstants.POST_CONSTRUCTOR_TYPE_NAME);
+		return getAnnotation(CDIConstants.POST_CONSTRUCTOR_TYPE_NAME);
 	}
 
 }
