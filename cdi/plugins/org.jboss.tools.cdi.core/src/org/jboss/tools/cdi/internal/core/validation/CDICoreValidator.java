@@ -151,7 +151,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			this.cdiProject = cdiProject;
 			dependencies = new Dependencies();
 			extensions = Collections.emptySet();
-			injectionValidationFeatures = Collections.emptySet();
+			injectionValidationFeatures = cdiProject.getNature().getExtensionManager().getFeatures(IInjectionPointValidatorFeature.class);
 		}
 
 		public CDIValidationContext(IProject project) {
