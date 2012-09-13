@@ -28,6 +28,7 @@ import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.java.ParametedType;
 import org.jboss.tools.common.java.ParametedTypeFactory;
 import org.jboss.tools.common.java.TypeDeclaration;
+import org.jboss.tools.common.java.TypeDeclaration.Lazy;
 
 /**
  * 
@@ -54,8 +55,8 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 		return (IJavaElement)getDefinition().getMember();
 	}
 
-	public static TypeDeclaration getTypeDeclaration(AbstractMemberDefinition definition, ParametedTypeFactory typeFactory) {
-		IJavaElement member = (IJavaElement)definition.getMember();
+	public static TypeDeclaration getTypeDeclaration(final AbstractMemberDefinition definition, ParametedTypeFactory typeFactory) {
+		final IJavaElement member = (IJavaElement)definition.getMember();
 		try {
 			String returnType = null;
 			IMember currentMember = null;
@@ -72,36 +73,48 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 			if(returnType != null) {
 				ParametedType p = typeFactory.getParametedType(currentMember, returnType);
 				if(p != null) {
-
-					int offset = -1;
-					int length = 0;
-					String content = definition.getTypeDefinition().getContent();
-					if(content != null) {
-						ISourceRange sr = ((ISourceReference)member).getSourceRange();
-						ISourceRange nr = ((ISourceReference)member).getNameRange();
-						if(sr != null && nr != null && sr.getOffset() < nr.getOffset() && nr.getOffset() < content.length()) {
-							String start = content.substring(sr.getOffset(), nr.getOffset());
-							int off = -1;
-							int off0 = -1;
-							int bc = 0;
-							for (int i = start.length() - 1; i >= 0; i--) {
-								char ch = start.charAt(i);
-								if(ch == '>') bc++; else if(ch == '<') bc--;
-								if(Character.isWhitespace(ch)) {
-									if(off >= 0 && bc <= 0) break;
-								} else if(Character.isJavaIdentifierPart(ch) || ch == '.' || ch == '$' || ch == '<' || ch == '>') {
-									off = i;
-									if(off0 < 0) off0 = i + 1;
+					Lazy lazy = new Lazy() {						
+						@Override
+						public void init(TypeDeclaration d) {
+							int offset = -1;
+							int length = 0;
+							String content = definition.getTypeDefinition().getContent();
+							if(content != null) {
+								ISourceRange sr = null;
+								ISourceRange nr = null;
+								try {
+									sr = ((ISourceReference)member).getSourceRange();
+									nr = ((ISourceReference)member).getNameRange();
+								} catch (JavaModelException e) {
+									CDICorePlugin.getDefault().logError(e);
+								}
+								if(sr != null && nr != null && sr.getOffset() < nr.getOffset() && nr.getOffset() < content.length()) {
+									String start = content.substring(sr.getOffset(), nr.getOffset());
+									int off = -1;
+									int off0 = -1;
+									int bc = 0;
+									for (int i = start.length() - 1; i >= 0; i--) {
+										char ch = start.charAt(i);
+										if(ch == '>') bc++; else if(ch == '<') bc--;
+										if(Character.isWhitespace(ch)) {
+											if(off >= 0 && bc <= 0) break;
+										} else if(Character.isJavaIdentifierPart(ch) || ch == '.' || ch == '$' || ch == '<' || ch == '>') {
+											off = i;
+											if(off0 < 0) off0 = i + 1;
+										}
+									}
+									if(off >= 0) {
+										offset = sr.getOffset() + off;
+										length = off0 - off;
+									}
 								}
 							}
-							if(off >= 0) {
-								offset = sr.getOffset() + off;
-								length = off0 - off;
-							}
+							d.init(offset, length);
 						}
-					}
+					};
 
-					return new TypeDeclaration(p, member.getResource(), offset, length);
+
+					return new TypeDeclaration(p, member.getResource(), lazy);
 				}
 			}
 		} catch (JavaModelException e) {

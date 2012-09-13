@@ -61,7 +61,10 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 
 	public Collection<ITypeDeclaration> getAllTypeDeclarations() {
 		Collection<ITypeDeclaration> result = new ArrayList<ITypeDeclaration>(1);
-		if(typeDeclaration != null && typeDeclaration.getStartPosition() > 0) {
+		if(typeDeclaration != null/* && typeDeclaration.getStartPosition() > 0*/) {
+			//Request for start position invokes initialization,
+			//if this check removal causes issues, they should be solved 
+			//in another way than checking position validness at this moment.
 			result.add(typeDeclaration);
 		}
 		return result;

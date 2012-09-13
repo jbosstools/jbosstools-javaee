@@ -199,8 +199,7 @@ public abstract class AbstractBeanElement extends CDIElement implements IAnnotat
 		Collection<IQualifierDeclaration> result = new ArrayList<IQualifierDeclaration>();
 		Set<IQualifier> qs = new HashSet<IQualifier>();
 		for(IAnnotationDeclaration a: definition.getAnnotations()) {
-			int k = getCDIProject().getNature().getDefinitions().getAnnotationKind(a.getType());
-			if(k > 0 && (k & AnnotationDefinition.QUALIFIER) > 0 && a instanceof IQualifierDeclaration) {
+			if(a instanceof IQualifierDeclaration) {
 				IQualifierDeclaration q = (IQualifierDeclaration)a;
 				result.add(q);
 				if(q.getQualifier() != null) qs.add(q.getQualifier());				

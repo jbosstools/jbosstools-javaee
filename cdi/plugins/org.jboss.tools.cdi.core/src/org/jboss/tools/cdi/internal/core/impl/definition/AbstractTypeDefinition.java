@@ -36,9 +36,6 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 	protected String qualifiedName;
 	protected IType type;
 	protected ParametedType parametedType = null;
-
-	protected String content = null;
-
 	protected boolean isVetoed = false;
 	
 	public AbstractTypeDefinition() {}
@@ -124,10 +121,10 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 
 	public String getContent() {
 		if(type == null || type.isBinary()) return null;
-		if(content == null && resource instanceof IFile && resource.getName().endsWith(".java")) {
-			content = FileUtil.getContentFromEditorOrFile((IFile)resource);
+		if(resource instanceof IFile && resource.getName().endsWith(".java")) {
+			return FileUtil.getContentFromEditorOrFile((IFile)resource);
 		}
-		return content;
+		return null;
 	}
 	
 	class PositionProviderImpl implements ParametedType.PositionProvider {
@@ -135,7 +132,7 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 
 		void init() throws CoreException {
 			map = new HashMap<String, ISourceRange>();
-			getContent();
+			String content = getContent();
 			if(content == null) return;
 
 			//Any disagreement between content and range means that content is obsolete
@@ -161,6 +158,10 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 			if(k >= 0) {
 				map.put(sc, new SourceRange(offset + k, sc.length()));
 			}			
+		}
+
+		public boolean isLoaded() {
+			return map != null;
 		}
 
 		public ISourceRange getRange(String superTypeName) {
