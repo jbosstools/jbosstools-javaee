@@ -75,11 +75,4 @@ public class ParameterDefinition extends BeanMemberDefinition {
 		return variable;
 	}
 
-	public String getAnnotationText(String annotationTypeName) {
-		ITextSourceReference pos = getAnnotationPosition(annotationTypeName);
-		if(pos == null) return null;
-		String text = methodDefinition.getTypeDefinition().getContent().substring(pos.getStartPosition(), pos.getStartPosition() + pos.getLength());
-		return text;
-	}
-
 }
