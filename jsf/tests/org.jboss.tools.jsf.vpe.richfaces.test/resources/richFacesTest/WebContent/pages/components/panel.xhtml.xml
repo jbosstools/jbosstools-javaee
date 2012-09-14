@@ -1,7 +1,7 @@
 <tests>
-	<test id="panel">
+	<test id="p1">
 		<DIV CLASS="dr-pnl rich-panel">
-			<DIV VPE-FACET="header" CLASS="dr-pnl-h rich-panel-header" >
+			<DIV VPE-FACET="header" CLASS="dr-pnl-h rich-panel-header">
 				<SPAN CLASS="vpe-text">
 					Panel Header
 				</SPAN>
@@ -9,6 +9,61 @@
 			<DIV CLASS="dr-pnl-b rich-panel-body">
 				<SPAN CLASS="vpe-text">
 					Panel Content
+				</SPAN>
+			</DIV>
+		</DIV>
+	</test>
+	
+	<test id="p2">
+		<DIV CLASS="dr-pnl rich-panel">
+			<DIV VPE-FACET="header" CLASS="dr-pnl-h rich-panel-header headerClass"
+				STYLE="/.*richfaces/resources/common/background.gif/">
+				<SPAN CLASS="vpe-text">
+					-Text_H1
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					*jsf_H1
+				</SPAN>
+				<SPAN STYLE="-moz-user-modify: read-write;">
+					<SPAN CLASS="vpe-text">
+						+Html_H1
+					</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					-Text_H2
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					*jsf_H2
+				</SPAN>
+				<SPAN STYLE="-moz-user-modify: read-write;">
+					<SPAN CLASS="vpe-text">
+						+Html_H2
+					</SPAN>
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					-Text_H3
+				</SPAN>
+			</DIV>
+			<DIV CLASS="dr-pnl-b rich-panel-body bodyClass">
+				<SPAN CLASS="vpe-text">
+					-Text_Body1
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					*jsf_Body1
+				</SPAN>
+				<TEXTAREA>
+					HTML textarea1
+				</TEXTAREA>
+				<BR STYLE="-moz-user-modify: read-write;" />
+
+				<TEXTAREA>
+					HTML textarea2
+				</TEXTAREA>
+				<SPAN CLASS="vpe-text">
+					*jsf_Body2
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					-Text_Body2
 				</SPAN>
 			</DIV>
 		</DIV>

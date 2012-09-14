@@ -11,12 +11,50 @@
 
 <body>
 <f:view>
-	<rich:panel id="panel">
+	<rich:panel id="p1">
 		<f:facet name="header">
         	Panel Header
         </f:facet>
         	Panel Content
     </rich:panel>
+    
+    <rich:panel headerClass="headerClass" bodyClass="bodyClass" id="p2">
+              <f:facet name="header">
+              	-Text_H1
+                <h:outputText value="*jsf_H1"/>
+                <span>+Html_H1</span>
+              	-Text_H2
+                <h:outputText value="*jsf_H2"/>
+                <span>+Html_H2</span>
+				-Text_H3
+              </f:facet>
+              <f:facet name="footer">
+              	-Text_F1
+                <h:outputText value="*jsf_F1"/>
+                <div>+Html_F1</div>
+              	-Text_F2
+                <h:outputText value="*jsf_F2"/>
+                <div>+Html_F2</div>
+              	-Text_F3
+              </f:facet>
+   		  <f:facet name="BLA">
+              	-Text_BLA1
+                <h:outputText value="*jsf_BLA1"/>
+                <div>+Html_BLA1</div>
+              	-Text_BLA2
+                <h:outputText value="*jsf_BLA2"/>
+                <div>+Html_BLA2</div>
+              	-Text_BLA3
+              </f:facet>
+               -Text_Body1
+              <h:outputText value="*jsf_Body1"/>
+			<textarea>HTML textarea1</textarea>
+			<br></br>
+			<textarea>HTML textarea2</textarea>
+              <h:outputText value="*jsf_Body2"/>              
+             	-Text_Body2
+            </rich:panel>
+            
 </f:view>
 </body>
 </html>
