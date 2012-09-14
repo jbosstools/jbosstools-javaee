@@ -10,15 +10,14 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.deltaspike.core.test;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.jboss.tools.cdi.core.test.tck.validation.AbstractValidationTest;
 
 /**
  * @author Alexey Kazakov
  */
-public class DeltaspikeCoreTest extends TestCase {
+public class DeltaspikeCoreTest extends AbstractValidationTest {
 
 	protected IProject getTestProject() throws Exception {
 		return ResourcesPlugin.getWorkspace().getRoot().getProject(DeltaspikeCoreTestSetup.PROJECT_NAME);

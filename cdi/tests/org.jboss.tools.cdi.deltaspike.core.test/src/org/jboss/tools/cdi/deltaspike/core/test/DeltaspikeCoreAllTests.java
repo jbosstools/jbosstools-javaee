@@ -15,6 +15,8 @@ import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.wst.validation.ValidationFramework;
+import org.jboss.tools.cdi.deltaspike.core.test.validation.AYTDeltaspikeInjectionValidationTest;
+import org.jboss.tools.cdi.deltaspike.core.test.validation.DeltaspikeInjectionValidationTest;
 import org.jboss.tools.cdi.deltaspike.core.test.validation.DeltaspikeValidationTest;
 import org.jboss.tools.common.base.test.validation.ValidationExceptionTest;
 
@@ -35,7 +37,11 @@ public class DeltaspikeCoreAllTests {
 
 		TestSuite suite = new TestSuite("Deltaspike Core Project Tests"); //$NON-NLS-1$
 		suite.addTestSuite(DeltaspikeBeansTest.class);
+
+		// Validation tests
 		suite.addTestSuite(DeltaspikeValidationTest.class);
+		suite.addTestSuite(DeltaspikeInjectionValidationTest.class);
+		suite.addTestSuite(AYTDeltaspikeInjectionValidationTest.class);
 
 		suiteAll.addTest(new DeltaspikeCoreTestSetup(suite));
 
