@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ez="http://java.sun.com/jsf/composite/demo">
+
+<f:loadBundle basename="resources" var="pageMsgs" />
+
+<ui:composition template="/templates/common.xhtml"
+	xmlns:jar="http://java.sun.com/jsf/composite/jarPage"
+	xmlns:jar1="http://java.sun.com/jsf/composite/jarPage1">
+	<ui:param name="group" value="#{user}" />
+
+	<h:outputStylesheet name="stylesheet/style.css" type="text/css"/>
+
+	<ui:define name="pageTitle">Input User Name</ui:define>
+
+	<ui:define name="pageHeader">Facelets Hello Application</ui:define>
+
+	<ui:define name="body">
+		<ez:input id="inputname" label="${registeredMsgs.prompt}" value="#{user.name}" action="#{user.sayHello}" submitlabel="Say Hello"/>
+		<h:outputText value="${registeredMsgs['demo.long.named.property']}" />
+		<h:outputText value="${pageMsgs.prompt}" />
+		<h:outputText value="${pageMsgs['demo.long.named.property']}" />
+		<div class="info">
+		<form>
+		<jar:echo1 echo="Hello" />
+		<jar:echo echo="Hello" />
+		<jar:echo anknownAttr="1" echo="Hello" />
+		<jar1:echo echo="Hello" />
+		</form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>
