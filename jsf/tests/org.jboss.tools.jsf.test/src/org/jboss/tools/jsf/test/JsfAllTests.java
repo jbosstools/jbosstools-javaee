@@ -29,6 +29,7 @@ import org.jboss.tools.jsf.test.validation.ELValidatorTest;
 import org.jboss.tools.jsf.test.validation.FacesConfigValidatorTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsInClassFolderTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsValidatorTest;
+import org.jboss.tools.jsf.test.validation.VarAttributesTest;
 import org.jboss.tools.jsf.test.validation.WebContentTest;
 import org.jboss.tools.jsf.test.validation.XHTMLDetectorAndValidatorTest;
 import org.jboss.tools.jsf.test.validation.XHTMLValidatorTest;
@@ -107,6 +108,7 @@ public class JsfAllTests {
 //				new String[] { "i18nTestProject" })); //$NON-NLS-1$
 		suite.addTest(new ValidationProjectTestSetup(new TestSuite(ELValidatorTest.class),"org.jboss.tools.jsf.test","projects/JSFKickStartOldFormat","JSFKickStartOldFormat"));
 		suite.addTest(new ValidationProjectTestSetup(new TestSuite(BuilderValidationTest.class),"org.jboss.tools.jsf.test","projects/jsf2pr","jsf2pr"));
+		suite.addTest(new ValidationProjectTestSetup(new TestSuite(VarAttributesTest.class),"org.jboss.tools.jsf.test","projects/jsf2pr","jsf2pr"));
 
 		suite.addTestSuite(ValidationExceptionTest.class); // This test should be added last!
 
