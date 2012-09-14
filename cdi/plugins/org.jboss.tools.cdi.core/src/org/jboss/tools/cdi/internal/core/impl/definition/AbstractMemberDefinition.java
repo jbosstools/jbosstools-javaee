@@ -50,9 +50,9 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	public static int FLAG_ALL_MEMBERS = 2;
 
 	CDICoreNature project;
-	protected List<IAnnotationDeclaration> annotations = new ArrayList<IAnnotationDeclaration>();
+	protected List<IAnnotationDeclaration> annotations = new ArrayList<IAnnotationDeclaration>(2);
 	protected IAnnotatable member;
-	protected Map<String, AnnotationDeclaration> annotationsByType = new HashMap<String, AnnotationDeclaration>();
+	private IAnnotationMap annotationsByType = EmptyMap.instance;
 	protected IResource resource;
 	
 	protected ITextSourceReference originalDefinition = null;
@@ -152,7 +152,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		}
 		
 		if(a.getTypeName() != null) {
-			annotationsByType.put(a.getTypeName(), a);
+			annotationsByType = annotationsByType.put(a.getTypeName(), a);
 		}
 	}
 
@@ -173,7 +173,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		String name = ((AnnotationDeclaration)a).getTypeName();
 		IAnnotationDeclaration b = getAnnotation(name);
 		if(a == b) {
-			annotationsByType.remove(name);
+			annotationsByType = annotationsByType.remove(name);
 			annotations.remove(a);
 		}
 	}
@@ -236,5 +236,109 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 
 	public boolean exists() {
 		return member instanceof IJavaElement && ((IJavaElement)member).exists();
+	}
+}
+
+interface IAnnotationMap {
+	IAnnotationMap put(String type, AnnotationDeclaration d);
+	AnnotationDeclaration get(String type);
+	IAnnotationMap remove(String type);
+}
+
+class EmptyMap implements IAnnotationMap {
+	static EmptyMap instance = new EmptyMap();
+	
+	private EmptyMap() {}
+
+	public IAnnotationMap put(String type, AnnotationDeclaration d) {
+		return new OneEntryMap(d);
+	}
+
+	public AnnotationDeclaration get(String type) {
+		return null;
+	}
+
+	public IAnnotationMap remove(String type) {
+		return this;
+	}
+}
+
+class OneEntryMap implements IAnnotationMap {
+	AnnotationDeclaration d;
+	
+	public OneEntryMap(AnnotationDeclaration d) {
+		this.d = d;
+	}
+
+	@Override
+	public IAnnotationMap put(String type, AnnotationDeclaration d) {
+		if(this.d.getTypeName().equals(type)) {
+			this.d = d;
+			return this;
+		}
+		return new TwoEntryMap(this.d, d);
+	}
+
+	public AnnotationDeclaration get(String type) {
+		return (d.getTypeName().equals(type)) ? d : null;
+	}
+
+	public IAnnotationMap remove(String type) {
+		return (get(type) != null) ? EmptyMap.instance : this;
+	}	
+}
+
+class TwoEntryMap implements IAnnotationMap {
+	AnnotationDeclaration d1;
+	AnnotationDeclaration d2;
+	
+	public TwoEntryMap(AnnotationDeclaration d1,AnnotationDeclaration d2) {
+		this.d1 = d1;
+		this.d2 = d2;
+	}
+
+	public IAnnotationMap put(String type, AnnotationDeclaration d) {
+		AnnotationDeclaration dc = get(type);
+		if(dc == d1) {
+			d1 = d;
+			return this;
+		} else if(dc == d2) {
+			d2 = d;
+			return this;
+		}
+		AnnotationMap map = new AnnotationMap();
+		map.put(this.d1.getTypeName(), this.d1);
+		map.put(this.d2.getTypeName(), this.d2);
+		map.put(type, d);
+		return map;
+	}
+
+	public AnnotationDeclaration get(String type) {
+		return (d1.getTypeName().equals(type)) ? d1 : (d2.getTypeName().equals(type)) ? d2 : null;
+	}
+
+	public IAnnotationMap remove(String type) {
+		AnnotationDeclaration d = get(type);
+		return (d == d1) ? new OneEntryMap(d2) : (d == d2) ? new OneEntryMap(d1) : this;
+	}	
+}
+
+class AnnotationMap implements IAnnotationMap {
+	Map<String, AnnotationDeclaration> annotationsByType = new HashMap<String, AnnotationDeclaration>(8);
+	
+	AnnotationMap() {}
+	
+	public IAnnotationMap put(String type, AnnotationDeclaration d) {
+		annotationsByType.put(type, d);
+		return this;
+	}
+
+	public AnnotationDeclaration get(String type) {
+		return annotationsByType.get(type);
+	}
+
+	public IAnnotationMap remove(String type) {
+		annotationsByType.remove(type);
+		return this;
 	}
 }

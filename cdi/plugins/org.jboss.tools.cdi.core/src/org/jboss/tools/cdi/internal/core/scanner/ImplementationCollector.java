@@ -40,8 +40,7 @@ public class ImplementationCollector {
 			IType type = typeDef.getType();
 			if(type == null || !type.exists() || type.isInterface()) continue;
 			if(!mayBeRelevant(type)) continue;
-			Set<IParametedType> types = typeDef.getInheritedTypes();
-			for (IParametedType t: types) {
+			for (IParametedType t: typeDef.getInheritedTypes()) {
 				IType q = t.getType();
 				if(q == null) continue;
 				String cn = q.getFullyQualifiedName();

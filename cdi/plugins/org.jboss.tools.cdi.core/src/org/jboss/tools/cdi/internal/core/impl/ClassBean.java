@@ -280,7 +280,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	}
 
 	public Collection<ITypeDeclaration> getAllTypeDeclarations() {
-		Set<IParametedType> ps = getDefinition().getInheritedTypes();
+		Collection<IParametedType> ps = getDefinition().getInheritedTypes();
 		Set<ITypeDeclaration> result = new HashSet<ITypeDeclaration>();
 		for (IParametedType p: ps) {
 			if(p instanceof TypeDeclaration) {

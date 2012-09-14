@@ -93,9 +93,9 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 		parametedType = (ParametedType)t;
 	}
 
-	public Set<IParametedType> getInheritedTypes() {
+	public Collection<IParametedType> getInheritedTypes() {
 		if(parametedType == null) {
-			return Collections.emptySet(); 
+			return Collections.emptyList(); 
 		}
 		return parametedType.getInheritedTypes();
 	}
