@@ -15,6 +15,7 @@ import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.wst.validation.ValidationFramework;
+import org.jboss.tools.cdi.seam.solder.core.test.aytvalidation.AYTSeamServletValidationTest;
 import org.jboss.tools.cdi.seam.solder.core.test.v30.CDISeamSolderCoreAllTests30;
 import org.jboss.tools.common.base.test.validation.ValidationExceptionTest;
 /**
@@ -49,6 +50,7 @@ public class CDISeamSolderCoreAllTests {
 		suite31.addTestSuite(DefaultBeanValidationTest.class);
 		suite31.addTestSuite(UnwrapsTest.class);
 		suite31.addTestSuite(SeamServletValidationTest.class);
+		suite31.addTestSuite(AYTSeamServletValidationTest.class);
 
 		suiteAll.addTest(suite);
 

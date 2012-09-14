@@ -10,21 +10,20 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.seam.solder.core.test;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.test.DependentProjectTest;
+import org.jboss.tools.cdi.core.test.tck.validation.AbstractValidationTest;
 
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public class SeamSolderTest extends TestCase {
+public class SeamSolderTest extends AbstractValidationTest {
 	protected static String PLUGIN_ID = "org.jboss.tools.cdi.seam.solder.core.test";
 	protected static String PROJECT_NAME = "CDISolderTest";
 	protected static String PROJECT_PATH = "/projects/CDISolderTest";
