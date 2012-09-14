@@ -33,6 +33,7 @@ public class CDISeamFacesCoreAllTests {
 
 		TestSuite suite = new TestSuite("Seam Faces Project Tests");
 		suite.addTestSuite(SeamFacesValidationTest.class);
+		suite.addTestSuite(AYTSeamFacesValidationTest.class);
 		suiteAll.addTest(new SeamFacesTestSetup(suite));
 		suiteAll.addTestSuite(SeamFacesTagLibTest.class);
 
