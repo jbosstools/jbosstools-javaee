@@ -16,11 +16,11 @@ import java.util.Map;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * It is used to render <code>rich:panel</code> from RichFaces 4 library.
@@ -30,29 +30,28 @@ import org.w3c.dom.Node;
 public class RichFaces4PanelTemplate extends RichFacesPanelTemplate {
 
 	@Override
-	protected void renderHeaderFacet(Element headerFacet,
-			nsIDOMElement headerDiv, VpeCreationData creationData,
-			VpePageContext pageContext, nsIDOMDocument visualDocument) {
+	protected void renderHeaderFacet(Element headerFacet, nsIDOMElement headerDiv, 
+			VpeCreationData creationData, VpePageContext pageContext, nsIDOMDocument visualDocument) {
 		
-		Map<String, List<Node>> children = VisualDomUtil.findFacetElements(headerFacet, pageContext);
 		VpeChildrenInfo headerInfo = new VpeChildrenInfo(headerDiv);
-		if (((children != null) && (children.get(VisualDomUtil.FACET_HTML_TAGS).size() > 0))) {
-				for (Node node : children.get(VisualDomUtil.FACET_HTML_TAGS)) {
-					headerInfo.addSourceChild(node);
-				}
-		}
+		NodeList allFacetElements = headerFacet.getChildNodes();
+		for (int i = 0; i < allFacetElements.getLength(); i++) {
+			headerInfo.addSourceChild(allFacetElements.item(i));
+		}		
 		creationData.addChildrenInfo(headerInfo);
 	}
 	
 	@Override
-	protected Map<String, List<Node>> getHeaderFacetChildren(
-			Element headerFacet, VpePageContext pageContext) {
-		return null;
+	protected void addHeaderFacetElementsToPanelBody(
+			Map<String, List<Node>> headerFacetChildren, 
+			VpeChildrenInfo bodyInfo, VpePageContext pageContext) {
+		// Do nothing
 	}
+	
 	@Override
-	protected Map<String, List<Node>> getFooterFacetChildren(
-			Element footerFacet, VpePageContext pageContext) {
-		return null;
+	protected void addElementsFromOtherFacetsToPanelBody(Element sourceElement,
+			VpeChildrenInfo bodyInfo, VpePageContext pageContext) {
+		// Do nothing
 	}
 	
 }

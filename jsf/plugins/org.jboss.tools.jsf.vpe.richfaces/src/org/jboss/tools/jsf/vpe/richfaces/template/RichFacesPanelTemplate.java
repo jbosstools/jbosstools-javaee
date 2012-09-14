@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
+import org.jboss.tools.jst.web.tld.TaglibData;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
@@ -22,15 +23,17 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.SourceDomUtil;
 import org.jboss.tools.vpe.editor.util.VisualDomUtil;
+import org.jboss.tools.vpe.editor.util.XmlUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Default template for <code>rich:panel</code> component.
  * <p>
- * It is used to render <code>rich:panel</code> for RichFaces untill version 3.3.
+ * It is used to render <code>rich:panel</code> for RichFaces until version 3.3.
  */
 public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 
@@ -58,14 +61,12 @@ public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 		 * Encode the Header Facet
 		 * Find elements from the f:facet 
 		 */
-		Map<String, List<Node>> headerFacetChildren = null;
-		Map<String, List<Node>> footerFacetChildren = null;
 		Element headerFacet = SourceDomUtil.getFacetByName(pageContext,
 				sourceElement, RichFaces.NAME_FACET_HEADER);
-		Element footerFacet = SourceDomUtil.getFacetByName(pageContext,
-				sourceElement, RichFaces.NAME_FACET_FOOTER);
+		Map<String, List<Node>> headerFacetChildren = null; 
+		
 		if (headerFacet != null) {
-			headerFacetChildren = getHeaderFacetChildren(headerFacet, pageContext);
+			headerFacetChildren = VisualDomUtil.findFacetElements(headerFacet, pageContext);
 			nsIDOMElement headerDiv = visualDocument.createElement(HTML.TAG_DIV);
 			/*
 			 * By adding attribute VPE-FACET to this visual node 
@@ -82,12 +83,12 @@ public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 					ComponentUtil.getHeaderBackgoundImgStyle());
 			/*
 			 * https://issues.jboss.org/browse/JBIDE-6072
-			 * Render the header: differs for RF3.3 and RF4
+			 * Render the header: differs for RF3.3 and RF4.
+			 * RF4 template for Panel overrides this method.
+			 * Footer facet is not supposed to be in <rich:panel>,
+			 * but RF3 renders its content inside the body content.
 			 */
 			renderHeaderFacet(headerFacet, headerDiv, creationData, pageContext, visualDocument);
-		}
-		if (footerFacet != null) {
-			footerFacetChildren = getHeaderFacetChildren(footerFacet, pageContext);
 		}
 		/*
 		 * Encode rich:panel content
@@ -99,25 +100,14 @@ public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 			bodyClass += " " + sourceElement.getAttribute(RichFaces.ATTR_BODY_CLASS); //$NON-NLS-1$
 		}
 		bodyDiv.setAttribute(HTML.ATTR_CLASS, bodyClass);
+		VpeChildrenInfo bodyInfo = null;
+		bodyInfo = new VpeChildrenInfo(bodyDiv);
 		/*
 		 * If there are some odd HTML elements from facet
 		 * add them to the panel body first.
 		 */
-		boolean headerHtmlElementsPresents = ((headerFacetChildren != null) && (headerFacetChildren
-				.get(VisualDomUtil.FACET_HTML_TAGS).size() > 0));
-		VpeChildrenInfo bodyInfo = new VpeChildrenInfo(bodyDiv);
-		if (headerHtmlElementsPresents) {
-				for (Node node : headerFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS)) {
-					bodyInfo.addSourceChild(node);
-				}
-		}
-		boolean footerHtmlElementsPresents = ((footerFacetChildren != null) && (footerFacetChildren
-				.get(VisualDomUtil.FACET_HTML_TAGS).size() > 0));
-		if (footerHtmlElementsPresents) {
-				for (Node node : footerFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS)) {
-					bodyInfo.addSourceChild(node);
-				}
-		}
+		addHeaderFacetElementsToPanelBody(headerFacetChildren,bodyInfo, pageContext);
+		addElementsFromOtherFacetsToPanelBody(sourceElement, bodyInfo, pageContext);
 		/*
 		 * Add the rest panel's content
 		 */
@@ -130,19 +120,75 @@ public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 		return creationData;
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param headerFacet
+	 * @param headerDiv
+	 * @param headerFacetChildren could be null if not required
+	 * @param creationData
+	 * @param pageContext
+	 * @param visualDocument
+	 */
 	protected void renderHeaderFacet(Element headerFacet, nsIDOMElement headerDiv, 
 			VpeCreationData creationData, VpePageContext pageContext, nsIDOMDocument visualDocument) {
-		VpeChildrenInfo headerInfo = new VpeChildrenInfo(headerDiv);
-		headerInfo.addSourceChild(headerFacet);
-		creationData.addChildrenInfo(headerInfo);
+		
+		NodeList children = headerFacet.getChildNodes();
+		for (int i = 0; i < children.getLength() ; i++) {
+			Node child = children.item(i);
+ 			String sourcePrefix = child.getPrefix();
+ 			List<TaglibData> taglibs = XmlUtil.getTaglibsForNode(headerFacet, pageContext);
+ 			TaglibData sourceNodeTaglib = XmlUtil.getTaglibForPrefix(sourcePrefix, taglibs);
+ 			if (null != sourceNodeTaglib) {
+ 				String sourceNodeUri = sourceNodeTaglib.getUri();
+ 				if (VisualDomUtil.JSF_CORE_URI.equalsIgnoreCase(sourceNodeUri)
+ 						|| VisualDomUtil.JSF_HTML_URI.equalsIgnoreCase(sourceNodeUri)
+ 						|| VisualDomUtil.RICH_FACES_URI.equalsIgnoreCase(sourceNodeUri) 
+ 						|| VisualDomUtil.A4J_URI.equalsIgnoreCase(sourceNodeUri)
+ 						|| VisualDomUtil.FACELETS_URI.equalsIgnoreCase(sourceNodeUri)) {
+ 					
+ 					VpeChildrenInfo headerInfo = new VpeChildrenInfo(headerDiv);
+ 					headerInfo.addSourceChild(child);
+ 					creationData.addChildrenInfo(headerInfo);
+ 					break;
+ 				}
+ 			}
+		}
+	}
+
+	protected void addHeaderFacetElementsToPanelBody(
+			Map<String, List<Node>> headerFacetChildren, 
+			VpeChildrenInfo bodyInfo, VpePageContext pageContext) {
+		if ((headerFacetChildren != null) && (headerFacetChildren
+				.get(VisualDomUtil.FACET_HTML_TAGS).size() > 0)) {
+			for (Node node : headerFacetChildren.get(VisualDomUtil.FACET_HTML_TAGS)) {
+				bodyInfo.addSourceChild(node);
+			}
+		}
 	}
 	
-	protected Map<String, List<Node>> getHeaderFacetChildren(Element headerFacet, VpePageContext pageContext) {
-		return VisualDomUtil.findFacetElements(headerFacet, pageContext);
-	}
-	
-	protected Map<String, List<Node>> getFooterFacetChildren(Element footerFacet, VpePageContext pageContext) {
-		return VisualDomUtil.findFacetElements(footerFacet, pageContext);
+	protected void addElementsFromOtherFacetsToPanelBody(Element sourceElement, 
+			VpeChildrenInfo bodyInfo, VpePageContext pageContext) {
+		
+		NodeList facets = sourceElement.getChildNodes();
+		Map<String, List<Node>> facetChildren = null;
+		for (int i = 0; i < facets.getLength(); i++) {
+			Node facet = facets.item(i);
+			if (SourceDomUtil.isFacetElement(pageContext, facet) &&
+					!RichFaces.NAME_FACET_HEADER.equalsIgnoreCase(
+							((Element)facet).getAttribute("name"))) { //$NON-NLS-1$
+				/*
+				 * Get facet children by groups (html, jsf, odd)
+				 */
+				facetChildren = VisualDomUtil.findFacetElements(facet, pageContext);
+				if (((facetChildren != null) && (facetChildren.get
+						(VisualDomUtil.FACET_HTML_TAGS).size() > 0))) {
+					for (Node node : facetChildren.get(VisualDomUtil.FACET_HTML_TAGS)) {
+						bodyInfo.addSourceChild(node);
+					}
+				}
+			}
+		}		
 	}
 	
 	/* (non-Javadoc)
