@@ -10,6 +10,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.internal.ui.text.JavaWordFinder;
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.FindReplaceDocumentAdapter;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
@@ -35,6 +37,8 @@ import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
 import org.jboss.tools.jsf.ui.editor.FacesConfigEditor;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestHyperlink;
+import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestRegion;
 import org.jboss.tools.jst.web.ui.editors.WebCompoundEditor;
 import org.jboss.tools.common.model.ui.texteditors.XMLTextEditorComponent;
 
@@ -68,7 +72,10 @@ public class JSFHyperlinkTestUtil extends TestCase{
 		IDocument document = documentProvider.getDocument(editorInput);
 		
 		assertNotNull("The document for the file \"" + fileName + "\" is not loaded", document);
-
+		
+		if(regionList.get(0).region == null)
+			loadRegions(regionList, document);
+		
 		int expected = 0;
 		
 		for(TestRegion testRegion : regionList) {
@@ -105,6 +112,8 @@ public class JSFHyperlinkTestUtil extends TestCase{
 
 		int counter = 0;
 		for (int i = 0; i < document.getLength(); i++) {
+			int lineNumber = document.getLineOfOffset(i);
+			int position = i - document.getLineOffset(lineNumber)+1;
 			TestData testData = new TestData(document, i);
 			IHyperlink[] links = elDetector.detectHyperlinks(viewer, testData.getHyperlinkRegion(), true);
 
@@ -124,8 +133,7 @@ public class JSFHyperlinkTestUtil extends TestCase{
 			else {
 				for(TestRegion testRegion : regionList){
 					if(i >= testRegion.region.getOffset() && i <= testRegion.region.getOffset()+testRegion.region.getLength()) {
-						int line = document.getLineOfOffset(testRegion.region.getOffset());
-						fail("Wrong detection for region - "+testRegion.region.getOffset()+" : "+testRegion.region.getLength()+" region - "+i);
+						fail("Wrong detection for region - "+getRegionInformation(document, testRegion)+" offset - "+i+" (line - "+lineNumber+" position - "+position+")");
 					}
 				}
 			}
@@ -134,6 +142,20 @@ public class JSFHyperlinkTestUtil extends TestCase{
 		assertEquals("Wrong recognized region count: ", expected,  counter);
 
 		documentProvider.disconnect(editorInput);
+	}
+	
+	private static String getRegionInformation(IDocument document, TestRegion region) throws BadLocationException{
+		String info = "";
+		int lineNumber = document.getLineOfOffset(region.region.getOffset());
+		int position = region.region.getOffset() - document.getLineOffset(lineNumber)+1;
+		lineNumber++;
+		
+		if(region.regionText != null)
+			info += "<"+region.regionText+"> ";
+		
+		info += region.region.getOffset()+" - "+(region.region.getOffset()+region.region.getLength())+" line - "+lineNumber+" position - "+position;
+		
+		return info;
 	}
 	
 	private static void checkTestRegion(IHyperlink[] links, TestRegion testRegion){
@@ -180,7 +202,28 @@ public class JSFHyperlinkTestUtil extends TestCase{
 		}
 		return null;
 	}
-
+	
+	private static void loadRegions(List<TestRegion> regionList, IDocument document) throws BadLocationException{
+		FindReplaceDocumentAdapter adapter = new FindReplaceDocumentAdapter(document);
+		//IRegion region = adapter.find(0, "{", true, true, false, false);
+		//if(region == null)
+			IRegion region = new Region(0,0);
+		for(TestRegion testRegion : regionList){
+			IRegion newRegion = adapter.find(region.getOffset()+region.getLength(), testRegion.regionText, true, true, false, false);
+			if(newRegion != null){
+				testRegion.region = newRegion;
+				region = newRegion;
+			}else
+				fail("Can not find string - "+testRegion.regionText);
+		}
+		
+		for(int i = regionList.size()-1; i >= 0; i--){
+			TestRegion r = regionList.get(i);
+			if(r.hyperlinks.size() == 0)
+				regionList.remove(r);
+		}
+	}
+	
 	public static IEditorPart openFileInEditor(IFile input) {
 		return openFileInEditor(input, null);
 	}
@@ -303,7 +346,8 @@ public class JSFHyperlinkTestUtil extends TestCase{
 	}
 	
 	public static class TestRegion{
-		Region region;
+		IRegion region = null;
+		String regionText = null;
 		ArrayList<TestHyperlink> hyperlinks = new ArrayList<TestHyperlink>();
 		
 		public TestRegion(int offset, int length, TestHyperlink[] testHyperlinks){
@@ -313,8 +357,8 @@ public class JSFHyperlinkTestUtil extends TestCase{
 			}
 		}
 		
-		public TestRegion(Region region, TestHyperlink[] testHyperlinks){
-			region = new Region(region.getOffset(),region.getLength());
+		public TestRegion(String regionText, TestHyperlink[] testHyperlinks){
+			this.regionText = regionText;
 			for(TestHyperlink testHyperlink : testHyperlinks){
 				hyperlinks.add(testHyperlink);
 			}
