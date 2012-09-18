@@ -17,7 +17,7 @@
 	<test id="p2">
 		<DIV CLASS="dr-pnl rich-panel">
 			<DIV VPE-FACET="header" CLASS="dr-pnl-h rich-panel-header headerClass"
-				STYLE="/.*richfaces/resources/common/background.gif/">
+				STYLE="/.*resources/common/background.gif/">
 				<SPAN CLASS="vpe-text">
 					-Text_H1
 				</SPAN>
