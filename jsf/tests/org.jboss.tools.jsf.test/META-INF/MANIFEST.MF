@@ -46,7 +46,8 @@ Require-Bundle:
  org.jboss.tools.jst.web.kb.test,
  org.jboss.tools.common.validation,
  org.jboss.tools.common.base.test,
- org.jboss.tools.jsf.base.test;bundle-version="3.3.0"
+ org.jboss.tools.jsf.base.test,
+ org.eclipse.jst.jsf.facelet.ui
 Bundle-Activator: org.jboss.tools.jsf.plugin.JsfTestPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-Localization: plugin
