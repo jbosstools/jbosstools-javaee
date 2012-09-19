@@ -73,7 +73,7 @@ public class JSPELHyperlinkUIParamTest  extends TestCase {
 			WorkbenchUtils.closeAllEditors();
 		}
 		textToFind = "myparam2";
-		resultEditor = new String[]{"a.xhtml", "String.java"};
+		resultEditor = new String[]{"a.xhtml", "String."};
 		try {
 			doELHyperlinkUIParam(pageName, textToFind, false, resultEditor);
 		} finally {
@@ -128,7 +128,7 @@ public class JSPELHyperlinkUIParamTest  extends TestCase {
 			link.open();
 			
 			IEditorPart resultEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-			assertEquals("Link " + i + " leads to a wrong editor.", editorName[i], resultEditor.getTitle());
+			assertTrue("Link " + i + " leads to a wrong editor: " + resultEditor.getTitle(), resultEditor.getTitle().startsWith(editorName[i]));
 		}
 	}
 }
