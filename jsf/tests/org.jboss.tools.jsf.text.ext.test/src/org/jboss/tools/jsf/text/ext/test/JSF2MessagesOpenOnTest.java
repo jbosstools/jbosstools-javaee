@@ -30,7 +30,7 @@ import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestHyperlink;
  */
 public class JSF2MessagesOpenOnTest extends TestCase {
 	private static final String PROJECT_NAME = "JSF2CompositeOpenOn";
-	private static final String PAGE_NAME =  "/WebContent/pages/inputname.xhtml";
+	private static final String PAGE_NAME =  "/WebContent/pages/inputname_messages.xhtml";
 	
 	public IProject project = null;
 
@@ -57,15 +57,15 @@ public class JSF2MessagesOpenOnTest extends TestCase {
 
 		regionList.add(new TestRegion("${", new TestHyperlink[]{}));
 		regionList.add(new TestRegion("registeredMsg"/*1004, 13*/, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open bundle 'resources'", "resources.properties")}));
-		regionList.add(new TestRegion("demo.long.named.propert"/*1019, 25*/, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'demo.long.named.property' of bundle 'resources'", "resources.properties")}));
+		regionList.add(new TestRegion("'demo.long.named.property"/*1019, 25*/, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'demo.long.named.property' of bundle 'resources'", "resources.properties")}));
 
 		regionList.add(new TestRegion("${", new TestHyperlink[]{}));
-		regionList.add(new TestRegion("pageMsgs"/*1078, 7*/, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open bundle 'resources'", "resources.properties")}));
-		regionList.add(new TestRegion("prompt"/*1087, 5*/, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'prompt' of bundle 'resources'", "resources.properties")}));
+		regionList.add(new TestRegion("pageMsg"/*1078, 7*/, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open bundle 'resources'", "resources.properties")}));
+		regionList.add(new TestRegion("promp"/*1087, 5*/, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'prompt' of bundle 'resources'", "resources.properties")}));
 
 		regionList.add(new TestRegion("${", new TestHyperlink[]{}));
 		regionList.add(new TestRegion("pageMsg"/*1125, 7*/, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open bundle 'resources'", "resources.properties")}));
-		regionList.add(new TestRegion("demo.long.named.propert"/*1134, 25*/, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'demo.long.named.property' of bundle 'resources'", "resources.properties")}));
+		regionList.add(new TestRegion("'demo.long.named.property"/*1134, 25*/, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'demo.long.named.property' of bundle 'resources'", "resources.properties")}));
 		
 		HyperlinkTestUtil.checkRegions(project, PAGE_NAME, regionList, new ELHyperlinkDetector());
 		
