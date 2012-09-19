@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>org.jboss.tools.seam.tests</groupId>
 	<artifactId>org.jboss.tools.seam121EAP.ui.test</artifactId>
-	
+
 	<packaging>eclipse-test-plugin</packaging>
 
 	<properties>
@@ -56,7 +56,7 @@
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-surefire-plugin</artifactId>
 				<configuration>
-					<skip>${skipPrivateRequirements}</skip>
+					<skip>${skipTestsWithPrivateRequirements}</skip>
 					<explodedBundles>
 						<bundle>org.jboss.tools.seam.ui.test</bundle>
 						<bundle>org.jboss.tools.seam.core.test</bundle>

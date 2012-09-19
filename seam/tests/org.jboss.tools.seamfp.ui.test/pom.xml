@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion> 
+	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.jboss.tools.seam</groupId>
 		<artifactId>tests</artifactId>
 		<version>3.4.0-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.tools.seam.tests</groupId>
-	<artifactId>org.jboss.tools.seamfp.ui.test</artifactId> 
-	
+	<artifactId>org.jboss.tools.seamfp.ui.test</artifactId>
+
 	<packaging>eclipse-test-plugin</packaging>
-	
+
 	<properties>
 		<systemProperties>-Djbosstools.test.seam.2.0.1.GA.home=${requirementsDirectory}/jboss-eap-4.3/seamfp</systemProperties>
 		<coverage.filter>org.jboss.tools.seam*</coverage.filter>
@@ -82,7 +82,7 @@
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-surefire-plugin</artifactId>
 				<configuration>
-					<skip>${skipPrivateRequirements}</skip>
+					<skip>${skipTestsWithPrivateRequirements}</skip>
 					<explodedBundles>
 						<bundle>org.jboss.tools.seam.ui.test</bundle>
 						<bundle>org.jboss.tools.seam.core.test</bundle>
