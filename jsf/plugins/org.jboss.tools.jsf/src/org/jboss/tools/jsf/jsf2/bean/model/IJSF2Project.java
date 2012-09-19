@@ -91,6 +91,6 @@ public interface IJSF2Project {
 	/**
 	 * Updates model by loaded definitions.
 	 */
-	public void update();
+	public void update(boolean updateDependent);
 
 }

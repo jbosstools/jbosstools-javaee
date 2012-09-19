@@ -93,8 +93,7 @@ public class JSFProcessHelper implements JSFConstants {
         		targets.put(ppt, getTemplate());
         	}
         }
-        Iterator it = groups.keySet().iterator();
-        while(it.hasNext()) targets.remove(it.next());
+        for(String s: groups.keySet()) targets.remove(s);
 
 		removeObsoleteGroups();
 		createPageGroups();

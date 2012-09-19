@@ -55,9 +55,8 @@ public class JSFProjectBeans extends RegularObjectImpl implements WebProjectNode
 				process(fcs[i], BeanConstants.REFERENCED_BEAN_CONSTANTS, map, classes);
 			}
 			
-			Iterator<XModelObject> it = map.values().iterator();
-			while(it.hasNext()) {
-				it.next().removeFromParent();
+			for(XModelObject o: map.values()) {
+				o.removeFromParent();
 			}
 		} finally {
 			isLoading = false;

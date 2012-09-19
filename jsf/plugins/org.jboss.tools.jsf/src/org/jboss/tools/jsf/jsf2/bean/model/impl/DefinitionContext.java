@@ -243,7 +243,7 @@ public class DefinitionContext {
 		typeDefinitions = workingCopy.typeDefinitions;
 		facesConfig = workingCopy.facesConfig;
 
-		project.update();
+		project.update(true);
 
 		workingCopy = null;
 	}

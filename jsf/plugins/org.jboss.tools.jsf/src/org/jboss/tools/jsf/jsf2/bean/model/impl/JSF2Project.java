@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.jsf2.bean.model.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -35,6 +36,7 @@ import org.jboss.tools.common.util.EclipseJavaUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.jsf.JSFModelPlugin;
+import org.jboss.tools.jsf.jsf2.bean.build.JSF2ProjectBuilder;
 import org.jboss.tools.jsf.jsf2.bean.model.IJSF2ManagedBean;
 import org.jboss.tools.jsf.jsf2.bean.model.IJSF2Project;
 import org.jboss.tools.jsf.jsf2.bean.model.JSF2ProjectFactory;
@@ -166,7 +168,7 @@ public class JSF2Project implements IJSF2Project {
 			XJob.addRunnableWithPriority(new XRunnable() {
 				public void run() {
 					project.resolve();
-					project.update();
+					project.update(true);
 				}				
 				public String getId() {
 					return "Build JSF2 Project " + project.getProject().getName();
@@ -254,7 +256,7 @@ public class JSF2Project implements IJSF2Project {
 		if(isStorageResolved) return;
 		isStorageResolved = true;
 		try {
-			getProject().build(IncrementalProjectBuilder.FULL_BUILD, KbBuilder.BUILDER_ID, new HashMap<String,String>(), new NullProgressMonitor());
+			new JSF2ProjectBuilder(this);
 		} catch (CoreException e) {
 			JSFModelPlugin.getDefault().logError(e);
 		}
@@ -281,7 +283,7 @@ public class JSF2Project implements IJSF2Project {
 		fireChanges();
 	}
 	
-	public void update() {
+	public void update(boolean updateDependent) {
 		FacesConfigDefinition fc = definitions.getFacesConfig();
 		isMetadataComplete = fc != null && fc.isMetadataComplete(); 
 		
@@ -306,6 +308,13 @@ public class JSF2Project implements IJSF2Project {
 			//No JSF2 beans in model when metadata is complete.
 			for (IJSF2ManagedBean bean: beans) {
 				addBean(bean);
+			}
+		}
+
+		if(updateDependent) {
+			Collection<JSF2Project> dependent = new ArrayList<JSF2Project>(usedBy);
+			for (JSF2Project p: dependent) {
+				p.update(false);
 			}
 		}
 

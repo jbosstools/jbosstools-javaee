@@ -32,6 +32,7 @@ import org.jboss.tools.jsf.model.helpers.pages.ResourceBundleHelper;
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jsf.web.JSFWebProject;
 import org.jboss.tools.jsf.web.pattern.JSFUrlPattern;
+import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 import org.jboss.tools.jst.web.model.pv.WebProjectNode;
 import org.jboss.tools.jst.web.project.WebProject;
 import org.jboss.tools.jst.web.project.list.IWebPromptingProvider;
@@ -158,7 +159,14 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 			if(url != null && url.length() > 0) list.add(url);
 			return list;
 		} else if(JSF_CONVERT_URL_TO_PATH.equals(id)) {
-			if(!EclipseResourceUtil.hasNature(model, JSFNature.NATURE_ID)) return EMPTY_LIST;
+			if(!EclipseResourceUtil.hasNature(model, JSFNature.NATURE_ID)) {
+				XModelObject webxml = WebAppHelper.getWebApp(model);
+				if(webxml != null) {
+					JSFWebProject.getInstance(model).getPatternLoader().revalidate(webxml);
+				} else {
+					return EMPTY_LIST;
+				}
+			}
 			ArrayList<Object> list = new ArrayList<Object>();
 			List<String> paths = JSFWebProject.getInstance(model).getUrlPattern().getJSFPaths(prefix);
 			if(!paths.isEmpty()) {

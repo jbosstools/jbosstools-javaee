@@ -237,9 +237,8 @@ public class JSFProjectBean extends RegularObjectImpl {
 				}
 			}
 		}
-		Iterator<XModelObject> it = map.values().iterator();
-		while(it.hasNext()) {
-			it.next().removeFromParent();
+		for(XModelObject o: map.values()) {
+			o.removeFromParent();
 		}
 	}
 	
