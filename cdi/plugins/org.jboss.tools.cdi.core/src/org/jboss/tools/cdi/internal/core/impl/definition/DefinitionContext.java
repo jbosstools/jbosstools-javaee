@@ -171,6 +171,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 				ts = new HashSet<String>();
 				resources.put(file, ts);
 			}
+			packageName = packageName.intern();
 			ts.add(packageName);
 			packages.add(packageName);
 			addToParents(file);
@@ -196,6 +197,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 				ts = new HashSet<String>();
 				resources.put(file, ts);
 			}
+			typeName = typeName.intern();
 			ts.add(typeName);
 			types.add(typeName);
 			addToParents(file);
