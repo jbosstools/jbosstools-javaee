@@ -26,6 +26,7 @@ import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.util.UniquePaths;
 
 /**
  * 
@@ -166,6 +167,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 
 	public void addPackage(IPath file, String packageName, PackageDefinition def) {
 		if(file != null) {
+			file = UniquePaths.getInstance().intern(file);
 			Set<String> ts = resources.get(file);
 			if(ts == null) {
 				ts = new HashSet<String>();
@@ -192,6 +194,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 
 	public void addType(IPath file, String typeName) {
 		if(file != null) {
+			file = UniquePaths.getInstance().intern(file);
 			Set<String> ts = resources.get(file);
 			if(ts == null) {
 				ts = new HashSet<String>();
@@ -212,7 +215,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 			q = q.removeLastSegments(1);
 			Set<IPath> cs = childPaths.get(q);
 			if(cs == null) {
-				childPaths.put(q, cs = new HashSet<IPath>());
+				childPaths.put(UniquePaths.getInstance().intern(q), cs = new HashSet<IPath>());
 			}
 			cs.add(file);
 		}

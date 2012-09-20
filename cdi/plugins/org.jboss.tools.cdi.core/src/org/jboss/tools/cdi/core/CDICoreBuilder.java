@@ -55,6 +55,7 @@ import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.project.ProjectHome;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.util.UniquePaths;
 import org.jboss.tools.common.web.WebUtils;
 
 public class CDICoreBuilder extends IncrementalProjectBuilder {
@@ -244,6 +245,8 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		} finally {
 			n.fireChanges();
 		}
+
+		resourceVisitor = null;
 		
 		return null;
 	}
@@ -442,6 +445,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 
 		public boolean visit(IResource resource) throws CoreException {
 			IPath path = resource.getFullPath();
+			path = UniquePaths.getInstance().intern(path);
 			if(resource instanceof IFile) {
 				if(visited.contains(path)) {
 					return false;

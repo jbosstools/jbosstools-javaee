@@ -53,7 +53,6 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	protected List<IAnnotationDeclaration> annotations = new ArrayList<IAnnotationDeclaration>(2);
 	protected IAnnotatable member;
 	private IAnnotationMap annotationsByType = EmptyMap.instance;
-	protected IResource resource;
 	
 	protected ITextSourceReference originalDefinition = null;
 
@@ -98,7 +97,6 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 
 	protected void init(IType contextType, IRootDefinitionContext context, int flags) throws CoreException {
 		project = context.getProject();
-		resource = ((IJavaElement)member).getResource();
 		if((flags & FLAG_NO_ANNOTATIONS) == 0) {
 			IAnnotation[] ts = member.getAnnotations();
 			for (int i = 0; i < ts.length; i++) {
@@ -118,6 +116,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 
 	protected void addDependency(IMember reference, IRootDefinitionContext context) {
 		if(reference == null || reference.isBinary()) return;
+		IResource resource = getResource();
 		if(!(resource instanceof IFile)) return;
 		IFile target = (IFile)resource;
 		IFile source = (IFile)reference.getResource();
@@ -227,7 +226,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	}
 
 	public IResource getResource() {
-		return resource;
+		return ((IJavaElement)member).getResource();
 	}
 
 	public ITextSourceReference getOriginalDefinition() {

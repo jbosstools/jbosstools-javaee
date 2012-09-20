@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
+import org.jboss.tools.common.util.UniquePaths;
 
 public class Dependencies {
 	protected Map<IPath, Set<IPath>> direct = new HashMap<IPath, Set<IPath>>();
@@ -24,6 +25,8 @@ public class Dependencies {
 	public Dependencies() {}
 
 	public void addDependency(IPath source, IPath target) {
+		source = UniquePaths.getInstance().intern(source);
+		target = UniquePaths.getInstance().intern(target);
 		Set<IPath> ps = direct.get(source);
 		if(ps == null) {
 			ps = new HashSet<IPath>();

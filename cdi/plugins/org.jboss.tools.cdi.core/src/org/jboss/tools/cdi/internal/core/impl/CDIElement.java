@@ -21,6 +21,7 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.extension.CDIExtensionManager;
 import org.jboss.tools.common.java.ParametedType;
 import org.jboss.tools.common.java.ParametedTypeFactory;
+import org.jboss.tools.common.util.UniquePaths;
 
 /**
  * 
@@ -90,7 +91,11 @@ public abstract class CDIElement implements ICDIElement {
 	}
 
 	public void setSourcePath(IPath source) {
+		if(source != null) {
+			source = UniquePaths.getInstance().intern(source);
+		}
 		this.source = source;
+		
 	}
 
 	@Override

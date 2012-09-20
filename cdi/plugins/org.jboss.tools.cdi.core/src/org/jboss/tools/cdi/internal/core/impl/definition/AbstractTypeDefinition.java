@@ -14,9 +14,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
@@ -121,6 +121,7 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 
 	public String getContent() {
 		if(type == null || type.isBinary()) return null;
+		IResource resource = getResource();
 		if(resource instanceof IFile && resource.getName().endsWith(".java")) {
 			return FileUtil.getContentFromEditorOrFile((IFile)resource);
 		}
