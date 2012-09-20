@@ -37,17 +37,6 @@ import org.w3c.dom.Text;
  */
 public abstract class AbstractEditableJsfTemplate extends VpeAbstractTemplate {
 	
-	/**
-	 * Gets the output attribute node.
-	 * 
-	 * @param element the element
-	 * 
-	 * @return the output attribute node
-	 */
-	public Attr getOutputAttributeNode(Element element) {
-       return null;
-    }
-
     // general jsf attributes
 	/**
 	 * Contains JSF attributes and appropriate HTML attributes 
@@ -101,12 +90,29 @@ public abstract class AbstractEditableJsfTemplate extends VpeAbstractTemplate {
 	public IRegion getSourceRegionForOpenOn(VpePageContext pageContext, Node sourceNode ,nsIDOMNode domNode) {
 
 		final Attr attr= getOutputAttributeNode((Element) sourceNode);
-		int offset = TextUtil.getStartELDocumentPosition(attr);
+		int offset = TextUtil.getPositionForOpenOn(attr, pageContext);
 		if(offset!=-1){
 			return new Region(offset, 0);
 		} else {
 			return super.getSourceRegionForOpenOn(pageContext, sourceNode, domNode);
 		}
  
+	}
+
+	/**
+	 * Gets the output attribute node.
+	 * This method may be overridden in subclasses.
+	 * 
+	 * @param element the element
+	 * 
+	 * @return the output attribute node
+	 */
+	public Attr getOutputAttributeNode(Element element) {
+		if (element.hasAttribute(JSF.ATTR_VALUE)) {
+			return element.getAttributeNode(JSF.ATTR_VALUE);
+		} else if (element.hasAttribute(JSF.ATTR_BINDING)) {
+			return element.getAttributeNode(JSF.ATTR_BINDING);
+		}
+		return null;
 	}
 }

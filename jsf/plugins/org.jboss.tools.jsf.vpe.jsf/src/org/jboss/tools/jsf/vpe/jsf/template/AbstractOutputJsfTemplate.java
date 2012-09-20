@@ -42,16 +42,6 @@ public abstract class AbstractOutputJsfTemplate extends AbstractEditableJsfTempl
 	 */
 	protected String escapeAttributeName = JSF.ATTR_ESCAPE;
 	
-	@Override
-	public Attr getOutputAttributeNode(Element element) {
-		if (element.hasAttribute(JSF.ATTR_VALUE)) {
-			return element.getAttributeNode(JSF.ATTR_VALUE);
-		} else if (element.hasAttribute(JSF.ATTR_BINDING)) {
-			return element.getAttributeNode(JSF.ATTR_BINDING);
-		}
-		return null;
-	}
-
 	/**
 	 * copy outputAttributes
 	 * 
