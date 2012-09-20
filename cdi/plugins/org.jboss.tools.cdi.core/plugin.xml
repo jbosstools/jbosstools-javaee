@@ -190,6 +190,13 @@
        </require>
  	</extension>
 
+	<extension
+	      point="org.jboss.tools.cdi.core.cdiextensions">
+	    <cdiextension
+	          class="org.jboss.tools.cdi.internal.weld.ParametersExtension"
+	          runtime="org.jboss.weld.environment.se.WeldSEBeanRegistrant">
+	    </cdiextension>
+	</extension>
 <!-- Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=315390 -->
 	<extension
 	      id="excludeEJBValidation"

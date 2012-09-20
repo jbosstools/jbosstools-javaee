@@ -60,6 +60,7 @@ import org.jboss.tools.cdi.core.test.tck.validation.AYTBeansXmlValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.AYTDefenitionErrorsValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.AYTDeploymentProblemsValidationTests;
 import org.jboss.tools.cdi.core.test.tck.validation.AYTSuppressWarningsTests;
+import org.jboss.tools.cdi.core.test.tck.validation.AYTWeldValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.AnnotationsValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.BeansXmlValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.BuilderOrderValidationTest;
@@ -72,6 +73,7 @@ import org.jboss.tools.cdi.core.test.tck.validation.ELReferenceTest;
 import org.jboss.tools.cdi.core.test.tck.validation.ELValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.IncrementalValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.SuppressWarningsTests;
+import org.jboss.tools.cdi.core.test.tck.validation.WeldValidationTest;
 import org.jboss.tools.common.base.test.validation.ValidationExceptionTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
@@ -136,6 +138,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(ELValidationTest.class);
 		suite.addTestSuite(SuppressWarningsTests.class);
 		suite.addTestSuite(IncrementalValidationTest.class);
+		suite.addTestSuite(WeldValidationTest.class);
 
 		// As-you-type model tests
 		suite.addTestSuite(CDIProjectAsYouTypeTest.class);
@@ -147,6 +150,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(AYTBeansXmlValidationTest.class);
 		suite.addTestSuite(AYTAnnotationValidationTest.class);
 		suite.addTestSuite(AYTSuppressWarningsTests.class);
+		suite.addTestSuite(AYTWeldValidationTest.class);
 
 		// Refactoring test
 		suite.addTestSuite(NamedBeanRefactoringTest.class);
