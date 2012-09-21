@@ -40,6 +40,7 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jst.jsf.designtime.DesignTimeApplicationManager;
 import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.util.UniquePaths;
 import org.jboss.tools.common.validation.internal.ProjectValidationContext;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.BijectedAttributeType;
@@ -869,6 +870,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * @param source
 	 */	
 	public void registerComponents(LoadedDeclarations ds, IPath source) {
+		source = UniquePaths.getInstance().intern(source);
 		boolean isThisProject = pathCheck.isThisProject(source);
 
 		ISeamNamespace[] ns = ds.getNamespaces().toArray(new ISeamNamespace[0]);
@@ -2522,7 +2524,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 					IFile f = path.segmentCount() < 2 ? null : ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 					b = !(f != null && f.exists() && f.getProject() != project);
 				}
-				paths.put(path, b);
+				paths.put(UniquePaths.getInstance().intern(path), b);
 			}
 			return b.booleanValue();
 		}
