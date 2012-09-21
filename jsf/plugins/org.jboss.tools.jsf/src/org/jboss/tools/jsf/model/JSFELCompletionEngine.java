@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007-2011 Red Hat, Inc.
+ * Copyright (c) 2007-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -41,7 +41,7 @@ import org.jboss.tools.jsf.model.pv.JSFPromptingProvider;
 public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompletionEngine.IJSFVariable> {
 
 	private static final ImageDescriptor JSF_EL_PROPOSAL_IMAGE = JSFModelPlugin.getDefault().getImageDescriptorFromRegistry(JSFModelPlugin.CA_JSF_EL_IMAGE_PATH);
-	private static ELParserFactory factory = ELParserUtil.getDefaultFactory();
+	private static ELParserFactory factory = ELParserUtil.getJbossFactory();
 
 	/*
 	 * (non-Javadoc)
