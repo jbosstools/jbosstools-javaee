@@ -13,7 +13,11 @@ package org.jboss.tools.struts.ui.bot.test.smoke;
 
 import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
+import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
+import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
+import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.jboss.tools.ui.bot.ext.helper.WidgetFinderHelper;
+import org.jboss.tools.ui.bot.ext.view.ServersView;
 import org.junit.Test;
 import org.jboss.tools.struts.ui.bot.test.StrutsAllBotTests;
 
@@ -24,6 +28,10 @@ import org.jboss.tools.struts.ui.bot.test.StrutsAllBotTests;
  * @author Lukas Jungmann
  * 
  */
+@Require(
+		clearProjects=false,
+		clearWorkspace=false, 
+		server = @Server(state = ServerState.NotRunning), perspective = "Web Development")
 public class RunStrutsProjectOnServer extends SWTTestExt {
 	private SWTJBTExt swtJbtExt = null;
 
@@ -42,16 +50,23 @@ public class RunStrutsProjectOnServer extends SWTTestExt {
 			configuredState.getServer().isRunning = true;
 		}
 		swtJbtExt.runProjectOnServer(StrutsAllBotTests.STRUTS_PROJECT_NAME);
+		
+		ServersView serversView = new ServersView();
+		serversView.cleanServer(configuredState.getServer().name);
+		serversView.openInWebBrowser(configuredState.getServer().name, 
+				StrutsAllBotTests.STRUTS_PROJECT_NAME);
+		
 		// Check Browser Content
 		String browserText = WidgetFinderHelper.browserInEditorText(bot,
 				"KickStart: Input name", true);
+		
+		// stop server, remove application from it and remove server as well
 		swtJbtExt.stopApplicationServer(0);
 		swtJbtExt.removeProjectFromServers(StrutsAllBotTests.STRUTS_PROJECT_NAME);
-		SWTJBTExt.deleteApplicationServer(bot, 0);
-		assertTrue("Displayed HTML page has wrong content. Application was not" +
-				" deployed by struts tools - known issue JBIDE-11306",
+		
+		assertTrue("Displayed HTML page has wrong content.",
 				(browserText != null)
-					&& (browserText.indexOf("<TITLE>KickStart: Input name</TITLE>") > -1));
+					&& (browserText.indexOf("KickStart: Input name") > -1));
 	}
 
 }

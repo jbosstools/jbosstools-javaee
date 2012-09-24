@@ -23,36 +23,19 @@ import org.junit.runners.Suite.SuiteClasses;
 
 /**
  * 
- * This is struts swtbot testcase for JBoss Tools.
- * 
- * System properties:
- *  -Dswtbot.test.properties.file=$PATH
- *  -Dusage_reporting_enabled=$BOOLEAN
- *  
- *  Format of swtbot.properties file:
- *  SERVER=EAP|JBOSS_AS,<server version>,<jre version to run with>|default,<server home>
- *  
- *  Sample swtbot.properties file:
- *
- *  SERVER=JBOSS_AS,6.0,default,/home/lukas/latest/jboss-6.0.0.Final
- *  JAVA=1.6,/space/java/sdk/jdk1.6.0_22
- *  
- *  
- *  Suite duration: aprox. 10min
- * 
  * @author Vladimir Pakan
  * @author Lukas Jungmann
- * 
+ * @author Jaroslav Jankovic
  */
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({
-	TutorialTest.class,
 	CreateNewStrutsProjectTest.class,
 	RunStrutsProjectOnServer.class,
 	AddRemoveStrutsCapabilities.class,
 	ImportStrutsProjectTest.class,
 	RenameStrutsConfigXmlFile.class,
-	RenameTldFile.class
+	RenameTldFile.class,
+	TutorialTest.class,
 	})
 public class StrutsAllBotTests {
 	public static final String STRUTS_PROJECT_NAME = "strutsTest";
