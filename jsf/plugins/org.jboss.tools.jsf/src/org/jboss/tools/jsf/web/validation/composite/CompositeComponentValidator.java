@@ -34,8 +34,10 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.validation.ContextValidationHelper;
+import org.jboss.tools.common.validation.IPreferenceInfo;
 import org.jboss.tools.common.validation.IProjectValidationContext;
 import org.jboss.tools.common.validation.IValidatingProjectTree;
+import org.jboss.tools.common.validation.PreferenceInfoManager;
 import org.jboss.tools.common.validation.ValidatorManager;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.project.JSFNature;
@@ -67,7 +69,7 @@ public class CompositeComponentValidator extends WebValidator {
 	public static final String PROBLEM_TYPE = "org.jboss.tools.jsf.compositeproblem"; //$NON-NLS-1$
 	public static final String SHORT_ID = "jboss.jsf.core"; //$NON-NLS-1$
 	public static final String PREFERENCE_PAGE_ID = "org.jboss.tools.jsf.ui.preferences.JSFValidationPreferencePage"; //$NON-NLS-1$
-
+	public static final String PROPERTY_PAGE_ID = "org.jboss.tools.jsf.ui.propertyPages.JSFValidationPreferencePage"; //$NON-NLS-1$
 	private static final String COMPOSITE_COMPONENT_URI_PREFIX = "http://java.sun.com/jsf/composite/"; //$NON-NLS-1$
 	
 	public static final String MESSAGE_ID_ATTRIBUTE_NAME = "JSF2_message_id"; //$NON-NLS-1$
@@ -396,5 +398,31 @@ public class CompositeComponentValidator extends WebValidator {
 	protected String getMessageBundleName() {
 		// TODO
 		return null;
+	}
+
+	@Override
+	protected void registerPreferenceInfo() {
+		if(PreferenceInfoManager.getPreferenceInfo(PROBLEM_TYPE) == null){
+			PreferenceInfoManager.register(PROBLEM_TYPE, new CompositeComponentPreferenceInfo());
+		}
+	}
+	
+	class CompositeComponentPreferenceInfo implements IPreferenceInfo{
+
+		@Override
+		public String getPreferencePageId() {
+			return PREFERENCE_PAGE_ID;
+		}
+
+		@Override
+		public String getPropertyPageId() {
+			return PROPERTY_PAGE_ID;
+		}
+
+		@Override
+		public String getPluginId() {
+			return JSFModelPlugin.PLUGIN_ID;
+		}
+		
 	}
 }

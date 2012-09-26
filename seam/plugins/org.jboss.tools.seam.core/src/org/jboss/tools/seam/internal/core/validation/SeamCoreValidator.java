@@ -40,10 +40,12 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.validation.ContextValidationHelper;
+import org.jboss.tools.common.validation.IPreferenceInfo;
 import org.jboss.tools.common.validation.IProjectValidationContext;
 import org.jboss.tools.common.validation.IValidatingProjectSet;
 import org.jboss.tools.common.validation.IValidatingProjectTree;
 import org.jboss.tools.common.validation.IValidator;
+import org.jboss.tools.common.validation.PreferenceInfoManager;
 import org.jboss.tools.common.validation.ValidationUtil;
 import org.jboss.tools.common.validation.ValidatorManager;
 import org.jboss.tools.common.validation.internal.SimpleValidatingProjectTree;
@@ -1112,6 +1114,32 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 			SeamCorePlugin.getDefault().logError(ex);
 		}
 		return marker;
+	}
+
+	@Override
+	protected void registerPreferenceInfo() {
+		if(PreferenceInfoManager.getPreferenceInfo(PROBLEM_TYPE) == null){
+			PreferenceInfoManager.register(PROBLEM_TYPE, new SeamPreferenceInfo());
+		}
+	}
+	
+	class SeamPreferenceInfo implements IPreferenceInfo{
+
+		@Override
+		public String getPreferencePageId() {
+			return PREFERENCE_PAGE_ID;
+		}
+
+		@Override
+		public String getPropertyPageId() {
+			return PROPERTY_PAGE_ID;
+		}
+
+		@Override
+		public String getPluginId() {
+			return SeamCorePlugin.PLUGIN_ID;
+		}
+		
 	}
 
 }

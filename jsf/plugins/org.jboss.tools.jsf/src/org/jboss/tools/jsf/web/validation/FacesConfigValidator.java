@@ -42,10 +42,12 @@ import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.impl.XModelImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.validation.ContextValidationHelper;
+import org.jboss.tools.common.validation.IPreferenceInfo;
 import org.jboss.tools.common.validation.IProjectValidationContext;
 import org.jboss.tools.common.validation.IValidatingProjectSet;
 import org.jboss.tools.common.validation.IValidatingProjectTree;
 import org.jboss.tools.common.validation.IValidator;
+import org.jboss.tools.common.validation.PreferenceInfoManager;
 import org.jboss.tools.common.validation.ValidationErrorManager;
 import org.jboss.tools.common.validation.ValidatorManager;
 import org.jboss.tools.common.validation.internal.ProjectValidationContext;
@@ -74,6 +76,8 @@ public class FacesConfigValidator extends ValidationErrorManager implements IVal
 	public static final String ID = "org.jboss.tools.esb.validator.ESBCoreValidator"; //$NON-NLS-1$
 	public static final String PROBLEM_TYPE = "org.jboss.tools.jsf.facesconfigproblem"; //$NON-NLS-1$
 	public static final String PREFERENCE_PAGE_ID = CompositeComponentValidator.PREFERENCE_PAGE_ID;
+	public static final String PROPERTY_PAGE_ID = CompositeComponentValidator.PROPERTY_PAGE_ID;
+	
 
 	public static String SHORT_ID = "jsf-verification"; //$NON-NLS-1$
 
@@ -430,6 +434,32 @@ public class FacesConfigValidator extends ValidationErrorManager implements IVal
 		}
 
 		return files;
+	}
+
+	@Override
+	protected void registerPreferenceInfo() {
+		if(PreferenceInfoManager.getPreferenceInfo(PROBLEM_TYPE) == null){
+			PreferenceInfoManager.register(PROBLEM_TYPE, new JSFPreferenceInfo());
+		}
+	}
+	
+	class JSFPreferenceInfo implements IPreferenceInfo{
+
+		@Override
+		public String getPreferencePageId() {
+			return PREFERENCE_PAGE_ID;
+		}
+
+		@Override
+		public String getPropertyPageId() {
+			return PROPERTY_PAGE_ID;
+		}
+
+		@Override
+		public String getPluginId() {
+			return JSFModelPlugin.PLUGIN_ID;
+		}
+		
 	}
 
 }

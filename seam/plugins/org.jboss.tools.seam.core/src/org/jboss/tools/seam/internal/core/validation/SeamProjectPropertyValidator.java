@@ -118,6 +118,12 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 				public String getMarkerType() {
 					return ValidationErrorManager.DEFAULT_VALIDATION_MARKER;
 				}
+
+				@Override
+				protected void registerPreferenceInfo() {
+					// TODO Auto-generated method stub
+					
+				}
 			};
 			errorManager.init(project, null, null, this, reporter);
 

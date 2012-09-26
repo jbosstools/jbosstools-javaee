@@ -109,11 +109,13 @@ import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.validation.ContextValidationHelper;
 import org.jboss.tools.common.validation.EditorValidationContext;
 import org.jboss.tools.common.validation.IJavaElementValidator;
+import org.jboss.tools.common.validation.IPreferenceInfo;
 import org.jboss.tools.common.validation.IProjectValidationContext;
 import org.jboss.tools.common.validation.IStringValidator;
 import org.jboss.tools.common.validation.ITypedReporter;
 import org.jboss.tools.common.validation.IValidatingProjectSet;
 import org.jboss.tools.common.validation.IValidatingProjectTree;
+import org.jboss.tools.common.validation.PreferenceInfoManager;
 import org.jboss.tools.common.validation.ValidationUtil;
 import org.jboss.tools.common.validation.ValidatorManager;
 import org.jboss.tools.jst.web.kb.internal.validation.KBValidator;
@@ -125,6 +127,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	public static final String ID = "org.jboss.tools.cdi.core.CoreValidator"; //$NON-NLS-1$
 	public static final String PROBLEM_TYPE = "org.jboss.tools.cdi.core.cdiproblem"; //$NON-NLS-1$
 	public static final String PREFERENCE_PAGE_ID = "org.jboss.tools.cdi.ui.preferences.CDIValidatorPreferencePage"; //$NON-NLS-1$
+	public static final String PROPERTY_PAGE_ID = "org.jboss.tools.cdi.ui.propertyPages.CDIValidatorPreferencePage"; //$NON-NLS-1$
+	
 
 	ICDIProject rootCdiProject;
 	Map<IProject, CDIValidationContext> cdiContexts = new HashMap<IProject, CDIValidationContext>();
@@ -2728,5 +2732,31 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	@Override
 	protected boolean shouldCleanAllAnnotations() {
 		return true;
+	}
+
+	@Override
+	protected void registerPreferenceInfo() {
+		if(PreferenceInfoManager.getPreferenceInfo(PROBLEM_TYPE) == null){
+			PreferenceInfoManager.register(PROBLEM_TYPE, new CDIPreferenceInfo());
+		}
+	}
+	
+	class CDIPreferenceInfo implements IPreferenceInfo{
+
+		@Override
+		public String getPreferencePageId() {
+			return PREFERENCE_PAGE_ID;
+		}
+
+		@Override
+		public String getPropertyPageId() {
+			return PROPERTY_PAGE_ID;
+		}
+
+		@Override
+		public String getPluginId() {
+			return CDICorePlugin.PLUGIN_ID;
+		}
+		
 	}
 }

@@ -1078,7 +1078,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 				CDIUIPlugin.getDefault().logError(e);
 			}
 		}
-		return null;
+		return new IJavaCompletionProposal[]{};
 	}
 	
 	

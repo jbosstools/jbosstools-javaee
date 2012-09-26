@@ -95,6 +95,12 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 			public String getMarkerType() {
 				return ValidationErrorManager.DEFAULT_VALIDATION_MARKER;
 			}
+
+			@Override
+			protected void registerPreferenceInfo() {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 		//errorManager.init(project, null, this, reporter);
 
