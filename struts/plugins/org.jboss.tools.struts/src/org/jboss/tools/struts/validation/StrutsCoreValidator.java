@@ -274,11 +274,6 @@ public class StrutsCoreValidator extends ValidationErrorManager implements IVali
 	}
 
 	@Override
-	protected String getPreferencePageId() {
-		return PREFERENCE_PAGE_ID;
-	}
-
-	@Override
 	protected void registerPreferenceInfo() {
 		if(PreferenceInfoManager.getPreferenceInfo(PROBLEM_TYPE) == null){
 			PreferenceInfoManager.register(PROBLEM_TYPE, new StrutsPreferenceInfo());

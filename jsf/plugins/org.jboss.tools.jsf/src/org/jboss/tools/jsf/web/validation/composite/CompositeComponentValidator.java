@@ -383,15 +383,6 @@ public class CompositeComponentValidator extends WebValidator {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jboss.tools.common.validation.ValidationErrorManager#getPreferencePageId()
-	 */
-	@Override
-	protected String getPreferencePageId() {
-		return PREFERENCE_PAGE_ID;
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see org.jboss.tools.common.validation.TempMarkerManager#getMessageBundleName()
 	 */
 	@Override

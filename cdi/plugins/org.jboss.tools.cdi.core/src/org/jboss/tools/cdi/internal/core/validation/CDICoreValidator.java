@@ -2705,15 +2705,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.jboss.tools.common.validation.ValidationErrorManager#getPreferencePageId()
-	 */
-	@Override
-	protected String getPreferencePageId() {
-		return PREFERENCE_PAGE_ID;
-	}
-
 	private static final String BUNDLE_NAME = "org.jboss.tools.cdi.internal.core.validation.messages";
 
 	/*

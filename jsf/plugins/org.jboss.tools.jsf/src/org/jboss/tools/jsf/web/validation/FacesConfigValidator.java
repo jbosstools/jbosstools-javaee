@@ -356,11 +356,6 @@ public class FacesConfigValidator extends ValidationErrorManager implements IVal
 		return JSFSeverityPreferences.isValidationEnabled(project);
 	}
 
-	@Override
-	protected String getPreferencePageId() {
-		return PREFERENCE_PAGE_ID;
-	}
-
 	private Set<IFile> collectFiles(IProject project, Set<IFile> changedFiles, IProjectValidationContext context) {
 		Set<IFile> files = new HashSet<IFile>();
 		if(context == null) {
