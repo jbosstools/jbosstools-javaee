@@ -15,6 +15,15 @@
 	<extension
          point="org.jboss.tools.runtime.core.downloadruntimes">
       <runtime
+            id="org.jboss.tools.runtime.core.seam.230"
+            name="JBoss Seam 2.3.0.Final"
+            version="2.3.0.Final"
+            size="131.4MB"
+            url="http://sourceforge.net/projects/jboss/files/JBoss%20Seam/2.3.0.Final/jboss-seam-distribution-2.3.0.Final-dist.zip/download?use_mirror=autoselect"
+            licenseUrl="http://www.gnu.org/licenses/lgpl-2.1.txt"
+            disclaimer="true"/>
+
+      <runtime
             id="org.jboss.tools.runtime.core.seam.222" 
             name="JBoss Seam 2.2.2.Final"
             version="2.2.2.Final"
