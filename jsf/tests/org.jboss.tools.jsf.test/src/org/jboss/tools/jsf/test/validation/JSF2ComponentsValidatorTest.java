@@ -21,9 +21,8 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.wst.validation.ValidationFramework;
+import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.web.validation.JSFValidationMessage;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -59,8 +58,8 @@ public class JSF2ComponentsValidatorTest extends TestCase {
 	}
 	
 	public void testJSF2ComponentsValidator() throws Exception {
-		ValidationFramework.getDefault().validate(new IProject[] {project},	false, false, new NullProgressMonitor());
 		IResource resource = project.findMember("/WebContent/pages/inputname.xhtml"); //$NON-NLS-1$
+		TestUtil.validate(resource);
 		assertTrue(resource.exists());
 		IMarker[] markers = resource.findMarkers("org.jboss.tools.jsf.compositeproblem", false, 1); //$NON-NLS-1$
 		assertEquals(3, markers.length);
@@ -70,9 +69,9 @@ public class JSF2ComponentsValidatorTest extends TestCase {
 	}
 
 	public void testELInTagBodyInCompositeComponent() throws Exception {
-		ValidationFramework.getDefault().validate(new IProject[] {project},	false, false, new NullProgressMonitor());
 		IResource resource = project.findMember("/WebContent/resources/demo/input.xhtml"); //$NON-NLS-1$
 		assertTrue(resource.exists());
+		TestUtil.validate(resource);
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(resource, "\"name\" cannot be resolved", 20);
 		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, "\"nameBroken\" cannot be resolved", 21);
 	}

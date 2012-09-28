@@ -14,9 +14,8 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.osgi.util.NLS;
-import org.eclipse.wst.validation.ValidationFramework;
+import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.jsf.model.JSFConstants;
 import org.jboss.tools.jsf.web.validation.JSFValidationMessage;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -42,9 +41,9 @@ public class FacesConfigValidatorTest extends TestCase {
 	}
 
 	public void testNavigation() throws Exception {
-		ValidationFramework.getDefault().validate(new IProject[] {project},	false, false, new NullProgressMonitor());
 		IResource resource = project.findMember("/WebContent/WEB-INF/faces-config.xml"); //$NON-NLS-1$
 		assertTrue(resource.exists());
+		TestUtil.validate(resource);
 		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(JSFValidationMessage.VIEW_ID_NO_SLASH, JSFConstants.ATT_FROM_VIEW_ID), 23);
 		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(JSFValidationMessage.TO_VIEW_ID_STAR, JSFConstants.ATT_TO_VIEW_ID), 26);
 		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(JSFValidationMessage.VIEW_NOT_EXISTS, JSFConstants.ATT_TO_VIEW_ID, "/pages/greeting3.xhtml"), 30, 42);
@@ -52,5 +51,4 @@ public class FacesConfigValidatorTest extends TestCase {
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(resource, NLS.bind(JSFValidationMessage.VIEW_NOT_EXISTS, JSFConstants.ATT_TO_VIEW_ID, "/pages/#{aaa.bbb}"), 38);
 		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(JSFValidationMessage.VIEW_NOT_EXISTS, JSFConstants.ATT_FROM_VIEW_ID, "/pages/inputname222.xhtml"), 46);
 	}
-
 }
