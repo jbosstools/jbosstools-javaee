@@ -157,8 +157,9 @@
          point="org.jboss.tools.common.validation.validator">
          <validator
                class="org.jboss.tools.cdi.internal.core.validation.CDICoreValidator"
-               name="%CDICoreValidator"
-               id="org.jboss.tools.cdi.core.CoreValidator">
+               name="%CDICoreValidator" 
+               id="org.jboss.tools.cdi.core.CoreValidator"
+               problemType="org.jboss.tools.cdi.core.cdiproblem">
          </validator>
    </extension>
 

@@ -66,7 +66,6 @@ import org.w3c.dom.NodeList;
 public class CompositeComponentValidator extends WebValidator {
 
 	public static final String ID = "org.jboss.tools.jsf.CompositeComponentValidator"; //$NON-NLS-1$
-	public static final String PROBLEM_TYPE = "org.jboss.tools.jsf.compositeproblem"; //$NON-NLS-1$
 	public static final String SHORT_ID = "jboss.jsf.core"; //$NON-NLS-1$
 	public static final String PREFERENCE_PAGE_ID = "org.jboss.tools.jsf.ui.preferences.JSFValidationPreferencePage"; //$NON-NLS-1$
 	public static final String PROPERTY_PAGE_ID = "org.jboss.tools.jsf.ui.propertyPages.JSFValidationPreferencePage"; //$NON-NLS-1$
@@ -351,14 +350,6 @@ public class CompositeComponentValidator extends WebValidator {
 		return JSFSeverityPreferences.getMaxNumberOfProblemMarkersPerFile(project);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#getMarkerType()
-	 */
-	public String getMarkerType() {
-		return PROBLEM_TYPE;
-	}
-	
 	public IMarker addError(String message, String preferenceKey,
 			String[] messageArguments, int length, int offset, IResource target, int messageId) {
 		IMarker marker = addError(message, preferenceKey, messageArguments, length, offset, target);
@@ -392,10 +383,8 @@ public class CompositeComponentValidator extends WebValidator {
 	}
 
 	@Override
-	protected void registerPreferenceInfo() {
-		if(PreferenceInfoManager.getPreferenceInfo(PROBLEM_TYPE) == null){
-			PreferenceInfoManager.register(PROBLEM_TYPE, new CompositeComponentPreferenceInfo());
-		}
+	public void registerPreferenceInfo() {
+		PreferenceInfoManager.register(getProblemType(), new CompositeComponentPreferenceInfo());
 	}
 	
 	class CompositeComponentPreferenceInfo implements IPreferenceInfo{

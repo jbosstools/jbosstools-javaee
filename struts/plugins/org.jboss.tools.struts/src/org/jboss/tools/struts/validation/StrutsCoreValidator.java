@@ -53,7 +53,6 @@ import org.jboss.tools.struts.StrutsProject;
  */
 public class StrutsCoreValidator extends ValidationErrorManager implements IValidator, StrutsConstants {
 	public static final String ID = "org.jboss.tools.struts.validation.StrutsCoreValidator"; //$NON-NLS-1$
-	public static final String PROBLEM_TYPE = "org.jboss.tools.struts.strutsproblem"; //$NON-NLS-1$
 	public static final String PREFERENCE_PAGE_ID = "org.jboss.tools.struts.ui.StrutsValidatorPreferencePage"; //$NON-NLS-1$
 	public static final String PROPERTY_PAGE_ID = "org.jboss.tools.struts.ui.propertyPages.StrutsValidatorPreferencePage"; //$NON-NLS-1$
 
@@ -119,15 +118,6 @@ public class StrutsCoreValidator extends ValidationErrorManager implements IVali
 
 		addCheck(new StrutsConfigCheck(this, StrutsPreferences.INVALID_INIT_PARAM), 
 				ENT_STRUTSCONFIG + VER_SUFFIX_10, ENT_STRUTSCONFIG + VER_SUFFIX_11, ENT_STRUTSCONFIG + VER_SUFFIX_12);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#getMarkerType()
-	 */
-	@Override
-	public String getMarkerType() {
-		return PROBLEM_TYPE;
 	}
 
 	public String getId() {
@@ -274,10 +264,8 @@ public class StrutsCoreValidator extends ValidationErrorManager implements IVali
 	}
 
 	@Override
-	protected void registerPreferenceInfo() {
-		if(PreferenceInfoManager.getPreferenceInfo(PROBLEM_TYPE) == null){
-			PreferenceInfoManager.register(PROBLEM_TYPE, new StrutsPreferenceInfo());
-		}
+	public void registerPreferenceInfo() {
+		PreferenceInfoManager.register(getProblemType(), new StrutsPreferenceInfo());
 	}
 	
 	class StrutsPreferenceInfo implements IPreferenceInfo{

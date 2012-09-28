@@ -125,7 +125,6 @@ import org.jboss.tools.jst.web.kb.internal.validation.KBValidator;
  */
 public class CDICoreValidator extends CDIValidationErrorManager implements IJavaElementValidator, IStringValidator {
 	public static final String ID = "org.jboss.tools.cdi.core.CoreValidator"; //$NON-NLS-1$
-	public static final String PROBLEM_TYPE = "org.jboss.tools.cdi.core.cdiproblem"; //$NON-NLS-1$
 	public static final String PREFERENCE_PAGE_ID = "org.jboss.tools.cdi.ui.preferences.CDIValidatorPreferencePage"; //$NON-NLS-1$
 	public static final String PROPERTY_PAGE_ID = "org.jboss.tools.cdi.ui.propertyPages.CDIValidatorPreferencePage"; //$NON-NLS-1$
 	
@@ -211,15 +210,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			cdiContexts.put(project, context);
 		}
 		return context;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#getMarkerType()
-	 */
-	@Override
-	public String getMarkerType() {
-		return PROBLEM_TYPE;
 	}
 
 	/*
@@ -515,7 +505,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		rootCdiProject = new CDIProjectAsYouType(rootCdiProject, file);
 		validateResource(file);
 		if(reporter instanceof ITypedReporter) {
-			((ITypedReporter)reporter).addTypeForFile(getMarkerType());
+			((ITypedReporter)reporter).addTypeForFile(getProblemType());
 		}
 		disableProblemAnnotations(new ITextSourceReference() {
 			@Override
@@ -2726,10 +2716,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	}
 
 	@Override
-	protected void registerPreferenceInfo() {
-		if(PreferenceInfoManager.getPreferenceInfo(PROBLEM_TYPE) == null){
-			PreferenceInfoManager.register(PROBLEM_TYPE, new CDIPreferenceInfo());
-		}
+	public void registerPreferenceInfo() {
+		PreferenceInfoManager.register(getProblemType(), new CDIPreferenceInfo());
 	}
 	
 	class CDIPreferenceInfo implements IPreferenceInfo{

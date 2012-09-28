@@ -590,7 +590,8 @@
          <validator
                class="org.jboss.tools.seam.internal.core.validation.SeamCoreValidator"
                name="%SeamCoreValidator"
-               id="org.jboss.tools.seam.core.CoreValidator">
+               id="org.jboss.tools.seam.core.CoreValidator"
+               problemType="org.jboss.tools.seam.core.seamproblem">
          </validator>
    </extension>
 

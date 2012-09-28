@@ -37,7 +37,7 @@ import org.jboss.tools.test.util.JobUtils;
  * 
  */
 public class SeamMarkerResolutionTest extends TestCase {
-
+	public static final String PROBLEM_TYPE = "org.jboss.tools.seam.core.seamproblem";
 	private IProject project;
 	
 	@Override
@@ -80,7 +80,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 				new String[]{
 					"src/action/org/domain/SeamWebWarTestProject/session/StatefulDuplicateRemoveComponent.java"
 				},
-				SeamCoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
 				SeamCoreValidator.DUPLICATE_REMOVE_MESSAGE_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -91,7 +91,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 				new String[]{
 					"src/action/org/domain/SeamWebWarTestProject/session/StatefulDuplicateDestroyComponent.java"
 				},
-				SeamCoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
 				SeamCoreValidator.DUPLICATE_DESTROY_MESSAGE_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -102,7 +102,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 				new String[]{
 					"src/action/org/domain/SeamWebWarTestProject/session/StatelessClass.java"
 				},
-				SeamCoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
 				SeamCoreValidator.DUPLICATE_DESTROY_MESSAGE_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -113,7 +113,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 				new String[]{
 					"src/action/org/domain/SeamWebWarTestProject/session/StatefulDuplicateCreateComponent.java"
 				},
-				SeamCoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
 				SeamCoreValidator.DUPLICATE_CREATE_MESSAGE_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -124,7 +124,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 				new String[]{
 					"src/action/org/domain/SeamWebWarTestProject/session/StatefulDuplicateUnwrapComponent.java"
 				},
-				SeamCoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
 				SeamCoreValidator.DUPLICATE_UNWRAP_MESSAGE_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -135,7 +135,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 				new String[]{
 					"src/action/org/domain/SeamWebWarTestProject/session/NonComponentWithCreateMethod.java"
 				},
-				SeamCoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
 				SeamCoreValidator.CREATE_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -146,7 +146,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 				new String[]{
 					"src/action/org/domain/SeamWebWarTestProject/session/NonComponentWithCreateMethod.java"
 				},
-				SeamCoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
 				SeamCoreValidator.CREATE_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID,
 				AddAnnotationMarkerResolution.class);
@@ -157,7 +157,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 				new String[]{
 					"src/action/org/domain/SeamWebWarTestProject/session/NonComponentWithUnwrapMethod.java"
 				},
-				SeamCoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
 				SeamCoreValidator.UNWRAP_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -168,7 +168,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 				new String[]{
 					"src/action/org/domain/SeamWebWarTestProject/session/NonComponentWithUnwrapMethod.java"
 				},
-				SeamCoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
 				SeamCoreValidator.UNWRAP_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID,
 				AddAnnotationMarkerResolution.class);
@@ -179,7 +179,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 				new String[]{
 					"src/action/org/domain/SeamWebWarTestProject/session/NonComponentWithObserverMethod.java"
 				},
-				SeamCoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
 				SeamCoreValidator.OBSERVER_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -190,7 +190,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 				new String[]{
 					"src/action/org/domain/SeamWebWarTestProject/session/NonComponentWithObserverMethod.java"
 				},
-				SeamCoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
 				SeamCoreValidator.OBSERVER_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID,
 				AddAnnotationMarkerResolution.class);
@@ -201,7 +201,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 				new String[]{
 					"src/action/org/domain/SeamWebWarTestProject/session/DuplicateComponent1.java"
 				},
-				SeamCoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
 				SeamCoreValidator.NONUNIQUE_COMPONENT_NAME_MESSAGE_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -212,7 +212,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 				new String[]{
 					"src/action/org/domain/SeamWebWarTestProject/session/DuplicateComponent1.java"
 				},
-				SeamCoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
 				SeamCoreValidator.NONUNIQUE_COMPONENT_NAME_MESSAGE_ID,
 				RenameAnnotationMarkerResolution.class);
@@ -223,7 +223,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 				new String[]{
 					"src/action/org/domain/SeamWebWarTestProject/session/StatefulComponentWithoutRemove.java"
 				},
-				SeamCoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
 				SeamCoreValidator.STATEFUL_COMPONENT_DOES_NOT_CONTAIN_REMOVE_ID,
 				AddAnnotatedMethodMarkerResolution.class);
@@ -234,7 +234,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 				new String[]{
 					"src/action/org/domain/SeamWebWarTestProject/session/StatefulComponentWithoutDestroy.java"
 				},
-				SeamCoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
 				SeamCoreValidator.STATEFUL_COMPONENT_DOES_NOT_CONTAIN_DESTROY_ID,
 				AddAnnotatedMethodMarkerResolution.class);
@@ -245,7 +245,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 				new String[]{
 					"src/action/org/domain/SeamWebWarTestProject/session/StatefulComponentWithWrongScope.java"
 				},
-				SeamCoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
 				SeamCoreValidator.STATEFUL_COMPONENT_WRONG_SCOPE_ID,
 				ChangeScopeMarkerResolution.class);
@@ -256,7 +256,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 				new String[]{
 					"src/action/org/domain/SeamWebWarTestProject/entity/EntityComponentWithWrongScope.java"
 				},
-				SeamCoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
 				SeamCoreValidator.ENTITY_COMPONENT_WRONG_SCOPE_ID,
 				ChangeScopeMarkerResolution.class);
@@ -267,7 +267,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 				new String[]{
 				"WebContent/WEB-INF/components.xml"
 				},
-				SeamCoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
 				SeamCoreValidator.UNKNOWN_COMPONENT_PROPERTY_ID,
 				AddSetterMarkerResolution.class);

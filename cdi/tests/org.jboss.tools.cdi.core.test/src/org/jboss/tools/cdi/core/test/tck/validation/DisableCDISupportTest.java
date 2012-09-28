@@ -15,7 +15,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
-import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
@@ -23,7 +22,8 @@ import org.jboss.tools.test.util.ResourcesUtils;
  * @author Alexey Kazakov
  */
 public class DisableCDISupportTest extends ValidationTest {
-
+	private static final String CDI_CORE_VALIDATOR_PROBLEM_TYPE = "org.jboss.tools.cdi.core.cdiproblem";
+	
 	protected IProject tckProject;
 
 	/*
@@ -52,10 +52,10 @@ public class DisableCDISupportTest extends ValidationTest {
 	 * @throws Exception
 	 */
 	public void testRemovingProblemMarkers() throws Exception {
-		IMarker[] markers = tckProject.findMarkers(CDICoreValidator.PROBLEM_TYPE, true, IResource.DEPTH_INFINITE);
+		IMarker[] markers = tckProject.findMarkers(CDI_CORE_VALIDATOR_PROBLEM_TYPE, true, IResource.DEPTH_INFINITE);
 		assertFalse(markers.length==0);
 		CDIUtil.disableCDI(tckProject);
-		markers = tckProject.findMarkers(CDICoreValidator.PROBLEM_TYPE, true, IResource.DEPTH_INFINITE);
+		markers = tckProject.findMarkers(CDI_CORE_VALIDATOR_PROBLEM_TYPE, true, IResource.DEPTH_INFINITE);
 		assertEquals(0, markers.length);
 	}
 }

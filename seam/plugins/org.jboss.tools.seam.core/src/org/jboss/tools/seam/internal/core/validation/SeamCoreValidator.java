@@ -89,7 +89,6 @@ import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
  */
 public class SeamCoreValidator extends SeamValidationErrorManager implements IValidator {
 	public static final String ID = "org.jboss.tools.seam.core.CoreValidator"; //$NON-NLS-1$
-	public static final String PROBLEM_TYPE = "org.jboss.tools.seam.core.seamproblem"; //$NON-NLS-1$
 
 	public static final int NONUNIQUE_COMPONENT_NAME_MESSAGE_ID = 1;
 	public static final int DUPLICATE_REMOVE_MESSAGE_ID = 2;
@@ -109,15 +108,6 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	private ISeamProject seamProject;
 	private SeamProjectsSet set;
 	private String projectName;
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#getMarkerType()
-	 */
-	@Override
-	public String getMarkerType() {
-		return PROBLEM_TYPE;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -1117,10 +1107,8 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	}
 
 	@Override
-	protected void registerPreferenceInfo() {
-		if(PreferenceInfoManager.getPreferenceInfo(PROBLEM_TYPE) == null){
-			PreferenceInfoManager.register(PROBLEM_TYPE, new SeamPreferenceInfo());
-		}
+	public void registerPreferenceInfo() {
+		PreferenceInfoManager.register(getProblemType(), new SeamPreferenceInfo());
 	}
 	
 	class SeamPreferenceInfo implements IPreferenceInfo{

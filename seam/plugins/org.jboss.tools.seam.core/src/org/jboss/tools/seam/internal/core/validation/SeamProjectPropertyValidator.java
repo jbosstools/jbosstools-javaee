@@ -115,11 +115,6 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 				}
 
 				@Override
-				public String getMarkerType() {
-					return ValidationErrorManager.DEFAULT_VALIDATION_MARKER;
-				}
-
-				@Override
 				protected void registerPreferenceInfo() {
 					// TODO Auto-generated method stub
 					

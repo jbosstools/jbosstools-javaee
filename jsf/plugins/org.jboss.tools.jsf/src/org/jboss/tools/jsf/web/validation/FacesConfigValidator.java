@@ -74,7 +74,6 @@ import org.jboss.tools.jst.web.validation.CheckClass;
  */
 public class FacesConfigValidator extends ValidationErrorManager implements IValidator, JSFConstants {
 	public static final String ID = "org.jboss.tools.esb.validator.ESBCoreValidator"; //$NON-NLS-1$
-	public static final String PROBLEM_TYPE = "org.jboss.tools.jsf.facesconfigproblem"; //$NON-NLS-1$
 	public static final String PREFERENCE_PAGE_ID = CompositeComponentValidator.PREFERENCE_PAGE_ID;
 	public static final String PROPERTY_PAGE_ID = CompositeComponentValidator.PROPERTY_PAGE_ID;
 	
@@ -178,15 +177,6 @@ public class FacesConfigValidator extends ValidationErrorManager implements IVal
 
 		addCheck(new JSFCheckFromViewId(this), new String[]{ENT_NAVIGATION_CASE, ENT_NAVIGATION_CASE_20, ENT_NAVIGATION_RULE, ENT_NAVIGATION_RULE_20});
 		addCheck(new JSFCheckToViewId(this), new String[]{ENT_NAVIGATION_CASE, ENT_NAVIGATION_CASE_20, ENT_NAVIGATION_RULE, ENT_NAVIGATION_RULE_20});
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#getMarkerType()
-	 */
-	@Override
-	public String getMarkerType() {
-		return PROBLEM_TYPE;
 	}
 
 	public String getId() {
@@ -432,10 +422,8 @@ public class FacesConfigValidator extends ValidationErrorManager implements IVal
 	}
 
 	@Override
-	protected void registerPreferenceInfo() {
-		if(PreferenceInfoManager.getPreferenceInfo(PROBLEM_TYPE) == null){
-			PreferenceInfoManager.register(PROBLEM_TYPE, new JSFPreferenceInfo());
-		}
+	public void registerPreferenceInfo() {
+		PreferenceInfoManager.register(getProblemType(), new JSFPreferenceInfo());
 	}
 	
 	class JSFPreferenceInfo implements IPreferenceInfo{

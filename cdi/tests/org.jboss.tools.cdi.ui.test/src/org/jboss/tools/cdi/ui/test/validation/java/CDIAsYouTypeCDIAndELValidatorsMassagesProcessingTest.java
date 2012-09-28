@@ -17,7 +17,6 @@ import org.eclipse.jface.text.source.Annotation;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.common.base.test.validation.AbstractAsYouTypeValidationTest;
 import org.jboss.tools.common.base.test.validation.java.BaseAsYouTypeInJavaValidationTest;
-import org.jboss.tools.jst.web.kb.internal.validation.ELValidator;
 
 /**
  * 
@@ -26,6 +25,7 @@ import org.jboss.tools.jst.web.kb.internal.validation.ELValidator;
  */
 public class CDIAsYouTypeCDIAndELValidatorsMassagesProcessingTest extends TCKTest {
 	private static final String PAGE_NAME = "JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/Bean_Broken.java";
+	private static final String EL_VALIDATOR_PROBLEM_TYPE = "org.jboss.tools.jst.web.kb.elproblem";
 
 	private BaseAsYouTypeInJavaValidationTest baseTest = null;
 	protected IProject project;
@@ -44,7 +44,7 @@ public class CDIAsYouTypeCDIAndELValidatorsMassagesProcessingTest extends TCKTes
 		project = TCKTest.findTestProject();
 		if (baseTest == null) {
 			// Since the test is about EL errors we're using ELValidator.PROBLEM_TYPE type of problem
-			baseTest = new BaseAsYouTypeInJavaValidationTest(project, ELValidator.PROBLEM_TYPE);
+			baseTest = new BaseAsYouTypeInJavaValidationTest(project, EL_VALIDATOR_PROBLEM_TYPE);
 		}
 	}
 

@@ -15,7 +15,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.source.Annotation;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
-import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.common.base.test.validation.AbstractAsYouTypeValidationTest;
 import org.jboss.tools.common.base.test.validation.java.BaseAsYouTypeInJavaValidationTest;
@@ -27,6 +26,7 @@ import org.jboss.tools.common.base.test.validation.java.BaseAsYouTypeInJavaValid
  */
 public class CDIAsYouTypeInJavaSupressWarningsTest extends TCKTest {
 	private static final String PAGE_NAME = "JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/TestNamed.java";
+	private static final String CDI_CORE_VALIDATOR_PROBLEM_TYPE = "org.jboss.tools.cdi.core.cdiproblem";
 
 	private BaseAsYouTypeInJavaValidationTest baseTest = null;
 	protected IProject project;
@@ -39,7 +39,7 @@ public class CDIAsYouTypeInJavaSupressWarningsTest extends TCKTest {
 	public void setUp() throws Exception {
 		project = TCKTest.findTestProject();
 		if (baseTest == null) {
-			baseTest = new BaseAsYouTypeInJavaValidationTest(project, CDICoreValidator.PROBLEM_TYPE);
+			baseTest = new BaseAsYouTypeInJavaValidationTest(project, CDI_CORE_VALIDATOR_PROBLEM_TYPE);
 		}
 	}
 

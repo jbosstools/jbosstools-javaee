@@ -2,7 +2,6 @@ package org.jboss.tools.cdi.ui.test.marker;
 
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
-import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.marker.AddAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.AddLocalBeanMarkerResolution;
@@ -17,15 +16,8 @@ import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
 import org.jboss.tools.common.base.test.QuickFixTestUtil;
 
 public class CDIQuickFixTest extends TCKTest {
+	public static final String PROBLEM_TYPE = "org.jboss.tools.cdi.core.cdiproblem"; //$NON-NLS-1$
 	private QuickFixTestUtil util = new QuickFixTestUtil();
-	
-	public void setUp() throws Exception {
-		super.setUp();
-		
-		// register Preference Info
-		new CDICoreValidator();
-	}
-	
 	
 	public void testMakeFieldStatic() throws CoreException {
 		util.checkProposal(tckProject,
@@ -35,7 +27,7 @@ public class CDIQuickFixTest extends TCKTest {
 				CDIValidationErrorManager.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID,
 				MakeFieldStaticMarkerResolution.class,
 				true,
-				CDICoreValidator.PROBLEM_TYPE);
+				PROBLEM_TYPE);
 	}
 
 	public void testAddLocalBeanResolution() throws CoreException {
@@ -46,7 +38,7 @@ public class CDIQuickFixTest extends TCKTest {
 				CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID,
 				AddLocalBeanMarkerResolution.class,
 				true,
-				CDICoreValidator.PROBLEM_TYPE);
+				PROBLEM_TYPE);
 
 	}
 	
@@ -58,7 +50,7 @@ public class CDIQuickFixTest extends TCKTest {
 				CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID,
 				MakeMethodPublicMarkerResolution.class,
 				true,
-				CDICoreValidator.PROBLEM_TYPE);
+				PROBLEM_TYPE);
 }
 	
 	
@@ -70,7 +62,7 @@ public class CDIQuickFixTest extends TCKTest {
 				CDIValidationErrorManager.NOT_PASSIVATION_CAPABLE_BEAN_ID,
 				AddSerializableInterfaceMarkerResolution.class,
 				true,
-				CDICoreValidator.PROBLEM_TYPE);
+				PROBLEM_TYPE);
 	}
 	
 	public void testAddRetentionToQualifierResolution() throws CoreException{
@@ -81,7 +73,7 @@ public class CDIQuickFixTest extends TCKTest {
 				CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE_ID,
 				AddRetentionAnnotationMarkerResolution.class,
 				true,
-				CDICoreValidator.PROBLEM_TYPE);
+				PROBLEM_TYPE);
 	}
 	
 	public void testChangeRetentionToQualifierResolution() throws CoreException{
@@ -92,7 +84,7 @@ public class CDIQuickFixTest extends TCKTest {
 				CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE_ID,
 				ChangeAnnotationMarkerResolution.class,
 				true,
-				CDICoreValidator.PROBLEM_TYPE);
+				PROBLEM_TYPE);
 	}
 	
 	public void testAddTargetToScopeResolution() throws CoreException{
@@ -103,7 +95,7 @@ public class CDIQuickFixTest extends TCKTest {
 				CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE_ID,
 				AddTargetAnnotationMarkerResolution.class,
 				true,
-				CDICoreValidator.PROBLEM_TYPE);
+				PROBLEM_TYPE);
 	}
 	
 	public void testAddNonbindingToAnnotationMemberOfQualifierResolution() throws CoreException{
@@ -114,7 +106,7 @@ public class CDIQuickFixTest extends TCKTest {
 				CDIValidationErrorManager.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_QUALIFIER_TYPE_MEMBER_ID,
 				AddAnnotationMarkerResolution.class,
 				true,
-				CDICoreValidator.PROBLEM_TYPE);
+				PROBLEM_TYPE);
 	}
 	
 	public void testDeleteDisposesAnnotationFromParameterResolution() throws CoreException{
@@ -125,7 +117,7 @@ public class CDIQuickFixTest extends TCKTest {
 				CDIValidationErrorManager.CONSTRUCTOR_PARAMETER_ANNOTATED_DISPOSES_ID,
 				DeleteAnnotationMarkerResolution.class,
 				true,
-				CDICoreValidator.PROBLEM_TYPE);
+				PROBLEM_TYPE);
 	}
 	
 	public void testCreateBeanClassResolution() throws CoreException{
@@ -136,7 +128,7 @@ public class CDIQuickFixTest extends TCKTest {
 				CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME_ID,
 				CreateCDIElementMarkerResolution.class,
 				true,
-				CDICoreValidator.PROBLEM_TYPE);
+				PROBLEM_TYPE);
 	}
 
 	public void testCreateStereotypeResolution() throws CoreException{
@@ -147,7 +139,7 @@ public class CDIQuickFixTest extends TCKTest {
 				CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME_ID,
 				CreateCDIElementMarkerResolution.class,
 				false,
-				CDICoreValidator.PROBLEM_TYPE);
+				PROBLEM_TYPE);
 	}
 	
 	public void testCreateDecoratorResolution() throws CoreException{
@@ -158,7 +150,7 @@ public class CDIQuickFixTest extends TCKTest {
 				CDIValidationErrorManager.UNKNOWN_DECORATOR_BEAN_CLASS_NAME_ID,
 				CreateCDIElementMarkerResolution.class,
 				false,
-				CDICoreValidator.PROBLEM_TYPE);
+				PROBLEM_TYPE);
 	}
 
 	public void testCreateInterceptorResolution() throws CoreException{
@@ -169,6 +161,6 @@ public class CDIQuickFixTest extends TCKTest {
 				CDIValidationErrorManager.UNKNOWN_INTERCEPTOR_CLASS_NAME_ID,
 				CreateCDIElementMarkerResolution.class,
 				false,
-				CDICoreValidator.PROBLEM_TYPE);
+				PROBLEM_TYPE);
 	}
 }

@@ -34,6 +34,7 @@ import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 public class ELValidatorTest extends AbstractResourceMarkerTest{
 	public static final String MARKER_TYPE = "org.eclipse.wst.validation.problemmarker";
+	public static final String EL_VALIDATOR_MARKER_TYPE = "org.jboss.tools.jst.web.kb.elproblem";
 
 	protected void setUp() throws Exception {
 //		JobUtils.waitForIdle();
@@ -100,7 +101,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 					14);
 
 			IFile file = project.getFile("WebContent/testElRevalidation.xhtml");
-			file.deleteMarkers(ELValidator.PROBLEM_TYPE, true, IResource.DEPTH_ZERO);
+			file.deleteMarkers(EL_VALIDATOR_MARKER_TYPE, true, IResource.DEPTH_ZERO);
 
 			assertMarkerIsNotCreatedForLine(
 					"WebContent/testElRevalidation.xhtml",
@@ -211,7 +212,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 			for (int i = 8; i < 108; i++) {
 				lines[i-8]=i;
 			}
-			assertMarkerIsCreated(file, ELValidator.PROBLEM_TYPE, messagePattern, lines);
+			assertMarkerIsCreated(file, EL_VALIDATOR_MARKER_TYPE, messagePattern, lines);
 			time = validateFile("WebContent/pages/lineNumbers.xhtml", 100);
 			System.out.println("Validation time: " + time);
 		} finally {

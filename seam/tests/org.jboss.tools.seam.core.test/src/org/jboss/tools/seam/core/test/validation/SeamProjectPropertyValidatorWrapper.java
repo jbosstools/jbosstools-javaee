@@ -92,11 +92,6 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 			}
 
 			@Override
-			public String getMarkerType() {
-				return ValidationErrorManager.DEFAULT_VALIDATION_MARKER;
-			}
-
-			@Override
 			protected void registerPreferenceInfo() {
 				// TODO Auto-generated method stub
 				
@@ -220,5 +215,17 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 			org.eclipse.wst.validation.internal.provisional.core.IValidator manager,
 			IReporter reporter, boolean asYouTypeValidation) {
 		this.init(project, validationHelper, validationContext, manager, reporter, false);
+	}
+
+	@Override
+	public void setProblemType(String problemType) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void registerPreferenceInfo() {
+		// TODO Auto-generated method stub
+		
 	}
 }

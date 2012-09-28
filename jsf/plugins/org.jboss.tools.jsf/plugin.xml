@@ -517,7 +517,8 @@
          <validator
                class="org.jboss.tools.jsf.web.validation.composite.CompositeComponentValidator"
                name="%ComponentCompositeValidator"
-               id="org.jboss.tools.jsf.CompositeComponentValidator">
+               id="org.jboss.tools.jsf.CompositeComponentValidator"
+               problemType="org.jboss.tools.jsf.compositeproblem">
          </validator>
    </extension>
 
@@ -526,7 +527,8 @@
          <validator
                class="org.jboss.tools.jsf.web.validation.FacesConfigValidator"
                name="%FacesConfigValidator"
-               id="org.jboss.tools.jsf.web.validation.FacesConfigValidator">
+               id="org.jboss.tools.jsf.web.validation.FacesConfigValidator"
+               problemType="org.jboss.tools.jsf.facesconfigproblem">
          </validator>
    </extension>
 

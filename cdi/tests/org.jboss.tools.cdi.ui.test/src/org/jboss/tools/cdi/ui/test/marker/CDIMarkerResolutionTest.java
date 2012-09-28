@@ -12,7 +12,6 @@ package org.jboss.tools.cdi.ui.test.marker;
 
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
-import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.marker.AddAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.AddLocalBeanMarkerResolution;
@@ -38,7 +37,8 @@ import org.jboss.tools.common.base.test.MarkerResolutionTestUtil;
  * 
  */
 public class CDIMarkerResolutionTest  extends TCKTest {
-
+	public static final String PROBLEM_TYPE = "org.jboss.tools.cdi.core.cdiproblem"; //$NON-NLS-1$
+	
 	public void testMakeProducerFieldStaticResolution() throws CoreException {
 		MarkerResolutionTestUtil.checkResolution(tckProject, 
 				new String[]{
@@ -47,7 +47,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NonStaticProducerOfSessionBeanBroken.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID,
 				MakeFieldStaticMarkerResolution.class);
@@ -64,7 +64,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducer1.qfxresult",
 						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducerLocal.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID,
 				MakeMethodBusinessMarkerResolution.class);
@@ -79,7 +79,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducer2.qfxresult",
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID,
 				AddLocalBeanMarkerResolution.class);
@@ -93,7 +93,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducerNoInterface.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID,
 				MakeMethodPublicMarkerResolution.class);
@@ -109,7 +109,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_Broken1.qfxresult",
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Terrier.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_OBSERVER_IN_SESSION_BEAN_ID,
 				MakeMethodBusinessMarkerResolution.class);
@@ -123,7 +123,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_Broken2.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_OBSERVER_IN_SESSION_BEAN_ID,
 				AddLocalBeanMarkerResolution.class);
@@ -137,7 +137,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_BrokenNoInterface.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_OBSERVER_IN_SESSION_BEAN_ID,
 				MakeMethodPublicMarkerResolution.class);
@@ -153,7 +153,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NotBusinessMethod_Broken1.qfxresult",
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/LocalInt.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_DISPOSER_IN_SESSION_BEAN_ID,
 				MakeMethodBusinessMarkerResolution.class);
@@ -167,7 +167,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NotBusinessMethod_Broken2.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_DISPOSER_IN_SESSION_BEAN_ID,
 				AddLocalBeanMarkerResolution.class);
@@ -181,7 +181,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NotBusinessMethod_BrokenNoInterface.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_DISPOSER_IN_SESSION_BEAN_ID,
 				MakeMethodPublicMarkerResolution.class);
@@ -195,7 +195,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 //				new String[]{
 //					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TimestampLogger_Broken.qfxresult"
 //				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MULTIPLE_DISPOSERS_FOR_PRODUCER_ID,
 				DeleteAllDisposerDuplicantMarkerResolution.class);
@@ -209,7 +209,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 //				new String[]{
 //					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Goose_Broken.qfxresult"
 //				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MULTIPLE_INJECTION_CONSTRUCTORS_ID,
 				DeleteAllInjectedConstructorsMarkerResolution.class);
@@ -223,7 +223,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Hamina_Broken.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.NOT_PASSIVATION_CAPABLE_BEAN_ID,
 				AddSerializableInterfaceMarkerResolution.class);
@@ -237,7 +237,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/SecondBean.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.NOT_PASSIVATION_CAPABLE_BEAN_ID,
 				AddSerializableInterfaceMarkerResolution.class);
@@ -251,7 +251,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestQualifier1.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE_ID,
 				AddRetentionAnnotationMarkerResolution.class);
@@ -265,7 +265,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestQualifier2.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE_ID,
 				ChangeAnnotationMarkerResolution.class);
@@ -279,7 +279,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestScope1.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_SCOPE_TYPE_ID,
 				AddRetentionAnnotationMarkerResolution.class);
@@ -293,7 +293,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestScope2.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_SCOPE_TYPE_ID,
 				ChangeAnnotationMarkerResolution.class);
@@ -307,7 +307,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestStereotype1.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE_ID,
 				AddRetentionAnnotationMarkerResolution.class);
@@ -321,7 +321,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestStereotype2.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE_ID,
 				ChangeAnnotationMarkerResolution.class);
@@ -332,7 +332,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestStereotype3.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE_ID,
 				AddTargetAnnotationMarkerResolution.class);
@@ -343,7 +343,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestStereotype4.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE_ID,
 				ChangeAnnotationMarkerResolution.class);
@@ -354,7 +354,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestQualifier3.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE_ID,
 				AddTargetAnnotationMarkerResolution.class);
@@ -365,7 +365,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestQualifier4.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE_ID,
 				ChangeAnnotationMarkerResolution.class);
@@ -379,7 +379,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestScope3.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE_ID,
 				AddTargetAnnotationMarkerResolution.class);
@@ -393,7 +393,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestScope4.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE_ID,
 				ChangeAnnotationMarkerResolution.class);
@@ -407,7 +407,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestQualifier5.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_QUALIFIER_TYPE_MEMBER_ID,
 				AddAnnotationMarkerResolution.class);
@@ -421,7 +421,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestQualifier6.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_QUALIFIER_TYPE_MEMBER_ID,
 				AddAnnotationMarkerResolution.class);
@@ -435,7 +435,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInterceptor1.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER_ID,
 				AddAnnotationMarkerResolution.class);
@@ -449,7 +449,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInterceptor2.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER_ID,
 				AddAnnotationMarkerResolution.class);
@@ -460,7 +460,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInjectProducerField.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.PRODUCER_ANNOTATED_INJECT_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -471,7 +471,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInjectProducerMethod.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.PRODUCER_ANNOTATED_INJECT_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -482,7 +482,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInjectObserverMethod.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.OBSERVER_ANNOTATED_INJECT_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -493,7 +493,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInjectDisposerMethod.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.DISPOSER_ANNOTATED_INJECT_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -507,7 +507,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestDisposerConstructor.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.CONSTRUCTOR_PARAMETER_ANNOTATED_DISPOSES_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -521,7 +521,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestObserverConstructor.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -535,7 +535,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInterceptor3.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.DISPOSER_IN_INTERCEPTOR_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -549,7 +549,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestDecorator.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.DISPOSER_IN_DECORATOR_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -563,7 +563,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInterceptor4.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.PRODUCER_IN_INTERCEPTOR_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -577,7 +577,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestDecorator2.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.PRODUCER_IN_DECORATOR_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -588,7 +588,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestStereotype5.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.STEREOTYPE_DECLARES_NON_EMPTY_NAME_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -599,7 +599,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestStereotype5.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.STEREOTYPE_DECLARES_NON_EMPTY_NAME_ID,
 				ChangeAnnotationMarkerResolution.class);
@@ -613,7 +613,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInterceptor5.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.INTERCEPTOR_HAS_NAME_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -625,7 +625,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NamedStereotypedInterceptorBroken.java",
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NamedStereotype.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.INTERCEPTOR_HAS_NAME_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -639,7 +639,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestDecorator3.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.DECORATOR_HAS_NAME_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -651,7 +651,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NamedStereotypedDecoratorBroken.java",
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NamedStereotype.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.DECORATOR_HAS_NAME_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -662,7 +662,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TD.java",
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.DECORATOR_HAS_NAME_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -676,7 +676,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestStereotype6.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.STEREOTYPE_IS_ANNOTATED_TYPED_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -690,7 +690,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestDecorator4.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.DECORATOR_ANNOTATED_SPECIALIZES_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -704,7 +704,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInterceptor6.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.INTERCEPTOR_ANNOTATED_SPECIALIZES_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -715,7 +715,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestDisposerProducerMethod.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_DISPOSES_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -726,7 +726,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestObserverProducerMethod.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -737,7 +737,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/DisposerInObserver.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -751,7 +751,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/ObserverInDecorator.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.OBSERVER_IN_DECORATOR_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -765,7 +765,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/ObserverInInterceptor.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.OBSERVER_IN_INTERCEPTOR_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -779,7 +779,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/SessionBeanAnnotatedDecoratorBroken.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.SESSION_BEAN_ANNOTATED_DECORATOR_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -793,7 +793,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/SessionBeanAnnotatedInterceptorBroken.qfxresult"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.SESSION_BEAN_ANNOTATED_INTERCEPTOR_ID,
 				DeleteAnnotationMarkerResolution.class);
@@ -805,7 +805,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 					//"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/beans.xml"
 					"WebContent/WEB-INF/beans.xml"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME_ID,
 				CreateCDIElementMarkerResolution.class);
@@ -817,7 +817,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 					//"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/beans.xml"
 					"WebContent/WEB-INF/beans.xml"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME_ID,
 				CreateCDIElementMarkerResolution.class);
@@ -829,7 +829,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 					//"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/beans.xml"
 					"WebContent/WEB-INF/beans.xml"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.UNKNOWN_INTERCEPTOR_CLASS_NAME_ID,
 				CreateCDIElementMarkerResolution.class);
@@ -840,7 +840,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NamedInjectionBroken.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.PARAM_INJECTION_DECLARES_EMPTY_NAME_ID,
 				AddNameMarkerResolution.class);
@@ -851,7 +851,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/MultipleDisposers.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MULTIPLE_DISPOSING_PARAMETERS_ID,
 				DeleteAllOtherAnnotationsFromParametersMarkerResolution.class);
@@ -862,7 +862,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/MultipleObservers.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MULTIPLE_OBSERVING_PARAMETERS_ID,
 				DeleteAllOtherAnnotationsFromParametersMarkerResolution.class);
@@ -873,7 +873,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Leopard_Broken.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD_ID,
 				MakeFieldProtectedMarkerResolution.class);
@@ -884,7 +884,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Leopard_Broken.java"
 				},
-				CDICoreValidator.PROBLEM_TYPE,
+				PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD_ID,
 				MakeBeanScopedDependentMarkerResolution.class);

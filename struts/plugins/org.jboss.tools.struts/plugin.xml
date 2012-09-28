@@ -425,7 +425,8 @@
          <validator
                class="org.jboss.tools.struts.validation.StrutsCoreValidator"
                name="%StrutsCoreValidator"
-               id="org.jboss.tools.struts.validation.StrutsCoreValidator">
+               id="org.jboss.tools.struts.validation.StrutsCoreValidator"
+               problemType="org.jboss.tools.struts.strutsproblem">
          </validator>
    </extension>
 

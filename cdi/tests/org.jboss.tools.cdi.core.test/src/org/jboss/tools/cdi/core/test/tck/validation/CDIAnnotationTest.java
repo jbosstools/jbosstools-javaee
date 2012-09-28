@@ -10,16 +10,15 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck.validation;
 
-import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.common.base.test.validation.AbstractAnnotationTest;
 
 /**
  * @author Alexey Kazakov
  */
 public class CDIAnnotationTest extends AbstractAnnotationTest {
-
+	public static final String PROBLEM_TYPE = "org.jboss.tools.cdi.core.cdiproblem"; //$NON-NLS-1$
 	@Override
 	protected String getMarkerType() {
-		return CDICoreValidator.PROBLEM_TYPE;
+		return PROBLEM_TYPE;
 	}
 }
