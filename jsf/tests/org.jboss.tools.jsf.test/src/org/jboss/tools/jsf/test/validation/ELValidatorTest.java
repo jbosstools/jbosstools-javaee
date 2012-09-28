@@ -322,6 +322,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 
 		try {
 			ELValidator validator = new ELValidator();
+			validator.setProblemType(EL_VALIDATOR_MARKER_TYPE);
 
 			ContextValidationHelper helper = new ContextValidationHelper();
 			helper.setProject(project);
@@ -354,6 +355,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 
 	private ELValidator getElValidator(Set<String> fileNames) {
 		ELValidator validator = new ELValidator();
+		validator.setProblemType(EL_VALIDATOR_MARKER_TYPE);
 
 		ValidatorManager manager = new ValidatorManager();
 		WorkbenchReporter reporter = new WorkbenchReporter(project, new NullProgressMonitor());
