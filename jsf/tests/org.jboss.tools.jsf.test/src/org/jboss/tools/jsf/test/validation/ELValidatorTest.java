@@ -132,7 +132,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 	 * @throws ValidationException 
 	 */
 	public void testELValidationEnablement() throws CoreException, ValidationException {
-		WebKbPlugin.getDefault().getPreferenceStore().setValue(ELSeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, false);
+		WebKbPlugin.getDefault().getPreferenceStore().setValue(ELSeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, SeverityPreferences.DISABLE);
 
 		try {
 			IFile file = project.getFile("WebContent/pages/el.jsp");
@@ -143,13 +143,13 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 			int number = getMarkersNumberByGroupName(IValidator.KB_PROBLEM_MARKER_TYPE, file, IValidator.MARKED_RESOURCE_MESSAGE_GROUP);
 			assertEquals("Problem marker was found.", 0, number);
 
-			WebKbPlugin.getDefault().getPreferenceStore().setValue(ELSeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, true);
+			WebKbPlugin.getDefault().getPreferenceStore().setValue(ELSeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, SeverityPreferences.ENABLE);
 			validateFile("WebContent/pages/el.jsp", 0);
 
 			number = getMarkersNumberByGroupName(IValidator.KB_PROBLEM_MARKER_TYPE, file, IValidator.MARKED_RESOURCE_MESSAGE_GROUP);
 			assertEquals("Problem marker was not found.", 1, number);
 		} finally {
-			WebKbPlugin.getDefault().getPreferenceStore().setValue(ELSeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, true);
+			WebKbPlugin.getDefault().getPreferenceStore().setValue(ELSeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, SeverityPreferences.ENABLE);
 		}
 	}
 
