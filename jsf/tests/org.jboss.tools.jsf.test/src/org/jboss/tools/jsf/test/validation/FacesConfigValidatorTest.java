@@ -18,6 +18,7 @@ import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.jsf.model.JSFConstants;
 import org.jboss.tools.jsf.web.validation.JSFValidationMessage;
+import org.jboss.tools.jst.web.validation.WebXMLValidatorMessages;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
@@ -38,6 +39,13 @@ public class FacesConfigValidatorTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
+	}
+
+	public void testWrongNavigationHandler() throws Exception {
+		IResource resource = project.findMember("/WebContent/WEB-INF/faces-config.xml"); //$NON-NLS-1$
+		assertTrue(resource.exists());
+		TestUtil.validate(resource);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(WebXMLValidatorMessages.CLASS_NOT_EXTENDS, new String[]{"navigation-handler", "test.MyNav", "javax.faces.application.NavigationHandler"}), 50);
 	}
 
 	public void testNavigation() throws Exception {

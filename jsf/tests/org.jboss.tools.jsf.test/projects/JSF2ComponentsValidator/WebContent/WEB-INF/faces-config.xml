@@ -47,6 +47,7 @@
  </navigation-rule>
  <application>
   <action-listener>actionListener</action-listener>
+  <navigation-handler>test.MyNav</navigation-handler>
  </application>
  <factory/>
  <lifecycle/>
