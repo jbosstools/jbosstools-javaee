@@ -46,12 +46,12 @@ public class CoreValidationTest extends ValidationTest {
 	public void testDisabledValidator() throws Exception {
 		IPreferenceStore preferenceStore = CDICorePlugin.getDefault().getPreferenceStore();
 		try {
-			preferenceStore.setValue(SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, false);
+			preferenceStore.setValue(SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, SeverityPreferences.DISABLE);
 			((IPersistentPreferenceStore)preferenceStore).save();
-	
+
 			assertNull("CDICoreValidator is still enabled.", getCDIValidator());
 		} finally {
-			preferenceStore.setValue(SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, true);
+			preferenceStore.setValue(SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, SeverityPreferences.ENABLE);
 			((IPersistentPreferenceStore)preferenceStore).save();
 		}
 		assertNotNull("CDICoreValidator is disabled.", getCDIValidator());
