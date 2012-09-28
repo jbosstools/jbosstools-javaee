@@ -18,7 +18,6 @@ import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.common.ui.preferences.SeverityConfigurationBlock;
-import org.jboss.tools.common.ui.preferences.SeverityConfigurationBlock.SectionDescription;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.web.validation.JSFSeverityPreferences;
 
@@ -159,6 +158,7 @@ public class JSFValidationConfigurationBlock extends SeverityConfigurationBlock 
 
 	private static Key[] getKeys() {
 		ArrayList<Key> keys = new ArrayList<Key>();
+		keys.add(ENABLE_BLOCK_KEY);
 		for (SectionDescription s: ALL_SECTIONS) {
 			s.collectKeys(keys);
 		}
@@ -167,41 +167,48 @@ public class JSFValidationConfigurationBlock extends SeverityConfigurationBlock 
 		return keys.toArray(new Key[0]);
 	}
 
-		private static final Key MAX_NUMBER_OF_PROBLEMS_KEY = getKey(JSFModelPlugin.PLUGIN_ID, SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME);
+	protected final static Key ENABLE_BLOCK_KEY = getKey(JSFModelPlugin.PLUGIN_ID, SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME);
 
-		@Override
-		protected Key getMaxNumberOfProblemsKey() {
-			return MAX_NUMBER_OF_PROBLEMS_KEY;
-		}
-
-		private static final Key WRONG_BUILDER_ORDER_KEY = getKey(JSFModelPlugin.PLUGIN_ID, SeverityPreferences.WRONG_BUILDER_ORDER_PREFERENCE_NAME);
-
-		protected Key getWrongBuilderOrderKey() {
-			return WRONG_BUILDER_ORDER_KEY;
-		}
-
-		public JSFValidationConfigurationBlock(IStatusChangeListener context,
-				IProject project, IWorkbenchPreferenceContainer container) {
-			super(context, project, getKeys(), container);
-		}
-
-		@Override
-		protected SectionDescription[] getAllSections() {
-			return ALL_SECTIONS;
-		}
-
-		@Override
-		protected String getCommonDescription() {
-			return JSFSeverityPreferencesMessages.JSFValidationConfigurationBlock_common_description;
-		}
-
-		@Override
-		protected IDialogSettings getDialogSettings() {
-			return JSFModelPlugin.getDefault().getDialogSettings().getSection(SETTINGS_SECTION_NAME);
-		}
-
-		@Override
-		protected String getQualifier() {
-			return JSFModelPlugin.PLUGIN_ID;
-		}
+	@Override
+	protected Key getEnableBlockKey() {
+		return ENABLE_BLOCK_KEY;
 	}
+
+	private static final Key MAX_NUMBER_OF_PROBLEMS_KEY = getKey(JSFModelPlugin.PLUGIN_ID, SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME);
+
+	@Override
+	protected Key getMaxNumberOfProblemsKey() {
+		return MAX_NUMBER_OF_PROBLEMS_KEY;
+	}
+
+	private static final Key WRONG_BUILDER_ORDER_KEY = getKey(JSFModelPlugin.PLUGIN_ID, SeverityPreferences.WRONG_BUILDER_ORDER_PREFERENCE_NAME);
+
+	protected Key getWrongBuilderOrderKey() {
+		return WRONG_BUILDER_ORDER_KEY;
+	}
+
+	public JSFValidationConfigurationBlock(IStatusChangeListener context,
+			IProject project, IWorkbenchPreferenceContainer container) {
+		super(context, project, getKeys(), container);
+	}
+
+	@Override
+	protected SectionDescription[] getAllSections() {
+		return ALL_SECTIONS;
+	}
+
+	@Override
+	protected String getCommonDescription() {
+		return JSFSeverityPreferencesMessages.JSFValidationConfigurationBlock_common_description;
+	}
+
+	@Override
+	protected IDialogSettings getDialogSettings() {
+		return JSFModelPlugin.getDefault().getDialogSettings().getSection(SETTINGS_SECTION_NAME);
+	}
+
+	@Override
+	protected String getQualifier() {
+		return JSFModelPlugin.PLUGIN_ID;
+	}
+}

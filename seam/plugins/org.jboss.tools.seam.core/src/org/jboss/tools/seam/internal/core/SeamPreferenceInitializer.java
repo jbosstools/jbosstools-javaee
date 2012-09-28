@@ -29,7 +29,7 @@ public class SeamPreferenceInitializer extends AbstractPreferenceInitializer {
 	public void initializeDefaultPreferences() {
 
 		IEclipsePreferences defaultPreferences = ((IScopeContext) new DefaultScope()).getNode(SeamCorePlugin.PLUGIN_ID);
-		defaultPreferences.putBoolean(SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, true);
+		defaultPreferences.put(SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, SeverityPreferences.ENABLE);
 		defaultPreferences.put(SeverityPreferences.WRONG_BUILDER_ORDER_PREFERENCE_NAME, SeamPreferences.ERROR);
 		for (String name : SeamPreferences.SEVERITY_OPTION_NAMES) {
 			defaultPreferences.put(name, SeamPreferences.ERROR);

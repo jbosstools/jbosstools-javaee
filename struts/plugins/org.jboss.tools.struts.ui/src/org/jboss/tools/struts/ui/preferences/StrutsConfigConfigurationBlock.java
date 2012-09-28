@@ -61,11 +61,19 @@ public class StrutsConfigConfigurationBlock extends SeverityConfigurationBlock {
 
 	private static Key[] getKeys() {
 		ArrayList<Key> keys = new ArrayList<Key>();
+		keys.add(ENABLE_BLOCK_KEY);
 		for (SectionDescription s: ALL_SECTIONS) {
 			s.collectKeys(keys);
 		}
 		keys.add(MAX_NUMBER_OF_PROBLEMS_KEY);
 		return keys.toArray(new Key[0]);
+	}
+
+	protected final static Key ENABLE_BLOCK_KEY = getKey(StrutsModelPlugin.PLUGIN_ID, SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME);
+
+	@Override
+	protected Key getEnableBlockKey() {
+		return ENABLE_BLOCK_KEY;
 	}
 
 	private static final Key MAX_NUMBER_OF_PROBLEMS_KEY = getKey(StrutsModelPlugin.PLUGIN_ID, SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME);

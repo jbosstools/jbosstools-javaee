@@ -28,7 +28,7 @@ public class JSFSeverityPreferenceInitializer extends AbstractPreferenceInitiali
 	@Override
 	public void initializeDefaultPreferences() {
 		IEclipsePreferences defaultPreferences = ((IScopeContext) DefaultScope.INSTANCE).getNode(JSFModelPlugin.PLUGIN_ID);
-		defaultPreferences.putBoolean(SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, true);
+		defaultPreferences.put(SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, SeverityPreferences.ENABLE);
 		defaultPreferences.put(SeverityPreferences.WRONG_BUILDER_ORDER_PREFERENCE_NAME, JSFSeverityPreferences.ERROR);
 		for (String name : JSFSeverityPreferences.SEVERITY_OPTION_NAMES) {
 			defaultPreferences.put(name, SeverityPreferences.WARNING);

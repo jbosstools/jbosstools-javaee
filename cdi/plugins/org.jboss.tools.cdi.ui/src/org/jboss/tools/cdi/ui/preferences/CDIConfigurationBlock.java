@@ -29,12 +29,20 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 
 	private static Key[] getKeys() {
 		ArrayList<Key> keys = new ArrayList<Key>();
+		keys.add(ENABLE_BLOCK_KEY);
 		for (SectionDescription s: CDIConfigurationBlockDescriptionProvider.getInstance().getSections()) {
 			s.collectKeys(keys);
 		}
 		keys.add(MAX_NUMBER_OF_PROBLEMS_KEY);
 		keys.add(WRONG_BUILDER_ORDER_KEY);
 		return keys.toArray(new Key[0]);
+	}
+
+	protected final static Key ENABLE_BLOCK_KEY = getKey(CDICorePlugin.PLUGIN_ID, SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME);
+
+	@Override
+	protected Key getEnableBlockKey() {
+		return ENABLE_BLOCK_KEY;
 	}
 
 	private static final Key MAX_NUMBER_OF_PROBLEMS_KEY = getKey(CDICorePlugin.PLUGIN_ID, SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME);

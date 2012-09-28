@@ -28,7 +28,7 @@ public class StrutsPreferenceInitializer extends AbstractPreferenceInitializer {
 	@Override
 	public void initializeDefaultPreferences() {
 		IEclipsePreferences defaultPreferences = ((IScopeContext) new DefaultScope()).getNode(StrutsModelPlugin.PLUGIN_ID);
-		defaultPreferences.putBoolean(SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, true);
+		defaultPreferences.put(SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, SeverityPreferences.ENABLE);
 		for (String name : StrutsPreferences.SEVERITY_OPTION_NAMES) {
 			defaultPreferences.put(name, SeverityPreferences.WARNING);
 		}
