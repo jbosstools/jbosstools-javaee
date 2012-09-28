@@ -1,0 +1,15 @@
+package demo;
+
+import javax.faces.bean.ManagedBean;
+
+@ManagedBean(name="authenticator")
+public class Authenticator {
+
+    public Test getTestBroken() {
+    	return null;
+    }
+
+    public boolean authenticate() {
+    	return true;
+    }
+}

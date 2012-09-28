@@ -14,7 +14,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 /**
@@ -27,7 +27,8 @@ public class WTPValidationTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		project = ResourcesPlugin.getWorkspace().getRoot().getProject("jsf2pr");
+		project = ProjectImportTestSetup.loadProject("jsf2pr");
+
 		xhtml = project.getFile("WebContent/wtpvalidation.xhtml");
 	}
 

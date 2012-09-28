@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2007-2010 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2007-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 package org.jboss.tools.jsf.test.validation;
 
@@ -20,13 +20,13 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.web.validation.JSFValidationMessage;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 /**
@@ -45,7 +45,7 @@ public class JSF2ComponentsValidatorTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
+		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
 	//junit test add to check JBIDE-7016 by Maksim Areshkau

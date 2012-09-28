@@ -17,7 +17,7 @@ import org.jboss.tools.common.base.test.contentassist.CATestUtil;
 import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.test.util.JobUtils;
-import org.jboss.tools.test.util.TestProjectProvider;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**
  * The JUnit test case for issue JBIDE-12177
@@ -33,11 +33,8 @@ public class CAJsfPredictiveTagNameProposalsTest extends ContentAssistantTestCas
 	private static final String INSERTION = "<define";
 	private static final String PROPOSAL_TO_APPLY = "ui:define";
 	
-	private TestProjectProvider provider = null;
-
 	public void setUp() throws Exception {
-       provider = new TestProjectProvider("org.jboss.tools.jsf.ui.test", null, PROJECT_NAME,false);  //$NON-NLS-1$
-       project = provider.getProject();
+		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
 	public void testJsfPredictiveTagNameProposals() {

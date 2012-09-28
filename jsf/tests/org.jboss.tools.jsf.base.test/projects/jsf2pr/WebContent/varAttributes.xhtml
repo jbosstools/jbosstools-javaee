@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+	<h:dataTable value="#{testBeanForVarAttributes.test}" var="testItem">
+		<h:dataTable value="#{testItem.items}" var="test">
+			<h:outputText value="#{test.name}"/>
+			<h:outputText value="#{test.broken}"/>
+		</h:dataTable>
+		<h:outputText value="#{testItem.broken}"/>
+	</h:dataTable>
+
+	<h:dataTable value="#{testBeanForVarAttributes.map}" var="mapItem">
+		<h:outputText value="#{mapItem.value.name}"/>
+		<h:outputText value="#{mapItem.key.bytes}"/>
+		<h:outputText value="#{mapItem.broken}"/>
+		<h:outputText value="#{mapItem.value.broken}"/>
+		<h:outputText value="#{mapItem.key.broken}"/>
+	</h:dataTable>
+
+	<h:dataTable value="#{testBeanForVarAttributes.array}" var="arrayItem">
+		<h:outputText value="#{arrayItem.name}"/>
+		<h:outputText value="#{arrayItem.broken}"/>
+	</h:dataTable>
+
+	<h:dataTable value="#{testBeanForVarAttributes.iterable}" var="iterableItem">
+		<h:outputText value="#{iterableItem.name}"/>
+		<h:outputText value="#{iterableItem.broken}"/>
+	</h:dataTable>
+
+	<h:dataTable value="#{testBeanForVarAttributes.list}" var="listItem">
+		<h:outputText value="#{listItem.name}"/>
+		<h:outputText value="#{listItem.broken}"/>
+	</h:dataTable>
+
+	<h:dataTable value="#{testBeanForVarAttributes.listDM}" var="dmItem">
+		<h:outputText value="#{dmItem.name}"/>
+		<h:outputText value="#{dmItem.broken}"/>
+	</h:dataTable>
+
+	<h:dataTable value="#{testBeanForVarAttributes.set}" var="setItem">
+		<h:outputText value="#{setItem.name}"/>
+		<h:outputText value="#{setItem.broken}"/>
+	</h:dataTable>
+
+</html>

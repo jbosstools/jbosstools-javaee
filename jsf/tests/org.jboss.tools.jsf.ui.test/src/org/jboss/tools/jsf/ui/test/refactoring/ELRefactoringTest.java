@@ -1,26 +1,29 @@
+/*******************************************************************************
+ * Copyright (c) 2012 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributor:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.jsf.ui.test.refactoring;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jst.j2ee.internal.common.classpath.J2EEComponentClasspathUpdater;
 import org.jboss.tools.common.EclipseUtil;
-import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
-
-import junit.framework.TestCase;
 
 public class ELRefactoringTest  extends TestCase {
 	static String jsfProjectName = "testJSFProject";
@@ -40,7 +43,6 @@ public class ELRefactoringTest  extends TestCase {
 
 	private void loadProjects() throws Exception {
 		jsfProject = ProjectImportTestSetup.loadProject(jsfProjectName);
-		jsfProject.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 	}
 
 	protected TestChangeStructure findChange(List<TestChangeStructure> changeList, IFile file){

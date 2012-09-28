@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2007-2012 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributor:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.jsf.test.validation;
 
 import java.text.MessageFormat;
@@ -9,7 +19,6 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -30,6 +39,7 @@ import org.jboss.tools.jst.web.kb.WebKbPlugin;
 import org.jboss.tools.jst.web.kb.internal.validation.ELValidationMessages;
 import org.jboss.tools.jst.web.kb.internal.validation.ELValidator;
 import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 public class ELValidatorTest extends AbstractResourceMarkerTest{
@@ -38,7 +48,8 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 
 	protected void setUp() throws Exception {
 //		JobUtils.waitForIdle();
-		project = ResourcesPlugin.getWorkspace().getRoot().getProject("JSFKickStartOldFormat");
+		project = ProjectImportTestSetup.loadProject("JSFKickStartOldFormat");
+
 //		this.project.build(IncrementalProjectBuilder.CLEAN_BUILD,
 //				new NullProgressMonitor());
 //		
@@ -81,6 +92,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 					new Object[] {"user"},
 					14);
 		} finally {
+			copyContentsFile("WebContent/WEB-INF/faces-config.xml", "WebContent/WEB-INF/faces-config.original");
 			store.setValue(ELSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, ELSeverityPreferences.ENABLE);
 			store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, ELSeverityPreferences.IGNORE);
 		}

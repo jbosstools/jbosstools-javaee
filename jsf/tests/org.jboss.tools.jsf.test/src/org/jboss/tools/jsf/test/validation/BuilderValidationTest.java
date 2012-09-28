@@ -11,9 +11,9 @@
 package org.jboss.tools.jsf.test.validation;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.common.base.test.validation.TestUtil;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
@@ -28,7 +28,7 @@ public class BuilderValidationTest extends AbstractResourceMarkerTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		project = ResourcesPlugin.getWorkspace().getRoot().getProject("jsf2pr");
+		project = ProjectImportTestSetup.loadProject("jsf2pr");
 	}
 
 	/**

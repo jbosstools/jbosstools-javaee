@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2007-2012 Exadel, Inc. and Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -43,6 +43,7 @@ public class JsfAllTests {
 		ValidationExceptionTest.initLogger();
 
 		TestSuite suite = new TestSuite("Test model loading for JSF projects"); //$NON-NLS-1$
+
 		suite.addTestSuite(JSFTemplateTest.class);
 		suite.addTestSuite(JSFFacetOnExistingProjectTest.class);
 
@@ -54,18 +55,21 @@ public class JsfAllTests {
 				new String[]{"JSF2Beans", "JSF2Web"});
 		suite.addTest(testSetup);
 
-		TestSuite old = new TestSuite("Tests are using JSFKickStartOldFormat"); //$NON-NLS-1$
-		old.addTestSuite(JSFModelTest.class);
-		old.addTestSuite(ModelFormat_2_0_0_Test.class);
-		old.addTestSuite(JSFBeansTest.class);
-		suite.addTestSuite(WebContentTest.class);
-		suite.addTestSuite(XHTMLValidatorTest.class);
-		suite.addTestSuite(XHTMLDetectorAndValidatorTest.class);
 		suite.addTestSuite(XMLCatalogTest.class);
 		suite.addTestSuite(JSFPaletteTest.class);
-		suite.addTest(new ProjectImportTestSetup(old,
+
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				JSFModelTest.class,
+				ModelFormat_2_0_0_Test.class,
+				JSFBeansTest.class,
+				ELValidatorTest.class,
+				ELVariableRefactoringTest.class,
+				MethodRefactoringTest.class,
+				MessagePropertyRefactoringTest.class
+				),
 				"org.jboss.tools.jsf.test", "projects/JSFKickStartOldFormat", //$NON-NLS-1$ //$NON-NLS-2$
 				"JSFKickStartOldFormat")); //$NON-NLS-1$
+
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				JSFPromptingProviderTest.class),
 				"org.jboss.tools.jsf.test", //$NON-NLS-1$
@@ -76,41 +80,33 @@ public class JsfAllTests {
 				"org.jboss.tools.jsf.test", //$NON-NLS-1$
 				JsfJbide7975Test.TEST_PROJECT_PATH,
 				JsfJbide7975Test.TEST_PROJECT_NAME));
-
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				ELVariableRefactoringTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
-				new String[] { "projects/JSFKickStartOldFormat" }, //$NON-NLS-1$
-				new String[] { "JSFKickStartOldFormat" })); //$NON-NLS-1$
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				MethodRefactoringTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
-				new String[] { "projects/JSFKickStartOldFormat" }, //$NON-NLS-1$
-				new String[] { "JSFKickStartOldFormat" })); //$NON-NLS-1$
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				MessagePropertyRefactoringTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
-				new String[] { "projects/JSFKickStartOldFormat" }, //$NON-NLS-1$
-				new String[] { "JSFKickStartOldFormat" })); //$NON-NLS-1$
+		
 		suite.addTest(new ValidationProjectTestSetup(new TestSuite(
 				JSF2ComponentsValidatorTest.class,
 				JSF2ComponentsInClassFolderTest.class,
 				FacesConfigValidatorTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2ComponentsValidator" }, //$NON-NLS-1$
 				new String[] { "JSF2ComponentsValidator" })); //$NON-NLS-1$
+
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				ELReferencesQueryParticipantTest.class,
 				JSF2RefactoringTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2ComponentsValidator" }, //$NON-NLS-1$
 				new String[] { "JSF2ComponentsValidator" })); //$NON-NLS-1$
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				ELReferencesQueryParticipantTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
-				new String[] { "projects/JSF2ComponentsValidator" }, //$NON-NLS-1$
-				new String[] { "JSF2ComponentsValidator" })); //$NON-NLS-1$
+		
 //		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 //				I18nValidatorTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
 //				new String[] { "projects/i18nTestProject" }, //$NON-NLS-1$
 //				new String[] { "i18nTestProject" })); //$NON-NLS-1$
-		suite.addTest(new ValidationProjectTestSetup(new TestSuite(ELValidatorTest.class),"org.jboss.tools.jsf.test","projects/JSFKickStartOldFormat","JSFKickStartOldFormat"));
-		suite.addTest(new ValidationProjectTestSetup(new TestSuite(BuilderValidationTest.class),"org.jboss.tools.jsf.test","projects/jsf2pr","jsf2pr"));
-		suite.addTest(new ValidationProjectTestSetup(new TestSuite(VarAttributesTest.class),"org.jboss.tools.jsf.test","projects/jsf2pr","jsf2pr"));
-		suite.addTest(new ValidationProjectTestSetup(new TestSuite(WTPValidationTest.class),"org.jboss.tools.jsf.test","projects/jsf2pr","jsf2pr"));
+
+		suite.addTest(new ValidationProjectTestSetup(new TestSuite(
+				WebContentTest.class,
+				XHTMLValidatorTest.class,
+				XHTMLDetectorAndValidatorTest.class,
+				BuilderValidationTest.class,
+				VarAttributesTest.class,
+				WTPValidationTest.class
+				),"org.jboss.tools.jsf.base.test","projects/jsf2pr","jsf2pr"));
 
 		suite.addTestSuite(ValidationExceptionTest.class); // This test should be added last!
 

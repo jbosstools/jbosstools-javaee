@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2012 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributor:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.jsf.jsp.ca.test;
 
 import java.util.List;
@@ -9,17 +19,13 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.FindReplaceDocumentAdapter;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
-import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.jboss.tools.common.base.test.contentassist.CATestUtil;
 import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.test.util.JobUtils;
-import org.jboss.tools.test.util.TestProjectProvider;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class CASuggestsNotOnlyELProposalsJBIDE2437Test extends ContentAssistantTestCase {
-	TestProjectProvider provider = null;
-	
-	boolean makeCopy = false;
 	private static final String PROJECT_NAME = "JsfJbide1704Test";
 	private static final String PAGE_NAME = "/WebContent/pages/greeting1.xhtml";
 	
@@ -28,19 +34,12 @@ public class CASuggestsNotOnlyELProposalsJBIDE2437Test extends ContentAssistantT
 	}
 
 	public void setUp() throws Exception {
-		provider = new TestProjectProvider("org.jboss.tools.jsf.ui.test", null, PROJECT_NAME, makeCopy); 
-		project = provider.getProject();
-	}
-
-	protected void tearDown() throws Exception {
-		provider.dispose();
+		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
 	public void testThereAreNotOnlyELProposalsJBIDE2437 () throws BadLocationException {
 		openEditor(PAGE_NAME);
 		JobUtils.waitForIdle();
-//		ICompletionProposal[] result= null;
-//		String errorMessage = null;
 		
 		IRegion reg = new FindReplaceDocumentAdapter(document).find(0, "/templates/common.xhtml", true, true, false, false);
 		

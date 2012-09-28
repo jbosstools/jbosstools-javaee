@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2011-2012 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributor:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.jsf.test;
 
 import java.util.ArrayList;
@@ -5,13 +15,10 @@ import java.util.ArrayList;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.common.base.test.kb.QueryParticipantTestUtils;
 import org.jboss.tools.common.base.test.kb.QueryParticipantTestUtils.MatchStructure;
 import org.jboss.tools.jst.web.kb.refactoring.ELReferencesQueryParticipant;
-import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class ELReferencesQueryParticipantTest extends TestCase{
@@ -24,8 +31,6 @@ public class ELReferencesQueryParticipantTest extends TestCase{
 	
 	protected void setUp() throws Exception {
 		project = ProjectImportTestSetup.loadProject(projectName);
-		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		JobUtils.waitForIdle(2000);
 	}
 	
 	public void testELReferencesQueryParticipantForType() throws CoreException{

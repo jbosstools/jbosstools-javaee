@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Red Hat, Inc.
+ * Copyright (c) 2011-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -19,7 +19,7 @@ import org.eclipse.jface.text.FindReplaceDocumentAdapter;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
-import org.jboss.tools.test.util.TestProjectProvider;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**
  * Test for CA on JSP EL Functions
@@ -29,7 +29,6 @@ import org.jboss.tools.test.util.TestProjectProvider;
 public class JspElFunctionsTest extends ContentAssistantTestCase {
    private static final String PROJECT_NAME = "testJSFProject"; //$NON-NLS-1$
    private static final String PAGE_NAME = "/WebContent/templates/outputWeekDays.xhtml"; //$NON-NLS-1$
-   private TestProjectProvider provider = null;
    private static String STRING_TO_FIND_TARGET = "target:";
    private static String STRING_TO_FIND_CONVERT = "target:co";
    private static String STRING_TO_FIND_LOOP = "target:lo";
@@ -40,17 +39,9 @@ public class JspElFunctionsTest extends ContentAssistantTestCase {
    }
    
    public void setUp() throws Exception {
-       provider = new TestProjectProvider("org.jboss.tools.jsf.ui.test", null, PROJECT_NAME,false);  //$NON-NLS-1$
-       project = provider.getProject();
+		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
    }
 
-   protected void tearDown() throws Exception {
-       if(provider != null) {
-           provider.dispose();
-       }
-   }
-   
-   
    public void testJspElFunctionsCATestFuncNamespace(){
        final String[] proposals = new String[]{
                "target" //$NON-NLS-1$

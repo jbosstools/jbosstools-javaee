@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007-2010 Red Hat, Inc.
+ * Copyright (c) 2007-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -12,15 +12,13 @@
 package org.jboss.tools.jsf.ui.test;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
+
+import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.palette.PaletteContainer;
@@ -57,8 +55,6 @@ import org.jboss.tools.vpe.ui.palette.model.PaletteItem;
 import org.jboss.tools.vpe.ui.palette.model.PaletteModel;
 import org.jboss.tools.vpe.ui.palette.model.PaletteRoot;
 
-import junit.framework.TestCase;
-
 public class TestPalette  extends TestCase {
 	static String jsfProjectName = "testJSFProject";
 	static IProject jsfProject;
@@ -73,7 +69,6 @@ public class TestPalette  extends TestCase {
 
 	private void loadProjects() throws Exception {
 		jsfProject = ProjectImportTestSetup.loadProject(jsfProjectName);
-		jsfProject.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 	}
 
 	public void testPalette() throws Exception {

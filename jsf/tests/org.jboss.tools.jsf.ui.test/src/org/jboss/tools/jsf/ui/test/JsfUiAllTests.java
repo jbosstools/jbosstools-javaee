@@ -18,6 +18,7 @@ import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.common.base.test.validation.ValidationProjectTestSetup;
 import org.jboss.tools.jsf.jsp.ca.test.CADefaultELStartingCharTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAELApplyMethodProposalTest;
+import org.jboss.tools.jsf.jsp.ca.test.CAELFunctionsTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAELInsideTagBodyInJspFileTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForCompositeComponentTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForELJavaAndJSTCompareTest;
@@ -70,127 +71,94 @@ public class JsfUiAllTests {
 		suite.addTestSuite(CAForInputTagSrcAttributeSuggestsFilePathsJBIDE1807Test.class);
 		suite.addTestSuite(CAForIDTest.class);
 		suite.addTestSuite(CAForELinStyleTest.class);
-		suite.addTestSuite(CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE1759Test.class);
-		suite.addTestSuite(CASuggestsNotOnlyELProposalsJBIDE2437Test.class);
+		
 		suite.addTestSuite(CAUnnecessaryElementsForDirAttributeInXHTMLPageJBIDE1813Test.class);
 		suite.addTestSuite(CAVarAttributeForDataTableTagJBIDE2016.class);
 		suite.addTestSuite(FacesConfigNewWizardTest.class);
 		suite.addTestSuite(FasesConfigEditorTest.class);
+		
 		suite.addTestSuite(PropertiesNewWizardTest.class);
-		suite.addTestSuite(JsfJspJbide6259Test.class);
-		suite.addTestSuite(JsfJspJbide1704Test.class);
- 		suite.addTestSuite(JsfJspJbide1717Test.class);
-		suite.addTestSuite(JsfJBide3845Test.class);
-		suite.addTestSuite(CAInEventAttributesTest.class);
 		
 		suite.addTest(
 				new ProjectImportTestSetup(JsfJspLongResourceBundlePropertyNamesTest.suite(),
 				"org.jboss.tools.jsf.ui.test",
 				new String[] { "projects/CAForCompositeComponentTest", }, //$NON-NLS-1$
 				new String[] { "CAForCompositeComponentTest" })); //$NON-NLS-1$
+				
 		suite.addTest(
 				new ProjectImportTestSetup(WebContentAssistProviderTest.suite(),
 				"org.jboss.tools.jsf.ui.test",
 				new String[] { "projects/TestsWebArtefacts", }, //$NON-NLS-1$
 				new String[] { "TestsWebArtefacts" })); //$NON-NLS-1$
+				
  		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				ELReferencesRenameTest.class), "org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
+ 				CAInEventAttributesTest.class,
+				ELReferencesRenameTest.class,
+				TestPalette.class,
+				CAJsfMessagesProposalsTest.class,
+				JavaClassContentAssistProviderTest.class,
+				JspElFunctionsTest.class), 
+				"org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
 				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
 				new String[] { "testJSFProject" })); //$NON-NLS-1$
+
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				JSFNaturesInfoDialog_JBIDE5701.class),
 				"org.jboss.tools.jsf.ui.test", "projects/naturesCheckTest", //$NON-NLS-1$ //$NON-NLS-2$
 				"naturesCheckTest")); //$NON-NLS-1$
+
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				KbNaturesInfoDialog_JBIDE6125.class),
 				"org.jboss.tools.jsf.ui.test", "projects/naturesCheckKBTest", //$NON-NLS-1$ //$NON-NLS-2$
 				"naturesCheckKBTest")); //$NON-NLS-1$
+
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(AddJSFCapabilitiesTest.class),
 				"org.jboss.tools.jsf.ui.test",
 				new String[]{"projects/test_add_jsf_capabilities"},
 				new String[]{"test_add_jsf_capabilities"}));
+
 		suite.addTest(new ValidationProjectTestSetup(new TestSuite(JSPProblemMarkerResolutionTest.class),
 				"org.jboss.tools.jsf.ui.test",
 				new String[]{"projects/test_jsf_project"},
 				new String[]{"test_jsf_project"}));
- 		suite.addTest(
-				new ProjectImportTestSetup(new TestSuite(TestPalette.class),
-				"org.jboss.tools.jsf.ui.test",
-				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
-				new String[] { "testJSFProject" })); //$NON-NLS-1$
- 		suite.addTest(
-				new ProjectImportTestSetup(new TestSuite(CAJsfMessagesProposalsTest.class),
-				"org.jboss.tools.jsf.ui.test",
-				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
-				new String[] { "testJSFProject" })); //$NON-NLS-1$
- 		suite.addTest(
-				new ProjectImportTestSetup(new TestSuite(JavaClassContentAssistProviderTest.class),
-				"org.jboss.tools.jsf.ui.test",
-				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
-				new String[] { "testJSFProject" })); //$NON-NLS-1$
+
 		suite.addTestSuite(JsfUiPreferencesPagesTest.class);
 		suite.addTestSuite(TaglibXMLUnformatedDTD_JBIDE5642.class);
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				JspElFunctionsTest.class), "org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
-				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
-				new String[] { "testJSFProject" })); //$NON-NLS-1$
-
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				JsfJspJbide1704Test.class,
+				JsfJspJbide1717Test.class,
+				CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE1759Test.class,
+				CASuggestsNotOnlyELProposalsJBIDE2437Test.class,
+				JsfJspJbide6259Test.class,
 				CADefaultELStartingCharTest.class), "org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
 				new String[] { "projects/JsfJbide1704Test", }, //$NON-NLS-1$
 				new String[] { "JsfJbide1704Test" })); //$NON-NLS-1$
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				CAJsfMessagesProposalsFilteringTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
-				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
-				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
-
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				ELTooltipTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
-				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
-				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
-
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				CAForELJavaAndJSTCompareTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
-				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
-				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
-
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				CAELApplyMethodProposalTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
-				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
-				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
-
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				JsfJBide3845Test.class,
 				CAELInsideTagBodyInJspFileTest.class), "org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
 				new String[] { "projects/Jbide3845Test", }, //$NON-NLS-1$
 				new String[] { "Jbide3845Test" })); //$NON-NLS-1$
-
+		
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				CAJsfAddInfoInELMessagesTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
-				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
-				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
-
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				CAJsfResourceBundlePropertyApplyTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
-				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
-				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
-
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				JSFAsYouTypeInJavaValidationTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
-				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
-				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
-
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				JSFAsYouTypeValidationTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
-				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
-				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
-
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				CAJsfMessagesProposalsFilteringTest.class,
+				ELTooltipTest.class,
+				CAForELJavaAndJSTCompareTest.class,
+				CAELApplyMethodProposalTest.class,
+				CAJsfAddInfoInELMessagesTest.class,
+				CAJsfResourceBundlePropertyApplyTest.class,
+				JSFAsYouTypeInJavaValidationTest.class,
+				JSFAsYouTypeValidationTest.class,
 				CAJsfPredictiveTagNameProposalsTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
 				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
 
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				CAELFunctionsTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
+				"projects/jsf2pr", //$NON-NLS-1$
+				"jsf2pr")); //$NON-NLS-1$
+		
 		return suite;
 	}
 }

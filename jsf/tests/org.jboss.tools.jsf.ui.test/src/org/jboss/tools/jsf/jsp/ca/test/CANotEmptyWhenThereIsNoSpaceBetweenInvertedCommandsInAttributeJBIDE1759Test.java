@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2012 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributor:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.jsf.jsp.ca.test;
 
 import java.util.ArrayList;
@@ -11,7 +21,7 @@ import org.eclipse.wst.sse.ui.internal.contentassist.CustomCompletionProposal;
 import org.jboss.tools.common.base.test.contentassist.CATestUtil;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.test.util.JobUtils;
-import org.jboss.tools.test.util.TestProjectProvider;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 /**
  * JBIDE-4341 JstJspAllTests/testJsfJspJbide1813Test failing with missing applicationScope in completions
  * 
@@ -23,8 +33,6 @@ import org.jboss.tools.test.util.TestProjectProvider;
  *
  */
 public class CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE1759Test extends ContentAssistantTestCase {
-	TestProjectProvider provider = null;
-	boolean makeCopy = false;
 	private static final String PROJECT_NAME = "JsfJbide1704Test";
 	private static final String PAGE_NAME = "/WebContent/pages/greeting";
 	private static final String[] PAGE_EXTS = {".jsp", ".xhtml"};
@@ -38,14 +46,7 @@ public class CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE
 	}
 
 	public void setUp() throws Exception {
-		provider = new TestProjectProvider("org.jboss.tools.jsf.ui.test", null, PROJECT_NAME, makeCopy); 
-		project = provider.getProject();
-	}
-
-	protected void tearDown() throws Exception {
-		if(provider != null) {
-			provider.dispose();
-		}
+		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
 	public void testProposalListIsNotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE1759() {

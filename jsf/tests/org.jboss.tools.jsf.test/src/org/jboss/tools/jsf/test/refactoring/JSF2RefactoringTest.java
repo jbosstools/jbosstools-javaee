@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2007-2012 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributor:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.jsf.test.refactoring;
 
 import java.util.ArrayList;
@@ -6,13 +16,13 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ltk.internal.core.refactoring.resource.MoveResourcesProcessor;
 import org.eclipse.ltk.internal.core.refactoring.resource.RenameResourceProcessor;
 import org.jboss.tools.common.base.test.AbstractRefactorTest;
 import org.jboss.tools.jsf.jsf2.refactoring.JSF2RenameParticipant;
 import org.jboss.tools.jsf.jsf2.refactoring.JSf2MoveParticipant;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class JSF2RefactoringTest extends AbstractRefactorTest  {
 	static String PROJECT_NAME = "JSF2ComponentsValidator";
@@ -24,7 +34,7 @@ public class JSF2RefactoringTest extends AbstractRefactorTest  {
 
 	@Override
 	protected void setUp() throws Exception {
-		project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
+		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
 	public void testRenameCompositeComponentFile() throws CoreException {

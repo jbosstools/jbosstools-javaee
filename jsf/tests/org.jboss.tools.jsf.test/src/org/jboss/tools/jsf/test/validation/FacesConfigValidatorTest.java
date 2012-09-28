@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007-2010 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2007-2012 Exadel, Inc. and Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -10,20 +10,16 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.test.validation;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.MessageFormat;
-
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.jsf.model.JSFConstants;
 import org.jboss.tools.jsf.web.validation.JSFValidationMessage;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 /**
@@ -42,7 +38,7 @@ public class FacesConfigValidatorTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
+		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
 	public void testNavigation() throws Exception {

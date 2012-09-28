@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2012 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributor:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.jsf.jsp.ca.test;
 
 import java.util.ArrayList;
@@ -6,9 +16,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import junit.framework.TestCase;
+
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.fieldassist.IContentProposal;
 import org.eclipse.jface.fieldassist.IContentProposalProvider;
 import org.eclipse.jst.j2ee.internal.common.classpath.J2EEComponentClasspathUpdater;
@@ -20,8 +30,6 @@ import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.ui.attribute.adapter.JavaClassContentAssistProvider;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
-
-import junit.framework.TestCase;
 
 public class JavaClassContentAssistProviderTest extends TestCase {
 	static String jsfProjectName = "testJSFProject";
@@ -37,7 +45,6 @@ public class JavaClassContentAssistProviderTest extends TestCase {
 
 	private void loadProjects() throws Exception {
 		jsfProject = ProjectImportTestSetup.loadProject(jsfProjectName);
-		jsfProject.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 	}
 
 	public void testJavaClassContentAssistProvider() {

@@ -18,7 +18,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -32,7 +31,7 @@ import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.web.validation.XHTMLValidator;
-import org.jboss.tools.test.util.ResourcesUtils;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 import org.osgi.framework.Bundle;
 
@@ -69,10 +68,8 @@ public class XHTMLDetectorAndValidatorTest extends AbstractResourceMarkerTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
-		if(!project.exists()) {
-			project = ResourcesUtils.importProject(PLUGIN_ID, PROJECT_PATH);
-		}
+		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
+
 		TestUtil._waitForValidation(project);
 	}
 
@@ -147,8 +144,8 @@ public class XHTMLDetectorAndValidatorTest extends AbstractResourceMarkerTest {
 
 		try {
 			Bundle b = Platform.getBundle(PLUGIN_ID);
-			IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
-			String projectPath = p.getLocation().toOSString();
+//			IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
+			String projectPath = project.getLocation().toOSString();
 			String resourcePath = FileLocator.resolve(b.getEntry(SOURCE_FOLDER)).getFile();
 	
 			File from = new File(resourcePath + sourceFile);
@@ -157,8 +154,8 @@ public class XHTMLDetectorAndValidatorTest extends AbstractResourceMarkerTest {
 			if (!FileUtil.copyFile(from, to)) {
 				return null; 
 			}
-			p.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-			TestUtil._waitForValidation(p);
+			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+			TestUtil._waitForValidation(project);
 		} catch (IOException e) {
 			fail(e.getLocalizedMessage());
 		} catch (CoreException e) {

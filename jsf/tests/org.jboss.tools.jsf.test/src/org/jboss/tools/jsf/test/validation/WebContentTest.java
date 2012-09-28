@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Red Hat, Inc.
+ * Copyright (c) 2011-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -14,12 +14,10 @@ import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.jst.web.kb.internal.validation.ELValidationMessages;
-import org.jboss.tools.test.util.JobUtils;
-import org.jboss.tools.test.util.ResourcesUtils;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 /**
@@ -37,22 +35,9 @@ public class WebContentTest extends AbstractResourceMarkerTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
-		if(!project.exists()) {
-			project = ResourcesUtils.importProject(PLUGIN_ID, PROJECT_PATH);
-		}
-		TestUtil._waitForValidation(project);
-	}
+		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	@Override
-	protected void tearDown() throws Exception {
-		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		project.delete(true, true, null);
-		JobUtils.waitForIdle();
-		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+		TestUtil._waitForValidation(project);
 	}
 
 	public void testWebContentValidation() throws CoreException {

@@ -1,12 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 2007-2012 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributor:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.jsf.test.refactoring;
 
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.text.TextSelection;
 import org.jboss.tools.common.base.test.AbstractRefactorTest;
 import org.jboss.tools.common.el.core.resolver.ELSegment;
@@ -29,7 +37,6 @@ public class MessagePropertyRefactoringTest extends AbstractRefactorTest{
 	
 	protected void setUp() throws Exception {
 		project = ProjectImportTestSetup.loadProject(projectName);
-		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 	}
 	
 	public void testMessagePropertyRename() throws CoreException {

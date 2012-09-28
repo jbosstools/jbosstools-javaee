@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007-2010 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2007-2012 Exadel, Inc. and Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -13,12 +13,12 @@ package org.jboss.tools.jsf.test.validation;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.taglib.IAttribute;
 import org.jboss.tools.jst.web.kb.taglib.IComponent;
 import org.jboss.tools.jst.web.kb.taglib.ITagLibrary;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**
  * 
@@ -35,7 +35,7 @@ public class JSF2ComponentsInClassFolderTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		project = project = ResourcesPlugin.getWorkspace().getRoot().getProject(JSF2ComponentsValidatorTest.PROJECT_NAME);
+		project = ProjectImportTestSetup.loadProject(JSF2ComponentsValidatorTest.PROJECT_NAME);
 	}
 
 	public void testJSF2ComponentsInClassFolder() throws Exception {
