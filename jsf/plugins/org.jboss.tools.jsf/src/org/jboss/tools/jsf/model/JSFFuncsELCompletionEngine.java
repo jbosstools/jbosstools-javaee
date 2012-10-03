@@ -24,8 +24,11 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
 import org.jboss.tools.common.el.core.ELCorePlugin;
+import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.resolver.ELContext;
+import org.jboss.tools.common.el.core.resolver.ELResolution;
+import org.jboss.tools.common.el.core.resolver.ELResolutionImpl;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.ArtificialTypeInfo;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
@@ -70,6 +73,15 @@ public class JSFFuncsELCompletionEngine extends JSFELCompletionEngine {
 		}
 
 		return result;		
+	}
+
+	@Override
+	public ELResolution resolve(ELContext context, ELExpression operand, int offset) {
+		if(operand.getText().indexOf(':')>0) {
+			return super.resolve(context, operand, offset);
+		} else {
+			return new ELResolutionImpl(operand);
+		}
 	}
 
 	/*
