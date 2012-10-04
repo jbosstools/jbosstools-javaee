@@ -755,7 +755,7 @@
             	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
      		</contenttypeidentifier>
 		</hyperlink>
-
+		
 		<hyperlink 
 			class="org.jboss.tools.jsf.text.ext.hyperlink.RenderKitHyperlink" 
       		id="org.jboss.tools.common.text.ext.jsf.hyperlink.RenderKitHyperlink">
@@ -995,24 +995,7 @@
 			</contenttypeidentifier>
 		</hyperlink>
 
-		<!-- Faces Config File -->
-		<hyperlink 
-			class="org.jboss.tools.jsf.text.ext.hyperlink.PropertyHyperlink" 
-			id="org.jboss.tools.common.text.ext.jsf.hyperlink.PropertyHyperlink">
-			<contenttypeidentifier id="org.eclipse.jst.jsf.facesconfig.facesConfigFile">
-				<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
-			</contenttypeidentifier>
-			<contenttypeidentifier id="org.eclipse.wst.xml.core.xmlsource">
-            	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
-			</contenttypeidentifier>
-			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
-            	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
-			</contenttypeidentifier>
-			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
-            	<partitiontype id="org.jboss.tools.common.text.ext.xml.XML_PROPERTY" />
-			</contenttypeidentifier>
-		</hyperlink>
-		<!-- Faces Config File -->
+		
 
 		<hyperlink 
 			class="org.jboss.tools.jsf.text.ext.hyperlink.JSFLinkHyperlink" 
