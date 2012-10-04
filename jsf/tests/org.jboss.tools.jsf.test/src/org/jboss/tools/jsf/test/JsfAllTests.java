@@ -29,6 +29,7 @@ import org.jboss.tools.jsf.test.validation.ELValidatorTest;
 import org.jboss.tools.jsf.test.validation.FacesConfigValidatorTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsInClassFolderTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsValidatorTest;
+import org.jboss.tools.jsf.test.validation.ParameterizedClassValidationTest;
 import org.jboss.tools.jsf.test.validation.VarAttributesTest;
 import org.jboss.tools.jsf.test.validation.WTPValidationTest;
 import org.jboss.tools.jsf.test.validation.WebContentTest;
@@ -105,6 +106,7 @@ public class JsfAllTests {
 				XHTMLDetectorAndValidatorTest.class,
 				BuilderValidationTest.class,
 				VarAttributesTest.class,
+				ParameterizedClassValidationTest.class,
 				WTPValidationTest.class
 				),"org.jboss.tools.jsf.base.test","projects/jsf2pr","jsf2pr"));
 
