@@ -3,6 +3,7 @@ package org.jboss.tools.jsf.ui.bot.test.jsf2.refactor;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
+import org.jboss.tools.ui.bot.ext.types.IDELabel;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 
 public class JSF2RenameParticipantTest extends JSF2AbstractRefactorTest {
@@ -21,6 +22,7 @@ public class JSF2RenameParticipantTest extends JSF2AbstractRefactorTest {
 		tree
 				.expandNode(JBT_TEST_PROJECT_NAME).expandNode("WebContent").expandNode("resources").expandNode("mycomp").expandNode("echo.xhtml").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		bot.menu("Refactor").menu("Rename...").click(); //$NON-NLS-1$ //$NON-NLS-2$
+		bot.shell(IDELabel.Shell.RENAME_RESOURCE).activate();
 		bot.textWithLabel("New name:").setText("echo1.xhtml"); //$NON-NLS-1$ //$NON-NLS-2$
 		bot.button("Preview >").click(); //$NON-NLS-1$
 		checkPreview();

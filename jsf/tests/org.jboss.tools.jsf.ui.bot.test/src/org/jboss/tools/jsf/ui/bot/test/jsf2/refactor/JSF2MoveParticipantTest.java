@@ -3,7 +3,9 @@ package org.jboss.tools.jsf.ui.bot.test.jsf2.refactor;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
+import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 
 public class JSF2MoveParticipantTest extends JSF2AbstractRefactorTest {
@@ -38,14 +40,16 @@ public class JSF2MoveParticipantTest extends JSF2AbstractRefactorTest {
 		tree
 				.expandNode(JBT_TEST_PROJECT_NAME).expandNode("WebContent").expandNode("resources").expandNode("mycomp").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		bot.menu("Refactor").menu("Move...").click(); //$NON-NLS-1$ //$NON-NLS-2$
-		innerBot = bot.shell("Move").bot(); //$NON-NLS-1$
+		SWTBotShell shMove = bot.shell("Move").activate();
+		innerBot = shMove.bot(); //$NON-NLS-1$
 		tree = innerBot.tree();
 		tree
 				.expandNode(JBT_TEST_PROJECT_NAME).expandNode("WebContent").expandNode("resources").expandNode("mycomp1").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		bot.button("Preview >").click(); //$NON-NLS-1$
 		checkPreview();
 		bot.button("OK").click(); //$NON-NLS-1$
-		delay();
+		bot.sleep(Timing.time3S());
+		util.waitForNonIgnoredJobs(Timing.time3S());
 	}
 
 	private void createDistResFolder() throws Exception {

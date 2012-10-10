@@ -5,6 +5,7 @@ import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
+import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 
 public abstract class JSF2AbstractRefactorTest extends JSFAutoTestCase {
@@ -82,13 +83,14 @@ public abstract class JSF2AbstractRefactorTest extends JSFAutoTestCase {
 		SWTBotEclipseEditor editor = bot.editorByTitle(
 				JSF2_Test_Page_Name + ".xhtml").toTextEditor(); //$NON-NLS-1$
 		editor.setFocus();
-		bot.sleep(2000);
+		bot.sleep(Timing.time3S());
 		bot.menu("Edit").menu("Select All").click(); //$NON-NLS-1$ //$NON-NLS-2$
 		bot.menu("Edit").menu("Delete").click(); //$NON-NLS-1$//$NON-NLS-2$
-		bot.sleep(2000);
+		bot.sleep(Timing.time3S());
 		editor.setText(loadFileContent("refactor/jsf2TestPage.html")); //$NON-NLS-1$
-		bot.sleep(2000);
-		editor.saveAndClose();
+		bot.sleep(Timing.time3S());
+		editor.save();
+		editor.close();
 	}
 
 }
