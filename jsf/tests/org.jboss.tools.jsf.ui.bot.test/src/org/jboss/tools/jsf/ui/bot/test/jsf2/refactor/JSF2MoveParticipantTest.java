@@ -69,20 +69,8 @@ public class JSF2MoveParticipantTest extends JSF2AbstractRefactorTest {
 
 	@Override
 	public void tearDown() throws Exception {
-		SWTBot innerBot = bot.viewByTitle(WidgetVariables.PACKAGE_EXPLORER)
-				.bot();
-		SWTBotTree tree = innerBot.tree();
-		delay();
-		tree
-				.expandNode(JBT_TEST_PROJECT_NAME).expandNode("WebContent").expandNode(JSF2_Test_Page_Name + ".xhtml").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		bot.menu("Edit").menu("Delete").click(); //$NON-NLS-1$ //$NON-NLS-2$
-		bot.button("OK").click(); //$NON-NLS-1$
-		delay();
-		tree
-				.expandNode(JBT_TEST_PROJECT_NAME).expandNode("WebContent").expandNode("resources").expandNode("mycomp1").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		bot.menu("Edit").menu("Delete").click(); //$NON-NLS-1$ //$NON-NLS-2$
-		bot.button("OK").click(); //$NON-NLS-1$
-		delay();
+		eclipse.deleteFile(JBT_TEST_PROJECT_NAME,"WebContent",JSF2_Test_Page_Name + ".xhtml");
+		eclipse.deleteFile(JBT_TEST_PROJECT_NAME,"WebContent","resources","mycomp1");
 		super.tearDown();
 	}
 	
