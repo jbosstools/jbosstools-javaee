@@ -194,14 +194,13 @@ public class CodeCompletionTest extends JSFAutoTestCase{
         0);
     String textToInsert = "<ez:";
     compositeComponentContainerEditor.insertText(textToInsert);
-    SWTJBTExt.selectTextInSourcePane(SWTTestExt.bot, 
+    // Check content assist "<ez:"
+    ContentAssistHelper.applyContentAssistAutoProposal(SWTTestExt.bot, 
         JSF2_TEST_PAGE,
-        textToInsert, 
-        textToInsert.length(), 
-        0, 
-        0);
-    // Check content assist menu content for "<ez:"
-    contentAssist.checkContentAssist("ez:input", true);
+        textToInsert,
+   		textToInsert.length(),
+    	0,
+    	0);
     bot.sleep(Timing.time2S());
     compositeComponentContainerEditor.save();
     String currentLineText = compositeComponentContainerEditor.getTextOnCurrentLine();

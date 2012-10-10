@@ -6,6 +6,7 @@ import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotStyledText;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
+import org.jboss.tools.ui.bot.ext.types.IDELabel;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 
 public class JSF2AttributeRenameTest extends JSF2AbstractRefactorTest {
@@ -82,6 +83,7 @@ public class JSF2AttributeRenameTest extends JSF2AbstractRefactorTest {
 		delay();
 		tree.expandNode(JBT_TEST_PROJECT_NAME).expandNode("WebContent").expandNode("resources").expandNode("mycomp").expandNode("echo.xhtml").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		bot.menu("Edit").menu("Delete").click(); //$NON-NLS-1$ //$NON-NLS-2$
+		bot.shell(IDELabel.Shell.CONFIRM_DELETE).activate();
 		bot.button("OK").click(); //$NON-NLS-1$
 		delay();
 		super.tearDown();
