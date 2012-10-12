@@ -52,6 +52,7 @@ import org.jboss.tools.cdi.core.test.tck.StereotypeInheritenceTest;
 import org.jboss.tools.cdi.core.test.tck.lookup.AmbiguousDependencyTest;
 import org.jboss.tools.cdi.core.test.tck.lookup.CircularDependencyTest;
 import org.jboss.tools.cdi.core.test.tck.lookup.DynamicLookupTest;
+import org.jboss.tools.cdi.core.test.tck.lookup.PackageInfoTest;
 import org.jboss.tools.cdi.core.test.tck.lookup.ResolutionByNameTest;
 import org.jboss.tools.cdi.core.test.tck.lookup.ResolutionByTypeTest;
 import org.jboss.tools.cdi.core.test.tck.lookup.UnsatisfiedDependencyTest;
@@ -96,6 +97,7 @@ public class CDICoreAllTests {
 		// TCK project tests
 		suite.addTestSuite(ELReferenceTest.class);
 		suite.addTestSuite(ResolutionByNameTest.class);
+		suite.addTestSuite(PackageInfoTest.class);
 		suite.addTestSuite(BeanDefinitionTest.class);
 		suite.addTestSuite(NameDefinitionTest.class);
 		suite.addTestSuite(QualifierDefinitionTest.class);
