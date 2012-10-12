@@ -23,15 +23,16 @@ import org.jboss.tools.common.java.impl.AnnotationDeclaration;
 public class PackageInfoTest extends TCKTest {
 
 	/**
-
-s	 * @throws CoreException
+	 *
+	 * @throws CoreException
 	 */
 	public void testDeclaration() throws CoreException {
 		PackageDefinition d = cdiProject.getNature().getDefinitions().getPackageDefinition("org.jboss.jsr299.tck.tests.lookup.pack");
 		assertNotNull(d);
-		AnnotationDeclaration a = d.getAnnotation("java.lang.annotation.Target");
+		AnnotationDeclaration a = d.getAnnotation("org.jboss.jsr299.tck.tests.lookup.pack.annotation.A");
+		assertNotNull(a);
 		Object o = a.getMemberValue("value");
-		assertEquals("java.lang.annotation.ElementType.FIELD", o);
+		assertEquals("org.jboss.jsr299.tck.tests.lookup.pack.annotation.E.ONE", o);
 	}
 
 }

@@ -1,4 +1,4 @@
-@Target(ElementType.FIELD)
+@A(E.ONE)
 package org.jboss.jsr299.tck.tests.lookup.pack;  
-import java.lang.annotation.Target;
-import java.lang.annotation.ElementType;
+import org.jboss.jsr299.tck.tests.lookup.pack.annotation.A;
+import org.jboss.jsr299.tck.tests.lookup.pack.annotation.E;
