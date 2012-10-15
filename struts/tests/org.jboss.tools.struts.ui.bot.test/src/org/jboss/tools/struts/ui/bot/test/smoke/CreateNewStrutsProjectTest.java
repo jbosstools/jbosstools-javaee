@@ -16,6 +16,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.jboss.tools.struts.ui.bot.test.StrutsAllBotTests;
 import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
+import org.jboss.tools.ui.bot.ext.condition.NonSystemJobRunsCondition;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
@@ -49,7 +50,7 @@ public class CreateNewStrutsProjectTest extends SWTTestExt {
 		bot.sleep(1000L);
 		bot.button(IDELabel.Button.NEXT).click();
 		bot.button(IDELabel.Button.FINISH).click();
-		bot.sleep(1500);
+		bot.waitUntil(new NonSystemJobRunsCondition());
 
 		SWTBot v = eclipse.showView(ViewType.PACKAGE_EXPLORER);
 		SWTBotTree tree = v.tree();
