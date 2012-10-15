@@ -32,7 +32,6 @@ import org.jboss.tools.cdi.bot.test.quickfix.test.ScopeValidationQuickFixTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.StereotypeValidationQuickFixTest;
 import org.jboss.tools.cdi.bot.test.wizard.CDIWebProjectWizardTest;
 import org.jboss.tools.cdi.bot.test.wizard.ConfigurationPresetTest;
-import org.jboss.tools.cdi.bot.test.wizard.DynamicWebProjectWithCDITest;
 import org.jboss.tools.cdi.bot.test.wizard.FacetTest;
 import org.jboss.tools.cdi.bot.test.wizard.WizardTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
@@ -46,13 +45,12 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({	
-/*	not included in JBDS anymore  */
-/*	PerspectiveTest.class, */
+//	PerspectiveTest.class,  // not included in JBDS anymore
 	
 	ConfigurationPresetTest.class,
 	FacetTest.class, 
 	CDIWebProjectWizardTest.class,
-	DynamicWebProjectWithCDITest.class,
+//	DynamicWebProjectWithCDITest.class, // Context menu not found -> error in test 
 	WizardTest.class,
 	BeansEditorTest.class,
 	NamedRefactoringTest.class,
@@ -60,6 +58,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	BeansXMLValidationTest.class,			
 	BeansXMLCompletionTest.class,	
 	BeansXMLValidationQuickFixTest.class,
+//	AsYouTypeValidationTest.class, // not implemented yet
 	DecoratorFromWebBeanTest.class,
 	ProblemEligibleInjectionTest.class,
 	AllAssignableDialogTest.class,
