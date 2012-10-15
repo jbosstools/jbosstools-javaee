@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.jboss.tools.cdi</groupId>
@@ -8,17 +9,49 @@
 	</parent>
 	<groupId>org.jboss.tools.cdi.tests</groupId>
 	<artifactId>org.jboss.tools.cdi.bot.test</artifactId>
-	
+
 	<packaging>eclipse-test-plugin</packaging>
 	<properties>
 		<additionalSystemProperties></additionalSystemProperties>
-		<systemProperties>${additionalSystemProperties} -Dswtbot.test.properties.file=${project.basedir}/properties/swtbot.properties</systemProperties>
+		<systemProperties>${additionalSystemProperties}
+			-Dswtbot.test.properties.file=${project.basedir}/properties/swtbot.properties</systemProperties>
 		<surefire.timeout>10800</surefire.timeout>
 	</properties>
 
+	<profiles>
+		<profile>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<id>all-bot-tests</id>
+			<properties>
+				<suiteClass>org.jboss.tools.cdi.bot.test.CDIAllBotTests</suiteClass>
+			</properties>
+		</profile>
+		<profile>
+			<id>smoke-bot-tests</id>
+			<properties>
+				<suiteClass>org.jboss.tools.cdi.bot.test.CDISmokeBotTests</suiteClass>
+			</properties>
+		</profile>
+		<profile>
+			<id>debug</id>
+			<properties>
+				<additionalSystemProperties>-Xdebug
+					-Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=y</additionalSystemProperties>
+			</properties>
+		</profile>
+		<profile>
+			<id>jenkins</id>
+			<properties>
+				<suiteClass>org.jboss.tools.cdi.bot.test.JenkinsTestSuite</suiteClass>
+			</properties>			
+		</profile>
+	</profiles>
+
 	<build>
 		<plugins>
-    		<plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>2.4</version>
@@ -48,10 +81,11 @@
 				<artifactId>tycho-surefire-plugin</artifactId>
 				<configuration>
 					<testSuite>org.jboss.tools.cdi.bot.test</testSuite>
-					<testClass>${test.suite.class}</testClass>
+					<testClass>${suiteClass}</testClass>
 					<useUIThread>false</useUIThread>
 					<skip>${swtbot.test.skip}</skip>
-					<!-- Kill swt bot test take more than 3 hours minutes (10800 seconds) to finish -->
+					<!-- Kill swt bot test take more than 3 hours minutes (10800 seconds) 
+						to finish -->
 					<dependencies combine.children="append">
 						<dependency>
 							<type>p2-installable-unit</type>
@@ -68,34 +102,16 @@
 							<artifactId>org.jboss.tools.jsf.feature.feature.group</artifactId>
 							<version>0.0.0</version>
 						</dependency>
+						<!-- This entry should enable creating of default JDK on Mac -->
+						<dependency>
+							<type>p2-installable-unit</type>
+							<artifactId>org.eclipse.jdt.feature.group</artifactId>
+							<version>0.0.0</version>
+						</dependency>
 					</dependencies>
 				</configuration>
 			</plugin>
 
 		</plugins>
 	</build>
-	
-	<profiles>
-		<profile>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<id>all-bot-tests</id>
-			<properties>
-				<test.suite.class>org.jboss.tools.cdi.bot.test.CDIAllBotTests</test.suite.class>
-			</properties>
-		</profile>	
-		<profile>
-			<id>smoke-bot-tests</id>			
-			<properties>
-				<test.suite.class>org.jboss.tools.cdi.bot.test.CDISmokeBotTests</test.suite.class>
-			</properties>				
-		</profile>	
-		<profile>
-			<id>debug</id>
-			<properties>
-				<additionalSystemProperties>-Xdebug -Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=y</additionalSystemProperties>				
-			</properties>
-		</profile>	
-	</profiles>
 </project>
