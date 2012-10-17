@@ -16,11 +16,11 @@ import java.net.URL;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
-import org.jboss.tools.seam.core.SeamCoreMessages;
+import org.jboss.tools.common.ui.CommonUIImages;
 
-public class SeamUiImages {
-
+public class SeamUiImages extends CommonUIImages {
 	private static SeamUiImages INSTANCE;
 	
 	static {
@@ -44,55 +44,30 @@ public class SeamUiImages {
 
 	
 	public static Image getImage(String key) {
-		return INSTANCE.createImageDescriptor(key).createImage();
+		return INSTANCE.getOrCreateImage(key);
 	}
 
 	public static ImageDescriptor getImageDescriptor(String key) {
-		return INSTANCE.createImageDescriptor(key);
+		return INSTANCE.getOrCreateImageDescriptor(key);
 	}
 
 	public static void setImageDescriptors(IAction action, String iconName)	{
-		action.setImageDescriptor(INSTANCE.createImageDescriptor(iconName));
+		action.setImageDescriptor(INSTANCE.getOrCreateImageDescriptor(iconName));
 	}
 	
 	public static SeamUiImages getInstance() {
 		return INSTANCE;
 	}
 
-	private URL baseUrl;
-	private SeamUiImages parentRegistry;
-	
 	protected SeamUiImages(URL registryUrl, SeamUiImages parent){
-
-		if(registryUrl == null) throw new IllegalArgumentException(SeamCoreMessages.SEAM_UI_IMAGESBASE_URL_FOR_IMAGE_REGISTRY_CANNOT_BE_NULL);
-		baseUrl = registryUrl;
-		parentRegistry = parent;
+		super(registryUrl, parent);
 	}
 	
 	protected SeamUiImages(URL url){
 		this(url,null);		
 	}
 
-	public Image getImageByFileName(String key) {
-		return createImageDescriptor(key).createImage();
+	protected ImageRegistry getImageRegistry() {
+		return SeamGuiPlugin.getDefault().getImageRegistry();
 	}
-
-	public ImageDescriptor createImageDescriptor(String key) {
-		try {
-			return ImageDescriptor.createFromURL(makeIconFileURL(key));
-		} catch (MalformedURLException e) {
-			if(parentRegistry == null) {
-				return ImageDescriptor.getMissingImageDescriptor();
-			} else {
-				return parentRegistry.createImageDescriptor(key);
-			}
-			
-		}		
-	}
-
-	private URL makeIconFileURL(String name) throws MalformedURLException {
-		if (name == null) throw new MalformedURLException(SeamCoreMessages.SEAM_UI_IMAGESIMAGE_NAME_CANNOT_BE_NULL);
-		return new URL(baseUrl, name);
-	}	
-
 }
