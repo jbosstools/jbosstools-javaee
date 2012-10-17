@@ -41,10 +41,7 @@ public class JsfUiImages extends ModelUIImages {
 	}
 
 	public static ImageDescriptor getImageDescriptor(String key) {
-		if(JsfUiPlugin.isDebugEnabled()) {
-			JsfUiPlugin.getPluginLog().logInfo("Create imageDescriptor for key '" + key + "'."); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		return INSTANCE.createImageDescriptor(key);
+		return INSTANCE.getOrCreateImageDescriptor(key);
 	}
 
 	/**
