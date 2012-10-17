@@ -15,12 +15,13 @@ import java.net.URL;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.internal.core.impl.EventBean;
 import org.jboss.tools.cdi.xml.CDIXMLImages;
-import org.jboss.tools.common.ui.CommonUIPlugin;
+import org.jboss.tools.common.ui.CommonUIImages;
 
-public class CDIImages {
+public class CDIImages extends CommonUIImages {
 
 	private static CDIImages INSTANCE;
 
@@ -54,16 +55,12 @@ public class CDIImages {
 	public static final String CDI_CLASS_IMAGE = "wizard/CDIClassWizBan.png"; //$NON-NLS-1$
 	public static final String CDI_ANNOTATION_IMAGE = "wizard/CDIAnnotationWizBan.png"; //$NON-NLS-1$
 
-	public static Image getImage(ImageDescriptor descriptor) {
-		return CommonUIPlugin.getImageDescriptorRegistry().get(descriptor);
-	}
-
 	public static Image getImage(String key) {
-		return INSTANCE.createImageDescriptor(key).createImage();
+		return getImageDescriptor(key).createImage();
 	}
 
 	public static ImageDescriptor getImageDescriptor(String key) {
-		return INSTANCE.createImageDescriptor(key);
+		return getInstance().getOrCreateImageDescriptor(key);
 	}
 
 	public static void setImageDescriptors(IAction action, String iconName)	{
@@ -74,38 +71,16 @@ public class CDIImages {
 		return INSTANCE;
 	}
 
-	private URL baseUrl;
-	private CDIImages parentRegistry;
-
 	protected CDIImages(URL registryUrl, CDIImages parent){
-		if(registryUrl == null) throw new IllegalArgumentException(CDICoreMessages.CDI_IMAGESBASE_URL_FOR_IMAGE_REGISTRY_CANNOT_BE_NULL);
-		baseUrl = registryUrl;
-		parentRegistry = parent;
+		super(registryUrl, parent);
 	}
 	
 	protected CDIImages(URL url){
 		this(url,null);		
 	}
 
-	public Image getImageByFileName(String key) {
-		return createImageDescriptor(key).createImage();
-	}
-
-	public ImageDescriptor createImageDescriptor(String key) {
-		try {
-			return ImageDescriptor.createFromURL(makeIconFileURL(key));
-		} catch (MalformedURLException e) {
-			if(parentRegistry == null) {
-				return ImageDescriptor.getMissingImageDescriptor();
-			} else {
-				return parentRegistry.createImageDescriptor(key);
-			}
-		}		
-	}
-
-	private URL makeIconFileURL(String name) throws MalformedURLException {
-		if (name == null) throw new MalformedURLException(CDICoreMessages.CDI_IMAGESIMAGE_NAME_CANNOT_BE_NULL);
-		return new URL(baseUrl, name);
+	protected ImageRegistry getImageRegistry() {
+		return CDICorePlugin.getDefault().getImageRegistry();
 	}
 
 	public static Image getImageByElement(ICDIElement element) {

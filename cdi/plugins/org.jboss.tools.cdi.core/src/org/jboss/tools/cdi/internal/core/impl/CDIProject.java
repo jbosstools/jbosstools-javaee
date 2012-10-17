@@ -92,7 +92,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	BeansXMLData projectBeansXMLData = new BeansXMLData();
 
 	public CDIProject() {
-		dbCache = CDICorePlugin.getDefault().getDBCache();
+//		dbCache = CDICorePlugin.getDefault().getDBCache();
 	}
 
 	public CDIProject getModifiedCopy(IFile file, Collection<IBean> beans) {

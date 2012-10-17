@@ -29,7 +29,7 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
  org.jboss.tools.common.validation,
  org.jboss.tools.cdi.xml;visibility:=reexport,
  org.eclipse.ui.ide;bundle-version="3.7.0",
- org.jboss.tools.common.ui
+ org.jboss.tools.common.ui;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: JBoss by Red Hat
