@@ -18,6 +18,11 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.text.source.SourceViewer;
+import org.eclipse.jst.jsp.core.internal.validation.JSPActionValidator;
+import org.eclipse.jst.jsp.core.internal.validation.JSPDirectiveValidator;
+import org.eclipse.jst.jsp.core.internal.validation.JSPJavaValidator;
+import org.eclipse.jst.jsp.core.internal.validation.JSPValidator;
+import org.eclipse.jst.jsp.ui.internal.validation.JSPActionSourceValidator;
 import org.eclipse.jst.jsp.ui.internal.validation.JSPContentSourceValidator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
@@ -81,26 +86,33 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 		
 		if(JSP_EXT.equals(file.getFileExtension())){
 			file.deleteMarkers(JSP_MARKER_TYPE, true, IResource.DEPTH_INFINITE);
-			JSPContentSourceValidator validator = new JSPContentSourceValidator();
+			JSPValidator[] validators ={
+				new JSPContentSourceValidator(),
+				new JSPActionSourceValidator(),
+				new JSPJavaValidator(),
+				new JSPDirectiveValidator()
+			};
 			
-			ValidationResult result = validator.validate(file, 0, new ValidationState(), new NullProgressMonitor());
-			
-			IReporter reporter = result.getReporter(new NullProgressMonitor());
-			List messages = reporter.getMessages();
-			for(Object m : messages){
-				if(m instanceof Message){
-					Message message = (Message)m;
-					IMarker marker = file.createMarker(JSP_MARKER_TYPE);
-					marker.setAttributes(message.getAttributes());
-					marker.setAttribute(IMarker.MESSAGE, message.getText());
-					int markerSeverity = IMarker.SEVERITY_INFO;
-					int sev = message.getSeverity();
-					if ((sev & IMessage.HIGH_SEVERITY) != 0)markerSeverity = IMarker.SEVERITY_ERROR;
-					else if ((sev & IMessage.NORMAL_SEVERITY) != 0)markerSeverity = IMarker.SEVERITY_WARNING;
-					marker.setAttribute(IMarker.SEVERITY, markerSeverity);
-					marker.setAttribute(IMarker.LINE_NUMBER, message.getLineNumber());
-					marker.setAttribute(IMarker.CHAR_START, message.getOffset());
-					marker.setAttribute(IMarker.CHAR_END, message.getOffset()+message.getLength());
+			for(JSPValidator validator : validators){
+				ValidationResult result = validator.validate(file, 0, new ValidationState(), new NullProgressMonitor());
+				
+				IReporter reporter = result.getReporter(new NullProgressMonitor());
+				List messages = reporter.getMessages();
+				for(Object m : messages){
+					if(m instanceof Message){
+						Message message = (Message)m;
+						IMarker marker = file.createMarker(JSP_MARKER_TYPE);
+						marker.setAttributes(message.getAttributes());
+						marker.setAttribute(IMarker.MESSAGE, message.getText());
+						int markerSeverity = IMarker.SEVERITY_INFO;
+						int sev = message.getSeverity();
+						if ((sev & IMessage.HIGH_SEVERITY) != 0)markerSeverity = IMarker.SEVERITY_ERROR;
+						else if ((sev & IMessage.NORMAL_SEVERITY) != 0)markerSeverity = IMarker.SEVERITY_WARNING;
+						marker.setAttribute(IMarker.SEVERITY, markerSeverity);
+						marker.setAttribute(IMarker.LINE_NUMBER, message.getLineNumber());
+						marker.setAttribute(IMarker.CHAR_START, message.getOffset());
+						marker.setAttribute(IMarker.CHAR_END, message.getOffset()+message.getLength());
+					}
 				}
 			}
 		}else if(XHTML_EXT.equals(file.getFileExtension())){
@@ -148,7 +160,7 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 		}
 	}
 	
-	public void testProblemMarkerResolutionInJSP() throws CoreException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException {
+	public void testAddTLDMarkerResolutionInJSP() throws CoreException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException {
 		IFile jspFile = project.getFile("WebContent/pages/test_page1.jsp");
 		
 		assertTrue("File must be exists.",jspFile.exists());
@@ -179,6 +191,39 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 		validate(jspFile);
 
 		assertMarkerIsNotCreated(jspFile, JSP_MARKER_TYPE, "Unknown tag (h:commandButton).");
+	}
+	
+	public void testAddAttributeMarkerResolutionInJSP() throws CoreException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException {
+		IFile jspFile = project.getFile("WebContent/pages/test_page2.jsp");
+		
+		assertTrue("File must be exists.",jspFile.exists());
+		
+		validate(jspFile);
+
+		assertMarkerIsCreated(jspFile, JSP_MARKER_TYPE, "Missing required attribute \"select\"", true, 7);
+
+		IMarker[] markers = findMarkers(jspFile, JSP_MARKER_TYPE, "Missing required attribute \"select\"");
+
+		assertEquals("Should be 1 marker here", 1, markers.length);
+
+		JSPProblemMarkerResolutionGenerator generator = new JSPProblemMarkerResolutionGenerator();
+		
+		boolean found = false;
+
+		for(IMarker marker : markers){
+			generator.hasResolutions(marker);
+			IMarkerResolution[] resolutions = generator.getResolutions(marker);
+			for(IMarkerResolution resolution : resolutions){
+				resolution.run(marker);
+				found = true;
+			}
+		}
+		
+		assertTrue("AddAttributeMarkerResolution not found", found);
+
+		validate(jspFile);
+
+		assertMarkerIsNotCreated(jspFile, JSP_MARKER_TYPE, "Missing required attribute \"select\"");
 	}
 
 	public void testProblemMarkerResolutionInXHTML() throws CoreException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException {
