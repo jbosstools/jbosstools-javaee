@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
@@ -57,12 +58,12 @@ public class JBIDE1494Test extends VpeTest{
 		// open and get editor
 		JSPMultiPageEditor part = openEditor(input);
 
-		StyledText styledText = part.getSourceEditor().getTextViewer()
-				.getTextWidget();
+		StructuredTextViewer textViewer = part.getSourceEditor().getTextViewer();
+		StyledText styledText = textViewer.getTextWidget();
+		int offset = TestUtil.getLinePositionOffcet(textViewer, 12, 9);
 
-			styledText.setCaretOffset(424);
-			Node h_outputText = (Node) ContentAssistUtils.getNodeAt(part
-					.getSourceEditor().getTextViewer(), 424);
+			styledText.setCaretOffset(offset);
+			Node h_outputText = (Node) ContentAssistUtils.getNodeAt(textViewer, offset);
 
 			assertNotNull(h_outputText);
 
@@ -77,8 +78,8 @@ public class JBIDE1494Test extends VpeTest{
 			//text formating for h:output
 			assertEquals(8, h_output_template.getTextFormattingData().getAllFormatData().length);
 	
-			Node h_dataTable = (Node) ContentAssistUtils.getNodeAt(part
-					.getSourceEditor().getTextViewer(), 473);
+			offset = TestUtil.getLinePositionOffcet(textViewer, 13, 9);
+			Node h_dataTable = (Node) ContentAssistUtils.getNodeAt(textViewer, offset);
 			
 			assertNotNull(h_dataTable);
 			
@@ -90,8 +91,8 @@ public class JBIDE1494Test extends VpeTest{
 			
 			assertEquals(9, h_data_Table.getTextFormattingData().getAllFormatData().length);
 
-			Node span =(Node) ContentAssistUtils.getNodeAt(part
-					.getSourceEditor().getTextViewer(), 615);
+			offset = TestUtil.getLinePositionOffcet(textViewer, 21, 4);
+			Node span =(Node) ContentAssistUtils.getNodeAt(textViewer, offset);
 			
 			dependencySet=new HashSet();
 			

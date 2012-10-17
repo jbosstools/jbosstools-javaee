@@ -75,7 +75,7 @@ public class JBIDE2584Test extends VpeTest {
 		assertEquals(simpleTextNode ,domMapping.getNearElementMappingAtVisualNode(domNode).getSourceNode());
 		assertEquals("Node should be a text node", nsIDOMNode.TEXT_NODE,domNode.getNodeType()); //$NON-NLS-1$
 		
-		assertEquals(simpleTextNode.getNodeValue(), domNode.getNodeValue());
+		assertEquals(simpleTextNode.getNodeValue().trim(), domNode.getNodeValue().trim());
 	}
 	
 	public void testForElText() throws Throwable {

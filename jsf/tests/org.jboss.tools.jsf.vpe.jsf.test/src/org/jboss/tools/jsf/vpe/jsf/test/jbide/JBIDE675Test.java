@@ -15,6 +15,7 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
+import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
@@ -125,14 +126,12 @@ public class JBIDE675Test extends VpeTest {
 		// open and get editor
 		JSPMultiPageEditor part = openEditor(input);
 
-		StyledText styledText = part.getSourceEditor().getTextViewer()
-				.getTextWidget();
-
+		StructuredTextViewer textViewer = part.getSourceEditor().getTextViewer();
+		StyledText styledText = textViewer.getTextWidget();
+		int offset = TestUtil.getLinePositionOffcet(textViewer, 8, 14);
 		for (int i = 0; i < 20; i++) {
-
-			styledText.setCaretOffset(311);
-			IndexedRegion treeNode = ContentAssistUtils.getNodeAt(part
-					.getSourceEditor().getTextViewer(), 311);
+			styledText.setCaretOffset(offset);
+			IndexedRegion treeNode = ContentAssistUtils.getNodeAt(textViewer, offset);
 			Node node = (Node) treeNode;
 			assertNotNull(node);
 
@@ -183,15 +182,16 @@ public class JBIDE675Test extends VpeTest {
 		// open and get editor
 		JSPMultiPageEditor part = openEditor(input);
 
-		StyledText styledText = part.getSourceEditor().getTextViewer()
-				.getTextWidget();
-
-			styledText.setCaretOffset(285);
+		StructuredTextViewer textViewer = part.getSourceEditor().getTextViewer();
+		StyledText styledText = textViewer.getTextWidget();
+		int offset = TestUtil.getLinePositionOffcet(textViewer, 6, 25);
+		
+			styledText.setCaretOffset(offset);
 			styledText.insert("<test></test>"); //$NON-NLS-1$
 			TestUtil.delay(450);
 			TestUtil.waitForJobs();
-			IndexedRegion treeNode = ContentAssistUtils.getNodeAt(part
-					.getSourceEditor().getTextViewer(), 290);
+			offset = TestUtil.getLinePositionOffcet(textViewer, 6, 30);
+			IndexedRegion treeNode = ContentAssistUtils.getNodeAt(textViewer, offset);
 			Node node = (Node) treeNode;
 			assertNotNull(node);
 
