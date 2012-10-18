@@ -85,52 +85,54 @@ public class DefinitionContext implements IRootDefinitionContext {
 			ecopy.setRootContext(copy);
 			copy.extensions.add(ecopy);
 		}
-		if(!clean) {
-			copy.types.addAll(types);
-			for (String qn: typeDefinitions.keySet()) {
-				TypeDefinition d = typeDefinitions.get(qn);
-				if(d.exists()) {
-					copy.typeDefinitions.put(qn, d);
-				} else {
-					copy.types.remove(qn);
+		if(!clean)  {
+			synchronized(this) {
+				copy.types.addAll(types);
+				for (String qn: typeDefinitions.keySet()) {
+					TypeDefinition d = typeDefinitions.get(qn);
+					if(d.exists()) {
+						copy.typeDefinitions.put(qn, d);
+					} else {
+						copy.types.remove(qn);
+					}
 				}
-			}
-			for (String qn: annotations.keySet()) {
-				AnnotationDefinition d = annotations.get(qn);
-				if(d.exists()) {
-					copy.annotations.put(qn, d);
+				for (String qn: annotations.keySet()) {
+					AnnotationDefinition d = annotations.get(qn);
+					if(d.exists()) {
+						copy.annotations.put(qn, d);
+					}
 				}
-			}
-			copy.vetoedTypes.addAll(vetoedTypes);
+				copy.vetoedTypes.addAll(vetoedTypes);
 
-			copy.packages.addAll(packages);
-			for (String qn: packageDefinitions.keySet()) {
-				PackageDefinition d = packageDefinitions.get(qn);
-				if(d.exists()) {
-					copy.packageDefinitions.put(qn, d);
-				} else {
-					packages.remove(qn);
+				copy.packages.addAll(packages);
+				for (String qn: packageDefinitions.keySet()) {
+					PackageDefinition d = packageDefinitions.get(qn);
+					if(d.exists()) {
+						copy.packageDefinitions.put(qn, d);
+					} else {
+						packages.remove(qn);
+					}
 				}
-			}
 
-			for (IPath p: resources.keySet()) {
-				Set<String> set = resources.get(p);
-				if(set != null) {
-					Set<String> s1 = new HashSet<String>();
-					s1.addAll(set);
-					copy.resources.put(p, s1);
+				for (IPath p: resources.keySet()) {
+					Set<String> set = resources.get(p);
+					if(set != null) {
+						Set<String> s1 = new HashSet<String>();
+						s1.addAll(set);
+						copy.resources.put(p, s1);
+					}
 				}
-			}
-			for (IPath p: childPaths.keySet()) {
-				Set<IPath> set = childPaths.get(p);
-				if(set != null) {
-					Set<IPath> s1 = new HashSet<IPath>();
-					s1.addAll(set);
-					copy.childPaths.put(p, s1);
+				for (IPath p: childPaths.keySet()) {
+					Set<IPath> set = childPaths.get(p);
+					if(set != null) {
+						Set<IPath> s1 = new HashSet<IPath>();
+						s1.addAll(set);
+						copy.childPaths.put(p, s1);
+					}
 				}
+				copy.beanXMLs.putAll(beanXMLs);
+				copy.dependencies = dependencies;
 			}
-			copy.beanXMLs.putAll(beanXMLs);
-			copy.dependencies = dependencies;
 		}
 		
 		return copy;
