@@ -1,5 +1,9 @@
 # The JavaEE Tools project
 
+## Summary
+
+JavaEE Tools provides Eclipse plugins for features related to development on JavaEE. This includes CDI, Seam, JSF and Struts. 
+
 ## Install
 
 _JavaEE Tools_ is part of [JBoss Tools](http://jboss.org/tools) from
