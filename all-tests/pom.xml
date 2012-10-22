@@ -12,9 +12,9 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>cdi/tests</module>
-		<module>jsf/tests</module>
-		<module>seam/tests</module>
-		<module>struts/tests</module>
+		<module>../cdi/tests</module>
+		<module>../jsf/tests</module>
+		<module>../seam/tests</module>
+		<module>../struts/tests</module>
 	</modules>
 </project>
