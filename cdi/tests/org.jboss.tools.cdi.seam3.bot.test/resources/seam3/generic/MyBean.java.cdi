@@ -1,7 +1,0 @@
-package cdi.seam;
-
-public class MyBeanX {
-	
-	public MyBeanX(String s) {}
-
-}

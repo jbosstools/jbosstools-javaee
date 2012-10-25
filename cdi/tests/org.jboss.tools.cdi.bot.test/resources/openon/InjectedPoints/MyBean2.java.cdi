@@ -1,9 +1,0 @@
-package cdi;
-
-public class MyBean2 extends MyBean1{
-
-	public MyBean2() {
-		
-	}
-
-}
