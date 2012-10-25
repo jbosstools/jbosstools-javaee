@@ -1,6 +1,0 @@
-package cdi;
-
-@Q1
-public class Dog extends Animal {
-
-}

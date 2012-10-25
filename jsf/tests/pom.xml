@@ -40,7 +40,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<modules>
 				<module>org.jboss.tools.jsf.test</module>
 				<module>org.jboss.tools.jsf.text.ext.test</module>
-				<module>org.jboss.tools.jsf.ui.bot.test</module>
 				<module>org.jboss.tools.jsf.ui.test</module>
 				<module>org.jboss.tools.jsf.verification.test</module>
 				<module>org.jboss.tools.jsf.vpe.ajax4jsf.test</module>
