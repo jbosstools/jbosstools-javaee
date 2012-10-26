@@ -23,7 +23,6 @@
 		<import plugin="org.eclipse.debug.core" version="3.2.0" match="compatible" />
 	</requires>
 
-	<plugin id="org.jboss.tools.cdi.bot.test" download-size="0" install-size="0" version="0.0.0" />
 	<plugin id="org.jboss.tools.cdi.core.test" download-size="0" install-size="0" version="0.0.0" />
 	<plugin id="org.jboss.tools.cdi.text.ext.test" download-size="0" install-size="0" version="0.0.0" />
 	<plugin id="org.jboss.tools.cdi.ui.test" download-size="0" install-size="0" version="0.0.0" />
