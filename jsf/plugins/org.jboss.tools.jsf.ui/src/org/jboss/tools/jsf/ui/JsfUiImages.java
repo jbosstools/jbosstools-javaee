@@ -21,6 +21,9 @@ public class JsfUiImages extends ModelUIImages {
 	
 	public static String JSF_IMPORT_PROJECT_ACTION = "wizards/import_jsf_project.gif"; //$NON-NLS-1$
 	public static String JSF_CREATE_PROJECT_ACTION = "wizards/new_jsf_project.gif"; //$NON-NLS-1$
+	public static String JSF_PROJECT_WIZARD = "wizards/JSFProjectWizBan.png"; //$NON-NLS-1$
+	public static String IMPORT_JSF_PROJECT_WIZARD = "wizards/ImportJSFProjectWizBan.png"; //$NON-NLS-1$
+	public static String FACES_CONFIG_WIZARD = "wizards/FacesConfigWizBan.png"; //$NON-NLS-1$
 	
 	private static JsfUiImages INSTANCE;
 	

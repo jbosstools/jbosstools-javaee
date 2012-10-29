@@ -14,10 +14,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.model.ui.wizard.newfile.*;
 import org.jboss.tools.struts.ui.IStrutsHelpContextIds;
+import org.jboss.tools.struts.ui.StrutsUIImages;
 
 public class NewStrutsConfigFileWizard extends NewFileWizardEx {
 
-	public NewStrutsConfigFileWizard() {}
+	public NewStrutsConfigFileWizard() {
+		setDefaultPageImageDescriptor(StrutsUIImages.getInstance().getOrCreateImageDescriptor(StrutsUIImages.STRUTS_CONFIG_IMAGE));
+	}
 	
 	protected int getVersion() {
 		return 1;
