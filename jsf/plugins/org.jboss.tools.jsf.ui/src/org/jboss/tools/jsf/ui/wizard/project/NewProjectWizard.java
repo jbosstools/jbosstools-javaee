@@ -15,9 +15,9 @@ import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.meta.key.WizardKeys;
-import org.jboss.tools.common.model.ui.ModelUIImages;
 import org.jboss.tools.jsf.JSFPreference;
 import org.jboss.tools.jsf.ui.IJSFHelpContextIds;
+import org.jboss.tools.jsf.ui.JsfUiImages;
 import org.jboss.tools.jsf.ui.operation.JSFProjectCreationOperation;
 import org.jboss.tools.jsf.web.helpers.context.NewProjectWizardContext;
 import org.jboss.tools.jst.web.project.helpers.ProjectTemplate;
@@ -35,7 +35,7 @@ public class NewProjectWizard extends NewWebProjectWizard {
 	public NewProjectWizard() {
 		context = new NewProjectWizardContext();
 		this.setWindowTitle(WizardKeys.getString(NEW_JSF_PROJECT_WIZARD_WINDOW_TITLE));
-		this.setDefaultPageImageDescriptor(ModelUIImages.getImageDescriptor(ModelUIImages.WIZARD_NEW_PROJECT));
+		this.setDefaultPageImageDescriptor(JsfUiImages.getImageDescriptor(JsfUiImages.JSF_PROJECT_WIZARD));
 	}
 	
 	public void createPageControls(Composite parent) {

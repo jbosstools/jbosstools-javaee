@@ -11,8 +11,13 @@
 package org.jboss.tools.struts.ui.wizard.newfile;
 
 import org.jboss.tools.common.model.ui.wizard.newfile.*;
+import org.jboss.tools.struts.ui.StrutsUIImages;
 
 public class NewValidationFile11Wizard extends NewFileWizardEx {
+	
+	public NewValidationFile11Wizard(){
+		setDefaultPageImageDescriptor(StrutsUIImages.getInstance().getOrCreateImageDescriptor(StrutsUIImages.VALIDATION_FILE_IMAGE));
+	}
 
 	protected NewFileContextEx createNewFileContext() {
 		return new NewValidationFile11Context();
