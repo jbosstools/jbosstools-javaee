@@ -13,52 +13,28 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<coverage.filter>org.jboss.tools.cdi*</coverage.filter>
 	</properties>
 	<packaging>pom</packaging>
-	<profiles>
-		<profile>
-			<id>cdi-tests-libs</id>
-			<activation>
-				<property>
-					<name>cdi-coverage</name>
-				</property>
-			</activation>
-			<modules>
-				<module>../../build/emma/lib</module>
-			</modules>
-		</profile>
-
-		<profile>
-			<id>cdi-tests-default</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-				<property>
-					<name>cdi-coverage</name>
-				</property>
-			</activation>
-			<modules>
-				<module>org.jboss.tools.cdi.core.test</module>
-				<module>org.jboss.tools.cdi.seam.config.core.test</module>
-				<module>org.jboss.tools.cdi.seam.config.ui.test</module>
-				<module>org.jboss.tools.cdi.seam.core.test</module>
-				<module>org.jboss.tools.cdi.seam.faces.core.test</module>
-				<module>org.jboss.tools.cdi.seam.solder.core.test</module>
-				<module>org.jboss.tools.cdi.seam.text.ext.test</module>
-				<module>org.jboss.tools.cdi.text.ext.test</module>
-				<module>org.jboss.tools.cdi.ui.test</module>
-				<module>org.jboss.tools.cdi.deltaspike.core.test</module>
-			</modules>
-		</profile>
-
-		<profile>
-			<id>cdi-tests-coverage-report</id>
-			<activation>
-				<property>
-					<name>cdi-coverage</name>
-				</property>
-			</activation>
-			<modules>
-				<module>../../build/emma/reports</module>
-			</modules>
-		</profile>
-	</profiles>
+	<modules>
+		<module>org.jboss.tools.cdi.core.test</module>
+		<module>org.jboss.tools.cdi.seam.config.core.test</module>
+		<module>org.jboss.tools.cdi.seam.config.ui.test</module>
+		<module>org.jboss.tools.cdi.seam.core.test</module>
+		<module>org.jboss.tools.cdi.seam.faces.core.test</module>
+		<module>org.jboss.tools.cdi.seam.solder.core.test</module>
+		<module>org.jboss.tools.cdi.seam.text.ext.test</module>
+		<module>org.jboss.tools.cdi.text.ext.test</module>
+		<module>org.jboss.tools.cdi.ui.test</module>
+		<module>org.jboss.tools.cdi.deltaspike.core.test</module>
+	</modules>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tychoVersion}</version>
+				<configuration>
+					<product>org.jboss.tools.tests.application</product>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
-	
