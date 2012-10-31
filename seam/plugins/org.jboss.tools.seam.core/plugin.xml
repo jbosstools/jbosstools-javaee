@@ -392,13 +392,13 @@
      </static-preset>
      <static-preset
            id="jst.seam23.preset">
-	    <label>Dynamic Web Project with Seam 2.3 (Technical Preview)</label>
+	    <label>Dynamic Web Project with Seam 2.3</label>
 	    <facet id="jst.java" version="6.0"/>
 	    <facet id="jst.web" version="3.0"/>
 	    <facet id="jst.jsf" version="2.0"/>
 	    <facet id="jst.seam" version="2.3"/>
      	<description>
-        	Configures a Dynamic Web application to use Seam v2.3 (Technical Preview)
+        	Configures a Dynamic Web application to use Seam v2.3
      	</description>
      </static-preset>
   </extension>
