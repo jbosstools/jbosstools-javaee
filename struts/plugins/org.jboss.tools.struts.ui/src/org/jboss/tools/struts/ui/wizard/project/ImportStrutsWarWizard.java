@@ -13,16 +13,16 @@ package org.jboss.tools.struts.ui.wizard.project;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.jboss.tools.common.meta.key.WizardKeys;
 import org.jboss.tools.common.model.XModelFactory;
-import org.jboss.tools.common.model.ui.ModelUIImages;
-import org.jboss.tools.struts.ui.operation.ImportStrutsWarOperation;
 import org.jboss.tools.jst.web.ui.wizards.project.ImportWebWarWizard;
+import org.jboss.tools.struts.ui.StrutsUIImages;
+import org.jboss.tools.struts.ui.operation.ImportStrutsWarOperation;
 import org.jboss.tools.struts.webprj.model.helpers.context.ImportStrutsWarContext;
 
 public class ImportStrutsWarWizard extends ImportWebWarWizard {
 
 	public ImportStrutsWarWizard() {
 		this.setWindowTitle(WizardKeys.getString(ImportProjectWizard.IMPORT_STRUTS_PROJECT_WIZARD_WINDOW_TITLE));
-		this.setDefaultPageImageDescriptor(ModelUIImages.getImageDescriptor(ModelUIImages.WIZARD_IMPORT_PROJECT));
+		this.setDefaultPageImageDescriptor(StrutsUIImages.getInstance().getOrCreateImageDescriptor(StrutsUIImages.IMPORT_STRUTS_PROJECT_IMAGE));
 	}
 
 	public void addPages() {

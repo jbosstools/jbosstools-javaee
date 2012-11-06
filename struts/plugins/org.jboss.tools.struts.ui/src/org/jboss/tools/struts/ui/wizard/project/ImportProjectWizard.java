@@ -10,15 +10,15 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.ui.wizard.project;
 
-import org.jboss.tools.common.model.ui.util.ModelUtilities;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.meta.key.WizardKeys;
-import org.jboss.tools.common.model.ui.ModelUIImages;
-import org.jboss.tools.struts.ui.IStrutsHelpContextIds;
-import org.jboss.tools.struts.ui.operation.StrutsProjectAdoptOperation;
+import org.jboss.tools.common.model.ui.util.ModelUtilities;
 import org.jboss.tools.jst.web.ui.wizards.project.ImportWebProjectWizard;
+import org.jboss.tools.struts.ui.IStrutsHelpContextIds;
+import org.jboss.tools.struts.ui.StrutsUIImages;
+import org.jboss.tools.struts.ui.operation.StrutsProjectAdoptOperation;
 import org.jboss.tools.struts.webprj.model.helpers.context.ImportProjectWizardContext;
 
 public class ImportProjectWizard extends ImportWebProjectWizard {
@@ -30,7 +30,7 @@ public class ImportProjectWizard extends ImportWebProjectWizard {
 	
 	public ImportProjectWizard() {
 		this.setWindowTitle(WizardKeys.getString(IMPORT_STRUTS_PROJECT_WIZARD_WINDOW_TITLE));
-		this.setDefaultPageImageDescriptor(ModelUIImages.getImageDescriptor(ModelUIImages.WIZARD_IMPORT_PROJECT));
+		this.setDefaultPageImageDescriptor(StrutsUIImages.getInstance().getOrCreateImageDescriptor(StrutsUIImages.IMPORT_STRUTS_PROJECT_IMAGE));
 	}
 	
 	public void createPageControls(Composite parent) {

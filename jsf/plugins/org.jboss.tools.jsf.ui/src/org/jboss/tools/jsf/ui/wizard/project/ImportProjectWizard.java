@@ -16,9 +16,9 @@ import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.meta.key.WizardKeys;
 import org.jboss.tools.common.model.XModelFactory;
 import org.jboss.tools.jsf.ui.IJSFHelpContextIds;
+import org.jboss.tools.jsf.ui.JsfUiImages;
 import org.jboss.tools.jsf.ui.operation.JSFProjectAdoptOperation;
-import org.jboss.tools.jsf.web.helpers.context.*;
-import org.jboss.tools.common.model.ui.*;
+import org.jboss.tools.jsf.web.helpers.context.ImportProjectWizardContext;
 import org.jboss.tools.jst.web.ui.wizards.project.ImportWebProjectWizard;
 
 public class ImportProjectWizard extends ImportWebProjectWizard {
@@ -27,7 +27,7 @@ public class ImportProjectWizard extends ImportWebProjectWizard {
 	
 	public ImportProjectWizard() {
 		this.setWindowTitle(WizardKeys.getString(IMPORT_JSF_PROJECT_WIZARD_WINDOW_TITLE));
-		this.setDefaultPageImageDescriptor(ModelUIImages.getImageDescriptor(ModelUIImages.WIZARD_IMPORT_PROJECT));
+		this.setDefaultPageImageDescriptor(JsfUiImages.getImageDescriptor(JsfUiImages.IMPORT_JSF_PROJECT_WIZARD));
 	}
 	
 	public void createPageControls(Composite parent) {

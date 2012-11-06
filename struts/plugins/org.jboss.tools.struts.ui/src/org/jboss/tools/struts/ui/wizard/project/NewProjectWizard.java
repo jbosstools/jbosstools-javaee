@@ -19,6 +19,7 @@ import org.jboss.tools.common.meta.key.WizardKeys;
 import org.jboss.tools.common.model.ui.ModelUIImages;
 import org.jboss.tools.jst.web.project.helpers.ProjectTemplate;
 import org.jboss.tools.struts.ui.IStrutsHelpContextIds;
+import org.jboss.tools.struts.ui.StrutsUIImages;
 import org.jboss.tools.struts.ui.operation.StrutsProjectCreationOperation;
 import org.jboss.tools.jst.web.WebPreference;
 import org.jboss.tools.jst.web.ui.wizards.appregister.NewProjectRegisterPage;
@@ -36,7 +37,7 @@ public class NewProjectWizard extends NewWebProjectWizard {
 	public NewProjectWizard() {
 		context = new NewProjectWizardContext();
 		this.setWindowTitle(WizardKeys.getString(NEW_STRUTS_PROJECT_WIZARD_WINDOW_TITLE));
-		this.setDefaultPageImageDescriptor(ModelUIImages.getImageDescriptor(ModelUIImages.WIZARD_NEW_PROJECT));
+		this.setDefaultPageImageDescriptor(StrutsUIImages.getInstance().getOrCreateImageDescriptor(StrutsUIImages.STRUTS_PROJECT_IMAGE));
 	}
 	
 	public void createPageControls(Composite parent) {

@@ -1,7 +1,0 @@
-package cdi;
-
-@Q1
-public class Animal {
-
-
-}

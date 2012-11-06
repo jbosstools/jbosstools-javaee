@@ -1,2 +1,0 @@
-@javax.inject.Named
-package cdi.seam;

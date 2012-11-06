@@ -10,21 +10,20 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.wizard.project;
 
-import org.jboss.tools.common.model.ui.wizards.MessageWizardPage;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-
 import org.jboss.tools.common.meta.key.WizardKeys;
 import org.jboss.tools.common.model.XModelFactory;
+import org.jboss.tools.common.model.ui.wizards.MessageWizardPage;
+import org.jboss.tools.jsf.ui.JsfUiImages;
 import org.jboss.tools.jsf.ui.operation.ImportJSFWarOperation;
 import org.jboss.tools.jsf.web.helpers.context.ImportJSFWarContext;
-import org.jboss.tools.common.model.ui.ModelUIImages;
 import org.jboss.tools.jst.web.ui.wizards.project.ImportWebWarWizard;
 
 public class ImportJSFWarWizard extends ImportWebWarWizard {
 
 	public ImportJSFWarWizard() {
 		this.setWindowTitle(WizardKeys.getString(ImportProjectWizard.IMPORT_JSF_PROJECT_WIZARD_WINDOW_TITLE));
-		this.setDefaultPageImageDescriptor(ModelUIImages.getImageDescriptor(ModelUIImages.WIZARD_IMPORT_PROJECT));
+		this.setDefaultPageImageDescriptor(JsfUiImages.getImageDescriptor(JsfUiImages.IMPORT_JSF_PROJECT_WIZARD));
 	}
 	
 	public void addPages() {

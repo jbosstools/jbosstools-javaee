@@ -10,14 +10,18 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.wizard.newfile;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
+import org.jboss.tools.common.model.ui.wizard.newfile.NewFileContextEx;
+import org.jboss.tools.common.model.ui.wizard.newfile.NewFileWizardEx;
 import org.jboss.tools.jsf.model.handlers.CreateFacesConfigSupport;
-import org.jboss.tools.jsf.ui.IJSFHelpContextIds;
-import org.jboss.tools.common.model.ui.wizard.newfile.*;
+import org.jboss.tools.jsf.ui.JsfUiImages;
 
 public class NewFacesConfigFileWizard extends NewFileWizardEx {
+	
+	public NewFacesConfigFileWizard(){
+		super();
+		setDefaultPageImageDescriptor(JsfUiImages.getImageDescriptor(JsfUiImages.FACES_CONFIG_WIZARD));
+	}
 
 	protected NewFileContextEx createNewFileContext() {
 		return new NewFacesConfigFileContext();
