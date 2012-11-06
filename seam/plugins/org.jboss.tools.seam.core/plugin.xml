@@ -638,4 +638,15 @@
 	      </exclude>
 	   </validator>
 	</extension>
+
+   <extension point="org.eclipse.wst.xml.core.catalogContributions">
+      <catalogContribution id="default">
+         <uri 
+            name="http://jboss.com/products/seam/taglib" 
+            uri="platform:/plugin/org.jboss.tools.seam.core/taglibs/tld/s.tld"/>
+         <uri 
+            name="http://jboss.org/schema/seam/taglib" 
+            uri="platform:/plugin/org.jboss.tools.seam.core/taglibs/tld/s.taglib.xml"/>
+      </catalogContribution>
+   </extension>
 </plugin>
