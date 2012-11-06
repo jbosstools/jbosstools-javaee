@@ -136,37 +136,37 @@ public class InjectedPointHyperlinkDetectorTest extends TCKTest {
 
 	public void testInjectedPointHyperlinkDetectorWithComment() throws Exception {
 		String[] paths = new String[]{
-				"/tck/JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/BasicLogger.java",
-				"/tck/JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/TestInjections.java"
+				"/tck/JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/BasicFood.java",
+				"/tck/JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/AdvancedFood.java"
 			};
-		Collection<IBean> beans = cdiProject.getBeans("/tck/JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/BasicLogger.java",	true);
+		Collection<IBean> beans = cdiProject.getBeans("/tck/JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/AdvancedFood.java",	true);
 		IBean bean=null;
 		for(IBean b : beans){
 			bean = b;
 		}
 		ArrayList<TestRegion> regionList = new ArrayList<TestRegion>();
 		regionList.add(new TestRegion("Inject",   new TestHyperlink[]{
-			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " BasicLogger", bean),
+			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " AdvancedFood.ff", bean),
 			new TestHyperlink(AssignableBeansHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ASSIGNABLE, paths)
 		})); // Inject
-		regionList.add(new TestRegion("Logger",   new TestHyperlink[]{
-			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " BasicLogger", bean),
+		regionList.add(new TestRegion("Food",   new TestHyperlink[]{
+			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " AdvancedFood.ff", bean),
 			new TestHyperlink(AssignableBeansHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ASSIGNABLE, paths)
 		})); // Logger
-		regionList.add(new TestRegion("logger",   new TestHyperlink[]{
-			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " BasicLogger", bean),
+		regionList.add(new TestRegion("food",   new TestHyperlink[]{
+			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " AdvancedFood.ff", bean),
 			new TestHyperlink(AssignableBeansHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ASSIGNABLE, paths)
 		})); // logger
-		regionList.add(new TestRegion("logger",   new TestHyperlink[]{
-			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " BasicLogger", bean),
+		regionList.add(new TestRegion("food",   new TestHyperlink[]{
+			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " AdvancedFood.ff", bean),
 			new TestHyperlink(AssignableBeansHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ASSIGNABLE, paths)
 		})); // logger
-		regionList.add(new TestRegion("logger",   new TestHyperlink[]{
-				new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " BasicLogger", bean),
+		regionList.add(new TestRegion("food",   new TestHyperlink[]{
+				new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " AdvancedFood.ff", bean),
 				new TestHyperlink(AssignableBeansHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ASSIGNABLE, paths)
 			})); // logger
 		
-		CDIHyperlinkTestUtil.checkRegions(tckProject, "JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/LoggerConsumer.java", regionList, new InjectedPointHyperlinkDetector());
+		CDIHyperlinkTestUtil.checkRegions(tckProject, "JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/FoodConsumer.java", regionList, new InjectedPointHyperlinkDetector());
 	}
 
 	public void testInjectedProducerMethodParametersHyperlinkDetector() throws Exception {
