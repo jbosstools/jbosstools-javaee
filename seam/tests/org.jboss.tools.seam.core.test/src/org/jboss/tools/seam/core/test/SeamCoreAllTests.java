@@ -49,6 +49,7 @@ public class SeamCoreAllTests {
 		suite.addTestSuite(ComponentsFromLibTest.class);
 		suite.addTestSuite(Seam2ValidatorTest.class);
 		suite.addTestSuite(SeamFacetOnExistingProjectTest.class);
+		suite.addTestSuite(XMLCatalogTest.class);
 		return suite;
 	}
 }
