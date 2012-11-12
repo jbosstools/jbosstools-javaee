@@ -140,12 +140,71 @@ public class CDIAsYouTypeCDIAndELValidatorsMassagesProcessingTest extends TCKTes
 			baseTest.closeEditor();
 		}
 	}
+	
+	public void testCommentingLinesWithAProblems() throws BadLocationException, CoreException {
+ 		assertNotNull("Test project '" + TCKTest.MAIN_PROJECT_NAME + "' is not prepared", project);
+		baseTest.openEditor(PAGE_NAME);
+		try {
+			//============================
+			// The test procedure steps:
+			// - Find line for TEXT_LINE_TO_REPLACE
+			//============================
 
-	private void checkProblemAnnotationExists(int start, int length, String errorMessage) {
+			String documentContent = baseTest.getDocument().get();
+
+			int start = (documentContent == null ? -1 : documentContent
+						.indexOf(TEXT_LINE_TO_REPLACE, 0));
+			int length = TEXT_LINE_TO_REPLACE.length();
+			
+			assertFalse("No line found for line '" + TEXT_LINE_TO_REPLACE + "'", (start == -1));
+
+			// do check marker and marker annotation appeared here
+			int line = baseTest.getDocument().getLineOfOffset(start);
+			baseTest.assertResourceMarkerIsCreated(baseTest.getFile(), toRegex(ERROR_MESSAGE), line + 1);
+
+			Annotation problemAnnotation = baseTest.waitForAnnotation(
+					start, start + length, ERROR_MESSAGE, AbstractAsYouTypeValidationTest.MAX_SECONDS_TO_WAIT, true, true);
+			assertNotNull("Problem Marker Annotation for line '" + TEXT_LINE_TO_REPLACE + "' not found!", problemAnnotation);
+
+			String message = problemAnnotation.getText();
+			assertEquals(
+					"Not expected error message found in ProblemAnnotation. Expected: ["
+							+ ERROR_MESSAGE + "], Found: [" + message + "]",
+					ERROR_MESSAGE, message);
+
+			//=================================================================================================
+			// - Comment the line with a broken Annotation => see error annotation to disappear 
+			//   (an old problem marker annotation has to disappear)
+			//=================================================================================================
+
+			int lineStartOffset = baseTest.getDocument().getLineOffset(line);
+			
+			String lineToReplace = "//" + documentContent.substring(lineStartOffset, start + length);
+			
+			baseTest.getDocument().replace(lineStartOffset, start + length - lineStartOffset, lineToReplace);
+
+			problemAnnotation = baseTest.waitForAnnotation(
+					start, start + length, null, AbstractAsYouTypeValidationTest.MAX_SECONDS_TO_WAIT, true, false); // Still use the same length (Just to have a place to look in)
+			assertNull("Problem Annotation has not disappeared!", problemAnnotation);
+
+			//=================================================================================================
+			// - Restore broken Annotation => see error annotation appearance 
+			//=================================================================================================
+
+			baseTest.getDocument().replace(lineStartOffset, 2, "");
+
+			checkProblemAnnotationExists(start, length, ERROR_MESSAGE);
+		} finally {
+			baseTest.closeEditor();
+		}
+	}
+	
+
+	private void checkProblemAnnotationExists(int start, int length, String errorMessage) throws BadLocationException {
 		Annotation problemAnnotation = baseTest.waitForAnnotation(
 				start, start + length + TEXT_TO_INSERT.length(), errorMessage, AbstractAsYouTypeValidationTest.MAX_SECONDS_TO_WAIT, false, true);
 
-		assertNotNull("No Problem Annotation found for problematic line '" + TEXT_LINE_TO_REPLACE + "'!", problemAnnotation);
+		assertNotNull("No Problem Annotation found for problematic line '" + baseTest.getDocument().get(start, length) + "'!", problemAnnotation);
 
 		String message = problemAnnotation.getText();
 		assertEquals(

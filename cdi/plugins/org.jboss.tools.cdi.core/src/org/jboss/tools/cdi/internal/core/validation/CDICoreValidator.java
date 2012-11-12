@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2009 Red Hat, Inc. 
+ * Copyright (c) 2009-2012 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -507,22 +507,17 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		if(reporter instanceof ITypedReporter) {
 			((ITypedReporter)reporter).addTypeForFile(getProblemType());
 		}
-		disableProblemAnnotations(new ITextSourceReference() {
-			@Override
-			public int getStartPosition() {
-				return 0;
-			}
-
-			@Override
-			public IResource getResource() {
-				return file;
-			}
-
-			@Override
-			public int getLength() {
-				return document.getLength();
-			}
-		}, reporter);
+		disableProblemAnnotations(new IRegion() {
+				@Override
+				public int getOffset() {
+					return 0;
+				}
+				
+				@Override
+				public int getLength() {
+					return document.getLength();
+				}
+			}, reporter);
 	}
 
 	/**
