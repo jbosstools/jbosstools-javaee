@@ -253,7 +253,12 @@
 		<property name="attributeName" value="converter-for-class"/>
 		<property name="attributeValue" value="demo.B"/>
 	</test>
-	
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config.xml/Converters/c1/converter-extension"/>
+		<property name="attributeName" value="element type"/>
+		<property name="attributeValue" value="converter-extension"/>
+	</test>
+
 	<!-- Test Render Kit -->
 	<test name="JSFModelTest:testPaths:attribute">
 		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit"/>
