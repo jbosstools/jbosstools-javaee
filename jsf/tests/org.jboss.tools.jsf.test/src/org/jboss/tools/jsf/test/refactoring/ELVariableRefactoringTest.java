@@ -56,7 +56,7 @@ public class ELVariableRefactoringTest extends AbstractRefactorTest {
 		list.add(structure);
 
 		structure = new TestChangeStructure(project, "/WebContent/WEB-INF/faces-config.xml");
-		change = new TestTextChange(1815, NAME_LEN, NEW_NAME);
+		change = new TestTextChange(1875, NAME_LEN, NEW_NAME);
 		structure.addTextChange(change);
 		list.add(structure);
 
