@@ -126,10 +126,12 @@ public class JSF2ComponentResolutionGenerator implements
 
 
 	public boolean hasResolutions(IMarker marker) {
-		try {
-			return getMessageID(marker) >= 0;
-		} catch (CoreException ex) {
-			JSFModelPlugin.getDefault().logError(ex);
+		if(marker.exists()){
+			try {
+				return getMessageID(marker) >= 0;
+			} catch (CoreException ex) {
+				JSFModelPlugin.getDefault().logError(ex);
+			}
 		}
 		return false;
 	}
