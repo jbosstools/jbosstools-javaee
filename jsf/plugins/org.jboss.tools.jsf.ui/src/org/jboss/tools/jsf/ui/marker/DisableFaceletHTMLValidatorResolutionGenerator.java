@@ -57,7 +57,7 @@ public class DisableFaceletHTMLValidatorResolutionGenerator implements
 	}
 
 	public boolean hasResolutions(IMarker marker) {
-		return isNeedToCreate(marker);
+		return marker.exists() && isNeedToCreate(marker);
 	}
 	
 }

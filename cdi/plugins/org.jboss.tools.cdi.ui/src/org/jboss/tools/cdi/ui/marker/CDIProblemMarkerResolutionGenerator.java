@@ -965,10 +965,12 @@ public class CDIProblemMarkerResolutionGenerator implements
 	
 	@Override
 	public boolean hasResolutions(IMarker marker) {
-		try {
-			return getMessageID(marker) >= 0;
-		} catch (CoreException ex) {
-			CDIUIPlugin.getDefault().logError(ex);
+		if(marker.exists()){
+			try {
+				return getMessageID(marker) >= 0;
+			} catch (CoreException ex) {
+				CDIUIPlugin.getDefault().logError(ex);
+			}
 		}
 		return false;
 	}

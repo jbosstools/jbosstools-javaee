@@ -249,10 +249,12 @@ public class SeamProblemMarkerResolutionGenerator implements
 	}
 
 	public boolean hasResolutions(IMarker marker) {
-		try {
-			return getMessageID(marker) >= 0;
-		} catch (CoreException ex) {
-			SeamGuiPlugin.getPluginLog().logError(ex);
+		if(marker.exists()){
+			try {
+				return getMessageID(marker) >= 0;
+			} catch (CoreException ex) {
+				SeamGuiPlugin.getPluginLog().logError(ex);
+			}
 		}
 		return false;
 	}
