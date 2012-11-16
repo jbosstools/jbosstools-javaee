@@ -9,7 +9,7 @@
 		<relativePath>../jbosstools-build/parent/pom.xml</relativePath>
 	</parent>
 	<groupId>org.jboss.tools</groupId>
-	<artifactId>javaee.all</artifactId>
+	<artifactId>javaee</artifactId>
 	<version>4.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>

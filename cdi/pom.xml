@@ -3,9 +3,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.jboss.tools</groupId>
-		<artifactId>parent</artifactId>
-		<version>4.0.0.Beta2-SNAPSHOT</version>
-		<relativePath>../../jbosstools-build/parent/pom.xml</relativePath>
+		<artifactId>javaee</artifactId>
+		<version>4.0.0-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.tools</groupId>
 	<artifactId>cdi</artifactId>
