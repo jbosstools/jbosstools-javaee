@@ -17,20 +17,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.common.base.test.validation.java.BaseAsYouTypeInJavaValidationTest;
 import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.jst.web.kb.WebKbPlugin;
 import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
-import org.jboss.tools.test.util.JobUtils;
-import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**
  * 
@@ -47,24 +39,15 @@ public class JSFAsYouTypeInJavaValidationTest extends BaseAsYouTypeInJavaValidat
 			{"#{user.name}", "#{suser.name}", "\"suser\" cannot be resolved", "#{ssuser.name}", "\"ssuser\" cannot be resolved"},
 			{"#{user.name}", "#{[}", "EL syntax error: Expecting expression.", "#{[[}", "EL syntax error: Expecting expression."}
 		};
-	private boolean isSuspendedValidationDefaultValue;
 
+	@Override
 	public void setUp() throws Exception {
-		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
-		isSuspendedValidationDefaultValue = ValidationFramework.getDefault().isSuspended();
-		ValidationFramework.getDefault().suspendAllValidation(false);
-		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		JobUtils.waitForIdle();
+		project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
 	}
 
-	public void tearDown() throws Exception {
-		ValidationFramework.getDefault().suspendAllValidation(isSuspendedValidationDefaultValue);
-	}
-
-	public void testAsYouTypeMarkerAnnotationsRemovalInJavaValidation() throws BadLocationException, CoreException {
+	public void testAsYouTypeMarkerAnnotationsRemovalInJavaValidation() throws Exception {
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
-			
+
 		IFile file = project.getFile(PAGE_NAME);
 		IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
 		String defaultValidateUnresolvedEL = SeverityPreferences.ENABLE;
@@ -96,7 +79,7 @@ public class JSFAsYouTypeInJavaValidationTest extends BaseAsYouTypeInJavaValidat
 		}
 	}
 
-	public void testAsYouTypeInJavaValidation() throws JavaModelException, BadLocationException {
+	public void testAsYouTypeInJavaValidation() throws Exception {
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
 		openEditor(PAGE_NAME);
 		IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
@@ -119,8 +102,8 @@ public class JSFAsYouTypeInJavaValidationTest extends BaseAsYouTypeInJavaValidat
 			closeEditor();
 		}
 	}
-	
-	private void prepareModifiedFile(IFile destination, String el) {
+
+	private void prepareModifiedFile(IFile destination, String el) throws Exception {
 		BufferedReader r = null;
 		InputStream is = null;
 		try {
@@ -134,7 +117,7 @@ public class JSFAsYouTypeInJavaValidationTest extends BaseAsYouTypeInJavaValidat
 			}
 			is.close();
 			
-			String modifiedContent = modifyModifyELInContent(content, el);
+			String modifiedContent = modifyELInContent(content, el);
 			if (modifiedContent == null)
 				modifiedContent = "";
 			
@@ -144,8 +127,6 @@ public class JSFAsYouTypeInJavaValidationTest extends BaseAsYouTypeInJavaValidat
 			} else {
 				destination.create(is, true, null);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		} finally {
 			if (r != null) {
 				try {
@@ -163,5 +144,4 @@ public class JSFAsYouTypeInJavaValidationTest extends BaseAsYouTypeInJavaValidat
 			}
 		}
 	}
-
 }

@@ -16,21 +16,17 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.jst.jsp.test.validation.BaseAsYouTypeValidationTest;
 import org.jboss.tools.jst.web.kb.WebKbPlugin;
 import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
-import org.jboss.tools.test.util.ProjectImportTestSetup;
+import org.jboss.tools.test.util.JobUtils;
 import org.osgi.framework.Bundle;
 
 /**
@@ -52,27 +48,18 @@ public class JSFAsYouTypeValidationTest extends BaseAsYouTypeValidationTest {
 			{"#{user.name}", "#{[}", "EL syntax error: Expecting expression.", "#{[[}", "EL syntax error: Expecting expression."}
 		};
 
-	private static boolean isSuspendedValidationDefaultValue;
-
+	@Override
 	public void setUp() throws Exception {
-		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
-		isSuspendedValidationDefaultValue = ValidationFramework.getDefault().isSuspended();
-		ValidationFramework.getDefault().suspendAllValidation(false);
-		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-	}
-	
-	public void tearDown() throws Exception {
-		ValidationFramework.getDefault().suspendAllValidation(isSuspendedValidationDefaultValue);
+		project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
 	}
 
-	public void testAsYouTypeMarkerAnnotationsRemovalValidation() throws BadLocationException, CoreException {
+	public void testAsYouTypeMarkerAnnotationsRemovalValidation() throws Exception {
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
-		
+
 		for (int p = 0; p < PAGE_NAMES.length; p++) {
 			String sourcePageName = PAGE_NAMES[p][0];
 			String pageName = PAGE_NAMES[p][1];
-			
+
 			IFile file = project.getFile(pageName);
 			IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
 			String defaultValidateUnresolvedEL = SeverityPreferences.ENABLE;
@@ -110,13 +97,13 @@ public class JSFAsYouTypeValidationTest extends BaseAsYouTypeValidationTest {
 		}
 	}
 
-	public void testAsYouTypeValidation() throws JavaModelException, BadLocationException {
+	public void testAsYouTypeValidation() throws Exception {
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
-		
+
 		for (int p = 0; p < PAGE_NAMES.length; p++) {
 			String sourcePageName = PAGE_NAMES[p][0];
 			String pageName = PAGE_NAMES[p][1];
-			
+
 			IFile file = project.getFile(pageName);
 			prepareFile("org.jboss.tools.jsf.ui.test", sourcePageName, file);
 			IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
@@ -127,6 +114,7 @@ public class JSFAsYouTypeValidationTest extends BaseAsYouTypeValidationTest {
 				defaultUnknownELVariableName = store.getString(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME);
 				store.setValue(ELSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, SeverityPreferences.ENABLE);
 				store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, SeverityPreferences.ERROR);
+
 				openEditor(pageName);
 				for (int i = 0; i < EL2VALIDATE.length; i++) {
 					int count = 0;
@@ -138,31 +126,32 @@ public class JSFAsYouTypeValidationTest extends BaseAsYouTypeValidationTest {
 				closeEditor();
 				store.setValue(ELSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, defaultValidateUnresolvedEL);
 				store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, defaultUnknownELVariableName);
-				try {
-					file.delete(true, null);
-				} catch (CoreException e) {
-					e.printStackTrace();
-				}
 			}
 		}
 	}
 
-	private void prepareFile(String bundleName, String file, IFile destination) {
+	boolean suspended;
+
+	@Override
+	public void openEditor(String fileName) {
+		suspended = ValidationFramework.getDefault().isSuspended();
+		ValidationFramework.getDefault().suspendAllValidation(false);
+		super.openEditor(fileName);
+		JobUtils.delay(500);
+	}
+
+	@Override
+	public void closeEditor() {
+		super.closeEditor();
+		ValidationFramework.getDefault().suspendAllValidation(suspended);
+	}
+
+	private void prepareFile(String bundleName, String file, IFile destination) throws Exception {
 		Bundle bundle = Platform.getBundle(bundleName);
-		if (bundle == null)
-			return;
-		
-		String filePath = null;
-		try {
-			filePath = FileLocator.resolve(bundle.getEntry(file)).getFile();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			return;
-		}
+
+		String filePath = FileLocator.resolve(bundle.getEntry(file)).getFile();
 		java.io.File data = new java.io.File(filePath);
-		if (!data.exists())
-			return;
-		
+
 		BufferedReader r = null;
 		ByteArrayInputStream is = null;
 		try {
@@ -179,8 +168,6 @@ public class JSFAsYouTypeValidationTest extends BaseAsYouTypeValidationTest {
 			} else {
 				destination.create(is, true, null);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		} finally {
 			if (r != null) {
 				try {
@@ -199,22 +186,10 @@ public class JSFAsYouTypeValidationTest extends BaseAsYouTypeValidationTest {
 		}
 	}
 
-	private void prepareModifiedFile(String bundleName, String file, IFile destination, String el) {
+	private void prepareModifiedFile(String bundleName, String file, IFile destination, String el) throws IOException, CoreException {
 		Bundle bundle = Platform.getBundle(bundleName);
-		if (bundle == null)
-			return;
-		
-		String filePath = null;
-		try {
-			filePath = FileLocator.resolve(bundle.getEntry(file)).getFile();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			return;
-		}
+		String filePath = FileLocator.resolve(bundle.getEntry(file)).getFile();
 		java.io.File data = new java.io.File(filePath);
-		if (!data.exists())
-			return;
-		
 		BufferedReader r = null;
 		ByteArrayInputStream is = null;
 		try {
@@ -225,19 +200,17 @@ public class JSFAsYouTypeValidationTest extends BaseAsYouTypeValidationTest {
 				content.append(line);
 				content.append('\n');
 			}
-			
-			String modifiedContent = modifyModifyELInContent(content, el);
+
+			String modifiedContent = modifyELInContent(content, el);
 			if (modifiedContent == null)
 				modifiedContent = "";
-			
+
 			is = new ByteArrayInputStream(modifiedContent.getBytes("UTF-8"));
 			if (destination.exists()) {
 				destination.setContents(is, true, false, null);
 			} else {
 				destination.create(is, true, null);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		} finally {
 			if (r != null) {
 				try {
