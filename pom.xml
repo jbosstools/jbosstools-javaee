@@ -23,7 +23,7 @@
 		<profile>
 			<id>bootstrap</id>
 			<modules>
-				<module>../vpe</module>
+				<module>../jbosstools-vpe</module>
 			</modules>
 		</profile>
 	</profiles>
