@@ -202,7 +202,7 @@ public class NewInterceptorWizardPage extends NewClassWizardPage {
 
 	protected void createMethodNameField(Composite composite) {
 		String label = "Around Invoke Method Name:";
-		methodName = IFieldEditorFactory.INSTANCE.createTextEditor("methodName", label, "manage");
+		methodName = IFieldEditorFactory.INSTANCE.createTextEditor("methodName", label, "aroundInvoke");
 		((CompositeEditor)methodName).addFieldEditors(new IFieldEditor[]{new LabelFieldEditor("methodName", "")});
 		methodName.doFillIntoGrid(composite);
 		methodName.addPropertyChangeListener(new PropertyChangeListener() {
