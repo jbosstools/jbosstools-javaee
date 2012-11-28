@@ -1,0 +1,5 @@
+<beans>
+  <interceptors>
+    <class>org.jboss.jsr299.tck.tests.context.passivating.broken.enterpriseBean5.BrokenInterceptor</class>
+  </interceptors>
+</beans>
