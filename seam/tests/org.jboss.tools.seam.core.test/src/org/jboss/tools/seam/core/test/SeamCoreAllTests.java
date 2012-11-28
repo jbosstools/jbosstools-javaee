@@ -42,7 +42,16 @@ public class SeamCoreAllTests {
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamModelStorageTest.class),"org.jboss.tools.seam.core.test","projects/TestStorage","TestStorage"));
 		suite.addTestSuite(SerializationTest.class);
 		suite.addTestSuite(SeamBigProjectTest.class);
-		suite.addTestSuite(SeamEARTest.class);
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamEARTest.class),
+				"org.jboss.tools.seam.core.test",
+				new String[]{"projects/Test1-ejb", "projects/Test1-ear", "projects/Test1"},
+				new String[]{"Test1-ejb", "Test1-ear", "Test1"}) {
+			@Override
+			protected void setUp() throws Exception {
+				super.setUp();
+				SeamEARTest.createRuntime("JBoss 4.2 Runtime");
+			}
+		});
 		suite.addTestSuite(SeamRuntimeListConverterTest.class);
 		suite.addTestSuite(SeamRuntimeManagerTest.class);
 		suite.addTestSuite(CyclicDependingProjectsTest.class);
