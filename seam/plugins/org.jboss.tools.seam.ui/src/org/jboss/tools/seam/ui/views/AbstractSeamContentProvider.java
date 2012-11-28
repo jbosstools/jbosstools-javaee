@@ -254,7 +254,11 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 		public void resourceChanged(IResourceChangeEvent event) {
 			try {
 				if (event.getDelta() == null) {
-					refresh(null);
+					if(event.getType() == IResourceChangeEvent.PRE_DELETE
+						|| event.getType() == IResourceChangeEvent.PRE_CLOSE) {
+						handlePreDelete(event.getResource());
+					}
+//					refresh(null);
 				} else {
 					event.getDelta().accept(visitor);
 				}
@@ -264,6 +268,16 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 		}
 		
 	}
+
+	protected void handlePreDelete(IResource resource) {
+	}
+
+	protected void handleProjectAdded(IProject project) {
+	}
+	
+	protected void handleProjectInfoChanged(IProject project) {
+		refresh(project);
+	}
 	
 	class ResourceDeltaVisitor implements IResourceDeltaVisitor {
 
@@ -272,14 +286,20 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 			IResource r = delta.getResource();
 			if(kind == IResourceDelta.ADDED || kind == IResourceDelta.REMOVED) {
 				if(r instanceof IProject) {
-					refresh(null);
+					if(kind == IResourceDelta.ADDED) {
+						handleProjectAdded((IProject)r);
+					} else {
+						//Do nothing, PRE_DELETE event already was sent.
+					}
+//					refresh(null);
 				}
 			} else if(kind == IResourceDelta.CHANGED) {
 				IResourceDelta[] cs = delta.getAffectedChildren();
 				if(cs != null) for (int i = 0; i < cs.length; i++) {
 					IResource c = cs[i].getResource();
 					if(c instanceof IFile && c.getName().endsWith(".project")) { //$NON-NLS-1$
-						refresh(null);
+						handleProjectInfoChanged(c.getProject());
+//						refresh(null);
 					}
 				}
 			}
