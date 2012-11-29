@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.widgets.Display;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
@@ -43,7 +44,7 @@ public class RootContentProvider extends AbstractSeamContentProvider {
 			IProject[] ps = root.getProjects();
 			List<IProject> children = new ArrayList<IProject>();
 			for (int i = 0; i < ps.length; i++) {
-				if(!isGoodProject(ps[i])) continue;
+				if(!ps[i].isAccessible()) continue;
 				ISeamProject p = SeamCorePlugin.getSeamProject(ps[i], false);
 				if(p != null) {
 					if(!processed.contains(p)) {
@@ -79,6 +80,27 @@ public class RootContentProvider extends AbstractSeamContentProvider {
 		}
 	}
 
+	protected void handlePreDelete(IResource resource) {
+		if(resource instanceof IProject && viewer != null) {
+			final IProject p = (IProject)resource;
+			viewer.getControl().getDisplay().asyncExec(new Runnable() {
+				public void run() {
+					if(viewer != null) {
+						viewer.remove(p);
+					}
+				}
+			});					
+		}
+	}
+	
+	protected void handleProjectAdded(IProject project) {
+		refresh();
+	}
+
+	protected void handleProjectInfoChanged(IProject project) {
+		refresh();
+	}
+	
 	protected Object getTreeObject(Object source) {
 		if(source instanceof ISeamProject) {
 			return ((ISeamProject)source).getProject();
@@ -98,11 +120,6 @@ public class RootContentProvider extends AbstractSeamContentProvider {
 	public void dispose() {
 		super.dispose();
 		root = null;
-	}
-
-	boolean isGoodProject(IProject project) {
-		if(project == null || !project.exists() || !project.isOpen()) return false;
-		return true;
 	}
 
 }
