@@ -66,6 +66,8 @@
 		<xclass id="org.jboss.tools.seam.xml.components.model.SeamPromptingProvider"
 			class="org.jboss.tools.seam.xml.components.model.SeamPromptingProvider"/>
 
+		<xclass id="org.jboss.tools.seam.xml.components.model.SeamCustomObjectImpl"
+			class="org.jboss.tools.seam.xml.components.model.SeamCustomObjectImpl"/>
 	</extension>
 
  <extension point="org.eclipse.wst.xml.core.catalogContributions">

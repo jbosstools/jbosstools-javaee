@@ -127,6 +127,23 @@ public class SeamXMLModelTest extends TestCase {
 		XModelObject c = fileObject.getChildByPath("myComponent");
 		assertNotNull(c);
 		
+		XModelObject p = c.getChildByPath("p"); //property
+		assertNotNull(p);
+		XModelObject[] vs = p.getChildren();
+		assertEquals(2, vs.length);
+		assertEquals("v", vs[0].getAttributeValue("value"));
+		assertEquals("v", vs[1].getAttributeValue("value"));
+		
+//		vs = fileObject.getChildren();
+//		for (int i = 0; i < vs.length; i++) System.out.println(vs[i].getPathPart());
+		
+		c = fileObject.getChildByPath("myType");
+		assertNotNull(c);
+		vs = c.getChildren();
+		assertEquals(2, vs.length);
+		assertEquals("a", vs[0].getAttributeValue("execute"));
+		assertEquals("a", vs[1].getAttributeValue("execute"));
+		
 		c = fileObject.getChildByPath("myFactory");
 		assertNotNull(c);
 		assertEquals("myFactory", c.getAttributeValue("value"));
