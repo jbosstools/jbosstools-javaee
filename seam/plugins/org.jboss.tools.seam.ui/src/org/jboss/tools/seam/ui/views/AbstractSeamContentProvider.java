@@ -27,7 +27,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IMemento;
@@ -63,8 +63,8 @@ import org.jboss.tools.seam.ui.SeamGuiPlugin;
  * @author Viacheslav Kabanovich
  */
 public abstract class AbstractSeamContentProvider implements ITreeContentProvider, ISeamProjectChangeListener, ICommonContentProvider {
-	protected Viewer viewer;
-	IResourceChangeListener listener = new ResourceChangeListener();
+	protected TreeViewer viewer;
+	IResourceChangeListener listener = null;
 	Set<ISeamProject> processed = new HashSet<ISeamProject>();
 	
 	private IExtensionStateModel fStateModel;
@@ -215,24 +215,26 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 	}
 
 	public void projectChanged(SeamProjectChangeEvent event) {
-		if(viewer == null || viewer.getControl() == null || viewer.getControl().isDisposed()) return;
-		Object o = event.getSource();
-		if(o instanceof ISeamElement) {
-			refresh(o);
-		} else {
-			SeamGuiPlugin.getPluginLog().logError(SeamCoreMessages.ABSTRACT_SEAM_CONTENT_PROVIDER_SEAM_PROJECT_CHANGE_EVENT_OCCURS_BUT_NO_SORCE_OF_PROJECT_PROVIDED);
+		if(viewer != null) {
+			refresh(event.getSource());
 		}
 	}
 
 	void refresh(final Object o) {
-		if(viewer == null || viewer.getControl() == null || viewer.getControl().isDisposed()) return;
-		if(!(viewer instanceof StructuredViewer)) return;
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
-				if(o == null) {
-					((StructuredViewer)viewer).refresh();
-				} else {
-					((StructuredViewer)viewer).refresh(getTreeObject(o));
+				if(viewer != null) {
+					viewer.refresh(getTreeObject(o));
+				}
+			}
+		});
+	}
+
+	void refresh() {
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
+				if(viewer != null) {
+					viewer.refresh();
 				}
 			}
 		});
@@ -243,9 +245,11 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 	}
 
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		this.viewer = viewer;
-		ResourcesPlugin.getWorkspace().removeResourceChangeListener(listener);
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(listener);
+		this.viewer = (TreeViewer)viewer;
+		if(listener == null) {
+			listener = new ResourceChangeListener();
+			ResourcesPlugin.getWorkspace().addResourceChangeListener(listener);
+		}
 	}
 
 	class ResourceChangeListener implements IResourceChangeListener {
@@ -254,7 +258,10 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 		public void resourceChanged(IResourceChangeEvent event) {
 			try {
 				if (event.getDelta() == null) {
-					refresh(null);
+					if(event.getType() == IResourceChangeEvent.PRE_DELETE
+						|| event.getType() == IResourceChangeEvent.PRE_CLOSE) {
+						handlePreDelete(event.getResource());
+					}
 				} else {
 					event.getDelta().accept(visitor);
 				}
@@ -264,6 +271,16 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 		}
 		
 	}
+
+	protected void handlePreDelete(IResource resource) {
+	}
+
+	protected void handleProjectAdded(IProject project) {
+	}
+	
+	protected void handleProjectInfoChanged(IProject project) {
+		refresh(project);
+	}
 	
 	class ResourceDeltaVisitor implements IResourceDeltaVisitor {
 
@@ -272,14 +289,17 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 			IResource r = delta.getResource();
 			if(kind == IResourceDelta.ADDED || kind == IResourceDelta.REMOVED) {
 				if(r instanceof IProject) {
-					refresh(null);
+					if(kind == IResourceDelta.ADDED) {
+						handleProjectAdded((IProject)r);
+					}
+					//Do nothing for IResourceDelta.REMOVED, PRE_DELETE event already was sent.
 				}
 			} else if(kind == IResourceDelta.CHANGED) {
 				IResourceDelta[] cs = delta.getAffectedChildren();
 				if(cs != null) for (int i = 0; i < cs.length; i++) {
 					IResource c = cs[i].getResource();
 					if(c instanceof IFile && c.getName().endsWith(".project")) { //$NON-NLS-1$
-						refresh(null);
+						handleProjectInfoChanged(c.getProject());
 					}
 				}
 			}
@@ -298,7 +318,10 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 	public void dispose() { 
 		fStateModel.removePropertyChangeListener(layoutPropertyListener);
 		fStateModel.removePropertyChangeListener(scopePropertyListener);
-		ResourcesPlugin.getWorkspace().removeResourceChangeListener(listener);
+		if(listener != null) {
+			ResourcesPlugin.getWorkspace().removeResourceChangeListener(listener);
+			listener = null;
+		}
 		viewer = null;
 		if(processed != null) {
 			for (ISeamProject p : processed) {
