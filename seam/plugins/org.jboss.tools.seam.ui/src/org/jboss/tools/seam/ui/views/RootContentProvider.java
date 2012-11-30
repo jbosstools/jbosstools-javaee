@@ -16,7 +16,10 @@ import java.util.List;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.widgets.Display;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
@@ -79,6 +82,32 @@ public class RootContentProvider extends AbstractSeamContentProvider {
 		}
 	}
 
+	protected void handlePreDelete(IResource resource) {
+		if(viewer == null || viewer.getControl() == null || viewer.getControl().isDisposed()) return;
+		if(resource instanceof IProject) {
+			final IProject p = (IProject)resource;
+			if(viewer instanceof TreeViewer) {
+				if(Display.getCurrent() != null) {
+					((TreeViewer)viewer).remove(p);
+				} else {
+					Display.getDefault().asyncExec(new Runnable() {
+						public void run() {
+							((TreeViewer)viewer).remove(p);
+						}
+					});					
+				}
+			}
+		}
+	}
+	
+	protected void handleProjectAdded(IProject project) {
+		refresh(null);
+	}
+
+	protected void handleProjectInfoChanged(IProject project) {
+		refresh(null);
+	}
+	
 	protected Object getTreeObject(Object source) {
 		if(source instanceof ISeamProject) {
 			return ((ISeamProject)source).getProject();
