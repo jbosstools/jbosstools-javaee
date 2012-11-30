@@ -28,28 +28,29 @@ public class IncrementalValidationTest extends ValidationTest {
 	 */
 	public void testInjectionPointRevalidation() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-
-		IFile testInjection = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
-
-		IFile testBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanImpl2.java");
-		IFile testBeanImpl = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanImpl2.validation");
-		testBean.setContents(testBeanImpl.getContents(), IFile.FORCE, new NullProgressMonitor());
-
-		TestUtil.validate(testBean);
-
-		AbstractResourceMarkerTest.assertMarkerIsCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
-
-		testBeanImpl = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanImpl2.java");
-		testBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanImpl2Original.validation");
-		testBeanImpl.setContents(testBean.getContents(), IFile.FORCE, new NullProgressMonitor());
-		TestUtil.validate(testBeanImpl);
-
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
-
-		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+		try {
+			IFile testInjection = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanBroken.java");
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
+	
+			IFile testBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanImpl2.java");
+			IFile testBeanImpl = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanImpl2.validation");
+			testBean.setContents(testBeanImpl.getContents(), IFile.FORCE, new NullProgressMonitor());
+	
+			TestUtil.validate(testBean);
+	
+			AbstractResourceMarkerTest.assertMarkerIsCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
+	
+			testBeanImpl = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanImpl2.java");
+			testBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanImpl2Original.validation");
+			testBeanImpl.setContents(testBean.getContents(), IFile.FORCE, new NullProgressMonitor());
+			TestUtil.validate(testBeanImpl);
+	
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
+		} finally {
+			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+		}
 	}
 
 	/**
@@ -58,29 +59,30 @@ public class IncrementalValidationTest extends ValidationTest {
 	 */
 	public void testInjectionPointResolvedToProducerRevalidation() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-
-		IFile testInjection = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanForProducerBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
-
-		IFile testBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/MarketPlace.java");
-		IFile testBeanImpl = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/MarketPlace.validation");
-
-		testBean.setContents(testBeanImpl.getContents(), IFile.FORCE, new NullProgressMonitor());
-		TestUtil.validate(testBean);
-
-		AbstractResourceMarkerTest.assertMarkerIsCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
-
-		testBeanImpl = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/MarketPlace.java");
-		testBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/MarketPlaceOriginal.validation");
-
-		testBeanImpl.setContents(testBean.getContents(), IFile.FORCE, new NullProgressMonitor());
-		TestUtil.validate(testBeanImpl);
-
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
-
-		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+		try {
+			IFile testInjection = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanForProducerBroken.java");
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
+	
+			IFile testBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/MarketPlace.java");
+			IFile testBeanImpl = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/MarketPlace.validation");
+	
+			testBean.setContents(testBeanImpl.getContents(), IFile.FORCE, new NullProgressMonitor());
+			TestUtil.validate(testBean);
+	
+			AbstractResourceMarkerTest.assertMarkerIsCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
+	
+			testBeanImpl = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/MarketPlace.java");
+			testBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/MarketPlaceOriginal.validation");
+	
+			testBeanImpl.setContents(testBean.getContents(), IFile.FORCE, new NullProgressMonitor());
+			TestUtil.validate(testBeanImpl);
+	
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
+		} finally {
+			ResourcesUtils.setBuildAutomatically(saveAutoBuild);			
+		}
 	}
 
 	/**
@@ -89,7 +91,6 @@ public class IncrementalValidationTest extends ValidationTest {
 	 */
 	public void testAlternativesInBeansXml() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-
 		try {
 			IFile bean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/beansxml/incremental/Test3.java");
 			AbstractResourceMarkerTest.assertMarkerIsNotCreated(bean, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 8);
@@ -128,12 +129,12 @@ public class IncrementalValidationTest extends ValidationTest {
 			IFile interfaceFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/typed/LocalExtendedBean.java");
 			IFile modifiedFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/typed/LocalExtendedBean.changed");
 			interfaceFile.setContents(modifiedFile.getContents(), IFile.FORCE, new NullProgressMonitor());
-			TestUtil.validate(bean);
+			TestUtil.validate(interfaceFile);
 			AbstractResourceMarkerTest.assertMarkerIsNotCreated(bean, CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION, 5);
 
 			IFile originalFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/typed/LocalExtendedBean.original");
 			interfaceFile.setContents(originalFile.getContents(), IFile.FORCE, new NullProgressMonitor());
-			TestUtil.validate(bean);
+			TestUtil.validate(interfaceFile);
 			AbstractResourceMarkerTest.assertMarkerIsCreated(bean, CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION, 5);
 		} finally {
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
@@ -152,13 +153,33 @@ public class IncrementalValidationTest extends ValidationTest {
 			IFile interfaceFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/IExtension.java");
 			IFile modifiedFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/IExtension.changed");
 			interfaceFile.setContents(modifiedFile.getContents(), IFile.FORCE, new NullProgressMonitor());
-			TestUtil.validate(bean);
+			TestUtil.validate(interfaceFile);
 			AbstractResourceMarkerTest.assertMarkerIsCreated(bean, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
 
 			IFile originalFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/IExtension.original");
 			interfaceFile.setContents(originalFile.getContents(), IFile.FORCE, new NullProgressMonitor());
-			TestUtil.validate(bean);
+			TestUtil.validate(interfaceFile);
 			AbstractResourceMarkerTest.assertMarkerIsNotCreated(bean, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
+		} finally {
+			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+		}
+	}
+
+	public void testPackageInfoJavaFile() throws Exception {
+		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
+		try {
+			IFile bean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/packageinfo/zoo/Zoo.java");
+			AbstractResourceMarkerTest.assertMarkerIsCreated(bean, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
+			IFile packageInfoFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/packageinfo/pet/package-info.java");
+			IFile packageInfoFileWExclude = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/packageinfo/pet/package-info.changed");
+			packageInfoFile.setContents(packageInfoFileWExclude.getContents(), IFile.FORCE, new NullProgressMonitor());
+			TestUtil.validate(packageInfoFile);
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(bean, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
+
+			IFile originalFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/packageinfo/pet/package-info.original");
+			packageInfoFile.setContents(originalFile.getContents(), IFile.FORCE, new NullProgressMonitor());
+			TestUtil.validate(packageInfoFile);
+			AbstractResourceMarkerTest.assertMarkerIsCreated(bean, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
 		} finally {
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 		}
