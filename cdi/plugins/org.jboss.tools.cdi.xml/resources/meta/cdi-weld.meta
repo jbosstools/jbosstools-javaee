@@ -386,7 +386,7 @@
     kind="list" name="CreateActions">
     <XActionItem ICON="action.empty" displayName="Weld" group="1"
      kind="list" name="Weld">
-     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     <XActionItem HandlerClassName="org.jboss.tools.cdi.xml.beans.model.handlers.AddScanHandler" ICON="action.empty"
       PROPERTIES="validator.add=true" displayName="Scan..."
       kind="action" name="AddScan">
       <EntityData EntityName="CDIWeldScan"/>
@@ -402,7 +402,7 @@
     kind="list" name="CreateActions">
     <XActionItem ICON="action.empty" displayName="Weld" group="1"
      kind="list" name="Weld">
-     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     <XActionItem HandlerClassName="org.jboss.tools.cdi.xml.beans.model.handlers.AddScanHandler" ICON="action.empty"
       PROPERTIES="validator.add=true" displayName="Scan..."
       kind="action" name="AddScan">
       <EntityData EntityName="CDIWeldScan"/>
