@@ -76,7 +76,9 @@ public class JSF2Project implements IJSF2Project {
 	@Override
 	public Set<IJSF2ManagedBean> getManagedBeans() {
 		Set<IJSF2ManagedBean> result = new HashSet<IJSF2ManagedBean>();
-		result.addAll(namedBeans);
+		synchronized(this) {
+			result.addAll(namedBeans);
+		}
 		return result;
 	}
 

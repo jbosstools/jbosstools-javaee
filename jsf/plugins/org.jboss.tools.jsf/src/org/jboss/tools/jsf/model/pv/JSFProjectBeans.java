@@ -23,6 +23,9 @@ import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.event.XModelTreeEvent;
 import org.jboss.tools.common.model.impl.RegularObjectImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.jsf.jsf2.bean.model.IJSF2ManagedBean;
+import org.jboss.tools.jsf.jsf2.bean.model.IJSF2Project;
+import org.jboss.tools.jsf.jsf2.bean.model.JSF2ProjectFactory;
 import org.jboss.tools.jsf.model.JSFConstants;
 import org.jboss.tools.jst.web.model.pv.WebProjectNode;
 
@@ -55,6 +58,13 @@ public class JSFProjectBeans extends RegularObjectImpl implements WebProjectNode
 				process(fcs[i], BeanConstants.REFERENCED_BEAN_CONSTANTS, map, classes);
 			}
 			
+			IJSF2Project jsf2 = JSF2ProjectFactory.getJSF2Project(EclipseResourceUtil.getProject(this), true);
+			if(jsf2 != null) {
+				for (IJSF2ManagedBean b: jsf2.getManagedBeans()) {
+					process(b, map, classes);
+				}
+			}
+			
 			for(XModelObject o: map.values()) {
 				o.removeFromParent();
 			}
@@ -65,13 +75,13 @@ public class JSFProjectBeans extends RegularObjectImpl implements WebProjectNode
 	}
 	
 	private void process(XModelObject fcg, BeanConstants constants,
-			Map map, Map<String,JSFProjectBean> classes) {
+			Map<String,XModelObject> map, Map<String,JSFProjectBean> classes) {
 		XModelObject mb = fcg.getChildByPath(constants.folder);
 		if(mb != null) process(mb.getChildren(), constants, map, classes);
 	}
 	
 	private void process(XModelObject[] bs, BeanConstants constants,
-			Map map, Map<String,JSFProjectBean> classes) {
+			Map<String,XModelObject> map, Map<String,JSFProjectBean> classes) {
 		for (int j = 0; j < bs.length; j++) {
 			String bn = bs[j].getAttributeValue(constants.nameAttribute);
 			String cn = bs[j].getAttributeValue(constants.classAttribute);
@@ -97,6 +107,30 @@ public class JSFProjectBeans extends RegularObjectImpl implements WebProjectNode
 			b.setType(type);
 			classes.put(cn, b);
 		}
+	}
+	
+	private void process(IJSF2ManagedBean bean,
+			Map<String,XModelObject> map, Map<String,JSFProjectBean> classes) {
+		String bn = bean.getName();
+		String cn = bean.getBeanClass().getFullyQualifiedName();
+		if(!acceptClass(cn)) return;
+		if(classes.containsKey(cn)) {
+			return;
+		}
+		JSFProjectBean b = (JSFProjectBean)map.get(bn);
+		IType type = bean.getBeanClass();
+		if(b == null) {
+			b = (JSFProjectBean)getModel().createModelObject("JSFProjectBean", null);
+			b.setAttributeValue("name", bn);
+			b.setBeans(this);
+			addChild(b);
+		} else {
+			map.remove(bn);
+			b.cleanBeans();
+		}
+		b.setAttributeValue("class name", cn);
+		b.setType(type);
+		classes.put(cn, b);
 	}
 	
 	static String primitive = "!int!char!boolean!short!double!long!void!byte!float!";
