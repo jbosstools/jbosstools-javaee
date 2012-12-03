@@ -48,23 +48,6 @@
    </XModelAttribute>
   </XModelAttributes>
   <XActionItem kind="list">
-   <XActionItem kind="list" name="CreateActions">
-    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add Class Available" kind="action" name="AddClass">
-     <EntityData EntityName="CDIWeldClass">
-      <AttributeData AttributeName="name"/>
-     </EntityData>
-    </XActionItem>
-    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add System Property" kind="action" name="AddProperty">
-     <EntityData EntityName="CDIWeldProperty">
-      <AttributeData AttributeName="name"/>
-      <AttributeData AttributeName="value" Mandatory="no"/>
-     </EntityData>
-    </XActionItem>
-   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
@@ -275,23 +258,6 @@
    </XModelAttribute>
   </XModelAttributes>
   <XActionItem kind="list">
-   <XActionItem kind="list" name="CreateActions">
-    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add Class Available" kind="action" name="AddClass">
-     <EntityData EntityName="CDIWeldClass">
-      <AttributeData AttributeName="name"/>
-     </EntityData>
-    </XActionItem>
-    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="validator.add=true" WizardClassName="%Default%"
-     displayName="Add System Property" kind="action" name="AddProperty">
-     <EntityData EntityName="CDIWeldProperty">
-      <AttributeData AttributeName="name"/>
-      <AttributeData AttributeName="value" Mandatory="no"/>
-     </EntityData>
-    </XActionItem>
-   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
