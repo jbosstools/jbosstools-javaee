@@ -26,11 +26,18 @@ import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.resolver.ELContext;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.XModelObjectConstants;
+import org.jboss.tools.common.model.project.IModelNature;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.validation.ValidatorManager;
 import org.jboss.tools.jsf.jsf2.bean.el.JSF2ElResolver;
 import org.jboss.tools.jsf.jsf2.bean.model.IJSF2ManagedBean;
 import org.jboss.tools.jsf.jsf2.bean.model.IJSF2Project;
 import org.jboss.tools.jsf.jsf2.bean.model.JSF2ProjectFactory;
+import org.jboss.tools.jsf.model.pv.JSFProjectBeans;
+import org.jboss.tools.jsf.model.pv.JSFProjectsRoot;
+import org.jboss.tools.jsf.model.pv.JSFProjectsTree;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
@@ -38,10 +45,12 @@ import org.jboss.tools.test.util.ResourcesUtils;
 public class JSF2ModelTest extends TestCase {
 	IProject project = null;
 	IProject webproject = null;
+	IProject kick = null;
 	
 	public JSF2ModelTest() {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject("JSF2Beans");
 		webproject = ResourcesPlugin.getWorkspace().getRoot().getProject("JSF2Web");
+		kick = ResourcesPlugin.getWorkspace().getRoot().getProject("JSF2KickStartWithoutLibs");
 	}
 	
 	public void testModel() {
@@ -61,6 +70,23 @@ public class JSF2ModelTest extends TestCase {
 		//Test bean annotated @ManagedBean
 		beans = jsf2.getManagedBeans("bean5");
 		assertEquals(1, beans.size());
+	}
+
+	public void testWebProjectTree() {
+		IModelNature n = EclipseResourceUtil.getModelNature(kick);
+		assertNotNull(n);
+		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(n.getModel());
+		JSFProjectBeans beans = (JSFProjectBeans)root.getChildByPath("Beans");
+		XModelObject[] cs = beans.getTreeChildren();
+		
+		boolean userFound = false;
+		for (XModelObject c: cs) {
+			if("user".equals(c.getAttributeValue(XModelObjectConstants.ATTR_NAME))) userFound = true;
+		}
+		assertTrue(userFound);
+		IJSF2Project jsf2 = JSF2ProjectFactory.getJSF2Project(kick, true);
+		Set<IJSF2ManagedBean> bs = jsf2.getManagedBeans("user");
+		assertFalse(bs.isEmpty());
 	}
 	
 	/**

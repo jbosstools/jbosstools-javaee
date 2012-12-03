@@ -14,12 +14,16 @@ import java.util.*;
 
 import org.eclipse.jdt.core.*;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.XModelObjectConstants;
 import org.jboss.tools.common.model.impl.RegularObjectImpl;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.util.BeanUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
 
 public class JSFProjectBean extends RegularObjectImpl {
+	public static final String ENTITY = "JSFProjectBean";
+	public static final String ATTR_CLASS_NAME = "class name";
+
 	private static final long serialVersionUID = 3044316361003259426L;
 	protected JSFProjectBeans beans = null;
 	protected XModelObject[] beanList = new XModelObject[0];
@@ -28,7 +32,7 @@ public class JSFProjectBean extends RegularObjectImpl {
 	protected boolean loaded = false;
 	
 	public String getPresentationString() {
-		String s = "" + getAttributeValue("class name");
+		String s = "" + getAttributeValue(ATTR_CLASS_NAME);
 		int d = s.lastIndexOf('.');
 		if(d >= 0) s = s.substring(d + 1);
 		return s;
@@ -117,7 +121,7 @@ public class JSFProjectBean extends RegularObjectImpl {
 					String typeName = EclipseJavaUtil.getMemberTypeAsString(fs[i]);
 					c.setType(beans.getType(typeName));
 					if(typeName == null) typeName = "";
-					c.setAttributeValue("class name", typeName);
+					c.setAttributeValue(ATTR_CLASS_NAME, typeName);
 					c.setAttributeValue("declaring class", fs[i].getDeclaringType().getFullyQualifiedName());
 				} else {
 					c = createMember(n, fs[i], "JSFProjectBeanProperty"); 
@@ -149,7 +153,7 @@ public class JSFProjectBean extends RegularObjectImpl {
 					String typeName = EclipseJavaUtil.getMemberTypeAsString(ms[i]);
 					c.setType(beans.getType(typeName));
 					if(typeName == null) typeName = "";
-					c.setAttributeValue("class name", typeName);
+					c.setAttributeValue(ATTR_CLASS_NAME, typeName);
 					c.setMember(ms[i]);
 					c.setAttributeValue("declaring class", ms[i].getDeclaringType().getFullyQualifiedName());
 				} else if(!properties.contains(n)) {
@@ -202,7 +206,7 @@ public class JSFProjectBean extends RegularObjectImpl {
 							String typeName = EclipseJavaUtil.getMemberTypeAsString(fs[i]);
 							c.setType(beans.getType(typeName));
 							if (typeName == null) typeName = "";
-							c.setAttributeValue("class name", typeName);
+							c.setAttributeValue(ATTR_CLASS_NAME, typeName);
 							c.setAttributeValue("declaring class", fs[i].getDeclaringType().getFullyQualifiedName());
 						} else {
 							c = createMember(n, fs[i], "JSFProjectBeanProperty");
@@ -230,7 +234,7 @@ public class JSFProjectBean extends RegularObjectImpl {
 					map.remove(n);
 				} else {
 					c = (JSFProjectBeanMember)getModel().createModelObject("JSFProjectBeanProperty", null);
-					c.setAttributeValue("name", n);
+					c.setAttributeValue(XModelObjectConstants.ATTR_NAME, n);
 					c.setBeans(beans);
 					c.setType(null);
 					addChild(c);
@@ -244,10 +248,10 @@ public class JSFProjectBean extends RegularObjectImpl {
 	
 	JSFProjectBeanMember createMember(String n, IMember member, String entity) {
 		JSFProjectBeanMember c = (JSFProjectBeanMember)getModel().createModelObject(entity, null);
-		c.setAttributeValue("name", n);
+		c.setAttributeValue(XModelObjectConstants.ATTR_NAME, n);
 		c.setBeans(beans);
 		String className = EclipseJavaUtil.getMemberTypeAsString(member);
-		c.setAttributeValue("class name", (className == null) ? "" : className);
+		c.setAttributeValue(ATTR_CLASS_NAME, (className == null) ? "" : className);
 		c.setAttributeValue("declaring class", member.getDeclaringType().getFullyQualifiedName());
 		c.setType(beans.getType(className));
 		c.setMember(member);
