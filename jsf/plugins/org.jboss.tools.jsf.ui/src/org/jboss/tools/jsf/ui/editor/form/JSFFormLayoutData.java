@@ -198,18 +198,19 @@ public class JSFFormLayoutData implements IFormLayoutData {
 		),
 		new FormData("org.jboss.tools.jsf.ui.editor.form.LocaleConfigForm"), //$NON-NLS-1$
 		new FormData(
+			"Default Validators",
+			"", //$NON-NLS-1$
+			"Default Validators", //$NON-NLS-1$
+			new FormAttributeData[]{new FormAttributeData("validator-id", 100, "Validator ID")}, //$NON-NLS-1$
+			new String[]{"JSFDefaultValidator"}, //$NON-NLS-1$
+			FormLayoutDataUtil.createDefaultFormActionData("CreateActions.AddDefaultValidator", true) //$NON-NLS-1$
+		),
+		new FormData(
 			"Extensions",
 			"", //$NON-NLS-1$
 			new FormAttributeData[]{new FormAttributeData("element type", 100, "element")}, //$NON-NLS-1$
 			new String[]{"JSFApplicationExtension"}, //$NON-NLS-1$
 			createDefaultFormActionData("CreateActions.CreateExtension") //$NON-NLS-1$
-		),
-		new FormData(
-			"Default Validators",
-			"", //$NON-NLS-1$
-			new FormAttributeData[]{new FormAttributeData("validator-id", 100, "Validator ID")}, //$NON-NLS-1$
-			new String[]{"JSFDefaultValidator"}, //$NON-NLS-1$
-			createDefaultFormActionData("CreateActions.AddDefaultValidator") //$NON-NLS-1$
 		),
 		new FormData(
 			"Advanced",
