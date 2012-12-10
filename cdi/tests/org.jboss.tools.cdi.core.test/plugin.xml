@@ -3,9 +3,13 @@
 <plugin>
 	<extension
 	      point="org.jboss.tools.cdi.core.cdiextensions">
-    <cdiextension
-          class="org.jboss.tools.cdi.core.test.extension.CDIExtensionImpl"
-          runtime="org.jboss.tools.cdi.core.fake.FakeExtension">
-    </cdiextension>
+	    <cdiextension
+	          class="org.jboss.tools.cdi.core.test.extension.CDIExtensionImpl"
+	          runtime="org.jboss.tools.cdi.core.fake.FakeExtension">
+	    </cdiextension>
+	    <cdiextension
+	          class="org.jboss.tools.cdi.core.test.tck.validation.extension.ExcludeExtension"
+	          runtime="org.jboss.jsr299.tck.tests.jbt.validation.inject.incremental.packageinfo.zoo.ExcludeExtension">
+	    </cdiextension>
 	</extension>
 </plugin>

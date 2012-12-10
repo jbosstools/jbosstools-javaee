@@ -127,7 +127,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	public static final String ID = "org.jboss.tools.cdi.core.CoreValidator"; //$NON-NLS-1$
 	public static final String PREFERENCE_PAGE_ID = "org.jboss.tools.cdi.ui.preferences.CDIValidatorPreferencePage"; //$NON-NLS-1$
 	public static final String PROPERTY_PAGE_ID = "org.jboss.tools.cdi.ui.propertyPages.CDIValidatorPreferencePage"; //$NON-NLS-1$
-	
 
 	ICDIProject rootCdiProject;
 	Map<IProject, CDIValidationContext> cdiContexts = new HashMap<IProject, CDIValidationContext>();
@@ -281,7 +280,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			IReporter reporter) {
 		super.init(rootProject, validationHelper, context, manager, reporter);
 		setAsYouTypeValidation(false);
-		validatatingAll = false;
 		projectTree = validationHelper.getValidationContextManager().getValidatingProjectTree(this);
 		projectSet = projectTree.getBrunches().get(rootProject);
 		rootCdiProject = null;
@@ -303,6 +301,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#validate(java.util.Set, org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.validation.IProjectValidationContext, org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager, org.eclipse.wst.validation.internal.provisional.core.IReporter)
 	 */
+	@Override
 	public IStatus validate(Set<IFile> changedFiles, IProject project, ContextValidationHelper validationHelper, IProjectValidationContext context, ValidatorManager manager, IReporter reporter)
 			throws ValidationException {
 		init(project, validationHelper, context, manager, reporter);
@@ -356,18 +355,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 					}
 				}
 
-				// Get all the paths of related resources for given file. These
-				// links were saved in previous validation process.
-				Set<String> oldReletedResources = getValidationContext().getVariableNamesByCoreResource(SHORT_ID, currentFile.getFullPath(), false);
-				if (oldReletedResources != null) {
-					for (String resourcePath : oldReletedResources) {
-						if(resourcePath.startsWith("/")) {
-							resources.add(Path.fromOSString(resourcePath));
-						}
-					}
-				}
-
-				collectAllRelatedInjections(currentFile, resources);
+				collectAllRealtedCoreResources(currentFile, resources);
+				collectAllRelatedResourcesFromPackageInfo(currentFile, resources);
 			}
 		}
 
@@ -401,16 +390,29 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		return OK_STATUS;
 	}
 
-	private boolean validatatingAll;
+	private void collectAllRealtedCoreResources(IFile validatingResource, Set<IPath> relatedResources) {
+		// Get all the paths of related resources for given file. These
+		// links were saved in previous validation process.
+		Set<String> oldReletedResources = getValidationContext().getVariableNamesByCoreResource(SHORT_ID, validatingResource.getFullPath(), false);
+		if (oldReletedResources != null) {
+			for (String resourcePath : oldReletedResources) {
+				if(resourcePath.startsWith("/")) {
+					relatedResources.add(Path.fromOSString(resourcePath));
+				}
+			}
+		}
+
+		collectAllRelatedInjections(validatingResource, relatedResources);
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#validateAll(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.validation.IProjectValidationContext, org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager, org.eclipse.wst.validation.internal.provisional.core.IReporter)
 	 */
+	@Override
 	public IStatus validateAll(IProject project, ContextValidationHelper validationHelper, IProjectValidationContext context, ValidatorManager manager, IReporter reporter)
 			throws ValidationException {
 		init(project, validationHelper, context, manager, reporter);
-		validatatingAll = true;
 
 		if (rootCdiProject == null) {
 			return OK_STATUS;
@@ -1575,6 +1577,24 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 				collectAllRelatedInjectionsForNode(nodes, relatedResources);
 				nodes = cdiProject.getInterceptorClasses();
 				collectAllRelatedInjectionsForNode(nodes, relatedResources);
+			}
+		}
+	}
+
+	private void collectAllRelatedResourcesFromPackageInfo(IFile validatingResource, Set<IPath> relatedResources) {
+		if("package-info.java".equals(validatingResource.getName())) {
+			// Save links between package-info.java and all the java files in the package (see https://issues.jboss.org/browse/JBIDE-13172)
+			try {
+				IResource[] members = validatingResource.getParent().members();
+				for (IResource member : members) {
+					if((member instanceof IFile) && validatingResource!=member && "java".equalsIgnoreCase(member.getFileExtension())) {
+						IFile file = (IFile)member;
+						relatedResources.add(file.getFullPath());
+						collectAllRealtedCoreResources(file, relatedResources);
+					}
+				}
+			} catch (CoreException e) {
+				CDICorePlugin.getDefault().logError(e);
 			}
 		}
 	}

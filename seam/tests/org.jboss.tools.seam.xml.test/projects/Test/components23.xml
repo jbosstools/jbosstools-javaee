@@ -18,9 +18,17 @@
  xmlns:web="http://jboss.com/products/seam/web"
  xmlns:wicket="http://jboss.com/products/seam/wicket"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.3.xsd http://jboss.com/products/seam/navigation http://jboss.com/products/seam/navigation-2.3.xsd http://jboss.com/products/seam/remoting http://jboss.com/products/seam/remoting-2.3.xsd http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.3.xsd http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.3.xsd http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.3.xsd http://jboss.com/products/seam/ui http://jboss.com/products/seam/ui-2.3.xsd http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.3.xsd http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.3.xsd http://jboss.com/products/seam/async http://jboss.com/products/seam/async-2.3.xsd http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.3.xsd http://jboss.com/products/seam/international http://jboss.com/products/seam/international-2.3.xsd http://jboss.com/products/seam/wicket http://jboss.com/products/seam/wicket-2.3.xsd http://jboss.com/products/seam/pdf http://jboss.com/products/seam/pdf-2.3.xsd http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.3.xsd http://jboss.com/products/seam/theme http://jboss.com/products/seam/theme-2.3.xsd http://jboss.com/products/seam/jms http://jboss.com/products/seam/jms-2.3.xsd http://jboss.com/products/seam/bpm http://jboss.com/products/seam/bpm-2.3.xsd">
- <component class="org.MyClass" name="myComponent"/>
+ <component class="org.MyClass" name="myComponent">
+  <property name="p">
+   <value>v</value>
+   <value>v</value>
+  </property>
+ </component>
  <factory name="myFactory" value="myFactory"/>
- <event type="myType"/>
+ <event type="myType">
+  <action execute="a"/>
+  <action execute="a"/>
+ </event>
  <import>org.mypackage</import>
  <navigation:pages http-port="3" https-port="4" login-view-id="2" no-conversation-view-id="1"/>
  <remoting:remoting debug="false" poll-interval="1" poll-timeout="2"/>

@@ -14,6 +14,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -28,8 +29,6 @@ import org.eclipse.wst.server.core.internal.RuntimeWorkingCopy;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.test.util.ProjectImportTestSetup;
-import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
  * @author V.Kabanovich
@@ -41,26 +40,21 @@ public class SeamEARTest extends TestCase {
 	IProject projectEJB = null;
 
 	boolean makeCopy = true;
-	ProjectImportTestSetup setup;
 
-	public SeamEARTest() {}
-
+	@Override
 	protected void setUp() throws Exception {
-		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		createRuntime("JBoss 4.2 Runtime");
-		setup = new ProjectImportTestSetup(this, "org.jboss.tools.seam.core.test", new String[]{"projects/Test1-ejb", "projects/Test1-ear", "projects/Test1"}, new String[]{"Test1-ejb", "Test1-ear", "Test1"});
-		IProject[] projects = setup.importProjects();
-		projectEAR = projects[1];
-		projectEJB = projects[2];
-		projectWAR = projects[0];
-		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+		projectEAR = ResourcesPlugin.getWorkspace().getRoot().getProject("Test1-ear");
+		assertTrue(projectEAR.exists());
+		projectEJB = ResourcesPlugin.getWorkspace().getRoot().getProject("Test1-ejb");
+		assertTrue(projectEJB.exists());
+		projectWAR = ResourcesPlugin.getWorkspace().getRoot().getProject("Test1");
+		assertTrue(projectWAR.exists());
 		projectEAR.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 		projectEJB.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 		projectWAR.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 	}
 
 	private ISeamProject getSeamProject(IProject project) throws CoreException {
-		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 		ISeamProject seamProject = null;
 
 		/*
@@ -98,8 +92,6 @@ public class SeamEARTest extends TestCase {
 
 		assertNotNull("War project must see component 'authenticator' declared in ejb project", c);
 
-		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-
 		projectWAR.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
 
 		c = seamProject.getComponent("authenticator");
@@ -109,16 +101,9 @@ public class SeamEARTest extends TestCase {
 
 		c = seamProject.getComponent("authenticator");
 		assertNotNull("War project must see component 'authenticator' declared in ejb project", c);
-
-		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		setup.deleteProjects();
-	}
-
-	private static IRuntime createRuntime(String runtimeName) throws CoreException {
+	static IRuntime createRuntime(String runtimeName) throws CoreException {
 		IRuntimeWorkingCopy runtime = null;
 		String type = null;
 		String version = null;

@@ -23,6 +23,8 @@
 
 		<xclass id="org.jboss.tools.cdi.xml.beans.model.handlers.AddIncludeSupport"
 			class="org.jboss.tools.cdi.xml.beans.model.handlers.AddIncludeSupport"/>
+		<xclass id="org.jboss.tools.cdi.xml.beans.model.handlers.AddScanHandler"
+			class="org.jboss.tools.cdi.xml.beans.model.handlers.AddScanHandler"/>
 
 	</extension>
 

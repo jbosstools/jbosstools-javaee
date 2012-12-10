@@ -21,6 +21,9 @@
   <MAPPING name="FilteredTreeConstraints"/>
   <MAPPING name="FilteredTrees"/>
   <MAPPING name="Handlers"/>
+  <MAPPING name="Implementations">
+   <PAIR name="SeamCustom" value="org.jboss.tools.seam.xml.components.model.SeamCustomObjectImpl"/>
+  </MAPPING>
   <MAPPING name="Recognizers">
    <PAIR name="xml$38" value="org.jboss.tools.seam.xml.components.model.SeamComponentsEntityRecognizer"/>
   </MAPPING>
@@ -1844,7 +1847,7 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
- <XModelEntity ImplementingClass="%Custom%"
+ <XModelEntity ImplementingClass="%SeamCustom%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="action" name="SeamAction">
   <XChildrenEntities/>
@@ -1862,6 +1865,7 @@
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
+   <XModelAttribute name="_id_" visibility="false"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions"/>
@@ -1887,7 +1891,7 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
- <XModelEntity ImplementingClass="%Custom%"
+ <XModelEntity ImplementingClass="%SeamCustom%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.SeamXMLFormLayoutData"
   XMLSUBPATH="action" name="SeamAction20">
   <XChildrenEntities/>
@@ -1905,6 +1909,7 @@
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
+   <XModelAttribute name="_id_" visibility="false"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions"/>
@@ -2526,7 +2531,7 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
- <XModelEntity ImplementingClass="%Custom%" XMLSUBPATH="value" name="SeamListEntry">
+ <XModelEntity ImplementingClass="%SeamCustom%" XMLSUBPATH="value" name="SeamListEntry">
   <XChildrenEntities/>
   <XEntityRenderer>
    <ICONS>
@@ -2541,6 +2546,7 @@
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
     <Editor name="Note"/>
    </XModelAttribute>
+   <XModelAttribute name="_id_" visibility="false"/>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
@@ -2723,8 +2729,8 @@
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     WizardClassName="%Default%" displayName="Add Entry..."
-     kind="action" name="AddEntry">
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Add Entry..." kind="action" name="AddEntry">
      <EntityData EntityName="SeamMapEntry">
       <AttributeData AttributeName="key"/>
       <AttributeData AttributeName="value" Mandatory="no"/>

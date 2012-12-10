@@ -1474,6 +1474,7 @@
   <XChildrenEntities>
    <XChildEntity name="JSFAttribute"/>
    <XChildEntity name="JSFProperty"/>
+   <XChildEntity name="JSFConverterExtension"/>
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
@@ -1523,6 +1524,10 @@
       <AttributeData AttributeName="suggested-value" Mandatory="no"/>
      </EntityData>
     </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     displayName="Extension" kind="action" name="CreateExtension">
+     <EntityData EntityName="JSFConverterExtension"/>
+    </XActionItem>
    </XActionItem>
    <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
     PROPERTIES="attribute=converter-class"
@@ -1546,6 +1551,45 @@
    <XActionItem ICON="action.empty" kind="list" name="Properties">
     <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
      displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.impl.ExtensionObjectImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="converter-extension" name="JSFConverterExtension">
+  <XChildrenEntities>
+   <XChildEntity name="AnyElement"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.extension" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="converter-extension" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="_id_" visibility="false"/>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+     PROPERTIES="entity=AnyElement" WizardClassName="%Default%"
+     displayName="Add Tag..." kind="action" name="CreateTag">
+     <EntityData EntityName="AnyElementNew">
+      <AttributeData AttributeName="tag"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
    </XActionItem>
   </XActionItem>
   <XDependencies/>

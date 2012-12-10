@@ -440,6 +440,7 @@ public class JSFFormLayoutData implements IFormLayoutData {
 			createExtensionFormDefinition("JSFApplicationExtension", "Application Extension"), //$NON-NLS-1$
 			createExtensionFormDefinition("JSFAttributeExtension", "Attribute Extension"), //$NON-NLS-1$
 			createExtensionFormDefinition("JSFComponentExtension", "Component Extension"), //$NON-NLS-1$
+			createExtensionFormDefinition("JSFConverterExtension", "Converter Extension"), //$NON-NLS-1$
 			createExtensionFormDefinition("JSFPropertyExtension", "Property Extension"), //$NON-NLS-1$
 			createExtensionFormDefinition("JSFRendererExtension", "Renderer Extension"), //$NON-NLS-1$
 			createExtensionFormDefinition("JSFRenderKitExtension", "Render Kit Extension"), //$NON-NLS-1$

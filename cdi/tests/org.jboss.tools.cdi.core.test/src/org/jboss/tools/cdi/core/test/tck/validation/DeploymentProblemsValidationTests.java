@@ -328,7 +328,7 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 * @throws Exception
 	 */
 	public void testSimpleWebBeanWithNonSerializableImplementationClassFails() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/context/passivating/broken/nonPassivationCapableManagedBeanHasPassivatingScope/Hamina_Broken.java");
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/context/passivating/broken/nonPassCapableManBeanHasPassScope/Hamina_Broken.java");
 		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN, "Hamina_Broken", "SessionScoped"), 22);
 	}
 }
