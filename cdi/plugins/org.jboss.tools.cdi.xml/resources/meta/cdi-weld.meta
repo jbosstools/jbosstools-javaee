@@ -317,9 +317,6 @@
      </EntityData>
     </XActionItem>
    </XActionItem>
-   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions">
-    <XActionItemReference entity="SeamComponent" name="Rename" path="EditActions/Rename"/>
-   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
      ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
