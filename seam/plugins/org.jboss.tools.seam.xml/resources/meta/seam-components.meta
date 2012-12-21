@@ -59,7 +59,7 @@
     <ICON name="extension" path="images/palette/any-tag.gif"/>
     <ICON name="facet" path="images/jsf/facet.gif"/>
     <ICON name="factory" path="images/jsf/factory.gif"/>
-    <ICON name="file" path="images/jsf/jsf-config.gif"/>
+    <ICON name="file" path="plugin:org.jboss.tools.seam.xml.ui:images/seam_components_file.png"/>
     <ICON name="property" path="images/java/property.gif"/>
     <ICON name="rule" path="images/struts/action.gif"/>
     <ICON name="rules" path="images/struts/action_mappings.gif"/>
