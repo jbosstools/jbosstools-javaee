@@ -381,9 +381,25 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 	}
 
 	private String[] getAvailableProperties(String value) {
+		if(value == null || value.length() == 0) {
+			return new String[0];
+		}
 		JSFPromptingProvider provider = new JSFPromptingProvider();
 
 		XModel xModel = getXModel();
+		if(xModel == null) {
+			//lets create fake model, which can build properties for the value.
+			IFile file = (IFile) properties.get("file"); //$NON-NLS-1$
+			if(file != null) {
+				XModelObject f = EclipseResourceUtil.createObjectForResource(file);
+				if(f != null) {
+					xModel = f.getModel();
+				}
+			}
+		}
+		if(xModel == null) {
+			return new String[0];
+		}
 
 		return (String[]) provider.buildBeanProperties(xModel, value,
 				null).toArray(new String[0]);
