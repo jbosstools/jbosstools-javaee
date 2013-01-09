@@ -48,17 +48,19 @@ import org.jboss.tools.test.util.ResourcesUtils;
  * 
  */
 public abstract class AbstractSeamFacetTest extends TestCase {
-	
+
+	public static final String SEAM23_FOLDER_NAME = "jboss-seam-2.3.0.Final";
 	protected static final IWorkspace ws = ResourcesPlugin.getWorkspace();
 	
 	protected SeamRuntime seamRuntime;
 	
 	protected static final String SEAM_1_2_0 = "Seam 1.2.0";
 	protected static final String SEAM_2_0_0 = "Seam 2.0.0";
+	protected static final String SEAM_2_3_0 = "Seam 2.3.0";
 	
 	protected static final String SEAM_1_2_HOME = "jbosstools.test.seam.1.2.1.eap.home";
 	protected static final String SEAM_2_0_HOME = "jbosstools.test.seam.2.0.1.GA.home";
-	
+
 	protected static final IProjectFacetVersion seamFacetVersion;
 	protected static IProjectFacetVersion dynamicWebVersion;
 	protected static IProjectFacetVersion javaVersion;
@@ -97,15 +99,20 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 	public static final String SYS_PROP_IS_NOT_DEFINED = "System property {0} is not defined";
 	
 	protected File getSeamHomeFolder() {
+		return getSeamHomeFolder(null);
+	}
+
+	protected File getSeamHomeFolder(String rootFolderName) {
 		String seamHomeFolder = System.getProperty(getSystemPropertyName());
 		if(seamHomeFolder==null) {
 			throw new IllegalStateException(
 					MessageFormat.format(SYS_PROP_IS_NOT_DEFINED, getSystemPropertyName())
 					);
 		}
-		return new File(seamHomeFolder).getAbsoluteFile();
+		File home = rootFolderName!=null? new File(seamHomeFolder, rootFolderName): new File(seamHomeFolder);
+		return home.getAbsoluteFile();
 	}
-	
+
 	public static final String SEAM_EAP_121_HOME_PROPERY = "jbosstools.test.seam.1.2.1.eap.home";
 	
 	protected String getSystemPropertyName() {
@@ -312,16 +319,16 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 
 	protected IFacetedProject createSeamWarProject(String name) throws CoreException {
 		final IFacetedProject fproj = createSeamProject(name, createSeamDataModel("war"));
-		
+	
 		final IProject proj = fproj.getProject();
 
 		assertNotNull(proj);
 		assertTrue(proj.exists());
 
-		assertTrue(proj.getWorkspace().getRoot().getProject(proj.getName() + "-test").exists());
-		IProject testProject = proj.getWorkspace().getRoot().getProject(proj.getName() + "-test");
+		if(shouldCheckTestProject()) {
+			assertTrue(proj.getWorkspace().getRoot().getProject(proj.getName() + "-test").exists());
+		}
 
-		
 		return fproj;
 	}
 
@@ -332,41 +339,29 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		assertNotNull(proj);
 
 		assertTrue(seamProjectsSet.getWarProject().exists());
-		assertTrue(seamProjectsSet.getTestProject().exists());
+		if(shouldCheckTestProject()) {
+			assertTrue(seamProjectsSet.getTestProject().exists());
+		}
 		assertTrue(seamProjectsSet.getEjbProject().exists());
 		assertTrue(seamProjectsSet.getEarProject().exists());
 		
 		return fproj;
 	}
-	
+
+	protected boolean shouldCheckTestProject() {
+		return true;
+	}
+
 	protected IProjectFacetVersion getSeamFacetVersion() {
 		return seamFacetVersion;
 	}
 	
 	public void assertSeamHomeAvailable() {
 		File folder = getSeamHomeFolder();
-		
-		assertNotNull("seam home folder was null!", folder);
-		assertTrue(folder.getAbsolutePath() + " does not exist", folder.exists());
-		
-		//System.out.println("Listing " + folder);
-		File[] list = folder.listFiles();
-		for (int i = 0; i < list.length; i++) {
-			File string = list[i];
-			//System.out.println(i + ": " + string.getName() +(string.isDirectory()?" (dir)":""));
-		}
-		
+
+		assertTrue("Seam home folder (" + folder.getAbsolutePath() + ") does not exist", folder.exists());
+
 		File seamgen = new File(folder, "seam-gen");
-		assertNotNull("seam gen folder was null!", seamgen);
-		assertTrue(seamgen.getName() + " seamgen does not exist", seamgen.exists());
-		
-		//System.out.println("Listing seamgen " + seamgen);
-		list = seamgen.listFiles();
-		for (int i = 0; i < list.length; i++) {
-			File string = list[i];
-			//System.out.println(i + ": " + string.getName() +(string.isDirectory()?" (dir)":""));
-		}
-			
+		assertTrue("Seamgen folder (" + seamgen.getAbsolutePath() + ") does not exist", seamgen.exists());
 	}
-	
 }

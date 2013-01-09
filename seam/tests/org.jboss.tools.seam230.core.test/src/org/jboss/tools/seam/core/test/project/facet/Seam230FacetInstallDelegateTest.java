@@ -34,8 +34,6 @@ import org.jboss.tools.seam.internal.core.project.facet.Seam23FacetInstallDelega
  */
 public class Seam230FacetInstallDelegateTest extends AbstractSeam2FacetInstallDelegateTest {
 
-	protected static final String SEAM_2_2_3 = "Seam 2.2.3";
-
 	public Seam230FacetInstallDelegateTest(String name) {
 		super(name);
 	}
@@ -61,8 +59,8 @@ public class Seam230FacetInstallDelegateTest extends AbstractSeam2FacetInstallDe
 
 		File folder = getSeamHomeFolder();
 
-		SeamRuntimeManager.getInstance().addRuntime(SEAM_2_2_3,	folder.getAbsolutePath(), SeamVersion.SEAM_2_3, true);
-		seamRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(SEAM_2_2_3);
+		SeamRuntimeManager.getInstance().addRuntime(SEAM_2_3_0,	folder.getAbsolutePath(), SeamVersion.SEAM_2_3, true);
+		seamRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(SEAM_2_3_0);
 		IProject war = (IProject) ResourcesPlugin.getWorkspace().getRoot().findMember("warprj");
 		warProject = (war != null ? ProjectFacetsManager.create(war, false, null) : createSeamWarProject("warprj"));
 		IProject ear = (IProject) ResourcesPlugin.getWorkspace().getRoot().findMember("earprj");
@@ -76,6 +74,7 @@ public class Seam230FacetInstallDelegateTest extends AbstractSeam2FacetInstallDe
 
 	@Override
 	protected boolean shouldCheckTestProject() {
+		// Test project was not supposed to be created.
 		return false;
 	}
 
@@ -83,8 +82,9 @@ public class Seam230FacetInstallDelegateTest extends AbstractSeam2FacetInstallDe
 	protected IDataModel createSeamDataModel(String deployType) {
 		IDataModel dataModel = super.createSeamDataModel(deployType);
 		dataModel.setStringProperty(
-				ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, SEAM_2_2_3);
+				ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, SEAM_2_3_0);
 		dataModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, true);
+		dataModel.setBooleanProperty(ISeamFacetDataModelProperties.TEST_PROJECT_CREATING, false);
 
 		return dataModel;
 	}
@@ -128,5 +128,17 @@ public class Seam230FacetInstallDelegateTest extends AbstractSeam2FacetInstallDe
 	@Override
 	protected boolean shouldCheckJBossAppXML() {
 		return false;
+	}
+
+	@Override
+	protected File getSeamHomeFolder() {
+		return super.getSeamHomeFolder(AbstractSeamFacetTest.SEAM23_FOLDER_NAME);
+	}
+
+	@Override
+	protected Set<String> getOnlyInEarMeta() {
+		Set<String> onlyInEarMeta = super.getOnlyInEarMeta();
+		onlyInEarMeta.add("jboss-deployment-structure.xml");
+		return onlyInEarMeta;
 	}
 }

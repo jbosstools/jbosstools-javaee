@@ -22,8 +22,8 @@ import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelPrope
 
 public class Seam20EARNewOperationTest extends Seam12EARNewOperationTest {
 	
-	private IProjectFacet seam2Facet;
-	private IProjectFacetVersion seam2FacetVersion;
+	protected IProjectFacet seam2Facet;
+	protected IProjectFacetVersion seam2FacetVersion;
 
 	public Seam20EARNewOperationTest(String name) {
 		super(name);

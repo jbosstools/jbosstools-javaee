@@ -40,7 +40,8 @@ import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelPrope
 
 public abstract class AbstractSeam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 
-	protected static final String SEAM_2_0_0 = "Seam 2.0.0";
+	public static final String SEAM_2_0_0 = "Seam 2.0.0";
+	public static final String SEAM_2_3_0 = "Seam 2.3.0";
 	protected IFacetedProject warProject;
 	protected IFacetedProject earProject;
 
@@ -262,10 +263,6 @@ public abstract class AbstractSeam2FacetInstallDelegateTest extends AbstractSeam
 		return true;
 	}
 
-	protected boolean shouldCheckTestProject() {
-		return true;
-	}
-
 	protected void checkEarLibrariesInSeamProject(int caseNumber, String earName) throws CoreException{
 		IDataModel earModel = createSeamDataModel("ear");
 		
@@ -311,10 +308,7 @@ public abstract class AbstractSeam2FacetInstallDelegateTest extends AbstractSeam
 		Set<String> onlyInEarMeta = new HashSet<String>();
 		
 		if(caseNumber == CASE_1 || caseNumber == CASE_3){
-			if(shouldCheckJBossAppXML()) {
-				onlyInEarMeta.add("jboss-app.xml");
-			}
-			onlyInEarMeta.add("application.xml");
+			onlyInEarMeta = getOnlyInEarMeta();
 	
 			onlyInEjbSrc.add("security.drl");
 			onlyInEjbSrc.add("seam.properties");
@@ -342,7 +336,7 @@ public abstract class AbstractSeam2FacetInstallDelegateTest extends AbstractSeam
 		
 		final IContainer ejbSrc = (IContainer) ejb.findMember("ejbModule");
 
-		final IContainer testLibs = (IContainer) test.findMember("lib");
+		final IContainer testLibs = shouldCheckTestProject()?(IContainer) test.findMember("lib"):null;
 
 		if(copyLibraries){
 			assertOnlyContainsTheseFiles(onlyInEjbSrc, ejbSrc);
@@ -373,6 +367,16 @@ public abstract class AbstractSeam2FacetInstallDelegateTest extends AbstractSeam
 				assertContainsNoneOfTheseFiles(onlyInTest, testLibs);
 			}
 		}
+	}
+
+	protected Set<String> getOnlyInEarMeta() {
+		Set<String> onlyInEarMeta = new HashSet<String>();
+		if(shouldCheckJBossAppXML()) {
+			onlyInEarMeta.add("jboss-app.xml");
+		}
+		onlyInEarMeta.add("application.xml");
+
+		return onlyInEarMeta;
 	}
 
 	protected Set<String> getTestLibs() {
@@ -446,12 +450,7 @@ public abstract class AbstractSeam2FacetInstallDelegateTest extends AbstractSeam
 		final IContainer earMeta = (IContainer) ear.findMember(
 				"EarContent/META-INF").getAdapter(IContainer.class);
 
-		Set<String> onlyInEarMeta = new HashSet<String>();
-
-		if(shouldCheckJBossAppXML()) {
-			onlyInEarMeta.add("jboss-app.xml");
-		}
-		onlyInEarMeta.add("application.xml");
+		Set<String> onlyInEarMeta = getOnlyInEarMeta();
 
 		assertOnlyContainsTheseFiles(onlyInEarMeta, earMeta);
 
