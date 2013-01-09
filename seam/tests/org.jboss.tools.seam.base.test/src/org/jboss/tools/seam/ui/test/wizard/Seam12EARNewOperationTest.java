@@ -76,7 +76,7 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 		if(earEarProject==null) {
 			earEarProject = ProjectImportTestSetup.loadProject(SEAM_EAR_EAR_PROJECTNAME);
 		}
-		if(testProject==null) {
+		if(shouldCheckTestProject() && testProject==null) {
 			testProject = ProjectImportTestSetup.loadProject(SEAM_EAR_TEST_PROJECTNAME);
 		}
 		if(seamEarProject==null) {
@@ -85,7 +85,7 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 		if(seamEarEjbProject==null) {
 			seamEarEjbProject = loadSeamProject(earEjbProject);
 		}
-		if(seamTestProject==null) {
+		if(shouldCheckTestProject() && seamTestProject==null) {
 			seamTestProject = loadSeamProject(testProject);
 		}
 	}
@@ -114,10 +114,14 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 		assertTrue("Test project \"" + SEAM_EAR_PROJECTNAME + "\" is not loaded", (earProject != null));
 		assertTrue("Test project \"" + SEAM_EAR_EJB_PROJECTNAME + "\" is not loaded", (earEjbProject != null));
 		assertTrue("Test project \"" + SEAM_EAR_EAR_PROJECTNAME + "\" is not loaded", (earEarProject != null));
-		assertTrue("Test project \"" + SEAM_EAR_TEST_PROJECTNAME + "\" is not loaded", (testProject != null));
+		if(shouldCheckTestProject()) {
+			assertTrue("Test project \"" + SEAM_EAR_TEST_PROJECTNAME + "\" is not loaded", (testProject != null));
+		}
 		assertTrue("Test Seam project \"" + SEAM_EAR_PROJECTNAME + "\" is not loaded", (seamEarProject != null));
 		assertTrue("Test Seam project \"" + SEAM_EAR_EJB_PROJECTNAME + "\" is not loaded", (seamEarEjbProject != null));
-		assertTrue("Test Seam project \"" + SEAM_EAR_TEST_PROJECTNAME + "\" is not loaded", (seamTestProject != null));
+		if(shouldCheckTestProject()) {
+			assertTrue("Test Seam project \"" + SEAM_EAR_TEST_PROJECTNAME + "\" is not loaded", (seamTestProject != null));
+		}
 	}
 
 	@Override
@@ -131,7 +135,7 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 		SeamProjectsSet seamPrjSet = new SeamProjectsSet(earProject);
 
 		String sessionBeanPackagePath = getPackagePath(getSessionBeanPackageName(seamFacetPrefs));
-		String testCasesPackagePath = getPackagePath(getTestCasesPackageName(seamFacetPrefs));
+		String testCasesPackagePath = shouldCheckTestProject()?getPackagePath(getTestCasesPackageName(seamFacetPrefs)):null;
 
 		IContainer seamProjectSrcActionFolder = seamPrjSet.getActionFolder();
 		IContainer testSourceFolder = seamPrjSet.getTestsFolder();
@@ -168,21 +172,23 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 //		${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/
 //		${"+ ISeamParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.java", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
-		IResource localInterfaceTestJava = testSourceFolder.findMember(
-				testCasesPackagePath + "/" + seamLocalInterfaceName + "Test.java");
-		assertResourceIsCreatedAndHasNoProblems(localInterfaceTestJava, 
-				testSourceFolder.toString() + "/" +
-				testCasesPackagePath + "/" + seamLocalInterfaceName + "Test.java");
+		if(shouldCheckTestProject()) {
+			IResource localInterfaceTestJava = testSourceFolder.findMember(
+					testCasesPackagePath + "/" + seamLocalInterfaceName + "Test.java");
+			assertResourceIsCreatedAndHasNoProblems(localInterfaceTestJava, 
+					testSourceFolder.toString() + "/" +
+					testCasesPackagePath + "/" + seamLocalInterfaceName + "Test.java");
 
 //		"${" + ISeamParameter.TEST_SOURCE_FOLDER + "}/
 //		${" + ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_PATH + "}/
 //		${"+ ISeamParameter.SEAM_LOCAL_INTERFACE_NAME +"}Test.xml", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
-		IResource localInterfaceTestXml = testSourceFolder.findMember(
+			IResource localInterfaceTestXml = testSourceFolder.findMember(
 				testCasesPackagePath + "/" + seamLocalInterfaceName + "Test.xml");
-		assertResourceIsCreatedAndHasNoProblems(localInterfaceTestXml, 
+			assertResourceIsCreatedAndHasNoProblems(localInterfaceTestXml, 
 				testSourceFolder.toString() + "/" +
 				testCasesPackagePath + "/" + seamLocalInterfaceName + "Test.xml");
+		}
 
 //		
 //		"${" + ISeamParameter.SEAM_PROJECT_WEBCONTENT_PATH + "}/
@@ -194,7 +200,9 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 				seamProjectWebContentFolder.toString() + "/" +
 				seamPageName + ".xhtml");
 
-		assertLaunchesCreated(seamPrjSet.getTestProject().getName(), seamLocalInterfaceName);
+		if(shouldCheckTestProject()) {
+			assertLaunchesCreated(seamPrjSet.getTestProject().getName(), seamLocalInterfaceName);
+		}
 	}
 
 	@Override

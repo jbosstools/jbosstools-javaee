@@ -28,8 +28,8 @@ import org.jboss.tools.seam.ui.wizard.ISeamParameter;
 
 public class Seam20WARNewOperationTest extends Seam12WARNewOperationTest {
 
-	private IProjectFacet seam2Facet;
-	private IProjectFacetVersion seam2FacetVersion;
+	protected IProjectFacet seam2Facet;
+	protected IProjectFacetVersion seam2FacetVersion;
 
 	public Seam20WARNewOperationTest(String name) {
 		super(name);

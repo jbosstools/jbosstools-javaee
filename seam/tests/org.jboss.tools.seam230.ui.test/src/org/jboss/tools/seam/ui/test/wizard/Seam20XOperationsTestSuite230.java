@@ -13,6 +13,6 @@ package org.jboss.tools.seam.ui.test.wizard;
 /**
  * @author Alexey Kazakov
  */
-public class Seam20XOperationsTestSuite230 extends Seam20XOperationsTestSuite201GABase {
+public class Seam20XOperationsTestSuite230 extends Seam23XOperationsTestSuite23GABase {
 
 }

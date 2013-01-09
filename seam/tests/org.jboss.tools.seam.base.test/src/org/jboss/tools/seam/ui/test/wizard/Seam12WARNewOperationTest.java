@@ -63,13 +63,13 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 		if(warProject==null) {
 			warProject = ProjectImportTestSetup.loadProject(SEAM_WAR_PROJECTNAME);
 		}
-		if(testProject==null) {
+		if(shouldCheckTestProject() && testProject==null) {
 			testProject = ProjectImportTestSetup.loadProject(SEAM_WAR_TEST_PROJECTNAME);
 		}
 		if(seamWarProject==null) {
 			seamWarProject = loadSeamProject(warProject);
 		}
-		if(seamTestProject==null) {
+		if(shouldCheckTestProject() && seamTestProject==null) {
 			seamTestProject = loadSeamProject(testProject);
 		}
 	}
@@ -92,9 +92,13 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 	@Override
 	void assertProjectsAreCreated() {
 		assertTrue("Test project \"" + SEAM_WAR_PROJECTNAME + "\" is not loaded", (warProject != null));
-		assertTrue("Test project \"" + SEAM_WAR_TEST_PROJECTNAME + "\" is not loaded", (testProject != null));
+		if(shouldCheckTestProject()) {
+			assertTrue("Test project \"" + SEAM_WAR_TEST_PROJECTNAME + "\" is not loaded", (testProject != null));
+		}
 		assertTrue("Test Seam project \"" + SEAM_WAR_PROJECTNAME + "\" is not loaded", (seamWarProject != null));
-		assertTrue("Test Seam project \"" + SEAM_WAR_TEST_PROJECTNAME + "\" is not loaded", (seamTestProject != null));
+		if(shouldCheckTestProject()) {
+			assertTrue("Test Seam project \"" + SEAM_WAR_TEST_PROJECTNAME + "\" is not loaded", (seamTestProject != null));
+		}
 	}
 
 	@Override
@@ -112,7 +116,6 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 		SeamProjectsSet seamPrjSet = new SeamProjectsSet(warProject);
 
 		String sessionBeanPackagePath = getPackagePath(getSessionBeanPackageName(seamFacetPrefs));
-		String testCasesPackagePath = getPackagePath(getTestCasesPackageName(seamFacetPrefs));
 
 		IContainer seamProjectSrcActionFolder = seamPrjSet.getActionFolder();
 		IContainer testSourceFolder = seamPrjSet.getTestsFolder();
@@ -127,17 +130,21 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 				seamProjectSrcActionFolder.toString() + "/" +
 				sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
 
-		IResource localInterfaceTestJava = testSourceFolder.findMember(
-				testCasesPackagePath + "/" + seamLocalInterfaceName + "Test.java");
-		assertResourceIsCreatedAndHasNoProblems(localInterfaceTestJava, 
-				testSourceFolder.toString() + "/" +
-				sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
-
-		IResource localInterfaceTestXml = testSourceFolder.findMember(
-				testCasesPackagePath + "/" + seamLocalInterfaceName + "Test.xml");
-		assertResourceIsCreatedAndHasNoProblems(localInterfaceTestXml, 
-				testSourceFolder.toString() + "/" +
-				sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
+		if(shouldCheckTestProject()) {
+			String testCasesPackagePath = getPackagePath(getTestCasesPackageName(seamFacetPrefs));
+			IResource localInterfaceTestJava = testSourceFolder.findMember(
+					testCasesPackagePath + "/" + seamLocalInterfaceName + "Test.java");
+			assertResourceIsCreatedAndHasNoProblems(localInterfaceTestJava, 
+					testSourceFolder.toString() + "/" +
+					sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
+	
+			IResource localInterfaceTestXml = testSourceFolder.findMember(
+					testCasesPackagePath + "/" + seamLocalInterfaceName + "Test.xml");
+			assertResourceIsCreatedAndHasNoProblems(localInterfaceTestXml, 
+					testSourceFolder.toString() + "/" +
+					sessionBeanPackagePath + "/" + seamLocalInterfaceName + ".java");
+			assertLaunchesCreated(seamPrjSet.getTestProject().getName(), seamLocalInterfaceName);
+		}
 
 		IResource seamPageNameXhtml = seamProjectWebContentFolder.findMember(
 				seamPageName + ".xhtml");
@@ -145,7 +152,6 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 				seamProjectWebContentFolder.toString() + "/" +
 				seamPageName + ".xhtml");
 
-		assertLaunchesCreated(seamPrjSet.getTestProject().getName(), seamLocalInterfaceName);
 /*		
 		"${" + ISeamParameter.SEAM_PROJECT_SRC_ACTION + "}/
 			${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/

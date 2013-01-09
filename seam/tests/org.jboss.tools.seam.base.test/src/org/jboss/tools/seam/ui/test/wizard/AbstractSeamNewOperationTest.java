@@ -257,6 +257,8 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 			return SeamVersion.SEAM_1_2;
 		} else if (AbstractSeamFacetTest.SEAM_2_0_0.equals(seamRTName)) {
 			return SeamVersion.SEAM_2_0;
+		} else if (AbstractSeamFacetTest.SEAM_2_3_0.equals(seamRTName)) {
+			return SeamVersion.SEAM_2_3;
 		}
 		return null;
 	}
