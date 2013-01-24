@@ -6,7 +6,7 @@
 	      point="org.jboss.tools.cdi.core.cdiextensions">
 	    <cdiextension
 	          class="org.jboss.tools.cdi.deltaspike.core.DeltaspikeConfigPropertyExtension"
-	          runtime="org.apache.deltaspike.core.impl.config.injectable.extension.ConfigPropertyExtension">
+	          runtime="org.apache.deltaspike.core.impl.config.ConfigurationExtension">
 	    </cdiextension>
 	    <cdiextension
 	          class="org.jboss.tools.cdi.deltaspike.core.DeltaspikeExceptionExtension"
@@ -22,7 +22,7 @@
 	    </cdiextension>
 	    <cdiextension
 	          class="org.jboss.tools.cdi.deltaspike.core.DeltaspikeSecurityExtension"
-	          runtime="org.apache.deltaspike.security.impl.authorization.SecurityExtension">
+	          runtime="org.apache.deltaspike.security.impl.extension.SecurityExtension">
 	    </cdiextension>
 	</extension>
 
