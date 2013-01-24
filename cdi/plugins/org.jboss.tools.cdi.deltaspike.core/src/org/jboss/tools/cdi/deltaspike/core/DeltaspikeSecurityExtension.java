@@ -53,7 +53,7 @@ import org.jboss.tools.common.preferences.SeverityPreferences;
  * @author Viacheslav Kabanovich
  */
 public class DeltaspikeSecurityExtension implements ICDIExtension, IBuildParticipantFeature, IProcessAnnotatedTypeFeature, IProcessAnnotatedMemberFeature, IValidatorFeature, DeltaspikeConstants {
-	public static String ID = "org.apache.deltaspike.security.impl.authorization.SecurityExtension"; //$NON-NLS-1$
+	public static String ID = "org.apache.deltaspike.security.impl.extension.SecurityExtension"; //$NON-NLS-1$
 	DeltaspikeSecurityDefinitionContext context = new DeltaspikeSecurityDefinitionContext();
 
 	public static DeltaspikeSecurityExtension getExtension(CDICoreNature project) {
