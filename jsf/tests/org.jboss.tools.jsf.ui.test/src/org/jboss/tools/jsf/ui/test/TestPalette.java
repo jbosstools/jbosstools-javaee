@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteEntry;
+import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.palette.editparts.PaletteEditPart;
 import org.eclipse.gef.ui.views.palette.PalettePage;
 import org.eclipse.gef.ui.views.palette.PaletteView;
@@ -40,6 +41,7 @@ import org.eclipse.ui.part.IPage;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.ui.views.palette.IPaletteAdapter;
+import org.jboss.tools.common.model.ui.views.palette.PaletteContents;
 import org.jboss.tools.common.model.ui.views.palette.PaletteInsertHelper;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
@@ -48,12 +50,11 @@ import org.jboss.tools.jst.jsp.jspeditor.PalettePageImpl;
 import org.jboss.tools.jst.jsp.jspeditor.dnd.JSPPaletteInsertHelper;
 import org.jboss.tools.jst.web.tld.model.helpers.TLDToPaletteHelper;
 import org.jboss.tools.jst.web.ui.WebDevelopmentPerspectiveFactory;
+import org.jboss.tools.jst.web.ui.palette.PaletteAdapter;
+import org.jboss.tools.jst.web.ui.palette.PaletteViewer;
+import org.jboss.tools.jst.web.ui.palette.model.PaletteItem;
+import org.jboss.tools.jst.web.ui.palette.model.PaletteModel;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
-import org.jboss.tools.vpe.ui.palette.PaletteAdapter;
-import org.jboss.tools.vpe.ui.palette.PaletteViewer;
-import org.jboss.tools.vpe.ui.palette.model.PaletteItem;
-import org.jboss.tools.vpe.ui.palette.model.PaletteModel;
-import org.jboss.tools.vpe.ui.palette.model.PaletteRoot;
 
 public class TestPalette  extends TestCase {
 	static String jsfProjectName = "testJSFProject";
@@ -84,8 +85,9 @@ public class TestPalette  extends TestCase {
 		IEditorPart editor = IDE.openEditor(window.getActivePage(), f);
 		assertNotNull(editor);
 	
+		PaletteContents contents = new PaletteContents(editor);
 		//check palette model
-		PaletteModel paletteModel = PaletteModel.getInstance(null);
+		PaletteModel paletteModel = PaletteModel.getInstance(contents);
 		assertNotNull(paletteModel);
 		PaletteRoot root = paletteModel.getPaletteRoot();
 		List<?> tabs = root.getChildren();
