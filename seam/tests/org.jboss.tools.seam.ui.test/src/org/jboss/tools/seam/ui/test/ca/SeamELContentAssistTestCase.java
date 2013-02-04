@@ -387,6 +387,21 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 		return (index1 < index2 ? index1 : index2);
 	}
 	
+	private List<IRegion> getAttributeValueELRegions(ITextViewer viewer) {
+		List<IRegion> regions = getAttributeValueRegions(viewer);
+		List<IRegion> elRegions = new ArrayList<IRegion>();
+		String documentContent = document.get();
+		
+		if (documentContent != null) {
+			for (IRegion r : regions) {
+				int offset = indexOfElBOB(documentContent, r.getOffset());
+				if (offset != -1 && offset < r.getOffset() + r.getLength()) {
+					elRegions.add(r);
+				}
+			}
+		}
+		return elRegions;
+	}
 	protected List<IRegion> getAttributeValueRegions(ITextViewer viewer) {
 		List<IRegion> regions = new ArrayList<IRegion>();
 		IDocument document = viewer.getDocument();
@@ -524,7 +539,7 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 					}
 	//			}
 			}
-			regionsToTest = getAttributeValueRegions(viewer);
+			regionsToTest = getAttributeValueELRegions(viewer);
 			if (regionsToTest != null && regionsToTest.size() >= 1) {
 	//			for (IRegion region : regionsToTest) {
 				IRegion region = regionsToTest.get(0);
@@ -560,7 +575,7 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 								if (filter.startsWith("#{")) {
 									clearedFilter = filter.substring(2);
 								} else {
-									clearedFilter = null;
+									continue; // We're not interested in non-EL proposals
 								}
 									
 								Set<String> filteredValidProposals = getFilteredProposals(getPageValidProposals(), clearedFilter);
