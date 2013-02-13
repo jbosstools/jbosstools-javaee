@@ -1091,7 +1091,9 @@ public class SeamSearchVisitor {
 				}
 			}
 		} catch (IndexOutOfBoundsException e) {
-			SeamGuiPlugin.getDefault().logError(e);
+			// The exception is to be ignored because we're not calling the seq.length()
+			// due not to run through the complete file.
+			// So, IndexOutOfBoundsException here indicates the end of file.
 		}
 		return false;
 	}
