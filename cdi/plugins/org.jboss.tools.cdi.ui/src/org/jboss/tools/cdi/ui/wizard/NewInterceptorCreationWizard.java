@@ -11,7 +11,6 @@
 
 package org.jboss.tools.cdi.ui.wizard;
 
-import org.eclipse.core.resources.IProject;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 
 /**
@@ -51,8 +50,7 @@ public class NewInterceptorCreationWizard extends NewCDIElementWizard {
 	public boolean performFinish() {
 		boolean res = super.performFinish();
 		if(res && ((NewInterceptorWizardPage)fPage).isToBeRegisteredInBeansXML()) {
-			IProject project = fPage.getCreatedType().getResource().getProject();
-			NewBeanCreationWizard.registerInBeansXML(project, fPage.getCreatedType().getFullyQualifiedName(), "Interceptors", "CDIClass", "class");
+			((NewInterceptorWizardPage)fPage).registerInBeansXML.registerInBeansXML();
 		}
 		return res;
 	}

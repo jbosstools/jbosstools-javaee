@@ -51,7 +51,7 @@ import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
-import org.jboss.tools.cdi.ui.wizard.NewBeanWizardPage.CheckBoxEditorWrapper;
+import org.jboss.tools.cdi.xml.beans.model.CDIBeansConstants;
 import org.jboss.tools.common.java.generation.JavaBeanGenerator;
 import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
@@ -72,7 +72,7 @@ public class NewDecoratorWizardPage extends NewClassWizardPage {
 	protected StatusInfo fieldNameStatus = new StatusInfo();
 
 	protected boolean mayBeRegisteredInBeansXML = true;
-	protected CheckBoxEditorWrapper registerInBeansXML = null;
+	protected BeansXMLAccess registerInBeansXML = new BeansXMLAccess(this, "Decorators", CDIBeansConstants.ENT_CDI_CLASS, CDIBeansConstants.ATTR_CLASS);
 
 	public NewDecoratorWizardPage() {
 		setTitle(CDIUIMessages.NEW_DECORATOR_WIZARD_PAGE_NAME);
@@ -288,8 +288,7 @@ public class NewDecoratorWizardPage extends NewClassWizardPage {
 
 	protected void createRegisterInBeansXML(Composite composite) {
 		if(!mayBeRegisteredInBeansXML) return;
-		String label = "Register in beans.xml";
-		registerInBeansXML = NewBeanWizardPage.createCheckBoxField(composite, "register", label, true);
+		registerInBeansXML.create(composite);
 	}
 
 	protected IField createDelegateField(IType type, ImportsManager imports,
@@ -436,10 +435,7 @@ public class NewDecoratorWizardPage extends NewClassWizardPage {
 	}
 
 	public boolean isToBeRegisteredInBeansXML() {
-		if(registerInBeansXML != null) {
-			return registerInBeansXML.composite.getValue() == Boolean.TRUE;
-		}
-		return false;
+		return registerInBeansXML.isSelected();
 	}
 
 	@Override
@@ -452,5 +448,20 @@ public class NewDecoratorWizardPage extends NewClassWizardPage {
 
 	protected String getSuperInterfacesLabel() {
 		return CDIUIMessages.NEW_DECORATOR_WIZARD_INTERFACES_LABEL;
+	}
+
+	protected IStatus packageChanged() {
+		IStatus result = super.packageChanged();
+		if(result != null && result.isOK()) {
+			interceptorBindingsProvider.setPackageFragment(getPackageFragment());
+		}
+		registerInBeansXML.validate();
+		return result;
+	}
+
+	protected IStatus typeNameChanged() {
+		IStatus result = super.typeNameChanged();
+		registerInBeansXML.validate();
+		return result;
 	}
 }

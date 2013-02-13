@@ -47,7 +47,7 @@ import org.jboss.tools.common.ui.widget.editor.ListFieldEditor;
 public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 	protected CheckBoxEditorWrapper alternative = null;
 	protected boolean mayBeRegisteredInBeansXML = true;
-	protected CheckBoxEditorWrapper registerInBeansXML = null;
+	protected BeansXMLAccess registerInBeansXML = new BeansXMLAccess(this,"Alternatives", "CDIStereotype", "stereotype");
 
 	protected CheckBoxEditorWrapper named = null;
 	protected ITaggedFieldEditor scope = null;
@@ -153,18 +153,15 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 			alternative.checkBox.addPropertyChangeListener(new PropertyChangeListener() {
 				public void propertyChange(PropertyChangeEvent evt) {
 					boolean isAlternative = "true".equals(alternative.checkBox.getValueAsString());
-					if(registerInBeansXML != null) {
-						registerInBeansXML.composite.setEnabled(isAlternative);
-					}
+					registerInBeansXML.setEnabled(isAlternative);
 				}});
 		}
 	}
 
 	protected void createRegisterInBeansXML(Composite composite) {
 		if(!mayBeRegisteredInBeansXML) return;
-		String label = "Register in beans.xml";
-		registerInBeansXML = createCheckBoxField(composite, "register", label, isAlternativeInitialValue);
-		registerInBeansXML.composite.setEnabled(isAlternativeInitialValue);
+		registerInBeansXML.create(composite, isAlternativeInitialValue);
+		registerInBeansXML.setEnabled(isAlternativeInitialValue);
 	}
 
 	protected void createNamedField(Composite composite) {
@@ -359,15 +356,26 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 
 	public void setToBeRegisteredInBeansXML(boolean value) {
 		if(registerInBeansXML != null) {
-			registerInBeansXML.composite.setValue(Boolean.valueOf(value));
+			registerInBeansXML.check.composite.setValue(Boolean.valueOf(value));
 		}
 	}
 
 	public boolean isToBeRegisteredInBeansXML() {
 		if(registerInBeansXML != null && alternative != null ) {
-			return alternative.composite.getValue() == Boolean.TRUE && registerInBeansXML.composite.getValue() == Boolean.TRUE;
+			return alternative.composite.getValue() == Boolean.TRUE && registerInBeansXML.isSelected();
 		}
 		return false;
 	}
 
+	protected IStatus packageChanged() {
+		IStatus result = super.packageChanged();
+		registerInBeansXML.validate();
+		return result;
+	}
+
+	protected IStatus typeNameChanged() {
+		IStatus result = super.typeNameChanged();
+		registerInBeansXML.validate();
+		return result;
+	}
 }
