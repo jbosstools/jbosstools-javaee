@@ -44,6 +44,7 @@ import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard;
 import org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralWizardPage;
+import org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard;
 import org.jboss.tools.cdi.ui.wizard.NewBeanWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard;
 import org.jboss.tools.cdi.ui.wizard.NewCDIElementWizard;
@@ -92,8 +93,6 @@ public class NewCDIWizardTest extends TestCase {
 		
 
 		public void init(String wizardId, String packName, String typeName) {
-			this.packName = packName;
-			this.typeName = typeName;
 			wizard = (NewElementWizard)WorkbenchUtils.findWizardByDefId(wizardId);
 			tck = ResourcesPlugin.getWorkspace().getRoot().getProject("tck");
 			jp = EclipseUtil.getJavaProject(tck);
@@ -111,8 +110,14 @@ public class NewCDIWizardTest extends TestCase {
 
 			page = (NewTypeWizardPage)dialog.getSelectedPage();
 
+			setTypeName(packName, typeName);
+		}
+
+		public void setTypeName(String packName, String typeName) {
+			this.packName = packName;
+			this.typeName = typeName;
 			page.setTypeName(typeName, true);
-			IPackageFragment pack = page.getPackageFragmentRoot().getPackageFragment(PACK_NAME);
+			IPackageFragment pack = page.getPackageFragmentRoot().getPackageFragment(packName);
 			page.setPackageFragment(pack, true);
 		}
 
@@ -368,7 +373,7 @@ public class NewCDIWizardTest extends TestCase {
 	 * 
 	 * @throws CoreException
 	 */
-	public void testNewInterceptorWizard() {
+	public void testNewInterceptorWizard() throws CoreException {
 		WizardContext context = new WizardContext();
 		context.init("org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard",
 				PACK_NAME, INTERCEPTOR_NAME);
@@ -382,6 +387,12 @@ public class NewCDIWizardTest extends TestCase {
 			
 			page.addInterceptorBinding(a);
 			
+			assertTrue(page.isToBeRegisteredInBeansXML());
+			context.setTypeName("com.acme", "Foo");
+			assertFalse(page.isToBeRegisteredInBeansXML());
+			context.setTypeName(PACK_NAME, INTERCEPTOR_NAME);
+			assertTrue(page.isToBeRegisteredInBeansXML());
+
 			context.wizard.performFinish();
 			
 			String text = context.getNewTypeContent();
@@ -389,7 +400,6 @@ public class NewCDIWizardTest extends TestCase {
 			assertTrue(text.contains("@Interceptor"));
 			assertTrue(text.contains("@" + EXISTING_INTERCEPTOR_BINDING_NAME));
 			
-
 			IProject tck = ResourcesPlugin.getWorkspace().getRoot().getProject("tck");
 			IFile f = tck.getFile("WebContent/WEB-INF/beans.xml");
 			XModelObject o = EclipseResourceUtil.createObjectForResource(f);

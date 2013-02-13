@@ -140,11 +140,6 @@ public abstract class NewCDIAnnotationWizardPage extends NewAnnotationWizardPage
 
 	protected abstract void createCustomFields(Composite composite);
 
-	protected static class CheckBoxEditorWrapper {
-		protected IFieldEditor composite = null;
-		protected CheckBoxFieldEditor checkBox = null;
-	}
-
 	protected CheckBoxEditorWrapper createCheckBoxField(Composite composite, String name, String label, boolean defaultValue) {
 		CheckBoxEditorWrapper wrapper = new CheckBoxEditorWrapper();
 		wrapper.checkBox = new CheckBoxFieldEditor(name,label,Boolean.valueOf(defaultValue));

@@ -73,54 +73,9 @@ public class NewBeanCreationWizard extends NewCDIElementWizard {
 	public boolean performFinish() {
 		boolean res = super.performFinish();
 		if(res && ((NewBeanWizardPage)fPage).isToBeRegisteredInBeansXML()) {
-			IProject project = fPage.getCreatedType().getResource().getProject();
-			registerInBeansXML(project, fPage.getCreatedType().getFullyQualifiedName(), "Alternatives", CDIBeansConstants.ENT_CDI_CLASS, CDIBeansConstants.ATTR_CLASS); //$NON-NLS-1$
+			((NewBeanWizardPage)fPage).registerInBeansXML.registerInBeansXML();
 		}
 		return res;
 	}
-
-	public static void registerInBeansXML(IProject project, String typeName, String folderName, String entity, String attribute) {
-		IPath path = NewBeansXMLCreationWizard.getContainerForBeansXML(project);
-		if(path != null) {
-			path = path.append("beans.xml").removeFirstSegments(1); //$NON-NLS-1$
-			IFile beansxml = project.getFile(path);
-			if(!beansxml.exists()) {
-				try {
-					createBeansXML(beansxml);
-				} catch (CoreException e) {
-					CDIUIPlugin.getDefault().logError(e);
-				}
-			}
-			if(beansxml.exists()) {
-				XModelObject o = EclipseResourceUtil.createObjectForResource(beansxml);
-				if(o != null) {
-					XModelObject as = o.getChildByPath(folderName);
-					XModelObject c = as.getModel().createModelObject(entity, new Properties());
-					c.setAttributeValue(attribute, typeName);
-					try {
-						DefaultCreateHandler.addCreatedObject(as, c, 0);
-						XActionInvoker.invoke("SaveActions.Save", o, new Properties()); //$NON-NLS-1$
-					} catch (CoreException e) {
-						CDIUIPlugin.getDefault().logError(e);
-					}
-				}
-			}
-		}
-	}
-
-	public static void createBeansXML(IFile f) throws CoreException {
-		if(f.exists()) return;
-		IFolder folder = (IFolder)f.getParent();
-		if(!folder.exists()) {
-			folder.create(true, true, new NullProgressMonitor());
-		}
-		f.create(getBeansXMLInitialContents(), true, new NullProgressMonitor());
-	}
-
-	public static InputStream getBeansXMLInitialContents() {
-		FileAnyImpl file = (FileAnyImpl)XModelFactory.getDefaultInstance().createModelObject(CDIBeansConstants.ENT_CDI_BEANS, new Properties());
-		return new ByteArrayInputStream(file.getAsText().getBytes());
-	}
-
 
 }

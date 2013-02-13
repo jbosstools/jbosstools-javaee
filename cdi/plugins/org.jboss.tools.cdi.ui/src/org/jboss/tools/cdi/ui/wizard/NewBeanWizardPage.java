@@ -54,6 +54,7 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
+import org.jboss.tools.cdi.xml.beans.model.CDIBeansConstants;
 import org.jboss.tools.common.ui.widget.editor.CheckBoxFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
@@ -71,7 +72,7 @@ import org.jboss.tools.common.ui.widget.editor.TextFieldEditor;
 public class NewBeanWizardPage extends NewClassWizardPage {
 	protected CheckBoxEditorWrapper alternative = null;
 	protected boolean mayBeRegisteredInBeansXML = true;
-	protected CheckBoxEditorWrapper registerInBeansXML = null;
+	protected BeansXMLAccess registerInBeansXML = new BeansXMLAccess(this, "Alternatives", CDIBeansConstants.ENT_CDI_CLASS, CDIBeansConstants.ATTR_CLASS);
 
 	protected CheckBoxEditorWrapper isNamed;
 	protected BeanNameEditorWrapper beanName;
@@ -357,11 +358,6 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 		beanName.composite.setValue(name);
 	}
 
-	protected static class CheckBoxEditorWrapper {
-		protected IFieldEditor composite = null;
-		protected CheckBoxFieldEditor checkBox = null;
-	}
-
 	protected static class BeanNameEditorWrapper {
 		protected IFieldEditor composite = null;
 		protected TextFieldEditor text = null;
@@ -384,18 +380,15 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 			alternative.checkBox.addPropertyChangeListener(new PropertyChangeListener() {
 				public void propertyChange(PropertyChangeEvent evt) {
 					boolean isAlternative = "true".equals(alternative.checkBox.getValueAsString());
-					if(registerInBeansXML != null) {
-						registerInBeansXML.composite.setEnabled(isAlternative);
-					}
+					registerInBeansXML.setEnabled(isAlternative);
 				}});
 		}
 	}
 
 	protected void createRegisterInBeansXML(Composite composite) {
 		if(!mayBeRegisteredInBeansXML) return;
-		String label = "Register in beans.xml";
-		registerInBeansXML = createCheckBoxField(composite, "register", label, isAlternativeInitialValue);
-		registerInBeansXML.composite.setEnabled(isAlternativeInitialValue);
+		registerInBeansXML.create(composite, isAlternativeInitialValue);
+		registerInBeansXML.setEnabled(isAlternativeInitialValue);
 	}
 
 	protected static CheckBoxEditorWrapper createCheckBoxField(Composite composite, String name, String label, boolean defaultValue) {
@@ -503,7 +496,7 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 
 	public boolean isToBeRegisteredInBeansXML() {
 		if(registerInBeansXML != null && alternative != null ) {
-			return alternative.composite.getValue() == Boolean.TRUE && registerInBeansXML.composite.getValue() == Boolean.TRUE;
+			return alternative.composite.getValue() == Boolean.TRUE && registerInBeansXML.isSelected();
 		}
 		return false;
 	}
@@ -520,4 +513,15 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 		}
 	}
 
+	protected IStatus packageChanged() {
+		IStatus result = super.packageChanged();
+		registerInBeansXML.validate();
+		return result;
+	}
+
+	protected IStatus typeNameChanged() {
+		IStatus result = super.typeNameChanged();
+		registerInBeansXML.validate();
+		return result;
+	}
 }
