@@ -15,6 +15,5 @@
 		<module>../cdi/tests</module>
 		<module>../jsf/tests</module>
 		<module>../seam/tests</module>
-		<module>../struts/tests</module>
 	</modules>
 </project>
