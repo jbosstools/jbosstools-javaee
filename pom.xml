@@ -16,7 +16,6 @@
 		<module>cdi</module>
 		<module>jsf</module>
 		<module>seam</module>
-		<module>struts</module>
 		<module>site</module>
 	</modules>
 </project>
