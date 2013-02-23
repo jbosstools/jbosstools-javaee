@@ -95,21 +95,5 @@
 	<feature url="features/org.jboss.tools.runtime.seam.detector.feature.source_0.0.0.jar" id="org.jboss.tools.runtime.seam.detector.feature.source" version="0.0.0">
 		<category name="AllSources"/>
 	</feature>
-
-<!-- struts -->
-
-	<feature url="features/org.jboss.tools.struts.feature_0.0.0.jar" id="org.jboss.tools.struts.feature" version="0.0.0">
-		<category name="AllFeatures"/>
-	</feature>
-	<feature url="features/org.jboss.tools.struts.test.feature_0.0.0.jar" id="org.jboss.tools.struts.test.feature" version="0.0.0">
-		<category name="AllFeatures"/>
-	</feature>
-	<!-- Sources -->
-	<feature url="features/org.jboss.tools.struts.feature.source_0.0.0.jar" id="org.jboss.tools.struts.feature.source" version="0.0.0">
-		<category name="AllSources"/>
-	</feature>
-	<feature url="features/org.jboss.tools.struts.test.feature.source_0.0.0.jar" id="org.jboss.tools.struts.test.feature.source" version="0.0.0">
-		<category name="AllSources"/>
-	</feature>
 </site>
 
