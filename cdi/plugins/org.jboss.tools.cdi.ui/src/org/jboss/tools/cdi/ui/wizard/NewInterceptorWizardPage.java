@@ -16,6 +16,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -24,6 +25,7 @@ import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
@@ -50,7 +52,7 @@ import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
-import org.jboss.tools.cdi.ui.wizard.NewBeanWizardPage.CheckBoxEditorWrapper;
+import org.jboss.tools.cdi.xml.beans.model.CDIBeansConstants;
 import org.jboss.tools.common.java.generation.JavaBeanGenerator;
 import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
@@ -72,7 +74,7 @@ public class NewInterceptorWizardPage extends NewClassWizardPage {
 	protected StatusInfo interceptorBindingsStatus = new StatusInfo();
 
 	protected boolean mayBeRegisteredInBeansXML = true;
-	protected CheckBoxEditorWrapper registerInBeansXML = null;
+	protected BeansXMLAccess registerInBeansXML = new BeansXMLAccess(this, "Interceptors", CDIBeansConstants.ENT_CDI_CLASS, CDIBeansConstants.ATTR_CLASS);
 
 	public void setMayBeRegisteredInBeansXML(boolean b) {
 		mayBeRegisteredInBeansXML = b;
@@ -215,8 +217,7 @@ public class NewInterceptorWizardPage extends NewClassWizardPage {
 
 	protected void createRegisterInBeansXML(Composite composite) {
 		if(!mayBeRegisteredInBeansXML) return;
-		String label = "Register in beans.xml";
-		registerInBeansXML = NewBeanWizardPage.createCheckBoxField(composite, "register", label, true);
+		registerInBeansXML.create(composite);
 	}
 
 	void setInterceptorBindings(IPackageFragmentRoot root) {
@@ -325,14 +326,18 @@ public class NewInterceptorWizardPage extends NewClassWizardPage {
 		if(result != null && result.isOK()) {
 			interceptorBindingsProvider.setPackageFragment(getPackageFragment());
 		}
+		registerInBeansXML.validate();
 		return result;
 	}
 
 	public boolean isToBeRegisteredInBeansXML() {
-		if(registerInBeansXML != null) {
-			return registerInBeansXML.composite.getValue() == Boolean.TRUE;
-		}
-		return false;
+		return registerInBeansXML.isSelected();
+	}
+
+	protected IStatus typeNameChanged() {
+		IStatus result = super.typeNameChanged();
+		registerInBeansXML.validate();
+		return result;
 	}
 
 }

@@ -868,10 +868,25 @@ public class SeamSettingsPreferencePage extends SettingsPage {
 	}
 
 	private void setEnabledTestGroup() {
-		boolean enabled = isTestEnabled() && isSeamSupported() && runtimeIsSelected;
+		boolean seam23 = isSeam23();
+		boolean enabled = isTestEnabled() && isSeamSupported() && runtimeIsSelected && !seam23;
+		if(seam23) {
+			getEditor(ISeamFacetDataModelProperties.TEST_CREATING).setValue(Boolean.FALSE);
+		}
+		getEditor(ISeamFacetDataModelProperties.TEST_CREATING).setEnabled(!seam23 && getSeamRuntime()!=null);
 		editorRegistry.get(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT).setEnabled(enabled);
 		editorRegistry.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER).setEnabled(enabled);
 		editorRegistry.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME).setEnabled(enabled);						
+	}
+
+	private boolean isSeam23() {
+		SeamRuntime seamRuntime = getSeamRuntime();
+		return seamRuntime!=null && seamRuntime.getVersion() == SeamVersion.SEAM_2_3;
+	}
+
+	private SeamRuntime getSeamRuntime() {
+		String value = getValue(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
+		return SeamRuntimeManager.getInstance().findRuntimeByName(value);
 	}
 
 	private boolean isTestEnabled() {

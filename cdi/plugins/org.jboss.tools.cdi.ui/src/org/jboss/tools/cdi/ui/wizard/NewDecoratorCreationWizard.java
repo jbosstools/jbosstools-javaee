@@ -52,8 +52,7 @@ public class NewDecoratorCreationWizard extends NewCDIElementWizard {
 	public boolean performFinish() {
 		boolean res = super.performFinish();
 		if(res && ((NewDecoratorWizardPage)fPage).isToBeRegisteredInBeansXML()) {
-			IProject project = fPage.getCreatedType().getResource().getProject();
-			NewBeanCreationWizard.registerInBeansXML(project, fPage.getCreatedType().getFullyQualifiedName(), "Decorators", "CDIClass", "class");
+			((NewDecoratorWizardPage)fPage).registerInBeansXML.registerInBeansXML();
 		}
 		return res;
 	}

@@ -766,7 +766,7 @@
 	      		style="push"
 				label="Find Seam Declarations"
                 tooltip="Find Seam Declarations"
-                definitionId="org.jboss.tools.seam.ui.find.references" 
+                definitionId="org.jboss.tools.seam.ui.find.declarations" 
 				menubarPath="org.eclipse.search.menu/seamSearchMenuActionsGroup"
 	      		icon="$nl$/icons/find_seam_declarations.gif"
 	      		disabledIcon="$nl$/icons/find_seam_declarations.gif"

@@ -16,7 +16,6 @@ import java.beans.PropertyChangeListener;
 import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
-import org.jboss.tools.cdi.ui.wizard.NewCDIAnnotationWizardPage.CheckBoxEditorWrapper;
 
 /**
  * 
