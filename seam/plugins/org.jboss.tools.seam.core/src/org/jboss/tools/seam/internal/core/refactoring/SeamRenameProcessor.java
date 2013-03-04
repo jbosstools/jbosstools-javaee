@@ -475,8 +475,8 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		}
 
 		@Override
-		protected void outOfSynch(IProject project) {
-			status.addFatalError(NLS.bind(SeamCoreMessages.SEAM_RENAME_PROCESSOR_OUT_OF_SYNC_PROJECT, project.getFullPath().toString()));
+		protected void outOfSynch(IResource resource) {
+			status.addWarning(NLS.bind(SeamCoreMessages.SEAM_RENAME_PROCESSOR_OUT_OF_SYNC_PROJECT, resource.getFullPath().toString()));
 		}
 
 		@Override

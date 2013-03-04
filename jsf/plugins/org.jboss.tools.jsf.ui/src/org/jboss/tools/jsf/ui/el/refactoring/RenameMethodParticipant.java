@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
@@ -35,6 +36,7 @@ import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.common.refactoring.FileChangeFactory;
 import org.jboss.tools.common.util.BeanUtil;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
+import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jst.web.kb.refactoring.ELProjectSetExtension;
 import org.jboss.tools.jst.web.kb.refactoring.IProjectsSet;
 import org.jboss.tools.jst.web.kb.refactoring.RefactorSearcher;
@@ -179,14 +181,20 @@ public class RenameMethodParticipant extends RenameParticipant implements IShara
 		}
 
 		@Override
-		protected void outOfSynch(IProject project){
-			status.addFatalError(NLS.bind(JsfUIMessages.RENAME_METHOD_PARTICIPANT_OUT_OF_SYNC_PROJECT, project.getFullPath().toString()));
+		protected void outOfSynch(IResource resource){
+			//status.addWarning(NLS.bind(JsfUIMessages.RENAME_METHOD_PARTICIPANT_OUT_OF_SYNC_PROJECT, project.getFullPath().toString()));
+			Exception exception= new Exception(NLS.bind(JsfUIMessages.RENAME_METHOD_PARTICIPANT_OUT_OF_SYNC_PROJECT, resource.getFullPath().toString()));
+			exception.setStackTrace(Thread.currentThread().getStackTrace());
+			JsfUiPlugin.getDefault().logError(exception);
 		}
 
 		@Override
 		protected void match(IFile file, int offset, int length) {
 			if(isFileReadOnly(file)){
-				status.addFatalError(NLS.bind(JsfUIMessages.RENAME_METHOD_PARTICIPANT_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
+				//status.addWarning(NLS.bind(JsfUIMessages.RENAME_METHOD_PARTICIPANT_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
+				Exception exception= new Exception(NLS.bind(JsfUIMessages.RENAME_METHOD_PARTICIPANT_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
+				exception.setStackTrace(Thread.currentThread().getStackTrace());
+				JsfUiPlugin.getDefault().logError(exception);
 			}else
 				change(file, offset, length, newName);
 		}
