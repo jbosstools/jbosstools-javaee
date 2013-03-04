@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
@@ -156,8 +157,8 @@ public abstract class ELRenameProcessor extends RenameProcessor {
 		}
 
 		@Override
-		protected void outOfSynch(IProject project) {
-			status.addFatalError(NLS.bind(ElCoreMessages.EL_RENAME_PROCESSOR_OUT_OF_SYNC_PROJECT, project.getFullPath().toString()));
+		protected void outOfSynch(IResource resource) {
+			status.addWarning(NLS.bind(ElCoreMessages.EL_RENAME_PROCESSOR_OUT_OF_SYNC_PROJECT, resource.getFullPath().toString()));
 		}
 		
 		protected ELInvocationExpression findComponentReference(ELInvocationExpression invocationExpression){
