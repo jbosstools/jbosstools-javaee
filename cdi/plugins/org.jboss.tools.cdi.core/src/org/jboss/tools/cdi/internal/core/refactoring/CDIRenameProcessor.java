@@ -15,6 +15,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
@@ -129,8 +130,8 @@ public abstract class CDIRenameProcessor extends AbstractCDIProcessor {
 		}
 
 		@Override
-		protected void outOfSynch(IProject project) {
-			status.addFatalError(NLS.bind(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_OUT_OF_SYNC_PROJECT, project.getFullPath().toString()));
+		protected void outOfSynch(IResource resource) {
+			status.addWarning(NLS.bind(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_OUT_OF_SYNC_PROJECT, resource.getFullPath().toString()));
 		}
 
 		@Override
