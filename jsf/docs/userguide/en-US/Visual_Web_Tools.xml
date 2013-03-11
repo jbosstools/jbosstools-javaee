@@ -102,7 +102,7 @@
             </entry>
              
             <entry>
-              Powerful and customizable visual page editor that provides the ability to develop an application using any web technology including JSF, Seam, Struts, JSP, HTML and others. Development is done using three tabs: <guilabel>Visual/Source</guilabel>, <guilabel>Source</guilabel> and <guilabel>Preview</guilabel>. Fast and easy switching between these tabs. Split screen design of visual and source views. Full and instant synchronization between source and visual views. Integration with properties and outline views. Graphical toolbar to add inline styling to any tag.
+              Powerful and customizable visual page editor that provides the ability to develop an application using any web technology including JSF, Seam, JSP, HTML and others. Development is done using three tabs: <guilabel>Visual/Source</guilabel>, <guilabel>Source</guilabel> and <guilabel>Preview</guilabel>. Fast and easy switching between these tabs. Split screen design of visual and source views. Full and instant synchronization between source and visual views. Integration with properties and outline views. Graphical toolbar to add inline styling to any tag.
             </entry>
              
             <entry>
@@ -144,7 +144,7 @@
             </entry>
              
             <entry>
-              Visualizing and displaying projects by function. Easy selecting of different kinds of items and dropping them into <filename>JSP</filename> pages. Using context menus to develop the application. Using icon shortcuts to create and import JSF and Struts projects. Expanding and inspecting tag library files. Selecting custom and third-party tag libraries to drag and drop onto the JBoss Tools Palette.
+              Visualizing and displaying projects by function. Easy selecting of different kinds of items and dropping them into <filename>JSP</filename> pages. Using context menus to develop the application. Using icon shortcuts to create and import JSF projects. Expanding and inspecting tag library files. Selecting custom and third-party tag libraries to drag and drop onto the JBoss Tools Palette.
             </entry>
              
             <entry>

@@ -24,8 +24,6 @@
 <!ENTITY jsflink "../../jsf/html_single/index.html">
 <!ENTITY jsfreflink "../../jsf_tools_ref_guide/html_single/index.html">
 <!ENTITY jsftutoriallink "../../jsf_tools_tutorial/html_single/index.html">
-<!ENTITY strutsreflink "../../struts_tools_ref_guide/html_single/index.html">
-<!ENTITY strutstutoriallink "../../struts_tools_tutorial/html_single/index.html">                          
 <!ENTITY migrationlink "../../Exadel-migration/html_single/index.html"> 
  
 ]><book xmlns:diffmk="http://diffmk.sf.net/ns/diff">
@@ -121,7 +119,7 @@
      <row>
       <entry>Visual Page Editor</entry>
       <entry><diffmk:wrapper diffmk:change="changed">Powerful and customizable visual page editor. Possibility to develop an application
-       using any web technology: jsf, seam, struts, jsp, html and others. Developing using three
+       using any web technology: jsf, seam, jsp, html and others. Developing using three
        tabs: visual/source,  source and preview. Fast and easy switching between these tabs.
        Split screen design of visual and source views. Full and instant synchronization between
        source and visual views. Integration with properties and outline views. Graphical toolbar to
@@ -157,7 +155,7 @@
       <entry>Web Projects View</entry>
       <entry>Visualizing and displaying projects by function. Easy selecting of different kinds of
        items and dropping them into jsp pages. Using context menus to develop the application. Using
-       icon shortcuts to create and import JSF and Struts projects. Expanding and inspecting tag
+       icon shortcuts to create and import JSF projects. Expanding and inspecting tag
        library files. Selecting custom and third-party tag libraries to drag and drop onto the JBoss
        Tools Palette.</entry>
       <entry>
@@ -267,9 +265,9 @@
         </keywordset>
     </chapterinfo>
     <title>Editors</title>
-    <para><diffmk:wrapper diffmk:change="changed">In the JSF Tools Reference Guide and Struts Tools Reference Guide you had possibility to
-        read about Graphical Editor for JSF and Struts configuration files, Graphical Editor for
-        Tiles Files, Graphical Editor for Struts Validation Files. All these editors have </diffmk:wrapper><link linkend="OpenOnSelection4Hyperlinknavigation">
+    <para><diffmk:wrapper diffmk:change="changed">In the JSF Tools Reference Guide Tools Reference Guide you had possibility to
+        read about Graphical Editor for JSF configuration files, Graphical Editor for
+        Tiles Files. All these editors have </diffmk:wrapper><link linkend="OpenOnSelection4Hyperlinknavigation">
             <property moreinfo="none">OpenOn</property>
         </link> and <link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
             <property moreinfo="none">Content Assist</property>
@@ -504,11 +502,6 @@
                 <listitem>
                     <para>
                         <link linkend="JSFProjectFiles3087">JSF project files</link>
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        <link linkend="StrutsProjectFile46s3">Struts project files</link>
                     </para>
                 </listitem>
                 <listitem>
@@ -933,35 +926,6 @@
                         -->
                 </section>
             </section>
-            <section id="StrutsProjectFile46s3">
-                <title>Struts Project Files</title>
-                <para>Content Assist features are available when you work with Struts
-                    projects.</para>
-                <section id="ContentAssistForStrutsConfigurationFile75">
-                    <title>Content Assist for Struts Configuration File</title>
-                    <para>Content Assist helps you in Struts Configuration file.</para>
-                    <figure float="0">
-                        <title>Struts Content Assist</title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/editors_features/editors_features_20.png"></imagedata>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
-                </section>
-                <section id="ContentAssistForStrutsJSPFile07">
-                    <title>Content Assist for Struts JSP File</title>
-                    <para>Using Code Assist in Struts JSP file is shown below.</para>
-                    <figure float="0">
-                        <title>Struts JSP Content Assist</title>
-                        <mediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/editors_features/editors_features_21.png" scale="75"></imagedata>
-                            </imageobject>
-                        </mediaobject>
-                    </figure>
-                </section>
-            </section>
             <section id="JSPPages434">
                 <title>JSP Pages</title>
                 <section id="ContentAssistForJSFTags96">
@@ -1259,7 +1223,7 @@
         <title>Visual Page Editor</title>
         <para><property moreinfo="none">JBoss Developer Studio</property> comes with a powerful and customizable
                 <property moreinfo="none">Visual Page Editor</property><diffmk:wrapper diffmk:change="changed"> (VPE). You can use the Visual Page Editor to
-            develop an application using any technology: JSF, Struts, JSP, HTML and others.
+            develop an application using any technology: JSF, JSP, HTML and others.
             Double-click on the necessary file in the Package Explorer view to open it in the Visual
             Editor or just drag-and-drop it into perspective (the drag-and-drop feature can be also
             applied to JSP, XHTML or HTML files created locally).</diffmk:wrapper></para>
@@ -1517,7 +1481,7 @@ two elements with equal id has been used, but should be used only one -->
             <section id="inline_styling">
                 <title>Inline Style Editing</title>
                 <para>In the Visual part of the <property moreinfo="none">VPE</property><diffmk:wrapper diffmk:change="changed"> there is a graphical
-                    toolbar, use it to add inline styling to JSF and Struts tags on your page. The
+                    toolbar, use it to add inline styling to JSF tags on your page. The
                     toolbar can be hidden with the help of the special button ( </diffmk:wrapper><inlinemediaobject>
                         <imageobject>
                             <imagedata fileref="images/visual_page/formatting_bar_icon.png"></imagedata>
@@ -2190,9 +2154,6 @@ two elements with equal id has been used, but should be used only one -->
                 for:</diffmk:wrapper></para>
             <itemizedlist>
                 <listitem>
-                    <para>Struts Pages</para>
-                </listitem>
-                <listitem>
                     <para>JSF Pages</para>
                 </listitem>
                 <listitem>
@@ -2819,9 +2780,6 @@ two elements with equal id has been used, but should be used only one -->
         </listitem>
         <listitem>
             <para>Oracle ADF Faces</para>
-        </listitem>
-        <listitem>
-            <para>Struts</para>
         </listitem>
         <listitem>
             <para>XHTML</para>
@@ -3768,7 +3726,7 @@ two elements with equal id has been used, but should be used only one -->
 <para>With the Web Projects view, you can:</para>
 
 <itemizedlist>
-<listitem><para>Visualize the project better because the project artifacts for JSF, Struts and Seam projects are organized and displayed by function.</para></listitem>
+<listitem><para>Visualize the project better because the project artifacts for JSF and Seam projects are organized and displayed by function.</para></listitem>
 <listitem>
     <para>Select these kinds of items to drag and drop into JSP pages:</para>
      <itemizedlist>
@@ -3781,7 +3739,7 @@ two elements with equal id has been used, but should be used only one -->
 </itemizedlist>
 </listitem>
 <listitem><para>Use context menus to develop the application (all create and edit functions are available)</para></listitem>
-<listitem><para>Use icon shortcuts to create and import JSF and Struts projects</para></listitem>
+<listitem><para>Use icon shortcuts to create and import JSF projects</para></listitem>
 <listitem><para>Expand and inspect tag library files</para></listitem>
 <listitem><para><link linkend="AddingCustomJSFTagsToTheRedHatPalette7433">Select custom and third-party tag libraries to drag and drop onto 
 the JBoss Tools Palette</link></para></listitem>
@@ -3793,7 +3751,7 @@ the JBoss Tools Palette</link></para></listitem>
 <para>The Web Projects view organizes your project in a different way. The physical structure of course stays the same. The new organization combines common project artifacts together which makes it simpler to 
 locate what you are looking for and develop.</para>
 
-<para>The screen shot below shows a JSF project  and a Struts project in Web Projects view.</para>
+<para>The screen shot below shows a JSF project in Web Projects view.</para>
 <figure float="0">
         <title>Web Projects View</title>
       <mediaobject> 
@@ -3994,10 +3952,10 @@ Simply right-click any node in the tree and select an appropriate action from th
 
     <para>Read <link linkend="AddingCustomJSFTagsToTheRedHatPalette7433">Adding Tag Libraries</link> to learn about this.</para>
 </section>
-<section id="CreateAndImportJSFAndStrutsProjects">
-<title>Create and Import JSF and Struts Projects</title>
+<section id="CreateAndImportJSFProjects">
+<title>Create and Import JSF Projects</title>
 
-<para>You can also create and import JSF and Struts project from Web Projects view by selecting the 
+<para>You can also create and import JSF project from Web Projects view by selecting the 
 buttons below.</para>
 
 <para>From left to right:</para>
@@ -4005,8 +3963,6 @@ buttons below.</para>
 <orderedlist continuation="restarts" inheritnum="ignore">
 <listitem><para>Create New JSF Project</para></listitem>
 <listitem><para>Import JSF Project</para></listitem>
-<listitem><para>Create New Struts Project</para></listitem>
-<listitem><para>Import Struts Project</para></listitem>
 </orderedlist>
 <figure float="0">
 <title>Web Projects View Buttons</title>
@@ -4102,17 +4058,6 @@ buttons below.</para>
 
         <listitem>
             <para>
-                <link linkend="Struts">Struts</link>
-            </para>
-        </listitem>
-        <listitem>
-            <para>
-                <link linkend="struts_automation">Struts Automatic</link>
-            </para>
-        </listitem>
-
-        <listitem>
-            <para>
                 <link linkend="Plug-inInsets">Plug-in Insets</link>
             </para>
         </listitem>
@@ -4121,38 +4066,6 @@ buttons below.</para>
                 <link linkend="ResourceInsets">Resource Insets</link>
             </para>
         </listitem>
-
-        <listitem>
-            <para>
-                <link linkend="StrutsCustomization">Struts Customization</link>
-            </para>
-        </listitem>
-
-
-        <listitem>
-            <para>
-                <link linkend="StrutsProject">Struts Project</link>
-            </para>
-        </listitem>
-
-        <listitem>
-            <para>
-                <link linkend="StrutsSupport">Struts Support</link>
-            </para>
-        </listitem>
-
-        <listitem>
-            <para>
-                <link linkend="StrutsPages">Struts Pages</link>
-            </para>
-        </listitem>
-
-        <listitem>
-            <para>
-                <link linkend="StrutsFlowDiagram">Struts Flow Diagram</link>
-            </para>
-        </listitem>
-
 
         <listitem>
             <para>
@@ -4909,202 +4822,6 @@ buttons below.</para>
         </figure>
         
     </section>
-    
-    
-    
-    
-
-    <section id="Struts">
-        <?dbhtml filename="Struts.html"?>
-        <title>Struts</title>
-        <para>By selecting <emphasis>
-                <property moreinfo="none">JBoss Tools &gt; Web &gt; Struts</property>
-            </emphasis> you can configure Struts projects specific preferences.</para>
-        <figure float="0">
-            <title>Struts projects preferences Page.</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/preferences/preferences_21.png"></imagedata>
-                </imageobject>
-            </mediaobject>
-        </figure>
-    </section>
-
-    <section id="struts_automation">
-        <?dbhtml filename="struts_automation.html"?>
-        <title>Struts Automation</title>
-        <para>On <emphasis>
-                <property moreinfo="none">Automation</property>
-            </emphasis> panel you can modify default text for the Title Struts plug-in element, the
-            Validator Struts plug-in element, and error message resource files.</para>
-        <figure float="0">
-            <title>Struts Automatic</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/preferences/preferences_22.png"></imagedata>
-                </imageobject>
-            </mediaobject>
-        </figure>
-    </section>
-
-    <section id="Plug-inInsets">
-        <?dbhtml filename="Plug-inInsets.html"?>
-        <title>Plug-in Insets</title>
-        <para>By selecting <emphasis>
-                <property moreinfo="none">Web &gt; Struts &gt; Automation &gt; Plug-in Insets</property>
-            </emphasis> on tab Tiles you can define a default text for tiles plugin.</para>
-        <figure float="0">
-            <title>Plug-in Insets</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/preferences/preferences_23.png"></imagedata>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <para>The same is done but for validator plugin on the tab Validators.</para>
-        <figure float="0">
-            <title>Plug-in Insets of Validators</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/preferences/preferences_24.png"></imagedata>
-                </imageobject>
-            </mediaobject>
-        </figure>
-    </section>
-
-    <section id="ResourceInsets">
-        <?dbhtml filename="ResourceInsets.html"?>
-        <title>Resource Insets</title>
-        <para>To see Resource Insets preference page select <emphasis>
-                <property moreinfo="none">JBoss Tools &gt; Web &gt; Strats &gt; Automation &gt; Resource Insets</property>
-            </emphasis>.</para>
-        <para>On <emphasis>
-                <property moreinfo="none">Resource Insets</property>
-            </emphasis> panel you determine default error messages for error resource files.</para>
-        <figure float="0">
-            <title>Resource Insets</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/preferences/preferences_25.png"></imagedata>
-                </imageobject>
-            </mediaobject>
-        </figure>
-    </section>
-
-    <section id="StrutsCustomization">
-        <?dbhtml filename="StrutsCustomization"?>
-        <title>Struts Customization</title>
-        <para>The following preferences can be changed on the <emphasis>
-                <property moreinfo="none">JBoss Tools &gt; Web &gt; Struts &gt; Customization</property>
-            </emphasis> page.</para>
-        <para>In the<emphasis>
-                <property moreinfo="none">Customization</property>
-            </emphasis> screen you configure Link Recognizer for Struts tags.</para>
-        <figure float="0">
-            <title>Struts Customization</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/preferences/preferences_26.png"></imagedata>
-                </imageobject>
-            </mediaobject>
-        </figure>
-    </section>
-
-    <section id="StrutsProject">
-        <?dbhtml filename="StrutsProject.html"?>
-        <title>Struts Project</title>
-        <para>You can change the following preferences on the <emphasis>
-                <property moreinfo="none">JBoss Tools &gt; Web &gt; Struts &gt; Project</property>
-            </emphasis> preference page:</para>
-        <para>On <emphasis>
-                <property moreinfo="none">Project</property>
-            </emphasis> panel you define a template for a new Struts created project: servlet
-            version, page template and so on.</para>
-        <figure float="0">
-            <title>Struts Project</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/preferences/preferences_27.png"></imagedata>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <para>Selecting the Import Project tab in the Struts Project screen allows you to determine
-            the default servlet version and whether to register Web Context in server.xml.</para>
-        <figure float="0">
-            <title>Import Struts Pages</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/preferences/preferences_28.png"></imagedata>
-                </imageobject>
-            </mediaobject>
-        </figure>
-    </section>
-
-    <section id="StrutsSupport">
-        <?dbhtml filename="StrutsSupport.html"?>
-        <title>Struts Support</title>
-        <para>The following preferences can be changed on the <emphasis>
-                <property moreinfo="none">JBoss Tools &gt; Web &gt; Struts &gt; Project &gt; Struts Support</property>
-            </emphasis> page.</para>
-        <para>Select <emphasis>
-                <property moreinfo="none">Struts Support</property>
-            </emphasis> screen if you want to configure Struts versions support settings.</para>
-        <figure float="0">
-            <title>Struts Support</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/preferences/preferences_29.png"></imagedata>
-                </imageobject>
-            </mediaobject>
-        </figure>
-    </section>
-
-    <section id="StrutsPages">
-        <?dbhtml filename="StrutsPages.html"?>
-        <title>Struts Pages</title>
-        <para>You can change the following preferences on the JBoss Tools &gt; Web &gt; Struts &gt; Struts
-            Pages preference page.</para>
-        <para>On <emphasis>
-                <property moreinfo="none">Struts Pages</property>
-            </emphasis> panel you can add or remove Struts pages.</para>
-        <figure float="0">
-            <title>Struts Pages</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/preferences/preferences_30.png"></imagedata>
-                </imageobject>
-            </mediaobject>
-        </figure>
-    </section>
-
-    <section id="StrutsFlowDiagram">
-        <?dbhtml filename="StrutsFlowDiagram.html"?>
-        <title>Struts Flow Diagram</title>
-        <para>Similarly to the JSF Flow Diagram screen, selecting <emphasis>
-                <property moreinfo="none">JBoss Tools &gt; Web &gt; Editor &gt; Struts Flow Diagram</property>
-            </emphasis> page allows you to specify aspects of the Diagram mode of the Struts
-            configuration file editor. The Struts Flow Diagram screen adds an option to hide the
-            Diagram tab and labeling settings for additional artifacts. </para>
-        <figure float="0">
-            <title>Struts Flow Diagram</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/preferences/preferences_31.png"></imagedata>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <para>Selecting the Add Page tab in the Struts Flow Diagram screen allows you to determine
-            the default template and file extension for views (pages) you add directly into the
-            diagram using a context menu or the view-adding mode of the diagram cursor.</para>
-        <figure float="0">
-            <title>Adding Page</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/preferences/preferences_32.png"></imagedata>
-                </imageobject>
-            </mediaobject>
-        </figure>
-    </section>
 
     <section id="tiles_diagram">
         <?dbhtml filename="titles_diagram.html"?>
@@ -5131,7 +4848,7 @@ buttons below.</para>
             </emphasis> page.</para>
         <para>On Rules Configuration tab of <emphasis>
                 <property moreinfo="none">Verification</property>
-            </emphasis> panel you can determine JSF and Struts rules.</para>
+            </emphasis> panel you can determine JSF rules.</para>
         <figure float="0">
             <title>Verification</title>
             <mediaobject>
@@ -5336,14 +5053,14 @@ buttons below.</para>
         <?dbhtml filename="ChangingDefaultEnvironmentDuringProjectCreation.html"?>
         <title>Changing Default Environment During Project Creation</title>
 
-        <para>To change the default environment and project template for either JSF or Struts new
+        <para>To change the default environment and project template for either JSF new
             project creation:</para>
 
         <orderedlist>
             <listitem>
                 <para>Select<emphasis>
                         <property> Window &gt; Preferences &gt; JBoss Tools &gt; Web
-                            &gt; {JSF or Struts} &gt; Project</property>
+                            &gt; {JSF} &gt; Project</property>
                     </emphasis></para>
             </listitem>
             <listitem>
@@ -5368,13 +5085,13 @@ buttons below.</para>
         <?dbhtml filename="ChangingDefaultEnvironmentDuringProjectCreation.html"?>
         <title>Changing Default Project Template During Project Creation</title>
 
-        <para>To change the default project template for either JSF or Struts new project
+        <para>To change the default project template for either JSF new project
             creation:</para>
 
         <orderedlist>
             <listitem>
                 <para>Select<emphasis>
-                        <property> Window > Preferences > JBoss Tools > Web > {JSF or Struts} >
+                        <property> Window > Preferences > JBoss Tools > Web > {JSF} >
                             Project</property>
                     </emphasis></para>
             </listitem>
@@ -5412,22 +5129,12 @@ buttons below.</para>
 
     <itemizedlist>
         <listitem>
-            <para>Add/Remove Struts Capabilities</para>
-        </listitem>
-        <listitem>
             <para>Add/Remove JSF Capabilities</para>
         </listitem>
         <listitem>
             <para>Add Custom Capabilities</para>
         </listitem>
     </itemizedlist>
-
-    <section id="add_remove_struts_cap">
-        <title>Add/Remove Struts Capabilities</title>
-
-        <para>Please, for details refer to the Struts
-                Tools Reference Guide.</para>
-    </section>
 
     <section id="add_remove_jsf_cap">
         <title>Add/Remove JSF Capabilities</title>
@@ -5439,7 +5146,7 @@ buttons below.</para>
     <section id="add_custom_cap">
         <title>Add Custom Capabilities</title>
 
-        <para>You can add custom capabilities to any JSF, Struts or Seam project made within
+        <para>You can add custom capabilities to any JSF or Seam project made within
                 <property moreinfo="none">JBDS</property>, i.e. add a support of additional frameworks built on top
             of JSF, such as </para>
 

@@ -20,8 +20,6 @@
 <!ENTITY jsflink "../../jsf/html_single/index.html">
 <!ENTITY jsfreflink "../../jsf_tools_ref_guide/html_single/index.html">
 <!ENTITY jsftutoriallink "../../jsf_tools_tutorial/html_single/index.html">
-<!ENTITY strutsreflink "../../struts_tools_ref_guide/html_single/index.html">
-<!ENTITY strutstutoriallink "../../struts_tools_tutorial/html_single/index.html"> 
 
 ]><book xmlns:diffmk="http://diffmk.sf.net/ns/diff">
     
@@ -57,7 +55,7 @@
 <abstract>
    <title></title>
        <para>
-           <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf_tools_tutorial/pdf/Struts_Tools_Tutorial.pdf">PDF version</ulink>
+           <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf_tools_tutorial/pdf/JSF_Tools_Tutorial.pdf">PDF version</ulink>
        </para>
 </abstract>
 
