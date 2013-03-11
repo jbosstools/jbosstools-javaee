@@ -13,12 +13,6 @@
   <itemizedlist>
     <listitem>
       <para>
-        Add/Remove Struts Capabilities
-      </para>
-    </listitem>
-     
-    <listitem>
-      <para>
         Add/Remove JSF Capabilities
       </para>
     </listitem>
@@ -30,13 +24,6 @@
     </listitem>
   </itemizedlist>
    
-  <section id="add_remove_struts_cap">
-    <title>Add/Remove Struts Capabilities</title> 
-    <para>
-      Please, for details refer to the Struts Tools Reference Guide.
-    </para>
-  </section>
-   
   <section id="add_remove_jsf_cap">
     <title>Add/Remove JSF Capabilities</title> 
     <para>
@@ -47,7 +34,7 @@
   <section id="add_custom_cap">
     <title>Add Custom Capabilities</title> 
     <para>
-      You can add custom capabilities to any JSF, Struts or Seam project made within <property>JBDS</property>, i.e. add a support of additional frameworks built on top of JSF, such as
+      You can add custom capabilities to any JSF or Seam project made within <property>JBDS</property>, i.e. add a support of additional frameworks built on top of JSF, such as
     </para>
      
     <itemizedlist>
