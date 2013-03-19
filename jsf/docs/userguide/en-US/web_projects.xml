@@ -17,7 +17,7 @@
   <itemizedlist>
     <listitem>
       <para>
-        Visualize the project better because the project artifacts for JSF, Struts and Seam projects are organized and displayed by function.
+        Visualize the project better because the project artifacts for JSF and Seam projects are organized and displayed by function.
       </para>
     </listitem>
      
@@ -73,7 +73,7 @@
      
     <listitem>
       <para>
-        Use icon shortcuts to create and import JSF and Struts projects
+        Use icon shortcuts to create and import JSF projects
       </para>
     </listitem>
      
@@ -97,7 +97,7 @@
     </para>
      
     <para>
-      The screen shot below shows a JSF project and a Struts project in <guilabel>Web Projects</guilabel> view.
+      The screen shot below shows a JSF project in <guilabel>Web Projects</guilabel> view.
     </para>
      
     <figure>
@@ -352,10 +352,10 @@
     </para>
   </section>
    
-  <section id="CreateAndImportJSFAndStrutsProjects">
-    <title>Create and Import JSF and Struts Projects</title> 
+  <section id="CreateAndImportJSFProjects">
+    <title>Create and Import JSF Projects</title> 
     <para>
-      You can also create and import JSF and Struts project from Web Projects view by selecting the buttons below.
+      You can also create and import JSF project from Web Projects view by selecting the buttons below.
     </para>
      
     <para>
@@ -374,20 +374,8 @@
           Import JSF Project
         </para>
       </listitem>
-       
-      <listitem>
-        <para>
-          Create New Struts Project
-        </para>
-      </listitem>
-       
-      <listitem>
-        <para>
-          Import Struts Project
-        </para>
-      </listitem>
     </orderedlist>
-     
+
     <figure>
       <title>Web Projects View Buttons</title> 
       <mediaobject>

@@ -12,7 +12,7 @@
   </chapterinfo>
    <title>Editors</title> 
   <para>
-    In the JSF Tools Reference Guide and Struts Tools Reference Guide you may have read about the Graphical Editors for JSF and Struts configuration files, Tiles Files, and Struts Validation Files. All these editors have OpenOn (see <xref linkend="OpenOnSelection4Hyperlinknavigation"/>) and Code Assist (see <xref linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData"/>) features, which are described in more detail in this document. In addition, this document will cover the Visual Page Editor (see <xref linkend="visual_page"/>), which provides combined visual and source editing of Web pages, as well as a number of additional editors (see <xref linkend="more_editors"/>) for different types of files.
+    In the JSF Tools Reference Guide you may have read about the Graphical Editors for JSF configuration files and Tiles Files. All these editors have OpenOn (see <xref linkend="OpenOnSelection4Hyperlinknavigation"/>) and Code Assist (see <xref linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData"/>) features, which are described in more detail in this document. In addition, this document will cover the Visual Page Editor (see <xref linkend="visual_page"/>), which provides combined visual and source editing of Web pages, as well as a number of additional editors (see <xref linkend="more_editors"/>) for different types of files.
   </para>
    
   <section id="editors_features">
@@ -326,12 +326,6 @@
         <listitem>
           <para>
             <xref linkend="JSFProjectFiles3087"/>
-          </para>
-        </listitem>
-         
-        <listitem>
-          <para>
-            <xref linkend="StrutsProjectFile46s3"/>
           </para>
         </listitem>
          
@@ -886,45 +880,6 @@
         </section>
       </section>
        
-      <section id="StrutsProjectFile46s3">
-        <title>Struts Project Files</title> 
-        <para>
-          Content Assist features are available when you work with Struts projects.
-        </para>
-         
-        <section id="ContentAssistForStrutsConfigurationFile75">
-          <title>Content Assist for Struts Configuration File</title> 
-          <para>
-            Content Assist helps you edit Struts Configuration files.
-          </para>
-           
-          <figure>
-            <title>Struts Content Assist</title> 
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="images/editors_features/editors_features_20.png" />
-              </imageobject>
-            </mediaobject>
-          </figure>
-        </section>
-         
-        <section id="ContentAssistForStrutsJSPFile07">
-          <title>Content Assist for Struts JSP File</title> 
-          <para>
-            The image below shows Code Assist being used in a Struts <filename>JSP</filename> file.
-          </para>
-           
-          <figure>
-            <title>Struts JSP Content Assist</title> 
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="images/editors_features/editors_features_21.png" scale="75"/>
-              </imageobject>
-            </mediaobject>
-          </figure>
-        </section>
-      </section>
-       
       <section id="JSPPages434">
         <title>JSP Pages</title> 
         <section id="ContentAssistForJSFTags96">
@@ -1298,7 +1253,7 @@
   <section id="visual_page" role="updated">
     <title>Visual Page Editor</title> 
     <para>
-      JBoss Developer Studio comes with a powerful and customizable Visual Page Editor (VPE). You can use the Visual Page Editor to develop an application using any technology such as JSF, Struts, JSP, HTML and more. Double-click on a file in the <guilabel>Package Explorer</guilabel> view to open it in the Visual Editor, or just drag-and-drop it into perspective (the drag-and-drop feature can be also applied to <filename>JSP</filename>, <filename>XHTML</filename> or <filename>HTML</filename> files created locally).
+      JBoss Developer Studio comes with a powerful and customizable Visual Page Editor (VPE). You can use the Visual Page Editor to develop an application using any technology such as JSF, JSP, HTML and more. Double-click on a file in the <guilabel>Package Explorer</guilabel> view to open it in the Visual Editor, or just drag-and-drop it into perspective (the drag-and-drop feature can be also applied to <filename>JSP</filename>, <filename>XHTML</filename> or <filename>HTML</filename> files created locally).
     </para>
      
     <para>
@@ -1651,7 +1606,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="inline_styling">
         <title>Text Formatting</title> 
         <para>
-          In the <guilabel>Visual</guilabel> part of the Visual Page Editor there is a graphical toolbar, which is used to add inline styling to JSF and Struts tags on your page. The toolbar can be hidden with the help of the special button ( 
+          In the <guilabel>Visual</guilabel> part of the Visual Page Editor there is a graphical toolbar, which is used to add inline styling to JSF tags on your page. The toolbar can be hidden with the help of the special button ( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/visual_page/formatting_bar_icon.png"/>
@@ -2571,12 +2526,6 @@ two elements with equal id has been used, but should be used only one -->
       </para>
        
       <itemizedlist>
-        <listitem>
-          <para>
-            Struts Pages
-          </para>
-        </listitem>
-         
         <listitem>
           <para>
             JSF Pages

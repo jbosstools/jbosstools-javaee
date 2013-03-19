@@ -296,7 +296,7 @@
 			A template is a set of files that is provided as a basis when creating a new project. Project templates provide content and structure for a project.
 		</para>
 		<para>
-			JSF Tools provides powerful template capabilities which allow you to create new templates and import existing Struts and JSF projects. This templating facility has a variety of aspects to consider. Let&apos;s start with the most straightforward case and consider the process of creating a template from your existing JSF project.
+			JSF Tools provides powerful template capabilities which allow you to create new templates and import existing JSF projects. This templating facility has a variety of aspects to consider. Let&apos;s start with the most straightforward case and consider the process of creating a template from your existing JSF project.
 		</para>
 
 		<para>
