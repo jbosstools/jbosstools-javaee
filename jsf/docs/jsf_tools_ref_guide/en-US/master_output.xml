@@ -21,8 +21,6 @@
 <!ENTITY jsflink "../../jsf/html_single/index.html">
 <!ENTITY jsfreflink "../../jsf_tools_ref_guide/html_single/index.html">
 <!ENTITY jsftutoriallink "../../jsf_tools_tutorial/html_single/index.html">
-<!ENTITY strutsreflink "../../struts_tools_ref_guide/html_single/index.html">
-<!ENTITY strutstutoriallink "../../struts_tools_tutorial/html_single/index.html">   
 <!ENTITY migrationlink "../../Exadel-migration/html_single/index.html">                      
 
 
@@ -794,7 +792,7 @@
                         creation of a new project. Project templates provide content and structure
                         for a project.</para>
                 <para>There is a powerful templating capability for creating new and importing
-                        existing Struts and JSF projects. This templating facility has a variety of
+                        existing JSF projects. This templating facility has a variety of
                         aspects to consider. But, let's start with the most straightforward
                         case and consider the process of creating a template from your existing JSF
                         project.</para>
@@ -1876,7 +1874,7 @@
 </chapter>
     
 <chapter id="jsf_project_verification" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/jsf/docs/jsf_tools_ref_guide/en-US/jsf_project_verification.xml">
-    <?dbhtml filename="struts_project_verification.html"?>
+    <?dbhtml filename="jsf_project_verification.html"?>
 
     <chapterinfo>
         <keywordset>
