@@ -23,6 +23,7 @@ import org.jboss.tools.jsf.jsp.ca.test.CAELInsideTagBodyInJspFileTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForCompositeComponentTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForELJavaAndJSTCompareTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForELinStyleTest;
+import org.jboss.tools.jsf.jsp.ca.test.CAForFaceletTaglibInJSFImplJarTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForIDTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForInputTagSrcAttributeSuggestsFilePathsJBIDE1807Test;
 import org.jboss.tools.jsf.jsp.ca.test.CAForJSF2BeanMapValuesTest;
@@ -64,6 +65,7 @@ public class JsfUiAllTests {
 		suite.addTestSuite(NewJSFProjectTest.class);
 		suite.addTestSuite(CAForUnclosedELTest.class);
 		suite.addTestSuite(CAForCompositeComponentTest.class);
+		suite.addTestSuite(CAForFaceletTaglibInJSFImplJarTest.class);
 		suite.addTestSuite(CAForJSF2BeansTest.class);
 		suite.addTestSuite(CAForJSF2BeanMapValuesTest.class); 
 		suite.addTestSuite(CAForJSF2BeansInJavaTest.class);
