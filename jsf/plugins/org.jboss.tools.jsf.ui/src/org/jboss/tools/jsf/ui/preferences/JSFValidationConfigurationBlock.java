@@ -37,6 +37,15 @@ public class JSFValidationConfigurationBlock extends SeverityConfigurationBlock 
 		JSFModelPlugin.PLUGIN_ID
 	);
 
+	private static SectionDescription SECTION_TAGLIBS = new SectionDescription(
+			JSFSeverityPreferencesMessages.JSFValidationConfigurationBlock_section_taglib,
+			new String[][]{
+				{JSFSeverityPreferences.UNKNOWN_TAGLIB_COMPONENT, JSFSeverityPreferencesMessages.JSFValidationConfigurationBlock_pb_unknownTaglibComponent_label},
+				{JSFSeverityPreferences.UNKNOWN_TAGLIB_ATTRIBUTE, JSFSeverityPreferencesMessages.JSFValidationConfigurationBlock_pb_unknownTaglibAttribute_label},
+			},
+			JSFModelPlugin.PLUGIN_ID
+		);
+
 	//Faces Config
 	
 	private static SectionDescription SECTION_APPLICATION = new SectionDescription(
@@ -153,6 +162,7 @@ public class JSFValidationConfigurationBlock extends SeverityConfigurationBlock 
 
 	public static SectionDescription[] ALL_SECTIONS = new SectionDescription[] {
 		SECTION_COMPOSITE_COMPONENTS,
+		SECTION_TAGLIBS,
 		SECTION_FACES_CONFIG
 	};
 
