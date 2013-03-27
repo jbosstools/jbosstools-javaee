@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007-2012 Red Hat, Inc.
+ * Copyright (c) 2007-2013 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -57,12 +57,12 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 	}
 
 	public void testPropertyInBrackets() throws CoreException, ValidationException {
-		assertMarkerIsCreatedForLine(
+		MarkerAssertUtil.assertMarkerIsCreatedForLine(project,
 				"WebContent/pages/inputname.jsp",
 				ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 				new Object[] {"'age1'"},
 				20);
-		assertMarkerIsNotCreatedForLine(
+		MarkerAssertUtil.assertMarkerIsNotCreatedForLine(project,
 				"WebContent/pages/inputname.jsp",
 				ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 				new Object[] {"'age'"},
@@ -77,7 +77,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 		try {
 			copyContentsFile("WebContent/WEB-INF/faces-config.xml", "WebContent/WEB-INF/faces-config.1");
 
-			assertMarkerIsCreatedForLine(
+			MarkerAssertUtil.assertMarkerIsCreatedForLine(project,
 					"WebContent/testElRevalidation.xhtml",
 					ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 					new Object[] {"user"},
@@ -86,7 +86,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 			// Check if the validator was not invoked.
 			copyContentsFile("WebContent/WEB-INF/faces-config.xml", "WebContent/WEB-INF/faces-config.original");
 
-			assertMarkerIsNotCreatedForLine(
+			MarkerAssertUtil.assertMarkerIsNotCreatedForLine(project,
 					"WebContent/testElRevalidation.xhtml",
 					ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 					new Object[] {"user"},
@@ -106,7 +106,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 		try {
 			copyContentsFile("WebContent/WEB-INF/faces-config.xml", "WebContent/WEB-INF/faces-config.1");
 
-			assertMarkerIsCreatedForLine(
+			MarkerAssertUtil.assertMarkerIsCreatedForLine(project,
 					"WebContent/testElRevalidation.xhtml",
 					ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 					new Object[] {"user"},
@@ -115,7 +115,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 			IFile file = project.getFile("WebContent/testElRevalidation.xhtml");
 			file.deleteMarkers(EL_VALIDATOR_MARKER_TYPE, true, IResource.DEPTH_ZERO);
 
-			assertMarkerIsNotCreatedForLine(
+			MarkerAssertUtil.assertMarkerIsNotCreatedForLine(project,
 					"WebContent/testElRevalidation.xhtml",
 					ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 					new Object[] {"user"},
@@ -127,7 +127,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 			file = project.getFile("WebContent/WEB-INF/faces-config.xml");
 			ValidationFramework.getDefault().validate(file, new NullProgressMonitor());
 
-			assertMarkerIsNotCreatedForLine(
+			MarkerAssertUtil.assertMarkerIsNotCreatedForLine(project,
 					"WebContent/testElRevalidation.xhtml",
 					ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 					new Object[] {"user"},
@@ -177,12 +177,12 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 		store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, ELSeverityPreferences.ERROR);
 
 		try {
-			assertMarkerIsCreatedForLine(
+			MarkerAssertUtil.assertMarkerIsCreatedForLine(project,
 					"WebContent/pages/maxNumberOfMarkers.jsp",
 					ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
 					new Object[] {"wrongUserName"},
 					3);
-			assertMarkerIsNotCreatedForLine(
+			MarkerAssertUtil.assertMarkerIsNotCreatedForLine(project,
 					"WebContent/pages/maxNumberOfMarkers.jsp",
 					ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
 					new Object[] {"wrongUserName2"},
@@ -190,12 +190,12 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 
 			store.setValue(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME, max);
 
-			assertMarkerIsCreatedForLine(
+			MarkerAssertUtil.assertMarkerIsCreatedForLine(project,
 					"WebContent/pages/maxNumberOfMarkers.jsp",
 					ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
 					new Object[] {"wrongUserName"},
 					3);
-			assertMarkerIsCreatedForLine(
+			MarkerAssertUtil.assertMarkerIsCreatedForLine(project,
 					"WebContent/pages/maxNumberOfMarkers.jsp",
 					ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
 					new Object[] {"wrongUserName2"},
@@ -377,47 +377,4 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 		return helper;
 	}
 
-	private void assertMarkerIsCreatedForLine(String fileName, String template, Object[] parameters, int lineNumber) throws CoreException{
-		assertMarkerIsCreatedForLine(fileName, template, parameters, lineNumber, true);
-	}
-
-	private void assertMarkerIsCreatedForLine(String fileName, String template, Object[] parameters, int lineNumber, boolean validate) throws CoreException{
-		String messagePattern = MessageFormat.format(template, parameters);
-		IFile file = project.getFile(fileName);
-
-		if(validate) {
-			ValidationFramework.getDefault().validate(file, new NullProgressMonitor());
-		}
-
-		IMarker[] markers = file.findMarkers(null, true, IResource.DEPTH_INFINITE);
-		for (int i = 0; i < markers.length; i++) {
-			String message = markers[i].getAttribute(IMarker.MESSAGE, ""); //$NON-NLS-1$
-			int line = markers[i].getAttribute(IMarker.LINE_NUMBER, -1); //$NON-NLS-1$
-			if(message.equals(messagePattern) && line == lineNumber)
-				return;
-		}
-		fail("Marker "+messagePattern+" for line - "+lineNumber+" not found");
-	}
-
-	private void assertMarkerIsNotCreatedForLine(String fileName, String template, Object[] parameters, int lineNumber) throws CoreException{
-		assertMarkerIsNotCreatedForLine(fileName, template, parameters, lineNumber, true);
-	}
-
-	private void assertMarkerIsNotCreatedForLine(String fileName, String template, Object[] parameters, int lineNumber, boolean validate) throws CoreException{
-		String messagePattern = MessageFormat.format(template, parameters);
-		IFile file = project.getFile(fileName);
-
-		if(validate) {
-			ValidationFramework.getDefault().validate(file, new NullProgressMonitor());
-		}
-
-		IMarker[] markers = file.findMarkers(null, true, IResource.DEPTH_INFINITE);
-		for (int i = 0; i < markers.length; i++) {
-			String message = markers[i].getAttribute(IMarker.MESSAGE, ""); //$NON-NLS-1$
-			int line = markers[i].getAttribute(IMarker.LINE_NUMBER, -1); //$NON-NLS-1$
-			if(message.equals(messagePattern) && line == lineNumber){
-				fail("Marker "+messagePattern+" for line - "+lineNumber+" has been found");
-			}
-		}
-	}
 }

@@ -30,6 +30,7 @@ import org.jboss.tools.jsf.test.validation.FacesConfigValidatorTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsInClassFolderTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsValidatorTest;
 import org.jboss.tools.jsf.test.validation.ParameterizedClassValidationTest;
+import org.jboss.tools.jsf.test.validation.StrictTaglibValidatorTest;
 import org.jboss.tools.jsf.test.validation.VarAttributesTest;
 import org.jboss.tools.jsf.test.validation.WTPValidationTest;
 import org.jboss.tools.jsf.test.validation.WebContentTest;
@@ -66,7 +67,8 @@ public class JsfAllTests {
 				ELValidatorTest.class,
 				ELVariableRefactoringTest.class,
 				MethodRefactoringTest.class,
-				MessagePropertyRefactoringTest.class
+				MessagePropertyRefactoringTest.class,
+				StrictTaglibValidatorTest.class
 				),
 				"org.jboss.tools.jsf.test", "projects/JSFKickStartOldFormat", //$NON-NLS-1$ //$NON-NLS-2$
 				"JSFKickStartOldFormat")); //$NON-NLS-1$

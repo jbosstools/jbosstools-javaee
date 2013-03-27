@@ -25,10 +25,15 @@ public class JSFSeverityPreferencesMessages extends NLS {
 	//Validation Preference page
 	public static String JSFValidationConfigurationBlock_common_description;
 	
-	//Expression Language
+	//Composite Components
 	public static String JSFValidationConfigurationBlock_section_composite_components;
 	public static String JSFValidationConfigurationBlock_pb_unknownComponent_label;
 	public static String JSFValidationConfigurationBlock_pb_unknownAttribute_label;
+
+	//Strict taglib validation
+	public static String JSFValidationConfigurationBlock_section_taglib;
+	public static String JSFValidationConfigurationBlock_pb_unknownTaglibComponent_label;
+	public static String JSFValidationConfigurationBlock_pb_unknownTaglibAttribute_label;
 
 	//Faces Config
 	public static String JSFValidationConfigurationBlock_section_faces_config;
