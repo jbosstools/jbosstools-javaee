@@ -122,4 +122,10 @@ public class JSFSeverityPreferences extends SeverityPreferences {
 		return !(SeverityPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, UNKNOWN_TAGLIB_COMPONENT)) &&
 				SeverityPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, UNKNOWN_TAGLIB_ATTRIBUTE)));
 	}
+	public static boolean shouldValidateTagLibTags(IProject project) {
+		return !SeverityPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, UNKNOWN_TAGLIB_COMPONENT));
+	}
+	public static boolean shouldValidateTagLibTagAttributes(IProject project) {
+		return !SeverityPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, UNKNOWN_TAGLIB_ATTRIBUTE));
+	}
 }
