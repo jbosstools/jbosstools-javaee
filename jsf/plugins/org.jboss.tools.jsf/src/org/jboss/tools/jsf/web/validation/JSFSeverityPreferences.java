@@ -32,6 +32,10 @@ public class JSFSeverityPreferences extends SeverityPreferences {
 	// Mark attribute which can't be found.
 	public static final String UNKNOWN_COMPOSITE_COMPONENT_ATTRIBUTE = INSTANCE.createSeverityOption("unknownAttribute"); //$NON-NLS-1$
 
+	// Strict taglib validation
+	public static final String UNKNOWN_TAGLIB_COMPONENT = INSTANCE.createSeverityOption("unknownTaglibComponent"); //$NON-NLS-1$
+	public static final String UNKNOWN_TAGLIB_ATTRIBUTE = INSTANCE.createSeverityOption("unknownTaglibAttribute"); //$NON-NLS-1$
+
 	//Faces Config
 		//Application
 	public static final String INVALID_ACTION_LISTENER = INSTANCE.createSeverityOption("invalidActionListener"); //$NON-NLS-1$
@@ -114,8 +118,14 @@ public class JSFSeverityPreferences extends SeverityPreferences {
 		return INSTANCE.getMaxNumberOfProblemMarkersPerResource(project);
 	}
 
-	public static boolean shouldValidateEL(IProject project) {
-		return !(SeverityPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, UNKNOWN_COMPOSITE_COMPONENT_NAME)) &&
-				SeverityPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, UNKNOWN_COMPOSITE_COMPONENT_ATTRIBUTE)));
+	public static boolean shouldValidateTagLibs(IProject project) {
+		return !(SeverityPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, UNKNOWN_TAGLIB_COMPONENT)) &&
+				SeverityPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, UNKNOWN_TAGLIB_ATTRIBUTE)));
+	}
+	public static boolean shouldValidateTagLibTags(IProject project) {
+		return !SeverityPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, UNKNOWN_TAGLIB_COMPONENT));
+	}
+	public static boolean shouldValidateTagLibTagAttributes(IProject project) {
+		return !SeverityPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, UNKNOWN_TAGLIB_ATTRIBUTE));
 	}
 }

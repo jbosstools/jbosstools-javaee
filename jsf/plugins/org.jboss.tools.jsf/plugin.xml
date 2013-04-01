@@ -497,6 +497,13 @@
       </persistent>
    </extension>
 
+   <extension id="taglibproblem" name="%TaglibProblemName" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.common.validation.JBTValidationProblem">
+      </super>
+      <persistent value="true">
+      </persistent>
+   </extension>
+
    <extension id="facesconfigproblem" name="%FacesConfigProblemName" point="org.eclipse.core.resources.markers">
       <super type="org.jboss.tools.common.validation.JBTValidationProblem">
       </super>
@@ -519,6 +526,17 @@
                name="%ComponentCompositeValidator"
                id="org.jboss.tools.jsf.CompositeComponentValidator"
                problemType="org.jboss.tools.jsf.compositeproblem">
+         </validator>
+   </extension>
+
+   <extension
+   		 id="TaglibValidator"
+         point="org.jboss.tools.common.validation.validator">
+         <validator
+               class="org.jboss.tools.jsf.web.validation.StrictTaglibValidator"
+               name="%TaglibValidator"
+               id="org.jboss.tools.jsf.StrictTagLibValidator"
+               problemType="org.jboss.tools.jsf.taglibproblem">
          </validator>
    </extension>
 
