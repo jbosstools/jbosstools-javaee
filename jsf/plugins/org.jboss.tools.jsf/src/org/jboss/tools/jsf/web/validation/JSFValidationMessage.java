@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2011-2013 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.jsf.web.validation;
 
 import org.eclipse.osgi.util.NLS;
@@ -8,6 +18,9 @@ public class JSFValidationMessage {
 
 	public static String UNKNOWN_COMPOSITE_COMPONENT_NAME;
 	public static String UNKNOWN_COMPOSITE_COMPONENT_ATTRIBUTE;
+
+	public static String UNKNOWN_TAGLIB_COMPONENT_NAME;
+	public static String UNKNOWN_TAGLIB_COMPONENT_ATTRIBUTE;
 
 	public static String SEARCHING_RESOURCES;
 	public static String VALIDATING_RESOURCE;

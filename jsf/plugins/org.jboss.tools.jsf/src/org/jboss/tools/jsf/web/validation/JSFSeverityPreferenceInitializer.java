@@ -33,6 +33,8 @@ public class JSFSeverityPreferenceInitializer extends AbstractPreferenceInitiali
 		for (String name : JSFSeverityPreferences.SEVERITY_OPTION_NAMES) {
 			defaultPreferences.put(name, SeverityPreferences.WARNING);
 		}
+		defaultPreferences.put(JSFSeverityPreferences.UNKNOWN_TAGLIB_COMPONENT, SeverityPreferences.IGNORE);
+		defaultPreferences.put(JSFSeverityPreferences.UNKNOWN_TAGLIB_ATTRIBUTE, SeverityPreferences.IGNORE);
 		defaultPreferences.putInt(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME, SeverityPreferences.DEFAULT_MAX_NUMBER_OF_MARKERS_PER_FILE);
 	}
 }

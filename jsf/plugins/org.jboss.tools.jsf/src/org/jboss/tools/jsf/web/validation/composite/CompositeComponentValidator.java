@@ -387,7 +387,7 @@ public class CompositeComponentValidator extends WebValidator {
 		PreferenceInfoManager.register(getProblemType(), new CompositeComponentPreferenceInfo());
 	}
 	
-	class CompositeComponentPreferenceInfo implements IPreferenceInfo{
+	public static class CompositeComponentPreferenceInfo implements IPreferenceInfo{
 
 		@Override
 		public String getPreferencePageId() {
