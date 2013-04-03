@@ -11,13 +11,23 @@
 package org.jboss.tools.runtime.handlers;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.jboss.tools.runtime.core.JBossRuntimeLocator;
+import org.jboss.tools.runtime.core.RuntimeCoreActivator;
+import org.jboss.tools.runtime.core.internal.RuntimeDetector;
 import org.jboss.tools.runtime.core.model.AbstractRuntimeDetectorDelegate;
+import org.jboss.tools.runtime.core.model.IRuntimeDetector;
+import org.jboss.tools.runtime.core.model.IRuntimeDetectorDelegate;
 import org.jboss.tools.runtime.core.model.RuntimeDefinition;
 import org.jboss.tools.runtime.core.util.RuntimeJarUtil;
 import org.jboss.tools.seam.core.SeamUtil;
@@ -27,9 +37,9 @@ import org.jboss.tools.seam.core.project.facet.SeamVersion;
 
 public class SeamHandler extends AbstractRuntimeDetectorDelegate {
 
-	private final static String seamJarName = "jboss-seam.jar";
-	private final static String seamVersionAttributeName = "Seam-Version";
-	private static final String SEAM = "SEAM"; // NON-NLS-1$
+	private final static String seamJarName = "jboss-seam.jar"; //$NON-NLS-1$
+	private final static String seamVersionAttributeName = "Seam-Version"; //$NON-NLS-1$
+	private static final String SEAM = "SEAM";  //$NON-NLS-1$
 	
 	private static File getSeamRoot(RuntimeDefinition runtimeDefinition) {
 		String type = runtimeDefinition.getType();
@@ -133,10 +143,10 @@ public class SeamHandler extends AbstractRuntimeDetectorDelegate {
 		String[] seamFiles = seamHomeFolder.list(new FilenameFilter() {
 			
 			public boolean accept(File dir, String name) {
-				if ("seam-gen".equals(name)) {
+				if ("seam-gen".equals(name)) { //$NON-NLS-1$
 					return true;
 				}
-				if ("lib".equals(name)) {
+				if ("lib".equals(name)) { //$NON-NLS-1$
 					return true;
 				}
 				return false;
@@ -145,7 +155,7 @@ public class SeamHandler extends AbstractRuntimeDetectorDelegate {
 		if (seamFiles == null || seamFiles.length != 2) {
 			return null;
 		}
-		File jarFile = new File(seamHome, "lib/" + seamJarName);
+		File jarFile = new File(seamHome, "lib/" + seamJarName); //$NON-NLS-1$
 		if(!jarFile.isFile()) {
 			jarFile = new File(seamHome, seamJarName);
 			if(!jarFile.isFile()) {
@@ -169,9 +179,63 @@ public class SeamHandler extends AbstractRuntimeDetectorDelegate {
 		return seamExists(path);
 	}
 
+	private static File getLocation(RuntimeDefinition runtimeDefinitions) {
+		String type = runtimeDefinitions.getType();
+		String version = runtimeDefinitions.getVersion();
+		if ("EAP".equals(type) && version != null && version.startsWith("6") ) {//$NON-NLS-1$ //$NON-NLS-2$
+			return runtimeDefinitions.getLocation();
+		}
+		if ("SOA_P".equals(type) || "EAP".equals(type) || "EPP".equals(type)) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			return new File(runtimeDefinitions.getLocation(), "jboss-as");//$NON-NLS-1$
+		}
+		if ("SOA_P_STD".equals(type)) { //$NON-NLS-1$
+			return new File(runtimeDefinitions.getLocation(),"jboss-esb"); //$NON-NLS-1$					
+		}
+		if("EWP".equals(type)) { //$NON-NLS-1$
+				return new File(runtimeDefinitions.getLocation(),"jboss-as-web"); //$NON-NLS-1$
+		}
+		if ("AS".equals(type) || "EAP_STD".equals(type)) {  //$NON-NLS-1$//$NON-NLS-2$
+			return runtimeDefinitions.getLocation();
+		}
+		return null;
+	}
 	@Override
 	public void computeIncludedRuntimeDefinition(
 			RuntimeDefinition runtimeDefinition) {
+		runtimeDefinition.getIncludedRuntimeDefinitions().clear();
+		List<RuntimeDefinition> runtimeDefinitions = runtimeDefinition
+				.getIncludedRuntimeDefinitions();
+		
+		final File location = getLocation(runtimeDefinition);
+		File[] directories = runtimeDefinition.getLocation().listFiles(
+				new FileFilter() {
+					public boolean accept(File file) {
+						if (!file.isDirectory() || file.equals(location)) {
+							return false;
+						}
+						return true;
+					}
+				});
+		List<RuntimeDefinition> definitions = new ArrayList<RuntimeDefinition>();
+		JBossRuntimeLocator locator = new JBossRuntimeLocator();
+		Set<IRuntimeDetector> seamDetectors = new HashSet<IRuntimeDetector>();
+		Set<IRuntimeDetector> runtimeDetectors = RuntimeCoreActivator.getDefault().getRuntimeDetectors();
+		for (IRuntimeDetector runtimeDetector : runtimeDetectors) {
+			if (runtimeDetector instanceof RuntimeDetector) {
+				IRuntimeDetectorDelegate delegate = ((RuntimeDetector) runtimeDetector).getDelegate();
+				if (delegate instanceof SeamHandler) {
+					seamDetectors.add(runtimeDetector);
+				break;
+			}
+			}
+		}
+		for (File directory : directories) {
+			locator.searchDirectory(directory, definitions, 1, seamDetectors, new NullProgressMonitor());
+			for (RuntimeDefinition definition:definitions) {
+				definition.setParent(runtimeDefinition);
+			}
+			runtimeDefinitions.addAll(definitions);
+		}
 	}
 
 	@Override
