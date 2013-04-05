@@ -145,6 +145,8 @@ public class SeamConfigValidationTest extends TestCase {
 		GenericBeanValidationTest.removeFile(project, path);
 		String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_TYPE, "org.jboss.beans.validation.test.MyBean2");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(f, message, 8);
+
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 61, 71, 102, 109, 124);
 	}
 
 	/**
