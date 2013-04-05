@@ -1572,6 +1572,10 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 				collectAllRelatedInjectionsForNode(nodes, relatedResources);
 				nodes = cdiProject.getInterceptorClasses();
 				collectAllRelatedInjectionsForNode(nodes, relatedResources);
+				Set<IPath> dd = getCDIContext(validatingResource).getDependencies().getDirectDependencies(validatingResource.getFullPath());
+				if(dd != null) {
+					relatedResources.addAll(dd);
+				}
 			}
 		}
 	}
