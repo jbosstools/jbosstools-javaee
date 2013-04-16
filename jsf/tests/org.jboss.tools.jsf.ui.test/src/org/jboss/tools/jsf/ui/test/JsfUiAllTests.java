@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007-2012 Red Hat, Inc.
+ * Copyright (c) 2007-2013 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -18,6 +18,7 @@ import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.common.base.test.validation.ValidationProjectTestSetup;
 import org.jboss.tools.jsf.jsp.ca.test.CADefaultELStartingCharTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAELApplyMethodProposalTest;
+import org.jboss.tools.jsf.jsp.ca.test.CAELBeanPropertyTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAELFunctionsTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAELInsideTagBodyInJspFileTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForCompositeComponentTest;
@@ -142,7 +143,7 @@ public class JsfUiAllTests {
 				CAELInsideTagBodyInJspFileTest.class), "org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
 				new String[] { "projects/Jbide3845Test", }, //$NON-NLS-1$
 				new String[] { "Jbide3845Test" })); //$NON-NLS-1$
-		
+
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				CAJsfMessagesProposalsFilteringTest.class,
 				ELTooltipTest.class,
@@ -150,6 +151,7 @@ public class JsfUiAllTests {
 				CAELApplyMethodProposalTest.class,
 				CAJsfAddInfoInELMessagesTest.class,
 				CAJsfResourceBundlePropertyApplyTest.class,
+				CAELBeanPropertyTest.class,
 				JSFAsYouTypeInJavaValidationTest.class,
 				JSFAsYouTypeValidationTest.class,
 				CAJsfPredictiveTagNameProposalsTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
@@ -160,7 +162,7 @@ public class JsfUiAllTests {
 				CAELFunctionsTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
 				"projects/jsf2pr", //$NON-NLS-1$
 				"jsf2pr")); //$NON-NLS-1$
-		
+
 		return suite;
 	}
 }
