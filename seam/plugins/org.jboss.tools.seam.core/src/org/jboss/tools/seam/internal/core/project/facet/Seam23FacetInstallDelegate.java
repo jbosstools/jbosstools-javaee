@@ -23,9 +23,15 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.wst.common.project.facet.core.FacetedProjectFramework;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
+import org.eclipse.wst.server.core.IRuntime;
 import org.eclipse.wst.server.core.IRuntimeType;
 import org.eclipse.wst.server.core.IServer;
+import org.eclipse.wst.server.core.IServerType;
+import org.eclipse.wst.server.core.ServerCore;
 import org.eclipse.wst.server.core.ServerUtil;
 import org.eclipse.wst.server.core.internal.ChainedJob;
 import org.jboss.ide.eclipse.as.core.modules.SingleDeployableFactory;
@@ -213,12 +219,20 @@ public class Seam23FacetInstallDelegate extends Seam2FacetInstallDelegate {
 						} catch (CoreException e) {
 							SeamCorePlugin.getDefault().logError(e);
 						}
-
-						IServer server = getServer(model);
-						if (serverSupportsSingleFileModule(server)) {
-							ChainedJob dsJob = new ResourceDeployer(project, server, resource.getFullPath().removeFirstSegments(1));
-							dsJob.setNextJob(RegistrationHelper.getRegisterInServerJob(project, new IServer[]{server}, null));
-							dsJob.schedule();
+						try {
+							if (FacetedProjectFramework.isFacetedProject(project)) {
+								IFacetedProject fProj = ProjectFacetsManager.create(project);
+								org.eclipse.wst.common.project.facet.core.runtime.IRuntime facetRuntime = fProj.getPrimaryRuntime();
+								IRuntime runtime = getRuntime(facetRuntime);
+								IServer server = getServer(runtime);
+								if (server != null && serverSupportsSingleFileModule(server)) {
+									ChainedJob dsJob = new ResourceDeployer(project, server, resource.getFullPath().removeFirstSegments(1));
+									dsJob.setNextJob(RegistrationHelper.getRegisterInServerJob(project, new IServer[]{server}, null));
+									dsJob.schedule();
+								}
+							}
+						} catch (CoreException e) {
+							SeamCorePlugin.getDefault().logError(e);
 						}
 					}
 				}
@@ -226,6 +240,49 @@ public class Seam23FacetInstallDelegate extends Seam2FacetInstallDelegate {
 		}
 	}
 
+	private static IServer getServer(IRuntime runtime) {
+		if (runtime == null) {
+			return null;
+		}
+		IRuntimeType runtimeType = runtime.getRuntimeType();
+		if (runtimeType == null || runtimeType.getId() == null) {
+			return null;
+		}
+		IServer[] servers = ServerCore.getServers();
+		for (IServer server:servers) {
+			IServerType serverType = server.getServerType();
+			if (serverType == null) {
+				continue;
+			}
+			IRuntimeType serverRuntimeType = serverType.getRuntimeType();
+			if (serverRuntimeType == null) {
+				continue;
+			}
+			if (runtimeType.getId().equals(serverRuntimeType.getId())) {
+				return server;
+			}
+		}
+		return null;
+	}
+
+	private static IRuntime getRuntime(
+			org.eclipse.wst.common.project.facet.core.runtime.IRuntime runtime) {
+		if (runtime == null)
+			throw new IllegalArgumentException();
+
+		String id = runtime.getProperty("id"); //$NON-NLS-1$
+		if (id == null)
+			return null;
+
+		IRuntime[] runtimes = ServerCore.getRuntimes();
+		for (IRuntime r : runtimes) {
+			if (id.equals(r.getId()))
+				return r;
+		}
+
+		return null;
+	}
+	
 	private static boolean serverSupportsSingleFileModule(IServer s) {
 		IRuntimeType rt = s.getServerType().getRuntimeType();
 		if (ServerUtil.isSupportedModule(rt.getModuleTypes(),
