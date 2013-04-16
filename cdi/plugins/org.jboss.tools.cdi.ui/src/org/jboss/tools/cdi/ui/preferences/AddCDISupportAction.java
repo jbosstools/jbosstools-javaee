@@ -15,6 +15,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
@@ -38,9 +39,16 @@ public class AddCDISupportAction implements IObjectActionDelegate {
 	 */
 	public void run(IAction action) {
 		IProject project = (IProject) ((IStructuredSelection) currentSelection).getFirstElement();
-		PreferenceDialog dialog = PreferencesUtil.createPropertyDialogOn(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), project, CDISettingsPreferencePage.ID, new String[] {CDISettingsPreferencePage.ID}, null);
+		final PreferenceDialog dialog = PreferencesUtil.createPropertyDialogOn(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), project, CDISettingsPreferencePage.ID, new String[] {CDISettingsPreferencePage.ID}, null);
 		CDISettingsPreferencePage page = (CDISettingsPreferencePage)dialog.getSelectedPage();
 		page.setEnabledCDISuport(shouldEnable());
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
+				if(dialog.getShell() != null && !dialog.getShell().isDisposed()) {
+					dialog.getTreeViewer().getControl().forceFocus();
+				}
+			}
+		});
 		dialog.open();
 	}
 
