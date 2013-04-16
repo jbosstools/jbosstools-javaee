@@ -24,13 +24,15 @@ public class User {
 	public User() {
 	}
 
-	public String getName() {
-		return name;
-	}
-
+	// >>> JBIDE-13995: Do not change the order of setName() and getName() methods
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public String getName() {
+		return name;
+	}
+	// <<< JBIDE-13995: Do not change the order of setName() and getName() methods
 
 	public String sayHello() {
 		return "greeting #{user.names}";
