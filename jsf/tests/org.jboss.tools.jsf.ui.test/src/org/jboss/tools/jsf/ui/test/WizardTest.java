@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2007-2013 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributor:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.jsf.ui.test;
 
 import java.util.ArrayList;
@@ -161,8 +171,12 @@ public abstract class WizardTest extends TestCase {
 		return wizard;
 	}
 	
-	protected void validateFolderAndName(){
-		wizard = getWizardOnProject("aaa");
+	protected void validateFolderAndName() {
+		validateFolderAndName("aaa");
+	}
+	
+	protected void validateFolderAndName(String name){
+		wizard = getWizardOnProject(name);
 		
 		
 		boolean canFinish = wizard.canFinish();
@@ -176,7 +190,7 @@ public abstract class WizardTest extends TestCase {
 		// 		Folder field is empty
 		// 		All other fields are correct
 		
-		wizard = getWizard("","aaa");
+		wizard = getWizard("",name);
 		canFinish = wizard.canFinish();
 		assertFalse("Finish button is enabled when folder field is empty.", canFinish);
 		
@@ -187,7 +201,7 @@ public abstract class WizardTest extends TestCase {
 		// 		Folder field points to folder that doesn't exist
 		// 		All other fields are correct
 		
-		wizard = getWizard("anyFolder","aaa");
+		wizard = getWizard("anyFolder",name);
 		canFinish = wizard.canFinish();
 		assertFalse("Finish button is enabled when folders field points to folder that does not exist", canFinish);
 		
