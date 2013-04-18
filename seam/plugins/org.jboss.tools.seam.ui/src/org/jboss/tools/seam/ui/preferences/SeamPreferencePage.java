@@ -17,9 +17,12 @@ import java.util.List;
 
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
@@ -63,12 +66,44 @@ public class SeamPreferencePage extends PreferencePage implements IWorkbenchPref
 	@Override
 	protected Control createContents(Composite parent) {
 		Composite root = new Composite(parent, SWT.NONE);
-		GridLayout gl = new GridLayout(COLUMNS, false);
-		root.setLayout(gl);
-		seamRuntimes.doFillIntoGrid(root);
+		
+		GridLayout layout = new GridLayout(1, false);
+		GridData layoutData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		root.setLayoutData(layoutData);
+		root.setLayout(layout);
+		
+		Group seamRuntimeGroup = createGroup(root, 1);
+		GridLayout gl = new GridLayout();
+		seamRuntimeGroup.setLayout(gl);
+		seamRuntimeGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		seamRuntimeGroup.setText(SeamPreferencesMessages.SEAM_PREFERENCE_PAGE_SEAM_RUNTIMES);
+		
+		Label seamRuntimeDescription = new Label(seamRuntimeGroup, SWT.WRAP);
+		seamRuntimeDescription.setText(SeamPreferencesMessages.SEAM_PREFERENCE_PAGE_DESCRIPTION);
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL) ;
+		gridData.grabExcessHorizontalSpace = true ;
+		gridData.widthHint = 200;
+		seamRuntimeDescription.setLayoutData(gridData);
+		
+		Composite container = new Composite(seamRuntimeGroup, SWT.NONE);
+		gl = new GridLayout(COLUMNS, false);
+		container.setLayout(gl);
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
+		container.setLayoutData(gd);
+		
+		seamRuntimes.doFillIntoGrid(container);
 		return root;
 	}
-
+	
+	private Group createGroup(Composite composite, int column) {
+		GridLayout layout;
+		Group group = new Group(composite, SWT.NONE);
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, false);
+		group.setLayoutData(gd);
+		layout = new GridLayout(column, false);
+		group.setLayout(layout);
+		return group;
+	}
 	/**
 	 * Inherited from IWorkbenchPreferencePage
 	 * 

@@ -40,6 +40,8 @@ public class SeamPreferencesMessages extends NLS {
 	public static String SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_SUPPORT;
 
 	public static String SEAM_PREFERENCE_PAGE_SEAM_RUNTIMES;
+	
+	public static String SEAM_PREFERENCE_PAGE_DESCRIPTION;
 
 	public static String SEAM_SETTINGS_PREFERENCE_PAGE_SEAM_RUNTIME_IS_NOT_SELECTED;
 
