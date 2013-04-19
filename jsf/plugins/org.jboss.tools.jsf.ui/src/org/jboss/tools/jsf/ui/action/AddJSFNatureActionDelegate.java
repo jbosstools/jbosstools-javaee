@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2007-2013 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.action;
 
@@ -15,8 +15,6 @@ import java.util.Set;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.jboss.tools.common.meta.key.WizardKeys;
-import org.jboss.tools.common.model.ui.util.ExtensionPointUtils;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.wizard.IWizard;
@@ -29,8 +27,10 @@ import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.common.project.facet.ui.internal.ConvertProjectToFacetedFormRunnable;
 import org.eclipse.wst.common.project.facet.ui.internal.FacetsPropertyPage;
 import org.eclipse.wst.common.project.facet.ui.internal.SharedWorkingCopyManager;
+import org.jboss.tools.common.meta.key.WizardKeys;
 import org.jboss.tools.common.model.ui.ModelUIPlugin;
 import org.jboss.tools.common.model.ui.action.AddNatureActionDelegate;
+import org.jboss.tools.common.model.ui.util.ExtensionPointUtils;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.project.JSFNature;
@@ -81,13 +81,15 @@ public class AddJSFNatureActionDelegate extends AddNatureActionDelegate {
 	 * @param showDialog
 	 */
 	public static void addJSFNature(IProject project, boolean showDialog) {
+		IFacetedProject fp = null;
 		try {
-			IFacetedProject fp = ProjectFacetsManager.create(project);
+			fp = ProjectFacetsManager.create(project);
 			IFacetedProjectWorkingCopy wc = SharedWorkingCopyManager.getWorkingCopy(fp);
-
 			Set<IProjectFacetVersion> vs = wc.getProjectFacets();
+	
 			IProjectFacetVersion web = null;
 			IProjectFacetVersion jsf = null;
+	
 			for (IProjectFacetVersion v: vs) {
 				String id = v.getProjectFacet().getId();
 				if("jst.web".equals(id)) { //$NON-NLS-1$
@@ -103,11 +105,12 @@ public class AddJSFNatureActionDelegate extends AddNatureActionDelegate {
 				SharedWorkingCopyManager.releaseWorkingCopy(fp);
 				return;
 			}
-
+	
 			if(web == null) {
 				web = ProjectFacetsManager.getProjectFacet("jst.web").getLatestVersion(); //$NON-NLS-1$
 				wc.addProjectFacet(web);
 			}
+			
 			String webVersion = web.getVersionString();
 			if("2.2".equals(webVersion)) { //$NON-NLS-1$
 				web = ProjectFacetsManager.getProjectFacet("jst.web").getVersion("2.3"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -121,19 +124,21 @@ public class AddJSFNatureActionDelegate extends AddNatureActionDelegate {
 				}
 				wc.addProjectFacet(jsf);
 			}
-
+	
 			if(!showDialog) {
+				IProjectFacetVersion latestJava = ProjectFacetsManager.getProjectFacet("java").getLatestVersion(); //$NON-NLS-1$
+				wc.changeProjectFacetVersion(latestJava);
+			
 				wc.commitChanges(new NullProgressMonitor());
 			} else {
 				PreferenceDialog dialog = PreferencesUtil.createPropertyDialogOn(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), project, FacetsPropertyPage.ID, new String[] {FacetsPropertyPage.ID}, null);
 				dialog.open();
 			}
-
-			SharedWorkingCopyManager.releaseWorkingCopy(fp);
 		} catch (CoreException e) {
 			JsfUiPlugin.getDefault().logError(e);
+		} finally {
+			if (fp != null)
+				SharedWorkingCopyManager.releaseWorkingCopy(fp);
 		}
-
 	}
-
 }
