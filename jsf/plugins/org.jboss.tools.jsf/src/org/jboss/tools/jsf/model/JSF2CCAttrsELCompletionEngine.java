@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007-2011 Red Hat, Inc.
+ * Copyright (c) 2007-2013 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -28,6 +28,7 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
+import org.jboss.tools.common.el.core.ca.ELTextProposal;
 import org.jboss.tools.common.el.core.model.ELArgumentInvocation;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
@@ -225,7 +226,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 			for (IVariable var : resolvedVariables) {
 				String varName = var.getName();
 				if(varName.startsWith(operand.getText())) {
-					TextProposal proposal = new TextProposal();
+					ELTextProposal proposal = new ELTextProposal();
 					proposal.setReplacementString(varName.substring(operand.getLength()));
 					proposal.setImageDescriptor(getELProposalImageForMember(null));
 					proposals.add(proposal);
@@ -248,7 +249,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 			for (IVariable var : resolvedVariables) {
 				String varName = var.getName();
 				if(operand.getLength()<=varName.length()) {
-					TextProposal proposal = new TextProposal();
+					ELTextProposal proposal = new ELTextProposal();
 					proposal.setReplacementString(varName.substring(operand.getLength()));
 					proposal.setLabel(varName);
 					proposal.setImageDescriptor(getELProposalImageForMember(null));
@@ -462,7 +463,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 					}
 				} else if (proposal.startsWith(filter)) {
 					// This is used for CA.
-					TextProposal kbProposal = new TextProposal();
+					ELTextProposal kbProposal = new ELTextProposal();
 					kbProposal.setReplacementString(proposal.substring(filter.length()));
 					kbProposal.setLabel(proposal);
 					kbProposal.setImageDescriptor(getELProposalImageForMember(null));
@@ -514,7 +515,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 					}
 				} else if (proposal.startsWith(filter)) {
 					// This is used for CA.
-					TextProposal kbProposal = new TextProposal();
+					ELTextProposal kbProposal = new ELTextProposal();
 
 					String replacementString = proposal.substring(filter.length());
 					if (bSurroundWithQuotes) {
@@ -545,14 +546,14 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 			if (key == null || key.length() == 0)
 				continue;
 			if (key.indexOf('.') != -1) {
-				TextProposal proposal = new TextProposal();
+				ELTextProposal proposal = new ELTextProposal();
 				proposal.setReplacementString("['" + key + "']"); //$NON-NLS-1$ //$NON-NLS-2$
 				proposal.setLabel("['" + key + "']");
 				proposal.setImageDescriptor(getELProposalImageForMember(null));
 
 				kbProposals.add(proposal);
 			} else {
-				TextProposal proposal = new TextProposal();
+				ELTextProposal proposal = new ELTextProposal();
 				proposal.setReplacementString(key);
 				proposal.setLabel(key);
 				proposal.setImageDescriptor(getELProposalImageForMember(null));

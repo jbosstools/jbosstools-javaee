@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Red Hat, Inc.
+ * Copyright (c) 2011-2013 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -298,8 +298,10 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 				for (Variable var : resolvedVariables) {
 					String varName = var.getName();
 					if(varName.startsWith(operand.getText())) {
-						TextProposal proposal = new TextProposal();
+						MessagesELTextProposal proposal = new MessagesELTextProposal();
 						proposal.setReplacementString(varName.substring(operand.getLength()));
+						proposal.setLabel(varName);
+						proposal.setPropertyName(null); // Since it's not a property
 						proposal.setImageDescriptor(getELProposalImageForMember(null));
 						proposals.add(proposal);
 					}
