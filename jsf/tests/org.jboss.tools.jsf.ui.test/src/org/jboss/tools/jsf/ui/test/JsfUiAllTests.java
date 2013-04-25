@@ -21,6 +21,7 @@ import org.jboss.tools.jsf.jsp.ca.test.CAELApplyMethodProposalTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAELBeanPropertyTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAELFunctionsTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAELInsideTagBodyInJspFileTest;
+import org.jboss.tools.jsf.jsp.ca.test.CAELNoTagProposalsInELTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForCompositeComponentTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForELJavaAndJSTCompareTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForELinStyleTest;
@@ -154,7 +155,8 @@ public class JsfUiAllTests {
 				CAELBeanPropertyTest.class,
 				JSFAsYouTypeInJavaValidationTest.class,
 				JSFAsYouTypeValidationTest.class,
-				CAJsfPredictiveTagNameProposalsTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
+				CAJsfPredictiveTagNameProposalsTest.class,
+				CAELNoTagProposalsInELTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
 				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
 
