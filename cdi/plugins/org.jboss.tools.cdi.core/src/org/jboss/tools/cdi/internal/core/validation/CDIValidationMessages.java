@@ -162,6 +162,7 @@ public class CDIValidationMessages {
 	public static String VALIDATING_RESOURCE;
 	public static String VALIDATING_PROJECT;
 	public static String VALIDATING_BEANS_XML;
+	public static String MISSING_BEANS_XML;
 
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, CDIValidationMessages.class);

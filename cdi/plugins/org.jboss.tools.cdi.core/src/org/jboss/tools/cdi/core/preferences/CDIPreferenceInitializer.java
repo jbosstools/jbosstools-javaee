@@ -53,5 +53,6 @@ public class CDIPreferenceInitializer extends AbstractPreferenceInitializer {
 		defaultPreferences.put(CDIPreferences.MISSING_INTERCEPTOR_BINDING, CDIPreferences.WARNING);
 //		defaultPreferences.put(CDIPreferences.INCONSISTENT_SPECIALIZATION, CDIPreferences.WARNING);
 		defaultPreferences.putInt(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME, SeverityPreferences.DEFAULT_MAX_NUMBER_OF_MARKERS_PER_FILE);
+		defaultPreferences.put(CDIPreferences.MISSING_BEANS_XML, CDIPreferences.WARNING);
 	}
 }

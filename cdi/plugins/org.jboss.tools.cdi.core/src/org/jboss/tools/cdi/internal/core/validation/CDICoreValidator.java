@@ -135,6 +135,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	IValidatingProjectSet projectSet;
 	Set<IFolder> sourceFolders;
 	List<IFile> allBeansXmls;
+	boolean missingBeansXmlValidated;
 
 	private BeansXmlValidationDelegate beansXmlValidator = new BeansXmlValidationDelegate(this);
 	private AnnotationValidationDelegate annotationValidator = new AnnotationValidationDelegate(this);
@@ -284,6 +285,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		projectSet = projectTree.getBrunches().get(rootProject);
 		rootCdiProject = null;
 		allBeansXmls = null;
+		missingBeansXmlValidated = false;
 		CDICoreNature nature = CDICorePlugin.getCDI(projectSet.getRootProject(), true);
 		if(nature!=null) {
 			rootCdiProject =  nature.getDelegate();
@@ -381,6 +383,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		for(IFile file: filesToValidate) {
 			removeAllMessagesFromResource(file);
 		}
+
+		validateRemovedFiles(project, context);
+
 		// Then we can validate them
 		for (IFile file : filesToValidate) {
 			validateResource(file);
@@ -388,6 +393,35 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 
 		cleanSavedMarkers();
 		return OK_STATUS;
+	}
+
+	private void validateRemovedFiles(IProject project, IProjectValidationContext context) {
+		// Validate if beans.xml is now missing
+		Set<IFile> files = context.getValidationResourceRegister().getRemovedFiles();
+		for (IFile file : files) {
+			if(file.getName().equals("beans.xml")) {
+				validateMissingBeansXml();
+				break;
+			}
+		}
+	}
+
+	private void validateMissingBeansXml() {
+		if(!missingBeansXmlValidated && !isAsYouTypeValidation()) {
+			List<IFile> beansXmls = getAllBeansXmls();
+			Set<String> projectsWithBeansXml = new HashSet<String>();
+			for (IFile beansXml : beansXmls) {
+				projectsWithBeansXml.add(beansXml.getProject().getName());
+			}
+			Set<IProject> allProjects = projectSet.getAllProjects();
+			for (IProject project : allProjects) {
+				removeAllMessagesFromProject(project);
+				if(!projectsWithBeansXml.contains(project.getName())) {
+					reportMissingBeansXml(project);
+				}
+			}
+			missingBeansXmlValidated = true;
+		}
 	}
 
 	private void collectAllRealtedCoreResources(IFile validatingResource, Set<IPath> relatedResources) {
@@ -477,6 +511,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			validateResource(file);
 		}
 
+		validateMissingBeansXml();
+
 		cleanSavedMarkers();
 		return OK_STATUS;
 	}
@@ -561,10 +597,13 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			context = getCDIContext(file);
 			cdiProject = context.getCdiProject();
 		}
-		if("beans.xml".equalsIgnoreCase(file.getName()) && CDIPreferences.shouldValidateBeansXml(file.getProject())) {
-			List<IFile> allBaensXmls = getAllBeansXmls();
-			if(allBaensXmls.contains(file)) { // See https://issues.jboss.org/browse/JBIDE-10166
-				beansXmlValidator.validateBeansXml(context, file);
+		if("beans.xml".equalsIgnoreCase(file.getName())) {
+			validateMissingBeansXml();
+			if(CDIPreferences.shouldValidateBeansXml(file.getProject())) {
+				List<IFile> allBaensXmls = getAllBeansXmls();
+				if(allBaensXmls.contains(file)) { // See https://issues.jboss.org/browse/JBIDE-10166
+					beansXmlValidator.validateBeansXml(context, file);
+				}
 			}
 		} else {
 			Collection<IBean> beans = cdiProject.getBeans(file.getFullPath());
@@ -589,6 +628,23 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			v.validateResource(file, this);
 			setSeverityPreferences(null);
 		}
+	}
+
+	private void reportMissingBeansXml(IProject project) {
+		addProblem(MessageFormat.format(CDIValidationMessages.MISSING_BEANS_XML, project.getName()), CDIPreferences.MISSING_BEANS_XML, new ITextSourceReference() {
+			@Override
+			public int getStartPosition() {
+				return 0;
+			}
+			@Override
+			public int getLength() {
+				return 0;
+			}
+			@Override
+			public IResource getResource() {
+				return null;
+			}
+		}, project);
 	}
 
 	Set<IFolder> getSourceFoldersForProjectsSet() {
