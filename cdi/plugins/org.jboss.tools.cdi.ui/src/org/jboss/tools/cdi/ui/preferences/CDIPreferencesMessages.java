@@ -123,6 +123,7 @@ public class CDIPreferencesMessages extends NLS {
 
 	// Beans.xml
 	public static String CDIValidatorConfigurationBlock_section_beansxml;
+	public static String CDIValidatorConfigurationBlock_pb_missingBeansXml_label;
 	public static String CDIValidatorConfigurationBlock_pb_illegalTypeInBeansXml_label;
 	public static String CDIValidatorConfigurationBlock_pb_duplicateTypeInBeansXml_label;
 

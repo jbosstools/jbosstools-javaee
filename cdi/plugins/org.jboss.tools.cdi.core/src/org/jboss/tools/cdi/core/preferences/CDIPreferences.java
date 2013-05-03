@@ -239,6 +239,7 @@ public class CDIPreferences extends ValidationSeverityPreferences {
 //	- bean class is deployed in two different bean archives (12.1 non-portable)
 	// ? is it a definition problem
 
+	public static final String MISSING_BEANS_XML = INSTANCE.createSeverityOption("missingBeansXml"); //$NON-NLS-1$
 // - Each child <class> element must specify the name of an alternative/decorator/interceptor bean class/stereotype annotation. If there is no class with the specified
 //	  name, or if the class with the specified name is not alternative/decorator/interceptor bean class/stereotype annotation, the container automatically detects the problem
 //	  and treats it as a deployment problem.

@@ -158,6 +158,7 @@ public class CDIConfigurationBlockDescriptionProvider {
 	private SectionDescription SECTION_BEANSXML = new SectionDescription(
 		CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_beansxml,
 		new String[][]{
+			{CDIPreferences.MISSING_BEANS_XML, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_missingBeansXml_label},
 			{CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalTypeInBeansXml_label},
 			{CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_duplicateTypeInBeansXml_label},
 		},

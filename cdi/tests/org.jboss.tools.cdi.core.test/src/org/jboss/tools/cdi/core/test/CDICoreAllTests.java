@@ -73,6 +73,7 @@ import org.jboss.tools.cdi.core.test.tck.validation.DisableCDISupportTest;
 import org.jboss.tools.cdi.core.test.tck.validation.ELReferenceTest;
 import org.jboss.tools.cdi.core.test.tck.validation.ELValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.IncrementalValidationTest;
+import org.jboss.tools.cdi.core.test.tck.validation.MissingBeansXmlValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.SuppressWarningsTests;
 import org.jboss.tools.cdi.core.test.tck.validation.WeldValidationTest;
 import org.jboss.tools.common.base.test.validation.ValidationExceptionTest;
@@ -175,9 +176,17 @@ public class CDICoreAllTests {
 		suiteAll.addTestSuite(DependentProjectValidationTest.class);
 		suiteAll.addTest(new CDICoreTestSetup(suite));
 
+		suite = new TestSuite(MissingBeansXmlValidationTest.class.getName());
+		suite.addTestSuite(MissingBeansXmlValidationTest.class);
+		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suite,
+				"org.jboss.tools.cdi.core.test",
+				new String[]{"projects/missingBeansXmlParentProject", "projects/missingBeansXmlChildProject"},
+				new String[]{"missingBeansXmlParentProject", "missingBeansXmlChildProject"});
+		suiteAll.addTest(testSetup);
+
 		suite = new TestSuite(BuilderOrderValidationTest.class.getName());
 		suite.addTestSuite(BuilderOrderValidationTest.class);
-		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suite,
+		testSetup = new ProjectImportTestSetup(suite,
 				"org.jboss.tools.cdi.core.test",
 				new String[]{"projects/CDITestBrokenBuilderOrder"},
 				new String[]{"CDITestBrokenBuilderOrder"});
