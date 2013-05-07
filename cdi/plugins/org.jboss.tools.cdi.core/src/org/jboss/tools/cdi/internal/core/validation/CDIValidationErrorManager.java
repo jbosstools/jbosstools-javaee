@@ -70,6 +70,7 @@ abstract public class CDIValidationErrorManager extends KBValidator {
 	public static final int PARAM_INJECTION_DECLARES_EMPTY_NAME_ID = 51;
 	public static final int MULTIPLE_DISPOSING_PARAMETERS_ID = 52;
 	public static final int MULTIPLE_OBSERVING_PARAMETERS_ID = 53;
+	public static final int MISSING_BEANS_XML_ID = 54;
 
 
 	/*

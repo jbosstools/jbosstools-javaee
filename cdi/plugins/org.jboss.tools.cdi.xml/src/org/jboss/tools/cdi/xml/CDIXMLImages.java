@@ -31,6 +31,7 @@ public class CDIXMLImages {
 	
 	public static final ImageDescriptor BEAN_CLASS_IMAGE = getImageDescriptor("bean_class.png"); //$NON-NLS-1$
 	public static final ImageDescriptor ANNOTATION_IMAGE = getImageDescriptor("annotation.png"); //$NON-NLS-1$
+	public static final ImageDescriptor BEANS_XML_IMAGE = getImageDescriptor("beans_xml.png"); //$NON-NLS-1$
 
 	public static Image getImage(String key) {
 		return INSTANCE.createImageDescriptor(key).createImage();

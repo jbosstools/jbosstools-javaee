@@ -644,7 +644,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			public IResource getResource() {
 				return null;
 			}
-		}, project);
+		}, project, MISSING_BEANS_XML_ID);
 	}
 
 	Set<IFolder> getSourceFoldersForProjectsSet() {
