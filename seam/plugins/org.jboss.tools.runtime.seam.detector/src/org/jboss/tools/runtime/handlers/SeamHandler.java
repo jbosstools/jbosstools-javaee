@@ -234,7 +234,11 @@ public class SeamHandler extends AbstractRuntimeDetectorDelegate {
 			for (RuntimeDefinition definition:definitions) {
 				definition.setParent(runtimeDefinition);
 			}
-			runtimeDefinitions.addAll(definitions);
+		}
+		for (RuntimeDefinition definition:definitions) {
+			if (!runtimeDefinitions.contains(definition)) {
+				runtimeDefinitions.add(definition);
+			}
 		}
 	}
 

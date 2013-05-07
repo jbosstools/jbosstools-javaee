@@ -355,7 +355,29 @@ public class SeamRuntimeDetectionTest extends Assert implements IJBossRuntimePlu
 		}
 	}
 	
-	
+	@Test
+	public void testSeamFoundTwice() {
+		if( Boolean.getBoolean(SKIP_PRIVATE))
+			return;
+		
+		List<RuntimeDefinition> runtimeDefinitions = initializeOnePath(IRuntimeDetectionConstants.EAP_43_HOME);
+		RuntimeDefinition def1 = runtimeDefinitions.get(0);
+				
+		File location = def1.getLocation();
+		File serverDir = new File(location, "server");
+		boolean exists = serverDir.exists();
+		try {
+			serverDir.mkdir();
+			setServerDefinitionsEnabledRecurse(def1, true);
+			initializeDefinitions(runtimeDefinitions);
+			int count = def1.getIncludedRuntimeDefinitions().size();
+			assertEquals(1, count);
+		} finally {
+			if (!exists) {
+				serverDir.delete();
+			}
+		}
+	}
 	
 	// Things to test in runtime core test suite, not here
 	
