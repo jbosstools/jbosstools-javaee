@@ -42,6 +42,7 @@ public class CDIImages extends CommonUIImages {
 	public static final ImageDescriptor INJECTION_POINT_IMAGE = getImageDescriptor("injection_point.png"); //$NON-NLS-1$
 	public static final ImageDescriptor ANNOTATION_IMAGE = CDIXMLImages.ANNOTATION_IMAGE;
 	public static final ImageDescriptor CDI_EVENT_IMAGE = getImageDescriptor("event.png"); //$NON-NLS-1$
+	public static final ImageDescriptor BEANS_XML_IMAGE = CDIXMLImages.BEANS_XML_IMAGE;
 
 	public static final ImageDescriptor MESSAGE_BUNDLE_IMAGE = getImageDescriptor("message_bundle.gif"); //$NON-NLS-1$
 

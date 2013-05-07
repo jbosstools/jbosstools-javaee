@@ -115,6 +115,7 @@ public class CDIUIMessages extends NLS{
 	public static String CREATE_DECORATOR_TITLE;
 	public static String ADD_NAME_MARKER_RESOLUTION_TITLE;
 	public static String DELETE_ALL_OTHER_ANNOTATIONS_MARKER_RESOLUTION_TITLE;
+	public static String CREATE_FILE_BEASN_XML_TITLE;
 
 	public static String CDI_QUICK_FIXES_ANNOTATION;
 	public static String CDI_QUICK_FIXES_INTERFACE;

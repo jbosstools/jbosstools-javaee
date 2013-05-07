@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotatable;
@@ -575,29 +576,35 @@ public class CDIProblemMarkerResolutionGenerator implements
 		if (messageId == -1)
 			return new IMarkerResolution[] {};
 
-		final IFile file = (IFile) marker.getResource();
-		
-		
-
-		Integer attribute = ((Integer) marker.getAttribute(IMarker.CHAR_START));
-		if (attribute == null)
-			return new IMarkerResolution[] {};
-		final int start = attribute.intValue();
-		
-		attribute = ((Integer) marker.getAttribute(IMarker.CHAR_END));
-		if (attribute == null)
-			return new IMarkerResolution[] {};
-		final int end = attribute.intValue();
-		
-		ICDIMarkerResolutionGeneratorExtension[] extensions = CDIQuickFixExtensionManager.getInstances();
-
-		if (JAVA_EXTENSION.equals(file.getFileExtension())) {
-			ICompilationUnit compilationUnit = EclipseUtil.getCompilationUnit(file);
+		if(marker.getResource() instanceof IFile){
+			final IFile file = (IFile) marker.getResource();
+	
+			Integer attribute = ((Integer) marker.getAttribute(IMarker.CHAR_START));
+			if (attribute == null)
+				return new IMarkerResolution[] {};
+			final int start = attribute.intValue();
 			
-			return findJavaResolutions(compilationUnit, messageId, start, extensions, false);
+			attribute = ((Integer) marker.getAttribute(IMarker.CHAR_END));
+			if (attribute == null)
+				return new IMarkerResolution[] {};
+			final int end = attribute.intValue();
 			
-		}else if (XML_EXTENSION.equals(file.getFileExtension())){
-			return findXMLResolutions(file, messageId, start, end, false);
+			ICDIMarkerResolutionGeneratorExtension[] extensions = CDIQuickFixExtensionManager.getInstances();
+	
+			if (JAVA_EXTENSION.equals(file.getFileExtension())) {
+				ICompilationUnit compilationUnit = EclipseUtil.getCompilationUnit(file);
+				
+				return findJavaResolutions(compilationUnit, messageId, start, extensions, false);
+				
+			}else if (XML_EXTENSION.equals(file.getFileExtension())){
+				return findXMLResolutions(file, messageId, start, end, false);
+			}
+		}else if(marker.getResource() instanceof IProject){
+			if(messageId == CDIValidationErrorManager.MISSING_BEANS_XML_ID){
+				return new IMarkerResolution[]{
+						new CreateBeansXMLMarkerResolution((IProject)marker.getResource())
+				};
+			}
 		}
 		return new IMarkerResolution[] {};
 	}

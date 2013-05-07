@@ -17,8 +17,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.cdi.core.test.CDICoreTestSetup;
+import org.jboss.tools.cdi.core.test.tck.validation.MissingBeansXmlValidationTest;
 import org.jboss.tools.cdi.ui.test.marker.CDIMarkerResolutionTest;
 import org.jboss.tools.cdi.ui.test.marker.CDIQuickFixTest;
+import org.jboss.tools.cdi.ui.test.marker.CreateBeansXMLMarkerResolutionTest;
 import org.jboss.tools.cdi.ui.test.perspective.CDIPerspectiveTest;
 import org.jboss.tools.cdi.ui.test.preferences.CDIPreferencePageTest;
 import org.jboss.tools.cdi.ui.test.search.CDISearchParticipantTest;
@@ -33,6 +35,7 @@ import org.jboss.tools.cdi.ui.test.wizard.NewCDIClassWizardFactoryTest;
 import org.jboss.tools.cdi.ui.test.wizard.NewCDIWebProjectWizardTest;
 import org.jboss.tools.cdi.ui.test.wizard.NewCDIWizardTest;
 import org.jboss.tools.cdi.ui.test.wizard.OpenCDINamedBeanDialogTest;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
@@ -81,6 +84,13 @@ public class CDIUIAllTests {
 		FiveDependentProjectsTestSetup dependent = new FiveDependentProjectsTestSetup(dependentSuite);
 		suiteAll.addTest(dependent);
 
+		suite = new TestSuite(CreateBeansXMLMarkerResolutionTest.class.getName());
+		suite.addTestSuite(CreateBeansXMLMarkerResolutionTest.class);
+		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suite,
+				"org.jboss.tools.cdi.core.test",
+				new String[]{"projects/missingBeansXmlChildProject"},
+				new String[]{"missingBeansXmlChildProject"});
+		suiteAll.addTest(testSetup);
 		return suiteAll;
 	}
 }
