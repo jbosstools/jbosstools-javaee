@@ -810,7 +810,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 
 		public ValueDialog(Shell shell, String value) {
 			super(shell, "Edit Qualifier Annotation Value", null, "",
-					MessageDialog.NONE, new String[]{"Ok", "Cancel"}, 0);
+					MessageDialog.NONE, new String[]{"OK", "Cancel"}, 0);
 			this.value = value;
 		}
 
