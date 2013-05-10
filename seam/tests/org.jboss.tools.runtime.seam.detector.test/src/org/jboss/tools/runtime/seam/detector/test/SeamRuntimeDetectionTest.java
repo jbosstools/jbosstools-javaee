@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2011 Red Hat, Inc. and others.
+ * Copyright (c) 2011-2013 Red Hat, Inc. and others.
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,14 +13,11 @@ package org.jboss.tools.runtime.seam.detector.test;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
-
-import junit.framework.Assert;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -28,8 +25,8 @@ import org.eclipse.wst.server.core.IRuntime;
 import org.eclipse.wst.server.core.IRuntimeType;
 import org.eclipse.wst.server.core.IServer;
 import org.eclipse.wst.server.core.ServerCore;
+import org.jboss.ide.eclipse.as.core.server.bean.JBossServerType;
 import org.jboss.ide.eclipse.as.core.util.IJBossToolingConstants;
-import org.jboss.ide.eclipse.as.core.runtime.IJBossRuntimePluginConstants;
 import org.jboss.tools.runtime.core.JBossRuntimeLocator;
 import org.jboss.tools.runtime.core.RuntimeCoreActivator;
 import org.jboss.tools.runtime.core.model.IRuntimeDetector;
@@ -40,6 +37,7 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -49,7 +47,7 @@ import org.junit.Test;
  * @author snjeza
  * @author rob stryker
  */
-public class SeamRuntimeDetectionTest extends Assert implements IJBossRuntimePluginConstants {
+public class SeamRuntimeDetectionTest extends Assert {
 	private final static String seamVersionAttributeName = "Seam-Version";
 	private final static String SKIP_PRIVATE = "org.jboss.tools.tests.skipPrivateRequirements";
 	
@@ -308,10 +306,6 @@ public class SeamRuntimeDetectionTest extends Assert implements IJBossRuntimePlu
 			RuntimeUIActivator.getDefault().saveRuntimePreferences();
 	}
 
-
-	private int countSeamRuntimes() {
-		return SeamRuntimeManager.getInstance().getRuntimes().length;
-	}
 	private int countSeamRuntimesForVersion(SeamVersion version) {
 		SeamRuntime[] seamRuntimes = SeamRuntimeManager.getInstance().getRuntimes();
 		int count = 0;
@@ -346,7 +340,7 @@ public class SeamRuntimeDetectionTest extends Assert implements IJBossRuntimePlu
 	public void testIncludedDefinitions() {
 		for (RuntimeDefinition serverDefinition:RuntimeUIActivator.getDefault().getServerDefinitions()){
 			String type = serverDefinition.getType();
-			if (EAP.equals(type)) {
+			if (JBossServerType.EAP.getId().equals(type)) {
 				assertTrue("EAP has to include server definitions", serverDefinition.getIncludedRuntimeDefinitions().size() > 0);
 				for(RuntimeDefinition included:serverDefinition.getIncludedRuntimeDefinitions()) {
 					assertTrue("Invalid parent definition", included.getParent() == serverDefinition);
