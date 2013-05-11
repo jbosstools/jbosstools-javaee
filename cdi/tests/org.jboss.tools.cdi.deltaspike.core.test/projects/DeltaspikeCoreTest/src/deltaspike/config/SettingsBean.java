@@ -2,7 +2,7 @@ package deltaspike.config;
 
 import javax.inject.Inject;
 
-import org.apache.deltaspike.core.api.config.annotation.ConfigProperty;
+import org.apache.deltaspike.core.api.config.ConfigProperty;
 
 public class SettingsBean {
     @Inject

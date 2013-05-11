@@ -6,7 +6,7 @@ import java.lang.annotation.Target;
 
 import javax.enterprise.inject.Stereotype;
 
-import org.apache.deltaspike.security.api.authorization.annotation.Secured;
+import org.apache.deltaspike.security.api.authorization.Secured;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
