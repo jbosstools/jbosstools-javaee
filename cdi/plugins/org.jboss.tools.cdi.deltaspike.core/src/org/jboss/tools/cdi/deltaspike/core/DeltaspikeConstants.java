@@ -17,23 +17,23 @@ package org.jboss.tools.cdi.deltaspike.core;
  */
 public interface DeltaspikeConstants {
 
-	public String CONFIG_PROPERTY_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.core.api.config.annotation.ConfigProperty"; //$NON-NLS-1$
+	public String CONFIG_PROPERTY_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.core.api.config.ConfigProperty"; //$NON-NLS-1$
 
-	public String BEFORE_HANDLES_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.core.api.exception.control.annotation.BeforeHandles"; //$NON-NLS-1$
-	public String EXCEPTION_HANDLER_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.core.api.exception.control.annotation.ExceptionHandler"; //$NON-NLS-1$
-	public String HANDLES_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.core.api.exception.control.annotation.Handles"; //$NON-NLS-1$
+	public String BEFORE_HANDLES_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.core.api.exception.control.BeforeHandles"; //$NON-NLS-1$
+	public String EXCEPTION_HANDLER_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.core.api.exception.control.ExceptionHandler"; //$NON-NLS-1$
+	public String HANDLES_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.core.api.exception.control.Handles"; //$NON-NLS-1$
 	public String EXCEPTION_EVENT_TYPE_NAME = "org.apache.deltaspike.core.api.exception.control.event.ExceptionEvent"; //$NON-NLS-1$
 
-	public String EXCLUDE_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.core.api.exclude.annotation.Exclude"; //$NON-NLS-1$
+	public String EXCLUDE_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.core.api.exclude.Exclude"; //$NON-NLS-1$
 
-	public String MESSAGE_BUNDLE_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.core.api.message.annotation.MessageBundle"; //$NON-NLS-1$
-	public String MESSAGE_CONTEXT_CONFIG_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.core.api.message.annotation.MessageContextConfig"; //$NON-NLS-1$
-	public String MESSAGE_TEMPLATE_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.core.api.message.annotation.MessageTemplate"; //$NON-NLS-1$
+	public String MESSAGE_BUNDLE_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.core.api.message.MessageBundle"; //$NON-NLS-1$
+	public String MESSAGE_CONTEXT_CONFIG_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.core.api.message.MessageContextConfig"; //$NON-NLS-1$
+	public String MESSAGE_TEMPLATE_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.core.api.message.MessageTemplate"; //$NON-NLS-1$
 
-	public String SECURED_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.security.api.authorization.annotation.Secured"; //$NON-NLS-1$
-	public String SECURES_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.security.api.authorization.annotation.Secures"; //$NON-NLS-1$
-	public String SECURITY_BINDING_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.security.api.authorization.annotation.SecurityBindingType"; //$NON-NLS-1$
-	public String SECURITY_PARAM_BINDING_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.security.api.authorization.annotation.SecurityParameterBinding"; //$NON-NLS-1$
+	public String SECURED_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.security.api.authorization.Secured"; //$NON-NLS-1$
+	public String SECURES_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.security.api.authorization.Secures"; //$NON-NLS-1$
+	public String SECURITY_BINDING_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.security.api.authorization.SecurityBindingType"; //$NON-NLS-1$
+	public String SECURITY_PARAM_BINDING_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.security.api.authorization.SecurityParameterBinding"; //$NON-NLS-1$
 
 	public String MESSAGE_BUNDLE_ANNOTATION_KIND = "messageBundleAnnotation"; //$NON-NLS-1$
 	public String SECURITY_BINDING_ANNOTATION_KIND = "securityBindingAnnotation"; //$NON-NLS-1$

@@ -6,7 +6,7 @@ import java.lang.annotation.Target;
 
 import javax.inject.Qualifier;
 
-import org.apache.deltaspike.core.api.config.annotation.ConfigProperty;
+import org.apache.deltaspike.core.api.config.ConfigProperty;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;

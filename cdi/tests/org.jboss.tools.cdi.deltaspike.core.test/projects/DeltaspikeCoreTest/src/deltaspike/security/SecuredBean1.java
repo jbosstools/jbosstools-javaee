@@ -5,7 +5,7 @@ import java.util.Set;
 import org.apache.deltaspike.security.api.authorization.AccessDecisionVoter;
 import org.apache.deltaspike.security.api.authorization.AccessDecisionVoterContext;
 import org.apache.deltaspike.security.api.authorization.SecurityViolation;
-import org.apache.deltaspike.security.api.authorization.annotation.Secured;
+import org.apache.deltaspike.security.api.authorization.Secured;
 
 public class SecuredBean1 {
 
