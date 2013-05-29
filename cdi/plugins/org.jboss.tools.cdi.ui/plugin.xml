@@ -464,46 +464,6 @@
 	    <commonWizard
 	       menuGroupId="org.jboss.tools.cdi.ui"
            type="new"
-           wizardId="org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard">
-				<enablement>
-					<and>
-						<or>
-					   		<instanceof value="org.eclipse.jdt.core.IPackageFragment"/>
-			           		<instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"/>
-			           		<instanceof value="org.eclipse.jdt.core.ICompilationUnit"/>
-			           		<adapt type="org.eclipse.core.resources.IProject">
-			              		<test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
-			           		</adapt>
-			           	</or>
-			           	<adapt type="org.eclipse.core.resources.IResource">
-			                <test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
-			            </adapt>
-					</and>
-		         </enablement>
-	    </commonWizard>
-	    <commonWizard
-	       menuGroupId="org.jboss.tools.cdi.ui"
-           type="new"
-           wizardId="org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard">
-				<enablement>
-					<and>
-						<or>
-					   		<instanceof value="org.eclipse.jdt.core.IPackageFragment"/>
-			           		<instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"/>
-			           		<instanceof value="org.eclipse.jdt.core.ICompilationUnit"/>
-			           		<adapt type="org.eclipse.core.resources.IProject">
-			              		<test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
-			           		</adapt>
-			           	</or>
-			           	<adapt type="org.eclipse.core.resources.IResource">
-			                <test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
-			            </adapt>
-					</and>
-		         </enablement>
-	    </commonWizard>
-	    <commonWizard
-	       menuGroupId="org.jboss.tools.cdi.ui"
-           type="new"
            wizardId="org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard">
 				<enablement>
 					<and>
