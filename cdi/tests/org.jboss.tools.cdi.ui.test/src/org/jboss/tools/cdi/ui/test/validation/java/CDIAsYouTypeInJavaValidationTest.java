@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 Red Hat, Inc.
+ * Copyright (c) 2012-2013 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -109,7 +109,7 @@ public class CDIAsYouTypeInJavaValidationTest extends TCKTest {
 
 		problemAnnotation = baseTest.waitForAnnotation(
 				start, start + length, null, AbstractAsYouTypeValidationTest.MAX_SECONDS_TO_WAIT, true, false); // Still use the same length (Just to have a place to look in)
-		assertNull("Problem Annotation has not disappeared!", problemAnnotation);
+		assertNull("Problem Marker Annotation has not disappeared!", problemAnnotation);
 
 		//=================================================================================================
 		// - Restore broken Annotation => see error annotation appearance 
@@ -120,6 +120,10 @@ public class CDIAsYouTypeInJavaValidationTest extends TCKTest {
 		problemAnnotation = baseTest.waitForAnnotation(
 				start, start + length, errorMessage, AbstractAsYouTypeValidationTest.MAX_SECONDS_TO_WAIT, false, true);
 
+		assertNotNull("Couldn\'t find the following problem annotation for " + annotation + ": Text: " + errorMessage + 
+				" at position:" + start + "(start), " + (start + length) + "(end).",
+				problemAnnotation);
+		
 		message = problemAnnotation.getText();
 		assertEquals(
 				"Not expected error message found in ProblemAnnotation. Expected: ["
