@@ -365,7 +365,7 @@ public class SeamRuntimeDetectionTest extends Assert {
 			setServerDefinitionsEnabledRecurse(def1, true);
 			initializeDefinitions(runtimeDefinitions);
 			int count = def1.getIncludedRuntimeDefinitions().size();
-			assertEquals(1, count);
+			assertEquals(2, count);
 		} finally {
 			if (!exists) {
 				serverDir.delete();
