@@ -402,7 +402,78 @@
 		<property name="attributeName" value="value-class"/>
 		<property name="attributeValue" value="java.lang.String"/>
 	</test>
+
+    <!-- Test Flow Definition -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config22.xml/Flow Definitions/myFlow"/>
+		<property name="attributeName" value="id"/>
+		<property name="attributeValue" value="myFlow"/>
+	</test>
 	
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config22.xml/Flow Definitions/myFlow/v"/>
+		<property name="attributeName" value="vdl-document"/>
+		<property name="attributeValue" value="d"/>
+	</test>
+	
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config22.xml/Flow Definitions/myFlow/switch"/>
+		<property name="attributeName" value="id"/>
+		<property name="attributeValue" value="switch"/>
+	</test>
+	
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config22.xml/Flow Definitions/myFlow/return"/>
+		<property name="attributeName" value="from-outcome"/>
+		<property name="attributeValue" value="from"/>
+	</test>
+	
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config22.xml/Flow Definitions/myFlow/rules:b:0"/>
+		<property name="attributeName" value="from-view-id"/>
+		<property name="attributeValue" value="b"/>
+	</test>
+	
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config22.xml/Flow Definitions/myFlow/flowCall1"/>
+		<property name="attributeName" value="flow-id"/>
+		<property name="attributeValue" value="flowID"/>
+	</test>
+	
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config22.xml/Flow Definitions/myFlow/#{SecondBean}"/>
+		<property name="attributeName" value="default-outcome"/>
+		<property name="attributeValue" value="defaultOut"/>
+	</test>
+	
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config22.xml/Flow Definitions/myFlow2"/>
+		<property name="attributeName" value="id"/>
+		<property name="attributeValue" value="myFlow2"/>
+	</test>
+	
+	<!-- Test Protected Views -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config22.xml/Protected Views/url1"/>
+		<property name="attributeName" value="url-pattern"/>
+		<property name="attributeValue" value="url1"/>
+	</test>
+
+	<!-- Test Resource Library Contracts -->
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config22.xml/application/Resource Library Contracts/a4a"/>
+		<property name="attributeName" value="url-pattern"/>
+		<property name="attributeValue" value="a4a"/>
+	</test>
+	
+	<test name="JSFModelTest:testPaths:attribute">
+		<property name="path" value="/faces-config22.xml/application/Resource Library Contracts/a4a"/>
+		<property name="attributeName" value="contracts"/>
+		<property name="attributeValue" value="qqq2"/>
+	</test>
+	
+    
+    	
 	<!-- Test Tag Library 2.0 -->
 	<test name="JSFModelTest:testPaths:attribute">
 		<property name="path" value="/example.tld"/>

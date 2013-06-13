@@ -19,7 +19,7 @@ import org.jboss.tools.jsf.model.JSFConstants;
 /**
  * @author Igels
  */
-public class JSFFormLayoutData implements IFormLayoutData {
+public class JSFFormLayoutData implements IFormLayoutData, JSFConstants {
 	private final static String STBFE_CLASS_NAME = "org.jboss.tools.common.model.ui.attribute.editor.JavaHyperlinkLineFieldEditor"; //$NON-NLS-1$
 	private final static String SBFEE_CLASS_NAME = "org.jboss.tools.common.model.ui.attribute.editor.StringButtonFieldEditorEx"; //$NON-NLS-1$
 	
@@ -59,7 +59,14 @@ public class JSFFormLayoutData implements IFormLayoutData {
 		new IFormData[] {
 		FACTORIES_SUB_LIST_DEFINITION,
 		LIFECYCLE_SUB_LIST_DEFINITION,
-		ModelFormLayoutData.createAdvancedFormData(JSFConstants.ENT_FACESCONFIG_20)
+		ModelFormLayoutData.createAdvancedFormData(ENT_FACESCONFIG_20)
+	};
+
+	private final static IFormData[] FACES_CONFIG_22_DEFINITIONS =
+		new IFormData[] {
+		FACTORIES_SUB_LIST_DEFINITION,
+		LIFECYCLE_SUB_LIST_DEFINITION,
+		ModelFormLayoutData.createAdvancedFormData(ENT_FACESCONFIG_22)
 	};
 
 	private final static IFormData ATTRIBUTES_FORM_DEFINITIONS =
@@ -219,12 +226,61 @@ public class JSFFormLayoutData implements IFormLayoutData {
 		)
 	};
 
+	private final static IFormData[] APPLICATION_22_DEFINITIONS = new IFormData[] {
+		new FormData(
+			"Application",
+			"", //$NON-NLS-1$
+			FormLayoutDataUtil.createGeneralFormAttributeData("JSFApplication22") //$NON-NLS-1$
+		),
+		createResolver("EL Resolvers", "JSFELResolver", "AddELResolver"), //$NON-NLS-2$ //$NON-NLS-3$
+		createResolver("Property Resolvers", "JSFPropertyResolver", "AddPropertyResolver"), //$NON-NLS-2$ //$NON-NLS-3$
+		createResolver("Variable Resolvers", "JSFVariableResolver", "AddVariableResolver"), //$NON-NLS-2$ //$NON-NLS-3$
+		new FormData(
+			"Message Bundles",
+			"", //$NON-NLS-1$
+			new FormAttributeData[]{new FormAttributeData("message-bundle", 100)}, //$NON-NLS-1$
+			new String[]{"JSFMessageBundle"}, //$NON-NLS-1$
+			FormLayoutDataUtil.createDefaultFormActionData("CreateActions.AddMessageBundle", true) //$NON-NLS-1$
+		),
+		new FormData(
+			"Resource Bundles",
+			"", //$NON-NLS-1$
+			new FormAttributeData[]{new FormAttributeData("base-name", 70), new FormAttributeData("var", 30)}, //$NON-NLS-1$ //$NON-NLS-2$
+			new String[]{"JSFResourceBundle"}, //$NON-NLS-1$
+			FormLayoutDataUtil.createDefaultFormActionData("CreateActions.AddResourceBundle") //$NON-NLS-1$
+		),
+		new FormData("org.jboss.tools.jsf.ui.editor.form.LocaleConfigForm"), //$NON-NLS-1$
+		new FormData(
+			"Default Validators",
+			"", //$NON-NLS-1$
+			"Default Validators", //$NON-NLS-1$
+			new FormAttributeData[]{new FormAttributeData("validator-id", 100, "Validator ID")}, //$NON-NLS-1$
+			new String[]{"JSFDefaultValidator"}, //$NON-NLS-1$
+			FormLayoutDataUtil.createDefaultFormActionData("CreateActions.AddDefaultValidator", true) //$NON-NLS-1$
+		),
+		//TODO
+		new FormData(
+			"Extensions",
+			"", //$NON-NLS-1$
+			new FormAttributeData[]{new FormAttributeData("element type", 100, "element")}, //$NON-NLS-1$
+			new String[]{"JSFApplicationExtension"}, //$NON-NLS-1$
+			createDefaultFormActionData("CreateActions.CreateExtension") //$NON-NLS-1$
+		),
+		new FormData(
+			"Advanced",
+			"", //$NON-NLS-1$
+			FormLayoutDataUtil.createAdvancedFormAttributeData("JSFApplication20") //$NON-NLS-1$
+		)
+	};
+
 	private final static IFormData APPLICATION_DEFINITION =
 		new FormData("JSFApplication", new String[]{null}, APPLICATION_DEFINITIONS); //$NON-NLS-1$
 	private final static IFormData APPLICATION_12_DEFINITION =
 		new FormData("JSFApplication12", new String[]{null}, APPLICATION_12_DEFINITIONS); //$NON-NLS-1$
 	private final static IFormData APPLICATION_20_DEFINITION =
 		new FormData("JSFApplication20", new String[]{null}, APPLICATION_20_DEFINITIONS); //$NON-NLS-1$
+	private final static IFormData APPLICATION_22_DEFINITION =
+			new FormData("JSFApplication22", new String[]{null}, APPLICATION_22_DEFINITIONS); //$NON-NLS-1$
 
 	/**
 	 * 
@@ -400,16 +456,57 @@ public class JSFFormLayoutData implements IFormLayoutData {
 		return new FormData(entity, new String[]{null}, definitions);
 	}
 
+	private final static IFormData createNavigationRulesFormDefinitions(String parentEntity, String childEntity) {
+		return new FormData(
+			"Navigation Rules",
+			"", //$NON-NLS-1$
+			parentEntity,
+			new FormAttributeData[]{new FormAttributeData("presentation", 100, "from-view-id")}, //$NON-NLS-1$
+			new String[]{childEntity},
+			createDefaultFormActionData("CreateActions.AddRule")); //$NON-NLS-1$
+	}
+
+	private final static IFormData createNavigationRuleFormDefinitions(String parentEntity, String childEntity) {
+		return new FormData(
+			parentEntity,
+			new String[]{null},
+			new IFormData[] {
+				// Navigation Rule Form
+				new FormData(
+					"Navigation Rule",
+					"", //$NON-NLS-1$
+					new FormAttributeData[]{new FormAttributeData("from-view-id", null, SBFEE_CLASS_NAME), new FormAttributeData("description", InfoLayoutDataFactory.getInstance())} //$NON-NLS-1$ //$NON-NLS-2$
+				),
+				// Navigation Cases Form
+				new FormData(
+					"Navigation Cases",
+					"", //$NON-NLS-1$
+					new FormAttributeData[]{new FormAttributeData("from-outcome", 30), new FormAttributeData("from-action", 30), new FormAttributeData("to-view-id", 30), new FormAttributeData("redirect", 10)}, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					new String[]{childEntity},
+					createDefaultFormActionData("CreateActions.CreateCase") //$NON-NLS-1$
+				),
+				// Advanced Navigation Rule Form
+				new FormData(
+					"Advanced",
+					"", //$NON-NLS-1$
+					new FormAttributeData[]{new FormAttributeData("id"), new FormAttributeData("display-name"), new FormAttributeData("small-icon"), new FormAttributeData("large-icon")} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ 
+				)
+			}
+		);
+	}
+
 	private final static IFormData[] FORM_LAYOUT_DEFINITIONS =
 		new IFormData[] {
-			new FormData("FacesConfig", new String[]{null}, FACES_CONFIG_DEFINITIONS), //$NON-NLS-1$
-			new FormData("FacesConfig11", new String[]{null}, FACES_CONFIG_DEFINITIONS), //$NON-NLS-1$
-			new FormData("FacesConfig12", new String[]{null}, FACES_CONFIG_DEFINITIONS), //$NON-NLS-1$
-			new FormData("FacesConfig20", new String[]{null}, FACES_CONFIG_20_DEFINITIONS), //$NON-NLS-1$
+			new FormData(ENT_FACESCONFIG, new String[]{null}, FACES_CONFIG_DEFINITIONS),
+			new FormData(ENT_FACESCONFIG_11, new String[]{null}, FACES_CONFIG_DEFINITIONS),
+			new FormData(ENT_FACESCONFIG_12, new String[]{null}, FACES_CONFIG_DEFINITIONS),
+			new FormData(ENT_FACESCONFIG_20, new String[]{null}, FACES_CONFIG_20_DEFINITIONS),
+			new FormData(ENT_FACESCONFIG_22, new String[]{null}, FACES_CONFIG_22_DEFINITIONS),
 
 			APPLICATION_DEFINITION,
 			APPLICATION_12_DEFINITION,
 			APPLICATION_20_DEFINITION,
+			APPLICATION_22_DEFINITION,
 
 			createComponentsFormDefinitions("JSFComponents", "JSFComponent"), //$NON-NLS-1$ //$NON-NLS-2$
 			createComponentsFormDefinitions("JSFComponents11", "JSFComponent11"), //$NON-NLS-1$ //$NON-NLS-2$
@@ -601,75 +698,13 @@ public class JSFFormLayoutData implements IFormLayoutData {
 				new FormAttributeData[]{new FormAttributeData("null-value"), new FormAttributeData("value", GreedyLayoutDataFactory.getInstance(), null, 0)} //$NON-NLS-1$ //$NON-NLS-2$ 
 			),
 			// Navigation Rules Form
-			new FormData(
-				"Navigation Rules",
-				"", //$NON-NLS-1$
-				"JSFNavigationRules", //$NON-NLS-1$
-				new FormAttributeData[]{new FormAttributeData("presentation", 100, "from-view-id")}, //$NON-NLS-1$
-				new String[]{"JSFNavigationRule"}, //$NON-NLS-1$
-				createDefaultFormActionData("CreateActions.AddRule") //$NON-NLS-1$
-			),
-			new FormData(
-				"Navigation Rules",
-				"", //$NON-NLS-1$
-				"JSFNavigationRules20", //$NON-NLS-1$
-				new FormAttributeData[]{new FormAttributeData("presentation", 100, "from-view-id")}, //$NON-NLS-1$
-				new String[]{"JSFNavigationRule20"}, //$NON-NLS-1$
-				createDefaultFormActionData("CreateActions.AddRule") //$NON-NLS-1$
-			),
-			new FormData(
-				"JSFNavigationRule", //$NON-NLS-1$
-				new String[]{null},
-				new IFormData[] {
-					// Navigation Rule Form
-					new FormData(
-						"Navigation Rule",
-						"", //$NON-NLS-1$
-						new FormAttributeData[]{new FormAttributeData("from-view-id", null, SBFEE_CLASS_NAME), new FormAttributeData("description", InfoLayoutDataFactory.getInstance())} //$NON-NLS-1$ //$NON-NLS-2$
-					),
-					// Navigation Cases Form
-					new FormData(
-						"Navigation Cases",
-						"", //$NON-NLS-1$
-						new FormAttributeData[]{new FormAttributeData("from-outcome", 30), new FormAttributeData("from-action", 30), new FormAttributeData("to-view-id", 30), new FormAttributeData("redirect", 10)}, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-						new String[]{"JSFNavigationCase"}, //$NON-NLS-1$
-						createDefaultFormActionData("CreateActions.CreateCase") //$NON-NLS-1$
-					),
-					// Advanced Navigation Rule Form
-					new FormData(
-						"Advanced",
-						"", //$NON-NLS-1$
-						new FormAttributeData[]{new FormAttributeData("id"), new FormAttributeData("display-name"), new FormAttributeData("small-icon"), new FormAttributeData("large-icon")} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ 
-					)
-				}
-			),
+			createNavigationRulesFormDefinitions("JSFNavigationRules", "JSFNavigationRule"),
+			createNavigationRulesFormDefinitions("JSFNavigationRules20", "JSFNavigationRule20"),
+			createNavigationRulesFormDefinitions("JSFNavigationRules22", "JSFNavigationRule22"),
 
-			new FormData(
-				"JSFNavigationRule20", //$NON-NLS-1$
-				new String[]{null},
-				new IFormData[] {
-					// Navigation Rule Form
-					new FormData(
-						"Navigation Rule",
-						"", //$NON-NLS-1$
-						new FormAttributeData[]{new FormAttributeData("from-view-id", null, SBFEE_CLASS_NAME), new FormAttributeData("description", InfoLayoutDataFactory.getInstance())} //$NON-NLS-1$ //$NON-NLS-2$
-					),
-					// Navigation Cases Form
-					new FormData(
-						"Navigation Cases",
-						"", //$NON-NLS-1$
-						new FormAttributeData[]{new FormAttributeData("from-outcome", 30), new FormAttributeData("from-action", 30), new FormAttributeData("to-view-id", 40)}, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-						new String[]{"JSFNavigationCase20"}, //$NON-NLS-1$
-						createDefaultFormActionData("CreateActions.CreateCase") //$NON-NLS-1$
-					),
-					// Advanced Navigation Rule Form
-					new FormData(
-						"Advanced",
-						"", //$NON-NLS-1$
-						new FormAttributeData[]{new FormAttributeData("id"), new FormAttributeData("display-name"), new FormAttributeData("small-icon"), new FormAttributeData("large-icon")} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ 
-					)
-				}
-			),
+			createNavigationRuleFormDefinitions("JSFNavigationRule", "JSFNavigationCase"),
+			createNavigationRuleFormDefinitions("JSFNavigationRule20", "JSFNavigationCase20"),
+			createNavigationRuleFormDefinitions("JSFNavigationRule22", "JSFNavigationCase22"),
 
 			new FormData(
 				"JSFNavigationCase", //$NON-NLS-1$
@@ -699,6 +734,25 @@ public class JSFFormLayoutData implements IFormLayoutData {
 						"Navigation Case",
 						"", //$NON-NLS-1$
 						new FormAttributeData[]{new FormAttributeData("from-outcome"), new FormAttributeData("from-action"), new FormAttributeData("if"), new FormAttributeData("to-view-id", null, SBFEE_CLASS_NAME), new FormAttributeData("description", InfoLayoutDataFactory.getInstance())} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ 
+					),
+					// Advanced Navigation Case Form
+					new FormData(
+						"Advanced",
+						"", //$NON-NLS-1$
+						new FormAttributeData[]{new FormAttributeData("id"), new FormAttributeData("display-name"), new FormAttributeData("small-icon"), new FormAttributeData("large-icon")} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ 
+					)
+				}
+			),
+
+			new FormData(
+				"JSFNavigationCase22", //$NON-NLS-1$
+				new String[]{null},
+				new IFormData[] {
+					// Navigation Case Form
+					new FormData(
+						"Navigation Case",
+						"", //$NON-NLS-1$
+						new FormAttributeData[]{new FormAttributeData("from-outcome"), new FormAttributeData("from-action"), new FormAttributeData("if"), new FormAttributeData("to-view-id", null, SBFEE_CLASS_NAME), new FormAttributeData("to-flow-document-id"), new FormAttributeData("description", InfoLayoutDataFactory.getInstance())} //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 					),
 					// Advanced Navigation Case Form
 					new FormData(
@@ -849,6 +903,27 @@ public class JSFFormLayoutData implements IFormLayoutData {
 				"JSFVariableResolver", //$NON-NLS-1$
 				FormLayoutDataUtil.createGeneralFormAttributeData("JSFVariableResolver") //$NON-NLS-1$
 			),
+
+			//Protected Views
+			new FormData(
+				"Protected Views",
+				"", //$NON-NLS-1$
+				"JSFProtectedViewsFolder", //$NON-NLS-1$
+				new FormAttributeData[]{new FormAttributeData("url-pattern", 100)}, //$NON-NLS-1$
+				new String[]{"JSFProtectedViews22"},
+				createDefaultFormActionData("CreateActions.AddProtectedViews") //$NON-NLS-1$
+			),
+
+			//Flow Definitions
+			new FormData(
+					"Flow Definitions",
+					"", //$NON-NLS-1$
+					"JSFFlowDefinitions22", //$NON-NLS-1$
+					new FormAttributeData[]{new FormAttributeData("id", 100)}, //$NON-NLS-1$
+					new String[]{"JSFFlowDefinition22"},
+					createDefaultFormActionData("CreateActions.AddFlowDefinition") //$NON-NLS-1$
+			),
+
 		};
 
 	private static Map<String,IFormData> FORM_LAYOUT_DEFINITION_MAP = Collections.synchronizedMap(new ArrayToMap(FORM_LAYOUT_DEFINITIONS));

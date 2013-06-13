@@ -19,10 +19,15 @@ public class AddNavigationRuleHandler extends DefaultCreateHandler {
 
 	protected void setOtherProperties(XModelObject object, Properties p) {
 		String fvi = p.getProperty("from-view-id"); //$NON-NLS-1$
-		JSFNavigationModel m = (JSFNavigationModel)object.getParent();
-		int i = m.getRuleCount(fvi);
-		p.setProperty("index", "" + i); //$NON-NLS-1$ //$NON-NLS-2$
-		/*TRIAL_JSF*/
+		XModelObject parent = object.getParent();
+		while(parent != null && !(parent instanceof JSFNavigationModel)) {
+			parent = parent.getParent();
+		}
+		if(parent != null) {
+			JSFNavigationModel m = (JSFNavigationModel)parent;
+			int i = m.getRuleCount(fvi);
+			p.setProperty("index", "" + i); //$NON-NLS-1$ //$NON-NLS-2$
+		}
 	}
-/*TRIAL_JSF_CLASS*/
+
 }

@@ -157,10 +157,10 @@ public class FacesConfigLoader extends AbstractWebDiagramLoader implements WebPr
 		try {
             return SimpleWebFileLoader.serialize(element, object);
 		} catch (IOException e) {
-			JSFModelPlugin.getPluginLog().logError(e);
+			JSFModelPlugin.getDefault().logError(e);
 			return null;
 		} catch (XModelException e) {
-			JSFModelPlugin.getPluginLog().logError(e);
+			JSFModelPlugin.getDefault().logError(e);
 			return null;
 		}
 	}
@@ -178,7 +178,9 @@ class SFUtil extends XModelObjectLoaderUtil {
 		JSFConstants.FOLDER_ORDERINGS,
 		JSFConstants.FOLDER_REFENCED_BEANS, 
 		JSFConstants.FOLDER_RENDER_KITS, 
-		JSFConstants.FOLDER_VALIDATORS, 
+		JSFConstants.FOLDER_VALIDATORS,
+		JSFConstants.FOLDER_PROTECTED_VIEWS,
+		JSFConstants.FOLDER_FLOW_DEFINITIONS,
 		JSFConstants.FOLDER_EXTENSIONS};
 
 	protected Set<String> getAllowedChildren(XModelEntity entity) {
@@ -220,6 +222,24 @@ class SFUtil extends XModelObjectLoaderUtil {
 			loadListEntriesChildren(element, o);
 		} else {
 			super.loadChildren(element, o);
+			if("JSFProtectedViews22".equals(entity)) {
+				XModelObject[] cs = o.getChildren();
+				if(cs.length > 0) {
+					//First child is loaded as an attribute
+					o.removeChild(cs[0]);
+				}
+			} else if("JSFContractMapping22".equals(entity)) {
+				XModelObject[] cs = o.getChildren("JSFURLPattern22");
+				if(cs.length > 0) {
+					//First child is loaded as an attribute
+					o.removeChild(cs[0]);
+				}
+				cs = o.getChildren("JSFContracts22");
+				if(cs.length > 0) {
+					//First child is loaded as an attribute
+					o.removeChild(cs[0]);
+				}
+			}
 		}
 	}
 	
@@ -281,6 +301,70 @@ class SFUtil extends XModelObjectLoaderUtil {
 			boolean b = super.saveChildren(element, o);
 			if("true".equals(o.getAttributeValue("others"))) {
 				XMLUtilities.createElement(element, "others");
+			}
+			if("JSFContractMapping22".equals(entity)) {
+				NodeList list = element.getChildNodes();
+				boolean isWrong = false;
+				Node firstContract = null, secondContract = null;
+				for (int i = 0; i < list.getLength(); i++) {
+					Node n = list.item(i);
+					if(n.getNodeType() == Node.ELEMENT_NODE) {
+						if("contracts".equals(n.getNodeName())) {
+							if(firstContract == null)
+								firstContract = n;
+							else if(secondContract == null) 
+								secondContract = n;
+						} else if("url-pattern".equals(n.getNodeName())) {
+							if(firstContract != null) isWrong = true;
+						}
+					}
+				}
+				if(isWrong) {
+					element.insertBefore(firstContract, secondContract);
+				}
+			} else if("JSFFlowDefinition22".equals(entity)) {
+				NodeList list = element.getChildNodes();
+				boolean isWrong = false;
+				Node initializer = null, finalizer = null, firstInboundParameter = null;
+				for (int i = 0; i < list.getLength(); i++) {
+					Node n = list.item(i);
+					if(n.getNodeType() == Node.ELEMENT_NODE) {
+						if("initializer".equals(n.getNodeName())) {
+							initializer = n;
+						} else if("finalizer".equals(n.getNodeName())) {
+							finalizer = n;
+						} else if("inbound-parameter".equals(n.getNodeName())) {
+							if(firstInboundParameter != null) firstInboundParameter = n;
+						} else if(initializer != null || finalizer != null) {
+							isWrong = true;
+						}
+					}
+				}
+				if(isWrong) {
+					if(initializer != null) {
+						element.insertBefore(initializer, firstInboundParameter);
+					}
+					if(finalizer != null) {
+						element.insertBefore(finalizer, firstInboundParameter);
+					}
+				}
+			} else if("JSFSwitch22".equals(entity)) {
+				NodeList list = element.getChildNodes();
+				boolean isWrong = false;
+				Node defaultOutcome = null;
+				for (int i = 0; i < list.getLength(); i++) {
+					Node n = list.item(i);
+					if(n.getNodeType() == Node.ELEMENT_NODE) {
+						if("default-outcome".equals(n.getNodeName())) {
+							defaultOutcome = n;
+						} else if("case".equals(n.getNodeName())) {
+							isWrong = true;
+						}
+					}
+				}
+				if(isWrong) {
+					element.insertBefore(defaultOutcome, null);
+				}
 			}
 			return b;
 		}

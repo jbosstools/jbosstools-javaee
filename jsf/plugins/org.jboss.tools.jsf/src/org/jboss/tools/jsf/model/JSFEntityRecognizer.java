@@ -50,6 +50,9 @@ public class JSFEntityRecognizer implements EntityRecognizer, JSFConstants {
         if(SUFF_20.equals(versionSuffix)) {
         	return ENT_FACESCONFIG_20;
         }
+        if(SUFF_22.equals(versionSuffix)) {
+        	return ENT_FACESCONFIG_22;
+        }
         return null;
     }
     
@@ -60,10 +63,15 @@ public class JSFEntityRecognizer implements EntityRecognizer, JSFConstants {
     	if(j < 0) return null;
     	String s = body.substring(i, j);
     	String uriValue = "" + '"' + JAVAEE_URI + '"';
-    	if(s.indexOf(uriValue) < 0) return null;
-    	if(s.indexOf("version=\"1.2\"") > 0) return SUFF_12; //$NON-NLS-1$
-    	if(s.indexOf("version=\"2.0\"") > 0) return SUFF_20; //$NON-NLS-1$
-    	if(s.indexOf("version=\"2.1\"") > 0) return SUFF_20; //$NON-NLS-1$ //TODO SUFF_21
+    	if(s.indexOf(uriValue) >= 0) {
+    		if(s.indexOf("version=\"1.2\"") > 0) return SUFF_12; //$NON-NLS-1$
+    		if(s.indexOf("version=\"2.0\"") > 0) return SUFF_20; //$NON-NLS-1$
+    		if(s.indexOf("version=\"2.1\"") > 0) return SUFF_20; //$NON-NLS-1$ //TODO SUFF_21
+    	}
+    	uriValue = "" + '"' + JAVAEE22_URI + '"';
+    	if(s.indexOf(uriValue) >= 0) {
+    		if(s.indexOf("version=\"2.2\"") > 0) return SUFF_22; //$NON-NLS-1$
+    	}
     	return null;
     }
 

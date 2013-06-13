@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+ <managed-bean>
+  <managed-bean-name>a</managed-bean-name>
+  <managed-bean-class>c</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+  <managed-property>
+   <property-name>p</property-name>
+   <value/>
+  </managed-property>
+ </managed-bean>
+ <navigation-rule>
+  <from-view-id>a</from-view-id>
+  <navigation-case>
+   <to-view-id>/c.jsp</to-view-id>
+   <to-flow-document-id>q11</to-flow-document-id>
+  </navigation-case>
+ </navigation-rule>
+ <protected-views>
+  <url-pattern>url1</url-pattern>
+  <url-pattern>url1a</url-pattern>
+  <url-pattern>url1b</url-pattern>
+ </protected-views>
+ <protected-views>
+  <url-pattern>url2</url-pattern>
+ </protected-views>
+ <flow-definition id="myFlow">
+  <view id="v">
+   <vdl-document>d</vdl-document>
+  </view>
+  <switch id="switch"/>
+  <flow-return id="return">
+   <from-outcome>from</from-outcome>
+  </flow-return>
+  <navigation-rule>
+   <from-view-id>b</from-view-id>
+  </navigation-rule>
+  <flow-call id="flowCall1">
+   <flow-reference>
+    <flow-id>flowID</flow-id>
+   </flow-reference>
+  </flow-call>
+  <method-call>
+   <method id="q2">#{SecondBean}</method>
+   <default-outcome>defaultOut</default-outcome>
+   <parameter>
+    <class>String</class>
+    <value>#{SecondBean.name}</value>
+   </parameter>
+   <parameter>
+    <value>#{SecondBean}</value>
+   </parameter>
+  </method-call>
+  <initializer>#{SecondBean}</initializer>
+  <finalizer>#{SecondBean}</finalizer>
+ </flow-definition>
+ <flow-definition id="myFlow2"/>
+ <faces-config-extension/>
+ <application>
+  <resource-library-contracts id="a11">
+   <contract-mapping id="e">
+    <url-pattern>a4a</url-pattern>
+    <url-pattern>a5</url-pattern>
+    <contracts>qqq2</contracts>
+    <contracts>cc1</contracts>
+    <contracts>cc2</contracts>
+   </contract-mapping>
+   <contract-mapping id="e1">
+    <url-pattern>a1</url-pattern>
+    <contracts>cc</contracts>
+   </contract-mapping>
+  </resource-library-contracts>
+ </application>
+ <factory>
+  <view-declaration-language-factory>view</view-declaration-language-factory>
+  <tag-handler-delegate-factory>tag</tag-handler-delegate-factory>
+  <render-kit-factory>render</render-kit-factory>
+  <visit-context-factory>visit</visit-context-factory>
+  <flash-factory>flash</flash-factory>
+  <flow-handler-factory>flow</flow-handler-factory>
+ </factory>
+</faces-config>

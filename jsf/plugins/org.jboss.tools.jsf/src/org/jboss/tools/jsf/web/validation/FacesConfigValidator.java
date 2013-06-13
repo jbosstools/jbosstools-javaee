@@ -133,14 +133,14 @@ public class FacesConfigValidator extends ValidationErrorManager implements IVal
 	}
 
 	void createChecks() {
-		String ENT_APP = "JSFApplication", ENT_APP_12 = ENT_APP + SUFF_12, ENT_APP_20 = ENT_APP + SUFF_20;
-		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_ACTION_LISTENER, "action-listener", false, "javax.faces.event.ActionListener", null), ENT_APP, ENT_APP_12, ENT_APP_20);
-		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_NAVIGATION_HANDLER, "navigation-handler", false, null, "javax.faces.application.NavigationHandler"), ENT_APP, ENT_APP_12, ENT_APP_20);
+		String ENT_APP = "JSFApplication", ENT_APP_12 = ENT_APP + SUFF_12, ENT_APP_20 = ENT_APP + SUFF_20, ENT_APP_22 = ENT_APP + SUFF_22;
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_ACTION_LISTENER, "action-listener", false, "javax.faces.event.ActionListener", null), ENT_APP, ENT_APP_12, ENT_APP_20, ENT_APP_22);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_NAVIGATION_HANDLER, "navigation-handler", false, null, "javax.faces.application.NavigationHandler"), ENT_APP, ENT_APP_12, ENT_APP_20, ENT_APP_22);
 		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_PROPERTY_RESOLVER, "class name", false, "javax.faces.el.PropertyResolver", null).setVisualAttribute("property-resolver"), "JSFPropertyResolver");
-		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_STATE_MANAGER, "state-manager", false, null, "javax.faces.application.StateManager"), ENT_APP, ENT_APP_12, ENT_APP_20);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_STATE_MANAGER, "state-manager", false, null, "javax.faces.application.StateManager"), ENT_APP, ENT_APP_12, ENT_APP_20, ENT_APP_22);
 		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_VARIABLE_RESOLVER, "class name", false, null, "javax.el.ELResolver").setVisualAttribute("el-resolver"), "JSFELResolver");
 		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_VARIABLE_RESOLVER, "class name", false, null, "javax.faces.el.VariableResolver").setVisualAttribute("variable-resolver"), "JSFVariableResolver");
-		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_VIEW_HANDLER, "view-handler", false, null, "javax.faces.application.ViewHandler"), ENT_APP, ENT_APP_12, ENT_APP_20);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_VIEW_HANDLER, "view-handler", false, null, "javax.faces.application.ViewHandler"), ENT_APP, ENT_APP_12, ENT_APP_20, ENT_APP_22);
 
 		String ENT_COMPONENT = "JSFComponent", ENT_COMPONENT_11 = ENT_COMPONENT + SUFF_11;
 		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_COMPONENT_CLASS, "component-class", false, null, "javax.faces.component.UIComponent"), ENT_COMPONENT, ENT_COMPONENT_11);

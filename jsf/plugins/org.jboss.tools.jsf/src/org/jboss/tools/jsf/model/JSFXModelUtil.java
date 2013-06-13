@@ -21,4 +21,8 @@ public class JSFXModelUtil {
 	public static void addRule(XModelObject object, Properties properties){
 		XActionInvoker.invoke(ADD_RULE_ACTION, object, properties);
 	}
+
+	public static boolean isFacesConfig(XModelObject f) {
+		return f.getModelEntity().getName().startsWith(JSFConstants.ENT_FACESCONFIG);
+	}
 }

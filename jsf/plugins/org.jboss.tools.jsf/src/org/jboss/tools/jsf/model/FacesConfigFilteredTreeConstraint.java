@@ -29,7 +29,8 @@ public class FacesConfigFilteredTreeConstraint implements XFilteredTreeConstrain
 		return (HIDING_ALL_CHILDREN_ENTITIES.indexOf("." + entity + ".") >= 0); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
-	static String HIDING_SOME_CHILDREN_ENTITIES = "." + ENT_FACESCONFIG_10 + "." + ENT_FACESCONFIG_11 + "." + ENT_FACESCONFIG_12 + "." + ENT_FACESCONFIG_20 + "." + "JSFApplication.JSFApplication12.JSFApplication20.";  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+	static String HIDING_SOME_CHILDREN_ENTITIES = "." + ENT_FACESCONFIG_10 + "." + ENT_FACESCONFIG_11 + "." + ENT_FACESCONFIG_12 + "." + ENT_FACESCONFIG_20 + "." + ENT_FACESCONFIG_22
+			+ "." + "JSFApplication.JSFApplication12.JSFApplication20.JSFApplication22";  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 
 	public boolean isHidingSomeChildren(XModelObject object) {
 		String entity = object.getModelEntity().getName();

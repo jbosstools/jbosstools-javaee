@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.model.handlers.run;
 
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.jsf.model.JSFConstants;
+import org.jboss.tools.jsf.model.JSFXModelUtil;
 import org.jboss.tools.jsf.model.helpers.JSFProcessStructureHelper;
 import org.jboss.tools.jsf.web.JSFWebProject;
 import org.jboss.tools.jst.web.browser.*;
@@ -46,7 +47,7 @@ public class IPathSourceImpl implements IPathSource, JSFConstants {
 	private boolean isRelevant(XModelObject object) {
 		if(object.getFileType() == XModelObject.FILE) return false; // no
 		XModelObject o = JSFProcessStructureHelper.instance.getParentFile(object);
-		return o != null && o.getModelEntity().getName().startsWith(ENT_FACESCONFIG);
+		return o != null && JSFXModelUtil.isFacesConfig(o);
 	}
 	
     public static String getPath(XModelObject object) {

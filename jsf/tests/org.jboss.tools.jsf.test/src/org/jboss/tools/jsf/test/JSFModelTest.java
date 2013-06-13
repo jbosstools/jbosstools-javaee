@@ -67,6 +67,11 @@ public class JSFModelTest extends TestCase {
 		
 		testName = "JSFModelTest:testPaths:attribute";
 		doAttributeTest(n.getModel(), testName);
+		
+		f = project.getFile(new Path("/WebContent/WEB-INF/faces-config22.xml"));
+		XModelObject o = EclipseResourceUtil.getObjectByResource(f);
+		printPaths(o);
+		System.out.println("ok");
 	}
 
 	public void testWebApp() {

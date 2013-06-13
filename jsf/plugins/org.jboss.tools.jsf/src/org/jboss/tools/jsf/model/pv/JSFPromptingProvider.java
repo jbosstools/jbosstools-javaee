@@ -18,7 +18,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.common.model.java.handlers.OpenJavaSourceHandler;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
-
 import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
@@ -26,6 +25,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.jsf.model.JSFConstants;
 import org.jboss.tools.jsf.model.JSFELCompletionEngine;
+import org.jboss.tools.jsf.model.JSFXModelUtil;
 import org.jboss.tools.jsf.model.helpers.converter.*;
 import org.jboss.tools.jsf.model.helpers.pages.OpenCaseHelper;
 import org.jboss.tools.jsf.model.helpers.pages.ResourceBundleHelper;
@@ -241,12 +241,11 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 		if(root == null) return EMPTY_LIST;
 		WebProjectNode n = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
 		if(n == null) return EMPTY_LIST;
-		XModelObject[] os = n.getTreeChildren();
 		List<Object> list = new ArrayList<Object>();
-		for (int i = 0; i < os.length; i++) {
-			if(!os[i].getModelEntity().getName().startsWith(JSFConstants.ENT_FACESCONFIG)) continue;
-			getBeans(os[i], BeanConstants.MANAGED_BEAN_CONSTANTS, list);
-			getBeans(os[i], BeanConstants.REFERENCED_BEAN_CONSTANTS, list);
+		for (XModelObject o: n.getTreeChildren()) {
+			if(!JSFXModelUtil.isFacesConfig(o)) continue;
+			getBeans(o, BeanConstants.MANAGED_BEAN_CONSTANTS, list);
+			getBeans(o, BeanConstants.REFERENCED_BEAN_CONSTANTS, list);
 		}
 		return list;
 	}
@@ -266,11 +265,10 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 		if(root == null) return result;
 		WebProjectNode n = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
 		WebProjectNode beans = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.BEANS);
-		XModelObject[] os = n.getTreeChildren();
-		for (int i = 0; i < os.length; i++) {
-			if(!os[i].getModelEntity().getName().startsWith(JSFConstants.ENT_FACESCONFIG)) continue;
-			getVariables(os[i], BeanConstants.MANAGED_BEAN_CONSTANTS, beans, result);
-			getVariables(os[i], BeanConstants.REFERENCED_BEAN_CONSTANTS, beans, result);
+		for (XModelObject o: n.getTreeChildren()) {
+			if(!JSFXModelUtil.isFacesConfig(o)) continue;
+			getVariables(o, BeanConstants.MANAGED_BEAN_CONSTANTS, beans, result);
+			getVariables(o, BeanConstants.REFERENCED_BEAN_CONSTANTS, beans, result);
 		}
 		
 		return result;
@@ -421,7 +419,7 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 	static XModelObject findBean(WebProjectNode conf, String beanName) {
 		XModelObject[] os = conf.getTreeChildren();
 		for (int i = 0; i < os.length; i++) {
-			if(!os[i].getModelEntity().getName().startsWith(JSFConstants.ENT_FACESCONFIG)) continue;
+			if(!JSFXModelUtil.isFacesConfig(os[i])) continue;
 			XModelObject bean = os[i].getChildByPath("Managed Beans/" + beanName);
 			if(bean != null) return bean;
 			bean = os[i].getChildByPath("Referenced Beans/" + beanName);
