@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.filesystems.impl.AbstractExtendedXMLFileImpl;
 import org.jboss.tools.common.model.markers.XMarkerManager;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.xml.components.model.SeamComponentConstants;
@@ -95,6 +96,7 @@ public class SeamXMLModelTest extends TestCase {
 		XModelObject fileObject = getComponents22Object();
 		JobUtils.waitForIdle();
 		assertNotNull("Cannot create XModel object for file components22.xml.", fileObject);
+		((AbstractExtendedXMLFileImpl)fileObject).check();
 		XMarkerManager.getInstance().getErrorState(fileObject);
 		
 		XModelObject coreInit0 = fileObject.getChildByPath("org.jboss.seam.core.init");
