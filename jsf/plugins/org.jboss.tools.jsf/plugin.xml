@@ -6,6 +6,8 @@
       </meta>
       <meta path="meta/jsf2.meta">
       </meta>
+      <meta path="meta/jsf22.meta">
+      </meta>
       <meta path="meta/jsfcapabilities.meta">
       </meta>
       <meta path="meta/jsfprojects.meta">
@@ -303,6 +305,9 @@
 			class="org.jboss.tools.jsf.model.impl.SupportedLocaleObjectImpl"/>
 		<xclass id="org.jboss.tools.jsf.model.impl.ValidatorObjectImpl"
 			class="org.jboss.tools.jsf.model.impl.ValidatorObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.SwitchCaseObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.SwitchCaseObjectImpl"/>
+
 		<xclass id="org.jboss.tools.jsf.model.pv.JSFProjectBean"
 			class="org.jboss.tools.jsf.model.pv.JSFProjectBean"/>
 		<xclass id="org.jboss.tools.jsf.model.pv.JSFProjectBeanMember"

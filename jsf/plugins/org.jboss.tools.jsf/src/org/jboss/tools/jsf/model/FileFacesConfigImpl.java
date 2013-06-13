@@ -11,6 +11,7 @@
 package org.jboss.tools.jsf.model;
 
 import java.util.*;
+
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.impl.*;
 import org.jboss.tools.common.model.loaders.XObjectLoader;
@@ -37,7 +38,19 @@ public class FileFacesConfigImpl extends AbstractWebFileImpl implements JSFNavig
 
 	public void updateRuleIndices() {
 		Map<String,Integer> paths = new HashMap<String,Integer>();
-		XModelObject[] rs = getChildByPath(FOLDER_NAVIGATION_RULES).getChildren();
+		List<XModelObject> list = new ArrayList<XModelObject>();
+		XModelObject[] rs0 = getChildByPath(FOLDER_NAVIGATION_RULES).getChildren();
+		for (XModelObject o: rs0) list.add(o);
+
+		if(getChildByPath(FOLDER_FLOW_DEFINITIONS) != null) {
+			XModelObject[] rs1 = getChildByPath(FOLDER_FLOW_DEFINITIONS).getChildren();
+			for (XModelObject o: rs1) {
+				XModelObject[] rs2 = o.getChildren("JSFNavigationRule22");
+				for (XModelObject o2: rs2) list.add(o2);
+			}
+		}
+		
+		XModelObject[] rs = list.toArray(new XModelObject[0]);
 		Map<String,XModelObject> pps = new HashMap<String,XModelObject>();
 		int[] is = new int[rs.length];
 		for (int i = 0; i < rs.length; i++) {
@@ -69,11 +82,21 @@ public class FileFacesConfigImpl extends AbstractWebFileImpl implements JSFNavig
 	}
 	
 	public int getRuleCount(String fromViewId) {
-		XModelObject[] rs = getChildByPath(FOLDER_NAVIGATION_RULES).getChildren("JSFNavigationRule"); //$NON-NLS-1$
+		XModelObject[] rs = getChildByPath(FOLDER_NAVIGATION_RULES).getChildren(); //$NON-NLS-1$
 		int s = 0;
 		for (int i = 0; i < rs.length; i++) {
 			String f = rs[i].getAttributeValue(ATT_FROM_VIEW_ID);
 			if(fromViewId.equals(f)) ++s;
+		}
+		if(getChildByPath(FOLDER_FLOW_DEFINITIONS) != null) {
+			XModelObject[] rs1 = getChildByPath(FOLDER_FLOW_DEFINITIONS).getChildren();
+			for (XModelObject o: rs1) {
+				XModelObject[] rs2 = o.getChildren("JSFNavigationRule22");
+				for (XModelObject o2: rs2) {
+					String f = o2.getAttributeValue(ATT_FROM_VIEW_ID);
+					if(fromViewId.equals(f)) ++s;
+				}
+			}
 		}
 		return s;
 	}

@@ -18,18 +18,21 @@ public interface JSFConstants {
 	public static final String DOC_EXTDTD_11 = "http://java.sun.com/dtd/web-facesconfig_1_1.dtd"; //$NON-NLS-1$
 	
 	public static final String JAVAEE_URI = "http://java.sun.com/xml/ns/javaee"; //$NON-NLS-1$
+	public static final String JAVAEE22_URI = "http://xmlns.jcp.org/xml/ns/javaee"; //$NON-NLS-1$
 
 	public static final String ELM_PROCESS = "process"; //$NON-NLS-1$
 
 	public static final String SUFF_11 = "11"; //$NON-NLS-1$
 	public static final String SUFF_12 = "12"; //$NON-NLS-1$
 	public static final String SUFF_20 = "20"; //$NON-NLS-1$
+	public static final String SUFF_22 = "22"; //$NON-NLS-1$
 
 	public static final String ENT_FACESCONFIG  = "FacesConfig"; //$NON-NLS-1$
 	public static final String ENT_FACESCONFIG_10  = ENT_FACESCONFIG;
 	public static final String ENT_FACESCONFIG_11  = ENT_FACESCONFIG + SUFF_11;
 	public static final String ENT_FACESCONFIG_12  = ENT_FACESCONFIG + SUFF_12;
 	public static final String ENT_FACESCONFIG_20  = ENT_FACESCONFIG + SUFF_20;
+	public static final String ENT_FACESCONFIG_22  = ENT_FACESCONFIG + SUFF_22;
 
 	public static final String ENT_NAVIGATION_RULES = "JSFNavigationRules"; //$NON-NLS-1$
 	
@@ -52,6 +55,8 @@ public interface JSFConstants {
 	public static final String FOLDER_RENDER_KITS = "Render Kits"; //$NON-NLS-1$
 	public static final String FOLDER_VALIDATORS = "Validators"; //$NON-NLS-1$
 	public static final String FOLDER_ORDERINGS = "Orderings"; //$NON-NLS-1$
+	public static final String FOLDER_PROTECTED_VIEWS = "Protected Views"; //$NON-NLS-1$
+	public static final String FOLDER_FLOW_DEFINITIONS = "Flow Definitions"; //$NON-NLS-1$
 	public static final String FOLDER_EXTENSIONS = "Extensions"; //$NON-NLS-1$
 	
 	public static final String ATT_ID             = "id"; //$NON-NLS-1$

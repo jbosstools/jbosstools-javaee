@@ -1,0 +1,1198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN"
+                                   "meta.dtd">
+<XModelEntityGroup>
+ <VERSION DEPENDS="Model:1.0" MODULE="JSF" VERSION="1.0"/>
+ <MAPPINGS>
+  <MAPPING name="FileVersions">
+   <PAIR name="FacesConfig2.2" value="FacesConfig22"/>
+  </MAPPING>
+ </MAPPINGS>
+ <ICONS>
+  <GROUP name="main">
+   <GROUP name="jsf">
+    <ICON name="method" path="images/java/method.gif"/>
+    <ICON name="parameter" path="images/java/attr.gif"/>
+    <ICON name="return" path="images/actions/redo.gif"/>
+    <ICON name="switch" path="images/orm2/onetomany.gif"/>
+    <ICON name="view" path="images/file/computer.gif"/>
+   </GROUP>
+  </GROUP>
+ </ICONS>
+ <GlobalActions kind="list"/>
+ <XModelEntity
+  AdoptManagerClass="org.jboss.tools.jsf.model.handlers.FacesConfigAdopt"
+  ImplementationLoadingClass="org.jboss.tools.jsf.model.FacesConfigLoader"
+  ImplementingClass="org.jboss.tools.jsf.model.FileFacesConfigImpl"
+  ObjectEditorClass="%XML%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="faces-config" name="FacesConfig22">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="JSFApplication22" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFFactory22" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFLifecycle" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFOrderings20" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFBehaviors20" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFComponents11" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFConverters" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFManagedBeans20" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFFlowDefinitions22" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFNavigationRules22" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFProtectedViewsFolder" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFReferencedBeans" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFRenderKits20" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFValidators12" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFConfigExtensions" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFProcess" required="yes"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.faces-config" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="faces-config" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute default="faces-config" name="name" xmlname="NAME"/>
+   <XModelAttribute default="xml" name="extension" xmlname="EXTENSION">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+   <XModelAttribute loader="ElementType" name="_lateload" visibility="false">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="save=always"
+    default="http://xmlns.jcp.org/xml/ns/javaee" name="xmlns" xmlname="xmlns"/>
+   <XModelAttribute PROPERTIES="save=always"
+    default="http://www.w3.org/2001/XMLSchema-instance" name="xmlns:xsi" xmlname="xmlns:xsi"/>
+   <XModelAttribute PROPERTIES="save=always"
+    default="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+    name="xsi:schemaLocation" xmlname="xsi:schemaLocation"/>
+   <XModelAttribute PROPERTIES="save=always" default="2.2"
+    name="version" visibility="false" xmlname="version"/>
+   <XModelAttribute default="no" name="isIncorrect" visibility="false">
+    <Constraint loader="List">
+     <value name="yes"/>
+     <value name="no"/>
+    </Constraint>
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute name="incorrectBody" visibility="false"/>
+   <XModelAttribute name="encoding">
+    <Constraint loader="ListString">
+     <value name="ISO-8859-1"/>
+     <value name="UTF-8"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=advanced"
+    name="faces config name" xmlname="name.#text">
+    <Constraint loader="JavaName">
+     <value name="acceptIncorrect=true"/>
+    </Constraint>
+    <Editor name="Name"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="metadata-complete" xmlname="metadata-complete">
+    <Constraint loader="List">
+     <value/>
+     <value name="true"/>
+     <value name="false"/>
+    </Constraint>
+    <Editor name="ListString"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem BaseActionName="Open" HandlerClassName="%Open%"
+    ICON="action.empty" displayName="Open" kind="action" name="Open"/>
+   <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
+     ICON="action.empty" PROPERTIES="extension=struts-config"
+     displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
+     ICON="action.empty" PROPERTIES="extension=struts-config"
+     displayName="Choose Program..." kind="action" name="OpenWithChoice">
+     <EntityData EntityName="OpenWithHelper">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="default"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem kind="list" name="EditActions">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.RenameFacesConfigHandler"
+     ICON="action.empty" PROPERTIES="validator.edit=true"
+     WizardClassName="%Default%" displayName="Rename..." kind="action" name="Rename">
+     <EntityData EntityName="FacesConfig">
+      <AttributeData AttributeName="name"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem
+     HandlerClassName="org.jboss.tools.common.model.filesystems.impl.handlers.RenameEclipseFileHandler"
+     ICON="action.empty" displayName="Rename..." kind="action" name="RenameEclipse"/>
+   </XActionItem>
+   <XActionItem kind="list" name="SaveActions">
+    <XActionItem HIDE="always" HandlerClassName="%SaveFile%"
+     ICON="action.save" displayName="Save" kind="action" name="Save"/>
+   </XActionItem>
+   <XActionItem
+    HandlerClassName="org.jboss.tools.jsf.model.handlers.SetApplicationHandler"
+    ICON="action.empty" displayName="Edit Application Settings..."
+    kind="action" name="SetApplication"/>
+   <XActionItem
+    HandlerClassName="org.jboss.tools.jsf.model.handlers.SetFactoryHandler"
+    ICON="action.empty" displayName="Edit Factory Settings..."
+    kind="action" name="SetFactory"/>
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Redirect%" ICON="action.empty"
+     PROPERTIES="validator.add=true;sourcepath=Navigation Rules;actionpath=CreateActions/AddRule"
+     WizardClassName="%Default%" displayName="Rule..." kind="action" name="AddRule"/>
+    <XActionItem HandlerClassName="%Redirect%" ICON="action.empty"
+     PROPERTIES="validator.add=true;sourcepath=Components;actionpath=CreateActions/AddBehavior"
+     WizardClassName="%Default%" displayName="Behavior..." kind="action" name="AddBehavior"/>
+    <XActionItem HandlerClassName="%Redirect%" ICON="action.empty"
+     PROPERTIES="validator.add=true;sourcepath=Components;actionpath=CreateActions/AddComponent"
+     WizardClassName="%Default%" displayName="Component..."
+     kind="action" name="AddComponent"/>
+    <XActionItem displayName="Converter" group="1" kind="list" name="AddConverter">
+     <XActionItem HandlerClassName="%Redirect%" ICON="action.empty"
+      PROPERTIES="validator.add=true;sourcepath=Converters;actionpath=CreateActions/AddConverter/WithId"
+      WizardClassName="%Default%" displayName="with id..." kind="action" name="WithId"/>
+     <XActionItem HandlerClassName="%Redirect%" ICON="action.empty"
+      PROPERTIES="validator.add=true;sourcepath=Converters;actionpath=CreateActions/AddConverter/ForClass"
+      WizardClassName="%Default%" displayName="for class..."
+      kind="action" name="ForClass"/>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Redirect%" ICON="action.empty"
+     PROPERTIES="validator.add=true;sourcepath=Managed Beans;actionpath=CreateActions/AddManagedBean"
+     WizardClassName="%Default%" displayName="Managed Bean..."
+     kind="action" name="AddManagedBean"/>
+    <XActionItem HandlerClassName="%Redirect%" ICON="action.empty"
+     PROPERTIES="validator.add=true;sourcepath=Orderings;actionpath=CreateActions/AddOrdering"
+     WizardClassName="%Default%" displayName="Ordering..." kind="action" name="AddOrdering"/>
+    <XActionItem HandlerClassName="%Redirect%" ICON="action.empty"
+     PROPERTIES="validator.add=true;sourcepath=Referenced Beans;actionpath=CreateActions/AddReferencedBean"
+     WizardClassName="%Default%" displayName="Referenced Bean..."
+     kind="action" name="AddReferencedBean"/>
+    <XActionItem HandlerClassName="%Redirect%" ICON="action.empty"
+     PROPERTIES="validator.add=true;sourcepath=Render Kits;actionpath=CreateActions/AddRenderKit"
+     WizardClassName="%Default%" displayName="Render Kit..."
+     kind="action" name="AddRenderKit"/>
+    <XActionItem HandlerClassName="%DefaultReplaceUnique%"
+     ICON="action.empty"
+     PROPERTIES="significanceMessageClass=%Replace%;child=lifecycle"
+     displayName="Lifecycle..." kind="action" name="AddLifecycle">
+     <EntityData EntityName="JSFLifecycle"/>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Redirect%" ICON="action.empty"
+     PROPERTIES="validator.add=true;sourcepath=Validators;actionpath=CreateActions/AddValidator"
+     WizardClassName="%Default%" displayName="Validator..."
+     kind="action" name="AddValidator"/>
+    <XActionItem HandlerClassName="%Redirect%" ICON="action.empty"
+     PROPERTIES="validator.add=true;sourcepath=Protected Views;actionpath=CreateActions/AddProtectedViews"
+     WizardClassName="%Default%" displayName="Protected Views..."
+     kind="action" name="AddProtectedViews"/>
+    <XActionItem HandlerClassName="%Redirect%" ICON="action.empty"
+     PROPERTIES="validator.add=true;sourcepath=Flow Definitions;actionpath=CreateActions/AddFlowDefinition"
+     WizardClassName="%Default%" displayName="Protected Views..."
+     kind="action" name="AddFlowDefinition"/>
+   </XActionItem>
+   <XActionItem kind="list" name="GenerateActions"/>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Paste" HandlerClassName="%Paste%"
+     ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.DeleteFacesConfigHandler"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem kind="list" name="DiscardActions">
+    <XActionItem HIDE="always"
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.DiscardConfigHandler"
+     ICON="action.delete"
+     PROPERTIES="significanceMessageClass=org.jboss.tools.common.model.filesystems.impl.DiscardFileSignificanceMessage"
+     displayName="Discard Changes" kind="action" name="Discard"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity name="FacesConfig22_EditorActionList">
+  <XChildrenEntities/>
+  <XEntityRenderer/>
+  <XModelAttributes/>
+  <XActionItem kind="list">
+   <XActionItem displayName="New" group="1" kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem kind="list" name="VerifyActions">
+    <XActionItem kind="list" name="StaticActions"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.impl.ApplicationObjectImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData;saveDefault=false"
+  XMLSUBPATH="application" name="JSFApplication22">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="JSFLocaleConfig" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFLibraryContracts22" required="yes"/>
+   <XChildEntity maxCount="1" name="JSFDefaultValidators" required="yes"/>
+   <XChildEntity name="JSFSystemEventListener"/>
+   <XChildEntity name="JSFELResolver"/>
+   <XChildEntity name="JSFPropertyResolver"/>
+   <XChildEntity name="JSFVariableResolver"/>
+   <XChildEntity name="JSFMessageBundle"/>
+   <XChildEntity name="JSFResourceBundle"/>
+   <XChildEntity name="JSFApplicationExtension"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.application" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="application" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="action-listener" xmlname="action-listener.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general"
+    name="default-render-kit-id" xmlname="default-render-kit-id.#text">
+    <Constraint loader="ListString"/>
+    <Editor name="DefaultRendererKitId"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general"
+    name="navigation-handler" xmlname="navigation-handler.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="view-handler" xmlname="view-handler.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="state-manager" xmlname="state-manager.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute COPYABLE="no" name="el-resolver">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute COPYABLE="no" name="property-resolver">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute COPYABLE="no" name="variable-resolver">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general"
+    name="resource-handler" xmlname="resource-handler.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="id" xmlname="id"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem displayName="New" group="1" kind="list" name="CreateActions">
+    <XActionItemReference entity="JSFApplication20" name="AddSystemListener"/>
+    <XActionItemReference entity="JSFApplication20" name="AddMessageBundle"/>
+    <XActionItemReference entity="JSFApplication20" name="AddResourceBundle"/>
+    <XActionItemReference entity="JSFApplication20" name="CreateResolvers"/>
+    <XActionItemReference entity="JSFApplication20" name="CreateExtension"/>
+   </XActionItem>
+   <XActionItem HandlerClassName="%OpenJavaSource%" ICON="action.empty"
+    PROPERTIES="action-listener" displayName="Open Declaration"
+    kind="action" name="OpenSource"/>
+   <XActionItemReference entity="JSFApplication20" name="EditActions"/>
+   <XActionItem kind="list" name="GenerateActions"/>
+   <XActionItemReference entity="JSFApplication20" name="CopyActions"/>
+   <XActionItemReference entity="JSFApplication20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFApplication20" name="Properties"/>
+   <XActionItemReference entity="JSFApplication20" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="parameter" name="JSFCallParameter22">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.parameter" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="parameter" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general" name="class" xmlname="class.#text"/>
+   <XModelAttribute PROPERTIES="id=true;category=general;save=always"
+    name="value" xmlname="value.#text"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="JSFOrderingName20" name="CopyActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData;children=%EntityOrdered%"
+  XMLSUBPATH="contract-mapping" name="JSFContractMapping22">
+  <XChildrenEntities>
+   <XChildEntity name="JSFURLPattern22"/>
+   <XChildEntity name="JSFContracts22"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.property" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="contract mapping" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="description,display-name,small-icon,large-icon"
+    entity="JSFManagedBean20" name="description"/>
+   <XModelAttribute PROPERTIES="category=general;save=always;id=true"
+    name="url-pattern" xmlname="url-pattern.#text"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="contracts" xmlname="contracts.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="id" xmlname="id"/>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.renderkit"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="URL Pattern..." kind="action" name="AddURLPattern">
+     <EntityData EntityName="JSFURLPattern22">
+      <AttributeData AttributeName="url-pattern"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.renderkit"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Contracts..." kind="action" name="AddContracts">
+     <EntityData EntityName="JSFContracts22">
+      <AttributeData AttributeName="contracts"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItemReference entity="JSFOrderingName20" name="CopyActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="contracts" name="JSFContracts22">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.property" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="contracts" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    name="contracts" xmlname="#text"/>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="JSFOrderingName20" name="CopyActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.impl.FactoryObjectImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData;saveDefault=false"
+  XMLSUBPATH="factory" name="JSFFactory22">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.factory" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="factory" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="application-factory,exception-handler-factory,external-context-factory,faces-context-factory,partial-view-context-factory,lifecycle-factory,view-declaration-language-factory,tag-handler-delegate-factory,render-kit-factory,visit-context-factory"
+    entity="JSFFactory20" name="factories"/>
+   <XModelAttribute PROPERTIES="category=general" name="flash-factory" xmlname="flash-factory.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=general"
+    name="flow-handler-factory" xmlname="flow-handler-factory.#text">
+    <Editor name="AccessibleJava"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="category=advanced" name="id" xmlname="id"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="JSFFactory20" name="OpenSource"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions">
+    <XActionItem HandlerClassName="%Edit%" ICON="action.empty"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Edit..." kind="action" name="Edit">
+     <EntityData EntityName="JSFFactory22">
+      <AttributeData AttributeName="application-factory" Mandatory="no"/>
+      <AttributeData AttributeName="exception-handler-factory" Mandatory="no"/>
+      <AttributeData AttributeName="external-context-factory" Mandatory="no"/>
+      <AttributeData AttributeName="faces-context-factory" Mandatory="no"/>
+      <AttributeData AttributeName="partial-view-context-factory" Mandatory="no"/>
+      <AttributeData AttributeName="lifecycle-factory" Mandatory="no"/>
+      <AttributeData AttributeName="view-declaration-language-factory" Mandatory="no"/>
+      <AttributeData AttributeName="tag-handler-delegate-factory" Mandatory="no"/>
+      <AttributeData AttributeName="render-kit-factory" Mandatory="no"/>
+      <AttributeData AttributeName="visit-context-factory" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem kind="list" name="GenerateActions"/>
+   <XActionItemReference entity="JSFFactory20" name="CopyActions"/>
+   <XActionItemReference entity="JSFFactory20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFFactory20" name="Properties"/>
+   <XActionItemReference entity="JSFFactory20" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData;children=%Ordered%"
+  XMLSUBPATH="flow-call" name="JSFFlowCall22">
+  <XChildrenEntities>
+   <XChildEntity name="JSFOutboundParameter22"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.switch" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="flow-call" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general;save=always"
+    name="id" xmlname="id"/>
+   <XModelAttribute PROPERTIES="category=advanced"
+    name="flow-document-id" xmlname="flow-reference.flow-document-id.#text"/>
+   <XModelAttribute PROPERTIES="id=true;category=general;save=always"
+    name="flow-id" xmlname="flow-reference.flow-id.#text"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.renderkit"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Outbound Parameter..." kind="action" name="AddOutboundParameter">
+     <EntityData EntityName="JSFOutboundParameter22">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItemReference entity="JSFOrderingName20" name="CopyActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="MoveActions"/>
+   <XActionItemReference entity="JSFNavigationCase20" name="Properties"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData;children=%EntityOrdered%"
+  XMLSUBPATH="flow-definition" name="JSFFlowDefinition22">
+  <XChildrenEntities>
+   <XChildEntity name="JSFView22"/>
+   <XChildEntity name="JSFSwitch22"/>
+   <XChildEntity name="JSFReturn22"/>
+   <XChildEntity name="JSFNavigationRule22"/>
+   <XChildEntity name="JSFFlowCall22"/>
+   <XChildEntity name="JSFMethodCall22"/>
+   <XChildEntity name="JSFInboundParameter22"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.rule" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="flow definition" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="description,display-name,small-icon,large-icon"
+    entity="JSFManagedBean20" name="description"/>
+   <XModelAttribute PROPERTIES="id=true;save=always;category=general"
+    name="id" xmlname="id"/>
+   <XModelAttribute PROPERTIES="category=general" name="start-node" xmlname="start-node.#text"/>
+   <XModelAttribute PROPERTIES="category=general" name="initializer" xmlname="initializer.#text"/>
+   <XModelAttribute PROPERTIES="category=general" name="finalizer" xmlname="finalizer.#text"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.renderkit"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="View..." kind="action" name="AddView">
+     <EntityData EntityName="JSFView22">
+      <AttributeData AttributeName="id"/>
+      <AttributeData AttributeName="vdl-document"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.renderkit"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Switch..." kind="action" name="AddSwitch">
+     <EntityData EntityName="JSFSwitch22">
+      <AttributeData AttributeName="id"/>
+      <AttributeData AttributeName="default-outcome" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.renderkit"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Return..." kind="action" name="AddReturn">
+     <EntityData EntityName="JSFReturn22">
+      <AttributeData AttributeName="id"/>
+      <AttributeData AttributeName="from-outcome"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.AddNavigationRuleHandler"
+     ICON="main.jsf.rule" PROPERTIES="validator.add=true"
+     WizardClassName="%Default%" displayName="Rule..." kind="action" name="AddRule">
+     <EntityData EntityName="JSFNavigationRule22">
+      <AttributeData AttributeName="from-view-id" Mandatory="no"/>
+      <AttributeData AttributeName="display-name" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.renderkit"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Flow Call..." kind="action" name="AddFlowCall">
+     <EntityData EntityName="JSFFlowCall22">
+      <AttributeData AttributeName="id"/>
+      <AttributeData AttributeName="flow-id"/>
+      <AttributeData AttributeName="flow-document-id" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.renderkit"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Method Call..." kind="action" name="AddMethodCall">
+     <EntityData EntityName="JSFMethodCall22">
+      <AttributeData AttributeName="method"/>
+      <AttributeData AttributeName="id" Mandatory="no"/>
+      <AttributeData AttributeName="default-outcome"/>
+     </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.renderkit"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Inbound Parameter..." kind="action" name="AddInboundParameter">
+     <EntityData EntityName="JSFInboundParameter22">
+      <AttributeData AttributeName="name"/>
+      <AttributeData AttributeName="value"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItemReference entity="JSFOrderingName20" name="CopyActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Ordered%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFFlowDefinitions22">
+  <XChildrenEntities>
+   <XChildEntity name="JSFFlowDefinition22"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.rules" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="flow definitions" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute default="Flow Definitions" name="name" xmlname="NAME">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.renderkit"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Flow Definition..." kind="action" name="AddFlowDefinition">
+     <EntityData EntityName="JSFFlowDefinition22">
+      <AttributeData AttributeName="id"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItemReference entity="JSFOrderings20" name="CopyActions"/>
+   <XActionItemReference entity="JSFOrderings20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFOrderings20" name="Properties"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="inbound-parameter" name="JSFInboundParameter22">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.parameter" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="inbound-parameter" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general;save=always"
+    name="name" xmlname="name.#text"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="value" xmlname="value.#text"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="JSFOrderingName20" name="CopyActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Ordered%"
+  PROPERTIES="saveDefault=false;formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="resource-library-contracts" name="JSFLibraryContracts22">
+  <XChildrenEntities>
+   <XChildEntity name="JSFContractMapping22"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.localeconf" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="resource-library-contracts"
+    loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute default="Resource Library Contracts" name="name"
+    visibility="false" xmlname="NAME">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="description,display-name,small-icon,large-icon"
+    entity="JSFManagedBean20" name="description"/>
+   <XModelAttribute name="id" xmlname="id"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.renderkit"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Contract Mapping..." kind="action" name="AddContractMapping">
+     <EntityData EntityName="JSFContractMapping22">
+      <AttributeData AttributeName="url-pattern"/>
+      <AttributeData AttributeName="contracts"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions"/>
+   <XActionItemReference entity="JSFLocaleConfig" name="CopyActions"/>
+   <XActionItemReference entity="JSFLocaleConfig" name="DeleteActions"/>
+   <XActionItemReference entity="JSFLocaleConfig" name="Properties"/>
+   <XActionItemReference entity="JSFLocaleConfig" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData;children=%Ordered%"
+  XMLSUBPATH="method-call" name="JSFMethodCall22">
+  <XChildrenEntities>
+   <XChildEntity name="JSFCallParameter22"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.method" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="method-call" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general;save=always"
+    name="method" xmlname="method.#text"/>
+   <XModelAttribute PROPERTIES="category=general" name="id" xmlname="method.id"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="default-outcome" xmlname="default-outcome.#text"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.renderkit"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Parameter..." kind="action" name="AddParameter">
+     <EntityData EntityName="JSFCallParameter22">
+      <AttributeData AttributeName="value"/>
+      <AttributeData AttributeName="class" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItemReference entity="JSFOrderingName20" name="CopyActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="MoveActions"/>
+   <XActionItemReference entity="JSFNavigationCase20" name="Properties"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.impl.NavigationCaseObjectImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="navigation-case" name="JSFNavigationCase22">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="JSFRedirect20" required="yes"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.case" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="navigation-case" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="description,display-name,small-icon,large-icon,from-action,from-outcome,if,to-view-id"
+    entity="JSFNavigationCase20" name="case"/>
+   <XModelAttribute name="to-flow-document-id" xmlname="to-flow-document-id.#text"/>
+   <XModelAttribute name="id" xmlname="id"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+   <XModelAttribute name="_shape" visibility="false"/>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="JSFNavigationCase20" name="OpenPage"/>
+   <XActionItemReference entity="JSFNavigationCase20" name="RunActions"/>
+   <XActionItemReference entity="JSFNavigationCase20" name="Select"/>
+   <XActionItemReference entity="JSFNavigationCase20" name="CopyActions"/>
+   <XActionItemReference entity="JSFNavigationCase20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFNavigationCase20" name="MoveActions"/>
+   <XActionItemReference entity="JSFNavigationCase20" name="Properties"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.impl.NavigationRuleObjectImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="navigation-rule" name="JSFNavigationRule22">
+  <XChildrenEntities>
+   <XChildEntity name="JSFNavigationCase22"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.rule" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="navigation-rule" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="description,display-name,small-icon,large-icon"
+    entity="JSFNavigationRule20" name="description"/>
+   <XModelAttribute PROPERTIES="id=true" name="from-view-id" xmlname="from-view-id.#text">
+    <Constraint loader="Tree">
+     <value name="JSFPageTree"/>
+     <value name="extensions=jsp,html,htm,xhtml,xml"/>
+     <value name="linkAction=OpenPage"/>
+    </Constraint>
+    <Editor name="TreeChooser"/>
+   </XModelAttribute>
+   <XModelAttribute name="id" xmlname="id"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+   <XModelAttribute name="_shape" visibility="false"/>
+   <XModelAttribute name="index" visibility="false"/>
+   <XModelAttribute COPYABLE="no" name="presentation" visibility="false"/>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.AddNavigationCaseHandler"
+     ICON="action.new.jsf.case" PROPERTIES="validator.add=true"
+     WizardClassName="%Default%" displayName="Case..." kind="action" name="CreateCase">
+     <EntityData EntityName="JSFNavigationCase22">
+      <AttributeData AttributeName="from-outcome" Mandatory="no"/>
+      <AttributeData AttributeName="from-action" Mandatory="no"/>
+      <AttributeData AttributeName="to-view-id"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItemReference entity="JSFNavigationRule20" name="OpenPage"/>
+   <XActionItemReference entity="JSFNavigationRule20" name="RunActions"/>
+   <XActionItemReference entity="JSFNavigationRule20" name="Select"/>
+   <XActionItemReference entity="JSFNavigationRule20" name="CopyActions"/>
+   <XActionItemReference entity="JSFNavigationRule20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFNavigationRule20" name="MoveActions"/>
+   <XActionItemReference entity="JSFNavigationRule20" name="Properties"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.impl.NavigationRulesObjectImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFNavigationRules22">
+  <XChildrenEntities>
+   <XChildEntity name="JSFNavigationRule22"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.rules" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="navigation rule list" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute default="Navigation Rules" name="name" xmlname="NAME">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem
+     HandlerClassName="org.jboss.tools.jsf.model.handlers.AddNavigationRuleHandler"
+     ICON="main.jsf.rule" PROPERTIES="validator.add=true"
+     WizardClassName="%Default%" displayName="Rule..." kind="action" name="AddRule">
+     <EntityData EntityName="JSFNavigationRule22">
+      <AttributeData AttributeName="from-view-id" Mandatory="no"/>
+      <AttributeData AttributeName="display-name" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItemReference entity="JSFNavigationRule20" name="CopyActions"/>
+   <XActionItemReference entity="JSFNavigationRule20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFNavigationRule20" name="Properties"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="outbound-parameter" name="JSFOutboundParameter22">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.parameter" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="outbound-parameter" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general;save=always"
+    name="name" xmlname="name.#text"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="value" xmlname="value.#text"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="JSFOrderingName20" name="CopyActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData;children=%Ordered%"
+  XMLSUBPATH="protected-views" name="JSFProtectedViews22">
+  <XChildrenEntities>
+   <XChildEntity name="JSFURLPattern22"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.property" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="protected views" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general;save=always"
+    name="url-pattern" xmlname="url-pattern.#text"/>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.renderkit"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="URL Pattern..." kind="action" name="AddURLPattern">
+     <EntityData EntityName="JSFURLPattern22">
+      <AttributeData AttributeName="url-pattern"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItemReference entity="JSFOrderingName20" name="CopyActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Ordered%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData" name="JSFProtectedViewsFolder">
+  <XChildrenEntities>
+   <XChildEntity name="JSFProtectedViews22"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.renderkits" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="protected views" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute default="Protected Views" name="name" xmlname="NAME">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.renderkit"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Protected Views..." kind="action" name="AddProtectedViews">
+     <EntityData EntityName="JSFProtectedViews22">
+      <AttributeData AttributeName="url-pattern"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItemReference entity="JSFOrderings20" name="CopyActions"/>
+   <XActionItemReference entity="JSFOrderings20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFOrderings20" name="Properties"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="flow-return" name="JSFReturn22">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.return" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="return" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general;save=always"
+    name="id" xmlname="id"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="from-outcome" xmlname="from-outcome.#text"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="JSFOrderingName20" name="CopyActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="switch" name="JSFSwitch22">
+  <XChildrenEntities>
+   <XChildEntity name="JSFSwitchCase22"/>
+  </XChildrenEntities>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.switch" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="switch" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general;save=always"
+    name="id" xmlname="id"/>
+   <XModelAttribute PROPERTIES="category=general" name="default-outcome" xmlname="default-outcome.#text"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem HandlerClassName="%Create%" ICON="main.jsf.renderkit"
+     PROPERTIES="validator.add=true" WizardClassName="%Default%"
+     displayName="Case..." kind="action" name="AddCase">
+     <EntityData EntityName="JSFSwitchCase22">
+      <AttributeData AttributeName="if" Mandatory="no"/>
+      <AttributeData AttributeName="from-outcome" Mandatory="no"/>
+     </EntityData>
+    </XActionItem>
+   </XActionItem>
+   <XActionItemReference entity="JSFOrderingName20" name="CopyActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="MoveActions"/>
+   <XActionItemReference entity="JSFNavigationCase20" name="Properties"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.impl.SwitchCaseObjectImpl"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="case" name="JSFSwitchCase22">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.case" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="case" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttributeReference
+    attributes="description,display-name,small-icon,large-icon"
+    entity="JSFManagedBean20" name="description"/>
+   <XModelAttribute PROPERTIES="category=general" name="if" xmlname="if.#text"/>
+   <XModelAttribute PROPERTIES="category=general" name="from-outcome" xmlname="from-outcome.#text"/>
+   <XModelAttribute PROPERTIES="category=general" name="id" xmlname="id"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="JSFOrderingName20" name="CopyActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="MoveActions"/>
+   <XActionItemReference entity="JSFNavigationCase20" name="Properties"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="url-pattern" name="JSFURLPattern22">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.property" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="url-pattern" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    name="url-pattern" xmlname="#text"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="JSFOrderingName20" name="CopyActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="view" name="JSFView22">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.view" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="view" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general;save=always"
+    name="id" xmlname="id"/>
+   <XModelAttribute PROPERTIES="category=general;save=always"
+    name="vdl-document" xmlname="vdl-document.#text"/>
+   <XModelAttribute TRIM="no" name="comment" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItemReference entity="JSFOrderingName20" name="CopyActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="DeleteActions"/>
+   <XActionItemReference entity="JSFOrderingName20" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XEntityExtension name="FileFolder">
+  <XChildrenEntities>
+   <XChildEntity name="FacesConfig22"/>
+  </XChildrenEntities>
+  <XActionItem kind="list"/>
+ </XEntityExtension>
+ <XEntityExtension name="FileSystemFolder">
+  <XChildrenEntities>
+   <XChildEntity name="FacesConfig22"/>
+  </XChildrenEntities>
+  <XActionItem kind="list"/>
+ </XEntityExtension>
+ <XEntityExtension name="FileSystemJar">
+  <XChildrenEntities>
+   <XChildEntity name="FacesConfig22"/>
+  </XChildrenEntities>
+  <XActionItem kind="list"/>
+ </XEntityExtension>
+ <XEntityExtension name="JarFolder">
+  <XChildrenEntities>
+   <XChildEntity name="FacesConfig22"/>
+  </XChildrenEntities>
+  <XActionItem kind="list"/>
+ </XEntityExtension>
+</XModelEntityGroup>

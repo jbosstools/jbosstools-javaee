@@ -259,7 +259,8 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%DefaultReplaceUnique%"
-     ICON="action.empty" PROPERTIES="child=others;significanceMessageClass=%Replace%"
+     ICON="action.empty"
+     PROPERTIES="child=others;significanceMessageClass=%Replace%"
      displayName="Add Others..." kind="action" name="AddOthers">
      <EntityData EntityName="JSFOthers"/>
     </XActionItem>
@@ -989,12 +990,12 @@
    <XModelAttribute default="managed-bean" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute name="description" xmlname="description.#text">
+   <XModelAttribute PROPERTIES="category=general" name="description" xmlname="description.#text">
     <Editor name="Note"/>
    </XModelAttribute>
-   <XModelAttribute name="display-name" xmlname="display-name.#text"/>
-   <XModelAttribute name="small-icon" xmlname="icon.small-icon.#text"/>
-   <XModelAttribute name="large-icon" xmlname="icon.large-icon.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="display-name" xmlname="display-name.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="small-icon" xmlname="icon.small-icon.#text"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="large-icon" xmlname="icon.large-icon.#text"/>
    <XModelAttribute PROPERTIES="id=true;save=always"
     name="managed-bean-name" xmlname="managed-bean-name.#text">
     <Constraint loader="JavaName">

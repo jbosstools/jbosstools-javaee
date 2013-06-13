@@ -145,10 +145,9 @@ public class CreateFacesConfigSupport extends CreateFileSupport implements JSFCo
 	}
 
 	public static XModelObject[] getFacesConfigs(XModelObject folder) {
-		XModelObject[] cs = folder.getChildren();
 		List<XModelObject> list = new ArrayList<XModelObject>();
-		for (int i = 0; i < cs.length; i++) {
-			if(cs[i].getModelEntity().getName().startsWith(ENT_FACESCONFIG)) list.add(cs[i]);
+		for (XModelObject o: folder.getChildren()) {
+			if(JSFXModelUtil.isFacesConfig(o)) list.add(o);
 		}
 		return list.toArray(new XModelObject[0]);
 	}
