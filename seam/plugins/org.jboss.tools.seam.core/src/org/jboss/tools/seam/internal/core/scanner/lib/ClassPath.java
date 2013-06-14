@@ -65,11 +65,22 @@ public class ClassPath extends AbstractClassPathMonitor<SeamProject> implements 
 		model = InnerModelHelper.createXModel(project.getProject());
 		super.init();
 	}
+
+	boolean isProcessed = false;
 	
 	/**
 	 * Loads seam components from items recently added to class path. 
 	 */
 	public void process() {
+		isProcessed = true;
+		try {
+			doProcess();
+		} finally {
+			isProcessed = false;
+		}
+	}
+
+	protected void doProcess() {
 		for (String p: syncProcessedPaths()) {
 			project.pathRemoved(new Path(p));
 		}
@@ -103,6 +114,26 @@ public class ClassPath extends AbstractClassPathMonitor<SeamProject> implements 
 		
 		validateProjectDependencies();
 	}
+
+	public void waitProcess() {
+		int count = 0;
+		while(isProcessed) {
+			try {
+				synchronized (this) {
+					wait(100);
+				}
+				count++;
+				if(count >= 50) {
+					String message = "Failed to wait for class path build";
+					SeamCorePlugin.getDefault().logWarning(message, new Exception(message));
+					break;
+				}
+			} catch (InterruptedException e) {
+				SeamCorePlugin.getDefault().logError(e);
+				break;
+			}
+		}
+	}
 	
 	public void validateProjectDependencies() {
 		List<SeamProject> ps = null;
@@ -110,7 +141,7 @@ public class ClassPath extends AbstractClassPathMonitor<SeamProject> implements 
 		try {
 			ps = getSeamProjects(project.getProject());
 		} catch (CoreException e) {
-			SeamCorePlugin.getPluginLog().logError(e);
+			SeamCorePlugin.getDefault().logError(e);
 		}
 		if(ps != null) {
 			Set<SeamProject> set = project.getSeamProjects();
@@ -133,7 +164,7 @@ public class ClassPath extends AbstractClassPathMonitor<SeamProject> implements 
 		try {
 			ps = getSeamProjects(project.getProject());
 		} catch (CoreException e) {
-			SeamCorePlugin.getPluginLog().logError(e);
+			SeamCorePlugin.getDefault().logError(e);
 		}
 		if(ps != null) {
 			Set<SeamProject> set = project.getSeamProjects();
@@ -174,6 +205,7 @@ public class ClassPath extends AbstractClassPathMonitor<SeamProject> implements 
 	}
 	
 	public void build() {
+		waitProcess();
 		if(update()) {
 			process();
 		} else if(hasToUpdateProjectDependencies()) {
@@ -187,7 +219,7 @@ public class ClassPath extends AbstractClassPathMonitor<SeamProject> implements 
 			XJob.addRunnableWithPriority(new XRunnable() {
 				
 				public void run() {
-					if(update()) {
+					if(!isProcessed && update()) {
 //						System.out.println("Running " + getId());
 						process();
 					}					
