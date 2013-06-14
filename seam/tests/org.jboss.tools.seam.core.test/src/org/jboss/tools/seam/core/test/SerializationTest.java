@@ -9,8 +9,13 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.ILog;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.seam.core.ISeamComponent;
@@ -27,6 +32,7 @@ import org.jboss.tools.seam.internal.core.SeamXmlFactory;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
+import org.jboss.tools.tests.TestsPlugin;
 import org.w3c.dom.Element;
 
 public class SerializationTest extends TestCase {
@@ -47,12 +53,29 @@ public class SerializationTest extends TestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		if(project != null && project.isAccessible()) {
-			project.delete(false, true, new NullProgressMonitor());
-			project = null;
+		if (project == null || !project.exists()) {
+			return;
+		}
+		try {
+			boolean oldAutoBuilding = true;
+			try {
+				oldAutoBuilding = ResourcesUtils.setBuildAutomatically(false);
+				JobUtils.waitForIdle(10);
+				project.delete(false, true, null);
+				JobUtils.waitForIdle(10);
+			} finally {
+				ResourcesUtils.setBuildAutomatically(oldAutoBuilding);
+			}
+		} catch (CoreException ex) {
+			ILog log = Platform.getLog(Platform.getBundle(TestsPlugin.ID));
+			IStatus error = new Status(
+					IStatus.ERROR,
+					"org.jboss.tools.test",
+					"Exception occurs during project deletion",ex);
+			log.log(error);
 		}
 	}
-
+	
 	private ISeamProject getSeamProject() {
 		ISeamProject seamProject = null;
 		try {
