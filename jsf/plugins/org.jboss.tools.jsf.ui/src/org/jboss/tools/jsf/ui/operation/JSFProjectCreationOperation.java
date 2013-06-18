@@ -35,7 +35,6 @@ import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
-
 import org.jboss.tools.common.model.XModelConstants;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.filesystems.impl.FileSystemImpl;
@@ -45,6 +44,7 @@ import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.project.JSFAutoLoad;
 import org.jboss.tools.jsf.project.JSFNature;
+import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.web.JSFTemplate;
 import org.jboss.tools.jst.web.WebModelPlugin;
 import org.jboss.tools.jst.web.WebUtils;
@@ -84,6 +84,8 @@ public class JSFProjectCreationOperation extends WebProjectCreationOperation {
 			String version = template.indexOf("1.1") >= 0 ? "1.1"
 					: template.indexOf("1.2") >= 0 ? "1.2"
 					: template.indexOf("2.0") >= 0 ? "2.0"
+					: template.indexOf("2.1") >= 0 ? "2.1"
+					: template.indexOf("2.2") >= 0 ? "2.2"
 					: null;
 			if(version != null) {
 				configJSF.setProperty(IFacetDataModelProperties.FACET_VERSION_STR, version);
@@ -96,7 +98,7 @@ public class JSFProjectCreationOperation extends WebProjectCreationOperation {
 				libraryDelegate.setLibraryProvider(provider);
 				configJSF.setProperty(IJSFFacetInstallDataModelProperties.LIBRARY_PROVIDER_DELEGATE, libraryDelegate);
 			} catch (CoreException e) {
-				e.printStackTrace();
+				JsfUiPlugin.getDefault().logError(e);
 			}
 		}
 
