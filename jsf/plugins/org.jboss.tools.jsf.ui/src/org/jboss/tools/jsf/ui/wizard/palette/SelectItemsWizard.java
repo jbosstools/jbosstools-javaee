@@ -15,11 +15,11 @@ import java.beans.PropertyChangeListener;
 
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
-
 import org.jboss.tools.common.model.ui.ModelUIImages;
 import org.jboss.tools.common.model.ui.editors.dnd.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.*;
 import org.jboss.tools.jst.jsp.jspeditor.dnd.PaletteDropCommand;
+import org.jboss.tools.jst.web.ui.palette.html.wizard.HTMLConstants;
 
 /**
  *  @author erick 
@@ -42,7 +42,6 @@ public class SelectItemsWizard extends Wizard implements PropertyChangeListener,
 	}
 
 	public boolean performFinish() {
-		setText();
 		fDropCommand.execute();
 		return true;
 	}
@@ -94,21 +93,23 @@ public class SelectItemsWizard extends Wizard implements PropertyChangeListener,
 		if (proposals.length == 1) {
 			getWizardModel().setTagProposal(proposals[0]);
 		}
+		getWizardModel().setElementGenerator(g);
 	}
 
-	static String F_PREFIX = "%prefix|http://java.sun.com/jsf/core|f%"; //$NON-NLS-1$
+	SelectItemsElementGenerator g = new SelectItemsElementGenerator();
 
-	public void setText() {
-		StringBuilder text = new StringBuilder();
-		if (page2.getText() != null && page2.getText().trim().length() > 0) {
-			text.append(fDropCommand.getProperties().getProperty("start text")); //$NON-NLS-1$
-			text.append("\n\t<" + F_PREFIX + "selectItems value=\"" //$NON-NLS-1$ //$NON-NLS-2$
-					+ page2.getText() + "\"/>"); //$NON-NLS-1$
-			fDropCommand.getProperties().setProperty("start text", //$NON-NLS-1$
-					text.toString());
+	class SelectItemsElementGenerator extends DefaultElementGenerator {
+		@Override
+		protected void generateChildren(ElementNode node) {
+			String fPrefix = getDropData().getValueProvider().getPrefix(DropURI.JSF_CORE_URI, "f");
+
+			if (page2.getText() != null && page2.getText().trim().length() > 0) {
+				ElementNode c = node.addChild(fPrefix + ":selectItems");
+				c.addAttribute(HTMLConstants.ATTR_VALUE, page2.getText());
+			}
 		}
 	}
-	
+
 	public void dispose() {
 		getWizardModel().removePropertyChangeListener(this);
 		super.dispose();

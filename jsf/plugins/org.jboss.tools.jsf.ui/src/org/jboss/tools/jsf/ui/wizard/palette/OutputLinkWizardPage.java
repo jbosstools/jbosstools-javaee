@@ -18,19 +18,20 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-
 import org.jboss.tools.common.meta.action.XEntityData;
 import org.jboss.tools.common.meta.action.impl.XEntityDataImpl;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.ui.editors.dnd.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.TagAttributesComposite.AttributeDescriptorValue;
 import org.jboss.tools.jst.jsp.jspeditor.dnd.TagProposal;
+import org.jboss.tools.jst.web.ui.palette.html.wizard.HTMLConstants;
 
 /**
  *  @author erick 
  */
 
 public class OutputLinkWizardPage extends TagAttributesWizardPage {
+	public static String ATTR_LINK_TEXT = "link text"; //$NON-NLS-1$
 	
 	final XEntityData data;
 	XAttributeSupport support = new XAttributeSupport();
@@ -38,7 +39,7 @@ public class OutputLinkWizardPage extends TagAttributesWizardPage {
 		
 	public OutputLinkWizardPage(){
 		data = XEntityDataImpl.create(new String[][] {
-				{ "JSFOutputLinkWizard", "yes" }, { "link text", "no" }});			 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				{ "JSFOutputLinkWizard", "yes" }, { ATTR_LINK_TEXT, "no" }}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 	public void createControl(Composite parent) {
 		Composite maincomposite = new Composite(parent, SWT.NONE);
@@ -115,14 +116,17 @@ public class OutputLinkWizardPage extends TagAttributesWizardPage {
 	}
 	
 	public String getText() {		
-		return data.getValue("link text");		 //$NON-NLS-1$
+		return data.getValue(ATTR_LINK_TEXT);
+	}
+
+	public void setText(String value) {
+		data.setValue(ATTR_LINK_TEXT, value);
 	}
 	
-	public boolean isValue() {
-		
+	public boolean isValue() {		
 		fWizardModel = getSpecificWizard().getWizardModel();
 		AttributeDescriptorValue[] value = fWizardModel.getAttributeValueDescriptors();
-		if (value[0].getName().equals("value")) { //$NON-NLS-1$
+		if (value[0].getName().equals(HTMLConstants.ATTR_VALUE)) {
 			if ((String)value[0].getValue() != null 
 					&& ((String) value[0].getValue()).trim().length() > 0)
 				return true;

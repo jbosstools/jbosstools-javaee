@@ -92,6 +92,18 @@ public class PanelGridWizardPage extends TagAttributesWizardPage {
 	public boolean isOptionFooterChecked() {
 		return chbFooter.getSelection();
 	}
+
+	public void setOptionHeaderChecked(boolean b) {
+		if(chbHeader != null && !chbHeader.isDisposed()) {
+			chbHeader.setSelection(b);
+		}
+	}
+	
+	public void setOptionFooterChecked(boolean b) {
+		if(chbFooter != null && !chbFooter.isDisposed()) {
+			chbFooter.setSelection(b);
+		}
+	}
 	
 	protected void updateTitle() {
 		TagProposal tagProposal = (TagProposal)getDropWizardModel().getTagProposal();
@@ -117,8 +129,8 @@ public class PanelGridWizardPage extends TagAttributesWizardPage {
 		while (i < value.length) {
 
 			if (value[i].getName().equals("columns")) //$NON-NLS-1$
-				if ((String) value[0].getValue() != null
-						&& ((String) value[0].getValue()).trim().length() > 0)
+				if ((String) value[i].getValue() != null
+						&& ((String) value[i].getValue()).trim().length() > 0)
 					return true;		
 			i++;
 		}

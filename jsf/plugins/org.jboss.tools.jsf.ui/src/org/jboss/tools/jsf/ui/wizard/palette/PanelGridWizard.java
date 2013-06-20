@@ -12,13 +12,14 @@ package org.jboss.tools.jsf.ui.wizard.palette;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
-
 import org.jboss.tools.common.model.ui.ModelUIImages;
 import org.jboss.tools.common.model.ui.editors.dnd.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.*;
 import org.jboss.tools.jst.jsp.jspeditor.dnd.PaletteDropCommand;
+import org.jboss.tools.jst.web.ui.palette.html.wizard.HTMLConstants;
 
 /**
  *  @author erick 
@@ -66,6 +67,7 @@ public class PanelGridWizard extends Wizard implements PropertyChangeListener, I
 		if (proposals.length == 1) {
 			getWizardModel().setTagProposal(proposals[0]);
 		}
+		getWizardModel().setElementGenerator(g);
 	}
 
 	/**
@@ -80,8 +82,6 @@ public class PanelGridWizard extends Wizard implements PropertyChangeListener, I
 	 * 
 	 */
 	public boolean performFinish() {
-		setOptionsString(page2.isOptionHeaderChecked(), page2
-				.isOptionFooterChecked());
 		fDropCommand.execute();
 		return true;
 	}
@@ -128,41 +128,46 @@ public class PanelGridWizard extends Wizard implements PropertyChangeListener, I
 		}
 	}
 
-	static String F_PREFIX = "%prefix|http://java.sun.com/jsf/core|f%"; //$NON-NLS-1$
+	PanelGridElementGenerator g = new PanelGridElementGenerator();
 
-	public void setOptionsString(boolean header, boolean footer) {
-
-		StringBuilder text = new StringBuilder();
-
-		text.append(fDropCommand.getProperties().getProperty("start text")); //$NON-NLS-1$
-
-		if (header == true && footer == true) {
-			text.append("\n\t<" + F_PREFIX + "facet name=\"header\"></" //$NON-NLS-1$ //$NON-NLS-2$
-					+ F_PREFIX + "facet>\n"); //$NON-NLS-1$
-			if (page2.isColomns())
-				text.append("\t\t" + '|'); //$NON-NLS-1$
-			text.append("\n\t<" + F_PREFIX + "facet name=\"footer\"></" //$NON-NLS-1$ //$NON-NLS-2$
-					+ F_PREFIX + "facet>"); //$NON-NLS-1$
-			fDropCommand.getProperties().setProperty("new line", "false"); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-
-		if (header == true && footer == false) {
-			text.append("\n\t<" + F_PREFIX + "facet name=\"header\"></" //$NON-NLS-1$ //$NON-NLS-2$
-					+ F_PREFIX + "facet>"); //$NON-NLS-1$
-		}
-
-		if (header == false && footer == true) {
-			if (page2.isColomns()) {
-				text.append("\n\t" + '|'); //$NON-NLS-1$
-				text.append("\n\t<" + F_PREFIX + "facet name=\"footer\"></" //$NON-NLS-1$ //$NON-NLS-2$
-						+ F_PREFIX + "facet>"); //$NON-NLS-1$
-			} else {
-				text.append("\n\t" + " " + "\n\t<" + F_PREFIX //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-						+ "facet name=\"footer\"></" + F_PREFIX + "facet>"); //$NON-NLS-1$ //$NON-NLS-2$
+	class PanelGridElementGenerator extends DefaultElementGenerator {
+		@Override
+		protected void generateChildren(ElementNode node) {
+			boolean header = page2.isOptionHeaderChecked();
+			boolean footer = page2.isOptionFooterChecked();
+			String fPrefix = getDropData().getValueProvider().getPrefix(DropURI.JSF_CORE_URI, "f");
+			String tagFacet = fPrefix + ":facet";
+			if (header == true && footer == true) {
+				ElementNode c = node.addChild(tagFacet, "");
+				c.addAttribute(HTMLConstants.ATTR_NAME, "header");
+				if (page2.isColomns()) {
+//					node.getChildren().add(SEPARATOR);
+				}
+				c = node.addChild(tagFacet, "");
+				c.addAttribute(HTMLConstants.ATTR_NAME, "footer");
+//				fDropCommand.getProperties().setProperty("new line", "false"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
-			fDropCommand.getProperties().setProperty("new line", "false"); //$NON-NLS-1$ //$NON-NLS-2$
+
+			if (header == true && footer == false) {
+				ElementNode c = node.addChild(tagFacet, "");
+				c.addAttribute(HTMLConstants.ATTR_NAME, "header");
+			}
+
+			if (header == false && footer == true) {
+				if (page2.isColomns()) {
+					if (page2.isColomns()) {
+//						node.getChildren().add(SEPARATOR);
+					}
+					ElementNode c = node.addChild(tagFacet, "");
+					c.addAttribute(HTMLConstants.ATTR_NAME, "footer");
+				} else {
+					ElementNode c = node.addChild(tagFacet, "");
+					c.addAttribute(HTMLConstants.ATTR_NAME, "footer");
+				}
+				fDropCommand.getProperties().setProperty("new line", "false"); //$NON-NLS-1$ //$NON-NLS-2$
+			}
 		}
-		fDropCommand.getProperties().setProperty("start text", text.toString()); //$NON-NLS-1$
+
 	}
 
 	public void dispose() {
