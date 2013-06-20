@@ -12,15 +12,14 @@ package org.jboss.tools.jsf.ui.wizard.palette;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Properties;
 
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
-
 import org.jboss.tools.common.model.ui.ModelUIImages;
 import org.jboss.tools.common.model.ui.editors.dnd.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.TagProposalsComposite;
 import org.jboss.tools.jst.jsp.jspeditor.dnd.PaletteDropCommand;
+import org.jboss.tools.jst.web.ui.palette.html.wizard.HTMLConstants;
 
 public class DataTableWizard extends Wizard implements PropertyChangeListener,
 		IDropWizard {
@@ -28,7 +27,6 @@ public class DataTableWizard extends Wizard implements PropertyChangeListener,
 	PaletteDropCommand fDropCommand;
 	IDropWizardModel fModel;
 	private DataTableWizardPage page2 = null;	
-	static String H_PREFIX  = "%prefix|http://java.sun.com/jsf/html|h%"; //$NON-NLS-1$
 	
 	public DataTableWizard () {
 		setWindowTitle(DropWizardMessages.Wizard_Window_Title);
@@ -58,6 +56,7 @@ public class DataTableWizard extends Wizard implements PropertyChangeListener,
 		if(proposals.length==1) { 
 			getWizardModel().setTagProposal(proposals[0]);
 		}
+		getWizardModel().setElementGenerator(g);
 	}
 	
 	
@@ -71,9 +70,7 @@ public class DataTableWizard extends Wizard implements PropertyChangeListener,
 	}
 	
 	public boolean performFinish() {
-		fillColumn();
-		fDropCommand.execute();
-		
+		fDropCommand.execute();		
 		return true;
 	}
 
@@ -96,48 +93,53 @@ public class DataTableWizard extends Wizard implements PropertyChangeListener,
 	public String getMimeType() {
 		return  getWizardModel().getDropData().getMimeType();
 	}
-	
-	public void fillColumn(){
-		Properties properties = fDropCommand.getProperties();
-		String[] vs = page2.getSelectedProperties();
-		StringBuilder text = new StringBuilder();
-		text.append(properties.getProperty("start text")); //$NON-NLS-1$
-		
-		String value = null;
-		if (page2.getValue().trim().length() > 0) {
-			value = page2.getValue().trim();
-			if(value.startsWith("#{") //$NON-NLS-1$
-				|| value.startsWith("${")) { //$NON-NLS-1$
-				value = value.substring(2);
-			}
-			if(value.endsWith("}")) { //$NON-NLS-1$
-				value = value.substring(0, value.length() - 1);
-			}
-		}
-		String var = null;
-		if (page2.getVar().length() > 0) {
-			var = page2.getVar();
-		}
-		 
-		if (var != null) 		
-			fillin(text, vs, var);
-		else if (value != null)
-			fillin(text, vs, value);
-			else 
-				fillin(text, vs,""); //$NON-NLS-1$
-		
-		fDropCommand.getProperties().setProperty("start text", text.toString());			 //$NON-NLS-1$
-	}
-	
-	private void fillin(StringBuilder text, String[] vs, String val) {
-		for (int i = 0; i < vs.length; i++){
-			text.append("\n\t<" + H_PREFIX + "column>\n" + //$NON-NLS-1$ //$NON-NLS-2$
-				"\t\t<"+ H_PREFIX + "outputText value=\"#{" //$NON-NLS-1$ //$NON-NLS-2$
-				+ val + "." + vs[i] + "}\"/>\n" + //$NON-NLS-1$ //$NON-NLS-2$
-				 		"\t</" + H_PREFIX + "column>"); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-	}
 
+	DataTableElementGenerator g = new DataTableElementGenerator();
+
+	class DataTableElementGenerator extends DefaultElementGenerator {
+
+		@Override
+		protected void generateChildren(ElementNode node) {
+			String[] vs = page2.getSelectedProperties();
+			String value = null;
+			if (page2.getValue().trim().length() > 0) {
+				value = page2.getValue().trim();
+				if(value.startsWith("#{") //$NON-NLS-1$
+					|| value.startsWith("${")) { //$NON-NLS-1$
+					value = value.substring(2);
+				}
+				if(value.endsWith("}")) { //$NON-NLS-1$
+					value = value.substring(0, value.length() - 1);
+				}
+			}
+			
+			String var = null;
+			if (page2.getVar().length() > 0) {
+				var = page2.getVar();
+			}
+			 
+			if (var != null) { 		
+				fillin(node, vs, var);
+			} else if (value != null) {
+				fillin(node, vs, value);
+			} else { 
+				fillin(node, vs,""); //$NON-NLS-1$
+			}
+		}
+
+		private void fillin(ElementNode node, String[] vs, String val) {
+			String hPrefix = getDropData().getValueProvider().getPrefix(DropURI.JSF_HTML_URI, "h");
+			String tagColumn = hPrefix + ":column";
+			String tagOutputText = hPrefix + ":outputText";
+			for (int i = 0; i < vs.length; i++){
+				ElementNode c = node.addChild(tagColumn);
+				ElementNode o = c.addChild(tagOutputText);
+				o.addAttribute(HTMLConstants.ATTR_VALUE, "#{" + val + "." + vs[i] + "}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			}
+		}
+
+	}
+	
 	public void dispose() {
 		getWizardModel().removePropertyChangeListener(this);
 		super.dispose();

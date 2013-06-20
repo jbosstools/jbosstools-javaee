@@ -10,8 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.wizard.palette;
 
-import java.util.Properties;
-
 import org.jboss.tools.common.model.ui.attribute.XAttributeSupport;
 import org.jboss.tools.common.model.ui.attribute.adapter.IModelPropertyEditorAdapter;
 import org.eclipse.jface.text.TextSelection;
@@ -35,13 +33,14 @@ import org.jboss.tools.jst.jsp.jspeditor.dnd.TagProposal;
  */
 
 public class SelectItemsWizardPage extends TagAttributesWizardPage {
+	public static String ATTR_SELECT_ITEMS = "select items";
 	
 	final XEntityData data;
 	XAttributeSupport support = new XAttributeSupport();
 
 	public SelectItemsWizardPage(){
 		data = XEntityDataImpl.create(new String[][] {
-				{ "JSFSelectItemsWizard", "yes" }, { "select items", "no" }});			 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				{ "JSFSelectItemsWizard", "yes" }, { ATTR_SELECT_ITEMS, "no" }}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 	public void createControl(Composite parent) {
 		Composite maincomposite = new Composite(parent, SWT.NONE);
@@ -128,7 +127,11 @@ public class SelectItemsWizardPage extends TagAttributesWizardPage {
 	}
 	
 	public String getText() {		
-		 return data.getValue("select items");		  //$NON-NLS-1$
+		 return data.getValue(ATTR_SELECT_ITEMS);
+	}
+	
+	public void setText(String s) {		
+		 data.setValue(ATTR_SELECT_ITEMS, s);
 	}
 	
 }

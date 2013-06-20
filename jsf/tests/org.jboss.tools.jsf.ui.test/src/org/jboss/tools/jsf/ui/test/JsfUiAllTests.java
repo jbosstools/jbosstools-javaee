@@ -99,6 +99,7 @@ public class JsfUiAllTests {
  				CAInEventAttributesTest.class,
 				ELReferencesRenameTest.class,
 				TestPalette.class,
+				TestPaletteWizards.class,
 				CAJsfMessagesProposalsTest.class,
 				JavaClassContentAssistProviderTest.class,
 				JspElFunctionsTest.class), 

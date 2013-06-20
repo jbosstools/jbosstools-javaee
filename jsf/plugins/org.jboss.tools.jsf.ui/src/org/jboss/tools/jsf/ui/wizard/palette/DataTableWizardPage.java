@@ -229,7 +229,7 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 					throw new ValidationException(JsfUIMessages.DataTableWizardPage_ValueELNotCorrect);
 				}
 			} catch (PatternSyntaxException e) {
-				JsfUiPlugin.getPluginLog().logError(e);
+				JsfUiPlugin.getDefault().logError(e);
 			}
 		}
 	}
@@ -317,15 +317,13 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 					set2.add(ap[i]);
 			String[][] vs = new String[set1.size() + set2.size()][2];
 			int k = 0;
-			Iterator it = set1.iterator();
-			for (int i = 0; i < set1.size(); i++) {
-				vs[k][0] = it.next().toString();
+			for (String s: set1) {
+				vs[k][0] = s;
 				vs[k][1] = "no"; // "no" = selected //$NON-NLS-1$
 				++k;
 			}
-			it = set2.iterator();
-			for (int i = 0; i < set2.size(); i++) {
-				vs[k][0] = it.next().toString();
+			for (String s: set2) {
+				vs[k][0] = s;
 				vs[k][1] = "yes"; //$NON-NLS-1$
 				++k;
 			}

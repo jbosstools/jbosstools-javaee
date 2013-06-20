@@ -15,7 +15,6 @@ import java.beans.PropertyChangeListener;
 
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
-
 import org.jboss.tools.common.model.ui.ModelUIImages;
 import org.jboss.tools.common.model.ui.editors.dnd.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.*;
@@ -41,7 +40,6 @@ public class OutputLinkWizard extends Wizard implements PropertyChangeListener, 
 	}
 	
 	public boolean performFinish() {
-		setText();
 		fDropCommand.execute();
 		return true;
 	}
@@ -92,31 +90,34 @@ public class OutputLinkWizard extends Wizard implements PropertyChangeListener, 
 		if(proposals.length==1) { 
 			getWizardModel().setTagProposal(proposals[0]);
 		}
+		getWizardModel().setElementGenerator(g);
 	}
 	
-	static String F_PREFIX  = "%prefix|http://java.sun.com/jsf/core|f%"; //$NON-NLS-1$
-	
-	public void setText(){
-		StringBuilder text = new StringBuilder();		
-			
-		if(page2.getText()==null || page2.getText().trim().length() == 0) {
-			return;
-		} else {
-			 
-			text.append(fDropCommand.getProperties().getProperty("start text"));			 //$NON-NLS-1$
-			fDropCommand.getProperties().setProperty("new line", "false");			 //$NON-NLS-1$ //$NON-NLS-2$
-			text.append("\n\t<" + F_PREFIX+ "verbatim>"+page2.getText()+"</" + F_PREFIX + "verbatim>");			 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			fDropCommand.getProperties().setProperty("start text", text.toString()); //$NON-NLS-1$
-			
-			if (page2.isValue()) {
-				StringBuilder text2 = new StringBuilder();
-				text2.append(fDropCommand.getProperties().getProperty("end text")); //$NON-NLS-1$
-				text2.append('|');
-				fDropCommand.getProperties().setProperty("end text", text2.toString()); //$NON-NLS-1$
-			}			
+	OutputLinkElementGenerator g = new OutputLinkElementGenerator();
+
+	class OutputLinkElementGenerator extends DefaultElementGenerator {
+
+		@Override
+		protected void generateChildren(ElementNode node) {
+			String fPrefix = getDropData().getValueProvider().getPrefix(DropURI.JSF_CORE_URI, "f"); //$NON-NLS-1$
+			String tag = fPrefix+ ":verbatim"; //$NON-NLS-1$
+
+			if(page2.getText() != null && page2.getText().trim().length() > 0) {
+				fDropCommand.getProperties().setProperty("new line", "false"); //$NON-NLS-1$ //$NON-NLS-2$
+				node.addChild(tag, page2.getText());
+			}
 		}
+
+		@Override
+		public String generateEndTag() {
+			if (page2.isValue()) {
+				return generatedEndTag + '|';
+			}			
+			return generatedEndTag;
+		}
+		
 	}
-	
+
 	public void dispose() {
 		getWizardModel().removePropertyChangeListener(this);
 		super.dispose();
