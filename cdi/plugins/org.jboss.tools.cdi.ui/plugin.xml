@@ -372,30 +372,9 @@
          <newWizardShortcut
                id="org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard">
          </newWizardShortcut>
-         <!--newWizardShortcut
-               id="org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard">
-         </newWizardShortcut>
-         <newWizardShortcut
-               id="org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard">
-         </newWizardShortcut>
-         <newWizardShortcut
-               id="org.jboss.tools.cdi.ui.wizard.NewScopeCreationWizard">
-         </newWizardShortcut>
-         <newWizardShortcut
-               id="org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard">
-         </newWizardShortcut-->
-         <newWizardShortcut
-               id="org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard">
-         </newWizardShortcut>
-         <newWizardShortcut
-               id="org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard">
-         </newWizardShortcut>
-         <!--newWizardShortcut
-               id="org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard">
-         </newWizardShortcut>
          <newWizardShortcut
                id="org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard">
-         </newWizardShortcut-->
+         </newWizardShortcut>
 		 <actionSet id="org.jboss.tools.cdi.ui.actionSet" />
       </perspectiveExtension>
 
@@ -406,27 +385,6 @@
          </newWizardShortcut>
          <newWizardShortcut
                id="org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard">
-         </newWizardShortcut>
-         <newWizardShortcut
-               id="org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard">
-         </newWizardShortcut>
-         <newWizardShortcut
-               id="org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard">
-         </newWizardShortcut>
-         <newWizardShortcut
-               id="org.jboss.tools.cdi.ui.wizard.NewScopeCreationWizard">
-         </newWizardShortcut>
-         <newWizardShortcut
-               id="org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard">
-         </newWizardShortcut>
-         <newWizardShortcut
-               id="org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard">
-         </newWizardShortcut>
-         <newWizardShortcut
-               id="org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard">
-         </newWizardShortcut>
-         <newWizardShortcut
-               id="org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard">
          </newWizardShortcut>
          <newWizardShortcut
                id="org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard">
