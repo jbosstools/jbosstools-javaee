@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007-2012 Red Hat, Inc.
+ * Copyright (c) 2007-2013 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -209,8 +209,8 @@ public class TestPalette  extends TestCase {
 		ISourceViewer v = (ISourceViewer)jspEditor.getSourceEditor().getAdapter(ISourceViewer.class);
 		assertNotNull(v);
 		Properties p = new Properties();
-		p.setProperty(PaletteInsertHelper.PROPOPERTY_TAG_NAME, "containsIgnoreCase");
-		p.setProperty(PaletteInsertHelper.PROPOPERTY_START_TEXT, "${containsIgnoreCase('', '')}");
+		p.setProperty(PaletteInsertHelper.PROPERTY_TAG_NAME, "containsIgnoreCase");
+		p.setProperty(PaletteInsertHelper.PROPERTY_START_TEXT, "${containsIgnoreCase('', '')}");
 		p.setProperty(JSPPaletteInsertHelper.PROPOPERTY_TAGLIBRARY_URI, "http://java.sun.com/jsp/jstl/functions");
 		
 		//Execute insert into editor.
