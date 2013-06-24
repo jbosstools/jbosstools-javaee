@@ -88,6 +88,19 @@ public class TypeTest extends TestCase {
 		}
 	}
 
+	/**
+	 * Add copies of test method to
+	 * 1) Increase probability of failure.
+	 * 2) Check that type cache does not return obsolete objects.
+	 * @throws Exception
+	 */
+	public void testType1() throws Exception {
+		testType();
+	}
+	public void testType2() throws Exception {
+		testType();
+	}
+
 	public void tearDown() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		project.delete(true, true, null);
