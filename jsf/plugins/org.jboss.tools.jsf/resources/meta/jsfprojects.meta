@@ -268,11 +268,11 @@
   <XActionItem kind="list">
    <XActionItem displayName="New" group="1" kind="list" name="CreateActions">
     <XActionItem displayName="File" kind="list" name="CreateFiles">
-     <XActionItem displayName="Struts" kind="list" name="Struts">
+     <XActionItem displayName="Tiles" kind="list" name="Tiles">
       <XActionItem
        HandlerClassName="org.jboss.tools.jst.web.model.pv.handler.ProjectsTaglibsRedirectHandler"
        ICON="action.new.web.tiles.file"
-       PROPERTIES="actionpath=CreateActions/CreateFiles/Struts/CreateTilesV"
+       PROPERTIES="actionpath=CreateActions/CreateFiles/Tiles/CreateTilesV"
        displayName="Tiles..." kind="action" name="CreateTiles"/>
      </XActionItem>
     </XActionItem>
