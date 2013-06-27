@@ -32,6 +32,7 @@ import org.jboss.tools.jsf.ui.editor.model.IJSFElement;
 public class JSFContextMenuProvider	extends org.eclipse.gef.ContextMenuProvider {
 	private ActionRegistry actionRegistry;
 	private MouseEvent lastDownEvent = null;
+	private Point lastPoint = null;
 
 	public JSFContextMenuProvider(EditPartViewer viewer, ActionRegistry registry) {
 		super(viewer);
@@ -70,12 +71,13 @@ public class JSFContextMenuProvider	extends org.eclipse.gef.ContextMenuProvider 
 		if(object != null) {
 			Properties p = new Properties();
 			if(lastDownEvent != null) {
-				Point point = new Point(lastDownEvent.x, lastDownEvent.y); 
-				
-				((JSFDiagramEditPart)getViewer().getRootEditPart().getChildren().get(0)).getFigure().translateToRelative(point);
-				p.setProperty("process.mouse.x", "" + point.x); //$NON-NLS-1$ //$NON-NLS-2$
-				p.setProperty("process.mouse.y", "" + point.y); //$NON-NLS-1$ //$NON-NLS-2$
+				lastPoint = new Point(lastDownEvent.x, lastDownEvent.y);				
+				((JSFDiagramEditPart)getViewer().getRootEditPart().getChildren().get(0)).getFigure().translateToRelative(lastPoint);
 				lastDownEvent = null;
+			}
+			if(lastPoint != null) {
+				p.setProperty("process.mouse.x", "" + lastPoint.x); //$NON-NLS-1$ //$NON-NLS-2$
+				p.setProperty("process.mouse.y", "" + lastPoint.y); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			XModelObjectActionList list = new XModelObjectActionList(object.getModelEntity().getActionList(), object, getTargets(ss), new Object[]{object, p});
 			Menu menu = getMenu();
