@@ -1,7 +1,5 @@
 package org.jboss.tools.jsf.model.pv.test;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -11,14 +9,12 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.test.util.TestProjectProvider;
 import org.jboss.tools.jsf.model.pv.JSFPromptingProvider;
 import org.jboss.tools.jst.web.project.WebProject;
 import org.jboss.tools.jst.web.project.list.IWebPromptingProvider;
@@ -32,7 +28,6 @@ public class JSFPromptingProviderTest extends TestCase {
 	
 	public static final String TEST_PROJECT_PATH = "/projects/" + TEST_PROJECT_NAME;
 
-	TestProjectProvider prjProvider = null;
 	IProject project = null;
 	IModelNature nature = null;
 	XModel model = null;
@@ -41,12 +36,11 @@ public class JSFPromptingProviderTest extends TestCase {
 	
 	
 	@Override
-	protected void setUp() throws IOException, CoreException, InvocationTargetException, InterruptedException {
+	protected void setUp() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);		
 		project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember(TEST_PROJECT_NAME);
 		if(project==null) {
-			prjProvider = new TestProjectProvider("org.jboss.tools.jsf.test", TEST_PROJECT_PATH, TEST_PROJECT_NAME, true);
-			project = prjProvider.getProject();
+			throw new Exception("no project");
 		}
 		
 		project.build(IncrementalProjectBuilder.FULL_BUILD, null);
@@ -84,6 +78,14 @@ public class JSFPromptingProviderTest extends TestCase {
 	public void testGetBundleProperties() {
 		List<Object> list = provider.getList(model, IWebPromptingProvider.JSF_BUNDLE_PROPERTIES, "org.jboss.tools.jsf.test.Bundle", new Properties());
 		assertEquals("Bundles properties proposal list has wrong size",GET_BUNDLE_PROPERTIES_EXPECTED_LIST_SIZE, list.size());
+	}
+
+	/**
+	 * Test bundle declared in a Java project included to dependencies.
+	 */
+	public void testGetBundleProperties2() {
+		List<Object> list = provider.getList(model, IWebPromptingProvider.JSF_BUNDLE_PROPERTIES, "demo.labels", new Properties());
+		assertEquals("Bundles properties proposal list has wrong size", 2, list.size());
 	}
 
 	/**
@@ -166,8 +168,5 @@ public class JSFPromptingProviderTest extends TestCase {
 	
 	@Override
 	protected void tearDown() throws Exception {
-		if(prjProvider!=null) {
-			prjProvider.dispose();
-		}
 	}
 }
