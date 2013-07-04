@@ -76,8 +76,14 @@ public class JsfAllTests {
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				JSFPromptingProviderTest.class),
 				"org.jboss.tools.jsf.test", //$NON-NLS-1$
-				JSFPromptingProviderTest.TEST_PROJECT_PATH,
-				JSFPromptingProviderTest.TEST_PROJECT_NAME));
+				new String[]{
+					"/projects/JavaTest", 
+					JSFPromptingProviderTest.TEST_PROJECT_PATH
+				},
+				new String[]{
+					"JavaTest", 
+					JSFPromptingProviderTest.TEST_PROJECT_NAME
+				}));
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				JsfJbide7975Test.class),
 				"org.jboss.tools.jsf.test", //$NON-NLS-1$

@@ -11,11 +11,16 @@
 package org.jboss.tools.jsf.model.helpers.converter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.pv.JSFProjectTreeConstants;
@@ -53,10 +58,25 @@ public class OpenKeyHelper {
 		ArrayList<XModelObject> l = new ArrayList<XModelObject>();
 		if(locale == null || locale.length() == 0) locale = getDeafultLocale(model);
 		String pathPrefix = "/" + bundle.replace('.', '/');
+
+		IProject project = EclipseResourceUtil.getProject(model.getRoot());
+		Set<IFolder> srcs = EclipseResourceUtil.getAllVisibleSourceFolders(project);
+		Set<XModelObject> srcObjects = new HashSet<XModelObject>();
+		for (IFolder f: srcs) {
+			if(f.getProject() != project) {
+				XModelObject src = EclipseResourceUtil.createObjectForResource(f);				
+				if(src != null) srcObjects.add(src);
+			}
+		}		
+		
 		while(locale != null && locale.length() > 0) {
 			String path = pathPrefix + "_" + locale + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			XModelObject o = model.getByPath(path);
 			if(o != null) l.add(o);
+			for (XModelObject src: srcObjects) {
+				o = src.getChildByPath(path.substring(1));
+				if(o != null) l.add(o);
+			}
 			int i = locale.lastIndexOf('_');
 			if(i < 0) break;
 			locale = locale.substring(0, i);
@@ -64,6 +84,12 @@ public class OpenKeyHelper {
 		String path = pathPrefix + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$
 		XModelObject o = model.getByPath(path);
 		if(o != null) l.add(o);
+		for (XModelObject src: srcObjects) {
+			o = src.getChildByPath(path.substring(1));
+			if(o != null) {
+				l.add(o);
+			}
+		}
 		if(!l.isEmpty()) {
 			if(o == null) o = l.get(0);
 			int i = bundle.lastIndexOf('.');
