@@ -257,11 +257,20 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	 * .core.resources.IProject)
 	 */
 	public boolean shouldValidate(IProject project) {
+		return shouldValidate(project, false);
+	}
+
+	@Override
+	public boolean shouldValidateAsYouType(IProject project) {
+		return shouldValidate(project, true);
+	}
+
+	public boolean shouldValidate(IProject project, boolean asYouType) {
 		try {
 			return project.isAccessible() 
 					&& project.hasNature(CDICoreNature.NATURE_ID) 
-					&& validateBuilderOrder(project)
-					&& isEnabled(project);
+					&& isEnabled(project)
+					&& (asYouType || validateBuilderOrder(project));
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
@@ -2811,6 +2820,5 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		public String getPluginId() {
 			return CDICorePlugin.PLUGIN_ID;
 		}
-		
 	}
 }
