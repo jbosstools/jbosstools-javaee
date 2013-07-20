@@ -38,6 +38,6 @@ public class JsfKbAllTests {
 				new String[]{"projects/utility", "projects/webapp"},
 				new String[]{"utility", "webapp"});
 		suiteAll.addTest(testSetup);
-		return testSetup;
+		return suiteAll;
 	}
 }
