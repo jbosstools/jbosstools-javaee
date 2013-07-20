@@ -70,4 +70,15 @@ public class KbModelTest extends TestCase {
 		assertNotNull(c.getAttribute("label2"));
 	}
 
+	public void testFaceletLibraryWithCompositeLibraryName() {
+		IKbProject kbProject = getKbProject();
+		ITagLibrary[] ls = kbProject.getTagLibraries("myFaceletWithCompositeLibraryName");
+		assertEquals(1, ls.length);
+		ITagLibrary l = ls[0];
+		IComponent[] cs = l.getComponents();
+		assertEquals(2, cs.length);
+		IComponent c = l.getComponent("input");
+		assertNotNull(c);
+	}
+
 }
