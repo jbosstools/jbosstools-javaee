@@ -32,6 +32,7 @@ public class AnnotationDeclaration extends org.jboss.tools.common.java.impl.Anno
 		other.project = project;
 		other.annotation = annotation;
 		other.values = values;
+		other.constants = constants;
 	}
 
 	public void setProject(CDICoreNature project) {

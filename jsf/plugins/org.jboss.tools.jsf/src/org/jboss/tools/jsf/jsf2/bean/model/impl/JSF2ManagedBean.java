@@ -12,7 +12,7 @@ package org.jboss.tools.jsf.jsf2.bean.model.impl;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IType;
-import org.jboss.tools.common.java.IAnnotationDeclaration;
+import org.jboss.tools.common.java.impl.AnnotationDeclaration;
 import org.jboss.tools.jsf.jsf2.bean.model.IJSF2ManagedBean;
 
 /**
@@ -32,9 +32,9 @@ public class JSF2ManagedBean implements IJSF2ManagedBean {
 	@Override
 	public String getName() {
 		String result = null;
-		IAnnotationDeclaration d = getManagedBeanDeclaration();
+		AnnotationDeclaration d = getManagedBeanDeclaration();
 		if(d != null) {
-			Object m = d.getMemberValue("name");
+			Object m = d.getMemberValue("name", true);
 			if(m != null) {
 				result = m.toString();
 			}
@@ -49,7 +49,7 @@ public class JSF2ManagedBean implements IJSF2ManagedBean {
 	}
 
 	@Override
-	public IAnnotationDeclaration getManagedBeanDeclaration() {
+	public AnnotationDeclaration getManagedBeanDeclaration() {
 		return typeDefinition.getManagedBeanAnnotation();
 	}
 

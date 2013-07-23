@@ -72,6 +72,13 @@ public class JSF2ModelTest extends TestCase {
 		assertEquals(1, beans.size());
 	}
 
+	public void testConstantBeanName() {
+		IJSF2Project jsf2 = JSF2ProjectFactory.getJSF2Project(project, true);
+		assertNotNull(jsf2);
+		Set<IJSF2ManagedBean> beans = jsf2.getManagedBeans("bean6");
+		assertEquals(1, beans.size());
+	}
+
 	public void testWebProjectTree() {
 		IModelNature n = EclipseResourceUtil.getModelNature(kick);
 		assertNotNull(n);

@@ -391,7 +391,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			name = name.substring(0, 1).toLowerCase() + name.substring(1);
 		}
 
-		Object value = named.getMemberValue(null);
+		Object value = named.getMemberValue(null, true);
 		if(value != null && value.toString().trim().length() > 0) {
 			return value.toString().trim();
 		}
