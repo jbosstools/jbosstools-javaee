@@ -95,7 +95,7 @@ public class ProducerField extends BeanField implements IProducerField {
 		AnnotationDeclaration named = findNamedAnnotation();
 		if(named == null) return null;
 
-		Object value = named.getMemberValue(null);
+		Object value = named.getMemberValue(null, true);
 		if(value != null && value.toString().trim().length() > 0) {
 			return value.toString().trim();
 		}

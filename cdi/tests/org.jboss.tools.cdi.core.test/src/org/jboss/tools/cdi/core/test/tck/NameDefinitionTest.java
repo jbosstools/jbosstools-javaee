@@ -36,6 +36,14 @@ public class NameDefinitionTest extends TCKTest {
 		assertLocationEquals(bean.getNameLocation(true), 918, 16);
 	}
 
+	public void testNamedWithConstant() throws JavaModelException {
+		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.name.Bear");
+		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.name.Bear type.", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		assertEquals("Wrong EL name of org.jboss.jsr299.tck.tests.definition.name.Bear bean.", "aBear", bean.getName());
+		assertLocationEquals(bean.getNameLocation(true), 918, 17);
+	}
+
 	/**
 	 * section 2.5.2 a)
 	 * section 3.1.5 a)
