@@ -2,7 +2,7 @@
 <feature
       id="org.jboss.tools.richfaces.feature"
       label="%featureName"
-      version="3.5.0.qualifier"
+      version="3.6.0.qualifier"
       provider-name="%providerName"
       plugin="org.jboss.tools.vpe">
 
@@ -21,14 +21,14 @@
 
    <requires>
 		<import plugin="org.jboss.tools.xulrunner.initializer" version="3.1.0" match="greaterOrEqual"/>
-		<import feature="org.jboss.tools.common.feature" version="3.5.0" match="greaterOrEqual"/>
-		<import feature="org.jboss.tools.common.core.feature" version="3.5.0" match="greaterOrEqual" />
-		<import feature="org.jboss.tools.common.text.ext.feature" version="3.5.0" match="greaterOrEqual" />
-		<import feature="org.jboss.tools.common.ui.feature" version="3.5.0" match="greaterOrEqual"  />
-		<import feature="org.jboss.tools.common.verification.feature" version="3.4.0" match="greaterOrEqual"  />
+		<import feature="org.jboss.tools.common.feature" version="3.6.0" match="greaterOrEqual"/>
+		<import feature="org.jboss.tools.common.core.feature" version="3.6.0" match="greaterOrEqual" />
+		<import feature="org.jboss.tools.common.text.ext.feature" version="3.6.0" match="greaterOrEqual" />
+		<import feature="org.jboss.tools.common.ui.feature" version="3.6.0" match="greaterOrEqual"  />
+		<import feature="org.jboss.tools.common.verification.feature" version="3.6.0" match="greaterOrEqual"  />
 		<import feature="org.jboss.tools.vpe.feature" version="3.3.0" match="greaterOrEqual"  />
-		<import feature="org.jboss.tools.jst.feature" version="3.5.0" match="greaterOrEqual"  />
-		<import feature="org.jboss.tools.jsf.feature" version="3.5.0" match="greaterOrEqual"  />
+		<import feature="org.jboss.tools.jst.feature" version="3.6.0" match="greaterOrEqual"  />
+		<import feature="org.jboss.tools.jsf.feature" version="3.6.0" match="greaterOrEqual"  />
    </requires>
 
 </feature>
