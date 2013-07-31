@@ -61,29 +61,6 @@ public class ReferenceObjectImpl extends OrderedObjectImpl implements ReferenceO
 		if(reference != null && TYPE_EXCEPTION.equals(getAttributeValue(ATTR_TYPE))) {
 			return reference.getMainIconName();
 		}
-/*
-        String type = getAttributeValue(ATT_TYPE);
-        if(type == null || type.length() == 0) return super.getMainIconName();
-        if(type.equals(TYPE_ACTION)) {
-            String subtype = getAttributeValue(ATT_SUBTYPE);
-            return "main.struts.action";
-        }
-        if(type.equals(TYPE_FORWARD)) return "main.struts.forward";
-        if(type.equals(TYPE_EXCEPTION)) return "main.struts.exception";
-        if(type.equals(TYPE_PAGE)) {
-            String subtype = getAttributeValue(ATT_SUBTYPE);
-            if(subtype == null) {}
-            else if(subtype.equals(SUBTYPE_JSP)) return "main.file.jsp_file";
-            else if(subtype.equals(SUBTYPE_HTML)) return "main.file.html_file";
-            else if(subtype.equals(SUBTYPE_TILE)) return "main.struts.tiles.definition";
-            else return "main.file.unknow_file";
-        } else if(type.equals(TYPE_LINK)) {
-            String subtype = getAttributeValue(ATT_SUBTYPE);
-            if(subtype == null) {}
-            else if(subtype.equals(SUBTYPE_FORWARD)) return "main.struts.forward";
-            else if(subtype.equals(TYPE_EXCEPTION)) return "main.struts.exception";
-        }
-*/
         return super.getMainIconName();
     }
 
