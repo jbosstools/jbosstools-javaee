@@ -14,15 +14,7 @@ package org.jboss.tools.seam.ui.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.wst.validation.internal.operations.ValidatorManager;
 import org.jboss.tools.common.base.test.validation.ValidationProjectTestSetup;
-import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.ui.test.ca.CASeamAddInfoInELMessagesTest;
 import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistJbide1645Test;
 import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistJbide1676Test;
@@ -35,6 +27,7 @@ import org.jboss.tools.seam.ui.test.jbide.JBide3989Test;
 import org.jboss.tools.seam.ui.test.marker.SeamMarkerResolutionTest;
 import org.jboss.tools.seam.ui.test.preferences.SeamPreferencesPageTest;
 import org.jboss.tools.seam.ui.test.preferences.SeamSettingsPreferencesPageTest;
+import org.jboss.tools.seam.ui.test.search.SeamSearchTest;
 import org.jboss.tools.seam.ui.test.view.SeamComponentsViewAllTests;
 import org.jboss.tools.seam.ui.test.wizard.OpenSeamComponentDialogTest;
 import org.jboss.tools.seam.ui.test.wizard.PackageNamesTest;
@@ -45,7 +38,6 @@ import org.jboss.tools.seam.ui.test.wizard.SeamFormNewWizardTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamNewWizardTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamProjectNamesTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamProjectNewWizardTest;
-import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**
@@ -56,6 +48,7 @@ public class SeamUiAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Seam UI tests");
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamSearchTest.class), "org.jboss.tools.seam.ui.test", new String[]{"projects/TestComponentView"}, new String[]{"TestComponentView"}));
 
 //      https://issues.jboss.org/browse/JBIDE-10149 Remove Seam 2 from the JBoss Perspective actions
 //		suite.addTestSuite(JBossPerspectiveTest.class);
