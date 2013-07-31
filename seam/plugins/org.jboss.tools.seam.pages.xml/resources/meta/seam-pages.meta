@@ -126,11 +126,11 @@
    <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Choose Program..." kind="action" name="OpenWithChoice">
      <EntityData EntityName="OpenWithHelper">
       <AttributeData AttributeName="name"/>
@@ -266,11 +266,11 @@
    <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Choose Program..." kind="action" name="OpenWithChoice">
      <EntityData EntityName="OpenWithHelper">
       <AttributeData AttributeName="name"/>
@@ -411,11 +411,11 @@
    <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Choose Program..." kind="action" name="OpenWithChoice">
      <EntityData EntityName="OpenWithHelper">
       <AttributeData AttributeName="name"/>
@@ -565,11 +565,11 @@
    <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Choose Program..." kind="action" name="OpenWithChoice">
      <EntityData EntityName="OpenWithHelper">
       <AttributeData AttributeName="name"/>
@@ -719,11 +719,11 @@
    <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Choose Program..." kind="action" name="OpenWithChoice">
      <EntityData EntityName="OpenWithHelper">
       <AttributeData AttributeName="name"/>
@@ -865,11 +865,11 @@
    <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Choose Program..." kind="action" name="OpenWithChoice">
      <EntityData EntityName="OpenWithHelper">
       <AttributeData AttributeName="name"/>
@@ -897,16 +897,16 @@
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Redirect%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true;sourcepath=Pages;actionpath=CreateActions/AddPage"
      WizardClassName="%Default%" displayName="Page..." kind="action" name="AddPage"/>
     <XActionItem HandlerClassName="%Redirect%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true;sourcepath=Conversations;actionpath=CreateActions/AddConversation"
      WizardClassName="%Default%" displayName="Conversation..."
      kind="action" name="AddConversation"/>
     <XActionItem HandlerClassName="%Redirect%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true;sourcepath=Exceptions;actionpath=CreateActions/AddException"
      WizardClassName="%Default%" displayName="Exception..."
      kind="action" name="AddException"/>
@@ -1013,11 +1013,11 @@
    <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Choose Program..." kind="action" name="OpenWithChoice">
      <EntityData EntityName="OpenWithHelper">
       <AttributeData AttributeName="name"/>
@@ -1045,16 +1045,16 @@
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Redirect%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true;sourcepath=Pages;actionpath=CreateActions/AddPage"
      WizardClassName="%Default%" displayName="Page..." kind="action" name="AddPage"/>
     <XActionItem HandlerClassName="%Redirect%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true;sourcepath=Conversations;actionpath=CreateActions/AddConversation"
      WizardClassName="%Default%" displayName="Conversation..."
      kind="action" name="AddConversation"/>
     <XActionItem HandlerClassName="%Redirect%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true;sourcepath=Exceptions;actionpath=CreateActions/AddException"
      WizardClassName="%Default%" displayName="Exception..."
      kind="action" name="AddException"/>
@@ -1163,11 +1163,11 @@
    <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Choose Program..." kind="action" name="OpenWithChoice">
      <EntityData EntityName="OpenWithHelper">
       <AttributeData AttributeName="name"/>
@@ -1195,16 +1195,16 @@
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Redirect%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true;sourcepath=Pages;actionpath=CreateActions/AddPage"
      WizardClassName="%Default%" displayName="Page..." kind="action" name="AddPage"/>
     <XActionItem HandlerClassName="%Redirect%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true;sourcepath=Conversations;actionpath=CreateActions/AddConversation"
      WizardClassName="%Default%" displayName="Conversation..."
      kind="action" name="AddConversation"/>
     <XActionItem HandlerClassName="%Redirect%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true;sourcepath=Exceptions;actionpath=CreateActions/AddException"
      WizardClassName="%Default%" displayName="Exception..."
      kind="action" name="AddException"/>
@@ -1313,11 +1313,11 @@
    <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Choose Program..." kind="action" name="OpenWithChoice">
      <EntityData EntityName="OpenWithHelper">
       <AttributeData AttributeName="name"/>
@@ -1345,16 +1345,16 @@
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Redirect%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true;sourcepath=Pages;actionpath=CreateActions/AddPage"
      WizardClassName="%Default%" displayName="Page..." kind="action" name="AddPage"/>
     <XActionItem HandlerClassName="%Redirect%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true;sourcepath=Conversations;actionpath=CreateActions/AddConversation"
      WizardClassName="%Default%" displayName="Conversation..."
      kind="action" name="AddConversation"/>
     <XActionItem HandlerClassName="%Redirect%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true;sourcepath=Exceptions;actionpath=CreateActions/AddException"
      WizardClassName="%Default%" displayName="Exception..."
      kind="action" name="AddException"/>
@@ -1463,11 +1463,11 @@
    <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Choose Program..." kind="action" name="OpenWithChoice">
      <EntityData EntityName="OpenWithHelper">
       <AttributeData AttributeName="name"/>
@@ -1495,16 +1495,16 @@
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Redirect%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true;sourcepath=Pages;actionpath=CreateActions/AddPage"
      WizardClassName="%Default%" displayName="Page..." kind="action" name="AddPage"/>
     <XActionItem HandlerClassName="%Redirect%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true;sourcepath=Conversations;actionpath=CreateActions/AddConversation"
      WizardClassName="%Default%" displayName="Conversation..."
      kind="action" name="AddConversation"/>
     <XActionItem HandlerClassName="%Redirect%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true;sourcepath=Exceptions;actionpath=CreateActions/AddException"
      WizardClassName="%Default%" displayName="Exception..."
      kind="action" name="AddException"/>
@@ -2770,7 +2770,7 @@
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Conversation..." kind="action" name="AddConversation">
      <EntityData EntityName="SeamPageConversation">
@@ -2823,7 +2823,7 @@
     kind="list" name="CreateActions">
     <XActionItem
      HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.AddExceptionHandler"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true;entity=SeamPageException12;childEntity=SeamPageRedirect12"
      WizardClassName="%Default%"
      displayName="Exception With Redirect..." kind="action" name="AddException">
@@ -2876,7 +2876,7 @@
     kind="list" name="CreateActions">
     <XActionItem
      HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.AddExceptionHandler"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true;entity=SeamPageException20;childEntity=SeamPageRedirect20"
      WizardClassName="%Default%"
      displayName="Exception With Redirect..." kind="action" name="AddException">
@@ -2918,7 +2918,7 @@
     kind="list" name="CreateActions">
     <XActionItem
      HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.AddExceptionHandler"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true;entity=SeamPageException21;childEntity=SeamPageRedirect21"
      WizardClassName="%Default%"
      displayName="Exception With Redirect..." kind="action" name="AddException">
@@ -2959,7 +2959,7 @@
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Page..." kind="action" name="AddPage">
      <EntityData EntityName="SeamPage12">
@@ -3010,7 +3010,7 @@
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Page..." kind="action" name="AddPage">
      <EntityData EntityName="SeamPage20">
@@ -3061,7 +3061,7 @@
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Page..." kind="action" name="AddPage">
      <EntityData EntityName="SeamPage21">
@@ -3100,7 +3100,7 @@
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Page..." kind="action" name="AddPage">
      <EntityData EntityName="SeamPage22">
@@ -4634,7 +4634,6 @@
   ImplementingClass="org.jboss.tools.seam.pages.xml.model.impl.SeamPagesDiagramImpl" name="SeamPagesDiagram">
   <XChildrenEntities>
    <XChildEntity name="SeamPagesDiagramItem"/>
-   <XChildEntity name="JSFProcessComment"/>
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
@@ -4683,14 +4682,6 @@
      HandlerClassName="org.jboss.tools.seam.ui.pages.editor.commands.AddExceptionOnDiagramHandler"
      ICON="action.empty" displayName="New Exception ..." kind="action" name="AddException"/>
    </XActionItem>
-   <XActionItem HIDE="always"
-    HandlerClassName="org.jboss.tools.jsf.model.handlers.CreateCommentHandler"
-    ICON="action.empty" WizardClassName="%OneParameter%"
-    displayName="Create Comment..." kind="action" name="CreateComment">
-    <EntityData EntityName="JSFProcessComment">
-     <AttributeData AttributeName="comment"/>
-    </EntityData>
-   </XActionItem>
    <XActionItem
     HandlerClassName="org.jboss.tools.jst.web.model.handlers.AutolayoutWebProcessHandler"
     ICON="action.empty"
@@ -4701,19 +4692,6 @@
     ICON="action.empty"
     PROPERTIES="help=JSFProcess_SelectItem;wizard=org.jboss.tools.seam.ui.pages.editor.wizard.SelectItemWizard"
     displayName="Select Element" kind="action" name="SelectItem"/>
-   <XActionItem HIDE="always"
-    HandlerClassName="org.jboss.tools.jst.web.model.handlers.ShowHideCommentsHandler"
-    ICON="action.empty" PROPERTIES="commentEntity=JSFProcessComment"
-    displayName="Show/Hide Comments" kind="action" name="ShowHideComments"/>
-   <XActionItem displayName="Verify" kind="list" name="ProcessVerifyActions">
-    <XActionItem kind="list" name="StaticActions">
-     <XActionItem BaseActionName="VerifyAll"
-      HandlerClassName="org.jboss.tools.jsf.model.handlers.JSFProcessRegirectHandler"
-      ICON="action.vrules.verify"
-      PROPERTIES="actionpath=VerifyActions/StaticActions/VerifyAll"
-      displayName="Verify" kind="action" name="VerifyAll"/>
-    </XActionItem>
-   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Paste"
      HandlerClassName="org.jboss.tools.jsf.model.handlers.ProcessPasteHandler"
@@ -4784,14 +4762,6 @@
      ICON="action.new.jsf.case"
      PROPERTIES="actionpath=CreateActions/AddRule"
      WizardClassName="%Default%" displayName="Rule..." kind="action" name="CreateRule"/>
-    <XActionItem HIDE="always"
-     HandlerClassName="org.jboss.tools.struts.model.handlers.CreateCommentForItemHandler"
-     ICON="action.empty" WizardClassName="%OneParameter%"
-     displayName="Create Comment..." kind="action" name="CreateComment">
-     <EntityData EntityName="JSFProcessComment">
-      <AttributeData AttributeName="comment"/>
-     </EntityData>
-    </XActionItem>
     <XActionItem
      HandlerClassName="org.jboss.tools.jsf.model.handlers.JSFItemRegirectHandler"
      ICON="action.new.jsf.case"
@@ -4821,22 +4791,13 @@
     HandlerClassName="org.jboss.tools.jsf.model.handlers.HiddenLinksHandler"
     ICON="action.empty" displayName="Show/Hide Links" kind="action" name="Links"/>
    <XActionItem HIDE="disabled"
-    HandlerClassName="org.jboss.tools.struts.model.handlers.SelectInNavigatorHandler"
+    HandlerClassName="org.jboss.tools.jsf.model.handlers.SelectInNavigatorHandler"
     ICON="action.empty" displayName="Select in Tree Views" kind="action" name="Select"/>
    <XActionItem HIDE="disabled"
     HandlerClassName="org.jboss.tools.seam.pages.xml.model.handlers.GoToNodeNandler"
     ICON="action.empty"
     PROPERTIES="help=SeamItem_SelectNode;wizard=org.jboss.tools.seam.ui.pages.editor.wizard.SelectItemWizard"
     displayName="Go To Node" kind="action" name="GoTo"/>
-   <XActionItem displayName="Verify" kind="list" name="ProcessVerifyActions">
-    <XActionItem kind="list" name="StaticActions">
-     <XActionItem BaseActionName="VerifyAll"
-      HandlerClassName="org.jboss.tools.jsf.model.handlers.JSFItemRegirectHandler"
-      ICON="action.vrules.verify"
-      PROPERTIES="actionpath=VerifyActions/StaticActions/VerifyAll"
-      displayName="Verify" kind="action" name="VerifyAll"/>
-    </XActionItem>
-   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
      ICON="action.cut" PROPERTIES="actionpath=CopyActions/Cut"
@@ -4931,7 +4892,7 @@
      ICON="action.empty" displayName="Run on Server" kind="action" name="RunPageOnServer"/>
    </XActionItem>
    <XActionItem HIDE="disabled"
-    HandlerClassName="org.jboss.tools.struts.model.handlers.SelectInNavigatorHandler"
+    HandlerClassName="org.jboss.tools.jsf.model.handlers.SelectInNavigatorHandler"
     ICON="action.empty" displayName="Select in Tree Views" kind="action" name="Select"/>
    <XActionItem kind="list" name="LinkActions">
     <XActionItem HIDE="disabled"
@@ -4948,15 +4909,6 @@
      displayName="Hide" kind="action" name="Hide"/>
    </XActionItem>
    <XActionItem kind="list" name="BreakPointActions"/>
-   <XActionItem displayName="Verify" kind="list" name="ProcessVerifyActions">
-    <XActionItem kind="list" name="StaticActions">
-     <XActionItem BaseActionName="VerifyAll"
-      HandlerClassName="org.jboss.tools.jsf.model.handlers.JSFItemRegirectHandler"
-      ICON="action.vrules.verify"
-      PROPERTIES="actionpath=VerifyActions/StaticActions/VerifyAll"
-      displayName="Verify" kind="action" name="VerifyAll"/>
-    </XActionItem>
-   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
      ICON="action.cut" PROPERTIES="actionpath=CopyActions/Cut"

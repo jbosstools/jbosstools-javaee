@@ -134,11 +134,11 @@
    <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Choose Program..." kind="action" name="OpenWithChoice">
      <EntityData EntityName="OpenWithHelper">
       <AttributeData AttributeName="name"/>
@@ -336,11 +336,11 @@
    <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Choose Program..." kind="action" name="OpenWithChoice">
      <EntityData EntityName="OpenWithHelper">
       <AttributeData AttributeName="name"/>
@@ -885,11 +885,11 @@
    <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Choose Program..." kind="action" name="OpenWithChoice">
      <EntityData EntityName="OpenWithHelper">
       <AttributeData AttributeName="name"/>
@@ -917,7 +917,7 @@
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Component..." kind="action" name="AddComponent">
      <EntityData EntityName="SeamComponent">
@@ -926,7 +926,7 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Factory..." kind="action" name="AddFactory">
      <EntityData EntityName="SeamFactory">
@@ -976,7 +976,7 @@
   <XActionItem kind="list">
    <XActionItem displayName="New" kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Component..." kind="action" name="AddComponent">
      <EntityData EntityName="SeamComponent">
@@ -985,7 +985,7 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Factory..." kind="action" name="AddFactory">
      <EntityData EntityName="SeamFactory">
@@ -1071,11 +1071,11 @@
    <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Choose Program..." kind="action" name="OpenWithChoice">
      <EntityData EntityName="OpenWithHelper">
       <AttributeData AttributeName="name"/>
@@ -1103,7 +1103,7 @@
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Component..." kind="action" name="AddComponent">
      <EntityData EntityName="SeamComponent">
@@ -1112,7 +1112,7 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Factory..." kind="action" name="AddFactory">
      <EntityData EntityName="SeamFactory">
@@ -1162,7 +1162,7 @@
   <XActionItem kind="list">
    <XActionItem displayName="New" kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Component..." kind="action" name="AddComponent">
      <EntityData EntityName="SeamComponent">
@@ -1171,7 +1171,7 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Factory..." kind="action" name="AddFactory">
      <EntityData EntityName="SeamFactory">
@@ -1258,11 +1258,11 @@
    <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Choose Program..." kind="action" name="OpenWithChoice">
      <EntityData EntityName="OpenWithHelper">
       <AttributeData AttributeName="name"/>
@@ -1290,7 +1290,7 @@
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Component..." kind="action" name="AddComponent">
      <EntityData EntityName="SeamComponent20">
@@ -1299,7 +1299,7 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Factory..." kind="action" name="AddFactory">
      <EntityData EntityName="SeamFactory20">
@@ -1428,7 +1428,7 @@
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Component..." kind="action" name="AddComponent">
      <EntityData EntityName="SeamComponent21">
@@ -1437,7 +1437,7 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Factory..." kind="action" name="AddFactory">
      <EntityData EntityName="SeamFactory20">
@@ -1549,7 +1549,7 @@
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Component..." kind="action" name="AddComponent">
      <EntityData EntityName="SeamComponent21">
@@ -1558,7 +1558,7 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Factory..." kind="action" name="AddFactory">
      <EntityData EntityName="SeamFactory20">
@@ -1670,7 +1670,7 @@
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Component..." kind="action" name="AddComponent">
      <EntityData EntityName="SeamComponent21">
@@ -1679,7 +1679,7 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Factory..." kind="action" name="AddFactory">
      <EntityData EntityName="SeamFactory20">
@@ -1777,7 +1777,7 @@
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Component..." kind="action" name="AddComponent">
      <EntityData EntityName="SeamComponent21">
@@ -1786,7 +1786,7 @@
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%"
-     ICON="action.new.struts.webapp.res_ref"
+     ICON="action.empty"
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Factory..." kind="action" name="AddFactory">
      <EntityData EntityName="SeamFactory20">

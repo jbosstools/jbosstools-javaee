@@ -147,11 +147,11 @@
    <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Choose Program..." kind="action" name="OpenWithChoice">
      <EntityData EntityName="OpenWithHelper">
       <AttributeData AttributeName="name"/>
@@ -321,11 +321,11 @@
    <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Choose Program..." kind="action" name="OpenWithChoice">
      <EntityData EntityName="OpenWithHelper">
       <AttributeData AttributeName="name"/>
@@ -518,11 +518,11 @@
    <XActionItem displayName="Open With" group="1" kind="list" name="OpenWith">
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithExternalHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Open with External Program" kind="action" name="OpenWithSelected"/>
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.common.meta.action.impl.handlers.OpenWithChoiceHandler"
-     ICON="action.empty" PROPERTIES="extension=struts-config"
+     ICON="action.empty" 
      displayName="Choose Program..." kind="action" name="OpenWithChoice">
      <EntityData EntityName="OpenWithHelper">
       <AttributeData AttributeName="name"/>
@@ -2857,15 +2857,6 @@
     HandlerClassName="org.jboss.tools.jst.web.model.handlers.ShowHideCommentsHandler"
     ICON="action.empty" PROPERTIES="commentEntity=JSFProcessComment"
     displayName="Show/Hide Comments" kind="action" name="ShowHideComments"/>
-   <XActionItem displayName="Verify" kind="list" name="ProcessVerifyActions">
-    <XActionItem kind="list" name="StaticActions">
-     <XActionItem BaseActionName="VerifyAll"
-      HandlerClassName="org.jboss.tools.jsf.model.handlers.JSFProcessRegirectHandler"
-      ICON="action.vrules.verify"
-      PROPERTIES="actionpath=VerifyActions/StaticActions/VerifyAll"
-      displayName="Verify" kind="action" name="VerifyAll"/>
-    </XActionItem>
-   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Paste"
      HandlerClassName="org.jboss.tools.jsf.model.handlers.ProcessPasteHandler"
@@ -2933,7 +2924,7 @@
      displayName="Delete" kind="action" name="Delete"/>
    </XActionItem>
    <XActionItem HIDE="disabled"
-    HandlerClassName="org.jboss.tools.struts.model.handlers.SelectInNavigatorHandler"
+    HandlerClassName="org.jboss.tools.jsf.model.handlers.SelectInNavigatorHandler"
     ICON="action.empty" displayName="Select in Tree Views" kind="action" name="Select"/>
    <XActionItem ICON="action.empty" kind="list" name="Properties">
     <XActionItem
@@ -3004,14 +2995,6 @@
     <XActionItem HIDE="always"
      HandlerClassName="org.jboss.tools.jsf.model.handlers.AddRuleToGroupHandler"
      ICON="action.empty" displayName="Add Rule..." kind="action" name="CreateRule"/>
-    <XActionItem HIDE="always"
-     HandlerClassName="org.jboss.tools.struts.model.handlers.CreateCommentForItemHandler"
-     ICON="action.empty" WizardClassName="%OneParameter%"
-     displayName="Create Comment..." kind="action" name="CreateComment">
-     <EntityData EntityName="JSFProcessComment">
-      <AttributeData AttributeName="comment"/>
-     </EntityData>
-    </XActionItem>
    </XActionItem>
    <XActionItem HIDE="disabled"
     HandlerClassName="org.jboss.tools.jsf.model.handlers.OpenPageHandler"
@@ -3036,18 +3019,9 @@
     HandlerClassName="org.jboss.tools.jsf.model.handlers.HiddenLinksHandler"
     ICON="action.empty" displayName="Show/Hide Links" kind="action" name="Links"/>
    <XActionItem HIDE="disabled"
-    HandlerClassName="org.jboss.tools.struts.model.handlers.SelectInNavigatorHandler"
+    HandlerClassName="org.jboss.tools.jsf.model.handlers.SelectInNavigatorHandler"
     ICON="action.empty" displayName="Select in Tree Views" kind="action" name="Select"/>
    <XActionItem kind="list" name="BreakPointActions"/>
-   <XActionItem displayName="Verify" kind="list" name="ProcessVerifyActions">
-    <XActionItem kind="list" name="StaticActions">
-     <XActionItem BaseActionName="VerifyAll"
-      HandlerClassName="org.jboss.tools.jsf.model.handlers.JSFGroupRegirectHandler"
-      ICON="action.vrules.verify"
-      PROPERTIES="actionpath=VerifyActions/StaticActions/VerifyAll"
-      displayName="Verify" kind="action" name="VerifyAll"/>
-    </XActionItem>
-   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
      ICON="action.cut" PROPERTIES="actionpath=CopyActions/Cut"
@@ -3151,18 +3125,9 @@
     HandlerClassName="org.jboss.tools.jsf.model.handlers.HiddenLinksHandler"
     ICON="action.empty" displayName="Show/Hide Links" kind="action" name="Links"/>
    <XActionItem HIDE="disabled"
-    HandlerClassName="org.jboss.tools.struts.model.handlers.SelectInNavigatorHandler"
+    HandlerClassName="org.jboss.tools.jsf.model.handlers.SelectInNavigatorHandler"
     ICON="action.empty" displayName="Select in Tree Views" kind="action" name="Select"/>
    <XActionItem kind="list" name="BreakPointActions"/>
-   <XActionItem displayName="Verify" kind="list" name="ProcessVerifyActions">
-    <XActionItem kind="list" name="StaticActions">
-     <XActionItem BaseActionName="VerifyAll"
-      HandlerClassName="org.jboss.tools.jsf.model.handlers.JSFItemRegirectHandler"
-      ICON="action.vrules.verify"
-      PROPERTIES="actionpath=VerifyActions/StaticActions/VerifyAll"
-      displayName="Verify" kind="action" name="VerifyAll"/>
-    </XActionItem>
-   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
      ICON="action.cut" PROPERTIES="actionpath=CopyActions/Cut"
@@ -3262,7 +3227,7 @@
      ICON="action.empty" displayName="Run on Server" kind="action" name="RunPageOnServer"/>
    </XActionItem>
    <XActionItem HIDE="disabled"
-    HandlerClassName="org.jboss.tools.struts.model.handlers.SelectInNavigatorHandler"
+    HandlerClassName="org.jboss.tools.jsf.model.handlers.SelectInNavigatorHandler"
     ICON="action.empty" displayName="Select in Tree Views" kind="action" name="Select"/>
    <XActionItem kind="list" name="LinkActions">
     <XActionItem HIDE="disabled"
@@ -3279,15 +3244,6 @@
      displayName="Hide" kind="action" name="Hide"/>
    </XActionItem>
    <XActionItem kind="list" name="BreakPointActions"/>
-   <XActionItem displayName="Verify" kind="list" name="ProcessVerifyActions">
-    <XActionItem kind="list" name="StaticActions">
-     <XActionItem BaseActionName="VerifyAll"
-      HandlerClassName="org.jboss.tools.jsf.model.handlers.JSFItemRegirectHandler"
-      ICON="action.vrules.verify"
-      PROPERTIES="actionpath=VerifyActions/StaticActions/VerifyAll"
-      displayName="Verify" kind="action" name="VerifyAll"/>
-    </XActionItem>
-   </XActionItem>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
     <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
      ICON="action.cut" PROPERTIES="actionpath=CopyActions/Cut"

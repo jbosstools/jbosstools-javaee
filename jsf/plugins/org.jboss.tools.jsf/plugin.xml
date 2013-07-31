@@ -366,6 +366,8 @@
 			class="org.jboss.tools.jsf.model.handlers.RenameViewSupport"/>
 		<xclass id="org.jboss.tools.jsf.model.handlers.bean.AddManagedPropertySupport"
 			class="org.jboss.tools.jsf.model.handlers.bean.AddManagedPropertySupport"/>
+		<xclass id="org.jboss.tools.jsf.model.handlers.SelectInNavigatorHandler"
+			class="org.jboss.tools.jsf.model.handlers.SelectInNavigatorHandler"/>
 
 		<xclass id="org.jboss.tools.jsf.model.helpers.autolayout.JSFItems"
 			class="org.jboss.tools.jsf.model.helpers.autolayout.JSFItems"/>

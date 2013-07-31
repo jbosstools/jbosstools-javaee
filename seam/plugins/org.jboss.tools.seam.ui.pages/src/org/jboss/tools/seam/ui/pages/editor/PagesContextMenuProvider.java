@@ -33,6 +33,7 @@ import org.jboss.tools.seam.ui.pages.editor.edit.SelectionUtil;
 public class PagesContextMenuProvider	extends org.eclipse.gef.ContextMenuProvider {
 	private ActionRegistry actionRegistry;
 	private MouseEvent lastDownEvent = null;
+	private Point lastPoint = null;
 
 	public PagesContextMenuProvider(EditPartViewer viewer, ActionRegistry registry) {
 		super(viewer);
@@ -81,11 +82,13 @@ public class PagesContextMenuProvider	extends org.eclipse.gef.ContextMenuProvide
 			PagesDiagramEditPart part = (PagesDiagramEditPart)getViewer().getRootEditPart().getChildren().get(0);
 			Properties p = new Properties();
 			if(lastDownEvent != null) {
-				Point point = new Point(lastDownEvent.x, lastDownEvent.y); 
-				part.getFigure().translateToRelative(point);
-				p.setProperty("mouse.x", "" + point.x);
-				p.setProperty("mouse.y", "" + point.y);
+				lastPoint = new Point(lastDownEvent.x, lastDownEvent.y);				
+				part.getFigure().translateToRelative(lastPoint);
 				lastDownEvent = null;
+			}
+			if(lastPoint != null) {
+				p.setProperty("mouse.x", "" + lastPoint.x); //$NON-NLS-1$ //$NON-NLS-2$
+				p.setProperty("mouse.y", "" + lastPoint.y); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			p.put("diagramEditPart", part);
 

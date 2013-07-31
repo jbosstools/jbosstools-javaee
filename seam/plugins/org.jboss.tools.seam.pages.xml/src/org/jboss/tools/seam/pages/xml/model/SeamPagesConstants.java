@@ -78,7 +78,7 @@ public interface SeamPagesConstants {
     public String TYPE_EXCEPTION = "exception"; //$NON-NLS-1$
     public String SUBTYPE_UNKNOWN = "unknown"; //$NON-NLS-1$
 
-	//common struts & jsf constants //TODO compare to JSF, move to common	
+	//common constants //TODO compare to JSF, move to common	
 	public static final String ENT_FILEJSP        = "FileJSP";
 	public static final String ENT_FILEHTML       = "FileHTML";
 	public static final String ENT_FILEXHTML       = "FileXHTML";
