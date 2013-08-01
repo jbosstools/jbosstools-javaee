@@ -10,14 +10,18 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.impl;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBuiltInBean;
 import org.jboss.tools.cdi.core.IScope;
+import org.jboss.tools.cdi.core.WeldConstants;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
+import org.jboss.tools.common.java.impl.AnnotationLiteral;
 
 /**
  * 3.6. Additional built-in beans.
@@ -35,6 +39,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 public class BuiltInBeanFactory {
 
 	public static final Set<String> BUILT_IN = new HashSet<String>();
+	static final Map<String, BuiltInBeanInfo> BUILT_IN_INFO = new HashMap<String, BuiltInBeanInfo>();
 
 	static {
 		BUILT_IN.add(CDIConstants.USER_TRANSACTION_TYPE_NAME);
@@ -44,6 +49,46 @@ public class BuiltInBeanFactory {
 		BUILT_IN.add(CDIConstants.BEAN_MANAGER_TYPE_NAME);
 		BUILT_IN.add(CDIConstants.CONVERSATION_TYPE_NAME);
 		BUILT_IN.add(CDIConstants.INJECTIONPOINT_TYPE_NAME);
+		
+		BUILT_IN.add(WeldConstants.DEPENDENT_CONTEXT_TYPE);
+
+		addInfo(WeldConstants.SINGLETON_CONTEXT_TYPE, 
+				CDIConstants.SINGLETON_SCOPED_ANNOTATION_TYPE_NAME,
+				null);
+		addInfo(WeldConstants.APPLICATION_CONTEXT_TYPE, 
+				CDIConstants.APPLICATION_SCOPED_ANNOTATION_TYPE_NAME,
+				null);
+		addInfo(WeldConstants.REQUEST_CONTEXT_TYPE, 
+				CDIConstants.REQUEST_SCOPED_ANNOTATION_TYPE_NAME,
+				WeldConstants.UNBOUND_QUALIFIER_TYPE).defaultQualifier = false;
+		addInfo(WeldConstants.BOUND_REQUEST_CONTEXT_TYPE, 
+				CDIConstants.REQUEST_SCOPED_ANNOTATION_TYPE_NAME,
+				WeldConstants.BOUND_QUALIFIER_TYPE);
+		addInfo(WeldConstants.HTTP_REQUEST_CONTEXT_TYPE, 
+				CDIConstants.REQUEST_SCOPED_ANNOTATION_TYPE_NAME,
+				WeldConstants.HTTP_QUALIFIER_TYPE);
+		addInfo(WeldConstants.EJB_REQUEST_CONTEXT_TYPE, 
+				CDIConstants.REQUEST_SCOPED_ANNOTATION_TYPE_NAME,
+				WeldConstants.EJB_QUALIFIER_TYPE);
+		addInfo(WeldConstants.BOUND_SESSION_CONTEXT_TYPE, 
+				CDIConstants.SESSION_SCOPED_ANNOTATION_TYPE_NAME,
+				WeldConstants.BOUND_QUALIFIER_TYPE);
+		addInfo(WeldConstants.HTTP_SESSION_CONTEXT_TYPE, 
+				CDIConstants.SESSION_SCOPED_ANNOTATION_TYPE_NAME,
+				WeldConstants.HTTP_QUALIFIER_TYPE);
+		addInfo(WeldConstants.BOUND_CONVERSATION_CONTEXT_TYPE, 
+				CDIConstants.CONVERSATION_SCOPED_ANNOTATION_TYPE_NAME,
+				WeldConstants.BOUND_QUALIFIER_TYPE);
+		addInfo(WeldConstants.HTTP_CONVERSATION_CONTEXT_TYPE, 
+				CDIConstants.CONVERSATION_SCOPED_ANNOTATION_TYPE_NAME,
+				WeldConstants.HTTP_QUALIFIER_TYPE);
+	}
+
+	static BuiltInBeanInfo addInfo(String type, String scopeName, String qualifierName) {
+		BUILT_IN.add(type);
+		BuiltInBeanInfo info = new BuiltInBeanInfo(scopeName, qualifierName);
+		BUILT_IN_INFO.put(type, info);
+		return info;
 	}
 
 	public static boolean isBuiltIn(IType type) {
@@ -52,17 +97,42 @@ public class BuiltInBeanFactory {
 
 	public static ClassBean newClassBean(CDIProject project, TypeDefinition def) {
 		ClassBean result = null;
-		if(def.getType().getFullyQualifiedName().equals(CDIConstants.CONVERSATION_TYPE_NAME)) {
+		String typeName = def.getType().getFullyQualifiedName();
+		if(typeName.equals(CDIConstants.CONVERSATION_TYPE_NAME)) {
 			result = new ConversationBuiltInBean();
 		} else {
-			result = new BuiltInBean();
+			BuiltInBean b = new BuiltInBean();
+			BuiltInBeanInfo info = BUILT_IN_INFO.get(typeName);
+			if(info != null) {
+				if(info.scopeName != null) {
+					b.scopeName = info.scopeName;
+				}
+				if(info.qualifierName != null) {
+					addAnnotation(project, def, info.qualifierName);
+					if(info.defaultQualifier) {
+						addAnnotation(project, def, CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+					}
+				}
+			}
+			result = b;
 		}
 		result.setParent(project);
 		result.setDefinition(def);
 		return result;
 	}
 
+	private static void addAnnotation(CDIProject project, TypeDefinition def, String typeName) {
+		if(def.getAnnotation(typeName) == null) {
+			IType t = project.getNature().getType(typeName);
+			if(t != null) {
+				AnnotationLiteral l = new AnnotationLiteral(project.getResource(), 0, 0, null, 0, t);
+				def.addAnnotation(l, project.getNature().getDefinitions());
+			}
+		}
+	}
+
 }
+
 
 class ConversationBuiltInBean extends ClassBean implements IBuiltInBean {
 	ConversationBuiltInBean() {
@@ -79,15 +149,35 @@ class ConversationBuiltInBean extends ClassBean implements IBuiltInBean {
 }
 
 class BuiltInBean extends ClassBean implements IBuiltInBean {
+	String scopeName = CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME;
 	
 	public BuiltInBean() {
 	}
 
 	public IScope getScope() {
-		return getCDIProject().getScope(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
+		return getCDIProject().getScope(scopeName);
 	}
 
 	public String getName() {
 		return null;
+	}
+}
+
+class BuiltInBeanInfo {
+	String scopeName;
+	String qualifierName;
+	boolean defaultQualifier = true;
+
+	BuiltInBeanInfo(String scopeName, String qualifierName) {
+		this.scopeName = scopeName;
+		this.qualifierName = qualifierName;
+	}
+
+	public String getScopeName() {
+		return scopeName;
+	}
+
+	public String getQualifierName() {
+		return qualifierName;
 	}
 }

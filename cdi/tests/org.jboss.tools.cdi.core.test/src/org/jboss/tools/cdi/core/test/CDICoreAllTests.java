@@ -26,6 +26,7 @@ import org.jboss.tools.cdi.core.test.tck.AssignabilityOfRawAndParameterizedTypes
 import org.jboss.tools.cdi.core.test.tck.BeanDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.BeanSpecializationTest;
 import org.jboss.tools.cdi.core.test.tck.BuiltInBeanInjectionTest;
+import org.jboss.tools.cdi.core.test.tck.BuiltInContextBeanInjectionTest;
 import org.jboss.tools.cdi.core.test.tck.CDIUtilTest;
 import org.jboss.tools.cdi.core.test.tck.CoreTest;
 import org.jboss.tools.cdi.core.test.tck.DecoratorDefinitionTest;
@@ -174,6 +175,7 @@ public class CDICoreAllTests {
 		suiteAll.addTestSuite(EnableCDISupportForWarTest.class);
 		suiteAll.addTestSuite(EnableCDISupportForJarTest.class);
 		suiteAll.addTestSuite(DependentProjectValidationTest.class);
+		suiteAll.addTestSuite(BuiltInContextBeanInjectionTest.class);
 		suiteAll.addTest(new CDICoreTestSetup(suite));
 
 		suite = new TestSuite(MissingBeansXmlValidationTest.class.getName());
