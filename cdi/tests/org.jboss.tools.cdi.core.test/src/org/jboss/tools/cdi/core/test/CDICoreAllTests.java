@@ -26,6 +26,7 @@ import org.jboss.tools.cdi.core.test.tck.AssignabilityOfRawAndParameterizedTypes
 import org.jboss.tools.cdi.core.test.tck.BeanDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.BeanSpecializationTest;
 import org.jboss.tools.cdi.core.test.tck.BuiltInBeanInjectionTest;
+import org.jboss.tools.cdi.core.test.tck.BuiltInContextBeanInjectionTest;
 import org.jboss.tools.cdi.core.test.tck.CDIUtilTest;
 import org.jboss.tools.cdi.core.test.tck.CoreTest;
 import org.jboss.tools.cdi.core.test.tck.DecoratorDefinitionTest;
@@ -174,6 +175,13 @@ public class CDICoreAllTests {
 		suiteAll.addTestSuite(EnableCDISupportForWarTest.class);
 		suiteAll.addTestSuite(EnableCDISupportForJarTest.class);
 		suiteAll.addTestSuite(DependentProjectValidationTest.class);
+		TestSuite builtinContextSuite = new TestSuite("Built-in Context Tests");
+		builtinContextSuite.addTestSuite(BuiltInContextBeanInjectionTest.class);
+		ProjectImportTestSetup builtinContextTestSetup = new ProjectImportTestSetup(builtinContextSuite,
+				"org.jboss.tools.cdi.core.test",
+				new String[]{"projects/weld1.1"},
+				new String[]{"weld1.1"});
+		suiteAll.addTest(builtinContextTestSetup);
 		suiteAll.addTest(new CDICoreTestSetup(suite));
 
 		suite = new TestSuite(MissingBeansXmlValidationTest.class.getName());
