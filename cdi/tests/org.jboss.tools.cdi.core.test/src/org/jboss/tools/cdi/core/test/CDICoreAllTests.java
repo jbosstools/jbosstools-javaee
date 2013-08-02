@@ -175,7 +175,13 @@ public class CDICoreAllTests {
 		suiteAll.addTestSuite(EnableCDISupportForWarTest.class);
 		suiteAll.addTestSuite(EnableCDISupportForJarTest.class);
 		suiteAll.addTestSuite(DependentProjectValidationTest.class);
-		suiteAll.addTestSuite(BuiltInContextBeanInjectionTest.class);
+		TestSuite builtinContextSuite = new TestSuite("Built-in Context Tests");
+		builtinContextSuite.addTestSuite(BuiltInContextBeanInjectionTest.class);
+		ProjectImportTestSetup builtinContextTestSetup = new ProjectImportTestSetup(builtinContextSuite,
+				"org.jboss.tools.cdi.core.test",
+				new String[]{"projects/weld1.1"},
+				new String[]{"weld1.1"});
+		suiteAll.addTest(builtinContextTestSetup);
 		suiteAll.addTest(new CDICoreTestSetup(suite));
 
 		suite = new TestSuite(MissingBeansXmlValidationTest.class.getName());
