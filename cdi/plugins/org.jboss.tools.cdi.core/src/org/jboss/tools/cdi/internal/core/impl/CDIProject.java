@@ -210,11 +210,17 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	public Collection<IBean> getResolvedBeans(Collection<IBean> result, boolean attemptToResolveAmbiguousness) {
 		if(result.size() > 1) {
 			Iterator<IBean> it = result.iterator();
+			IBean bib = null;
+			int c = 0;
 			while(it.hasNext()) {
 				IBean b = it.next();
 				if(b instanceof IBuiltInBean) {
-					it.remove();
+					bib = b;
+					c++;
 				}
+			}
+			if(bib != null && c == 1) {
+				result.remove(bib);
 			}
 		}
 		if(result.isEmpty() || !attemptToResolveAmbiguousness) {

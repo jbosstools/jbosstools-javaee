@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/cdi-api.jar"/>
+	<classpathentry kind="lib" path="lib/javax.inject.jar" sourcepath="/home/slava/.m2/repository/javax/inject/javax.inject/1/javax.inject-1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/weld-se-core.jar"/>
+	<classpathentry kind="lib" path="lib/weld-se.jar" sourcepath="/home/slava/.m2/repository/org/jboss/weld/se/weld-se/1.1.5.Final/weld-se-1.1.5.Final-sources.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
