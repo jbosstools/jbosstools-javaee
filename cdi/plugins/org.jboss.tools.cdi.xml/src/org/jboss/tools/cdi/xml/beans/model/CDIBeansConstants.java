@@ -12,8 +12,10 @@ package org.jboss.tools.cdi.xml.beans.model;
 
 public interface CDIBeansConstants {
 	public String BEANS_NAMESPACE = "http://java.sun.com/xml/ns/javaee"; //$NON-NLS-1$
+	public String BEANS_NAMESPACE_11 = "http://xmlns.jcp.org/xml/ns/javaee"; //$NON-NLS-1$
 	
 	public String ENT_CDI_BEANS = "FileCDIBeans"; //$NON-NLS-1$
+	public String ENT_CDI_BEANS_11 = "FileCDIBeans11"; //$NON-NLS-1$
 
 	public String ENT_DECORATORS = "CDIDecorators"; //$NON-NLS-1$
 	public String ENT_INTERCEPTORS = "CDIInterceptors"; //$NON-NLS-1$

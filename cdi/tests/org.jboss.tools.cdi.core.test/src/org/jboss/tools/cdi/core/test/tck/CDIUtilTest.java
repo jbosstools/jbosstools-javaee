@@ -57,7 +57,7 @@ public class CDIUtilTest extends TCKTest {
 	public void testFindInjectionPoint() throws Exception {
 		String path = "JavaSource/org/jboss/jsr299/tck/tests/jbt/core/TestInjection2.java";
 		IClassBean bean = getClassBean("org.jboss.jsr299.tck.tests.jbt.core.TestInjection2", path);
-		Collection<IBean> bs = cdiProject.getBeans(new Path("/tck/" + path));
+		Collection<IBean> bs = cdiProject.getBeans(new Path("/" + getProjectNameProvider().getMainProjectName() + "/" + path));
 		Collection<IInjectionPointParameter> ps = CDIUtil.getInjectionPointParameters(bean); 
 		assertEquals("Unexpected number of injection points.", 10, ps.size());
 		int testcount = 0;
@@ -80,14 +80,14 @@ public class CDIUtilTest extends TCKTest {
 				}
 			}
 		}
-		
+
 		//Double length of all injected parameter ranges.  
 		assertEquals("Unexpected double length of all injected parameter ranges.", 358, testcount);
 	}
 
 	public void testFindInjectionPoint2() throws Exception {
 		String path = "JavaSource/org/jboss/jsr299/tck/tests/jbt/core/TestInjection2.java";
-		Collection<IBean> bs = cdiProject.getBeans(new Path("/tck/" + path));
+		Collection<IBean> bs = cdiProject.getBeans(new Path("/" + getProjectNameProvider().getMainProjectName() + "/" + path));
 		Collection<IInjectionPoint> ps = new HashSet<IInjectionPoint>();
 		for (IBean b: bs) {
 			ps.addAll(b.getInjectionPoints());
@@ -102,5 +102,4 @@ public class CDIUtilTest extends TCKTest {
 			}
 		}		
 	}
-
 }

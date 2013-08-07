@@ -48,7 +48,7 @@ public class SelectedAlternativeTest extends TCKTest {
 	 * • the alternative is a producer method, field or resource, and the bean class that declares the method or field is listed
 	 */
 	public void testSelectedAlternativeProducer() {
-		Collection<IBean> beans = cdiProject.getBeans(new Path("/tck/JavaSource/org/jboss/jsr299/tck/tests/policy/EnabledSheepProducer.java"));
+		Collection<IBean> beans = cdiProject.getBeans(new Path("/" + getProjectNameProvider().getMainProjectName() + "/JavaSource/org/jboss/jsr299/tck/tests/policy/EnabledSheepProducer.java"));
 		int producerCount = 0;
 		for (IBean bean: beans) {
 			if(bean instanceof IProducer) {

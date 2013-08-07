@@ -5,6 +5,7 @@
    <extension point="org.jboss.tools.common.model.meta">
       <meta path="meta/cdi-beans.meta"/>
       <meta path="meta/cdi-weld.meta"/>
+      <meta path="meta/cdi-beans11.meta"/>
    </extension>
 
    <extension point="org.jboss.tools.common.model.keys">
@@ -38,6 +39,9 @@
             name="http://jboss.org/schema/cdi/beans_1_0.xsd" 
             uri="platform:/plugin/org.jboss.tools.cdi.xml/schemas/beans.xsd"/>
 
+         <uri 
+            name="http://xmlns.jcp.org/xml/ns/javaee" 
+            uri="platform:/plugin/org.jboss.tools.cdi.xml/schemas/1.1/beans_1_1.xsd"/>
 
       </catalogContribution>
    </extension>

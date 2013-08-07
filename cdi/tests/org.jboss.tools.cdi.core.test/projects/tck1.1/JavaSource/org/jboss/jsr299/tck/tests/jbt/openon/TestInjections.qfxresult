@@ -1,0 +1,20 @@
+package org.jboss.jsr299.tck.tests.jbt.openon;
+
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+
+public class TestInjections {
+   @Inject private Logger logger;
+   
+   @Produces Logger ll;
+
+   public Logger getLogger()
+   {
+      return logger;
+   }
+
+   public void doSomething()
+   {
+      logger.log("Test message");
+   }
+}

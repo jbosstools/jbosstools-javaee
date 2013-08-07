@@ -20,8 +20,9 @@ public class CDIBeansEntityRecognizer implements EntityRecognizer, CDIBeansConst
     public String getEntityName(EntityRecognizerContext context) {
     	String body = context.getBody();
         if(body == null) return null;
-    	if(isComponentsSchema(body)) {
-    		return ENT_CDI_BEANS;
+        String result = getSchemaEntityName(body);
+    	if(result != null) {
+    		return result;
     	}    	
 		if("beans.xml".equals(context.getFileName()) && body.indexOf("<beans") >= 0) {
 			return ENT_CDI_BEANS;
@@ -29,13 +30,19 @@ public class CDIBeansEntityRecognizer implements EntityRecognizer, CDIBeansConst
 		return null;
 	}    
 
-    private boolean isComponentsSchema(String body) {
+    private String getSchemaEntityName(String body) {
     	int i = body.indexOf("<beans"); //$NON-NLS-1$
-    	if(i < 0) return false;
+    	if(i < 0) return null;
     	int j = body.indexOf(">", i); //$NON-NLS-1$
-    	if(j < 0) return false;
+    	if(j < 0) return null;
     	String s = body.substring(i, j);
-    	return s.indexOf("\"" + BEANS_NAMESPACE + "\"") > 0; //$NON-NLS-1$
+    	if(s.indexOf("\"" + BEANS_NAMESPACE + "\"") > 0) { //$NON-NLS-1$
+    		return ENT_CDI_BEANS;
+    	}
+    	if(s.indexOf("\"" + BEANS_NAMESPACE_11 + "\"") > 0) { //$NON-NLS-1$
+    		return ENT_CDI_BEANS_11;
+    	}
+    	return null;
     }
 
 }

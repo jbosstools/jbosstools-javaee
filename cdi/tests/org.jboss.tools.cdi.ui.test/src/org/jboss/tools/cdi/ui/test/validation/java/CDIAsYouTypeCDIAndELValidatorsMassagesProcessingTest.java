@@ -41,7 +41,7 @@ public class CDIAsYouTypeCDIAndELValidatorsMassagesProcessingTest extends TCKTes
 	
 	@Override
 	public void setUp() throws Exception {
-		project = TCKTest.findTestProject();
+		project = findTestProject();
 		if (baseTest == null) {
 			// Since the test is about EL errors we're using ELValidator.PROBLEM_TYPE type of problem
 			baseTest = new BaseAsYouTypeInJavaValidationTest(project, EL_VALIDATOR_PROBLEM_TYPE);
@@ -53,7 +53,7 @@ public class CDIAsYouTypeCDIAndELValidatorsMassagesProcessingTest extends TCKTes
 	 * Test case for the following issues: JBIDE-12418, JBIDE-12539
 	 */
 	public void testAsYouTypeCDIAndELValidatorsMassagesProcessing() throws BadLocationException, CoreException {
- 		assertNotNull("Test project '" + TCKTest.MAIN_PROJECT_NAME + "' is not prepared", project);
+ 		assertNotNull("Test project '" + getProjectNameProvider().getMainProjectName() + "' is not prepared", project);
 		baseTest.openEditor(PAGE_NAME);
 		try {
 			//============================
@@ -142,7 +142,7 @@ public class CDIAsYouTypeCDIAndELValidatorsMassagesProcessingTest extends TCKTes
 	}
 	
 	public void testCommentingLinesWithAProblems() throws BadLocationException, CoreException {
- 		assertNotNull("Test project '" + TCKTest.MAIN_PROJECT_NAME + "' is not prepared", project);
+ 		assertNotNull("Test project '" + getProjectNameProvider().getMainProjectName() + "' is not prepared", project);
 		baseTest.openEditor(PAGE_NAME);
 		try {
 			//============================

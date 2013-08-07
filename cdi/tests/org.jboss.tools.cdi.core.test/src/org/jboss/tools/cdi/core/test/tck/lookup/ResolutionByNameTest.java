@@ -8,7 +8,6 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/
-
 package org.jboss.tools.cdi.core.test.tck.lookup;
 
 import java.util.Collection;

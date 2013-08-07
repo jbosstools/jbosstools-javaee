@@ -895,8 +895,8 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	 */
 	public void testInitializerMethodHasParameterAnnotatedDisposes() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/initializer/broken/parameterAnnotatedDisposes/Capercaillie_Broken.java");
-		getAnnotationTest().assertAnnotationIsCreatedForGivenPosition(file, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 25, 1003, 1010);
-		getAnnotationTest().assertAnnotationIsCreatedForGivenPosition(file, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 26, 1048, 1057);
+		getAnnotationTest().assertAnnotationIsCreatedForGivenPosition(file, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 25, 979, 986);
+		getAnnotationTest().assertAnnotationIsCreatedForGivenPosition(file, CDIValidationMessages.DISPOSER_ANNOTATED_INJECT, 26, 1023, 1032);
 	}
 
 	/**

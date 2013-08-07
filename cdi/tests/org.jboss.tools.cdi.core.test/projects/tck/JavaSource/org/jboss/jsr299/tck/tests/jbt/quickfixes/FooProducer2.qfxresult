@@ -1,0 +1,12 @@
+package org.jboss.jsr299.tck.tests.jbt.quickfixes;
+
+import javax.ejb.Stateful;
+import javax.enterprise.inject.Produces;
+import javax.ejb.LocalBean;
+
+@LocalBean
+@Stateful
+public class FooProducer implements FooProducerLocal
+{
+   @Produces public Foo createFoo() { return new Foo(); }
+}

@@ -15,8 +15,6 @@ import junit.framework.Test;
 
 import org.eclipse.core.resources.IProject;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
-import org.jboss.tools.test.util.JobUtils;
-import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
  * @author Alexey Kazakov
@@ -36,7 +34,8 @@ public class CDICoreTestSetup extends TestSetup {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		projects = TCKTest.importPreparedProjects();
+		TCKTest test = new TCKTest();
+		projects = test.importPreparedProjects();
 		tckProject = projects[1];
 	}
 }

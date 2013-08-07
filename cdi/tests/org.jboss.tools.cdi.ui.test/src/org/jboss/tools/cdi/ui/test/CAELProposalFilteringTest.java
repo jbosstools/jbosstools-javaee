@@ -12,10 +12,7 @@ package org.jboss.tools.cdi.ui.test;
 
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
@@ -29,7 +26,7 @@ import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
  * @author Victor V. Rubezhny
  *
  */
-public class CAELProposalFilteringTest extends TestCase {
+public class CAELProposalFilteringTest extends TCKTest {
 
 	private IProject project = null;
 	private ContentAssistantTestCase caTest = new ContentAssistantTestCase();
@@ -39,9 +36,10 @@ public class CAELProposalFilteringTest extends TestCase {
 	public CAELProposalFilteringTest() {
 		super();
 	}
-	
+
+	@Override
 	public void setUp() {
-		project = TCKTest.findTestProject();
+		project = findTestProject();
 		caTest.setProject(project);
 	}
 
@@ -97,10 +95,7 @@ public class CAELProposalFilteringTest extends TestCase {
 		}
 		assertTrue("The proposal to apply not found.", bPropoosalToApplyFound);
 
-//		JobUtils.waitForIdle();
-
 		String documentUpdatedContent = document.get();
 		assertTrue("The proposal replacement is failed.", documentContentToCompare.equals(documentUpdatedContent));
 	}
-	
 }

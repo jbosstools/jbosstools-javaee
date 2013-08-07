@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<beans xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:weld="http://jboss.org/schema/weld/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://java.sun.com/xml/ns/javaee        http://jboss.org/schema/cdi/beans_1_0.xsd http://jboss.org/schema/weld/beans http://jboss.org/schema/weld/beans_1_1.xsd">
+ <interceptors>
+  <class>org.jboss.jsr299.tck.tests.jbt.quickfixes.MyFirstInterceptor</class>
+ </interceptors>
+ <weld:scan/>
+ <decorators>
+  <class>org.jboss.jsr299.tck.tests.jbt.quickfixes.MyFirstDecorator</class>
+ </decorators>
+ <alternatives>
+  <class>org.jboss.jsr299.tck.tests.jbt.quickfixes.MyFirstBean</class>
+  <stereotype>org.jboss.jsr299.tck.tests.jbt.quickfixes.MyFirstStereotype</stereotype>
+ </alternatives>
+</beans>
