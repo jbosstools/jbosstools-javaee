@@ -14,8 +14,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.core.runtime.IPath;
+import org.jboss.tools.cdi.internal.core.impl.Excluded;
 import org.jboss.tools.cdi.xml.beans.model.CDIBeansConstants;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.XModelObjectConstants;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
 import org.jboss.tools.common.text.INodeReference;
@@ -32,6 +34,8 @@ public class BeansXMLDefinition implements CDIBeansConstants {
 	private Collection<INodeReference> stereotypeAlternatives = new ArrayList<INodeReference>();
 	private Collection<INodeReference> decorators = new ArrayList<INodeReference>();
 	private Collection<INodeReference> interceptors = new ArrayList<INodeReference>();
+
+	private Collection<Excluded> excluded = new ArrayList<Excluded>();
 
 	public BeansXMLDefinition() {}
 
@@ -69,9 +73,38 @@ public class BeansXMLDefinition implements CDIBeansConstants {
 					stereotypeAlternatives.add(new XMLNodeReference(o, ATTR_STEREOTYPE));
 				}
 			}
-
+			XModelObject scan = beansXML.getChildByPath("Scan");
+			if(scan != null) {
+				loadScan(scan);
+			}
 		}
-		
+	}
+
+	void loadScan(XModelObject scan) {
+		XModelObject[] cs = scan.getChildren();
+		for (XModelObject c: cs) {
+			if("exclude".equals(c.getAttributeValue(XModelObjectConstants.ATTR_ELEMENT_TYPE))) {
+				String name = c.getAttributeValue(XModelObjectConstants.ATTR_NAME);
+				if(name == null || name.startsWith("!")) continue; //not supported
+				Excluded excluded = new Excluded();
+				excluded.setFilter(name);
+				XModelObject[] cs2 = c.getChildren();
+				for (XModelObject c2: cs2) {
+					String name2 = c2.getAttributeValue(XModelObjectConstants.ATTR_NAME);
+					String t2 = c2.getAttributeValue(XModelObjectConstants.ATTR_ELEMENT_TYPE);
+					if("if-class-available".equals(t2)) {
+						if(name2.startsWith("!")) {
+							excluded.addNotAvailableType(name2.substring(1));
+						} else {
+							excluded.addAvailableType(name2);
+						}						
+					} else if("if-class-not-available".equals(t2)) {
+						excluded.addNotAvailableType(name2);
+					}
+				}
+				this.excluded.add(excluded);
+			}
+		}
 	}
 
 	public void setPath(IPath path) {
@@ -96,6 +129,10 @@ public class BeansXMLDefinition implements CDIBeansConstants {
 
 	public Collection<INodeReference> getInterceptors() {
 		return interceptors;
+	}
+
+	public Collection<Excluded> getExcluded() {
+		return excluded;
 	}
 
 

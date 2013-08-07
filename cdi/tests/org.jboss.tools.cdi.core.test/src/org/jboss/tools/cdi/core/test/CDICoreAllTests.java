@@ -50,6 +50,7 @@ import org.jboss.tools.cdi.core.test.tck.ScopeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.SelectedAlternativeTest;
 import org.jboss.tools.cdi.core.test.tck.StereotypeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.StereotypeInheritenceTest;
+import org.jboss.tools.cdi.core.test.tck.WeldExcludeTest;
 import org.jboss.tools.cdi.core.test.tck.lookup.AmbiguousDependencyTest;
 import org.jboss.tools.cdi.core.test.tck.lookup.CircularDependencyTest;
 import org.jboss.tools.cdi.core.test.tck.lookup.DynamicLookupTest;
@@ -175,13 +176,14 @@ public class CDICoreAllTests {
 		suiteAll.addTestSuite(EnableCDISupportForWarTest.class);
 		suiteAll.addTestSuite(EnableCDISupportForJarTest.class);
 		suiteAll.addTestSuite(DependentProjectValidationTest.class);
-		TestSuite builtinContextSuite = new TestSuite("Built-in Context Tests");
-		builtinContextSuite.addTestSuite(BuiltInContextBeanInjectionTest.class);
-		ProjectImportTestSetup builtinContextTestSetup = new ProjectImportTestSetup(builtinContextSuite,
+		TestSuite weldSuite = new TestSuite("Weld Tests");
+		weldSuite.addTestSuite(BuiltInContextBeanInjectionTest.class);
+		weldSuite.addTestSuite(WeldExcludeTest.class);
+		ProjectImportTestSetup weldTestSetup = new ProjectImportTestSetup(weldSuite,
 				"org.jboss.tools.cdi.core.test",
 				new String[]{"projects/weld1.1"},
 				new String[]{"weld1.1"});
-		suiteAll.addTest(builtinContextTestSetup);
+		suiteAll.addTest(weldTestSetup);
 		suiteAll.addTest(new CDICoreTestSetup(suite));
 
 		suite = new TestSuite(MissingBeansXmlValidationTest.class.getName());
