@@ -29,6 +29,8 @@ public class BeansXMLData {
 	private Set<String> stereotypeAlternativeTypes = new HashSet<String>();
 	private Set<String> typeAlternativeTypes = new HashSet<String>();
 
+	private Collection<Excluded> excluded = new ArrayList<Excluded>();
+
 	public BeansXMLData() {}
 
 	public void clean() {
@@ -41,6 +43,7 @@ public class BeansXMLData {
 			decoratorTypes.clear();
 			stereotypeAlternativeTypes.clear();
 			typeAlternativeTypes.clear();
+			excluded.clear();
 		}
 	}
 
@@ -76,6 +79,10 @@ public class BeansXMLData {
 		return typeAlternativeTypes;
 	}
 
+	public Collection<Excluded> getExcluded() {
+		return excluded;
+	}
+
 	public synchronized void addInterceptor(INodeReference r) {
 		interceptors.add(r);
 		if (r.getValue() != null) {
@@ -102,6 +109,10 @@ public class BeansXMLData {
 		if (r.getValue() != null) {
 			typeAlternativeTypes.add(r.getValue());
 		}
+	}
+
+	public synchronized void addExcluded(Collection<Excluded> e) {
+		excluded.addAll(e);
 	}
 
 }

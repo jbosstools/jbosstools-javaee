@@ -591,9 +591,7 @@ public class CDICoreNature implements IProjectNature {
 			return;
 		}
 		
-		Set<KbProject> ps = kb.getKbProjects();
-		
-		for (KbProject kb1: ps) {
+		for (KbProject kb1: kb.getKbProjects()) {
 			IProject project = kb1.getProject();
 			if(project == null || !project.isAccessible()) continue;
 			KbProjectFactory.getKbProject(project, true, true);
@@ -604,9 +602,7 @@ public class CDICoreNature implements IProjectNature {
 			}
 		}
 		
-		KbProject[] ps2 = kb.getDependentKbProjects();
-
-		for (KbProject kb2: ps2) {
+		for (KbProject kb2: kb.getDependentKbProjects()) {
 			IProject project = kb2.getProject();
 			if(project == null || !project.isAccessible()) continue;
 			KbProjectFactory.getKbProject(project, true, true);

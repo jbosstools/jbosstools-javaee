@@ -44,6 +44,7 @@ import org.jboss.tools.cdi.core.ICDICache;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IDecorator;
+import org.jboss.tools.cdi.core.IExcluded;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInterceptor;
@@ -1205,6 +1206,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	void rebuildBeans() {
 		List<TypeDefinition> typeDefinitions = n.getAllTypeDefinitions();
 		Set<String> vetoedTypes = n.getAllVetoedTypes();
+		Collection<IExcluded> excluded = getEnabledExcluded();
 		List<IBean> beans = new ArrayList<IBean>();
 
 		Set<IType> newAllTypes = new HashSet<IType>();
@@ -1242,6 +1244,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 
 			String typeName = typeDefinition.getType().getFullyQualifiedName();
 			if(!typeDefinition.isVetoed() 
+					&& !isExcluded(typeName, excluded)
 					    //Type is defined in another project and modified/replaced in config in this (dependent) project
 					    //We should reject type definition based on type, but we have to accept 
 					&& !(vetoedTypes.contains(typeName) && getNature().getDefinitions().getTypeDefinition(typeName) == null && typeDefinition.getOriginalDefinition() == null)) {
@@ -1296,6 +1299,15 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			addBean(bean);
 		}
 	
+	}
+
+	private boolean isExcluded(String typeName, Collection<IExcluded> excluded) {
+		for (IExcluded e: excluded) {
+			if(e.isExcluded(typeName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -1366,8 +1378,21 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 					allBeansXMLData.addTypeAlternative(r);
 					if(t) projectBeansXMLData.addTypeAlternative(r);
 				}
+				allBeansXMLData.addExcluded(b.getExcluded());
+				if(t) projectBeansXMLData.addExcluded(b.getExcluded());
 			}
 		}
+	}
+
+	public Collection<IExcluded> getEnabledExcluded() {
+		Collection<IExcluded> result = new ArrayList<IExcluded>();
+		synchronized(allBeansXMLData) {
+			Collection<Excluded> excluded = allBeansXMLData.getExcluded();
+			for (Excluded e: excluded) {
+				if(e.isEnabled(this)) result.add(e);
+			}
+		}
+		return result;
 	}
 
 	/*
