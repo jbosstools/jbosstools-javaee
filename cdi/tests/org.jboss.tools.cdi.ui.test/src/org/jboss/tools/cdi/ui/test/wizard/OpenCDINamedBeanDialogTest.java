@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.ui.test.wizard;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
@@ -27,13 +26,7 @@ import org.jboss.tools.test.util.JobUtils;
  *
  */
 public class OpenCDINamedBeanDialogTest extends TCKTest {
-	private IProject project;
-	
-	@Override
-	protected void setUp() throws Exception {
-		project = TCKTest.findTestProject();
-	}
-	
+
 	public void testCDINamedBeanDialogSearch() throws CoreException {
 		find("spi", "SpiderSize", "OtherSpiderProducer.java", true);
 		find("bla", "blackWidow", "BlackWidowProducer.java", false);

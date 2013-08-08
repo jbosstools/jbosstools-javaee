@@ -115,4 +115,26 @@ public class BeansXMLTest extends TestCase {
 		}
 		return null;
 	}
+
+	public void testBeans11XML() throws CoreException, IOException {
+		IFile file = project.getFile(new Path("META-INF/beans11.xml"));
+		assertNotNull(file);
+		XModelObject beansXML = EclipseResourceUtil.createObjectForResource(file);
+		assertNotNull(beansXML);
+
+		assertEquals("FileCDIBeans11", beansXML.getModelEntity().getName());
+		assertEquals("annotated", beansXML.getAttributeValue("bean-discovery-mode"));
+		assertEquals("1.1", beansXML.getAttributeValue("version"));
+		
+		assertNotNull(beansXML.getChildByPath("Interceptors/test.MyInterceptor"));
+		assertNotNull(beansXML.getChildByPath("Decorators/test.MyDecorator"));
+		assertNotNull(beansXML.getChildByPath("Alternatives/test.MyAlternative"));
+		assertNotNull(beansXML.getChildByPath("Alternatives/test.MyStereotypeAlternative"));
+		
+		assertNotNull(beansXML.getChildByPath("Scan"));
+		assertNotNull(beansXML.getChildByPath("Scan/test.ExcludedType"));
+		assertNotNull(beansXML.getChildByPath("Scan/test.excluded.*"));
+		assertEquals(4, beansXML.getChildByPath("Scan/test.ExcludedType").getChildren().length);
+
+	}
 }

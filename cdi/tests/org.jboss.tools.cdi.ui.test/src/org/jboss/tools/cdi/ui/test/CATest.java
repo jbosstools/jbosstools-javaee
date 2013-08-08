@@ -10,8 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.ui.test;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.core.CDIImages;
@@ -22,7 +20,7 @@ import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 /**
  * @author Alexey Kazakov
  */
-public class CATest extends TestCase {
+public class CATest extends TCKTest {
 
 	private IProject project;
 	private ContentAssistantTestCase caTest = new ContentAssistantTestCase();
@@ -34,7 +32,7 @@ public class CATest extends TestCase {
 	private Image[] propertyImages = new Image[] {CommonUIPlugin.getImageDescriptorRegistry().get(CDIImages.BEAN_FIELD_IMAGE), CommonUIPlugin.getImageDescriptorRegistry().get(CDIImages.BEAN_METHOD_IMAGE)};
 
 	public void setUp() {
-		project = TCKTest.findTestProject();
+		project = findTestProject();
 		caTest.setProject(project);
 	}
 

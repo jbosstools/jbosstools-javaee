@@ -1,0 +1,8 @@
+<beans> 
+   <decorators>
+      <class>org.jboss.jsr299.tck.tests.jbt.validation.decorators.NamedDecoratorBroken</class>
+      <class>org.jboss.jsr299.tck.tests.jbt.validation.decorators.DecoratorWithWrongScopeBroken</class>
+      <class>org.jboss.jsr299.tck.tests.jbt.validation.decorators.AlternativeDecoratorBroken</class>
+      <class>org.jboss.jsr299.tck.tests.jbt.validation.decorators.ObserverMethodInDecoratorBroken</class>
+   </decorators>
+</beans>

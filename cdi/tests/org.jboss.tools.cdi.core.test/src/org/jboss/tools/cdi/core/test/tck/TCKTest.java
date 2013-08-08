@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
-import java.io.File;
-import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -26,7 +24,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.IAnnotation;
@@ -52,27 +49,17 @@ import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.java.impl.JavaAnnotation;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
-import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.osgi.framework.Bundle;
 
 public class TCKTest extends TestCase {
 	protected final static String PLUGIN_ID = "org.jboss.tools.cdi.core.test";
-	public final static String MAIN_PROJECT_NAME = "tck";
-	public final static String[] PROJECT_NAMES = {"tck-parent", MAIN_PROJECT_NAME, "tck-child"};
-	private final static String MAIN_PROJECT_PATH = "/projects/tck";
-	private final static String[] PROJECT_PATHS = {"/projects/tck-parent", MAIN_PROJECT_PATH, "/projects/tck-child"};
 
 	public final static String JAVA_SOURCE_SUFFIX = "/JavaSource";
 	public final static String WEB_CONTENT_SUFFIX = "/WebContent";
 	public final static String WEB_INF_SUFFIX = "/WEB-INF";
-//	protected static String JAVA_SOURCE = PROJECT_PATH + JAVA_SOURCE_SUFFIX;
-//	protected static String WEB_CONTENT = PROJECT_PATH + WEB_CONTENT_SUFFIX;
-//	protected static String WEB_INF = WEB_CONTENT + WEB_INF_SUFFIX;
 
-	protected static String PACKAGE = "/org/jboss/jsr299/tck";
-
-	protected static String TCK_RESOURCES_PREFIX = "/resources/tck";
+	private ITCKProjectNameProvider projectNameProvider;
 
 	protected IProject tckProject;
 	protected IProject rootProject;
@@ -80,10 +67,15 @@ public class TCKTest extends TestCase {
 	protected ICDIProject cdiProject;
 
 	public TCKTest() {
+		this.projectNameProvider = getProjectNameProvider();
 		tckProject = getTestProject();
-		parentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAMES[0]);
-		rootProject = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAMES[2]);
+		parentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(projectNameProvider.getProjectNames()[0]);
+		rootProject = ResourcesPlugin.getWorkspace().getRoot().getProject(projectNameProvider.getProjectNames()[2]);
 		cdiProject = CDICorePlugin.getCDIProject(tckProject, false);
+	}
+
+	public ITCKProjectNameProvider getProjectNameProvider() {
+		return new TCK10ProjectNameProvider();
 	}
 
 	protected void deleteTestProject() throws Exception {
@@ -98,7 +90,7 @@ public class TCKTest extends TestCase {
 				tckProject = findTestProject();
 				if(!tckProject.exists()) {
 //					ValidatorManager.setStatus(CoreValidationTest.VALIDATION_STATUS);
-					tckProject = importPreparedProject("/");
+					tckProject = importPreparedProject();
 //					TestUtil._waitForValidation(tckProject);
 //					TestUtil.waitForValidation();
 				}
@@ -115,14 +107,14 @@ public class TCKTest extends TestCase {
 		return type == null ? null : cdiProject.getNature().getTypeFactory().newParametedType(type);
 	}
 
-	public static IProject findTestProject() {
-		return ResourcesPlugin.getWorkspace().getRoot().getProject(MAIN_PROJECT_NAME);
+	public IProject findTestProject() {
+		return ResourcesPlugin.getWorkspace().getRoot().getProject(projectNameProvider.getMainProjectName());
 	}
 
-	public static IProject[] importPreparedProjects() throws Exception {
+	public IProject[] importPreparedProjects() throws Exception {
 		List<IProject> projects = new ArrayList<IProject>();
-		importPreparedProject("/");
-		for (String name : PROJECT_NAMES) {
+		importPreparedProject();
+		for (String name : projectNameProvider.getProjectNames()) {
 			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(name);
 			assertTrue(project.exists());
 			projects.add(project);
@@ -130,37 +122,21 @@ public class TCKTest extends TestCase {
 		return projects.toArray(new IProject[projects.size()]);		
 	}
 
-	public static IProject importPreparedProject(String packPath) throws Exception {
+	public IProject importPreparedProject() throws Exception {
 		Bundle b = Platform.getBundle(PLUGIN_ID);
-		IProject tckP = ResourcesPlugin.getWorkspace().getRoot().getProject(MAIN_PROJECT_NAME);
+		IProject tckP = ResourcesPlugin.getWorkspace().getRoot().getProject(projectNameProvider.getMainProjectName());
 		if(!tckP.exists()) {
-			for (String name : PROJECT_NAMES) {
+			for (String name : projectNameProvider.getProjectNames()) {
 				IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(name);
 				assertFalse("Error during importing TCK Project. Project " + p.getName() + " already exists.", p.exists());
 			}
-
-			for (String path : PROJECT_PATHS) {
+			for (String path : projectNameProvider.getProjectPaths()) {
 				IProject project = ResourcesUtils.importProject(b, path);
 				project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 			}
 		}
-		String projectPath = tckP.getLocation().toOSString();
-		String resourcePath = FileLocator.resolve(b.getEntry(TCK_RESOURCES_PREFIX)).getFile();
-
-		File from = new File(resourcePath + packPath);
-		if(from.isDirectory()) {
-			File javaSourceTo = new File(projectPath + JAVA_SOURCE_SUFFIX + PACKAGE + packPath);
-			FileUtil.copyDir(from, javaSourceTo, true, true, true, new JavaFileFilter());
-
-			File webContentTo = new File(projectPath + WEB_CONTENT_SUFFIX);
-			FileUtil.copyDir(from, webContentTo, true, true, true, new PageFileFilter());
-
-			File webInfTo = new File(projectPath + WEB_CONTENT_SUFFIX + WEB_INF_SUFFIX);
-			FileUtil.copyDir(from, webInfTo, true, true, true, new XmlFileFilter());
-		}
 		tckP.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		TestUtil._waitForValidation(tckP);
-//		JobUtils.waitForIdle();
 		return tckP;
 	}
 
@@ -252,34 +228,6 @@ public class TCKTest extends TestCase {
 		assertEquals("There should be the only bean with " + typeName + " type", 1, beans.size());
 	}
 
-	public static class JavaFileFilter implements FileFilter {
-		public boolean accept(File pathname) {
-			String name = pathname.getName();
-			return (pathname.isDirectory() && !name.endsWith(".svn")) 
-					|| ((name.endsWith(".java") 
-						|| name.endsWith(".qfxresult") 
-						|| name.endsWith(".validation")
-						|| name.endsWith(".changed") //used to replace content of java file
-						|| name.endsWith(".original") //used to restore content of java file
-						|| name.equals("beans.xml")) 
-					&& !name.endsWith("Test.java"));
-		}
-	}
-
-	public static class XmlFileFilter implements FileFilter {
-		public boolean accept(File pathname) {
-			String name = pathname.getName();
-			return (pathname.isDirectory() && !name.endsWith(".svn")) || name.endsWith(".xml");
-		}		
-	}
-
-	public static class PageFileFilter implements FileFilter {
-		public boolean accept(File pathname) {
-			String name = pathname.getName();
-			return (pathname.isDirectory() && !name.endsWith(".svn")) || name.endsWith(".jsp") || name.endsWith(".xhtml");
-		}		
-	}
-
 	public static void assertLocationEquals(Collection<? extends ITextSourceReference> references, int startPosition, int length) {
 		for (ITextSourceReference reference : references) {
 			if(reference.getStartPosition()==startPosition) {
@@ -287,10 +235,11 @@ public class TCKTest extends TestCase {
 				return;
 			}
 		}
-		StringBuffer message = new StringBuffer("Location [start positopn=").append(startPosition).append(", lengt=").append(length).append("] has not been found among ");
+		StringBuffer message = new StringBuffer("Location [start position=").append(startPosition).append(", lengt=").append(length).append("] has not been found among the following locations: (");
 		for (ITextSourceReference reference : references) {
-			message.append("[").append(reference.getStartPosition()).append(", ").append(reference.getLength()).append("] ");
+			message.append("[start position=").append(reference.getStartPosition()).append(", length=").append(reference.getLength()).append("], ");
 		}
+		message.append(")");
 		fail(message.toString());
 	}
 
@@ -527,37 +476,4 @@ public class TCKTest extends TestCase {
 		assertEquals("Wrong start position", startPosition, reference.getStartPosition());
 		assertEquals("Wrong length", length, reference.getLength());
 	}
-
-	/*
-	public static void cleanProject(String _resourcePath) throws Exception {
-		Bundle b = Platform.getBundle(PLUGIN_ID);
-		String projectPath = FileLocator.resolve(b.getEntry(PROJECT_PATH)).getFile();
-
-		File javaSourceTo = new File(projectPath + JAVA_SOURCE_SUFFIX);
-		File[] fs = javaSourceTo.listFiles();
-		if(fs != null) for (int i = 0; i < fs.length; i++) {
-			if(fs[i].getName().equals(".svn")) continue;
-			if(fs[i].getName().equals("placeholder.txt")) continue;
-			FileUtil.remove(fs[i]);
-		}
-
-		File webContentTo = new File(projectPath + WEB_CONTENT_SUFFIX);
-		fs = webContentTo.listFiles();
-		if(fs != null) for (int i = 0; i < fs.length; i++) {
-			if(fs[i].getName().equals(".svn")) continue;
-			if(fs[i].getName().equals("WEB-INF")) continue;
-			if(fs[i].getName().equals("META-INF")) continue;
-			FileUtil.remove(fs[i]);
-		}
-
-		File webInfTo = new File(projectPath + WEB_CONTENT_SUFFIX + WEB_INF_SUFFIX);
-		fs = webInfTo.listFiles();
-		if(fs != null) for (int i = 0; i < fs.length; i++) {
-			if(fs[i].getName().equals(".svn")) continue;
-			if(fs[i].getName().equals("classes")) continue;
-			if(fs[i].getName().equals("lib")) continue;
-			FileUtil.remove(fs[i]);
-		}
-	}
-	*/
 }

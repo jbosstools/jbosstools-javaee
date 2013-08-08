@@ -1,0 +1,14 @@
+<beans> 
+   <decorators>
+      <class>org.jboss.jsr299.tck.tests.jbt.validation.decorators.delegates.TimestampBroken</class>
+      <class>org.jboss.jsr299.tck.tests.jbt.validation.decorators.delegates.TimestampLogger</class>
+      <class>org.jboss.jsr299.tck.tests.jbt.validation.decorators.delegates.TimestampLoggerBroken</class>
+      <class>org.jboss.jsr299.tck.tests.jbt.validation.decorators.delegates.TimestampLoggerWithMethod</class>
+      <class>org.jboss.jsr299.tck.tests.jbt.validation.decorators.delegates.TimestampLoggerWithMethodBroken</class>
+      <class>org.jboss.jsr299.tck.tests.jbt.validation.decorators.delegates.TimestampParametedLogger</class>
+      <class>org.jboss.jsr299.tck.tests.jbt.validation.decorators.delegates.TimestampParametedLoggerBroken</class>
+      <class>org.jboss.jsr299.tck.tests.jbt.validation.decorators.delegates.TimestampParametedLoggerWithMethod</class>
+      <class>org.jboss.jsr299.tck.tests.jbt.validation.decorators.delegates.TimestampParametedLoggerWithMethodBroken</class>
+      <class>org.jboss.jsr299.tck.tests.jbt.validation.decorators.delegates.TimestampWithMethodBroken</class>
+   </decorators>
+</beans>

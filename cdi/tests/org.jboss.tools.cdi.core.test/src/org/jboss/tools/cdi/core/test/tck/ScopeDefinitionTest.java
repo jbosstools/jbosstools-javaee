@@ -36,7 +36,7 @@ public class ScopeDefinitionTest extends TCKTest {
 		Collection<IScopeDeclaration> declarations = bean.getScopeDeclarations();
 		assertEquals("Wrong number of scope declarations", 1, declarations
 				.size());
-		assertLocationEquals(declarations, 848, 17);
+		assertLocationEquals(declarations, 830, 17);
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class ScopeDefinitionTest extends TCKTest {
 		Collection<IScopeDeclaration> declarations = bean.getScopeDeclarations();
 		assertEquals("Wrong number of scope declarations", 1, declarations
 				.size());
-		assertLocationEquals(declarations, 898, 14);
+		assertLocationEquals(declarations, 878, 14);
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class ScopeDefinitionTest extends TCKTest {
 		Collection<IScopeDeclaration> declarations = bean.getScopeDeclarations();
 		assertEquals("Wrong number of scope declarations", 1, declarations
 				.size());
-		assertLocationEquals(declarations, 920, 14);
+		assertLocationEquals(declarations, 899, 14);
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class ScopeDefinitionTest extends TCKTest {
 		Collection<IScopeDeclaration> declarations = bean.getScopeDeclarations();
 		assertEquals("Wrong number of scope declarations", 1, declarations
 				.size());
-		assertLocationEquals(declarations, 930, 10);
+		assertLocationEquals(declarations, 908, 10);
 	}
 
 	/**
@@ -137,7 +137,7 @@ public class ScopeDefinitionTest extends TCKTest {
 		Collection<IScopeDeclaration> declarations = bean.getScopeDeclarations();
 		assertEquals("Wrong number of scope declarations", 1, declarations
 				.size());
-		assertLocationEquals(declarations, 915, 14);
+		assertLocationEquals(declarations, 894, 14);
 	}
 
 	/**

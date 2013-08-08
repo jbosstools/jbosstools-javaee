@@ -14,7 +14,6 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.jboss.tools.cdi.core.CDIUtil;
-import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
@@ -32,7 +31,7 @@ public class DisableCDISupportTest extends ValidationTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		tckProject = TCKTest.importPreparedProject("/");
+		tckProject = importPreparedProject();
 	}
 
 	/*

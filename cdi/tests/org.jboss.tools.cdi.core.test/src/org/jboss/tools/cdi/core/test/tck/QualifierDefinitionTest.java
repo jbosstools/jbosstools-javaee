@@ -89,8 +89,7 @@ public class QualifierDefinitionTest extends TCKTest {
 		assertContainsQualifier(bean, synchronous);
 		Collection<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
 		assertEquals("Wrong number of qualifier declarations.", 1, declarations.size());
-		// TODO use correct start position instead of 0. 
-		assertLocationEquals(declarations, 856, 12);
+		assertLocationEquals(declarations, 836, 12);
 	}
 
 	/**
@@ -108,8 +107,8 @@ public class QualifierDefinitionTest extends TCKTest {
 		assertEquals("Wrong number of qualifiers.", 4, qualifiers.size());
 		Collection<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
 		assertEquals("Wrong number of qualifier declarations.", 3, declarations.size());
-		assertLocationEquals(declarations, 882, 10);
-		assertLocationEquals(declarations, 894, 24);
+		assertLocationEquals(declarations, 862, 10);
+		assertLocationEquals(declarations, 873, 24);
 	}
 
 	/**
@@ -124,7 +123,7 @@ public class QualifierDefinitionTest extends TCKTest {
 		IInjectionPoint point = points.iterator().next();
 		Collection<IQualifierDeclaration> declarations = point.getQualifierDeclarations();
 		assertEquals("Wrong number of qualifier declarations.", 1, declarations.size());
-		assertLocationEquals(declarations, 914, 5);
+		assertLocationEquals(declarations, 891, 5);
 
 		Collection<IBean> injectedBeans = cdiProject.getBeans(true, point);
 		assertEquals("Wrong number of beans.", 1, injectedBeans.size());
@@ -135,8 +134,7 @@ public class QualifierDefinitionTest extends TCKTest {
 		IProducerMethod producer = (IProducerMethod)injectedBean;
 		declarations = producer.getQualifierDeclarations();
 		assertEquals("Wrong number of qualifier declarations.", 1, declarations.size());
-		// TODO use correct start position instead of 0.
-		assertLocationEquals(declarations, 939, 5);
+		assertLocationEquals(declarations, 916, 5);
 	}
 
 	/**
@@ -229,5 +227,4 @@ public class QualifierDefinitionTest extends TCKTest {
 		assertContainsQualifierType(bean, "org.jboss.jsr299.tck.tests.definition.qualifier.BeanWithInnerQualifier$InnerQualifier");
 		assertContainsQualifierType(bean, "javax.enterprise.inject.Any");
 	}
-
 }

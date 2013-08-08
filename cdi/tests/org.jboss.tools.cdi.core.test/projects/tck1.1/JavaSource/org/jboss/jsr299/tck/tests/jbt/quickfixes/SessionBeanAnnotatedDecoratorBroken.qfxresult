@@ -1,0 +1,8 @@
+package org.jboss.jsr299.tck.tests.jbt.quickfixes;
+
+import javax.ejb.Stateless;
+
+@Stateless
+public class SessionBeanAnnotatedDecoratorBroken {
+
+}

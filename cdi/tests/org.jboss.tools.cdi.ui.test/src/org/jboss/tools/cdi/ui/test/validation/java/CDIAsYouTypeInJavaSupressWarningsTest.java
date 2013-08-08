@@ -37,14 +37,14 @@ public class CDIAsYouTypeInJavaSupressWarningsTest extends TCKTest {
 
 	@Override
 	public void setUp() throws Exception {
-		project = TCKTest.findTestProject();
+		project = findTestProject();
 		if (baseTest == null) {
 			baseTest = new BaseAsYouTypeInJavaValidationTest(project, CDI_CORE_VALIDATOR_PROBLEM_TYPE);
 		}
 	}
 
 	public void testAsYouTypeInJavaValidation() throws BadLocationException, CoreException {
- 		assertNotNull("Test project '" + TCKTest.MAIN_PROJECT_NAME + "' is not prepared", project);
+ 		assertNotNull("Test project '" + getProjectNameProvider().getMainProjectName() + "' is not prepared", project);
 		baseTest.openEditor(PAGE_NAME);
 		try {
 			doAsYouTypeValidationMarkerAnnotationsRemovalTest();

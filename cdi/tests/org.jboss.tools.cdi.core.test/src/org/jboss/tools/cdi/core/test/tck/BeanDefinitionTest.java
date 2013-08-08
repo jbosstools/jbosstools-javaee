@@ -43,8 +43,8 @@ public class BeanDefinitionTest extends TCKTest {
 		assertTrue("No legal types were found for org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", bean.getLegalTypes().size() > 0);
 		Collection<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
 		assertEquals("There should be two type declarations in org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", declarations.size(), 2);
-		assertLocationEquals(declarations, 936, 10);
-		assertLocationEquals(declarations, 958, 6);
+		assertLocationEquals(declarations, 914, 10);
+		assertLocationEquals(declarations, 936, 6);
 	}
 
 	/**
@@ -137,9 +137,9 @@ public class BeanDefinitionTest extends TCKTest {
 
 		Collection<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
 		assertEquals("There should be three type declarations in org.jboss.jsr299.tck.tests.definition.bean.Tarantula bean.", declarations.size(), 3);
-		assertLocationEquals(declarations, 859, 9);
-		assertLocationEquals(declarations, 877, 6);
-		assertLocationEquals(declarations, 895, 12);
+		assertLocationEquals(declarations, 841, 9);
+		assertLocationEquals(declarations, 859, 6);
+		assertLocationEquals(declarations, 877, 12);
 	}
 
 	/**

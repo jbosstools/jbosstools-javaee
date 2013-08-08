@@ -74,6 +74,20 @@ public class CDIBeansFileFormLayoutData implements CDIBeansConstants {
 		getIncludeExcludeDefinition(CDIXMLUIMessages.INCLUDE_AND_EXCLUDE)
 	};
 
+	static IFormData getExcludeListDefinition(String title) {
+		return new FormData(
+			title,
+			CDIXMLFormLayoutData.EMPTY_DESCRIPTION,
+			new FormAttributeData[]{new FormAttributeData("name", 100)}, //$NON-NLS-1$
+			new String[]{"CDIExclude"}, //$NON-NLS-1$
+			FormLayoutDataUtil.createDefaultFormActionData("CreateActions.AddExclude") //$NON-NLS-1$
+		);
+	}
+		
+	private final static IFormData[] SCAN_DEFINITIONS = new IFormData[] {
+		getExcludeListDefinition("Exclude")
+	};
+
 
 	final static IFormData FILE_20_FORM_DEFINITION = new FormData(
 		ENT_CDI_BEANS, new String[]{null}, FILE_10_DEFINITIONS);
@@ -89,5 +103,8 @@ public class CDIBeansFileFormLayoutData implements CDIBeansConstants {
 
 	final static IFormData WELD_SCAN_DEFINITION = new FormData(
 		"CDIWeldScan", new String[]{null}, WELD_SCAN_DEFINITIONS); //$NON-NLS-1$
+
+	final static IFormData SCAN_DEFINITION = new FormData(
+		"CDIScan", new String[]{null}, SCAN_DEFINITIONS); //$NON-NLS-1$
 
 }
