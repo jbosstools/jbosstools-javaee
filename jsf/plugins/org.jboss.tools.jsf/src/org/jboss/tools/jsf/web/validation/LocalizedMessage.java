@@ -18,7 +18,6 @@ import org.eclipse.wst.validation.ValidatorMessage;
 import org.eclipse.wst.validation.internal.core.Message;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
-import org.jboss.tools.jsf.web.validation.i18n.I18nValidationComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.JSF2XMLValidator;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2AttrTempComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2CompositeTempComponent;
@@ -69,24 +68,6 @@ public class LocalizedMessage extends Message {
 		}
 		jsf2LocMessage.setAttribute(IMarker.MESSAGE,jsf2LocMessage.getText());
 		return jsf2LocMessage;
-	}
-	
-	public static Message createJSFLocalizedMessage(
-			IJSFValidationComponent ijsfValidationComponent, int severity) {
-		LocalizedMessage i18nLocMessage = new LocalizedMessage();
-		i18nLocMessage.component = ijsfValidationComponent;
-		i18nLocMessage.setAttribute("problemType", I18nValidationComponent.PROBLEM_ID); //$NON-NLS-1$
-		i18nLocMessage.setAttribute(IMarker.LINE_NUMBER, i18nLocMessage.getLineNumber());
-		i18nLocMessage.setAttribute(IMarker.SEVERITY, severity);
-		i18nLocMessage.setAttribute(ValidatorMessage.ValidationId, "org.jboss.tools.jsf.i18n.source"); //$NON-NLS-1$
-		i18nLocMessage.setAttribute(IMarker.MESSAGE,i18nLocMessage.getText());
-		i18nLocMessage.setAttribute(JSF2ValidatorConstants.PROBLEM_LENGHT, i18nLocMessage.getLength());
-		i18nLocMessage.setAttribute(JSF2ValidatorConstants.PROBLEM_OFFSET, i18nLocMessage.getOffset());
-		if(ijsfValidationComponent instanceof I18nValidationComponent){
-			i18nLocMessage.setAttribute(JSF2ValidatorConstants.INVALID_STRING_KEY, 
-					((I18nValidationComponent)ijsfValidationComponent).getInValidString());
-		}
-		return i18nLocMessage;
 	}
 	
 	@Override
