@@ -38,6 +38,7 @@ import org.jboss.tools.jsf.jsp.ca.test.CAJsfMessagesProposalsFilteringTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAJsfMessagesProposalsTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAJsfPredictiveTagNameProposalsTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAJsfResourceBundlePropertyApplyTest;
+import org.jboss.tools.jsf.jsp.ca.test.CANoELProposalsInHTML5Test;
 import org.jboss.tools.jsf.jsp.ca.test.CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE1759Test;
 import org.jboss.tools.jsf.jsp.ca.test.CASuggestsNotOnlyELProposalsJBIDE2437Test;
 import org.jboss.tools.jsf.jsp.ca.test.CAUnnecessaryElementsForDirAttributeInXHTMLPageJBIDE1813Test;
@@ -162,7 +163,9 @@ public class JsfUiAllTests {
 				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				CAELFunctionsTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
+				CAELFunctionsTest.class,
+				CANoELProposalsInHTML5Test.class), 
+				"org.jboss.tools.jsf.base.test", //$NON-NLS-1$
 				"projects/jsf2pr", //$NON-NLS-1$
 				"jsf2pr")); //$NON-NLS-1$
 
