@@ -96,6 +96,10 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 //		dbCache = CDICorePlugin.getDefault().getDBCache();
 	}
 
+	public int getVersion() {
+		return n.getVersion();
+	}
+
 	public CDIProject getModifiedCopy(IFile file, Collection<IBean> beans) {
 		CDIProject p = null;
 		try {

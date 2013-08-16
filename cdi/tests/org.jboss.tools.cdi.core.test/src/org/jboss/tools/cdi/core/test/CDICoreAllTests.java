@@ -240,6 +240,13 @@ public class CDICoreAllTests {
 				new String[]{"projects/weld1.1"},
 				new String[]{"weld1.1"});
 		suiteAll.addTest(weldTestSetup);
+		TestSuite archiveSuite = new TestSuite("Archive Tests");
+		archiveSuite.addTestSuite(BeanArchivesTest.class);
+		ProjectImportTestSetup archiveTestSetup = new ProjectImportTestSetup(archiveSuite,
+				"org.jboss.tools.cdi.core.test",
+				new String[]{"projects/CDIArchivesTest"},
+				new String[]{"CDIArchivesTest"});
+		suiteAll.addTest(archiveTestSetup);
 		suiteAll.addTest(new CDICoreTestSetup(suite));
 
 		suite = new TestSuite(MissingBeansXmlValidationTest.class.getName());

@@ -51,6 +51,8 @@ public class CDIProject implements ICDIProject{
 	private IQualifier defaultQualifier, namedQualifier, anyQualifier, newQualifier;
 	
 	private ArrayList<IQualifier> qualifiers = new ArrayList<IQualifier>();
+
+	private int version = CDIConstants.CDI_VERSION_1_0;
 	
 	public CDIProject(){
 		defaultQualifier = new CDIQualifier(this, CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
@@ -68,6 +70,14 @@ public class CDIProject implements ICDIProject{
 		
 		qualifiers.add(new CDIQualifier(this, COMPLICATED_QUALIFIER1));
 		qualifiers.add(new CDIQualifier(this, COMPLICATED_QUALIFIER2));
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 	@Override
