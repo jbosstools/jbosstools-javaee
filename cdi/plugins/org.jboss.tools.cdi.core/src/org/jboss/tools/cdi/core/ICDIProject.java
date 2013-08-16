@@ -22,4 +22,6 @@ public interface ICDIProject extends IBeanManager {
 	public boolean isTypeAlternative(String qualifiedName);
 	public boolean isStereotypeAlternative(String qualifiedName);
 	public boolean isClassAlternativeActivated(String fullQualifiedTypeName);
+	
+	public int getVersion();
 }

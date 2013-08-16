@@ -35,6 +35,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
+import org.jboss.tools.cdi.internal.core.scanner.lib.BeanArchiveDetector;
 import org.jboss.tools.cdi.internal.core.scanner.lib.ClassPathMonitor;
 import org.jboss.tools.common.java.ParametedTypeFactory;
 import org.jboss.tools.common.model.XJob;
@@ -70,6 +71,9 @@ public class CDICoreNature implements IProjectNature {
 	Set<CDICoreNature> usedBy = new HashSet<CDICoreNature>();
 
 	private CDIExtensionManager extensions = new CDIExtensionManager();
+
+	private int version = CDIConstants.CDI_VERSION_1_0;
+	private int beanDiscoveryMode = BeanArchiveDetector.ALL;
 	
 	public CDICoreNature() {
 		extensions.setProject(this);
@@ -109,6 +113,31 @@ public class CDICoreNature implements IProjectNature {
 	public void setProject(IProject project) {
 		this.project = project;
 		classPath.init();
+		updateVersion();
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public int getBeanDiscoveryMode() {
+		return beanDiscoveryMode;
+	}
+
+	public void setBeanDiscoveryMode(int value) {
+		beanDiscoveryMode = value;
+	}
+
+	/**
+	 * Returns true if update detects change of version.
+	 * Invoked by builder only. 
+	 * @return
+	 */
+	boolean updateVersion() {
+		int version = CDIUtil.getCDIVersion(getProject());
+		boolean changed = version != this.version;
+		this.version = version;
+		return changed;
 	}
 
 	public void setCDIProject(ICDIProject cdiProject) {

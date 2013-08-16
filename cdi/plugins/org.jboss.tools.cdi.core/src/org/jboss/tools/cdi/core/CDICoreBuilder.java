@@ -48,11 +48,10 @@ import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationHelper;
 import org.jboss.tools.cdi.internal.core.impl.definition.Dependencies;
 import org.jboss.tools.cdi.internal.core.scanner.CDIBuilderDelegate;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
+import org.jboss.tools.cdi.internal.core.scanner.lib.BeanArchiveDetector;
 import org.jboss.tools.cdi.internal.core.scanner.lib.JarSet;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.common.model.plugin.ModelPlugin;
-import org.jboss.tools.common.model.project.ProjectHome;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.UniquePaths;
@@ -140,7 +139,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			return null;
 		}
 		
-		if(n.hasNoStorage()) {
+		if(n.updateVersion() || n.hasNoStorage()) {
 			kind = FULL_BUILD;
 		}
 		
@@ -217,6 +216,11 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 				n.getClassPath().validateProjectDependencies();
 			}
 
+			//5.2.a Update bean discovery mode.
+			if(updateBeanDiscoveryMode()) {
+				kind = FULL_BUILD;
+			}
+
 			if (kind == FULL_BUILD) {
 				fullBuild(monitor);
 			} else {
@@ -251,8 +255,62 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		return null;
 	}
 
-	protected void fullBuild(final IProgressMonitor monitor)
-		throws CoreException {
+	private boolean updateBeanDiscoveryMode() {
+		int oldValue = getCDICoreNature().getBeanDiscoveryMode();
+		int newValue = BeanArchiveDetector.ALL;
+		if(getCDICoreNature().getVersion() == CDIConstants.CDI_VERSION_1_1) {
+			newValue = getBeanDiscoveryMode(getPrimaryBeanXML());
+		}
+		getCDICoreNature().setBeanDiscoveryMode(newValue);
+		return oldValue != newValue;
+	}
+
+	private int getBeanDiscoveryMode(XModelObject beansXML) {
+		if(getCDICoreNature().getVersion() == CDIConstants.CDI_VERSION_1_0) {
+			return BeanArchiveDetector.ALL;
+		} else if(beansXML == null) {
+			return BeanArchiveDetector.ANNOTATED;
+		}
+		String bdm = beansXML.getAttributeValue("bean-discovery-mode");
+		if("annotated".equals(bdm)) {
+			return BeanArchiveDetector.ANNOTATED;
+		} else if("none".equals(bdm)) {
+			return BeanArchiveDetector.NONE;
+		}
+		return BeanArchiveDetector.ALL;
+	}
+
+	private XModelObject getPrimaryBeanXML() {
+		IWorkspaceRoot root = getCurrentProject().getWorkspace().getRoot();
+		CDIResourceVisitor visitor = getResourceVisitor();
+		for (IPath p: visitor.webinfs) {
+			IFile f = root.getFile(p.append("beans.xml"));
+			if(f.exists()) {
+				XModelObject o = EclipseResourceUtil.getObjectByResource(f);
+				if(o == null) {
+					o = EclipseResourceUtil.createObjectForResource(f);
+				}
+				if(o != null) {
+					return o;
+				}
+			}
+		}
+		for (IPath p: visitor.srcs) {
+			IFile f = root.getFile(p.append("META-INF/beans.xml"));
+			if(f.exists()) {
+				XModelObject o = EclipseResourceUtil.getObjectByResource(f);
+				if(o != null) {
+					return o;
+				}
+			}
+		}
+		return null;
+	}
+
+	protected void fullBuild(final IProgressMonitor monitor) throws CoreException {
+		if(getCDICoreNature().getBeanDiscoveryMode() == BeanArchiveDetector.NONE) {
+			return;
+		}
 		try {
 			CDIResourceVisitor rv = getResourceVisitor();
 			rv.incremental = false;
@@ -267,6 +325,9 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 
 	protected void incrementalBuild(IResourceDelta delta,
 			IProgressMonitor monitor) throws CoreException {
+		if(getCDICoreNature().getBeanDiscoveryMode() == BeanArchiveDetector.NONE) {
+			return;
+		}
 		CDIResourceVisitor rv = getResourceVisitor();
 		rv.incremental = true;
 		delta.accept(new SampleDeltaVisitor());
@@ -281,33 +342,34 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		
 		for (String jar: newJars.getBeanModules().keySet()) {
 			Path path = new Path(jar);
-			IPackageFragmentRoot root = jp.getPackageFragmentRoot(jar);
-			if(root == null) continue;
-			if(!root.exists()) {
-				IFile f = EclipseResourceUtil.getFile(jar);
-				if(f != null && f.exists()) {
-					root = jp.getPackageFragmentRoot(f);
-				} else {
-					f = EclipseResourceUtil.getFile(jar + "/META-INF/beans.xml");
-					if(f != null && f.exists()) {
-						root = jp.getPackageFragmentRoot(f.getParent().getParent());
-					}
-				}
-			}
-			if (root == null || !root.exists())
+			IPackageFragmentRoot root = BeanArchiveDetector.findPackageFragmentRoot(jar, jp);
+			if (root == null || !root.exists()) {
 				continue;
+			}
+
+			XModelObject beansXML = newJars.getBeanModules().get(jar);
+			int bdm = getBeanDiscoveryMode(beansXML);
+			if(bdm == BeanArchiveDetector.NONE) {
+				continue;
+			}
+			boolean annotatedOnly = bdm == BeanArchiveDetector.ANNOTATED;
+			
 			IJavaElement[] es = root.getChildren();
 			for (IJavaElement e : es) {
 				if (e instanceof IPackageFragment) {
 					IPackageFragment pf = (IPackageFragment) e;
 					IClassFile[] cs = pf.getClassFiles();
 					for (IClassFile c : cs) {
-						fileSet.add(path, c.getType());
+						IType t = c.getType();
+						if(!annotatedOnly || BeanArchiveDetector.isAnnotatedBean(t, getCDICoreNature())) {
+							fileSet.add(path, c.getType());
+						}
 					}
 				}
 			}
-			XModelObject beansXML = newJars.getBeanModules().get(jar);
-			fileSet.setBeanXML(path, beansXML);
+			if(beansXML != null) {
+				fileSet.setBeanXML(path, beansXML);
+			}
 			
 			for (IBuildParticipantFeature p: buildParticipants) p.visitJar(path, root, beansXML);
 		}
@@ -477,7 +539,12 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 									}
 								} else {
 									IType[] ts = unit.getTypes();
-									fileSet.add(f.getFullPath(), ts);
+									if(getCDICoreNature().getBeanDiscoveryMode() != BeanArchiveDetector.ANNOTATED 
+											|| hasAnnotatedType(ts)) {
+										fileSet.add(f.getFullPath(), ts);
+									} else {
+										fileSet.add(f.getFullPath(), new IType[0]);
+									}
 								}
 							}
 						}
@@ -529,6 +596,15 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			return true;
 		}
 		
+	}
+
+	private boolean hasAnnotatedType(IType[] ts) throws CoreException {
+		for (IType t: ts) {
+			if(BeanArchiveDetector.isAnnotatedBean(t, getCDICoreNature())) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	private void addBeansXML(IFile f, FileSet fileSet) {
