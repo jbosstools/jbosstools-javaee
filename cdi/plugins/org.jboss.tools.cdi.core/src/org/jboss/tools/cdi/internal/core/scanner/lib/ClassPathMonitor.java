@@ -29,6 +29,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.common.model.XModelObject;
@@ -92,12 +94,7 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 			boolean nrd = project.getExtensionManager().setRuntimes(p, readRuntimes(o));
 			if(nrd) newRuntimeDetected = true;
 
-			newJars.getFileSystems().put(p, o);
-
-			XModelObject b = o.getChildByPath("META-INF/beans.xml");
-			if(b != null) {
-				newJars.getBeanModules().put(p, b);
-			}
+			detectBeanModule(p, o, newJars);
 		}
 	
 		for (FileAnyImpl s: servicesInSrc.keySet()) {
@@ -114,17 +111,39 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 				if(EclipseResourceUtil.SYSTEM_JAR_SET.contains(fileName)) continue;
 				XModelObject o = FileSystemsHelper.getLibs(model).getLibrary(p);
 				if(o != null) {
-					newJars.getFileSystems().put(p, o);
-					XModelObject b = o.getChildByPath("META-INF/beans.xml");
-					if(b != null) {
-						newJars.getBeanModules().put(p, b);
-					}
+					detectBeanModule(p, o, newJars);
 				}
 			}
 		}
 	
 		validateProjectDependencies();
 		return newJars;
+	}
+
+	private void detectBeanModule(String path, XModelObject fs, JarSet newJars) {
+		newJars.getFileSystems().put(path, fs);
+		XModelObject b = fs.getChildByPath("META-INF/beans.xml");
+		if(b != null) {
+			newJars.getBeanModules().put(path, b);
+		} else if(project.getVersion() >= CDIConstants.CDI_VERSION_1_1) {
+			int archiveType = BeanArchiveDetector.getInstance().getBeanArchive(path);
+			if(archiveType == BeanArchiveDetector.UNRESOLVED) {
+				if(!readRuntimes(fs).isEmpty()) {
+					BeanArchiveDetector.getInstance().setBeanArchive(path, BeanArchiveDetector.NOT_ARCHIVE);
+					archiveType = BeanArchiveDetector.NOT_ARCHIVE;
+				} else {
+					try {
+						archiveType = BeanArchiveDetector.getInstance().resolve(path, project);
+					} catch (JavaModelException e) {
+						CDICorePlugin.getDefault().logError(e);
+						return;
+					}
+				}
+			}
+			if(archiveType != BeanArchiveDetector.NOT_ARCHIVE) {
+				newJars.getBeanModules().put(path, null);
+			}
+		}
 	}
 
 	public void applyRemovedPaths() {

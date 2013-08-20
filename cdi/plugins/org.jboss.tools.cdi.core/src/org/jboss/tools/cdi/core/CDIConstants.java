@@ -11,6 +11,10 @@
 package org.jboss.tools.cdi.core;
 
 public interface CDIConstants {
+	public int CDI_VERSION_NONE = 0;
+	public int CDI_VERSION_1_0 = 10;
+	public int CDI_VERSION_1_1 = 11;
+
 	public String INHERITED_ANNOTATION_TYPE_NAME = "java.lang.annotation.Inherited";
 	public String TARGET_ANNOTATION_TYPE_NAME = "java.lang.annotation.Target";
 	public String RETENTION_ANNOTATION_TYPE_NAME = "java.lang.annotation.Retention";
@@ -23,6 +27,8 @@ public interface CDIConstants {
 	public String ANY_QUALIFIER_TYPE_NAME = "javax.enterprise.inject.Any";
 	public String DEFAULT_QUALIFIER_TYPE_NAME = "javax.enterprise.inject.Default";
 	public String NEW_QUALIFIER_TYPE_NAME = "javax.enterprise.inject.New";
+
+	public String VETOED_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Vetoed";
 
 	public String STEREOTYPE_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Stereotype";
 	public String MODEL_STEREOTYPE_TYPE_NAME = "javax.enterprise.inject.Model";

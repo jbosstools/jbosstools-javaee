@@ -19,12 +19,15 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.ISaveContext;
+import org.eclipse.core.resources.ISaveParticipant;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.jboss.tools.cdi.internal.core.event.CDIProjectChangeEvent;
 import org.jboss.tools.cdi.internal.core.event.ICDIProjectChangeListener;
+import org.jboss.tools.cdi.internal.core.scanner.lib.BeanArchiveDetector;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -56,6 +59,18 @@ public class CDICorePlugin extends BaseUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener);
+		ResourcesPlugin.getWorkspace().addSaveParticipant(PLUGIN_ID, new ISaveParticipant() {			
+			@Override
+			public void saving(ISaveContext context) throws CoreException {
+				BeanArchiveDetector.getInstance().save();
+			}			
+			@Override
+			public void rollback(ISaveContext context) {}			
+			@Override
+			public void prepareToSave(ISaveContext context) throws CoreException {}			
+			@Override
+			public void doneSaving(ISaveContext context) {}
+		});
 	}
 
 	/*
