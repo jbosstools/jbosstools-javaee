@@ -38,6 +38,7 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
@@ -105,6 +106,10 @@ public class CDIProjectAsYouType implements ICDIProject, ICDIElement {
 		if(p != null) {
 			this.project = p;
 		}
+	}
+
+	public int getVersion() {
+		return project.getVersion();
 	}
 
 	private void build() throws CoreException {
