@@ -44,7 +44,7 @@ public class DefinitionContext {
 
 	public DefinitionContext() {}
 
-	private DefinitionContext copy(boolean clean) {
+	private synchronized DefinitionContext copy(boolean clean) {
 		DefinitionContext copy = new DefinitionContext();
 		copy.project = project;
 		copy.javaProject = javaProject;
@@ -90,7 +90,7 @@ public class DefinitionContext {
 	public void addType(IPath file, String typeName, TypeDefinition def) {
 		addType(file, typeName);
 		if(def != null) {
-			synchronized (typeDefinitions) {
+			synchronized (this) {
 				typeDefinitions.put(def.getQualifiedName(), (TypeDefinition)def);
 			}
 		}
@@ -103,7 +103,7 @@ public class DefinitionContext {
 		}
 	}
 
-	public void addType(IPath file, String typeName) {
+	public synchronized void addType(IPath file, String typeName) {
 		if(file != null) {
 			Set<String> ts = resources.get(file);
 			if(ts == null) {
@@ -122,26 +122,25 @@ public class DefinitionContext {
 		IPath q = file;
 		while(q.segmentCount() >= 2) {
 			q = q.removeLastSegments(1);
-			Set<IPath> cs = childPaths.get(q);
-			if(cs == null) {
-				childPaths.put(q, cs = new HashSet<IPath>());
+			synchronized(this) {
+				Set<IPath> cs = childPaths.get(q);
+				if(cs == null) {
+					childPaths.put(q, cs = new HashSet<IPath>());
+				}
+				cs.add(file);
 			}
-			cs.add(file);
 		}
 	}
 
-	public void clean() {
+	public synchronized void clean() {
 		childPaths.clear();
 		resources.clear();
 		types.clear();
 		facesConfig = null;
-		synchronized (typeDefinitions) {
-			typeDefinitions.clear();
-		}
-
+		typeDefinitions.clear();
 	}
 
-	public void clean(IPath path) {
+	public synchronized void clean(IPath path) {
 		Set<String> ts = resources.remove(path);
 		if(ts != null) for (String t: ts) {
 			clean(t);
@@ -162,11 +161,9 @@ public class DefinitionContext {
 	
 	}
 
-	public void clean(String typeName) {
+	public synchronized void clean(String typeName) {
 		types.remove(typeName);
-		synchronized (typeDefinitions) {
-			typeDefinitions.remove(typeName);
-		}
+		typeDefinitions.remove(typeName);
 	}
 
 	void removeFromParents(IPath file) {
@@ -174,11 +171,13 @@ public class DefinitionContext {
 		IPath q = file;
 		while(q.segmentCount() >= 2) {
 			q = q.removeLastSegments(1);
-			Set<IPath> cs = childPaths.get(q);
-			if(cs != null) {
-				cs.remove(file);
-				if(cs.isEmpty()) {
-					childPaths.remove(q);
+			synchronized (this) {
+				Set<IPath> cs = childPaths.get(q);
+				if(cs != null) {
+					cs.remove(file);
+					if(cs.isEmpty()) {
+						childPaths.remove(q);
+					}
 				}
 			}
 		}
@@ -189,8 +188,10 @@ public class DefinitionContext {
 		if(!annotationType.exists()) return -1;
 		String name = annotationType.getFullyQualifiedName();
 		//? use cache for basic?
-		if(types.contains(name)) {
-			return 0;
+		synchronized(this) {
+			if(types.contains(name)) {
+				return 0;
+			}
 		}
 //		if(AnnotationHelper.SCOPE_ANNOTATION_TYPES.contains(name)) {
 //			return AnnotationDefinition.SCOPE;
@@ -258,13 +259,13 @@ public class DefinitionContext {
 
 	public List<TypeDefinition> getTypeDefinitions() {
 		List<TypeDefinition> result = new ArrayList<TypeDefinition>();
-		synchronized (typeDefinitions) {
+		synchronized (this) {
 			result.addAll(typeDefinitions.values());
 		}
 		return result;
 	}
 
-	public TypeDefinition getTypeDefinition(String fullyQualifiedName) {
+	public synchronized TypeDefinition getTypeDefinition(String fullyQualifiedName) {
 		return typeDefinitions.get(fullyQualifiedName);
 	}
 
