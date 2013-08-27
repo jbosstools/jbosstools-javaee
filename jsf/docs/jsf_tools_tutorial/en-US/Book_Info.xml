@@ -7,7 +7,6 @@
 	<productname>JBoss Developer Studio</productname>
 	<productnumber>6.0</productnumber>
 	<edition>6.0.0</edition>
-	<pubsnumber>1</pubsnumber>
 	<abstract>
 		<para>The JSF Tools Tutorial explains how to use the JSF Tools module to create a simple JSF application.</para>
 	</abstract>
