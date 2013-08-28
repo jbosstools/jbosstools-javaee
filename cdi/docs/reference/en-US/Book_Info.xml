@@ -13,8 +13,6 @@
    
   <edition>5.0.0</edition>
    
-  <pubsnumber>9</pubsnumber>
-   
   <abstract>
     <para>
 		The CDI Tools Reference Guide explains how to use the CDI Tools module to develop CDI applications. 
