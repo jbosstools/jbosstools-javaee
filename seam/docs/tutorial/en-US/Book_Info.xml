@@ -5,9 +5,8 @@
 	<title>Seam Tools Tutorial</title>
 	<subtitle>Provides a tutorial for Seam tools.</subtitle>
 	<productname>JBoss Developer Studio</productname>
-	<productnumber>5.0.Beta</productnumber>
+	<productnumber>5.0</productnumber>
 	<edition>5.0.0</edition>
-	<pubsnumber>1</pubsnumber>
 	<abstract>
 		<para>Guides developers through a tutorial of how to use the Seam tooling.</para>
 	</abstract>
