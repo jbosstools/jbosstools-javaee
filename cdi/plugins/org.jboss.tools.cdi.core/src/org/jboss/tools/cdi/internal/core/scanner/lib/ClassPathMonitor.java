@@ -125,7 +125,7 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 		XModelObject b = fs.getChildByPath("META-INF/beans.xml");
 		if(b != null) {
 			newJars.getBeanModules().put(path, b);
-		} else if(project.getVersion() >= CDIConstants.CDI_VERSION_1_1) {
+		} else if(project.isAdvancedVersion()) {
 			int archiveType = BeanArchiveDetector.getInstance().getBeanArchive(path);
 			if(archiveType == BeanArchiveDetector.UNRESOLVED) {
 				if(!readRuntimes(fs).isEmpty()) {

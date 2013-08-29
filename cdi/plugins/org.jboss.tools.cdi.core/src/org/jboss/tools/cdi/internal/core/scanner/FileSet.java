@@ -23,6 +23,7 @@ import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.internal.core.scanner.lib.BeanArchiveDetector;
 import org.jboss.tools.common.model.XModelObject;
 
 public class FileSet {
@@ -33,8 +34,13 @@ public class FileSet {
 	private Map<IPath, List<IType>> classes = new HashMap<IPath, List<IType>>();
 	private Map<IPath, IPackageDeclaration> packages = new HashMap<IPath, IPackageDeclaration>();
 	private Map<IPath, XModelObject> beanXMLs = new HashMap<IPath, XModelObject>();
+	private boolean checkVetoed = false;
 
 	public FileSet() {}
+
+	public void setCheckVetoed(boolean b) {
+		checkVetoed = b;
+	}
 
 	public void add(IPath path, IType[] types) throws CoreException {
 		allpaths.add(path);
@@ -94,7 +100,10 @@ public class FileSet {
 		return true;
 	}
 
-	private void add(Map<IPath, List<IType>> target, IPath path, IType type) {
+	private void add(Map<IPath, List<IType>> target, IPath path, IType type) throws CoreException {
+		if(checkVetoed && BeanArchiveDetector.isVetoed(type)) {
+			return;
+		}
 		List<IType> ts = target.get(path);
 		if(ts == null) {
 			ts = new ArrayList<IType>();

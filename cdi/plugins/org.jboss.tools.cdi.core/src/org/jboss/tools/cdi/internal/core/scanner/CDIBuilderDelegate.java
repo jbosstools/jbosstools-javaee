@@ -14,11 +14,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.cdi.core.CDICoreBuilder;
 import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIBuilderDelegate;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
@@ -87,6 +92,21 @@ public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 			PackageDefinition def = new PackageDefinition();
 			def.setPackage(pkg, context);
 			context.addPackage(f, def.getQualifiedName(), def);
+			IResource res = pkg.getResource();
+			if(CDICoreBuilder.isPackageInfo(res)) {
+				IResource[] ms = new IResource[0];
+				try {
+					ms = res.getParent().members();
+				} catch (CoreException e) {
+					CDICorePlugin.getDefault().logError(e);
+				}
+				for (IResource m: ms) {
+					if(m instanceof IFile && !m.getName().equals(CDICoreBuilder.PACKAGE_INFO)) {
+						context.addDependency(f, m.getFullPath());
+					}
+				}
+				
+			}
 		}
 
 		for (IPath f: ps) {

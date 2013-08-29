@@ -15,6 +15,7 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.common.util.EclipseJavaUtil;
 
@@ -91,6 +92,10 @@ public class PackageDefinition extends AbstractMemberDefinition {
 		}
 		
 		return result == null ? typeName : result;
+	}
+
+	public boolean isVetoed() {
+		return isAnnotationPresent(CDIConstants.VETOED_ANNOTATION_TYPE_NAME);
 	}
 
 	

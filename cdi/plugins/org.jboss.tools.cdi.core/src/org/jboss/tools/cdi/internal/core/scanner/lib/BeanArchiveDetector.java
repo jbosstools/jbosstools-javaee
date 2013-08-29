@@ -11,13 +11,18 @@
 package org.jboss.tools.cdi.internal.core.scanner.lib;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IAnnotation;
@@ -252,6 +257,40 @@ public class BeanArchiveDetector {
 		return false;
 	}
 
+	public static IType findPackageInfo(IClassFile[] cs) {
+		for (IClassFile cf: cs) {
+			IType c = cf.getType();
+			if("package-info".equals(c.getElementName())) {
+				return c;
+			}
+		}
+		return null;
+	}
+
+	public static boolean isVetoed(IType type) throws JavaModelException {
+		IAnnotation[] as = type.getAnnotations();
+		for (IAnnotation a: as) {
+			String typeName = EclipseJavaUtil.resolveType(type, a.getElementName());
+			if(CDIConstants.VETOED_ANNOTATION_TYPE_NAME.equals(typeName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static IType[] getAnnotatedTypes(IType[] ts,CDICoreNature project) throws CoreException {
+		if(ts.length == 1 && BeanArchiveDetector.isAnnotatedBean(ts[0], project)) {
+			return ts;
+		}
+		List<IType> result = new ArrayList<IType>();
+		for (IType t: ts) {
+			if(BeanArchiveDetector.isAnnotatedBean(t, project)) {
+				result.add(t);
+			}
+		}
+		return result.toArray(new IType[0]);
+	}
+	
 	public static IPackageFragmentRoot findPackageFragmentRoot(String jar, CDICoreNature project) {
 		IJavaProject jp = EclipseResourceUtil.getJavaProject(project.getProject());
 		return (jp == null) ? null : findPackageFragmentRoot(jar, jp);

@@ -120,6 +120,22 @@ public class CDICoreNature implements IProjectNature {
 		return version;
 	}
 
+	/**
+	 * Helper method to check if version is 1.0.
+	 * @return
+	 */
+	public boolean isFirstVersion() {
+		return getVersion() == CDIConstants.CDI_VERSION_1_0;
+	}
+
+	/**
+	 * Helper method to check if version is 1.1 or higher.
+	 * @return
+	 */
+	public boolean isAdvancedVersion() {
+		return getVersion() >= CDIConstants.CDI_VERSION_1_1;
+	}
+
 	public int getBeanDiscoveryMode() {
 		return beanDiscoveryMode;
 	}

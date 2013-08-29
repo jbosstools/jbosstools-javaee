@@ -106,6 +106,7 @@ import org.jboss.tools.cdi.core.test.tck11.ScopeDefinitionCDI11Test;
 import org.jboss.tools.cdi.core.test.tck11.SelectedAlternativeCDI11Test;
 import org.jboss.tools.cdi.core.test.tck11.StereotypeDefinitionCDI11Test;
 import org.jboss.tools.cdi.core.test.tck11.StereotypeInheritenceCDI11Test;
+import org.jboss.tools.cdi.core.test.tck11.VetoedCDI11Test;
 import org.jboss.tools.cdi.core.test.tck11.lookup.AmbiguousDependencyCDI11Test;
 import org.jboss.tools.cdi.core.test.tck11.lookup.CircularDependencyCDI11Test;
 import org.jboss.tools.cdi.core.test.tck11.lookup.DynamicLookupCDI11Test;
@@ -270,6 +271,7 @@ public class CDICoreAllTests {
 
 		// Core tests
 		suite = new TestSuite("TCK 1.1 Tests");
+		suite.addTestSuite(VetoedCDI11Test.class);
 		suite.addTestSuite(ELReferenceCDI11Test.class);
 		suite.addTestSuite(ResolutionByNameCDI11Test.class);
 		suite.addTestSuite(PackageInfoCDI11Test.class);
