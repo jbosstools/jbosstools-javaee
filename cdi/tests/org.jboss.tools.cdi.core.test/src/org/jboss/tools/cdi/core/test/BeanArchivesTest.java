@@ -106,6 +106,27 @@ public class BeanArchivesTest extends TestCase {
 		assertEquals(1, bs.size());
 	}
 
+	/**
+	 * 
+	 * //Archive cdiastro.jar has vetoed package test.d.stars and class test.d.planets.Venus
+	 * @Inject Mercury mercury; //bean
+	 * @Inject Venus venus; //vetoed - not a bean
+	 * @Inject Sirius sirius; //package is vetoed - not a bean
+	 */
+	public void testJarWithVetoedPackageAndClass() {
+		IInjectionPointField mercury = getInjectionPointField(cdi, fileName, "mercury");
+		Collection<IBean> bs = cdi.getBeans(false, mercury);
+		assertEquals(1, bs.size());
+		IInjectionPointField venus = getInjectionPointField(cdi, fileName, "venus");
+		assertTrue(venus.getType().getType().exists());
+		bs = cdi.getBeans(false, venus);
+		assertTrue(bs.isEmpty());
+		IInjectionPointField sirius = getInjectionPointField(cdi, fileName, "sirius");
+		assertTrue(sirius.getType().getType().exists());
+		bs = cdi.getBeans(false, sirius);
+		assertTrue(bs.isEmpty());
+
+	}
 
 	protected IInjectionPointField getInjectionPointField(ICDIProject cdi, String beanClassFilePath, String fieldName) {
 		return DependentProjectTest.getInjectionPointField(cdi, beanClassFilePath, fieldName);

@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="lib2/cdibirds.jar"/>
 	<classpathentry kind="lib" path="lib2/cdiinsects"/>
 	<classpathentry kind="lib" path="lib2/cdifish.jar"/>
+	<classpathentry kind="lib" path="lib2/cdiastro.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

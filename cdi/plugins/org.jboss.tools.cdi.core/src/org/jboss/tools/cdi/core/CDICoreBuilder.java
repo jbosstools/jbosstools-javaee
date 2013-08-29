@@ -12,11 +12,13 @@ package org.jboss.tools.cdi.core;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -45,7 +47,9 @@ import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipant2Feature;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationHelper;
+import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.Dependencies;
+import org.jboss.tools.cdi.internal.core.impl.definition.PackageDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.CDIBuilderDelegate;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.cdi.internal.core.scanner.lib.BeanArchiveDetector;
@@ -59,6 +63,8 @@ import org.jboss.tools.common.web.WebUtils;
 
 public class CDICoreBuilder extends IncrementalProjectBuilder {
 	public static String BUILDER_ID = "org.jboss.tools.cdi.core.cdibuilder";
+	
+	public static final String PACKAGE_INFO = "package-info.java";
 
 	static Set<ICDIBuilderDelegate> delegates = null;
 
@@ -221,15 +227,15 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 				kind = FULL_BUILD;
 			}
 
-			if (kind == FULL_BUILD) {
+			IResourceDelta delta = null;
+			if(kind != FULL_BUILD) {
+				delta = getDelta(getCurrentProject());
+			}
+
+			if (kind == FULL_BUILD || delta == null) {
 				fullBuild(monitor);
 			} else {
-				IResourceDelta delta = getDelta(getCurrentProject());
-				if (delta == null) {
-					fullBuild(monitor);
-				} else {
-					incrementalBuild(delta, monitor);
-				}
+				incrementalBuild(delta, monitor);
 			}
 			for (IBuildParticipantFeature p: buildParticipants) p.buildDefinitions();
 
@@ -258,7 +264,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 	private boolean updateBeanDiscoveryMode() {
 		int oldValue = getCDICoreNature().getBeanDiscoveryMode();
 		int newValue = BeanArchiveDetector.ALL;
-		if(getCDICoreNature().getVersion() == CDIConstants.CDI_VERSION_1_1) {
+		if(getCDICoreNature().isAdvancedVersion()) {
 			newValue = getBeanDiscoveryMode(getPrimaryBeanXML());
 		}
 		getCDICoreNature().setBeanDiscoveryMode(newValue);
@@ -266,7 +272,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 	}
 
 	private int getBeanDiscoveryMode(XModelObject beansXML) {
-		if(getCDICoreNature().getVersion() == CDIConstants.CDI_VERSION_1_0) {
+		if(getCDICoreNature().isFirstVersion()) {
 			return BeanArchiveDetector.ALL;
 		} else if(beansXML == null) {
 			return BeanArchiveDetector.ANNOTATED;
@@ -299,6 +305,9 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			IFile f = root.getFile(p.append("META-INF/beans.xml"));
 			if(f.exists()) {
 				XModelObject o = EclipseResourceUtil.getObjectByResource(f);
+				if(o == null) {
+					o = EclipseResourceUtil.createObjectForResource(f);
+				}
 				if(o != null) {
 					return o;
 				}
@@ -339,6 +348,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		IJavaProject jp = EclipseResourceUtil.getJavaProject(getCDICoreNature().getProject());
 		if(jp == null) return;
 		FileSet fileSet = new FileSet();
+		fileSet.setCheckVetoed(getCDICoreNature().isAdvancedVersion());
 		
 		for (String jar: newJars.getBeanModules().keySet()) {
 			Path path = new Path(jar);
@@ -359,6 +369,11 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 				if (e instanceof IPackageFragment) {
 					IPackageFragment pf = (IPackageFragment) e;
 					IClassFile[] cs = pf.getClassFiles();
+					IType packageInfo = BeanArchiveDetector.findPackageInfo(cs);
+					if(packageInfo != null && BeanArchiveDetector.isVetoed(packageInfo)) {
+						continue;
+					}
+
 					for (IClassFile c : cs) {
 						IType t = c.getType();
 						if(!annotatedOnly || BeanArchiveDetector.isAnnotatedBean(t, getCDICoreNature())) {
@@ -471,8 +486,10 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		IPath[] srcs = new IPath[0];
 		IPath[] webinfs = new IPath[0];
 		Set<IPath> visited = new HashSet<IPath>();
+		Map<IPath, PackageInfo> checkedPackages = new HashMap<IPath, PackageInfo>();
 		
 		CDIResourceVisitor() {
+			fileSet.setCheckVetoed(getCDICoreNature().isAdvancedVersion());
 			webinfs = WebUtils.getWebInfPaths(getCurrentProject());
 			getJavaSourceRoots(getCurrentProject());
 		}
@@ -524,27 +541,26 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 						if(f.getName().endsWith(".java")) {
 							ICompilationUnit unit = EclipseUtil.getCompilationUnit(f);
 							if(unit!=null) {
-								if(f.getName().equals("package-info.java")) {
+								if(isPackageInfo(f)) {
 									IPackageDeclaration[] pkg = unit.getPackageDeclarations();
 									if(pkg != null && pkg.length > 0) {
 										fileSet.add(f.getFullPath(), pkg[0]);
 										if(incremental) {
 											IResource[] ms = resource.getParent().members();
 											for (IResource m: ms) {
-												if(m instanceof IFile && !m.getName().equals("package-info.java")) {
+												if(m instanceof IFile && !isPackageInfo((IFile)m)) {
 													visit(m);
 												}
 											}
 										}
 									}
 								} else {
-									IType[] ts = unit.getTypes();
-									if(getCDICoreNature().getBeanDiscoveryMode() != BeanArchiveDetector.ANNOTATED 
-											|| hasAnnotatedType(ts)) {
-										fileSet.add(f.getFullPath(), ts);
-									} else {
-										fileSet.add(f.getFullPath(), new IType[0]);
+									IType[] ts = isInVetoedPackage(f) ? new IType[0] : unit.getTypes();
+									//do not filter vetoed types now, do it in FileSet to process nested types.
+									if(ts.length > 0 && getCDICoreNature().getBeanDiscoveryMode() == BeanArchiveDetector.ANNOTATED) {
+										ts = BeanArchiveDetector.getAnnotatedTypes(ts, getCDICoreNature());
 									}
+									fileSet.add(f.getFullPath(), ts);
 								}
 							}
 						}
@@ -595,18 +611,49 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			//return true to continue visiting children.
 			return true;
 		}
-		
+
+		private boolean isInVetoedPackage(IFile f) throws CoreException {
+			if(!getCDICoreNature().isAdvancedVersion()) {
+				return false;
+			}
+			IContainer c = f.getParent();
+			PackageInfo b = checkedPackages.get(c.getFullPath());
+			if(b == null) {
+				b = new PackageInfo(c);
+				checkedPackages.put(c.getFullPath(), b);
+			}
+			return b.exists && b.isVetoed;
+		}		
 	}
 
-	private boolean hasAnnotatedType(IType[] ts) throws CoreException {
-		for (IType t: ts) {
-			if(BeanArchiveDetector.isAnnotatedBean(t, getCDICoreNature())) {
-				return true;
+	private class PackageInfo {
+		IPath path = null;
+		boolean exists = false;
+		boolean isVetoed = false;
+
+		PackageInfo(IContainer c) throws CoreException {
+			IFile f = c.getFile(new Path(PACKAGE_INFO));
+			path = f.getFullPath();
+			exists = f.exists();
+			if(exists) {
+				DefinitionContext context = getCDICoreNature().getDefinitions().getWorkingCopy();
+				ICompilationUnit unit = EclipseUtil.getCompilationUnit(f);
+				IPackageDeclaration[] pkg = unit.getPackageDeclarations();
+				if(pkg != null && pkg.length > 0) {
+					PackageDefinition def = null;
+					//we cannot be sure that copy in context is up to date. 
+					//context.getPackageDefinition(pkg[0].getElementName());
+					if(def == null) {
+						def = new PackageDefinition();
+						def.setPackage(pkg[0], context);
+						//Add to context now?
+					}
+					isVetoed = def.isVetoed();
+				}
 			}
 		}
-		return false;
 	}
-	
+
 	private void addBeansXML(IFile f, FileSet fileSet) {
 		if(f.getName().equals("beans.xml")) {
 			XModelObject beansXML = EclipseResourceUtil.getObjectByResource(f);
@@ -617,6 +664,10 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 				fileSet.setBeanXML(f.getFullPath(), beansXML);
 			}
 		}
+	}
+
+	public static boolean isPackageInfo(IResource f) {
+		return f instanceof IFile && f.getName().equals(PACKAGE_INFO);		
 	}
 
 }

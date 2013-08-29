@@ -13,6 +13,9 @@ import test.c.bird.Crow;
 import test.c.bird.Heron;
 import test.c.insect.Bee;
 import test.c.insect.Fly;
+import test.d.planets.Mercury;
+import test.d.planets.Venus;
+import test.d.stars.Sirius;
 
 @ConversationScoped
 public class Test {
@@ -35,4 +38,9 @@ public class Test {
 	//Archive cdifish.jar has beans.xml with bean-discovery-mode="all"
 	@Inject Salmon salmon; //not annotated - bean
 	@Inject Eel eel; //annotated - bean
+
+	//Archive cdiastro.jar has vetoed package test.d.stars and class test.d.planets.Venus
+	@Inject Mercury mercury; //bean
+	@Inject Venus venus; //vetoed - not a bean
+	@Inject Sirius sirius; //package is vetoed - not a bean
 }
