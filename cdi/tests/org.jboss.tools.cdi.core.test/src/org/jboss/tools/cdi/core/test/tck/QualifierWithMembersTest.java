@@ -21,6 +21,23 @@ import org.jboss.tools.cdi.core.IInjectionPointField;
  */
 public class QualifierWithMembersTest extends TCKTest {
 
+	/**
+	 * Factory produces bean with qualifier
+	 * IntQualifier(width=2-(5 + 3) + 7*2, height= (12 + W) * 2 / 4)
+	 * 
+	 * Injection point looks for a bean with qualifier
+	 * @IntQualifier(width=(int)(BeanFactory.W + 2) - 2, height=(int)'b' - (int)'a' + 9)
+	 * 
+	 * In both cases calculated width=8, height=10.
+	 * The injection point must be resolved to the bean.  
+	 * @throws CoreException
+	 */
+	public void testQualifierWithArithmeticExpressionsResolved() throws CoreException {
+		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/expressions/SomeBean.java", "s");
+		Collection<IBean> beans = cdiProject.getBeans(true, injection);
+		assertEquals("Wrong number of the beans", 1, beans.size());
+	}
+
 	public void testQualifierWithStaticImportInInjectingBeanAndNonStaticInInjectedBeanResolved() throws CoreException {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/ObtainsInstanceBean.java", "chequePaymentProcessor");
 		Collection<IBean> beans = cdiProject.getBeans(true, injection);
