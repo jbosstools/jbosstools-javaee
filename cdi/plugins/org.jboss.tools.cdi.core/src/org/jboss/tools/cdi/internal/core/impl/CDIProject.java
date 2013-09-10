@@ -31,6 +31,7 @@ import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.ISourceReference;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
@@ -73,6 +74,7 @@ import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IJavaReference;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.java.ParametedType;
+import org.jboss.tools.common.java.impl.ValueResolver;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.INodeReference;
@@ -635,7 +637,13 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			IMemberValuePair[] ps = d.getMemberValuePairs();
 			if (ps != null) for (IMemberValuePair p: ps) {
 				String n = p.getMemberName();
-				Object o = d.getMemberValue(n);
+				Object o = null;
+				if(d instanceof AnnotationDeclaration) {
+					o = ((AnnotationDeclaration)d).getMemberConstantValue(n);
+				}
+				if(o == null) {
+					o = d.getMemberValue(n);
+				}
 				values.put(n, o == null ? "" : o.toString());
 
 			}
@@ -648,8 +656,9 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 					if (p != null) {
 						n = p.getMemberName();
 						Object o = p.getValue();
-						// Default value can be null since JDT does not computes complex values
-						// E.g. values (char)7 or (2 + 3) will be resolved to null.  
+						if(o == null) {
+							o = ((AnnotationDeclaration)d).getMemberDefaultValue(n);
+						}
 						if(!values.containsKey(n) && o != null) {
 							values.put(n, o.toString());
 						}
@@ -1169,7 +1178,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 
 	void rebuildAnnotationTypes() {
 		synchronized (cache) {
-			
+
 		cache.cleanAnnotations();
 		List<AnnotationDefinition> ds = n.getAllAnnotations();
 		for (AnnotationDefinition d: ds) {
