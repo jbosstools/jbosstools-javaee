@@ -117,7 +117,28 @@ public class CDICoreNature implements IProjectNature {
 	}
 
 	public Set<CDICoreNature> getCDIProjects() {
-		return getCDIProjects(false);
+		Set<CDICoreNature> result = new HashSet<CDICoreNature>();
+		synchronized(this) {
+			result.addAll(dependsOn);
+		}
+		return result;
+	}
+
+
+	/**
+	 * Returns the number of projects included explicitly 
+	 * to classpath of current project that are contained in
+	 * the passed set.
+	 * 
+	 * @param projects
+	 * @return
+	 */
+	public synchronized int countDirectDependencies(Set<CDICoreNature> projects) {
+		int result = 0;
+		for (CDICoreNature r: dependsOn) {
+			if(projects.contains(r)) result++;
+		}
+		return result;
 	}
 
 	public CDIExtensionManager getExtensionManager() {
@@ -126,22 +147,23 @@ public class CDICoreNature implements IProjectNature {
 
 	/**
 	 * Returns all the project that are included into classpath of this project.
+	 * Modification to the returned set does not affect stored references.
+	 * 
 	 * @param hierarchy If false then return the projects explicitly included into the project classpath.
 	 * If true then all the project from the entire hierarchy will be returned.
 	 * @return
 	 */
 	public Set<CDICoreNature> getCDIProjects(boolean hierarchy) {
-		if(hierarchy) {
-			if(dependsOn.isEmpty()) return dependsOn;
+		if(hierarchy && dependsOnOtherProjects()) {
 			Set<CDICoreNature> result = new HashSet<CDICoreNature>();
 			getAllCDIProjects(result);
 			return result;
 		} else {
-			return dependsOn;
+			return getCDIProjects();
 		}
 	}
 
-	void getAllCDIProjects(Set<CDICoreNature> result) {
+	synchronized void getAllCDIProjects(Set<CDICoreNature> result) {
 		for (CDICoreNature n:dependsOn) {
 			if(result.contains(n)) continue;
 			result.add(n);
@@ -150,8 +172,7 @@ public class CDICoreNature implements IProjectNature {
 	}
 
 	public List<TypeDefinition> getAllTypeDefinitions() {
-		Set<CDICoreNature> ps = getCDIProjects(true);
-		if(ps == null || ps.isEmpty()) {
+		if(!dependsOnOtherProjects()) { 
 			return getDefinitions().getTypeDefinitions();
 		}
 		List<TypeDefinition> ds = getDefinitions().getTypeDefinitions();
@@ -161,7 +182,7 @@ public class CDICoreNature implements IProjectNature {
 		for (TypeDefinition d: ds) {
 			keys.add(d.getKey());
 		}
-		for (CDICoreNature p: ps) {
+		for (CDICoreNature p: getCDIProjects(true)) {
 			List<TypeDefinition> ds2 = p.getDefinitions().getTypeDefinitions();
 			for (TypeDefinition d: ds2) {
 				String key = d.getKey();
@@ -174,34 +195,12 @@ public class CDICoreNature implements IProjectNature {
 		return result;
 	}
 
+	public synchronized boolean dependsOnOtherProjects() {
+		return !dependsOn.isEmpty();
+	}
+
 	public List<AnnotationDefinition> getAllAnnotations() {
-		Set<CDICoreNature> ps = getCDIProjects(false);
-		if(ps == null || ps.isEmpty() || getCDIProjects(true).contains(this)) {
-			return getDefinitions().getAllAnnotations();
-		}
-		List<AnnotationDefinition> result = new ArrayList<AnnotationDefinition>();
-		Set<IType> types = new HashSet<IType>();
-		for (CDICoreNature p: ps) {
-			List<AnnotationDefinition> ds2 = p.getAllAnnotations();
-			for (AnnotationDefinition d: ds2) {
-				IType t = d.getType();
-				if(t != null && !types.contains(t)) {
-					types.add(t);
-					result.add(d);
-				}
-			}
-		}
-
-		List<AnnotationDefinition> ds = getDefinitions().getAllAnnotations();
-		for (AnnotationDefinition d: ds) {
-			IType t = d.getType();
-			if(t != null && !types.contains(t)) {
-				types.add(t);
-				result.add(d);
-			}
-		}
-
-		return result;
+		return getDefinitions().getAllAnnotationsWithDependencies();
 	}
 
 	/**
@@ -214,16 +213,14 @@ public class CDICoreNature implements IProjectNature {
 	public Set<String> getAllVetoedTypes() {
 		Set<String> result = new HashSet<String>();
 		result.addAll(definitions.getVetoedTypes());
-		Set<CDICoreNature> ps = getCDIProjects(true);
-		for (CDICoreNature n: ps) {
+		for (CDICoreNature n: getCDIProjects(true)) {
 			result.addAll(n.getDefinitions().getVetoedTypes());
 		}		
 		return result;
 	}
 
 	public Set<BeansXMLDefinition> getAllBeanXMLDefinitions() {
-		Set<CDICoreNature> ps = getCDIProjects(true);
-		if(ps == null || ps.isEmpty()) {
+		if(!dependsOnOtherProjects()) {
 			return getDefinitions().getBeansXMLDefinitions();
 		}
 		Set<BeansXMLDefinition> ds = getDefinitions().getBeansXMLDefinitions();
@@ -234,7 +231,7 @@ public class CDICoreNature implements IProjectNature {
 			IPath t = d.getPath();
 			if(t != null) paths.add(t);
 		}
-		for (CDICoreNature p: ps) {
+		for (CDICoreNature p: getCDIProjects(true)) {
 			Set<BeansXMLDefinition> ds2 = p.getDefinitions().getBeansXMLDefinitions();
 			for (BeansXMLDefinition d: ds2) {
 				IPath t = d.getPath();
@@ -294,11 +291,15 @@ public class CDICoreNature implements IProjectNature {
 	}
 
 	public void addCDIProject(final CDICoreNature p) {
-		if(dependsOn.contains(p)) return;
+		synchronized(this) {
+			if(dependsOn.contains(p)) {
+				return;
+			}
+		}
 		addUsedCDIProject(p);
 		p.addDependentCDIProject(this);
 		//TODO
-		if(!p.isStorageResolved()) {
+		if(!p.isStorageResolved() && p.getProject() != null) {
 			XJob.addRunnableWithPriority(new XRunnable() {
 				public void run() {
 					p.resolve();
@@ -314,22 +315,18 @@ public class CDICoreNature implements IProjectNature {
 		}
 	}
 
-	public void removeCDIProject(CDICoreNature p) {
+	public synchronized void removeCDIProject(CDICoreNature p) {
 		if(!dependsOn.contains(p)) return;
 		p.usedBy.remove(this);
-		synchronized (dependsOn) {
-			dependsOn.remove(p);
-		}
+		dependsOn.remove(p);
 		//TODO
 	}
 
-	void addUsedCDIProject(CDICoreNature p) {
-		synchronized (dependsOn) {
-			dependsOn.add(p);
-		}
+	synchronized void addUsedCDIProject(CDICoreNature p) {
+		dependsOn.add(p);
 	}
 
-	public void addDependentCDIProject(CDICoreNature p) {
+	public synchronized void addDependentCDIProject(CDICoreNature p) {
 		usedBy.add(p);
 	}
 
@@ -561,9 +558,9 @@ public class CDICoreNature implements IProjectNature {
 	 * Test method.
 	 */
 	public void reloadProjectDependencies() {
-		dependsOn.clear();
-		usedBy.clear();
 		synchronized (this) {
+			dependsOn.clear();
+			usedBy.clear();
 			projectDependenciesLoaded = false;
 		}
 		loadProjectDependenciesFromKBProject();
@@ -617,7 +614,7 @@ public class CDICoreNature implements IProjectNature {
 		}
 	}
 
-	public void dispose() {
+	public synchronized void dispose() {
 		CDICoreNature[] ds = dependsOn.toArray(new CDICoreNature[dependsOn.size()]);
 		for (CDICoreNature d: ds) {
 			removeCDIProject(d);
