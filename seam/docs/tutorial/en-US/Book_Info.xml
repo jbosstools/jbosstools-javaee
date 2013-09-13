@@ -4,10 +4,8 @@
 <bookinfo>
 	<title>Seam Tools Tutorial</title>
 	<subtitle>Provides a tutorial for Seam tools.</subtitle>
-	<productname>JBoss Developer Studio</productname>
-	<productnumber>6.0</productnumber>
-	<edition>6.0.0</edition>
-	<pubsnumber>1</pubsnumber>
+	<productname>Red Hat JBoss Developer Studio</productname>
+	<productnumber>7.1</productnumber>
 	<abstract>
 		<para>Guides developers through a tutorial of how to use the Seam tooling.</para>
 	</abstract>

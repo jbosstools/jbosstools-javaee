@@ -7,13 +7,9 @@
 	  Provides information relating to the CDI Tools module
   </subtitle>
    
-  <productname>JBoss Developer Studio</productname>
+  <productname>Red Hat JBoss Developer Studio</productname>
    
-  <productnumber>6.0</productnumber>
-   
-  <edition>6.0.0</edition>
-   
-  <pubsnumber>1</pubsnumber>
+  <productnumber>7.1</productnumber>
    
   <abstract>
     <para>
