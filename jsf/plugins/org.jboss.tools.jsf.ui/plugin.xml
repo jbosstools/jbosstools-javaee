@@ -162,147 +162,6 @@
          <description>%ImportWizardDescription_JSFWar</description>
       </wizard>
    </extension>
-   <extension point="org.eclipse.ui.popupMenus">
-   		<objectContribution
-			id="org.jboss.tools.seam.ui.project.configure"
-			objectClass="org.eclipse.core.resources.IProject"
-			adaptable="true">
-			<visibility>
-				<and>
-					<objectState 
-						name="projectNature"
-						value="org.eclipse.jdt.core.javanature"/>
-					<not>
-						<objectState 
-							name="projectNature"
-							value="org.jboss.tools.jsf.jsfnature"/>
-					</not>
-				</and>
-			</visibility>
-			
-			<action 
-               class="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate" 
-               enablesFor="1" 
-               icon="$nl$/images/xstudio/actions/add_jsf_nature.gif"
-               id="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate" 
-               label="%popupMenus.action.addJSFNature" 
-               menubarPath="org.eclipse.ui.projectConfigure/additions">
-         </action>
-		</objectContribution>
-   		<objectContribution
-			id="org.jboss.tools.seam.ui.project.configure"
-			objectClass="org.eclipse.core.resources.IProject"
-			adaptable="true">
-			<visibility>
-				<and>
-					<objectState 
-						name="projectNature"
-						value="org.eclipse.jdt.core.javanature"/>
-					<and>
-						<objectState 
-							name="projectNature"
-							value="org.jboss.tools.jsf.jsfnature"/>
-					</and>
-				</and>
-			</visibility>
-			
-			<action 
-               class="org.jboss.tools.jsf.ui.action.RemoveJSFNatureActionDelegate" 
-               enablesFor="1" 
-               id="org.jboss.tools.jsf.ui.action.RemoveJSFNatureActionDelegate" 
-               label="%popupMenus.action.removeJSFNature" 
-               menubarPath="org.eclipse.ui.projectConfigure/additions">
-         </action>
-         <action 
-               class="org.jboss.tools.jsf.ui.action.AddCapabilitiesActionDelegate" 
-               enablesFor="1" 
-               id="org.jboss.tools.jsf.ui.action.AddCapabilitiesActionDelegate" 
-               label="%popupMenus.action.addCustomCapabilities" 
-               menubarPath="org.eclipse.ui.projectConfigure/additions">
-         </action>
-		</objectContribution>
-<!-- IProject -->
-      <!--objectContribution id="JSF_IProject" objectClass="org.eclipse.core.resources.IProject">
-         <menu id="RedHat4Web" label="JBoss Tools" path="additions">
-            <separator name="a">
-            </separator>
-            <separator name="c">
-            </separator>
-            <separator name="d">
-            </separator>
-         </menu>
-         <action 
-               class="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate" 
-               enablesFor="*" id="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate" 
-               icon="$nl$/images/xstudio/actions/add_jsf_nature.gif"
-               label="%popupMenus.action.addJSFNature" 
-               menubarPath="RedHat4Web/a">
-         </action>
-         <action 
-               class="org.jboss.tools.jsf.ui.action.RemoveJSFNatureActionDelegate" 
-               enablesFor="*" 
-               id="org.jboss.tools.jsf.ui.action.RemoveJSFNatureActionDelegate" 
-               label="%popupMenus.action.removeJSFNature" 
-               menubarPath="RedHat4Web/d">
-         </action>
-         <action 
-               class="org.jboss.tools.jsf.ui.action.AddCapabilitiesActionDelegate" 
-               enablesFor="*" 
-               id="org.jboss.tools.jsf.ui.action.AddCapabilitiesActionDelegate" 
-               label="%popupMenus.action.addCustomCapabilities" 
-               menubarPath="RedHat4Web/d">
-         </action>
-      </objectContribution-->
-<!-- IJavaProject -->
-      <!--objectContribution id="JSF_IJavaProject" objectClass="org.eclipse.jdt.core.IJavaProject">
-         <menu id="RedHat4Web" label="JBoss Tools" path="additions">
-            <separator name="a">
-            </separator>
-            <separator name="c">
-            </separator>
-            <separator name="d">
-            </separator>
-         </menu>
-         <action 
-               class="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate" 
-               enablesFor="*" 
-               icon="$nl$/images/xstudio/actions/add_jsf_nature.gif"
-               id="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate" 
-               label="%popupMenus.action.addJSFNature" 
-               menubarPath="org.eclipse.ui.projectConfigure/additions">
-         </action>
-         <action 
-               class="org.jboss.tools.jsf.ui.action.RemoveJSFNatureActionDelegate" 
-               enablesFor="*" 
-               id="org.jboss.tools.jsf.ui.action.RemoveJSFNatureActionDelegate" 
-               label="%popupMenus.action.removeJSFNature" 
-               menubarPath="org.eclipse.ui.projectConfigure/additions">
-         </action>
-         <action 
-               class="org.jboss.tools.jst.web.ui.action.adf.AddADFSupportAction" 
-               enablesFor="*" 
-               id="org.jboss.tools.jst.web.ui.action.adf.AddADFSupportAction" 
-               label="Add ADF Support" 
-               menubarPath="RedHat4Web/d">
-         </action>
-         
-      </objectContribution-->
-<!-- IFile -->
-      <!--objectContribution id="JSF_IFile" objectClass="org.eclipse.core.resources.IFile">
-         <menu id="RedHat4Web" label="JBoss Tools" path="additions">
-            <separator name="a">
-            </separator>
-            <separator name="d">
-            </separator>
-         </menu>
-      </objectContribution-->
-   </extension>
-   <!--extension id="org.jboss.tools.jsf.ui.views" name="JSF Views" point="org.eclipse.ui.views">
-      <category id="jsf.views.category.id" name="%jsf.views.category.name">
-      </category>
-      <view category="jsf.views.category.id" class="org.jboss.tools.jsf.ui.navigator.JsfProjectsNavigator" icon="images/xstudio/perspective.gif" id="org.jboss.tools.jsf.ui.navigator.JsfProjectsView" name="%jsf.projects.navigator.name">
-      </view>
-   </extension-->
    <extension point="org.jboss.tools.common.model.ui.paletteConstraints">
       <editorType id="faces-config">
       </editorType>
@@ -353,15 +212,15 @@
 		<xclass id="org.jboss.tools.jsf.ui.JsfUiPlugin"
 			class="org.jboss.tools.jsf.ui.JsfUiPlugin"/>
 		<xclass id="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate"
-			class="org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate"/>
+			class="org.jboss.tools.jsf.ui.internal.handlers.AddJSFNatureHandler"/>
 		<xclass id="org.jboss.tools.jsf.ui.action.CreateProjectAction"
 			class="org.jboss.tools.jsf.ui.action.CreateProjectAction"/>
 		<xclass id="org.jboss.tools.jsf.ui.action.ImportProjectAction"
 			class="org.jboss.tools.jsf.ui.action.ImportProjectAction"/>
 		<xclass id="org.jboss.tools.jsf.ui.action.handler.CreateJSFProjectHandler"
-			class="org.jboss.tools.jsf.ui.action.handler.CreateJSFProjectHandler"/>
+			class="org.jboss.tools.jsf.ui.internal.handlers.CreateJSFProjectHandler"/>
 		<xclass id="org.jboss.tools.jsf.ui.action.handler.ImportJSFProjectHandler"
-			class="org.jboss.tools.jsf.ui.action.handler.ImportJSFProjectHandler"/>
+			class="org.jboss.tools.jsf.ui.internal.handlers.ImportJSFProjectHandler"/>
 		<xclass id="org.jboss.tools.jsf.ui.adopt.JSPAdopt"
 			class="org.jboss.tools.jsf.ui.adopt.JSPAdopt"/>
 		<xclass id="org.jboss.tools.jsf.ui.editor.FacesConfigEditorMessages"
@@ -453,23 +312,127 @@
             </with>
          </enablement>
       </renameParticipant>
-      
     </extension>
     
-    
-    <!-- Refactorng -->
-	<extension
-		point="org.eclipse.ui.menus">
-    <menuContribution
-          class="org.jboss.tools.jsf.ui.el.refactoring.ELRefactorContributionFactory"
-          locationURI="popup:org.eclipse.ui.popup.any?after=save">
-    </menuContribution>
-	</extension>
+<extension point="org.eclipse.ui.menus">
+	<menuContribution
+	      class="org.jboss.tools.jsf.ui.el.refactoring.ELRefactorContributionFactory"
+	      locationURI="popup:org.eclipse.ui.popup.any?after=save">
+	</menuContribution>
+	<menuContribution
+	   allPopups="false"
+	   locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
+	<command
+	      commandId="org.jboss.tools.jsf.ui.project.configure.enable"
+	      id="org.jboss.tools.jsf.ui.addJSFSupport"
+	      label="%popupMenus.action.addJSFNature"
+	      style="push">
+	   <visibleWhen checkEnabled="true" />
+	</command>
+	<command
+	      commandId="org.jboss.tools.jsf.ui.project.configure.disable"
+	      id="org.jboss.tools.jsf.ui.removeJSFSupport"
+	      label="%popupMenus.action.removeJSFNature"
+	      style="push">
+	   <visibleWhen checkEnabled="true" />
+	</command>
+	<command
+	      commandId="org.jboss.tools.jsf.ui.project.configure.addCapabilities"
+	      id="org.jboss.tools.jsf.ui.customCapabilities"
+	      label="%popupMenus.action.addCustomCapabilities"
+	      style="push">
+	   <visibleWhen checkEnabled="true" />
+	</command>
+	</menuContribution>
+</extension>
 	
    	<extension point="org.eclipse.ui.ide.markerResolution">
 		<markerResolutionGenerator
         class="org.jboss.tools.jsf.ui.marker.DisableFaceletHTMLValidatorResolutionGenerator"
         markerType="org.eclipse.jst.jsf.facelet.ui.FaceletValidationMarker"/>
+	</extension>
+	
+   	<extension
+       point="org.eclipse.ui.handlers">
+       <handler
+             class="org.jboss.tools.jsf.ui.internal.handlers.AddJSFNatureHandler"
+             commandId="org.jboss.tools.jsf.ui.project.configure.enable">
+             <activeWhen>
+				<with variable="selection">
+					<and>
+						<count value="1"/>
+						<iterate ifEmpty="false" operator="and">
+							<adapt type="org.eclipse.core.resources.IProject">
+								<and>								
+									<test property="org.eclipse.core.resources.projectNature" value="org.eclipse.jdt.core.javanature" />
+									<not>
+										<test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.jsf.jsfnature" />
+			                   		</not>
+								</and>
+							</adapt>
+						</iterate>
+					</and>
+				</with>
+             </activeWhen>
+       </handler>
+       <handler
+             class="org.jboss.tools.jsf.ui.internal.handlers.RemoveJSFNatureHandler"
+             commandId="org.jboss.tools.jsf.ui.project.configure.disable">
+             <activeWhen>
+				<with variable="selection">
+					<and>
+						<count value="1"/>
+						<iterate ifEmpty="false" operator="and">
+							<adapt type="org.eclipse.core.resources.IProject">
+								<and>								
+									<test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.jsf.jsfnature" />
+								</and>
+							</adapt>
+						</iterate>
+					</and>
+				</with>
+             </activeWhen>
+       </handler>
+       <handler
+             class="org.jboss.tools.jsf.ui.internal.handlers.AddCapabilitiesHandler"
+             commandId="org.jboss.tools.jsf.ui.project.configure.addCapabilities">
+             <activeWhen>
+				<with variable="selection">
+					<and>
+						<count value="1"/>
+						<iterate ifEmpty="false" operator="and">
+							<adapt type="org.eclipse.core.resources.IProject">
+								<and>								
+									<test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.jsf.jsfnature" />
+								</and>
+							</adapt>
+						</iterate>
+					</and>
+				</with>
+             </activeWhen>
+       </handler>
+	</extension>
+	
+   	<extension
+         point="org.eclipse.ui.commands">
+      	<command
+            	categoryId="org.eclipse.ui.category.project"
+            	description="%popupMenus.action.addJSFNature"
+            	id="org.jboss.tools.jsf.ui.project.configure.enable"
+            	name="%popupMenus.action.addJSFNature">
+      	</command>
+      	<command
+            	categoryId="org.eclipse.ui.category.project"
+            	description="%popupMenus.action.removeJSFNature"
+            	id="org.jboss.tools.jsf.ui.project.configure.disable"
+            	name="%popupMenus.action.removeJSFNature">
+      	</command>
+      	<command
+            	categoryId="org.eclipse.ui.category.project"
+            	description="%popupMenus.action.addCustomCapabilities"
+            	id="org.jboss.tools.jsf.ui.project.configure.addCapabilities"
+            	name="%popupMenus.action.addCustomCapabilities">
+      	</command>
 	</extension>
 	
 </plugin>

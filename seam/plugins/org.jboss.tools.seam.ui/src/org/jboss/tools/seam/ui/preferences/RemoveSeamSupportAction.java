@@ -12,7 +12,11 @@ package org.jboss.tools.seam.ui.preferences;
 
 /**
  * @author Alexey Kazakov
+ * 
+ * @deprecated use org.jboss.tools.seam.ui.internal.handlers.RemoveSeamSupportHandler
+ *
  */
+@Deprecated
 public class RemoveSeamSupportAction extends AddSeamSupportAction {
 
 	/* (non-Javadoc)

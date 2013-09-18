@@ -23,7 +23,11 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
 
 /**
  * @author Alexey Kazakov
+ * 
+ * @deprecated use org.jboss.tools.cdi.ui.internal.handlers.AddCDISupportHandler
+ *
  */
+@Deprecated
 public class AddCDISupportAction implements IObjectActionDelegate {
 
 	private ISelection currentSelection;

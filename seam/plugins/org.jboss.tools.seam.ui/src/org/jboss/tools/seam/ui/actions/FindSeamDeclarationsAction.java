@@ -18,7 +18,11 @@ import org.jboss.tools.seam.ui.search.SeamSearchScope;
  * Find Seam Declarations action
  * 
  * @author Jeremy
+ * 
+ * @deprecated use org.jboss.tools.seam.ui.handlers.FindSeamDeclarationsHandler
+ *
  */
+@Deprecated
 public class FindSeamDeclarationsAction extends FindSeamAction {
 
 	/**

@@ -12,7 +12,7 @@
 package org.jboss.tools.jsf.ui.editor.check.wizards;
 
 import org.eclipse.core.resources.IProject;
-import org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate;
+import org.jboss.tools.jsf.ui.internal.handlers.AddJSFNatureHandler;
 
 /**
  * 
@@ -20,7 +20,7 @@ import org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate;
  *
  */
 
-public class AddJSFCapabilitiesWizard extends AddJSFNatureActionDelegate {
+public class AddJSFCapabilitiesWizard extends AddJSFNatureHandler {
 
 	private static AddJSFCapabilitiesWizard instance = new AddJSFCapabilitiesWizard();
 
