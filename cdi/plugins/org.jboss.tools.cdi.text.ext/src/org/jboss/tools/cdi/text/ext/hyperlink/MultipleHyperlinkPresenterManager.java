@@ -12,11 +12,11 @@ package org.jboss.tools.cdi.text.ext.hyperlink;
 
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
+import org.eclipse.jface.text.hyperlink.MultipleHyperlinkPresenter;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
-import org.jboss.tools.common.text.ext.hyperlink.xpl.MultipleHyperlinkPresenter;
 
 public class MultipleHyperlinkPresenterManager {
 	private static MultipleHyperlinkPresenter mhp = new MultipleHyperlinkPresenter(new RGB(0, 0, 255));

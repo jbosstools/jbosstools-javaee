@@ -1,27 +1,20 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2013 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
-package org.jboss.tools.jsf.ui.action;
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
+package org.jboss.tools.jsf.ui.internal.handlers;
 
 import org.eclipse.core.resources.IProject;
-
+import org.jboss.tools.common.model.ui.internal.handlers.ProjectRootHandler;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.common.model.ui.action.file.ProjectRootActionDelegate;
 
-/**
- * 
- * @deprecated use org.jboss.tools.jsf.ui.internal.handlers.AddCapabilitiesHandler
- *
- */
-@Deprecated
-public class AddCapabilitiesActionDelegate extends ProjectRootActionDelegate {
+public class AddCapabilitiesHandler extends ProjectRootHandler {
 
 	protected String getActionPath() {
 		return "EclipseActions.AddCustomJSFCapabilities"; //$NON-NLS-1$

@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate;
+import org.jboss.tools.jsf.ui.internal.handlers.AddJSFNatureHandler;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class AddJSFCapabilitiesTest extends TestCase {

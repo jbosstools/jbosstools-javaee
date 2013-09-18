@@ -43,57 +43,6 @@
             name="%PreferencePage_CDI">
       </page>
    </extension>
-
-	<extension
-		point="org.eclipse.ui.popupMenus">
-
-		<objectContribution
-			id="org.jboss.tools.cdi.ui.project.configure.enable"
-			objectClass="org.eclipse.core.resources.IProject"
-			adaptable="true">
-			<visibility>
-				<and>
-					<objectState 
-						name="projectNature"
-						value="org.eclipse.jdt.core.javanature"/>
-					<not>
-						<objectState 
-							name="projectNature"
-							value="org.jboss.tools.cdi.core.cdinature"/>
-					</not>
-				</and>
-			</visibility>
-
-			<action
-				id="org.jboss.tools.cdi.ui.AddCDISupport"
-				label="%ConfigureMenu_AddCDISupport"
-				class="org.jboss.tools.cdi.ui.preferences.AddCDISupportAction"
-				enablesFor="1"
-				menubarPath="org.eclipse.ui.projectConfigure/additions"/>
-
-		</objectContribution>
-
-		<objectContribution
-			id="org.jboss.tools.cdi.ui.project.configure.disable"
-			objectClass="org.eclipse.core.resources.IProject"
-			adaptable="true">
-			<visibility>
-				<objectState 
-					name="projectNature"
-					value="org.jboss.tools.cdi.core.cdinature"/>
-			</visibility>
-
-			<action
-				id="org.jboss.tools.cdi.ui.RemoveCDISupport"
-				label="%ConfigureMenu_RemoveCDISupport"
-				class="org.jboss.tools.cdi.ui.preferences.RemoveCDISupportAction"
-				enablesFor="1"
-				menubarPath="org.eclipse.ui.projectConfigure/additions"/>
-
-		</objectContribution>
-
-	</extension>
-
 	<extension
         point="org.eclipse.jdt.ui.queryParticipants">
      <queryParticipant
@@ -120,56 +69,128 @@
 	      locationURI="popup:org.eclipse.ui.popup.any?after=save">
 	</menuContribution>
 	
-       <menuContribution
+    <menuContribution
+          locationURI="toolbar:org.eclipse.ui.main.toolbar?after=org.eclipse.search.searchActionSet">
+       <toolbar
+             id="org.jboss.tools.cdi.ui.toolbar">
+          <command
+                commandId="org.jboss.tools.cdi.ui.open.namedBean"
+                disabledIcon="$nl$/icons/open_cdi_named_bean.png"
+                icon="$nl$/icons/open_cdi_named_bean.png"
+                id="org.jboss.tools.cdi.ui.openNamedBeanToolBar"
+                label="%NavigationMenu_OpenCDINamedBean"
+                tooltip="%NavigationMenu_OpenCDINamedBean">
+              <visibleWhen checkEnabled="true" />
+          </command>
+       </toolbar>
+    </menuContribution>
+	<menuContribution
           locationURI="menu:navigate?after=open.ext2">
-  		</menuContribution>
-  		<menuContribution
-                locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
-                <toolbar
-                      id="org.eclipse.search.searchActionSet">
-         		</toolbar>
-  		</menuContribution>
-	
+       <command
+             commandId="org.jboss.tools.cdi.ui.open.namedBean"
+             disabledIcon="$nl$/icons/open_cdi_named_bean.png"
+             icon="$nl$/icons/open_cdi_named_bean.png"
+             id="org.jboss.tools.cdi.ui.openNamedBeanMenuItem"
+             label="%NavigationMenu_OpenCDINamedBean"
+             style="push"
+             tooltip="%NavigationMenu_OpenCDINamedBean">
+           <visibleWhen checkEnabled="true" />
+       </command>
+    </menuContribution>
+ <menuContribution
+       allPopups="false"
+       locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
+    <command
+          commandId="org.jboss.tools.cdi.ui.project.configure.enable"
+          label="%ConfigureMenu_AddCDISupport"
+          style="push">
+       <visibleWhen checkEnabled="true" />
+    </command>
+    <command
+          commandId="org.jboss.tools.cdi.ui.project.configure.disable"
+          id="removeCDISupport"
+          label="%ConfigureMenu_RemoveCDISupport"
+          style="push">
+       <visibleWhen checkEnabled="true" />
+    </command>
+ </menuContribution>
 	</extension> 
    	
-   <extension
-         point="org.eclipse.ui.actionSets">
-      <actionSet
-            description="%ActionSetCDIUIDescription"
-            id="org.jboss.tools.cdi.ui.actionSet"
-            label="%ActionSetCDIUILabel"
-            visible="false">
-            
-			<action id="openNamedBean" 
-	      		style="push"
-				label="Open CDI Named Bean"
-                tooltip="Open CDI Named Bean"
-                definitionId="org.jboss.tools.cdi.ui.open.namedBean"
-				toolbarPath="org.eclipse.search.searchActionSet/Search"
-				menubarPath="navigate/open.ext2"
-	      		icon="$nl$/icons/open_cdi_named_bean.png"
-	      		disabledIcon="$nl$/icons/open_cdi_named_bean.png"
-	      		class="org.jboss.tools.cdi.ui.actions.OpenCDINamedBeanAction">
-			</action>
-            
-      </actionSet>
-   </extension>
    	
    	<extension
        point="org.eclipse.ui.handlers">
-	   <!-- handler
-	          class="org.jboss.tools.cdi.ui.handlers.OpenCDINamedBeanHandler"
-	          commandId="org.jboss.tools.cdi.ui.open.namedBean">
-	    </handler -->
+       <handler
+             class="org.jboss.tools.cdi.ui.internal.handlers.OpenCDINamedBeanHandler"
+             commandId="org.jboss.tools.cdi.ui.open.namedBean">
+             <activeWhen>
+             		<with variable="activeWorkbenchWindow.activePerspective">
+             			<or>
+             				<equals value="org.jboss.tools.common.ui.JBossPerspective"/>
+             				<equals value="org.eclipse.jst.j2ee.J2EEPerspective"/>
+             			</or>
+					</with>
+             </activeWhen>
+       </handler>
+       <handler
+             class="org.jboss.tools.cdi.ui.internal.handlers.AddCDISupportHandler"
+             commandId="org.jboss.tools.cdi.ui.project.configure.enable">
+             <activeWhen>
+				<with variable="selection">
+					<and>
+						<count value="1"/>
+						<iterate ifEmpty="false" operator="and">
+							<adapt type="org.eclipse.core.resources.IProject">
+								<and>								
+									<test property="org.eclipse.core.resources.projectNature" value="org.eclipse.jdt.core.javanature" />
+									<not>
+										<test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature" />
+			                   		</not>
+								</and>
+							</adapt>
+						</iterate>
+					</and>
+				</with>
+			</activeWhen>
+       </handler>
+       <handler
+             class="org.jboss.tools.cdi.ui.internal.handlers.RemoveCDISupportHandler"
+             commandId="org.jboss.tools.cdi.ui.project.configure.disable">
+             <activeWhen>
+				<with variable="selection">
+					<and>
+						<count value="1"/>
+						<iterate ifEmpty="false" operator="and">
+							<adapt type="org.eclipse.core.resources.IProject">
+								<and>								
+									<test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature" />
+								</and>
+							</adapt>
+						</iterate>
+					</and>
+				</with>
+			</activeWhen>
+       </handler>
 	</extension>
 	
    	<extension
          point="org.eclipse.ui.commands">
       	<command
             	categoryId="org.eclipse.ui.category.navigate"
-            	description="Open CDI Named Bean"
+            	description="%NavigationMenu_OpenCDINamedBean"
             	id="org.jboss.tools.cdi.ui.open.namedBean"
-            	name="Open CDI Named Bean">
+            	name="%NavigationMenu_OpenCDINamedBean">
+      	</command>
+      	<command
+            	categoryId="org.eclipse.ui.category.project"
+            	description="%ConfigureMenu_AddCDISupport"
+            	id="org.jboss.tools.cdi.ui.project.configure.enable"
+            	name="%ConfigureMenu_AddCDISupport">
+      	</command>
+      	<command
+            	categoryId="org.eclipse.ui.category.project"
+            	description="%ConfigureMenu_RemoveCDISupport"
+            	id="org.jboss.tools.cdi.ui.project.configure.disable"
+            	name="%ConfigureMenu_RemoveCDISupport">
       	</command>
 	</extension>
 	
@@ -375,7 +396,6 @@
          <newWizardShortcut
                id="org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard">
          </newWizardShortcut>
-		 <actionSet id="org.jboss.tools.cdi.ui.actionSet" />
       </perspectiveExtension>
 
       <perspectiveExtension
@@ -389,12 +409,6 @@
          <newWizardShortcut
                id="org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard">
          </newWizardShortcut>
-         <actionSet id="org.jboss.tools.cdi.ui.actionSet" />
-      </perspectiveExtension>
-      
-      <perspectiveExtension
-            targetID="org.eclipse.debug.ui.DebugPerspective">
-         <actionSet id="org.jboss.tools.cdi.ui.actionSet" />
       </perspectiveExtension>
    </extension>
 

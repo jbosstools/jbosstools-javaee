@@ -28,8 +28,11 @@ import org.jboss.tools.cdi.ui.wizard.OpenCDINamedBeanDialog.CDINamedBeanWrapper;
 /**
  * 
  * @author Victor V. Rubezhny
+ * 
+ * @deprecated use org.jboss.tools.cdi.ui.internal.handlers.OpenCDINamedBeanHandler
  *
  */
+@Deprecated
 public class OpenCDINamedBeanAction  extends Action implements IWorkbenchWindowActionDelegate, IActionDelegate2 {
 
 	public OpenCDINamedBeanAction() {

@@ -8,14 +8,15 @@
  * Contributors:
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
-package org.jboss.tools.jsf.ui.action;
+package org.jboss.tools.jsf.ui.internal.handlers;
 
 import java.util.Set;
 
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.ui.PlatformUI;
@@ -29,7 +30,7 @@ import org.eclipse.wst.common.project.facet.ui.internal.FacetsPropertyPage;
 import org.eclipse.wst.common.project.facet.ui.internal.SharedWorkingCopyManager;
 import org.jboss.tools.common.meta.key.WizardKeys;
 import org.jboss.tools.common.model.ui.ModelUIPlugin;
-import org.jboss.tools.common.model.ui.action.AddNatureActionDelegate;
+import org.jboss.tools.common.model.ui.internal.handlers.AddNatureHandler;
 import org.jboss.tools.common.model.ui.util.ExtensionPointUtils;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
@@ -40,18 +41,12 @@ import org.jboss.tools.jst.web.WebModelPlugin;
 import org.jboss.tools.jst.web.kb.internal.KbBuilder;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
 
-/**
- * 
- * @deprecated use org.jboss.tools.jsf.ui.internal.handlers.AddJSFNatureHandler
- *
- */
-@Deprecated
-public class AddJSFNatureActionDelegate extends AddNatureActionDelegate {
+public class AddJSFNatureHandler extends AddNatureHandler {
 	boolean showDialog = true;
 	
-	public AddJSFNatureActionDelegate() {}
+	public AddJSFNatureHandler() {}
 	
-	public AddJSFNatureActionDelegate(boolean showDialog) {
+	public AddJSFNatureHandler(boolean showDialog) {
 		this.showDialog = showDialog;
 	}
 	
@@ -72,9 +67,11 @@ public class AddJSFNatureActionDelegate extends AddNatureActionDelegate {
 		return JSFNature.NATURE_ID;
 	}
 	
-	public void run(IAction action) {
+	public Object execute(ExecutionEvent event) throws ExecutionException{
+		findSelectedProject(event);
 		ConvertProjectToFacetedFormRunnable.runInProgressDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), project);
 		addJSFNature(project, showDialog);
+		return null;
 	}
 
 	/**

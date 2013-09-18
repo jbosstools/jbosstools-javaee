@@ -1,30 +1,23 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2013 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
- ******************************************************************************/ 
-package org.jboss.tools.jsf.ui.action;
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
+package org.jboss.tools.jsf.ui.internal.handlers;
 
 import java.util.Properties;
 
+import org.jboss.tools.common.meta.action.SpecialWizard;
+import org.jboss.tools.common.model.ui.internal.handlers.RemoveModelNatureHandler;
 import org.jboss.tools.jsf.model.handlers.RemoveJSFNatureContribution;
 import org.jboss.tools.jsf.project.JSFNature;
-import org.jboss.tools.common.meta.action.SpecialWizard;
-import org.jboss.tools.common.model.handlers.RemoveModelNatureHandler;
-import org.jboss.tools.common.model.ui.action.file.RemoveModelNatureActionDelegate;
 
-/**
- * 
- * @deprecated use org.jboss.tools.jsf.ui.internal.handlers.RemoveJSFNatureHandler
- *
- */
-@Deprecated
-public class RemoveJSFNatureActionDelegate extends RemoveModelNatureActionDelegate {
+public class RemoveJSFNatureHandler extends RemoveModelNatureHandler {
 	protected String getModelNatureName() {
 		return JSFNature.NATURE_ID;
 	}

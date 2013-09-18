@@ -186,7 +186,6 @@
                id="org.eclipse.debug.ui.breakpointActionSet">
          </actionSet>
          <actionSet id="org.eclipse.wst.server.ui.internal.webbrowser.actionSet"/>
-         <actionSet id="org.jboss.tools.seam.ui.actionSet" />
       </perspectiveExtension>
    </extension>
 
@@ -588,22 +587,34 @@
          point="org.eclipse.ui.commands">
       <command
             categoryId="org.eclipse.ui.category.navigate"
-            description="Open Seam Component"
+            description="%NavigateMenu_OpenSeamComponents"
             id="org.jboss.tools.seam.ui.open.component"
-            name="Open Seam Component">
+            name="%NavigateMenu_OpenSeamComponents">
       </command>
       <command
             categoryId="org.eclipse.search.ui.category.search"
-            description="Find Seam Declarations"
+            description="%SearchMenu_FindSeamDeclarations"
             id="org.jboss.tools.seam.ui.find.declarations"
-            name="Find Seam Declarations">
+            name="%SearchMenu_FindSeamDeclarations">
       </command>
       <command
             categoryId="org.eclipse.search.ui.category.search"
-            description="Find Seam References"
+            description="%SearchMenu_FindSeamReferences"
             id="org.jboss.tools.seam.ui.find.references"
-            name="Find Seam References">
+            name="%SearchMenu_FindSeamReferences">
       </command>
+		<command
+		    	categoryId="org.eclipse.ui.category.project"
+		    	description="%popupMenus.action.addSeamSupport"
+		    	id="org.jboss.tools.seam.ui.project.configure.enable"
+		    	name="%popupMenus.action.addSeamSupport">
+		</command>
+		<command
+		    	categoryId="org.eclipse.ui.category.project"
+		    	description="%popupMenus.action.removeSeamSupport"
+		    	id="org.jboss.tools.seam.ui.project.configure.disable"
+		    	name="%popupMenus.action.removeSeamSupport">
+		</command>
    </extension>
    
    <extension
@@ -675,26 +686,10 @@
      		markerType="org.eclipse.wst.validation.problemmarker"/>
 	</extension>
 
-<!-- Refactorng -->
-	<extension
-		point="org.eclipse.ui.menus">
-		<!--menuContribution
-          class="org.jboss.tools.seam.ui.refactoring.SeamRefactorContributionFactory"
-          locationURI="popup:#CompilationUnitEditorContext?after=org.eclipse.jdt.ui.refactoring.menu">
-    	</menuContribution-->
-    <menuContribution
-          class="org.jboss.tools.seam.ui.refactoring.SeamRefactorContributionFactory"
-          locationURI="popup:org.eclipse.ui.popup.any?after=save">
-    </menuContribution>
-	</extension> 
-
-
-
  <extension
        point="org.jboss.tools.common.model.ui.attributeContentProposalProviders">
     <provider class="org.jboss.tools.seam.ui.views.properties.SeamELAttributeContentProposalProvider"/>
  </extension>
-
  
  <extension
          point="org.eclipse.wst.common.project.facet.core.facets">
@@ -702,93 +697,158 @@
       	<delegate class="org.jboss.tools.seam.ui.dialog.SeamFacetVersionChangeDelegate"/>
     </action>
  </extension>
- <extension
-       point="org.eclipse.ui.menus">
-       <menuContribution
-          locationURI="menu:navigate?after=open.ext2">
-  </menuContribution>
-  <menuContribution
-                locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
-                <toolbar
-                      id="org.eclipse.search.searchActionSet">
+	<extension point="org.eclipse.ui.menus">
+	    <menuContribution
+	          class="org.jboss.tools.seam.ui.refactoring.SeamRefactorContributionFactory"
+	          locationURI="popup:org.eclipse.ui.popup.any?after=save">
+	    </menuContribution>
+	
+		<menuContribution locationURI="menu:navigate?after=open.ext2">
+			<command commandId="org.jboss.tools.seam.ui.open.component"
+            	id="org.jboss.tools.seam.ui.openComponent"
+              	mnemonic="Z"
+     			icon="$nl$/icons/open_seam_component.gif"
+              	label="%NavigateMenu_OpenSeamComponents"
+              	tooltip="%NavigateMenu_OpenSeamComponents" >
+              	<visibleWhen checkEnabled="true" />
+       		</command> 
+  		</menuContribution>
+  		<menuContribution locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+        	<toolbar id="org.eclipse.search.searchActionSet">
+            	<command commandId="org.jboss.tools.seam.ui.open.component"
+                	id="org.jboss.tools.seam.ui.openComponent"
+                  	mnemonic="Z"
+      				icon="$nl$/icons/open_seam_component.gif"
+                  	label="%NavigateMenu_OpenSeamComponents"
+                  	tooltip="%NavigateMenu_OpenSeamComponents" >
+	              	<visibleWhen checkEnabled="true" />
+           </command> 
          </toolbar>
   </menuContribution>
   <menuContribution
-     locationURI="menu:org.eclipse.ui.main.menu?after=navigate">
+   locationURI="menu:org.eclipse.ui.main.menu?after=navigate">
+
    <!-- Note: The menu (re-) definition has to be here due to bug: -->
    <!-- see http://bugs.eclipse.org/bugs/show_bug.cgi?id=15684    -->
    <!-- =================================================================== -->
    <!-- Search Menu                                                         -->
    <!-- =================================================================== -->
-   <menu
-     label="%searchMenu.label"
-     id="org.eclipse.search.menu">
-    <separator name="internalDialogGroup" visible="false"/>   <!-- not to be used by clients  -->
-    <separator name="dialogGroup" visible="false"/>           <!-- to be used by clients      -->
+   <menu label="%searchMenu.label" mnemonic="%searchMenu.label" id="org.eclipse.search.menu">
+    		<separator name="internalDialogGroup" visible="false"/>   <!-- not to be used by clients  -->
+    		<separator name="dialogGroup" visible="false"/>           <!-- to be used by clients      -->
            <separator name="seamSearchMenuActionsGroup"/> <!-- to be used by clients -->
+           <command
+                  commandId="org.jboss.tools.seam.ui.find.references"
+                  id="org.jboss.tools.seam.ui.findReferences"
+                  mnemonic="G"
+      				icon="$nl$/icons/find_seam_references.gif"
+                  label="%SearchMenu_FindSeamReferences"
+                  tooltip="%SearchMenu_FindSeamReferences" >
+			  <visibleWhen checkEnabled="true" />
+	       </command> 
+           <command
+                  commandId="org.jboss.tools.seam.ui.find.declarations"
+                  id="org.jboss.tools.seam.ui.findDeclarations"
+                  mnemonic="G"
+                  icon="$nl$/icons/open_seam_component.gif"
+                  label="%SearchMenu_FindSeamDeclarations"
+                  tooltip="%SearchMenu_FindSeamDeclarations" >
+				<visibleWhen checkEnabled="true" />
+           </command> 
+                  
     <separator name="fileSearchContextMenuActionsGroup"/> <!-- to be used by clients      -->
            <separator name="contextMenuActionsGroup"/> <!-- to be used by clients -->
            <separator name="occurencesActionsGroup"/> <!-- to be used by clients -->
            <separator name="extraSearchGroup"/> <!-- to be used by clients -->
           </menu>
   </menuContribution>
+	 <menuContribution
+	       allPopups="false"
+	       locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
+	    <command
+	          commandId="org.jboss.tools.seam.ui.project.configure.enable"
+	          id="org.jboss.tools.seam.ui.addSeamSupport"
+	          label="%ConfigureMenu_AddSeamSupport"
+	          style="push">
+              <visibleWhen checkEnabled="true" />
+	    </command>
+	    <command
+	          commandId="org.jboss.tools.seam.ui.project.configure.disable"
+	          id="org.jboss.tools.seam.ui.removeSeamSupport"
+	          label="%ConfigureMenu_RemoveSeamSupport"
+	          style="push">
+              <visibleWhen checkEnabled="true" />
+	    </command>
+	 </menuContribution>
+  
  </extension>
- 
-   <extension
-         point="org.eclipse.ui.actionSets">
-      <actionSet
-            description="%ActionSetSeamUIDescription"
-            id="org.jboss.tools.seam.ui.actionSet"
-            label="%ActionSetSeamUILabel"
-            visible="false">
-            <action id="openComponent" 
-	      		style="push"
-				label="Open Seam Component"
-                tooltip="Open Seam Component"
-                definitionId="org.jboss.tools.seam.ui.open.component"
-				toolbarPath="org.eclipse.search.searchActionSet/Search"
-				menubarPath="navigate/open.ext2"
-	      		icon="$nl$/icons/open_seam_component.gif"
-	      		disabledIcon="$nl$/icons/open_seam_component.gif"
-	      		class="org.jboss.tools.seam.ui.actions.OpenSeamComponentAction">
-			</action>
-            <action id="findReferences" 
-	      		style="push"
-				label="Find Seam References"
-                tooltip="Find Seam References"
-                definitionId="org.jboss.tools.seam.ui.find.references" 
-				menubarPath="org.eclipse.search.menu/seamSearchMenuActionsGroup"
-	      		icon="$nl$/icons/find_seam_references.gif"
-	      		disabledIcon="$nl$/icons/find_seam_references.gif"
-	      		class="org.jboss.tools.seam.ui.actions.FindSeamReferencesAction">
-            </action>
-            <action id="findDeclarations" 
-	      		style="push"
-				label="Find Seam Declarations"
-                tooltip="Find Seam Declarations"
-                definitionId="org.jboss.tools.seam.ui.find.declarations" 
-				menubarPath="org.eclipse.search.menu/seamSearchMenuActionsGroup"
-	      		icon="$nl$/icons/find_seam_declarations.gif"
-	      		disabledIcon="$nl$/icons/find_seam_declarations.gif"
-	      		class="org.jboss.tools.seam.ui.actions.FindSeamDeclarationsAction">
-            </action>
-      </actionSet>
-   </extension>
 
  <extension
        point="org.eclipse.ui.handlers">
-    <!-- handler
+    <handler
           class="org.jboss.tools.seam.ui.handlers.OpenSeamComponentHandler"
           commandId="org.jboss.tools.seam.ui.open.component">
+          <activeWhen>
+          	<with variable="activeWorkbenchWindow.activePerspective">
+				<equals value="org.jboss.tools.seam.ui.SeamPerspective"/>
+			</with>
+          </activeWhen>
     </handler>
     <handler
           class="org.jboss.tools.seam.ui.handlers.FindSeamReferencesHandler"
           commandId="org.jboss.tools.seam.ui.find.references">
+          <activeWhen>
+          	<with variable="activeWorkbenchWindow.activePerspective">
+				<equals value="org.jboss.tools.seam.ui.SeamPerspective"/>
+			</with>
+          </activeWhen>
     </handler>
     <handler
           class="org.jboss.tools.seam.ui.handlers.FindSeamDeclarationsHandler"
           commandId="org.jboss.tools.seam.ui.find.declarations">
-    </handler -->
+          <activeWhen>
+          	<with variable="activeWorkbenchWindow.activePerspective">
+				<equals value="org.jboss.tools.seam.ui.SeamPerspective"/>
+			</with>
+          </activeWhen>
+    </handler>
+	<handler
+          class="org.jboss.tools.seam.ui.internal.handlers.AddSeamSupportHandler"
+          commandId="org.jboss.tools.seam.ui.project.configure.enable">
+          <activeWhen>
+	          <with variable="selection">
+					<and>
+						<count value="1"/>
+						<iterate ifEmpty="false" operator="and">
+							<adapt type="org.eclipse.core.resources.IProject">
+								<and>								
+									<test property="org.eclipse.core.resources.projectNature" value="org.eclipse.jdt.core.javanature" />
+									<not>
+										<test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.seam.core.seamnature" />
+			                   		</not>
+								</and>
+							</adapt>
+						</iterate>
+					</and>
+				</with>
+          </activeWhen>
+    </handler>
+    <handler
+          class="org.jboss.tools.seam.ui.internal.handlers.RemoveSeamSupportHandler"
+          commandId="org.jboss.tools.seam.ui.project.configure.disable">
+		  <activeWhen>
+				<with variable="selection">
+					<and>
+						<count value="1"/>
+						<iterate ifEmpty="false" operator="and">
+							<adapt type="org.eclipse.core.resources.IProject">
+								<test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.seam.core.seamnature" />
+							</adapt>
+						</iterate>
+					</and>
+				</with>
+          </activeWhen>
+    </handler>    
  </extension>
  
    <extension point="org.jboss.tools.common.model.classes">
@@ -796,55 +856,7 @@
               class="org.jboss.tools.seam.ui.views.actions.RenameComponentAction"/>
    </extension>
 
-	<extension
-		point="org.eclipse.ui.popupMenus">
-
-		<objectContribution
-			id="org.jboss.tools.seam.ui.project.configure.enable"
-			objectClass="org.eclipse.core.resources.IProject"
-			adaptable="true">
-			<visibility>
-				<and>
-					<objectState 
-						name="projectNature"
-						value="org.eclipse.jdt.core.javanature"/>
-					<not>
-						<objectState 
-							name="projectNature"
-							value="org.jboss.tools.seam.core.seamnature"/>
-					</not>
-				</and>
-			</visibility>
-
-			<action
-				id="org.jboss.tools.seam.ui.AddSeamSupport"
-				label="%ConfigureMenu_AddSeamSupport"
-				class="org.jboss.tools.seam.ui.preferences.AddSeamSupportAction"
-				enablesFor="1"
-				menubarPath="org.eclipse.ui.projectConfigure/additions"/>
-
-		</objectContribution>
-
-		<objectContribution
-			id="org.jboss.tools.seam.ui.project.configure.disable"
-			objectClass="org.eclipse.core.resources.IProject"
-			adaptable="true">
-			<visibility>
-				<objectState 
-					name="projectNature"
-					value="org.jboss.tools.seam.core.seamnature"/>
-			</visibility>
-
-			<action
-				id="org.jboss.tools.seam.ui.RemoveSeamSupport"
-				label="%ConfigureMenu_RemoveSeamSupport"
-				class="org.jboss.tools.seam.ui.preferences.RemoveSeamSupportAction"
-				enablesFor="1"
-				menubarPath="org.eclipse.ui.projectConfigure/additions"/>
-
-		</objectContribution>
-	</extension>
-	<extension point="org.eclipse.ui.ide.markerResolution">
+   <extension point="org.eclipse.ui.ide.markerResolution">
 		<markerResolutionGenerator
 			markerType="org.eclipse.wst.validation.problemmarker"
 			class="org.jboss.tools.seam.ui.marker.SeamProblemMarkerResolutionGenerator"/>

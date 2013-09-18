@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.ui.editor.check;
 
 import java.text.MessageFormat;
 
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.ui.PlatformUI;
@@ -40,7 +41,11 @@ public class JSFNaturesInfoDialog extends ProjectNaturesInfoDialog {
 				.getActiveWorkbenchWindow().getShell().getDisplay(),
 				new Runnable() {
 					public void run() {
-						AddJSFCapabilitiesWizard.getInstance(project).run(null);
+						try {
+							AddJSFCapabilitiesWizard.getInstance(project).execute(null);
+						} catch (ExecutionException e) {
+							JsfUiPlugin.getPluginLog().logError(e);
+						}
 					}
 				});
 	}

@@ -12,7 +12,11 @@ package org.jboss.tools.cdi.ui.preferences;
 
 /**
  * @author Alexey Kazakov
+ * 
+ * @deprecated use org.jboss.tools.cdi.ui.internal.handlers.RemoveCDISupportHandler
+ *
  */
+@Deprecated
 public class RemoveCDISupportAction extends AddCDISupportAction {
 
 	/* (non-Javadoc)

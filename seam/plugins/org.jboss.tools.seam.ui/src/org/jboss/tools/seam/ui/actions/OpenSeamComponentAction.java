@@ -35,7 +35,10 @@ import org.jboss.tools.seam.ui.wizard.OpenSeamComponentDialog.SeamComponentWrapp
 /**
  * @author Daniel Azarov
  * 
+ * @deprecated use org.jboss.tools.seam.ui.handlers.OpenSeamComponentHandler
+ *
  */
+@Deprecated
 public class OpenSeamComponentAction extends Action implements IWorkbenchWindowActionDelegate, IActionDelegate2 {
 
 	public OpenSeamComponentAction() {

@@ -22,7 +22,11 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
 
 /**
  * @author Alexey Kazakov
+ * 
+ * @deprecated use org.jboss.tools.seam.ui.internal.handlers.AddSeamSupportHandler
+ *
  */
+@Deprecated
 public class AddSeamSupportAction implements IObjectActionDelegate {
 
 	private ISelection currentSelection;
