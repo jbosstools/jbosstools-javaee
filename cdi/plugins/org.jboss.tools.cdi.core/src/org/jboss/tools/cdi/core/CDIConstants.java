@@ -29,6 +29,7 @@ public interface CDIConstants {
 	public String NEW_QUALIFIER_TYPE_NAME = "javax.enterprise.inject.New";
 
 	public String VETOED_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Vetoed";
+	public String PRIORITY_ANNOTATION_TYPE_NAME = "javax.annotation.Priority";
 
 	public String STEREOTYPE_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Stereotype";
 	public String MODEL_STEREOTYPE_TYPE_NAME = "javax.enterprise.inject.Model";

@@ -15,6 +15,7 @@ import java.util.Collection;
 
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
@@ -65,6 +66,7 @@ public class DecoratorBean extends ClassBean implements IDecorator {
 	 */
 	@Override
 	public boolean isEnabled() {
-		return !getCDIProject().getDecoratorClasses(getBeanClass().getFullyQualifiedName()).isEmpty();
+		return !getCDIProject().getDecoratorClasses(getBeanClass().getFullyQualifiedName()).isEmpty() 
+				|| getAnnotation(CDIConstants.PRIORITY_ANNOTATION_TYPE_NAME) != null;
 	}
 }

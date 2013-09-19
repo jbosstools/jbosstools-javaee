@@ -97,6 +97,7 @@ import org.jboss.tools.cdi.core.test.tck11.InterceptorDefinitionCDI11Test;
 import org.jboss.tools.cdi.core.test.tck11.NameDefinitionCDI11Test;
 import org.jboss.tools.cdi.core.test.tck11.NamedBeanRefactoringCDI11Test;
 import org.jboss.tools.cdi.core.test.tck11.ObserverMethodResolutionCDI11Test;
+import org.jboss.tools.cdi.core.test.tck11.PriorityCDI11Test;
 import org.jboss.tools.cdi.core.test.tck11.ProducerMethodDefinitionCDI11Test;
 import org.jboss.tools.cdi.core.test.tck11.QualifierDefinitionCDI11Test;
 import org.jboss.tools.cdi.core.test.tck11.QualifierWithMembersCDI11Test;
@@ -307,6 +308,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(CDIUtilCDI11Test.class);
 		suite.addTestSuite(CoreCDI11Test.class);
 		suite.addTestSuite(ResourceExclusionCDI11Test.class);
+		suite.addTestSuite(PriorityCDI11Test.class);
 
 		// Marker validation tests
 		suite.addTestSuite(DefenitionErrorsValidationCDI11Test.class);

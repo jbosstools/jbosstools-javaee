@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 
@@ -27,7 +28,8 @@ public class InterceptorBean extends ClassBean implements IInterceptor {
 	}
 
 	public boolean isEnabled() {
-		return !getCDIProject().getInterceptorClasses(getBeanClass().getFullyQualifiedName()).isEmpty();
+		return !getCDIProject().getInterceptorClasses(getBeanClass().getFullyQualifiedName()).isEmpty()
+			|| getAnnotation(CDIConstants.PRIORITY_ANNOTATION_TYPE_NAME) != null;
 	}
 
 }
