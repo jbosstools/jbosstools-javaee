@@ -88,4 +88,11 @@ public interface IClassBean extends IBean, IInterceptorBinded, IJavaReference {
 	 * @return
 	 */
 	Collection<IInjectionPoint> getInjectionPoints(boolean all);
+
+	/**
+	 * Returns value of annotation @Priority(int) if it is present for CDI 1.1.
+	 * Otherwise, returns null.
+	 * @return
+	 */
+	Integer getPriority();
 }

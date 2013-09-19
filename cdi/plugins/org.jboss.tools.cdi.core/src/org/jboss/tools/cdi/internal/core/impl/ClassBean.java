@@ -436,6 +436,9 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			return false;
 		}
 		if(isAlternative()) {
+			if(getAnnotation(CDIConstants.PRIORITY_ANNOTATION_TYPE_NAME) != null) {
+				return true;
+			}
 			if(getCDIProject().isClassAlternativeActivated(getDefinition().getQualifiedName())) {
 				return true;
 			}
@@ -568,8 +571,13 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	 * @see org.jboss.tools.cdi.core.IBean#isSelectedAlternative()
 	 */
 	public boolean isSelectedAlternative() {
-		if(getDefinition().getAlternativeAnnotation() != null && getCDIProject().isTypeAlternative(getBeanClass().getFullyQualifiedName())) {
-			return true;
+		if(getDefinition().getAlternativeAnnotation() != null) {
+			if(getCDIProject().isTypeAlternative(getBeanClass().getFullyQualifiedName())) {
+				return true;
+			}
+			if(getAnnotation(CDIConstants.PRIORITY_ANNOTATION_TYPE_NAME) != null) {
+				return true;
+			}
 		}
 		for (IStereotypeDeclaration d: getStereotypeDeclarations(true)) {
 			IStereotype s = d.getStereotype();
@@ -636,5 +644,20 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		for (BeanField f: fields) {
 			f.setField(f.getField()); // type update
 		}
+	}
+
+	@Override
+	public Integer getPriority() {
+		IAnnotationDeclaration d = getAnnotation(CDIConstants.PRIORITY_ANNOTATION_TYPE_NAME);
+		if(d instanceof AnnotationDeclaration) {
+			Object o = ((AnnotationDeclaration)d).getMemberConstantValue(null);
+			if(o == null) {
+				o = d.getMemberValue(null);
+			}
+			if(o instanceof Integer) {
+				return (Integer)o;
+			}
+		}
+		return null;
 	}
 }

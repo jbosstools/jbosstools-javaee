@@ -301,4 +301,10 @@ public class CDIBean extends CDIElement implements IClassBean{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public Integer getPriority() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

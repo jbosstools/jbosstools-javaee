@@ -234,9 +234,9 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			return result;
 		}
 		
-		boolean containsAlternatives = false;
 		Iterator<IBean> it = result.iterator();
 		Set<IBean> disabled = null;
+		Set<IBean> alternatives = null;
 		while(it.hasNext()) {
 			IBean b = it.next();
 			if(!b.isEnabled() || b instanceof IDecorator || b instanceof IInterceptor) {
@@ -245,7 +245,10 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			}
 			if(b.isAlternative()) {
 				if(b.isSelectedAlternative()) {
-					containsAlternatives = true;
+					if(alternatives == null) {
+						alternatives = new HashSet<IBean>();
+					}
+					alternatives.add(b);
 				} else {
 					it.remove();
 				}
@@ -253,7 +256,10 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			if(b instanceof IProducer && b instanceof IBeanMember) {
 				IBeanMember p = (IBeanMember)b;
 				if(p.getClassBean() != null && p.getClassBean().isAlternative()) {
-					containsAlternatives = true;
+					if(alternatives == null) {
+						alternatives = new HashSet<IBean>();
+					}
+					alternatives.add(b);
 				}
 			}
 			IBean bean = b.getSpecializedBean();
@@ -273,16 +279,38 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			return result;
 		}
 
-		if(containsAlternatives) {
-			it = result.iterator();
-			while(it.hasNext()) {
-				IBean bean = it.next();
-				if(bean.isAlternative()) continue;
-				if(bean instanceof IProducer && bean instanceof IBeanMember) {
-					IBeanMember p = (IBeanMember)bean;
-					if(p.getClassBean() != null && p.getClassBean().isAlternative()) continue;
+		if(alternatives != null) {
+			result = alternatives;
+			if(result.size() < 2) {
+				return result;
+			}
+			alternatives = new HashSet<IBean>();
+			Integer maxPriority = null;
+			for (IBean b: result) {
+				Integer priority = null;
+				if(b instanceof IClassBean) {
+					priority = ((IClassBean)b).getPriority();
+				} else if(b instanceof IProducer && b instanceof IBeanMember) {
+					priority = ((IBeanMember)b).getClassBean().getPriority();
 				}
-				it.remove();
+				if(priority == null) {
+					maxPriority = null;
+					break;
+				} else {
+					if(maxPriority == null) {
+						maxPriority = priority;
+						alternatives.add(b);
+					} else if(priority.intValue() > maxPriority.intValue()) {
+						maxPriority = priority;
+						alternatives.clear();
+						alternatives.add(b);
+					} else if(priority.intValue() == maxPriority.intValue()) {
+						alternatives.add(b);
+					}
+				}
+			}
+			if(maxPriority != null) {
+				result = alternatives;
 			}
 		}
 		
