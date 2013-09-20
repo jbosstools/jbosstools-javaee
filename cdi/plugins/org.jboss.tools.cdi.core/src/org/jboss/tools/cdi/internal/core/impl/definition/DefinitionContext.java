@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.internal.core.impl.definition;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -437,15 +438,10 @@ public class DefinitionContext implements IRootDefinitionContext {
 				|| (result.getType().getJavaProject() != null && result.getType().getJavaProject().getProject() != project.getProject())
 				) {
 			//3. Look in annotations loaded by used projects
-			Set<CDICoreNature> ns = project.getCDIProjects(false);
 			Set<CDICoreNature> ns2 = project.getCDIProjects(true);
-			boolean cyclic = ns2.contains(project);
-			if(cyclic) {
-				ns = ns2;
-			}
-			for (CDICoreNature n: ns) {
+			for (CDICoreNature n: toListOrderedByDependencies(ns2)) {
 				DefinitionContext d = n.getDefinitions();
-				AnnotationDefinition r = (!cyclic) ? d.getAnnotation(fullyQualifiedName) : d.annotations.get(fullyQualifiedName);
+				AnnotationDefinition r = d.annotations.get(fullyQualifiedName);
 				if(r != null) {
 					result = r;
 					//4. Store result for the case if used project is cleaned.
@@ -484,6 +480,36 @@ public class DefinitionContext implements IRootDefinitionContext {
 		result.addAll(annotations.values());
 		//2. Add stored annotations loaded by used projects. They may be out-of-date.
 		result.addAll(usedAnnotations.values());
+		return result;
+	}
+
+	public List<AnnotationDefinition> getAllAnnotationsWithDependencies() {
+		Set<CDICoreNature> ps = project.getCDIProjects(true);
+		if(ps.isEmpty() || ps.contains(project)) {
+			return getAllAnnotations();
+		}
+		List<AnnotationDefinition> result = new ArrayList<AnnotationDefinition>();
+		Set<IType> types = new HashSet<IType>();
+		for (CDICoreNature p: toListOrderedByDependencies(ps)) {
+			List<AnnotationDefinition> ds2 = p.getDefinitions().getAllAnnotations();
+			for (AnnotationDefinition d: ds2) {
+				IType t = d.getType();
+				if(t != null && !types.contains(t)) {
+					types.add(t);
+					result.add(d);
+				}
+			}
+		}
+
+		List<AnnotationDefinition> ds = getAllAnnotations();
+		for (AnnotationDefinition d: ds) {
+			IType t = d.getType();
+			if(t != null && !types.contains(t)) {
+				types.add(t);
+				result.add(d);
+			}
+		}
+
 		return result;
 	}
 
@@ -578,5 +604,73 @@ public class DefinitionContext implements IRootDefinitionContext {
 		return dependencies;
 	}
 	
-}
+	/**
+	 * Returns list with projects ordered by dependencies. 
+	 * First go projects that do not depend on others, 
+	 * then projects that depend only on these projects,
+	 * and so on until the entire set is exhausted.
+	 * In the case of circular dependencies, the order is not determined,
+	 * the method will return some order that ignores (randomly chosen)
+	 * wrong dependencies.
+	 * 
+	 * @param set
+	 * @return
+	 */
+	public static List<CDICoreNature> toListOrderedByDependencies(Set<CDICoreNature> set) {
+		List<CDICoreNature> result = new ArrayList<CDICoreNature>();
+		if(set.size() < 2) {
+			result.addAll(set);
+			return result;
+		}
 
+		Map<CDICoreNature, Integer> map = new HashMap<CDICoreNature, Integer>();
+		LinkedList<CDICoreNature> leaves = new LinkedList<CDICoreNature>();
+		for (CDICoreNature n: set) {
+			int k = n.countDirectDependencies(set);
+			if(k == 0) {
+				leaves.addLast(n);
+			} else {
+				map.put(n, k);
+			}
+		}
+		while(!map.isEmpty() || !leaves.isEmpty()) {
+			while(!leaves.isEmpty()) {
+				CDICoreNature n = leaves.removeFirst();
+				result.add(n);
+				synchronized(n) {
+					for (CDICoreNature c: n.getDependentProjects()) {
+						Integer i = map.get(c);
+						if(i != null) {
+							if(i > 1) {
+								map.put(c, i - 1);
+							} else {
+								map.remove(c);
+								leaves.addLast(c);
+							}
+						}
+					}					
+				}
+			}
+			if(!map.isEmpty()) {
+				//This code will only work when dependencies contain loops.
+				//The order is not very important because user has to fix dependencies anyway.
+				//But let us try and find some nice order without wasting much time.
+				int m = map.size() + 1;
+				CDICoreNature n = null;
+				for (Map.Entry<CDICoreNature,Integer> e: map.entrySet()) {
+					if(e.getValue() < m) {
+						m = e.getValue();
+						n = e.getKey();
+					}
+				}
+				if(n == null) {
+					n = map.keySet().iterator().next();
+				}
+				map.remove(n);
+				leaves.addLast(n);
+			}
+		}
+		return result;
+	}
+
+}
