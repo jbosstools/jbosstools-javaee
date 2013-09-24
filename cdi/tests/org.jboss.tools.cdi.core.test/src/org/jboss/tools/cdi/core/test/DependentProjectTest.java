@@ -41,12 +41,16 @@ import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IScope;
+import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.ProducerMethod;
+import org.jboss.tools.cdi.internal.core.impl.QualifierElement;
+import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
@@ -568,6 +572,66 @@ public class DependentProjectTest extends TestCase {
 
 		assertEquals(-1, list.indexOf(natures[0]));
 		checkOrder(natures, list);
+	}
+
+	public void testProjectClose() throws Throwable {
+		//1. Just check that CDITest2 has annotation type Named
+		//   and it comes from CDITest1.
+		ICDIProject cdi2 = CDICorePlugin.getCDIProject(project2, true);
+		QualifierElement q = ((CDIProject)cdi2).getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+		assertNotNull(q);
+		IType type = q.getDefinition().getType();
+		assertNotNull(type);
+		assertEquals("CDITest1", type.getJavaProject().getElementName());
+		
+		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
+
+		try {
+
+		//2. Clean CDITest2 and make it look up annotation Named in parent project. 
+		project2.build(IncrementalProjectBuilder.CLEAN_BUILD, null);		
+		cdi2.getNature().getDefinitions().getAnnotationKind(type);
+		AnnotationDefinition d = cdi2.getNature().getDefinitions().getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+		assertNotNull(d);
+		assertTrue(type == d.getType());
+
+		//3. Clean CDITest1 and make sure that annotation Named is
+		//   still belongs to CDITest1 - it will be taken from 
+		//   usedAnnotations cache.
+		project1.build(IncrementalProjectBuilder.CLEAN_BUILD, null);
+		project2.build(IncrementalProjectBuilder.FULL_BUILD, null);
+		JobUtils.waitForIdle();
+		q = ((CDIProject)cdi2).getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+		assertNotNull(q);
+		assertTrue(d == q.getDefinition());
+
+		//4. Close CDITest1 and check that annotation Named is
+		//   found in CDITest2.
+		project1.close(null);
+		project2.build(IncrementalProjectBuilder.FULL_BUILD, null);
+		JobUtils.waitForIdle();
+	
+		q = ((CDIProject)cdi2).getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+		assertNotNull(q);
+		type = q.getDefinition().getType();
+		assertNotNull(type);
+		assertEquals("CDITest2", type.getJavaProject().getElementName());
+
+		} finally {
+			//Restore project CDITest1 and build for other tests.
+			project1.open(null);
+			project1.build(IncrementalProjectBuilder.FULL_BUILD, null);
+			project2.build(IncrementalProjectBuilder.FULL_BUILD, null);
+			project3.build(IncrementalProjectBuilder.FULL_BUILD, null);
+			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+		}
+
+		//5. Check initial state.
+		q = ((CDIProject)cdi2).getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+		assertNotNull(q);
+		type = q.getDefinition().getType();
+		assertNotNull(type);
+		assertEquals("CDITest1", type.getJavaProject().getElementName());
 	}
 
 }
