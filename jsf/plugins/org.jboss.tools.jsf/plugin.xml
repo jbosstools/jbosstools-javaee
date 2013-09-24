@@ -656,13 +656,18 @@
           locationURI="popup:refactorPopupMenuId">
        <command
              commandId="org.eclipse.jdt.ui.edit.text.java.rename.element"
-             label="Re&amp;name"
+             label="Re&amp;name Composite Component Attribute"
              style="push">
           <visibleWhen
                 checkEnabled="false">
-             <reference
-                   definitionId="org.jboss.tools.ui.structuredEditor">
-             </reference>
+            <and>
+				<with variable="activeEditorId">
+					<equals value="org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor"/>
+				</with>
+				<with variable="activeEditor">
+					<test property="org.jboss.tools.common.ui.matchesNature" value="org.jboss.tools.jsf.jsfnature"/>
+				</with>
+			</and>
           </visibleWhen>
        </command>
     </menuContribution>
@@ -670,22 +675,21 @@
           locationURI="menu:refactorMenuId">
        <command
              commandId="org.eclipse.jdt.ui.edit.text.java.rename.element"
-             label="Re&amp;name"
+             label="Re&amp;name Composite Component Attribute"
              style="push">
           <visibleWhen
                 checkEnabled="false">
-             <reference
-                   definitionId="org.jboss.tools.ui.structuredEditor">
-             </reference>
+            <and>
+				<with variable="activeEditorId">
+					<equals value="org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor"/>
+				</with>
+				<with variable="activeEditor">
+					<test property="org.jboss.tools.common.ui.matchesNature" value="org.jboss.tools.jsf.jsfnature"/>
+				</with>
+			</and>
           </visibleWhen>
        </command>
     </menuContribution>
-             <menuContribution 
-			locationURI="popup:org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor.source.EditorContext?before=org.jboss.tools.jst.jsp.i18n.ExternalizeAllStringsContributionItem">
-        	<command
-          		commandId="org.jboss.tools.jsf.web.commands.CreateJSF2CompositeCommand"
-          		style="toggle" />
-        </menuContribution>
         <menuContribution
               locationURI="popup:org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor.source.EditorContext?before=org.jboss.tools.jst.jsp.i18n.ExternalizeAllStringsContributionItem">
 			<command
@@ -704,23 +708,12 @@
        point="org.eclipse.ui.editorActions">
     <editorContribution
           id="org.jboss.tools.jsf.jsf2.refactor.rename"
-          targetID="org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor">
-       <action
-             class="org.jboss.tools.jsf.jsf2.refactoring.action.rename.RenameAction"
-             definitionId="org.eclipse.jdt.ui.edit.text.java.rename.element"
-             id="org.eclipse.jdt.ui.edit.text.java.rename.element"
-             label="Re&amp;name"
-             style="push">
-       </action>
-    </editorContribution>
-    <editorContribution
-          id="org.jboss.tools.jsf.jsf2.refactor.rename"
           targetID="org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor">
        <action
              class="org.jboss.tools.jsf.jsf2.refactoring.action.rename.RenameAction"
              definitionId="org.eclipse.jdt.ui.edit.text.java.rename.element"
              id="org.eclipse.jdt.ui.edit.text.java.rename.element"
-             label="Re&amp;name"
+             label="Re&amp;name Composite Component Attribute"
              style="push">
        </action>
     </editorContribution>
