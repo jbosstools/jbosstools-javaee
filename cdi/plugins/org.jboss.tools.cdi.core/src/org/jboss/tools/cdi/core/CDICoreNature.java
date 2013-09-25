@@ -363,6 +363,7 @@ public class CDICoreNature implements IProjectNature {
 		if(!dependsOn.contains(p)) return;
 		p.usedBy.remove(this);
 		dependsOn.remove(p);
+		definitions.clean(p.getProject());
 		//TODO
 	}
 

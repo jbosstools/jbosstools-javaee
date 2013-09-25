@@ -13,12 +13,14 @@ package org.jboss.tools.cdi.internal.core.impl.definition;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
@@ -234,9 +236,23 @@ public class DefinitionContext implements IRootDefinitionContext {
 		annotations.clear();
 		packageDefinitions.clear();
 		beanXMLs.clear();
-	
+
+		clean((IProject)null);
+
 		for (IDefinitionContextExtension e: extensions) e.clean();
 		dependencies.clean();
+	}
+
+	public synchronized void clean(IProject project) {
+		Iterator<String> it = usedAnnotations.keySet().iterator();
+		while(it.hasNext()) {
+			AnnotationDefinition d = usedAnnotations.get(it.next());
+			IType t = d.getType();
+			if(t == null || !t.exists() 
+					|| t.getJavaProject().getProject() == project || !t.getJavaProject().exists()) {
+				it.remove();
+			}
+		}
 	}
 
 	public void clean(IPath path) {
