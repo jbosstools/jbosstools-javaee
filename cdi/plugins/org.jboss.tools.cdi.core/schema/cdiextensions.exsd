@@ -66,6 +66,16 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="recognizer" type="string">
+            <annotation>
+               <documentation>
+                  Fully qualified name of implementation of IExtensionRecognizer that is called for runtime that is not expected to be registered in /META-INF/services/javax.enterprise.inject.spi.Extension
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":org.jboss.tools.cdi.core.extension.IExtensionRecognizer"/>
+               </appInfo>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

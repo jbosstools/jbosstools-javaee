@@ -8,6 +8,11 @@
 	          runtime="org.jboss.tools.cdi.core.fake.FakeExtension">
 	    </cdiextension>
 	    <cdiextension
+	          class="org.jboss.tools.cdi.core.test.extension.CDISystemExtensionImpl"
+	          recognizer="org.jboss.tools.cdi.core.extension.DefaultExtensionRecognizer"
+	          runtime="cdi.test.extension.MyExtension">
+	    </cdiextension>
+	    <cdiextension
 	          class="org.jboss.tools.cdi.core.test.tck.validation.extension.ExcludeExtension"
 	          runtime="org.jboss.jsr299.tck.tests.jbt.validation.inject.incremental.packageinfo.zoo.ExcludeExtension">
 	    </cdiextension>

@@ -620,6 +620,8 @@ public class DependentProjectTest extends TestCase {
 		} finally {
 			//Restore project CDITest1 and build for other tests.
 			project1.open(null);
+			JobUtils.waitForIdle();
+			project1.build(IncrementalProjectBuilder.CLEAN_BUILD, null);
 			project1.build(IncrementalProjectBuilder.FULL_BUILD, null);
 			project2.build(IncrementalProjectBuilder.FULL_BUILD, null);
 			project3.build(IncrementalProjectBuilder.FULL_BUILD, null);
