@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jdt.core.IJavaProject;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.extension.feature.ICDIFeature;
 
@@ -64,6 +65,12 @@ public class CDIExtensionFactory {
 	 * Maps fully qualified names of implementations of ICDIExtention to their Class objects.
 	 */
 	Map<String, Class<? extends ICDIExtension>> designToClass = new HashMap<String, Class<? extends ICDIExtension>>();
+
+	/**
+	 * Maps CDI runtime fully qualified names of extension implementations to
+	 * objects that check if a Java project contains that extension.
+	 */
+	Map<String, IExtensionRecognizer> recognizers = new HashMap<String, IExtensionRecognizer>();
 	
 	private CDIExtensionFactory() {
 		load();
@@ -75,6 +82,7 @@ public class CDIExtensionFactory {
 		for (IConfigurationElement c: cs) {
 			String runtime = c.getAttribute("runtime");
 			String cls = c.getAttribute("class");
+			String recognizer = c.getAttribute("recognizer");
 			ICDIExtension extension = null;
 			try {
 				Object o = c.createExecutableExtension("class");
@@ -97,6 +105,20 @@ public class CDIExtensionFactory {
 				runtimeToDesign.put(runtime, classes);
 			}
 			classes.add(cls);
+			
+			if(recognizer != null) {
+				try {
+					Object o = c.createExecutableExtension("recognizer");
+					if(!(o instanceof IExtensionRecognizer)) {
+						CDICorePlugin.getDefault().logError("CDI extension recognizer " + recognizer + " should implement IExtensionRecognizer.");
+					} else {
+						recognizers.put(runtime, (IExtensionRecognizer)o);
+					}
+				} catch (CoreException e) {
+					CDICorePlugin.getDefault().logError(e);
+					continue;
+				}
+			}
 		}
 	}
 
@@ -165,6 +187,28 @@ public class CDIExtensionFactory {
 		}
 		
 		return null;
+	}
+
+	/**
+	 * Returns set of CDI extensions, represented by runtime id,
+	 * for which the assigned recognizer determined that 
+	 * the given Java project contains that runtime.
+	 * This method is not supposed to check if runtime is 
+	 * registered in META-INF/services/javax.enterprise.inject.spi.Extension.
+	 * 
+	 * @param javaProject
+	 * @return
+	 */
+	public Set<String> getRecognizedRuntimes(IJavaProject javaProject) {
+		Set<String> result = new HashSet<String>();
+		for (Map.Entry<String, IExtensionRecognizer> entry: recognizers.entrySet()) {
+			String runtime = entry.getKey();
+			IExtensionRecognizer recognizer = entry.getValue();
+			if(recognizer.containsExtension(runtime, javaProject)) {
+				result.add(runtime);
+			}
+		}
+		return result;
 	}
 
 	static <F> F adaptTo(ICDIExtension extension, Class<F> feature) {

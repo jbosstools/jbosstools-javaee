@@ -30,9 +30,9 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
-import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.extension.CDIExtensionFactory;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
@@ -41,6 +41,14 @@ import org.jboss.tools.common.model.project.ext.AbstractClassPathMonitor;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
 public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
+	/**
+	 * Runtimes detected in jars are stored in CDIExtensionManager by jar path 
+	 * in order to replace them when jar is modified.
+	 * Runtimes detected with recognizers are not bound to jars so that they
+	 * are stored in CDIExtensionManager by a unique key.
+	 */
+	private static final String RECOGNIZED_RUNTIMES_PATH = "_recognized_";
+
 	IPath[] srcs = new IPath[0];
 
 	Map<FileAnyImpl, Long> servicesInSrc = new HashMap<FileAnyImpl, Long>();
@@ -104,6 +112,11 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 				if(nrd) newRuntimeDetected = true;
 			}
 		}
+
+		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(project.getProject());
+		Set<String> recognizedRuntimes = CDIExtensionFactory.getInstance().getRecognizedRuntimes(javaProject);
+		boolean nrd = project.getExtensionManager().setRuntimes(RECOGNIZED_RUNTIMES_PATH, recognizedRuntimes);
+		if(nrd) newRuntimeDetected = true;
 		
 		if(newRuntimeDetected) {
 			for (String p: processed) {
