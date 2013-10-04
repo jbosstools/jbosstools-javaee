@@ -109,4 +109,6 @@ public interface CDIConstants {
 	public String ELEMENT_TYPE_METHOD_NAME = "java.lang.annotation.ElementType.METHOD";
 	public String ELEMENT_TYPE_FIELD_NAME = "java.lang.annotation.ElementType.FIELD";
 	public String ELEMENT_TYPE_PARAMETER_NAME = "java.lang.annotation.ElementType.PARAMETER";
+
+	public String JMS_CONTEXT_TYPE_NAME = "javax.jms.JMSContext";
 }

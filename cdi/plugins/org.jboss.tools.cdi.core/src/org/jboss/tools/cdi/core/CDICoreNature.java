@@ -479,7 +479,7 @@ public class CDICoreNature implements IProjectNature {
 		typeFactory.clean();
 		CDICoreNature[] ps = getAllDependentProjects();
 		for (CDICoreNature n: ps) {
-			n.cleanTypeFactory();
+			n.typeFactory.clean();
 		}
 	}
 	
