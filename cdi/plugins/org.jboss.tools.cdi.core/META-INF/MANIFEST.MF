@@ -29,7 +29,9 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
  org.jboss.tools.common.validation,
  org.jboss.tools.cdi.xml;visibility:=reexport,
  org.eclipse.ui.ide;bundle-version="3.7.0",
- org.jboss.tools.common.ui;visibility:=reexport
+ org.jboss.tools.common.ui;visibility:=reexport,
+ org.eclipse.jst.j2ee.web;bundle-version="1.1.700",
+ org.eclipse.jst.jee.web;bundle-version="1.0.400"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: JBoss by Red Hat
@@ -37,14 +39,14 @@ Export-Package: org.jboss.tools.cdi.core,
  org.jboss.tools.cdi.core.extension,
  org.jboss.tools.cdi.core.extension.feature,
  org.jboss.tools.cdi.core.preferences,
- org.jboss.tools.cdi.internal.core.ca,
- org.jboss.tools.cdi.internal.core.el,
- org.jboss.tools.cdi.internal.core.event,
- org.jboss.tools.cdi.internal.core.impl,
- org.jboss.tools.cdi.internal.core.impl.definition,
- org.jboss.tools.cdi.internal.core.project.facet,
- org.jboss.tools.cdi.internal.core.refactoring,
- org.jboss.tools.cdi.internal.core.scanner,
- org.jboss.tools.cdi.internal.core.scanner.lib,
  org.jboss.tools.cdi.core.util,
- org.jboss.tools.cdi.internal.core.validation
+ org.jboss.tools.cdi.internal.core.ca;x-internal:=true,
+ org.jboss.tools.cdi.internal.core.el;x-internal:=true,
+ org.jboss.tools.cdi.internal.core.event;x-internal:=true,
+ org.jboss.tools.cdi.internal.core.impl;x-internal:=true,
+ org.jboss.tools.cdi.internal.core.impl.definition;x-internal:=true,
+ org.jboss.tools.cdi.internal.core.project.facet;x-internal:=true,
+ org.jboss.tools.cdi.internal.core.refactoring;x-internal:=true,
+ org.jboss.tools.cdi.internal.core.scanner;x-internal:=true,
+ org.jboss.tools.cdi.internal.core.scanner.lib;x-internal:=true,
+ org.jboss.tools.cdi.internal.core.validation;x-internal:=true

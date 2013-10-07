@@ -91,26 +91,49 @@ public class CDIUtil {
 	 * Adds CDI and KB builders to the project.
 	 * 
 	 * @param project
-	 * @param genearteBeansXml
 	 */
-	public static void enableCDI(IProject project, boolean genearteBeansXml, IProgressMonitor monitor) {
+	public static void enableCDI(IProject project, IProgressMonitor monitor) {
+		enableCDI(project, null, monitor);
+	}
+
+	/**
+	 * Adds CDI and KB builders to the project.
+	 * 
+	 * @param project
+	 * @param generateBeansXml
+	 */
+	public static void enableCDI(IProject project, boolean generateBeansXml, IProgressMonitor monitor) {
+		enableCDI(project, generateBeansXml?CDIVersion.getLatestDefaultVersion():null, monitor);
+	}
+
+	private static final String BEANS_XML_1_0_TEMPLATE_NAME = "beans.xml";
+	private static final String BEANS_XML_1_1_TEMPLATE_NAME = "beans11.xml";
+
+	/**
+	 * Adds CDI and KB builders to the project.
+	 * 
+	 * @param project
+	 * @param version the version of beans.xml if it should be created. If null then beans.xml should not be created.
+	 */
+	public static void enableCDI(IProject project, CDIVersion beansXmlVersion, IProgressMonitor monitor) {
 		try {
 			WebModelPlugin.addNatureToProjectWithValidationSupport(project, KbBuilder.BUILDER_ID, IKbProject.NATURE_ID);
 			WebModelPlugin.addNatureToProjectWithValidationSupport(project, CDICoreBuilder.BUILDER_ID, CDICoreNature.NATURE_ID);
-			if(genearteBeansXml) {
+			if(beansXmlVersion!=null) {
 				File beansXml = getBeansXml(project);
 				if(beansXml!=null && !beansXml.exists()) {
 					// Create an empty beans.xml
 					beansXml.getParentFile().mkdir();
+					String templateName = beansXmlVersion == CDIVersion.CDI_1_0?BEANS_XML_1_0_TEMPLATE_NAME:BEANS_XML_1_1_TEMPLATE_NAME;
 					try {
-						FileUtils.getFileUtils().copyFile(new File(getTemplatesFolder(), "beans.xml"), beansXml, null, false, false);
+						FileUtils.getFileUtils().copyFile(new File(getTemplatesFolder(), templateName), beansXml, null, false, false);
 					} catch (IOException e) {
 						CDICorePlugin.getDefault().logError(e);
 					}
 				}
 				project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			}
-			
+
 			IProject[] ps = project.getWorkspace().getRoot().getProjects();
 			for (IProject p: ps) {
 				CDICoreNature n = CDICorePlugin.getCDI(p, false);

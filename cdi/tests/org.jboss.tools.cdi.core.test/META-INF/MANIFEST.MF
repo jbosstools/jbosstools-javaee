@@ -23,7 +23,8 @@ Require-Bundle: org.jboss.tools.tests,
  org.eclipse.wst.validation;bundle-version="1.2.0",
  org.eclipse.wst.common.frameworks;bundle-version="1.2.0",
  org.jboss.tools.common.validation,
- org.jboss.tools.common.base.test
+ org.jboss.tools.common.base.test,
+ org.apache.ant;bundle-version="1.8.4"
 Export-Package: org.jboss.tools.cdi.core.test,
  org.jboss.tools.cdi.core.test.extension,
  org.jboss.tools.cdi.core.test.tck,

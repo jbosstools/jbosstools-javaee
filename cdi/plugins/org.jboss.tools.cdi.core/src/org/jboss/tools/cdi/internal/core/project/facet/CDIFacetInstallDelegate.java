@@ -20,16 +20,23 @@ import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
+import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.cdi.core.CDICoreMessages;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
+import org.jboss.tools.cdi.core.CDIVersion;
 
 /**
  * @author Alexey Kazakov
  */
 public class CDIFacetInstallDelegate implements ILogListener, IDelegate,
 		ICDIFacetDataModelProperties {
+
+	public static IProjectFacet CDI_FACET = ProjectFacetsManager.getProjectFacet(ICDIFacetDataModelProperties.CDI_FACET_ID);
+	public static final IProjectFacetVersion CDI_10 = CDI_FACET.getVersion(CDIVersion.CDI_1_0.toString()); //$NON-NLS-1$
+	public static final IProjectFacetVersion CDI_11 = CDI_FACET.getVersion(CDIVersion.CDI_1_1.toString()); //$NON-NLS-1$
 
 	private boolean errorOccurs = false;
 
@@ -51,7 +58,11 @@ public class CDIFacetInstallDelegate implements ILogListener, IDelegate,
 			Object config, IProgressMonitor monitor) throws CoreException {
 		IDataModel model = (IDataModel) config;
 		boolean generateBeansXml = model.getBooleanProperty(GENERATE_BEANS_XML);
-		CDIUtil.enableCDI(project, generateBeansXml, monitor);
+		CDIVersion beansXmlVersion = null;
+		if(generateBeansXml) {
+			beansXmlVersion = fv.compareTo(CDI_11)==0?CDIVersion.CDI_1_1:CDIVersion.CDI_1_0;
+		}
+		CDIUtil.enableCDI(project, beansXmlVersion, monitor);
 		if(errorOccurs) {
 			errorOccurs = false;
 			Display.getDefault().syncExec(
