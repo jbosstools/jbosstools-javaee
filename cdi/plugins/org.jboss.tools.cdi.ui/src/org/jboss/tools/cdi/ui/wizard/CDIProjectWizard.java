@@ -12,12 +12,15 @@ package org.jboss.tools.cdi.ui.wizard;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+import java.util.SortedSet;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.jst.j2ee.project.facet.IJ2EEFacetConstants;
 import org.eclipse.jst.servlet.ui.project.facet.WebProjectFirstPage;
 import org.eclipse.jst.servlet.ui.project.facet.WebProjectWizard;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
@@ -38,9 +41,11 @@ import org.jboss.tools.cdi.ui.CDIUIMessages;
  */
 public class CDIProjectWizard extends WebProjectWizard implements IExecutableExtension {
 
-	private static final String CDI_TEMPALTE = "template.jboss.tools.cdi10";
+	public static final String CDI10_TEMPALTE = "template.jboss.tools.cdi10";
+	public static final String CDI11_TEMPALTE = "template.jboss.tools.cdi11";
 	private IPreset oldPreset;
 	public static final String ID = "org.jboss.tools.cdi.ui.wizard.NewCDIProjectWizard";
+	private FirstPage firstPage;
 
 	public CDIProjectWizard() {
 		super();
@@ -53,7 +58,7 @@ public class CDIProjectWizard extends WebProjectWizard implements IExecutableExt
 	 */
 	@Override
 	protected IFacetedProjectTemplate getTemplate() {
-		return ProjectFacetsManager.getTemplate(CDI_TEMPALTE);
+		return ProjectFacetsManager.getTemplate(CDI10_TEMPALTE);
 	}
 
 	/*
@@ -70,20 +75,27 @@ public class CDIProjectWizard extends WebProjectWizard implements IExecutableExt
 		dm.setTargetedRuntimes(Collections.<IRuntime> emptySet());
 		boolean dontUseRuntimeConfig = false;
 		if (runtime != null) {
-	        if(oldPreset!=null) {
-	            dm.setProjectFacets(oldPreset.getProjectFacets());
-	            dontUseRuntimeConfig = true;
-	        } else {
-				Set<IProjectFacetVersion> minFacets = new HashSet<IProjectFacetVersion>();
-				try {
-					for (IProjectFacet f : dm.getFixedProjectFacets()) {
-						minFacets.add(f.getLatestSupportedVersion(runtime));
+			if(runtime.supports(IJ2EEFacetConstants.DYNAMIC_WEB_31)) {
+				Set<IProjectFacetVersion> facets = ProjectFacetsManager.getTemplate(CDI10_TEMPALTE).getInitialPreset().getProjectFacets();
+				dm.setProjectFacets(facets);
+
+				dontUseRuntimeConfig = true;
+			} else {
+		        if(oldPreset!=null) {
+		            dm.setProjectFacets(oldPreset.getProjectFacets());
+		            dontUseRuntimeConfig = true;
+		        } else {
+					Set<IProjectFacetVersion> minFacets = new HashSet<IProjectFacetVersion>();
+					try {
+						for (IProjectFacet f : dm.getFixedProjectFacets()) {
+							minFacets.add(f.getLatestSupportedVersion(runtime));
+						}
+					} catch (CoreException e) {
+						throw new RuntimeException(e);
 					}
-				} catch (CoreException e) {
-					throw new RuntimeException(e);
-				}
-				dm.setProjectFacets(minFacets);
-	        }
+					dm.setProjectFacets(minFacets);
+		        }
+			}
 			dm.setTargetedRuntimes(Collections.singleton(runtime));
 		}
 		if(dontUseRuntimeConfig) {
@@ -101,8 +113,17 @@ public class CDIProjectWizard extends WebProjectWizard implements IExecutableExt
 	 */
 	@Override
 	protected IWizardPage createFirstPage() {
-		IWizardPage page = new FirstPage(model, "first.page"); //$NON-NLS-1$
-		return page;
+		firstPage = new FirstPage(model, "first.page"); //$NON-NLS-1$
+		return firstPage;
+	}
+
+	/**
+	 * For test purposes only
+	 * @param webFacet
+	 */
+	public void setWebVersionCombo(IProjectFacetVersion webFacet) {
+		firstPage.setWebVersionCombo(webFacet.getVersionString());
+		firstPage.handlePrimaryFacetVersionSelectedEvent();
 	}
 
 	/*
@@ -160,5 +181,60 @@ public class CDIProjectWizard extends WebProjectWizard implements IExecutableExt
 	    	}
 	    	return pageComplete;
 	    }
+
+		@Override
+		protected void handlePrimaryFacetVersionSelectedEvent() {
+			super.handlePrimaryFacetVersionSelectedEvent();
+
+			IFacetedProjectWorkingCopy dm = getFacetedProjectWorkingCopy();
+			IFacetedProjectTemplate template = dm.hasProjectFacet(IJ2EEFacetConstants.DYNAMIC_WEB_31)?ProjectFacetsManager.getTemplate(CDI11_TEMPALTE):ProjectFacetsManager.getTemplate(CDI10_TEMPALTE);
+	        dm.setFixedProjectFacets(template.getFixedProjectFacets());
+	        dm.setProjectFacets(template.getInitialPreset().getProjectFacets());
+	        dm.setSelectedPreset(template.getInitialPreset().getId());
+		}
+
+		@Override
+		protected void updatePrimaryVersions(){
+			IFacetedProjectWorkingCopy dm = getFacetedProjectWorkingCopy();
+			IRuntime runtime = dm.getPrimaryRuntime();
+			if(runtime!=null) {
+		        IFacetedProjectTemplate template = null;
+		        String webFacet = null;
+				if(runtime.supports(IJ2EEFacetConstants.DYNAMIC_WEB_31)) {
+					template = ProjectFacetsManager.getTemplate(CDI11_TEMPALTE);
+					webFacet = IJ2EEFacetConstants.DYNAMIC_WEB_31.getVersionString();
+				} else if(runtime.supports(IJ2EEFacetConstants.DYNAMIC_WEB_30)) {
+					template = ProjectFacetsManager.getTemplate(CDI10_TEMPALTE);
+					webFacet = IJ2EEFacetConstants.DYNAMIC_WEB_30.getVersionString();
+				}
+				if(template!=null) {
+					setWebVersionCombo(webFacet);
+
+					dm.setFixedProjectFacets(template.getFixedProjectFacets());
+			        dm.setProjectFacets(template.getInitialPreset().getProjectFacets());
+			        dm.setSelectedPreset(template.getInitialPreset().getId());
+			        return;
+				}
+			}
+			super.updatePrimaryVersions();
+		}
+
+		public void setWebVersionCombo(String webFacet) {
+			IFacetedProjectWorkingCopy dm = getFacetedProjectWorkingCopy();
+			SortedSet<IProjectFacetVersion> initialVersions = dm.getAvailableVersions(primaryProjectFacet);
+		    String[] items = new String[initialVersions.size()];
+		    int i=0;
+	        int selectedVersionIndex = -1;
+	        for(Iterator <IProjectFacetVersion> iterator = initialVersions.iterator(); iterator.hasNext(); i++){
+	        	items[i] = iterator.next().getVersionString();
+	        	if(selectedVersionIndex == -1 && items[i].equals(webFacet)){
+	        		selectedVersionIndex = i;
+	        	}
+	        }
+	        primaryVersionCombo.clearSelection();
+	        primaryVersionCombo.setItems(items);
+	        primaryVersionCombo.select(selectedVersionIndex);
+		}
+
     }
 }

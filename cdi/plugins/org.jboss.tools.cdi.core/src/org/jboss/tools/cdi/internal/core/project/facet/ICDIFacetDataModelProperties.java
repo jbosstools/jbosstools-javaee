@@ -26,13 +26,7 @@ public interface ICDIFacetDataModelProperties extends IActionConfigFactory {
 	String CDI_FACET_ID = "jst.cdi"; //$NON-NLS-1$
 
 	/**
-	 * CDI 1.0 Facet Version constant
-	 */
-	String CDI_FACET_VERSION_1 = "1.0"; //$NON-NLS-1$
-
-	/**
 	 * Generate beans.xml
 	 */
 	String GENERATE_BEANS_XML = "cdi.project.generateBeansXml"; //$NON-NLS-1$
- 
 }

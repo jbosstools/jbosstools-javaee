@@ -39,10 +39,6 @@
             name="http://jboss.org/schema/cdi/beans_1_0.xsd" 
             uri="platform:/plugin/org.jboss.tools.cdi.xml/schemas/beans.xsd"/>
 
-         <uri 
-            name="http://xmlns.jcp.org/xml/ns/javaee" 
-            uri="platform:/plugin/org.jboss.tools.cdi.xml/schemas/1.1/beans_1_1.xsd"/>
-
       </catalogContribution>
    </extension>
 
