@@ -1649,6 +1649,7 @@
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Renderer..." kind="action" name="CreateRenderer">
      <EntityData EntityName="JSFRenderer11">
+      <AttributeData AttributeName="component-family"/>
       <AttributeData AttributeName="renderer-type"/>
       <AttributeData AttributeName="renderer-class"/>
      </EntityData>
