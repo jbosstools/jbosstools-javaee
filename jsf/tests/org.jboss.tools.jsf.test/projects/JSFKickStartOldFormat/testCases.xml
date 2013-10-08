@@ -288,38 +288,38 @@
 	
 	<!-- Test Renderer -->
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/r1"/>
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/command:r1"/>
 		<property name="attributeName" value="element type"/>
 		<property name="attributeValue" value="renderer"/>
 	</test>
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/r1"/>
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/command:r1"/>
 		<property name="attributeName" value="renderer-type"/>
 		<property name="attributeValue" value="r1"/>
 	</test>
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/r1"/>
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/command:r1"/>
 		<property name="attributeName" value="renderer-class"/>
 		<property name="attributeValue" value="com.sun.faces.renderkit.html_basic.ButtonRenderer"/>
 	</test>
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/r1"/>
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/command:r1"/>
 		<property name="attributeName" value="description"/>
 		<property name="attributeValue" value="Renderer Example."/>
 	</test>
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/r1"/>
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/command:r1"/>
 		<property name="attributeName" value="display-name"/>
 		<property name="attributeValue" value="Renderer r1"/>
 	</test>
 	<!-- check child elements in renderer -->
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/r1/facet:f3"/>
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/command:r1/facet:f3"/>
 		<property name="attributeName" value="element type"/>
 		<property name="attributeValue" value="facet"/>
 	</test>
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/r1/a3"/>
+		<property name="path" value="/faces-config.xml/Render Kits/myRenderKit/command:r1/a3"/>
 		<property name="attributeName" value="element type"/>
 		<property name="attributeValue" value="attribute"/>
 	</test>

@@ -15,12 +15,23 @@ import org.jboss.tools.common.model.impl.*;
 public class RendererObjectImpl extends OrderedObjectImpl {
 	private static final long serialVersionUID = 9193920609277490474L;
 
+	static final String ATTR_RENDERER_TYPE = "renderer-type";
+	static final String ATTR_COMPONENT_FAMILY = "component-family";
+
 	protected RegularChildren createChildren() {
 		return new OrderedByEntityChildren();
 	}
-    
+
+	@Override
+	public String getPathPart() {
+		String componentFamily = getAttributeValue(ATTR_COMPONENT_FAMILY);
+		String rendererType = getAttributeValue(ATTR_RENDERER_TYPE);
+		String pathpart = "" + componentFamily + ":" + rendererType;
+		return applyDuplicate(pathpart);
+	}
+
 	public String name() {
-		return "" + getAttributeValue("renderer-type");
+		return "" + getAttributeValue(ATTR_RENDERER_TYPE);
 	}
 
 }
