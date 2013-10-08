@@ -3591,6 +3591,7 @@
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Renderer..." kind="action" name="CreateRenderer">
      <EntityData EntityName="JSFRenderer">
+      <AttributeData AttributeName="component-family"/>
       <AttributeData AttributeName="renderer-type"/>
       <AttributeData AttributeName="renderer-class"/>
      </EntityData>
@@ -3657,6 +3658,7 @@
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Renderer..." kind="action" name="CreateRenderer">
      <EntityData EntityName="JSFRenderer11">
+      <AttributeData AttributeName="component-family"/>
       <AttributeData AttributeName="renderer-type"/>
       <AttributeData AttributeName="renderer-class"/>
      </EntityData>
@@ -3724,6 +3726,7 @@
      PROPERTIES="validator.add=true" WizardClassName="%Default%"
      displayName="Renderer..." kind="action" name="CreateRenderer">
      <EntityData EntityName="JSFRenderer11">
+      <AttributeData AttributeName="component-family"/>
       <AttributeData AttributeName="renderer-type"/>
       <AttributeData AttributeName="renderer-class"/>
      </EntityData>
@@ -3970,7 +3973,7 @@
    <XModelAttribute name="display-name" xmlname="display-name.#text"/>
    <XModelAttribute name="small-icon" xmlname="icon.small-icon.#text"/>
    <XModelAttribute name="large-icon" xmlname="icon.large-icon.#text"/>
-   <XModelAttribute PROPERTIES="save=always" name="component-family" xmlname="component-family.#text"/>
+   <XModelAttribute PROPERTIES="id=true;save=always" name="component-family" xmlname="component-family.#text"/>
    <XModelAttribute PROPERTIES="id=true;save=always"
     name="renderer-type" xmlname="renderer-type.#text"/>
    <XModelAttribute PROPERTIES="save=always" name="renderer-class" xmlname="renderer-class.#text">
@@ -4065,7 +4068,7 @@
    <XModelAttribute name="display-name" xmlname="display-name.#text"/>
    <XModelAttribute name="small-icon" xmlname="icon.small-icon.#text"/>
    <XModelAttribute name="large-icon" xmlname="icon.large-icon.#text"/>
-   <XModelAttribute PROPERTIES="save=always" name="component-family" xmlname="component-family.#text"/>
+   <XModelAttribute PROPERTIES="id=true;save=always" name="component-family" xmlname="component-family.#text"/>
    <XModelAttribute PROPERTIES="id=true;save=always"
     name="renderer-type" xmlname="renderer-type.#text"/>
    <XModelAttribute PROPERTIES="save=always" name="renderer-class" xmlname="renderer-class.#text">
