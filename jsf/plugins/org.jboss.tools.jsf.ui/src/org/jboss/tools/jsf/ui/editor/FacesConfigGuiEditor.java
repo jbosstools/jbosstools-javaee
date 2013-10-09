@@ -83,6 +83,9 @@ public class FacesConfigGuiEditor extends AbstractSectionEditor {
 		guiControl.setVisible(f != null);
 		if(f == null) return;
 		try {
+            if(model != null) {
+            	model.dispose();
+            }
 			f.autolayout();
             gui = new JSFEditor(input);
             model = new JSFModel(f.getParent());

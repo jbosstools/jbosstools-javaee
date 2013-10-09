@@ -95,6 +95,9 @@ public class SeamPagesGuiEditor extends AbstractSectionEditor {
 		if(f == null) return;
 		try {
 			f.autolayout();
+			if(model != null) {
+				model.dispose();
+			}
             gui = new PagesEditor(input);
             model = createModel(); //getFakeModel();
             gui.setPagesModel(model);
