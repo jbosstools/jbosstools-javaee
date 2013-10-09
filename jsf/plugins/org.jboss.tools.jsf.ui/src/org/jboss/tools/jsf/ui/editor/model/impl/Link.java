@@ -137,9 +137,6 @@ public class Link extends JSFElement implements ILink {
 			return;
 		}
 		toGroup = (IGroup) jsfModel.findElement(target.getPath());
-		if (toGroup == null) {
-			return;
-		}
 		if (toGroup != null) {
 			((Group) toGroup).addInputLink(this);
 			((Page) getParentJSFElement()).fireLinkAdd(this);
@@ -270,7 +267,9 @@ public class Link extends JSFElement implements ILink {
 		} else {
 			if (!target.equals(getJSFModel().getHelper().getItemOutputTarget(
 					source))) {
-				((Group) toGroup).removeInputLink(this);
+				if(toGroup != null) {
+					((Group) toGroup).removeInputLink(this);
+				}
 				target = getJSFModel().getHelper().getItemOutputTarget(source);
 				setTarget();
 				fireLinkChange();

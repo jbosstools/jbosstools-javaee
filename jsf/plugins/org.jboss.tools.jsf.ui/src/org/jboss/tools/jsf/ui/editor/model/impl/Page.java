@@ -110,7 +110,10 @@ public class Page extends JSFElement implements IPage, IJSFElementListListener{
 		public void removeLink(ILink link) {
 			removeFromMap(link);
 			int index = this.indexOf(link);
-			link.getToGroup().removeInputLink(link);
+			IGroup group = link.getToGroup();
+			if(group != null) {
+				group.removeInputLink(link);
+			}
 			this.remove(link);
 			((Group) Page.this.getParentJSFElement()).removeOutputLink(link);
 
