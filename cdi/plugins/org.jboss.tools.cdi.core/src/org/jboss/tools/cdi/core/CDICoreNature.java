@@ -455,6 +455,65 @@ public class CDICoreNature implements IProjectNature {
 		}
 	}
 
+	boolean isBuildOn = false;
+
+	/**
+	 * Returns true if either build is not currently performed by another thread
+	 * or after waiting for less than 100 second for its completion. Otherwize, 
+	 * returns false and logs warning.
+	 *  
+	 * Build can be invoked concurrently by the following clients:
+	 * 1. Initial load invoked by 
+	 * 		(a) content assist,
+	 * 		(b) validation,
+	 * 		(c) adding project to dependent project.
+	 * 2. Eclipse's regular build.
+	 * 
+	 * Concurrent build should be prevented as definition context can have only
+	 * one working copy. 
+	 * 
+	 * It is impossible to solve the problem by just declaring build method 
+	 * synchronized as it calls for other synchronized methods which can result 
+	 * in a deadlock.
+	 * 
+	 * This method is the single point that selects one thread to be waited for
+	 * by all the other threads requesting for  build without locking with them.
+	 * Thread that has just completed build, awakens the next thread to begin
+	 * build. We cannot drop that request, as new changes might happen while
+	 * the previous build was partly completed. 
+	 * 
+	 * The wait is restricted by 100 seconds as long enough time for building 
+	 * one project. If the wait fails, warning is logged with the name of the 
+	 * project. As long time as 100 seconds per one builder per one project
+	 * most likely means already existing problems with performance. Anyway,
+	 * clean/build  of the project called by user after the warning will 
+	 * securely restore its correct state. 
+	 * 
+	 * @return whether the build can be safely performed after reasonable waiting for other threads
+	 */
+	synchronized boolean requestForBuild() {
+		if(isBuildOn) {
+			try {
+				wait(100000);
+			} catch (InterruptedException e) {
+				CDICorePlugin.getDefault().logWarning("Interrupted waiting for build of " + project);
+				notify();
+				return false;
+			}
+		}
+		if(!isBuildOn) {
+			isBuildOn = true;
+			return true;
+		}
+		CDICorePlugin.getDefault().logWarning("Could not wait for build of " + project);
+		return false;
+	}
+
+	synchronized void releaseBuild() {
+		isBuildOn = false;
+		notify();
+	}
+
 	public void clean() {
 		File file = getStorageFile();
 		if(file != null && file.isFile()) {

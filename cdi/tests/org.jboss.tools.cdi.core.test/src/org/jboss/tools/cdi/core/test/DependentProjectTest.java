@@ -11,6 +11,8 @@
 package org.jboss.tools.cdi.core.test;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -50,6 +52,7 @@ import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
+import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
@@ -636,4 +639,69 @@ public class DependentProjectTest extends TestCase {
 		assertEquals("CDITest1", type.getJavaProject().getElementName());
 	}
 
+	public void testConcurrentBuild() throws Exception {
+		T[] threads = new T[20];
+		List<String> checkList = new ArrayList<String>();
+		for (int i = 0; i < threads.length; i++) {
+			threads[i] = new T("Build " + i, checkList);
+		}
+		for (int i = 0; i < threads.length; i++) {
+			threads[i].start();
+		}
+		boolean c = true;
+		while(c) {
+			c = false;
+			for (int i = 0; i < threads.length; i++) {
+				if(threads[i].isAlive()) {
+					c = true;
+					threads[i].join();
+				}
+			}
+		}
+
+		int ec = 0;
+		for (int i = 0; i < checkList.size(); i++) {
+			System.out.print(" " + checkList.get(i));
+			if(threads[i].e != null) ec++;
+		}
+		System.out.println(" Exceptions: " + ec);
+
+		for (int i = 0; i < threads.length; i++) {
+			Exception e = threads[i].e;
+			if(e != null) {
+				JUnitUtils.fail(e.toString(), e);
+			}
+		}
+
+		assertEquals(threads.length, checkList.size());
+	}
+
+	class T extends Thread {
+		Exception e;
+		List<String> checkList;
+		public T(String name, List<String> checkList) {
+			super(name);
+			this.checkList = checkList;
+		}
+		
+		public void run() {
+			CDICoreNature cdi2 = CDICorePlugin.getCDI(project2, false);
+			try {
+				clearStorageResolved(cdi2);
+				cdi2.resolveStorage(true);
+			} catch (Exception e) {
+				this.e = e;
+			}
+			synchronized (checkList) {
+				checkList.add(getName());
+			}
+
+		}
+	}
+
+	private void clearStorageResolved(CDICoreNature cdi2) throws Exception {
+		Field f = CDICoreNature.class.getDeclaredField("isStorageResolved");
+		f.setAccessible(true);
+		f.set(cdi2, false);
+	}
 }
