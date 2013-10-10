@@ -167,6 +167,11 @@
                class="org.jboss.tools.cdi.internal.core.project.facet.CDIFacetUninstallDelegate">
          </delegate>
       </action>
+
+	  <action facet="jst.cdi" type="version-change">
+      	 <delegate class="org.jboss.tools.cdi.internal.core.project.facet.CDIFacetVersionChangeDelegate"/>
+      </action>
+
    </extension>
 
   <extension
