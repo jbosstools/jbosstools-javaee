@@ -21,6 +21,7 @@ import org.jboss.tools.cdi.core.test.extension.ExtensionFactoryTest;
 import org.jboss.tools.cdi.core.test.extension.ExtensionManagerTest;
 import org.jboss.tools.cdi.core.test.extension.ExtensionsInSrsAndUsedProjectTest;
 import org.jboss.tools.cdi.core.test.extension.SystemExtensionTest;
+import org.jboss.tools.cdi.core.test.project.CDIFacetTest;
 import org.jboss.tools.cdi.core.test.project.EnableCDISupportForJarTest;
 import org.jboss.tools.cdi.core.test.project.EnableCDISupportForWarTest;
 import org.jboss.tools.cdi.core.test.tck.AssignabilityOfRawAndParameterizedTypesTest;
@@ -235,6 +236,7 @@ public class CDICoreAllTests {
 		suiteAll.addTest(dependent);
 		suiteAll.addTestSuite(EnableCDISupportForWarTest.class);
 		suiteAll.addTestSuite(EnableCDISupportForJarTest.class);
+		suiteAll.addTestSuite(CDIFacetTest.class);
 		suiteAll.addTestSuite(DependentProjectValidationTest.class);
 		TestSuite weldSuite = new TestSuite("Weld Tests");
 		weldSuite.addTestSuite(BuiltInContextBeanInjectionWeldTest.class);
