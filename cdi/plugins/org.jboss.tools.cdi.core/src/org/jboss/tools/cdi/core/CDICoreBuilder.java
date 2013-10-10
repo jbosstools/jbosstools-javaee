@@ -144,7 +144,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		if(n == null) {
 			return null;
 		}
-		
+
 		if(n.updateVersion() || n.hasNoStorage()) {
 			kind = FULL_BUILD;
 		}
@@ -156,6 +156,10 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		try {
 			n.resolveStorage(kind != FULL_BUILD);
 
+			if(!n.requestForBuild()) {
+				return null;
+			}
+try {
 			if(n.getDelegate() == null || n.getDelegate().getClass() != getDelegate().getProjectImplementationClass()) {
 				if(n.getDelegate() != null) {
 					n.clean();
@@ -249,9 +253,11 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			} catch (IOException e) {
 				CDICorePlugin.getDefault().logError(e); //$NON-NLS-1$
 			}
-			
+
 //			n.postBuild();
-		
+} finally {
+	n.releaseBuild();
+}
 		} finally {
 			n.fireChanges();
 		}
