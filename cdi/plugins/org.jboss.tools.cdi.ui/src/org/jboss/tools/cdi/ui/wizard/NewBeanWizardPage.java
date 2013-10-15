@@ -11,6 +11,7 @@
 
 package org.jboss.tools.cdi.ui.wizard;
 
+import java.beans.BeanDescriptor;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -53,6 +54,7 @@ import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IScope;
+import org.jboss.tools.cdi.internal.core.scanner.lib.BeanArchiveDetector;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.xml.beans.model.CDIBeansConstants;
 import org.jboss.tools.common.ui.widget.editor.CheckBoxFieldEditor;
@@ -84,6 +86,7 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 	protected ListFieldEditor qualifiers = null;
 	
 	protected StatusInfo fieldNameStatus = new StatusInfo();
+	protected StatusInfo scopeStatus = new StatusInfo();
 
 	boolean isAlternativeInitialValue = false;
 	
@@ -183,6 +186,7 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 				.setHelp(composite, IJavaHelpContextIds.NEW_CLASS_WIZARD_PAGE);
 
 		// onInterceptorBindingChange();
+		computeScopeStatus();
 		doStatusUpdate();
 	}
 
@@ -276,9 +280,10 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 	}
 
 	protected void updateStatus(IStatus[] status) {
-		IStatus[] ns = new IStatus[status.length + 1];
+		IStatus[] ns = new IStatus[status.length + 2];
 		System.arraycopy(status, 0, ns, 0, status.length);
 		ns[status.length] = fieldNameStatus;
+		ns[status.length + 1] = scopeStatus;
 		status = ns;
 		updateStatus(StatusUtil.getMostSevere(status));
 	}
@@ -427,7 +432,21 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 
 	void onScopeModified() {
 		fSuperInterfacesStatus = superInterfacesChanged();
+		computeScopeStatus();
 		doStatusUpdate();
+	}
+
+	void computeScopeStatus() {
+		scopeStatus = new StatusInfo();
+		if(scope.getValueAsString().length() == 0) {
+			IJavaProject jp = getJavaProject();
+			if(jp != null) {
+				ICDIProject cdi = NewCDIAnnotationWizardPage.getCDIProject(jp);
+				if(cdi != null && cdi.getNature().getBeanDiscoveryMode() == BeanArchiveDetector.ANNOTATED) {
+					scopeStatus.setError(CDIUIMessages.SCOPE_SHOULD_BE_SET_IN_ARCHIVE_WITH_DISCOVERY_MODE_ANNOTATED);
+				}
+			}
+		}
 	}
 
 	protected IStatus superInterfacesChanged() {

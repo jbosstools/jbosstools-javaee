@@ -32,6 +32,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIVersion;
 import org.jboss.tools.cdi.core.extension.CDIExtensionFactory;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
@@ -138,7 +139,7 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 		XModelObject b = fs.getChildByPath("META-INF/beans.xml");
 		if(b != null) {
 			newJars.getBeanModules().put(path, b);
-		} else if(project.isAdvancedVersion()) {
+		} else if(project.getVersion() != CDIVersion.CDI_1_0) {
 			int archiveType = BeanArchiveDetector.getInstance().getBeanArchive(path);
 			if(archiveType == BeanArchiveDetector.UNRESOLVED) {
 				if(!readRuntimes(fs).isEmpty()) {

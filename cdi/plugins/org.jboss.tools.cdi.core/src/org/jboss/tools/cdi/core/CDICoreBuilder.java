@@ -270,7 +270,7 @@ try {
 	private boolean updateBeanDiscoveryMode() {
 		int oldValue = getCDICoreNature().getBeanDiscoveryMode();
 		int newValue = BeanArchiveDetector.ALL;
-		if(getCDICoreNature().isAdvancedVersion()) {
+		if(getCDICoreNature().getVersion() != CDIVersion.CDI_1_0) {
 			newValue = getBeanDiscoveryMode(getPrimaryBeanXML());
 		}
 		getCDICoreNature().setBeanDiscoveryMode(newValue);
@@ -278,7 +278,7 @@ try {
 	}
 
 	private int getBeanDiscoveryMode(XModelObject beansXML) {
-		if(getCDICoreNature().isFirstVersion()) {
+		if(getCDICoreNature().getVersion() == CDIVersion.CDI_1_0) {
 			return BeanArchiveDetector.ALL;
 		} else if(beansXML == null) {
 			return BeanArchiveDetector.ANNOTATED;
@@ -354,7 +354,7 @@ try {
 		IJavaProject jp = EclipseResourceUtil.getJavaProject(getCDICoreNature().getProject());
 		if(jp == null) return;
 		FileSet fileSet = new FileSet();
-		fileSet.setCheckVetoed(getCDICoreNature().isAdvancedVersion());
+		fileSet.setCheckVetoed(getCDICoreNature().getVersion() != CDIVersion.CDI_1_0);
 		
 		for (String jar: newJars.getBeanModules().keySet()) {
 			Path path = new Path(jar);
@@ -495,7 +495,7 @@ try {
 		Map<IPath, PackageInfo> checkedPackages = new HashMap<IPath, PackageInfo>();
 		
 		CDIResourceVisitor() {
-			fileSet.setCheckVetoed(getCDICoreNature().isAdvancedVersion());
+			fileSet.setCheckVetoed(getCDICoreNature().getVersion() != CDIVersion.CDI_1_0);
 			webinfs = WebUtils.getWebInfPaths(getCurrentProject());
 			getJavaSourceRoots(getCurrentProject());
 		}
@@ -619,7 +619,7 @@ try {
 		}
 
 		private boolean isInVetoedPackage(IFile f) throws CoreException {
-			if(!getCDICoreNature().isAdvancedVersion()) {
+			if(getCDICoreNature().getVersion() == CDIVersion.CDI_1_0) {
 				return false;
 			}
 			IContainer c = f.getParent();

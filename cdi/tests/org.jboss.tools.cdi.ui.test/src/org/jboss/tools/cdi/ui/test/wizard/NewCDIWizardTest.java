@@ -40,6 +40,7 @@ import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IStereotype;
+import org.jboss.tools.cdi.internal.core.scanner.lib.BeanArchiveDetector;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard;
@@ -448,14 +449,28 @@ public class NewCDIWizardTest extends TestCase {
 			
 			page.setBeanName("myNewBean");
 
+			assertEquals(IMessageProvider.NONE, page.getMessageType());			
+
 			page.setScope(CDIConstants.SESSION_SCOPED_ANNOTATION_TYPE_NAME);
+
 			String message = page.getMessage();
 			assertEquals(CDIUIMessages.MESSAGE_BEAN_SHOULD_BE_SERIALIZABLE, message);
 			assertEquals(IMessageProvider.WARNING, page.getMessageType());
 
 			page.setScope(CDIConstants.APPLICATION_SCOPED_ANNOTATION_TYPE_NAME);
 			assertEquals(IMessageProvider.NONE, page.getMessageType());			
-			
+
+			cdi.getNature().setBeanDiscoveryMode(BeanArchiveDetector.ANNOTATED);
+			page.setScope("");
+			message = page.getErrorMessage();
+			assertEquals(CDIUIMessages.SCOPE_SHOULD_BE_SET_IN_ARCHIVE_WITH_DISCOVERY_MODE_ANNOTATED, message);
+
+			page.setScope(CDIConstants.APPLICATION_SCOPED_ANNOTATION_TYPE_NAME);
+			assertEquals(IMessageProvider.NONE, page.getMessageType());
+			cdi.getNature().setBeanDiscoveryMode(BeanArchiveDetector.ALL);
+			page.setScope("");
+			assertEquals(IMessageProvider.NONE, page.getMessageType());
+
 			context.wizard.performFinish();
 			
 			String text = context.getNewTypeContent();

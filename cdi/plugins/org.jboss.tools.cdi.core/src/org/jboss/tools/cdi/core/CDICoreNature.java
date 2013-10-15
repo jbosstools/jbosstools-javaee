@@ -72,7 +72,7 @@ public class CDICoreNature implements IProjectNature {
 
 	private CDIExtensionManager extensions = new CDIExtensionManager();
 
-	private int version = CDIConstants.CDI_VERSION_1_0;
+	private CDIVersion version = CDIVersion.CDI_1_0;
 	private int beanDiscoveryMode = BeanArchiveDetector.ALL;
 	
 	public CDICoreNature() {
@@ -116,24 +116,8 @@ public class CDICoreNature implements IProjectNature {
 		updateVersion();
 	}
 
-	public int getVersion() {
+	public CDIVersion getVersion() {
 		return version;
-	}
-
-	/**
-	 * Helper method to check if version is 1.0.
-	 * @return
-	 */
-	public boolean isFirstVersion() {
-		return getVersion() == CDIConstants.CDI_VERSION_1_0;
-	}
-
-	/**
-	 * Helper method to check if version is 1.1 or higher.
-	 * @return
-	 */
-	public boolean isAdvancedVersion() {
-		return getVersion() >= CDIConstants.CDI_VERSION_1_1;
 	}
 
 	public int getBeanDiscoveryMode() {
@@ -150,7 +134,7 @@ public class CDICoreNature implements IProjectNature {
 	 * @return
 	 */
 	boolean updateVersion() {
-		int version = CDIUtil.getCDIVersion(getProject());
+		CDIVersion version = CDIUtil.getCDIVersion(getProject());
 		boolean changed = version != this.version;
 		this.version = version;
 		return changed;

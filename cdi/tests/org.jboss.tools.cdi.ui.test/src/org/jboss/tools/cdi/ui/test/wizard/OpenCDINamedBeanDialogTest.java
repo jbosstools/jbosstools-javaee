@@ -30,7 +30,7 @@ public class OpenCDINamedBeanDialogTest extends TCKTest {
 	public void testCDINamedBeanDialogSearch() throws CoreException {
 		find("spi", "SpiderSize", "OtherSpiderProducer.java", true);
 		find("bla", "blackWidow", "BlackWidowProducer.java", false);
-		find("lady", "ladybirdSpider", "SpiderProducer.java", false);
+		find("lady", "ladybirdSpider", "SpiderProducer.java", true);
 	}
 	
 	public void testCDINamedBeanDialogSearchShortHand() throws CoreException {
