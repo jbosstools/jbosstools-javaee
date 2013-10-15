@@ -1299,35 +1299,34 @@ public class CDIUtil {
 	}
 
 	/**
-	 * Returns id of CDI version see 
-	 * - CDIConstants.CDI_VERSION_NONE
-	 * - CDIConstants.CDI_VERSION_1_0
-	 * - CDIConstants.CDI_VERSION_1_1
+	 * Returns null or CDI version see 
+	 * - CDIVersion.CDI_1_0;
+	 * - CDIVersion.CDI_1_1;
 	 * Implemented algorithm requests for types in the project classpath:
 	 * - If CDIConstants.VETOED_ANNOTATION_TYPE_NAME type is available, 
-	 *   version is set to CDI_VERSION_1_1,
+	 *   version is set to CDIVersion.CDI_1_1,
 	 * - else if CDIConstants.QUALIFIER_ANNOTATION_TYPE_NAME is available,
-	 *   version is set to CDI_VERSION_1_0,
+	 *   version is set to CDIVersion.CDI_1_0,
 	 * - otherwise version is undefined.
 	 * In future, the algorithm may be subjected to changes.
 	 * 
 	 * @param project
 	 * @return
 	 */
-	public static int getCDIVersion(IProject project) {
+	public static CDIVersion getCDIVersion(IProject project) {
 		IJavaProject jp = EclipseResourceUtil.getJavaProject(project);
-		if(jp == null) return CDIConstants.CDI_VERSION_NONE;
+		if(jp == null) return null;
 
 		try {
 			if(EclipseJavaUtil.findType(jp, CDIConstants.VETOED_ANNOTATION_TYPE_NAME) != null) {
-				return CDIConstants.CDI_VERSION_1_1;
+				return CDIVersion.CDI_1_1;
 			} else if(EclipseJavaUtil.findType(jp, CDIConstants.QUALIFIER_ANNOTATION_TYPE_NAME) != null) {
-				return CDIConstants.CDI_VERSION_1_0;
+				return CDIVersion.CDI_1_0;
 			}
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
-		return CDIConstants.CDI_VERSION_NONE;
+		return null;
 	}
 
 }

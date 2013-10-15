@@ -20,6 +20,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.cdi.core.CDIVersion;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.ICDIProject;
@@ -52,7 +53,7 @@ public class CDIProject implements ICDIProject{
 	
 	private ArrayList<IQualifier> qualifiers = new ArrayList<IQualifier>();
 
-	private int version = CDIConstants.CDI_VERSION_1_0;
+	private CDIVersion version = CDIVersion.CDI_1_0;
 	
 	public CDIProject(){
 		defaultQualifier = new CDIQualifier(this, CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
@@ -72,11 +73,11 @@ public class CDIProject implements ICDIProject{
 		qualifiers.add(new CDIQualifier(this, COMPLICATED_QUALIFIER2));
 	}
 
-	public int getVersion() {
+	public CDIVersion getVersion() {
 		return version;
 	}
 
-	public void setVersion(int version) {
+	public void setVersion(CDIVersion version) {
 		this.version = version;
 	}
 

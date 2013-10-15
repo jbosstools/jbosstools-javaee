@@ -83,6 +83,8 @@ public class CDIUIMessages extends NLS{
 	public static String MESSAGE_FIELD_NAME_EMPTY;
 	public static String MESSAGE_FIELD_NAME_NOT_VALID;
 
+	public static String SCOPE_SHOULD_BE_SET_IN_ARCHIVE_WITH_DISCOVERY_MODE_ANNOTATED;
+
 	public static String MESSAGE_INTERCEPTOR_BINDINGS_EMPTY;
 
 	public static String MESSAGE_STEREOTYPE_CANNOT_BE_APPLIED_TO_TYPE;

@@ -36,6 +36,7 @@ import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIVersion;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.IBeanMethod;
@@ -98,7 +99,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 //		dbCache = CDICorePlugin.getDefault().getDBCache();
 	}
 
-	public int getVersion() {
+	public CDIVersion getVersion() {
 		return n.getVersion();
 	}
 
