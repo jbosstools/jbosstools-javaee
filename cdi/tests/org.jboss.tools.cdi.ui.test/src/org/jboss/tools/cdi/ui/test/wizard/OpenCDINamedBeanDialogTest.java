@@ -36,15 +36,15 @@ public class OpenCDINamedBeanDialogTest extends TCKTest {
 	
 	public void testCDINamedBeanDialogSearch() throws CoreException {
 		find("spi", "SpiderSize", "OtherSpiderProducer.java", true);
-		find("bla", "blackWidow", "BlackWidowProducer.java", false);
-		find("lady", "ladybirdSpider", "SpiderProducer.java", false);
+		find("bla", "blackWidow", "BlackWidowProducer.java", true);
+		find("lady", "ladybirdSpider", "SpiderProducer.java", true);
 	}
 	
 	public void testCDINamedBeanDialogSearchShortHand() throws CoreException {
 		find("s*ze", "SpiderSize", "OtherSpiderProducer.java", true);
-		find("b*w", "blackWidow", "BlackWidowProducer.java", false);
-		find("*dSp*r", "ladybirdSpider", "SpiderProducer.java", false);
-		find("foo?", "foo3", "TestNamed.java", false);
+		find("b*w", "blackWidow", "BlackWidowProducer.java", true);
+		find("*dSp*r", "ladybirdSpider", "SpiderProducer.java", true);
+		find("foo?", "foo3", "TestNamed.java", true);
 	}
 	
 	private void find(String pattern, String beanName, String editorName, boolean wait) throws CoreException{
