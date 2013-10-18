@@ -101,6 +101,9 @@ public interface CDIConstants {
 	public String VALIDATOR_TYPE_NAME = "javax.validation.Validator";
 	public String BEAN_MANAGER_TYPE_NAME = "javax.enterprise.inject.spi.BeanManager";
 
+	public String HTTP_SESSION_TYPE_NAME = "javax.servlet.http.HttpSession";
+	public String HTTP_SERVLET_REQUEST_TYPE_NAME = "javax.servlet.http.HttpServletRequest";
+
 	public String ANNOTATION_LITERAL_TYPE_NAME = "javax.enterprise.util.AnnotationLiteral";
 
 	public String WELD_BEAN_MANAGER_TYPE_NAME = "org.jboss.weld.manager.BeanManagerImpl";
