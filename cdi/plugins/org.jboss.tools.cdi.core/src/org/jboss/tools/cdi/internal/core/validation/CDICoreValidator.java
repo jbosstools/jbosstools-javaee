@@ -62,6 +62,7 @@ import org.jboss.tools.cdi.core.CDICoreBuilder;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
+import org.jboss.tools.cdi.core.CDIVersion;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
@@ -1844,12 +1845,15 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 					addProblem(CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, CDIPreferences.UNSATISFIED_OR_AMBIGUOUS_INJECTION_POINTS, reference, injection.getResource(), AMBIGUOUS_INJECTION_POINTS_ID);
 				} else if(beans.size()==1) {
 					IBean bean = beans.iterator().next();
+					if(cdiProject.getVersion() == CDIVersion.CDI_1_0) {
 					/*
+					 * CDI 1.0 specification, it is omitted since CDI 1.1:
 					 * 5.2.4. Primitive types and null values
 					 *  - injection point of primitive type resolves to a bean that may have null values, such as a producer method with a non-primitive return type or a producer field with a non-primitive type
 					 */
-					if(bean.isNullable() && injection.getType()!=null && injection.getType().isPrimitive()) {
-						addProblem(CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, CDIPreferences.INJECT_RESOLVES_TO_NULLABLE_BEAN, reference, injection.getResource());
+						if(bean.isNullable() && injection.getType()!=null && injection.getType().isPrimitive()) {
+							addProblem(CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, CDIPreferences.INJECT_RESOLVES_TO_NULLABLE_BEAN, reference, injection.getResource());
+						}
 					}
 					/*
 					 * 5.1.4. Inter-module injection
