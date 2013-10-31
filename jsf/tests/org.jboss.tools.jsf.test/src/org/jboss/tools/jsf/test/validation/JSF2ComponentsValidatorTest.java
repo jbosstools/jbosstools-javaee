@@ -84,4 +84,12 @@ public class JSF2ComponentsValidatorTest extends TestCase {
 		}
 		return false;
 	}
+
+	public void testJSF2ComponentsConstraint() throws Exception {
+		IResource resource = project.findMember("/WebContent/resources/xdata/data.xhtml"); //$NON-NLS-1$
+		assertTrue(resource.exists());
+		IMarker[] markers = resource.findMarkers("org.jboss.tools.jst.web.constraintsmarker", true, 0);
+		assertEquals(0, markers.length);
+	}
+
 }
