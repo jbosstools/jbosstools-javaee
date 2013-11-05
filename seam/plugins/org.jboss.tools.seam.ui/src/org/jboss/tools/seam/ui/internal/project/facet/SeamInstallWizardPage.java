@@ -200,33 +200,31 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		String result = SeamProjectPreferences
 				.getStringPreference(SeamProjectPreferences.JBOSS_AS_DEFAULT_DEPLOY_AS);
 		if (!isSeamProjectWizard()) {
-			ISelection sel = PlatformUI.getWorkbench()
+			IProjectFacetVersion webVersion = null;
+			if(isWebProjectWizard()) {
+				IFacetedProjectWorkingCopy facetedProject = ( (ModifyFacetedProjectWizard) getWizard() ).getFacetedProjectWorkingCopy();
+				webVersion = facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.DYNAMIC_WEB_FACET); 
+			} else {
+				ISelection sel = PlatformUI.getWorkbench()
 					.getActiveWorkbenchWindow().getSelectionService()
 					.getSelection();
-			IProject project = SeamWizardUtils.getInitialProject(sel);
-			if (project == null) {
-				SeamCorePlugin
-						.getPluginLog()
-						.logError(
-								"Can't get project name to initialize SeamInstallWizardPage for ModifyFacetedProjectWizard");
-				return result;
-			}
-			IFacetedProject facetedProject;
-			try {
-				facetedProject = ProjectFacetsManager.create(project);
-				if (facetedProject == null) {
-					SeamCorePlugin
-							.getPluginLog()
-							.logError(
-									"Can't get faceted project to initialize SeamInstallWizardPage for ModifyFacetedProjectWizard");
+				IProject project = SeamWizardUtils.getInitialProject(sel);
+				if (project == null) {
+					return ISeamFacetDataModelProperties.DEPLOY_AS_WAR;
+				}
+				IFacetedProject facetedProject;
+				try {
+					facetedProject = ProjectFacetsManager.create(project);
+					if (facetedProject == null) {
+						return ISeamFacetDataModelProperties.DEPLOY_AS_WAR;
+					}
+				} catch (CoreException e) {
+					SeamCorePlugin.getPluginLog().logError(e);
 					return result;
 				}
-			} catch (CoreException e) {
-				SeamCorePlugin.getPluginLog().logError(e);
-				return result;
+				webVersion = facetedProject
+						.getProjectFacetVersion(IJ2EEFacetConstants.DYNAMIC_WEB_FACET);
 			}
-			IProjectFacetVersion webVersion = facetedProject
-					.getProjectFacetVersion(IJ2EEFacetConstants.DYNAMIC_WEB_FACET);
 			if (webVersion != null) {
 				return ISeamFacetDataModelProperties.DEPLOY_AS_WAR;
 			} else {
