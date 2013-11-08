@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2009-2011 Red Hat, Inc. 
+ * Copyright (c) 2009-2013 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -12,16 +12,12 @@ package org.jboss.tools.jsf.web.validation;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Reader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.AttributedString;
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.xerces.xni.XMLResourceIdentifier;
 import org.apache.xerces.xni.XNIException;
@@ -36,9 +32,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.rules.ICharacterScanner;
-import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.wst.validation.ValidationResult;
 import org.eclipse.wst.validation.ValidationState;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
@@ -47,7 +40,6 @@ import org.eclipse.wst.xml.core.internal.validation.core.NestedValidatorContext;
 import org.eclipse.wst.xml.core.internal.validation.core.ValidationMessage;
 import org.eclipse.wst.xml.core.internal.validation.core.ValidationReport;
 import org.eclipse.wst.xml.core.internal.validation.eclipse.Validator;
-import org.jboss.tools.common.text.ext.util.TextScanner;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.xml.sax.InputSource;
@@ -67,6 +59,7 @@ import org.xml.sax.helpers.LocatorImpl;
 @SuppressWarnings("restriction")
 public class XHTMLValidator extends Validator {
 	public static final String PROBLEM_ID = JSFModelPlugin.PLUGIN_ID + "xhtmlsyntaxproblem";
+	private static final String XHML_VALIDATOR_CONTEXT = "org.jboss.tools.jsf.web.validation.xhtmlValidatorContext"; //$NON-NLS-1$
 
 	IProgressMonitor monitor;
 	IResource resource;
@@ -141,14 +134,13 @@ public class XHTMLValidator extends Validator {
 	public ValidationReport validate(String uri, InputStream inputstream,
 			NestedValidatorContext context, ValidationResult result) {
 		displaySubtask(JSFValidationMessage.XHTML_VALIDATION, uri);
-		XMLValidationInfo report = new XMLValidationInfo(uri);
-		
 		IDocument doc = resource instanceof IFile ? getDocument((IFile)resource) : null;
 		
+		XMLValidationInfo report = new XMLValidationInfo(uri);
 		if (doc == null || !isXHTML(doc)) {
 //			System.out.println("XHTML is NOT Detected: " + resource.getFullPath().toString());
 			return report;
-		} else {
+//		} else {
 //			System.out.println("XHTML is Detected: " + resource.getFullPath().toString());
 		}
 		
@@ -221,8 +213,36 @@ public class XHTMLValidator extends Validator {
 	@Override
 	public void validationStarting(IProject project, ValidationState state,
 			IProgressMonitor monitor) {
-		super.validationStarting(project, state, monitor);
-		this.monitor = monitor;
+		if (project != null) {
+			NestedValidatorContext context = getNestedContext(state, false);
+			if (context == null) {
+				context = getNestedContext(state, true);
+				if (context != null)
+					context.setProject(project);
+				setupValidation(context);
+				state.put(XHML_VALIDATOR_CONTEXT, context);
+			}
+			this.monitor = monitor;
+			// Do not call the super.validationStarting(...) here (otherwise it
+			// will break XML Validator context)
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.wst.xml.core.internal.validation.eclipse.Validator#validationFinishing(org.eclipse.core.resources.IProject, org.eclipse.wst.validation.ValidationState, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	@Override
+	public void validationFinishing(IProject project, ValidationState state,
+			IProgressMonitor monitor) {
+		if (project != null) {
+			super.validationFinishing(project, state, monitor);
+			NestedValidatorContext context = getNestedContext(state, false);
+			if (context != null) {
+				teardownValidation(context);
+				state.put(XHML_VALIDATOR_CONTEXT, null);
+			}
+		}
 	}
 
 	private void displaySubtask(String message, Object... arguments) {
