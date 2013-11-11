@@ -155,7 +155,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 					IVirtualComponent webComp = ComponentCore.createComponent(prj);
 					if(webComp!=null) {
 						IVirtualFile manifest = webComp.getRootFolder().getFile("/META-INF/MANIFEST.MF");
-						if(manifest!=null) {
+						if(manifest.exists()) {
 							manifest.getUnderlyingFile().getParent().touch(monitor);
 							manifest.getUnderlyingFile().touch(monitor);
 						}
