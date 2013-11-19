@@ -34,6 +34,11 @@ public class SecuredBean1 {
 	@Secured(A.class)
     public void a() {    	
     }
+
+	@Admin
+    public void x() {
+
+    }
 }
 
 class A implements AccessDecisionVoter {

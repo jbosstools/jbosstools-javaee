@@ -157,6 +157,9 @@ public class DeltaspikeSecurityExtension implements ICDIExtension, IBuildPartici
 				if(t != null) {
 					List<IAnnotationDeclaration> ds1 = findSecurityBindingAnnotations(t, null, context);
 					if(ds1 != null) {
+						if(result == null) {
+							result = new ArrayList<SecurityBindingDeclaration>();
+						}
 						for (IAnnotationDeclaration d1: ds1) {
 							result.add(new SecurityBindingDeclaration(d, d1));
 						}
