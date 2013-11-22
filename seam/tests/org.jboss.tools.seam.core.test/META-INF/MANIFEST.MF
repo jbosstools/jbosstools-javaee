@@ -31,7 +31,7 @@ Require-Bundle:
  org.jboss.tools.common.el.core,
  org.eclipse.jst.common.project.facet.core;bundle-version="1.4.1",
  org.jboss.tools.vpe,
- org.jboss.tools.jst.jsp,
+ org.jboss.tools.jst.web.ui,
  org.jboss.tools.jsf.text.ext.richfaces,
  org.jboss.tools.seam.pages.xml,
  org.jboss.tools.seam.xml,

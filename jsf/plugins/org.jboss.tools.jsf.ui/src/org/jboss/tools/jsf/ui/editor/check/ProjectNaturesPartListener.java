@@ -17,9 +17,9 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.jboss.tools.common.reporting.ProblemReportingHelper;
-import org.jboss.tools.jst.jsp.JspEditorPlugin;
-import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
-import org.jboss.tools.jst.jsp.preferences.IVpePreferencesPage;
+import org.jboss.tools.jst.web.ui.WebUiPlugin;
+import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.jst.web.ui.internal.editor.preferences.IVpePreferencesPage;
 
 /**
  * 
@@ -53,7 +53,7 @@ public class ProjectNaturesPartListener implements IPartListener {
 			isCheck = Boolean.parseBoolean(isCheckString);
 		}
 		if (isCheck) {
-			if (JspEditorPlugin
+			if (WebUiPlugin
 					.getDefault()
 					.getPreferenceStore()
 					.getBoolean(
@@ -62,7 +62,7 @@ public class ProjectNaturesPartListener implements IPartListener {
 					checkNaturesFromPart(part);
 				} catch (CoreException e) {
 					ProblemReportingHelper.reportProblem(
-							JspEditorPlugin.PLUGIN_ID, e);
+							WebUiPlugin.PLUGIN_ID, e);
 				}
 			}
 		}

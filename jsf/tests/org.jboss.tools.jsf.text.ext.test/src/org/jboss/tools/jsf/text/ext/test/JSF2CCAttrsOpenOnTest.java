@@ -19,8 +19,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.jsf.text.ext.test.JSFHyperlinkTestUtil.TestRegion;
 import org.jboss.tools.jsf.text.ext.test.JSFHyperlinkTestUtil.TestHyperlink;
-import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlink;
-import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlinkDetector;
+import org.jboss.tools.jst.web.ui.internal.text.ext.hyperlink.ELHyperlink;
+import org.jboss.tools.jst.web.ui.internal.text.ext.hyperlink.ELHyperlinkDetector;
 import org.jboss.tools.test.util.JobUtils;
 
 /**

@@ -14,7 +14,7 @@ package org.jboss.tools.jsf.ui.test;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditorPart;
+import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditorPart;
 import org.jboss.tools.test.util.JobUtils;
 
 import static junit.framework.Assert.*;

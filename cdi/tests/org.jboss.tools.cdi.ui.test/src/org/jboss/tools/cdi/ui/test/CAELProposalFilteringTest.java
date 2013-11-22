@@ -17,7 +17,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.common.base.test.contentassist.CATestUtil;
-import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
+import org.jboss.tools.jst.web.ui.internal.editor.contentassist.AutoContentAssistantProposal;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 
 /**

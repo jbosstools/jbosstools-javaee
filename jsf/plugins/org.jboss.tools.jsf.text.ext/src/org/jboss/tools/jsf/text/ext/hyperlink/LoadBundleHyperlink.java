@@ -21,7 +21,7 @@ import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
-import org.jboss.tools.jst.text.ext.util.TaglibManagerWrapper;
+import org.jboss.tools.jst.web.ui.internal.text.ext.util.TaglibManagerWrapper;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 import org.jboss.tools.jst.web.tld.TaglibData;
 import org.jboss.tools.jst.web.tld.VpeTaglibManager;

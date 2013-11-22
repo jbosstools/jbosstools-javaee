@@ -17,7 +17,7 @@ import java.util.Set;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.jboss.tools.cdi.seam.core.test.SeamCoreTest;
 import org.jboss.tools.common.base.test.contentassist.CATestUtil;
-import org.jboss.tools.jst.jsp.contentassist.AutoELContentAssistantProposal;
+import org.jboss.tools.jst.web.ui.internal.editor.contentassist.AutoELContentAssistantProposal;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 
 /**

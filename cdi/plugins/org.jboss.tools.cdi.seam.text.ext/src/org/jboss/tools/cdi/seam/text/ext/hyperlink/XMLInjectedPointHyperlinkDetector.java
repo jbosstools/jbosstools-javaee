@@ -39,7 +39,7 @@ import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlinkDetector;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
-import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
+import org.jboss.tools.jst.web.ui.internal.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 

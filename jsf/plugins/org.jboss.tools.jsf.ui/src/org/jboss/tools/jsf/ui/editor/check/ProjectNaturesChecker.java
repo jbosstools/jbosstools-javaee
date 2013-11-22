@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.ui.editor.check;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -30,8 +31,8 @@ import org.jboss.tools.common.model.options.Preference;
 import org.jboss.tools.common.reporting.ProblemReportingHelper;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
-import org.jboss.tools.jst.jsp.JspEditorPlugin;
-import org.jboss.tools.jst.jsp.util.FileUtil;
+import org.jboss.tools.jst.web.ui.WebUiPlugin;
+import org.jboss.tools.jst.web.ui.internal.editor.util.FileUtil;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.internal.KbBuilderMarker;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
@@ -121,7 +122,7 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 							updateProjectJSFPersistents(project);
 					}
 				} catch (CoreException e) {
-					ProblemReportingHelper.reportProblem(JspEditorPlugin.PLUGIN_ID, e);
+					ProblemReportingHelper.reportProblem(WebUiPlugin.PLUGIN_ID, e);
 				}
 			}
 		}
