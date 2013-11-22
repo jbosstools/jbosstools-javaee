@@ -14,7 +14,7 @@ package org.jboss.tools.jsf.text.ext.facelets.hyperlink;
 import java.text.MessageFormat;
 
 import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
-import org.jboss.tools.jst.text.ext.hyperlink.CSSClassHyperlink;
+import org.jboss.tools.jst.web.ui.internal.text.ext.hyperlink.CSSClassHyperlink;
 
 /**
  * 

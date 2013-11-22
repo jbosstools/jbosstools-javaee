@@ -18,7 +18,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.jboss.tools.common.model.ui.ModelUIImages;
 import org.jboss.tools.common.model.ui.editors.dnd.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.*;
-import org.jboss.tools.jst.jsp.jspeditor.dnd.PaletteDropCommand;
+import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.dnd.PaletteDropCommand;
 import org.jboss.tools.jst.web.ui.palette.html.wizard.HTMLConstants;
 
 /**

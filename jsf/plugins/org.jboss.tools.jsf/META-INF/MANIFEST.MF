@@ -66,10 +66,10 @@ Require-Bundle: org.jboss.tools.jst.web;visibility:=reexport,
  org.eclipse.core.expressions;bundle-version="3.4.200",
  org.jboss.tools.common.text.ext,
  org.eclipse.jst.jsp.ui;bundle-version="1.1.600";visibility:=reexport,
- org.jboss.tools.jst.jsp,
+ org.jboss.tools.jst.web.ui,
  org.jboss.tools.common.validation,
  org.jboss.tools.jst.web.kb
 Bundle-Version: 3.6.0.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: org.jboss.tools.jst.jsp.bundle
+Import-Package: org.jboss.tools.jst.web.ui.internal.editor.bundle

@@ -27,7 +27,7 @@ Require-Bundle: org.junit,
  org.eclipse.wst.validation,
  org.jboss.tools.common.base.test,
  org.jboss.tools.cdi.seam.core.test,
- org.jboss.tools.jst.text.ext
+ org.jboss.tools.jst.web.ui
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Bundle-Vendor.0
 Export-Package: org.jboss.tools.cdi.seam.text.ext.test

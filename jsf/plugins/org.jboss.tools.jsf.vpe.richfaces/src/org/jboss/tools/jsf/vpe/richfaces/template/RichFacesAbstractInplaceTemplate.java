@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
-import org.jboss.tools.jst.jsp.util.Constants;
+import org.jboss.tools.jst.web.ui.internal.editor.util.Constants;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
