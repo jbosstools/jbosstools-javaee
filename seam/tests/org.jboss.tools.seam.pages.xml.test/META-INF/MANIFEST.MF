@@ -19,7 +19,6 @@ Require-Bundle:
  org.eclipse.wst.common.modulecore,
  org.eclipse.wst.common.frameworks,
  org.eclipse.jface,
- org.jboss.tools.jst.firstrun,
  org.eclipse.wst.server.core,
  org.eclipse.datatools.connectivity,
  org.eclipse.ltk.core.refactoring,

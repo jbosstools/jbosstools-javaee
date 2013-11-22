@@ -17,8 +17,8 @@ import org.jboss.tools.common.model.ui.attribute.adapter.DefaultValueAdapter;
 import org.eclipse.swt.widgets.Control;
 import org.jboss.tools.common.meta.key.WizardKeys;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
-import org.jboss.tools.jst.jsp.contentassist.JSPDialogContentProposalProvider;
-import org.jboss.tools.jst.jsp.outline.*;
+import org.jboss.tools.jst.web.ui.internal.editor.contentassist.JSPDialogContentProposalProvider;
+import org.jboss.tools.jst.web.ui.internal.editor.outline.*;
 
 public class JSFKnowledgeBaseAdapter extends DefaultValueAdapter implements IActionHelper, IActionHelperExtension {
 	Properties context = new Properties();

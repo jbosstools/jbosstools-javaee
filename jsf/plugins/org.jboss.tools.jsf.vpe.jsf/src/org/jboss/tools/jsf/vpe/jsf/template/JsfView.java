@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.jboss.tools.jst.jsp.i18n.MainLocaleProvider;
+import org.jboss.tools.jst.web.ui.internal.editor.i18n.MainLocaleProvider;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;

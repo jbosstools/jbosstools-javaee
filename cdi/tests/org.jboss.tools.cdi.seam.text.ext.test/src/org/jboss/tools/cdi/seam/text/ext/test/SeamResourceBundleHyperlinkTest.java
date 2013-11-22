@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.jboss.tools.cdi.seam.core.test.SeamCoreTest;
 import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil;
-import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlink;
+import org.jboss.tools.jst.web.ui.internal.text.ext.hyperlink.ELHyperlink;
 
 /**
  * The JUnit test cases for JBIDE-9288 issue 

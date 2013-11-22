@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.ui.editor.check;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -29,8 +30,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 import org.jboss.tools.common.reporting.ProblemReportingHelper;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
-import org.jboss.tools.jst.jsp.JspEditorPlugin;
-import org.jboss.tools.jst.jsp.messages.JstUIMessages;
+import org.jboss.tools.jst.web.ui.WebUiPlugin;
+import org.jboss.tools.jst.web.ui.internal.editor.messages.JstUIMessages;
 
 /**
  * 
@@ -113,7 +114,7 @@ public abstract class ProjectNaturesInfoDialog extends MessageDialog {
 					theURL = new URL(JstUIMessages.DOCS_INFO_LINK);
 				} catch (MalformedURLException e) {
 					ProblemReportingHelper.reportProblem(
-							JspEditorPlugin.PLUGIN_ID, e);
+							WebUiPlugin.PLUGIN_ID, e);
 				}
 				IWorkbenchBrowserSupport support = PlatformUI.getWorkbench()
 						.getBrowserSupport();
@@ -121,7 +122,7 @@ public abstract class ProjectNaturesInfoDialog extends MessageDialog {
 					support.getExternalBrowser().openURL(theURL);
 				} catch (PartInitException e) {
 					ProblemReportingHelper.reportProblem(
-							JspEditorPlugin.PLUGIN_ID, e);
+							WebUiPlugin.PLUGIN_ID, e);
 				}
 			}
 		});

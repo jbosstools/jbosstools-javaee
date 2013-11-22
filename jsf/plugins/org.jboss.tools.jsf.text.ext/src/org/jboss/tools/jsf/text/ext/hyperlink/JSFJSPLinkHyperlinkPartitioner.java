@@ -18,7 +18,7 @@ import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
-import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPLinkHyperlinkPartitioner;
+import org.jboss.tools.jst.web.ui.internal.text.ext.hyperlink.jsp.JSPLinkHyperlinkPartitioner;
 
 public class JSFJSPLinkHyperlinkPartitioner extends JSPLinkHyperlinkPartitioner {
 	public static final String JSF_JSP_LINK_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSF_JSP_LINK"; //$NON-NLS-1$

@@ -10,7 +10,7 @@ Require-Bundle:
  org.eclipse.ui,
  org.eclipse.jface.text,
  org.jboss.tools.common.text.ext,
- org.jboss.tools.jst.text.ext,
+ org.jboss.tools.jst.web.ui,
  org.jboss.tools.jsf.text.ext,
  org.jboss.tools.jst.web,
  org.jboss.tools.jst.web.kb,
