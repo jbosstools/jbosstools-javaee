@@ -21,7 +21,7 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.wst.sse.ui.internal.contentassist.CustomCompletionProposal;
 import org.jboss.tools.common.base.test.contentassist.CATestUtil;
-import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
+import org.jboss.tools.jst.web.ui.internal.editor.contentassist.AutoContentAssistantProposal;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 

@@ -15,7 +15,7 @@ import org.eclipse.jface.text.Region;
 import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.jsf.vpe.facelets.Facelets;
 import org.jboss.tools.jsf.vpe.facelets.Messages;
-import org.jboss.tools.jst.jsp.util.NodesManagingUtil;
+import org.jboss.tools.jst.web.ui.internal.editor.util.NodesManagingUtil;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;

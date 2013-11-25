@@ -28,10 +28,10 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
-import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlink;
-import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlinkDetector;
-import org.jboss.tools.jst.text.ext.hyperlink.ELVarListHyperlink;
+import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.jst.web.ui.internal.text.ext.hyperlink.ELHyperlink;
+import org.jboss.tools.jst.web.ui.internal.text.ext.hyperlink.ELHyperlinkDetector;
+import org.jboss.tools.jst.web.ui.internal.text.ext.hyperlink.ELVarListHyperlink;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.test.util.WorkbenchUtils;
 

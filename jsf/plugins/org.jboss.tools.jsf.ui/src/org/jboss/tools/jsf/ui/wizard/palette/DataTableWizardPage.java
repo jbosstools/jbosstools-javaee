@@ -45,7 +45,7 @@ import org.jboss.tools.jsf.model.pv.JSFPromptingProvider;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jsf.ui.attribute.adapter.JSFKnowledgeBaseAdapter;
-import org.jboss.tools.jst.jsp.jspeditor.dnd.TagProposal;
+import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.dnd.TagProposal;
 import org.jboss.tools.common.model.ui.editors.dnd.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.*;
 import org.jboss.tools.common.model.ui.editors.dnd.composite.TagAttributesComposite.AttributeDescriptorValue;

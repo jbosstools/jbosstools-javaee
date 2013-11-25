@@ -22,7 +22,7 @@ import org.jboss.tools.common.el.core.resolver.ELResolution;
 import org.jboss.tools.common.el.core.resolver.ELResolver;
 import org.jboss.tools.common.el.core.resolver.ELSegment;
 import org.jboss.tools.common.text.TextProposal;
-import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlinkDetector;
+import org.jboss.tools.jst.web.ui.internal.text.ext.hyperlink.ELHyperlinkDetector;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
 
 /**

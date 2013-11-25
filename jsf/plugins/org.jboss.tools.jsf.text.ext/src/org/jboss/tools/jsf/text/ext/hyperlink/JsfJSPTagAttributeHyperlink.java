@@ -21,7 +21,7 @@ import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jsf.text.ext.JSFTextExtMessages;
-import org.jboss.tools.jst.text.ext.util.TaglibManagerWrapper;
+import org.jboss.tools.jst.web.ui.internal.text.ext.util.TaglibManagerWrapper;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;

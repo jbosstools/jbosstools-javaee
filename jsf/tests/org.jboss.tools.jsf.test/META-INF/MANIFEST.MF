@@ -35,7 +35,7 @@ Require-Bundle:
  org.eclipse.ltk.core.refactoring,
  org.eclipse.wst.validation,
  org.jboss.tools.common.el.core,
- org.jboss.tools.jst.jsp,
+ org.jboss.tools.jst.web.ui,
  org.eclipse.wst.common.project.facet.core,
  org.eclipse.jst.jsf.core,
  org.eclipse.jst.j2ee,
@@ -52,4 +52,4 @@ Bundle-Activator: org.jboss.tools.jsf.plugin.JsfTestPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: org.jboss.tools.jst.jsp.contentassist
+Import-Package: org.jboss.tools.jst.web.ui.internal.editor.contentassist

@@ -34,7 +34,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.common.base.test.contentassist.CATestUtil;
 import org.jboss.tools.common.el.ui.ca.ELProposalProcessor;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.jst.jsp.contentassist.AutoELContentAssistantProposal;
+import org.jboss.tools.jst.web.ui.internal.editor.contentassist.AutoELContentAssistantProposal;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;

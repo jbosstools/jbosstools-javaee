@@ -27,9 +27,9 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wst.sse.ui.StructuredTextViewerConfiguration;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
-import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
-import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
-import org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor;
+import org.jboss.tools.jst.web.ui.internal.editor.contentassist.AutoContentAssistantProposal;
+import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPTextEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 
