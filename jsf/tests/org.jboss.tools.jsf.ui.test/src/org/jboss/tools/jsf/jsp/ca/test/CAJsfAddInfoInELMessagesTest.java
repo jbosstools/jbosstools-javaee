@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011-2012 Red Hat, Inc.
+ * Copyright (c) 2011-2013 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -44,7 +44,7 @@ public class CAJsfAddInfoInELMessagesTest extends ContentAssistantTestCase {
 	}
 
 	public static Test suite() {
-		return new TestSuite(CAForELJavaAndJSTCompareTest.class);
+		return new TestSuite(CAJsfAddInfoInELMessagesTest.class);
 	}
 
 	public void testCAJsfAddInfoInELMessages () {
@@ -67,6 +67,17 @@ public class CAJsfAddInfoInELMessagesTest extends ContentAssistantTestCase {
 	String html2Text(String html) {
 		StringBuilder sb = new StringBuilder();
 		int state = 0;
+		
+		// 
+		// JBIDE-16120: CSS part contains the fontnames that are OS and setup dependent,
+		// So we should exclude it from compare
+		// 
+		int styleStart = html.toLowerCase().indexOf("<style");
+		int styleEnd = html.toLowerCase().indexOf("/style>");
+		if (styleStart != -1 && styleEnd > styleStart) {
+			html = html.substring(0, styleStart) + html.substring(styleEnd + "/style>".length());
+		}
+		
 		for (char ch : html.toCharArray()) {
 			switch (state) {
 			case (int)'<':
