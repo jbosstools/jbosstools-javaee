@@ -40,15 +40,11 @@ public class ELTooltipTest extends ContentAssistantTestCase {
 			};
 	private static final String EL_VALUE[] = {"user", "name", "sayHello", "msgs", "prompt"};
 	private static final String EL_TOOLTIP_TEXT[] = {
-		"<html><body text=\"#000000\" bgcolor=\"#ffffe1\"><h5><img style='position: relative; width: 16px; height: 16px; top: 2px; left: 2px; ' src='file:/home/jeremy/projects/junit-workspace/.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/0.png'>\n" + 
-				"<span style='word-wrap:break-word;margin-left: 2px; margin-top: 2px; '>demo.User</span></span></h5><p>Created by JBoss Tools</body></html>",
-		"<html><body text=\"#000000\" bgcolor=\"#ffffe1\">- <span style='word-wrap:break-word;'><a class='header' href='eclipse-javadoc:%E2%98%82=JSF2KickStartWithoutLibs/JavaSource%3Cdemo%7BUser.java%E2%98%83User~getName%E2%98%82String'>String</a> demo.<a class='header' href='eclipse-javadoc:%E2%98%82=JSF2KickStartWithoutLibs/JavaSource%3Cdemo%7BUser.java%E2%98%83User'>User</a>.getName()</span><br/>- <span style='word-wrap:break-word;'>void demo.<a class='header' href='eclipse-javadoc:%E2%98%82=JSF2KickStartWithoutLibs/JavaSource%3Cdemo%7BUser.java%E2%98%83User'>User</a>.setName(<a class='header' href='eclipse-javadoc:%E2%98%82=JSF2KickStartWithoutLibs/JavaSource%3Cdemo%7BUser.java%E2%98%83User~setName~QString;%E2%98%82String'>String</a> name)</span><br/><br/><h5><img style='position: relative; width: 16px; height: 16px; top: 2px; left: 2px; ' src='file:/home/jeremy/projects/junit-workspace/.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/1.png'>\n" +
-				"<span style='word-wrap:break-word;margin-left: 2px; margin-top: 2px; '><a class='header' href='eclipse-javadoc:%E2%98%82=JSF2KickStartWithoutLibs/JavaSource%3Cdemo%7BUser.java%E2%98%83User~getName%E2%98%82String'>String</a> demo.<a class='header' href='eclipse-javadoc:%E2%98%82=JSF2KickStartWithoutLibs/JavaSource%3Cdemo%7BUser.java%E2%98%83User'>User</a>.getName()</span></span></h5><br/>\n" +
-				"<span style='word-wrap:break-word;margin-left: 2px; margin-top: 2px; '>void demo.<a class='header' href='eclipse-javadoc:%E2%98%82=JSF2KickStartWithoutLibs/JavaSource%3Cdemo%7BUser.java%E2%98%83User'>User</a>.setName(<a class='header' href='eclipse-javadoc:%E2%98%82=JSF2KickStartWithoutLibs/JavaSource%3Cdemo%7BUser.java%E2%98%83User~setName~QString;%E2%98%82String'>String</a> name)</span></span></h5><h5><img style='position: relative; width: 16px; height: 16px; top: 2px; left: 2px; ' src='file:/home/jeremy/projects/junit-workspace/.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/1.png'></body></html>",
-		"<html><body text=\"#000000\" bgcolor=\"#ffffe1\"><h5><img style='position: relative; width: 16px; height: 16px; top: 2px; left: 2px; ' src='file:/home/jeremy/projects/junit-workspace/.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/1.png'>\n" +
-				"<span style='word-wrap:break-word;margin-left: 2px; margin-top: 2px; '><a class='header' href='eclipse-javadoc:%E2%98%82=JSF2KickStartWithoutLibs/JavaSource%3Cdemo%7BUser.java%E2%98%83User~sayHello%E2%98%82String'>String</a> demo.<a class='header' href='eclipse-javadoc:%E2%98%82=JSF2KickStartWithoutLibs/JavaSource%3Cdemo%7BUser.java%E2%98%83User'>User</a>.sayHello()</span></span></h5></body></html>",
-		"Base Name: resources<br><br>Resource Bundle: /JSF2KickStartWithoutLibs/JavaSource/resources.properties<br>",
-		"Property: prompt<br>Base Name: resources<br><br>Resource Bundle: /JSF2KickStartWithoutLibs/JavaSource/resources.properties<br>Value: Your Name:<br><br>"
+		"demo.UserCreated by JBoss Tools",
+		"String demo.User.getName()No Javadoc could be found     void demo.User.setName(String name)No Javadoc could be found",
+		"String demo.User.sayHello()No Javadoc could be found",
+		"Base Name: resourcesResource Bundle: /JSF2KickStartWithoutLibs/JavaSource/resources.properties",
+		"Property: promptBase Name: resourcesResource Bundle: /JSF2KickStartWithoutLibs/JavaSource/resources.propertiesValue: Your Name:"
 				
 	};
 	
@@ -86,6 +82,29 @@ public class ELTooltipTest extends ContentAssistantTestCase {
 	String html2Text(String html) {
 		StringBuilder sb = new StringBuilder();
 		int state = 0;
+		
+		// 
+		// JBIDE-16135: CSS part contains the fontnames that are OS and setup dependent,
+		// So we should exclude it from compare
+		// 
+		int styleStart = html.toLowerCase().indexOf("<style");
+		int styleEnd = html.toLowerCase().indexOf("/style>");
+		
+		while (styleStart != -1 && styleEnd > styleStart) {
+			html = html.substring(0, styleStart) + html.substring(styleEnd + "/style>".length());
+			styleStart = html.toLowerCase().indexOf("<style");
+			styleEnd = html.toLowerCase().indexOf("/style>");
+		}
+		// JBIDE-16135: pragmas and comments should be remived also
+		int commentStart = html.indexOf("<!--");
+		int commentEnd = html.indexOf("-->");
+		while (commentStart != -1 && commentEnd > commentStart) {
+			html = html.substring(0, commentStart) + html.substring(commentEnd + "-->".length());
+			commentStart = html.indexOf("<!--");
+			commentEnd = html.indexOf("-->");
+		}
+		html = html.trim();
+		
 		for (char ch : html.toCharArray()) {
 			switch (state) {
 			case (int)'<':
@@ -103,8 +122,9 @@ public class ELTooltipTest extends ContentAssistantTestCase {
 				break;
 			}
 		}
-		return sb.toString();
+		return sb.toString().trim();
 	}
+
 	
 	public ITextHover getTextHover(ITextViewer viewer, int offset) {
 		try {

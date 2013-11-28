@@ -69,14 +69,26 @@ public class CAJsfAddInfoInELMessagesTest extends ContentAssistantTestCase {
 		int state = 0;
 		
 		// 
-		// JBIDE-16120: CSS part contains the fontnames that are OS and setup dependent,
+		// JBIDE-16135: CSS part contains the fontnames that are OS and setup dependent,
 		// So we should exclude it from compare
 		// 
 		int styleStart = html.toLowerCase().indexOf("<style");
 		int styleEnd = html.toLowerCase().indexOf("/style>");
-		if (styleStart != -1 && styleEnd > styleStart) {
+		
+		while (styleStart != -1 && styleEnd > styleStart) {
 			html = html.substring(0, styleStart) + html.substring(styleEnd + "/style>".length());
+			styleStart = html.toLowerCase().indexOf("<style");
+			styleEnd = html.toLowerCase().indexOf("/style>");
 		}
+		// JBIDE-16135: pragmas and comments should be remived also
+		int commentStart = html.indexOf("<!--");
+		int commentEnd = html.indexOf("-->");
+		while (commentStart != -1 && commentEnd > commentStart) {
+			html = html.substring(0, commentStart) + html.substring(commentEnd + "-->".length());
+			commentStart = html.indexOf("<!--");
+			commentEnd = html.indexOf("-->");
+		}
+		html = html.trim();
 		
 		for (char ch : html.toCharArray()) {
 			switch (state) {
@@ -95,7 +107,7 @@ public class CAJsfAddInfoInELMessagesTest extends ContentAssistantTestCase {
 				break;
 			}
 		}
-		return sb.toString();
+		return sb.toString().trim();
 	}
 
 	AutoELContentAssistantProposal[] getJSTProposals(String prefix) {

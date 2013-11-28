@@ -149,8 +149,7 @@ public class JsfUiAllTests {
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				CAJsfMessagesProposalsFilteringTest.class,
 				ELTooltipTest.class,
-//	TODO: The following test should be fixed and uncommented after the issue JBIDE-16135 is fixed: 		
-//				CAForELJavaAndJSTCompareTest.class,
+				CAForELJavaAndJSTCompareTest.class,
 				CAELApplyMethodProposalTest.class,
 				CAJsfAddInfoInELMessagesTest.class,
 				CAJsfResourceBundlePropertyApplyTest.class,
