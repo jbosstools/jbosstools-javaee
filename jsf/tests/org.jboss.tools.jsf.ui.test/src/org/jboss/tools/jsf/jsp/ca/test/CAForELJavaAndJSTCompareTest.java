@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011-2012 Red Hat, Inc.
+ * Copyright (c) 2011-2013 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -34,8 +34,8 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.common.base.test.contentassist.CATestUtil;
 import org.jboss.tools.common.el.ui.ca.ELProposalProcessor;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.jst.web.ui.internal.editor.contentassist.AutoELContentAssistantProposal;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
+import org.jboss.tools.jst.web.ui.internal.editor.contentassist.AutoELContentAssistantProposal;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
