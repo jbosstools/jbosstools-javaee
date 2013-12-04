@@ -15,7 +15,7 @@ import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.common.ui.CommonUIPlugin;
-import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
+import org.jboss.tools.jst.web.ui.base.test.ca.ContentAssistantTestCase;
 
 /**
  * @author Alexey Kazakov

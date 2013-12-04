@@ -24,8 +24,8 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.jboss.tools.common.base.test.contentassist.CATestUtil;
 import org.jboss.tools.common.el.core.ELCorePlugin;
 import org.jboss.tools.common.el.core.ca.preferences.ELContentAssistPreferences;
+import org.jboss.tools.jst.web.ui.base.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.jst.web.ui.internal.editor.contentassist.AutoELContentAssistantProposal;
-import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class JsfJspJbide6259Test extends ContentAssistantTestCase {

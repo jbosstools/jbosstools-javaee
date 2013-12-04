@@ -23,9 +23,9 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.common.preferences.SeverityPreferences;
-import org.jboss.tools.jst.jsp.test.validation.BaseAsYouTypeValidationTest;
 import org.jboss.tools.jst.web.kb.WebKbPlugin;
 import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
+import org.jboss.tools.jst.web.ui.base.test.validation.BaseAsYouTypeValidationTest;
 import org.jboss.tools.test.util.JobUtils;
 import org.osgi.framework.Bundle;
 

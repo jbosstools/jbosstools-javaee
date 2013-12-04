@@ -14,7 +14,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
-import org.jboss.tools.jst.jsp.test.ca.CommonContentAssistantTestCase;
+import org.jboss.tools.jst.web.ui.base.test.ca.CommonContentAssistantTestCase;
 
 /**
  * @author Eugene Stherbin
