@@ -1,6 +1,6 @@
 package org.jboss.tools.jsf.jsp.ca.test;
 
-import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
+import org.jboss.tools.jst.web.ui.base.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.test.util.TestProjectProvider;
 
 public class CAUnnecessaryElementsForDirAttributeInXHTMLPageJBIDE1813Test extends ContentAssistantTestCase{

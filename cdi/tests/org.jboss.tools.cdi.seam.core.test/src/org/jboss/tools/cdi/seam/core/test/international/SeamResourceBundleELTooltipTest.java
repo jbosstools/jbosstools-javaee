@@ -17,7 +17,7 @@ import org.eclipse.jface.text.ITextHoverExtension2;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.TextViewer;
 import org.jboss.tools.cdi.seam.core.test.SeamCoreTest;
-import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
+import org.jboss.tools.jst.web.ui.base.test.ca.ContentAssistantTestCase;
 
 /**
  * The JUnit test cases for JBIDE-9731 issues 

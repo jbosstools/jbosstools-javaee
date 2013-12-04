@@ -7,7 +7,7 @@ import org.eclipse.jface.text.FindReplaceDocumentAdapter;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.jboss.tools.common.base.test.contentassist.CATestUtil;
-import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
+import org.jboss.tools.jst.web.ui.base.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.test.util.TestProjectProvider;
 
 public class CAForUnclosedELTest extends ContentAssistantTestCase{

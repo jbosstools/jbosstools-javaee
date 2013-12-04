@@ -12,7 +12,7 @@ package org.jboss.tools.jsf.jsp.ca.test;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
+import org.jboss.tools.jst.web.ui.base.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**	
