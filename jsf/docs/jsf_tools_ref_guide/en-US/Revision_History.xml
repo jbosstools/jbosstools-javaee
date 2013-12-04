@@ -4,17 +4,17 @@
 	<title>Revision History</title>
 	<simpara>
 		<revhistory>
-			<revision>
-				<revnumber>1-1</revnumber>
-				<date>Fri Nov 16 2012</date>
+			<revision>			
+				<revnumber>7.1.0-1</revnumber>
+				<date>Wed Dec 04 2013</date>
 				<author>
-					<firstname>JBoss Tools</firstname>
-					<surname>Documentation Team</surname>
-					<email>irooskov@redhat.com</email>
+					<firstname>Michelle</firstname>
+					<surname>Murray</surname>
+					<email>mmurray@redhat.com</email>
 				</author>
 				<revdescription>
 					<simplelist>
-						<member>General updates</member>
+						<member>TOOLSDOC-390: 7.1.0 release</member>
 					</simplelist>
 				</revdescription>
 			</revision>

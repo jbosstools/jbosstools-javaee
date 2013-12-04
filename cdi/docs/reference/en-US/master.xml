@@ -38,9 +38,9 @@
 	          <year>2012</year>
 	          <holder>JBoss by Red Hat</holder>
 	     </copyright>
-         <releaseinfo>
-             Version: 3.3.0.M5
-         </releaseinfo>
+       <releaseinfo>
+            Version: &project.version;
+        </releaseinfo>
     </bookinfo>
     
     <toc/> 
@@ -51,6 +51,5 @@
 	&validation;
 	&code_completion;
 	&hyperlink_navigation;
-    &Revision_History;
 
 </book> 
