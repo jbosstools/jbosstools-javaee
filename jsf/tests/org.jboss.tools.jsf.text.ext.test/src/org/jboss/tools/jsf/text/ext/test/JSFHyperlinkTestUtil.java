@@ -37,8 +37,8 @@ import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
 import org.jboss.tools.jsf.ui.editor.FacesConfigEditor;
 import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
-import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestHyperlink;
-import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestRegion;
+import org.jboss.tools.jst.web.ui.openon.test.HyperlinkTestUtil.TestHyperlink;
+import org.jboss.tools.jst.web.ui.openon.test.HyperlinkTestUtil.TestRegion;
 import org.jboss.tools.jst.web.ui.editors.WebCompoundEditor;
 import org.jboss.tools.common.model.ui.texteditors.XMLTextEditorComponent;
 

@@ -21,9 +21,9 @@ import org.eclipse.core.runtime.QualifiedName;
 import org.jboss.tools.jst.web.ui.internal.text.ext.hyperlink.ELHyperlink;
 import org.jboss.tools.jst.web.ui.internal.text.ext.hyperlink.ELHyperlinkDetector;
 import org.jboss.tools.jst.web.ui.internal.text.ext.hyperlink.ELVarListHyperlink;
-import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil;
-import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestHyperlink;
-import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestRegion;
+import org.jboss.tools.jst.web.ui.openon.test.HyperlinkTestUtil;
+import org.jboss.tools.jst.web.ui.openon.test.HyperlinkTestUtil.TestHyperlink;
+import org.jboss.tools.jst.web.ui.openon.test.HyperlinkTestUtil.TestRegion;
 import org.jboss.tools.test.util.TestProjectProvider;
 
 public class ELExprPartitionerTest extends TestCase {
