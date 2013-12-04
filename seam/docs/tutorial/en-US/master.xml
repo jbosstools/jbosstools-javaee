@@ -48,9 +48,9 @@
 	     <year>2012</year>
              <holder>JBoss by Red Hat</holder>
          </copyright>
-         <releaseinfo>
-             Version: 3.3.0.Beta1
-         </releaseinfo>
+       <releaseinfo>
+            Version: &project.version;
+       </releaseinfo>
          
 <!--<abstract>
    <title/>
