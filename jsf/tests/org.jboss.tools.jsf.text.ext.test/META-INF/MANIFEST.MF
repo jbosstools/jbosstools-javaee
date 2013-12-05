@@ -21,7 +21,7 @@ Require-Bundle: org.junit,
  org.jboss.tools.jsf.text.ext.richfaces,
  org.jboss.tools.jsf.ui,
  org.eclipse.jst.standard.schemas,
- org.jboss.tools.jst.web.ui.test,
+ org.jboss.tools.jst.jsp.base.test,
  org.eclipse.jdt.ui;bundle-version="3.7.0",
  org.jboss.tools.jsf;bundle-version="3.3.0"
 Bundle-ActivationPolicy: lazy
