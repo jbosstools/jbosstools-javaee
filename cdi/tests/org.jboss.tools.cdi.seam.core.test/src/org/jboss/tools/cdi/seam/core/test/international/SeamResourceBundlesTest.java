@@ -23,11 +23,11 @@ import org.jboss.tools.common.el.core.resolver.ELResolver;
 import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
+import org.jboss.tools.jst.jsp.test.openon.HyperlinkTestUtil;
+import org.jboss.tools.jst.jsp.test.openon.HyperlinkTestUtil.TestHyperlink;
+import org.jboss.tools.jst.jsp.test.openon.HyperlinkTestUtil.TestRegion;
 import org.jboss.tools.jst.web.ui.internal.text.ext.hyperlink.ELHyperlink;
 import org.jboss.tools.jst.web.ui.internal.text.ext.hyperlink.ELHyperlinkDetector;
-import org.jboss.tools.jst.web.ui.openon.test.HyperlinkTestUtil;
-import org.jboss.tools.jst.web.ui.openon.test.HyperlinkTestUtil.TestHyperlink;
-import org.jboss.tools.jst.web.ui.openon.test.HyperlinkTestUtil.TestRegion;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
 
 /**

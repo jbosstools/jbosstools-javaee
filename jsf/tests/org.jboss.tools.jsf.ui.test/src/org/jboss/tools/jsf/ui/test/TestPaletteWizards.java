@@ -11,8 +11,8 @@ import org.jboss.tools.jsf.ui.wizard.palette.DataTableWizardPage;
 import org.jboss.tools.jsf.ui.wizard.palette.OutputLinkWizardPage;
 import org.jboss.tools.jsf.ui.wizard.palette.PanelGridWizardPage;
 import org.jboss.tools.jsf.ui.wizard.palette.SelectItemsWizardPage;
+import org.jboss.tools.jst.jsp.test.palette.AbstractPaletteEntryTest;
 import org.jboss.tools.jst.web.ui.palette.html.wizard.HTMLConstants;
-import org.jboss.tools.jst.web.ui.test.AbstractPaletteEntryTest;
 
 public class TestPaletteWizards extends AbstractPaletteEntryTest implements HTMLConstants {
 	static String GROUP_HTML = "JSF HTML";
