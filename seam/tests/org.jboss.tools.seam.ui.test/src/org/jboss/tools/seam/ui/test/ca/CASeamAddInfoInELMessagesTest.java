@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Red Hat, Inc.
+ * Copyright (c) 2011-2013 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -35,8 +35,6 @@ import org.jboss.tools.test.util.ProjectImportTestSetup;
 public class CASeamAddInfoInELMessagesTest extends ContentAssistantTestCase {
 	private static final String PROJECT_NAME = "TestSeamELContentAssist";
 	private static final String PAGE_NAME = "/WebContent/messages.xhtml";
-
-	
 	
 	private static final String INSERT_AFTER[] = new String[] {"#{messages."};
 	private static final String INSERTIONS[] = new String[] {"Text1"};
@@ -74,6 +72,29 @@ public class CASeamAddInfoInELMessagesTest extends ContentAssistantTestCase {
 	String html2Text(String html) {
 		StringBuilder sb = new StringBuilder();
 		int state = 0;
+		
+		// 
+		// JBIDE-16135: CSS part contains the fontnames that are OS and setup dependent,
+		// So we should exclude it from compare
+		// 
+		int styleStart = html.toLowerCase().indexOf("<style");
+		int styleEnd = html.toLowerCase().indexOf("/style>");
+		
+		while (styleStart != -1 && styleEnd > styleStart) {
+			html = html.substring(0, styleStart) + html.substring(styleEnd + "/style>".length());
+			styleStart = html.toLowerCase().indexOf("<style");
+			styleEnd = html.toLowerCase().indexOf("/style>");
+		}
+		// JBIDE-16135: pragmas and comments should be removed also
+		int commentStart = html.indexOf("<!--");
+		int commentEnd = html.indexOf("-->");
+		while (commentStart != -1 && commentEnd > commentStart) {
+			html = html.substring(0, commentStart) + html.substring(commentEnd + "-->".length());
+			commentStart = html.indexOf("<!--");
+			commentEnd = html.indexOf("-->");
+		}
+		html = html.trim();
+		
 		for (char ch : html.toCharArray()) {
 			switch (state) {
 			case (int)'<':
@@ -91,7 +112,7 @@ public class CASeamAddInfoInELMessagesTest extends ContentAssistantTestCase {
 				break;
 			}
 		}
-		return sb.toString();
+		return sb.toString().trim();
 	}
 
 	AutoELContentAssistantProposal[] getJSTProposals(String insertAfter, String insertion, String prefix) {
