@@ -13,7 +13,7 @@ package org.jboss.tools.seam.ui.test.wizard;
 import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
-	private static final String BUNDLE_NAME = "org.jboss.tools.jst.firstrun.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "org.jboss.tools.seam.ui.test.wizard.messages"; //$NON-NLS-1$
 	public static String JBossASAdapterInitializer_AppServer32;
 	public static String JBossASAdapterInitializer_AppServer40;
 	public static String JBossASAdapterInitializer_AppServer42;
