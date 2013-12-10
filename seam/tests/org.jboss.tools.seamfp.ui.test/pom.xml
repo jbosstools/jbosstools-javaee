@@ -14,7 +14,7 @@
 	<properties>
 		<systemProperties>-Djbosstools.test.seam.2.0.1.GA.home=${requirementsDirectory}/jboss-eap-4.3/seamfp</systemProperties>
 		<coverage.filter>org.jboss.tools.seam*</coverage.filter>
-		<emma.instrument.bundles>org.jboss.tools.seam.ui,org.jboss.tools.seam.core</emma.instrument.bundles>
+		<!--<emma.instrument.bundles>org.jboss.tools.seam.ui,org.jboss.tools.seam.core</emma.instrument.bundles>-->
 	</properties>
 
 	<build>
