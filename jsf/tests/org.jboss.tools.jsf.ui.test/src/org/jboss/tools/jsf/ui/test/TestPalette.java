@@ -41,11 +41,11 @@ import org.eclipse.ui.part.IPage;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.ui.views.palette.IPaletteAdapter;
-import org.jboss.tools.common.model.ui.views.palette.PaletteContents;
 import org.jboss.tools.common.model.ui.views.palette.PaletteInsertHelper;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.PagePaletteContents;
 import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.PalettePageImpl;
 import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.dnd.JSPPaletteInsertHelper;
 import org.jboss.tools.jst.web.tld.model.helpers.TLDToPaletteHelper;
@@ -85,7 +85,7 @@ public class TestPalette  extends TestCase {
 		IEditorPart editor = IDE.openEditor(window.getActivePage(), f);
 		assertNotNull(editor);
 	
-		PaletteContents contents = new PaletteContents(editor);
+		PagePaletteContents contents = new PagePaletteContents(editor);
 		//check palette model
 		PaletteModel paletteModel = PaletteModel.getInstance(contents);
 		assertNotNull(paletteModel);
