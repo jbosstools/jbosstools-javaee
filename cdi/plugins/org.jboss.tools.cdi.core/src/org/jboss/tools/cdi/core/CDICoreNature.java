@@ -299,7 +299,11 @@ public class CDICoreNature implements IProjectNature {
 
 	private void getAllDependentProjects(Map<CDICoreNature, Integer> result, int level) {
 		if(level > 10) return;
-		for (CDICoreNature n:usedBy) {
+		CDICoreNature[] array = null;
+		synchronized(this) {
+			array = usedBy.toArray(new CDICoreNature[0]);
+		}
+		for (CDICoreNature n: usedBy) {
 			if(!result.containsKey(n) || result.get(n).intValue() < level) {
 				result.put(n, level);
 				n.getAllDependentProjects(result, level + 1);
