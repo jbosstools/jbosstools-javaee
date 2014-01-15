@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.jboss.tools</groupId>
 		<artifactId>parent</artifactId>
-		<version>4.2.0.Alpha1-SNAPSHOT</version>
+		<version>4.2.0.Alpha2-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.tools</groupId>
 	<artifactId>javaee.all</artifactId>
@@ -21,6 +21,41 @@
 		<module>site</module>
 	</modules>
 	<repositories>
+		<!-- All these replace the need to rely on composite or aggregate.
+		It offers better control on a per-project basis.
+		To run build without composite, use "mvn clean verify -P\!jbosstools-site"
+		-->
+		<repository>
+			<id>jbosstools-base</id>
+			<layout>p2</layout>
+			<url>${jbosstools-base-site}</url>
+		</repository>
+		<repository>
+			<id>jbosstools-jst</id>
+			<layout>p2</layout>
+			<url>${jbosstools-jst-site}</url>
+		</repository>
+		<repository>
+			<id>jbosstools-server</id>
+			<layout>p2</layout>
+			<url>${jbosstools-server-site}</url>
+		</repository>
+		<repository>
+			<id>jbosstools-hibernate</id>
+			<layout>p2</layout>
+			<url>${jbosstools-hibernate-site}</url>
+		</repository>
+		<repository>
+			<id>jbosstools-vpe</id>
+			<layout>p2</layout>
+			<url>${jbosstools-vpe-site}</url>
+		</repository>
+		<repository>
+			<id>jbosstools-xulrunner</id>
+			<layout>p2</layout>
+			<url>${jbosstools-xulrunner-site}</url>
+		</repository>
+
 		<!-- To resolve parent artifact -->
 		<repository>
 			<id>jboss-public-repository-group</id>
