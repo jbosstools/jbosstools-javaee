@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2011 Red Hat, Inc. 
+ * Copyright (c) 2011-2014 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -56,33 +56,10 @@ public class SeamResourceBundleELTooltipTest extends SeamCoreTest {
 		} else {
 			hoverText = ((ITextHover)hover).getHoverInfo(caTest.getViewer(), hover.getHoverRegion(caTest.getViewer(), offsetToTest));
 		}			
-		String hoverTextValue = html2Text(hoverText);
-		String compareValue = html2Text(compare);
+		String hoverTextValue = HTML2TextUtil.html2Text(hoverText);
+		String compareValue = HTML2TextUtil.html2Text(compare);
 		//System.out.println("Hover Text: [" + hoverTextValue + "]\nExpected Value: [" + compareValue + "]\nEqual: " + compareValue.equalsIgnoreCase(hoverTextValue) + "\n");
 		assertTrue("Hover exists but its value is not expected:\nHover Text: [" + hoverTextValue + "]\nExpected Value: [" + compareValue + "]", compareValue.equalsIgnoreCase(hoverTextValue));
-	}
-
-	String html2Text(String html) {
-		StringBuilder sb = new StringBuilder();
-		int state = 0;
-		for (char ch : html.toCharArray()) {
-			switch (state) {
-			case (int)'<':
-				// Read to null until '>'-char is read
-				if (ch != '>')
-					continue;
-				state = 0;
-				break;
-			default:
-				if (ch == '<') {
-					state = '<';
-					continue;
-				}
-				sb.append(ch);
-				break;
-			}
-		}
-		return sb.toString();
 	}
 
 	public ITextHover getTextHover(ITextViewer viewer, int offset) {
