@@ -609,14 +609,6 @@
    <extension
          point="org.eclipse.ui.bindings">
       <key
-            commandId="org.jboss.tools.seam.ui.open.component"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M1+M2+Z">
-      </key>
-      <!--             
-      contextId="org.jboss.tools.vpe.editorContext"
-      -->
-      <key
             commandId="org.jboss.tools.seam.ui.find.declarations"
 		      contextId="org.eclipse.wst.sse.ui.structuredTextEditorScope"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
