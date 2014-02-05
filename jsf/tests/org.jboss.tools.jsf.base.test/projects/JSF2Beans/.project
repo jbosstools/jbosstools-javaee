@@ -19,6 +19,5 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.jboss.tools.jst.web.kb.kbnature</nature>
-		<nature>org.jboss.tools.jsf.jsfnature</nature>
 	</natures>
 </projectDescription>
