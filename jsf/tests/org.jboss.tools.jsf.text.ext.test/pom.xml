@@ -14,6 +14,6 @@
 
 	<properties>
 		<coverage.filter>org.jboss.tools.jsf.text.ext*</coverage.filter>
-		<emma.instrument.bundles>org.jboss.tools.jsf.text.ext,org.jboss.tools.jsf.text.ext.facelets,org.jboss.tools.jsf.text.ext.richfaces</emma.instrument.bundles>
+		<!--<emma.instrument.bundles>org.jboss.tools.jsf.text.ext,org.jboss.tools.jsf.text.ext.facelets,org.jboss.tools.jsf.text.ext.richfaces</emma.instrument.bundles> -->
 	</properties>
 </project>

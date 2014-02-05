@@ -13,6 +13,6 @@
 
 	<properties>
 		<coverage.filter>org.jboss.tools.jsf*</coverage.filter>
-		<emma.instrument.bundles>org.jboss.tools.jsf</emma.instrument.bundles>
+		<!--<emma.instrument.bundles>org.jboss.tools.jsf</emma.instrument.bundles>-->
 	</properties>
 </project>

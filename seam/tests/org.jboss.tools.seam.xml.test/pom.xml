@@ -13,6 +13,6 @@
 
 	<properties>
 		<coverage.filter>org.jboss.tools.seam*</coverage.filter>
-		<emma.instrument.bundles>org.jboss.tools.seam.xml</emma.instrument.bundles>
+		<!--<emma.instrument.bundles>org.jboss.tools.seam.xml</emma.instrument.bundles>-->
 	</properties>
 </project>

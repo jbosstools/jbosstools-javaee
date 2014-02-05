@@ -20,6 +20,27 @@
 		<module>seam</module>
 		<module>site</module>
 	</modules>
+	<build>
+	  <plugins>
+		<plugin>
+			<groupId>org.eclipse.tycho</groupId>
+			<artifactId>tycho-surefire-plugin</artifactId>
+			<version>${tychoVersion}</version>
+			<configuration>
+				<dependencies>
+				    <dependency>
+						<type>eclipse-feature</type>
+						<artifactId>org.eclipse.e4.rcp</artifactId>
+						<version>0.0.0</version>
+					</dependency>
+				</dependencies>
+				<environmentVariables>
+					<SWT_GTK3>0</SWT_GTK3>
+				</environmentVariables>
+			</configuration>
+		</plugin>
+	  </plugins>
+    </build>
 	<repositories>
 		<!-- All these replace the need to rely on composite or aggregate.
 		It offers better control on a per-project basis.

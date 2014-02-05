@@ -14,7 +14,7 @@
 
 	<properties>
 		<coverage.filter>org.jboss.tools.jsf.vpe.facelets*</coverage.filter>
-		<emma.instrument.bundles>org.jboss.tools.jsf.vpe.facelets</emma.instrument.bundles>
+		<!--<emma.instrument.bundles>org.jboss.tools.jsf.vpe.facelets</emma.instrument.bundles>-->
 	</properties>
 
 </project>
