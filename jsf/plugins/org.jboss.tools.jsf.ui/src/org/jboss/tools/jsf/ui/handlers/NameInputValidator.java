@@ -8,7 +8,7 @@
  * Contributors:
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-package org.jboss.tools.jsf.web.commands;
+package org.jboss.tools.jsf.ui.handlers;
 
 import java.util.regex.Pattern;
 

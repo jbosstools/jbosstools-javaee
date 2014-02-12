@@ -9,7 +9,7 @@
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.jsf.jsf2.refactoring.action.rename;
+package org.jboss.tools.jsf.ui.handlers;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -26,6 +26,7 @@ import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.jboss.tools.common.text.ext.IMultiPageEditor;
 import org.jboss.tools.jsf.jsf2.refactoring.RefactoringActionFactory;
 import org.jboss.tools.jsf.jsf2.refactoring.RefactoringActionManager;
+import org.jboss.tools.jsf.jsf2.refactoring.action.rename.IRenameDescriptor;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 
 /**
@@ -35,7 +36,7 @@ import org.jboss.tools.jsf.messages.JSFUIMessages;
  */
 
 @SuppressWarnings("restriction")
-public class RenameAction extends AbstractHandler {
+public class RenameHandler extends AbstractHandler {
 
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		StructuredTextEditor textEditor = null;
