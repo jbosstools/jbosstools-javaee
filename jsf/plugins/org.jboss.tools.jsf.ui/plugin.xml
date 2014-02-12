@@ -434,5 +434,67 @@
             	name="%popupMenus.action.addCustomCapabilities">
       	</command>
 	</extension>
+	 <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="org.jboss.tools.jsf.web.commands.CreateJSF2CompositeCommand"
+            description="%CreateJSF2Composite"
+            name="%CreateJSF2Composite" 
+            defaultHandler="org.jboss.tools.jsf.ui.handlers.CreateJSF2CompositeCommandHandler"/>
+  </extension>
+	 <extension
+       point="org.eclipse.ui.handlers">
+    <handler
+          class="org.jboss.tools.jsf.ui.handlers.RenameHandler"
+          commandId="org.eclipse.jdt.ui.edit.text.java.rename.element">
+    </handler>
+ </extension>
+ <extension
+       point="org.eclipse.ui.menus">
+    <menuContribution
+          locationURI="popup:refactorPopupMenuId">
+       <command
+             commandId="org.eclipse.jdt.ui.edit.text.java.rename.element"
+             label="%RenameJSF2Composite"
+             style="push">
+          <visibleWhen
+                checkEnabled="false">
+            <and>
+				<with variable="activeEditorId">
+					<equals value="org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor"/>
+				</with>
+				<with variable="activeEditor">
+					<test property="org.jboss.tools.common.ui.matchesNature" value="org.jboss.tools.jsf.jsfnature"/>
+				</with>
+			</and>
+          </visibleWhen>
+       </command>
+    </menuContribution>
+    <menuContribution
+          locationURI="menu:refactorMenuId">
+       <command
+             commandId="org.eclipse.jdt.ui.edit.text.java.rename.element"
+             label="%RenameJSF2Composite"
+             style="push">
+          <visibleWhen
+                checkEnabled="false">
+            <and>
+				<with variable="activeEditorId">
+					<equals value="org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor"/>
+				</with>
+				<with variable="activeEditor">
+					<test property="org.jboss.tools.common.ui.matchesNature" value="org.jboss.tools.jsf.jsfnature"/>
+				</with>
+			</and>
+          </visibleWhen>
+       </command>
+    </menuContribution>
+        <menuContribution
+              locationURI="popup:org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor.source.EditorContext?before=org.jboss.tools.jst.jsp.commands.i18">
+			<command
+          		commandId="org.jboss.tools.jsf.web.commands.CreateJSF2CompositeCommand"
+          		style="toggle" />
+        </menuContribution>
+ </extension>
 	
 </plugin>

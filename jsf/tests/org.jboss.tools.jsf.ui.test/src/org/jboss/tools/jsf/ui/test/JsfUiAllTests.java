@@ -62,7 +62,7 @@ public class JsfUiAllTests {
 		TestSuite suite = new TestSuite("JSF UI tests"); //$NON-NLS-1$
 
 		ValidationFramework.getDefault().suspendAllValidation(true);
-
+		suite.addTestSuite(CreateJSF2CompositeMenuTest.class);
 		suite.addTestSuite(JBossPerspectiveTest.class);
 		suite.addTestSuite(NewJSFProjectTest.class);
 		suite.addTestSuite(CAForUnclosedELTest.class);

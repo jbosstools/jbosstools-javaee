@@ -651,60 +651,6 @@
     </moveParticipant>
  </extension>
  <extension
-       point="org.eclipse.ui.menus">
-    <menuContribution
-          locationURI="popup:refactorPopupMenuId">
-       <command
-             commandId="org.eclipse.jdt.ui.edit.text.java.rename.element"
-             label="Re&amp;name Composite Component Attribute"
-             style="push">
-          <visibleWhen
-                checkEnabled="false">
-            <and>
-				<with variable="activeEditorId">
-					<equals value="org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor"/>
-				</with>
-				<with variable="activeEditor">
-					<test property="org.jboss.tools.common.ui.matchesNature" value="org.jboss.tools.jsf.jsfnature"/>
-				</with>
-			</and>
-          </visibleWhen>
-       </command>
-    </menuContribution>
-    <menuContribution
-          locationURI="menu:refactorMenuId">
-       <command
-             commandId="org.eclipse.jdt.ui.edit.text.java.rename.element"
-             label="Re&amp;name Composite Component Attribute"
-             style="push">
-          <visibleWhen
-                checkEnabled="false">
-            <and>
-				<with variable="activeEditorId">
-					<equals value="org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor"/>
-				</with>
-				<with variable="activeEditor">
-					<test property="org.jboss.tools.common.ui.matchesNature" value="org.jboss.tools.jsf.jsfnature"/>
-				</with>
-			</and>
-          </visibleWhen>
-       </command>
-    </menuContribution>
-        <menuContribution
-              locationURI="popup:org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor.source.EditorContext?before=org.jboss.tools.jst.jsp.i18n.ExternalizeAllStringsContributionItem">
-			<command
-          		commandId="org.jboss.tools.jsf.web.commands.CreateJSF2CompositeCommand"
-          		style="toggle" />
-        </menuContribution>
- </extension>
- <extension
-       point="org.eclipse.ui.handlers">
-    <handler
-          class="org.jboss.tools.jsf.jsf2.refactoring.action.rename.RenameAction"
-          commandId="org.eclipse.jdt.ui.edit.text.java.rename.element">
-    </handler>
- </extension>
- <extension
        point="org.eclipse.ltk.ui.refactoring.changePreviewViewers">
     <changePreviewViewer
           class="org.jboss.tools.jsf.jsf2.refactoring.view.StructuredChangesPreviewViewer"
@@ -725,14 +671,6 @@
        </require>
  </extension>
  
- <extension
-         point="org.eclipse.ui.commands">
-      <command
-            id="org.jboss.tools.jsf.web.commands.CreateJSF2CompositeCommand"
-            description="%CreateJSF2Composite"
-            name="%CreateJSF2Composite" 
-            defaultHandler="org.jboss.tools.jsf.web.commands.CreateJSF2CompositeCommandHandler"/>
-  </extension>
    	<extension point="org.eclipse.ui.ide.markerResolution">
 		<markerResolutionGenerator
 			markerType="org.jboss.tools.jsf.compositeproblem"
