@@ -691,7 +691,7 @@
        </command>
     </menuContribution>
         <menuContribution
-              locationURI="popup:org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor.source.EditorContext?before=org.jboss.tools.jst.jsp.i18n.ExternalizeAllStringsContributionItem">
+              locationURI="popup:org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor.source.EditorContext?before=org.jboss.tools.jst.jsp.commands.i18">
 			<command
           		commandId="org.jboss.tools.jsf.web.commands.CreateJSF2CompositeCommand"
           		style="toggle" />
