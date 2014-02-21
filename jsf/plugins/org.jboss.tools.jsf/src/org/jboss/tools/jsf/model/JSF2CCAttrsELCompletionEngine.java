@@ -56,6 +56,7 @@ import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.jsf.JSFModelPlugin;
+import org.jboss.tools.jsf.jsf2.model.CompositeComponentConstants;
 import org.jboss.tools.jsf.model.JSFELCompletionEngine.IJSFVariable;
 import org.jboss.tools.jst.web.kb.IXmlContext;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
@@ -120,15 +121,15 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 		return proposals;
 	}
 
-	static String COMPOSITE_URI = "http://java.sun.com/jsf/composite";
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.common.el.core.resolver.ELResolver2#resolve(org.jboss.tools.common.el.core.resolver.ELContext, org.jboss.tools.common.el.core.model.ELExpression)
 	 */
 	public ELResolution resolve(ELContext context, ELExpression operand, int offset) {
 		if(context instanceof IXmlContext) {
-			if(((IXmlContext)context).getURIs().contains(COMPOSITE_URI)) {
+			Set<String> uris = ((IXmlContext)context).getURIs();
+			if(uris.contains(CompositeComponentConstants.COMPOSITE_XMLNS)
+				|| uris.contains(CompositeComponentConstants.COMPOSITE_XMLNS_2_2)) {
 				ELResolutionImpl resolution = resolveELOperand(operand, context, true, offset);
 				if(resolution != null)
 					resolution.setContext(context);
@@ -364,7 +365,10 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 			currentFile = file;
 			if(currentContext!=context) {
 				if(currentXModelObject == null) return Collections.emptyList();
-				if(!"FileJSF2Component".equals(currentXModelObject.getModelEntity().getName())) return Collections.emptyList();;
+				String entity = currentXModelObject.getModelEntity().getName();
+				if(!entity.startsWith(CompositeComponentConstants.ENT_FILE_COMPONENT)) {
+					return Collections.emptyList();
+				}
 			}
 			currentContext = context;
 		}
@@ -589,8 +593,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 			TreeSet<String> result = new TreeSet<String>();
 			
 			XModelObject o = EclipseResourceUtil.createObjectForResource(f);
-			if(o == null) return result;
-			if(!"FileJSF2Component".equals(o.getModelEntity().getName())) return result;
+			if(o == null || !JSF2CCAttrELSegmentImpl.isComponent(o)) return result;
 			
 			for (int i = 0; i < COMMON_ATTRS.length; i++) {
 				result.add(COMMON_ATTRS[i]);
@@ -684,10 +687,14 @@ class JSF2CCAttrELSegmentImpl extends ELSegmentImpl {
 
 	static String[] vs = {"cc.attrs", "compositeComponent.attrs"}; //$NON-NLS-1$ //$NON-NLS-2$
 
+	static boolean isComponent(XModelObject object) {
+		String entity = object.getModelEntity().getName();
+		return entity.startsWith(CompositeComponentConstants.ENT_FILE_COMPONENT);
+	}
+
 	public static XModelObject findJSF2CCAttributeXModelObject(String varName, IFile file) {
 		XModelObject xModelObject = EclipseResourceUtil.createObjectForResource(file);
-		if(xModelObject == null) return null;
-		if(!"FileJSF2Component".equals(xModelObject.getModelEntity().getName())) return null;
+		if(xModelObject == null || !isComponent(xModelObject)) return null;
 
 		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(file.getProject());
 		XModelObject is = xModelObject.getChildByPath("Interface");

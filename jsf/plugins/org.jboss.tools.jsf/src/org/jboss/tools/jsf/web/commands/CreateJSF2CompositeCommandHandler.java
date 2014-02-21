@@ -59,6 +59,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.jboss.tools.common.model.XModelObjectConstants;
 import org.jboss.tools.jsf.JSFModelPlugin;
+import org.jboss.tools.jsf.jsf2.model.CompositeComponentConstants;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.project.JSF2Util;
 import org.jboss.tools.jst.web.ui.internal.editor.editor.IVisualContext;
@@ -200,7 +201,7 @@ public class CreateJSF2CompositeCommandHandler extends AbstractHandler {
 										 */
 										StructuredTextEditor ed = ((JSPMultiPageEditor) editor).getSourceEditor();
 										if (ed instanceof JSPTextEditor) {
-											String libraryUri = JSF2ResourceUtil.JSF2_URI_PREFIX + "/" + split[0]; //$NON-NLS-1$
+											String libraryUri = CompositeComponentConstants.COMPOSITE_XMLNS + "/" + split[0]; //$NON-NLS-1$
 											PaletteTaglibInserter PaletteTaglibInserter = new PaletteTaglibInserter();
 											Properties properties = new Properties();
 											properties.put("selectionProvider", editor.getSelectionProvider()); //$NON-NLS-1$

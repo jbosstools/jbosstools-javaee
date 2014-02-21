@@ -60,7 +60,7 @@
       <xmlEditor 
             class="org.jboss.tools.jst.web.ui.editors.WebCompoundEditor" 
             contributorClass="org.jboss.tools.common.model.ui.texteditors.MultiPageContributor" 
-            entities="FileFaceletTaglib,FileFaceletTaglib20" 
+            entities="FileFaceletTaglib,FileFaceletTaglib20,FileFaceletTaglib22" 
             icon="$nl$/images/xstudio/editors/jsf.gif" 
             name="FaceletTaglib">
       </xmlEditor>

@@ -12,7 +12,7 @@
  </context-param>
  <context-param>
   <param-name>facelets.LIBRARIES</param-name>
-  <param-value>/tags/facelet-taglib1.xml;/tags/facelet-taglib2.xml</param-value>
+  <param-value>/tags/facelet-taglib1.xml;/tags/facelet-taglib2.xml;/tags/facelet-taglib22.xml</param-value>
  </context-param>
  <listener>
   <listener-class>com.sun.faces.config.ConfigureListener</listener-class>

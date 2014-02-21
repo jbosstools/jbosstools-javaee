@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.web.validation.jsf2.components;
 
 import java.text.MessageFormat;
 
+import org.jboss.tools.jsf.jsf2.model.CompositeComponentConstants;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.web.validation.JSFAbstractValidationComponent;
@@ -38,7 +39,7 @@ public class JSF2URITempComponent extends JSFAbstractValidationComponent {
 	}
 	
 	public String getResourcesFolder(){
-		return "/resources" + URI.replaceAll(JSF2ResourceUtil.JSF2_URI_PREFIX, ""); //$NON-NLS-1$ //$NON-NLS-2$
+		return "/resources" + URI.replaceAll(CompositeComponentConstants.COMPOSITE_XMLNS, ""); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public String getType() {

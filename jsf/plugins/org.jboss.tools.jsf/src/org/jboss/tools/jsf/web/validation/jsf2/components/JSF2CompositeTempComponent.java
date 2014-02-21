@@ -14,8 +14,10 @@ package org.jboss.tools.jsf.web.validation.jsf2.components;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
+import org.jboss.tools.jsf.jsf2.model.CompositeComponentConstants;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.web.validation.JSFAbstractValidationComponent;
@@ -69,7 +71,7 @@ public class JSF2CompositeTempComponent extends JSFAbstractValidationComponent {
 		if (componentResLoc == null) {
 			String uriString = element.getNamespaceURI();
 			String relativeLocation = uriString.replaceFirst(
-					JSF2ResourceUtil.JSF2_URI_PREFIX, ""); //$NON-NLS-1$
+					CompositeComponentConstants.COMPOSITE_XMLNS, ""); //$NON-NLS-1$
 			String nodeName = element.getLocalName();
 			componentResLoc = relativeLocation + "/" + nodeName + ".xhtml"; //$NON-NLS-1$ //$NON-NLS-2$
 		}

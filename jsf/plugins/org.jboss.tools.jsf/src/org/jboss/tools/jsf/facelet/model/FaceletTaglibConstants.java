@@ -19,5 +19,6 @@ public interface FaceletTaglibConstants {
 	
 	public static final String ENT_FACELET_TAGLIB = "FileFaceletTaglib"; //$NON-NLS-1$
 	public static final String ENT_FACELET_TAGLIB_20 = "FileFaceletTaglib20"; //$NON-NLS-1$
+	public static final String ENT_FACELET_TAGLIB_22 = "FileFaceletTaglib22"; //$NON-NLS-1$
 
 }

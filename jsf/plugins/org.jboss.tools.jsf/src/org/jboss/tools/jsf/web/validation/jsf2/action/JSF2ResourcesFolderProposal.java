@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ui.IMarkerResolution;
 import org.jboss.tools.jsf.JSFModelPlugin;
+import org.jboss.tools.jsf.jsf2.model.CompositeComponentConstants;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 
@@ -44,7 +45,7 @@ public class JSF2ResourcesFolderProposal implements IMarkerResolution {
 	public String getLabel() {
 		String folderName="";
 		if(componentPath!=null){
-			folderName=componentPath.replaceFirst(JSF2ResourceUtil.JSF2_URI_PREFIX, "").trim();
+			folderName=componentPath.replaceFirst(CompositeComponentConstants.COMPOSITE_XMLNS, "").trim();
 		}
 		return MessageFormat.format(JSFUIMessages.Create_JSF_2_Resources_Folder,
 				JSF2ResourceUtil.calculateProjectRelativeJSF2ResourceProposal(resource.getProject())+folderName,URL);

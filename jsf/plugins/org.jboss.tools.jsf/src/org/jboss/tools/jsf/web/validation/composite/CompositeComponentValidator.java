@@ -40,6 +40,7 @@ import org.jboss.tools.common.validation.IValidatingProjectTree;
 import org.jboss.tools.common.validation.PreferenceInfoManager;
 import org.jboss.tools.common.validation.ValidatorManager;
 import org.jboss.tools.jsf.JSFModelPlugin;
+import org.jboss.tools.jsf.jsf2.model.CompositeComponentConstants;
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jsf.web.validation.JSFSeverityPreferences;
 import org.jboss.tools.jsf.web.validation.JSFValidationMessage;
@@ -69,7 +70,6 @@ public class CompositeComponentValidator extends WebValidator {
 	public static final String SHORT_ID = "jboss.jsf.core"; //$NON-NLS-1$
 	public static final String PREFERENCE_PAGE_ID = "org.jboss.tools.jsf.ui.preferences.JSFValidationPreferencePage"; //$NON-NLS-1$
 	public static final String PROPERTY_PAGE_ID = "org.jboss.tools.jsf.ui.propertyPages.JSFValidationPreferencePage"; //$NON-NLS-1$
-	private static final String COMPOSITE_COMPONENT_URI_PREFIX = "http://java.sun.com/jsf/composite/"; //$NON-NLS-1$
 	
 	public static final String MESSAGE_ID_ATTRIBUTE_NAME = "JSF2_message_id"; //$NON-NLS-1$
 	
@@ -109,13 +109,13 @@ public class CompositeComponentValidator extends WebValidator {
 						for (String segment : segemnts) {
 							if(libUri.length()==0) {
 								if(segment.equalsIgnoreCase("resources")) {
-									libUri.append("http://java.sun.com/jsf/composite");
+									libUri.append(CompositeComponentConstants.COMPOSITE_XMLNS);
 								}
 							} else {
 								libUri.append('/').append(segment);
 							}
 						}
-						if(libUri.length()>"http://java.sun.com/jsf/composite".length()) {
+						if(libUri.length() > CompositeComponentConstants.COMPOSITE_XMLNS.length()) {
 							collectRelatedPages(root, filesToValidate, pathesToClean, getComponentUri(libUri.toString(), file));
 						}
 					}
@@ -192,7 +192,8 @@ public class CompositeComponentValidator extends WebValidator {
 				Set<String> uris = pageContext.getURIs();
 				for (String uri : uris) {
 					// Validate pages which use http://java.sun.com/jsf/composite/* name spaces only.
-					if(uri.startsWith(COMPOSITE_COMPONENT_URI_PREFIX)) {
+					if(uri.startsWith(CompositeComponentConstants.COMPOSITE_XMLNS)
+						|| uri.startsWith(CompositeComponentConstants.COMPOSITE_XMLNS_2_2)) {
 						IModelManager manager = StructuredModelManager.getModelManager();
 						if (manager != null) {
 							IStructuredModel model = null;
@@ -223,7 +224,8 @@ public class CompositeComponentValidator extends WebValidator {
 	private void validateNode(IFile file, Node node) {
 		if (node instanceof Element) {
 			String namespaceURI = node.getNamespaceURI();
-			if (namespaceURI != null && namespaceURI.startsWith(COMPOSITE_COMPONENT_URI_PREFIX)) {
+			if (namespaceURI != null && (namespaceURI.startsWith(CompositeComponentConstants.COMPOSITE_XMLNS)
+					 || namespaceURI.startsWith(CompositeComponentConstants.COMPOSITE_XMLNS_2_2))) {
 				validateComponent(file, node);
 			}
 			NodeList children = node.getChildNodes();

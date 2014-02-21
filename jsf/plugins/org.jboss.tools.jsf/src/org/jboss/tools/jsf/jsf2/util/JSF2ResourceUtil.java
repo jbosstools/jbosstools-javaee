@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.jsf2.util;
 
 import java.io.File;
 import java.util.zip.ZipEntry;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -40,6 +41,7 @@ import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.jsf.JSFModelPlugin;
+import org.jboss.tools.jsf.jsf2.model.CompositeComponentConstants;
 import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
 import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2TemplateManager;
 import org.jboss.tools.jst.web.WebUtils;
@@ -53,8 +55,6 @@ import org.jboss.tools.jst.web.WebUtils;
 @SuppressWarnings("restriction")
 public class JSF2ResourceUtil {
 
-	public static final String JSF2_URI_PREFIX = "http://java.sun.com/jsf/composite"; //$NON-NLS-1$
-
 	public static final String COMPONENT_RESOURCE_PATH_KEY = "component_resource_path_key"; //$NON-NLS-1$
 
 	public static final String JSF2_COMPONENT_NAME = "jsf2_resource_name"; //$NON-NLS-1$
@@ -67,12 +67,12 @@ public class JSF2ResourceUtil {
 			IDOMElement jsf2Element) {
 		ElementImpl elementImpl = (ElementImpl) jsf2Element;
 		String nameSpaceURI = elementImpl.getNamespaceURI();
-		if (nameSpaceURI == null || nameSpaceURI.indexOf(JSF2_URI_PREFIX) == -1) {
+		if (nameSpaceURI == null || nameSpaceURI.indexOf(CompositeComponentConstants.COMPOSITE_XMLNS) == -1) {
 			return null;
 		}
 		String nodeName = jsf2Element.getLocalName();
 		String relativeLocation = "/resources" + nameSpaceURI.replaceFirst( //$NON-NLS-1$
-				JSF2ResourceUtil.JSF2_URI_PREFIX, ""); //$NON-NLS-1$
+				CompositeComponentConstants.COMPOSITE_XMLNS, ""); //$NON-NLS-1$
 		IVirtualComponent component = ComponentCore.createComponent(project);
 		if (component != null) {
 			IVirtualFolder webRootFolder = component.getRootFolder().getFolder(
@@ -166,11 +166,11 @@ public class JSF2ResourceUtil {
 
 	public static Object findResourcesFolderContainerByNameSpace(
 			IProject project, String nameSpaceURI) {
-		if (nameSpaceURI == null || nameSpaceURI.indexOf(JSF2_URI_PREFIX) == -1) {
+		if (nameSpaceURI == null || nameSpaceURI.indexOf(CompositeComponentConstants.COMPOSITE_XMLNS) == -1) {
 			return null;
 		}
 		String relativeLocation = "/resources" + nameSpaceURI.replaceFirst( //$NON-NLS-1$
-				JSF2ResourceUtil.JSF2_URI_PREFIX, ""); //$NON-NLS-1$
+				CompositeComponentConstants.COMPOSITE_XMLNS, ""); //$NON-NLS-1$
 		IVirtualComponent component = ComponentCore.createComponent(project);
 		if (component != null) {
 			IVirtualFolder webRootFolder = component.getRootFolder().getFolder(
@@ -207,7 +207,7 @@ public class JSF2ResourceUtil {
 			String nameSpaceURI) throws CoreException {
 		IFolder compositeCompResFolder = null;
 		String relativeLocation = nameSpaceURI.replaceFirst(
-				JSF2ResourceUtil.JSF2_URI_PREFIX, ""); //$NON-NLS-1$
+				CompositeComponentConstants.COMPOSITE_XMLNS, ""); //$NON-NLS-1$
 		if (!project.exists()) {
 			return null;
 		}

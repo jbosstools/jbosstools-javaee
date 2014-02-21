@@ -152,6 +152,8 @@ public class JSFPromptingProviderTest extends TestCase {
 		assertNotNull(o1);
 		XModelObject o2 = map.get("facelet_taglib2");
 		assertNotNull(o2);
+		XModelObject o22 = map.get("facelet_taglib22");
+		assertNotNull(o22);
 	}
 	
 	public void testOpenBean() {

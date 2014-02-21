@@ -29,6 +29,7 @@ import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.MoveParticipant;
 import org.jboss.tools.jsf.JSFModelPlugin;
+import org.jboss.tools.jsf.jsf2.model.CompositeComponentConstants;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 
@@ -161,7 +162,7 @@ public class JSf2MoveParticipant extends MoveParticipant {
 				}
 			}
 		}
-		uri.insert(0, JSF2ResourceUtil.JSF2_URI_PREFIX);
+		uri.insert(0, CompositeComponentConstants.COMPOSITE_XMLNS);
 		return uri.toString();
 	}
 

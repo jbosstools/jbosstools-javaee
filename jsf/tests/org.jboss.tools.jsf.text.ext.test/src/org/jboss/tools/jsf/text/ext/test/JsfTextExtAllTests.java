@@ -32,10 +32,25 @@ public class JsfTextExtAllTests {
 				JSF2CCAttrsOpenOnTest.class,
 				JSF2XMLOpenOnTest.class,
 				JSPELHyperlinkUIParamTest.class,
-				JSF2BeanMapValuesOpenOnTest.class),
+				JSF2BeanMapValuesOpenOnTest.class
+				),
 			"org.jboss.tools.jsf.text.ext.test",
 			new String[]{"projects/JSF2CompositeOpenOn"},
 			new String[]{"JSF2CompositeOpenOn"}));
+
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				JSF22CompositeOpenOnTest.class,
+				JSF22CompositeLibOpenOnTest.class,
+//				JSF2MessagesOpenOnTest.class,
+//				JSF2CSSStylesheetOpenOnTest.class,
+				JSF22CCAttrsOpenOnTest.class,
+//				JSF2XMLOpenOnTest.class,
+				JSPELHyperlinkUIParam22Test.class//,
+//				JSF2BeanMapValuesOpenOnTest.class
+				),
+			"org.jboss.tools.jsf.text.ext.test",
+			new String[]{"projects/JSF22CompositeOpenOn"},
+			new String[]{"JSF22CompositeOpenOn"}));
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				JSPStylesheetRelLinkHyperlinkTest.class,

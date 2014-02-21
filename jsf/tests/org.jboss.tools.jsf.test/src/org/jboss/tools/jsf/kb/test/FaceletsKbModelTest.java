@@ -74,6 +74,7 @@ public class FaceletsKbModelTest extends TestCase {
 		assertEquals(1, ls.size());
 		assertTrue(ls.get(0).getComponents().length > 0);
 
+		//Facelete taglib 1
 		ls = null;
 		f = testProject.getFile("WebContent/facelet-taglib.xml");
 		assertNotNull(f);
@@ -85,9 +86,23 @@ public class FaceletsKbModelTest extends TestCase {
 		}
 		assertEquals(1, ls.size());
 		assertTrue(ls.get(0).getComponents().length > 0);
-		
+
+		//Facelet taglib 2.0
 		ls = null;
 		f = testProject.getFile("WebContent/facelet-taglib2.xml");
+		assertNotNull(f);
+		try {
+			LoadedDeclarations ds = scanner.parse(f, kbProject);
+			ls = ds.getLibraries();
+		} catch (ScannerException e) {
+			JUnitUtils.fail("Error in xml scanner",e);
+		}
+		assertEquals(1, ls.size());
+		assertTrue(ls.get(0).getComponents().length > 0);
+
+		//Facelet taglib 2.2
+		ls = null;
+		f = testProject.getFile("WebContent/facelet-taglib22.xml");
 		assertNotNull(f);
 		try {
 			LoadedDeclarations ds = scanner.parse(f, kbProject);
@@ -233,6 +248,45 @@ public class FaceletsKbModelTest extends TestCase {
 		query.setParentTags(new String[]{"html", "ui:composition"});
 		query.setPrefix("ui");
 		query.setUri("http://java.sun.com/jsf/facelets");
+		query.setValue("temp");
+
+		proposals = PageProcessor.getInstance().getProposals(query, context, true);
+		for (TextProposal proposal : proposals) {
+			if("template".equals(proposal.getReplacementString())) {
+				return;
+			}
+		}
+		fail("Can't find <ui:composition template=\"> proposal.");
+	}
+
+	public void testFacelets22() {
+		IFile file = testProject.getFile("WebContent/pages/inputUserName22.xhtml");
+
+		ELContext context = PageContextFactory.createPageContext(file);
+		KbQuery query = new KbQuery();
+		query.setMask(true);
+		query.setOffset(310+3);
+		query.setType(Type.TAG_NAME);
+		query.setParentTags(new String[]{"html"});
+		query.setPrefix("ui");
+		query.setUri("http://xmlns.jcp.org/jsf/facelets");
+		query.setValue("ui:comp");
+
+		TextProposal[] proposals = PageProcessor.getInstance().getProposals(query, context, true);
+		boolean found = false;
+		for (TextProposal proposal : proposals) {
+			if(proposal.getReplacementString().startsWith("<ui:composition")) {
+				found = true;
+				break;
+			}
+		}
+		assertTrue("Can't find <ui:composition> proposal.", found);
+
+		query.setOffset(322+3);
+		query.setType(Type.ATTRIBUTE_NAME);
+		query.setParentTags(new String[]{"html", "ui:composition"});
+		query.setPrefix("ui");
+		query.setUri("http://xmlns.jcp.org/jsf/facelets");
 		query.setValue("temp");
 
 		proposals = PageProcessor.getInstance().getProposals(query, context, true);

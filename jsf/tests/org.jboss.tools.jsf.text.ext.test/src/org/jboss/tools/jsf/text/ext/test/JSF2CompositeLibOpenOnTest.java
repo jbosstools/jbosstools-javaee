@@ -25,10 +25,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
 import org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPTagNameHyperlinkDetector;
 import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
-import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
 
 /**
@@ -37,15 +35,18 @@ import org.jboss.tools.test.util.WorkbenchUtils;
  *
  */
 public class JSF2CompositeLibOpenOnTest extends TestCase {
-	private static final String PROJECT_NAME = "JSF2CompositeOpenOn";
-	private static final String PAGE_NAME = PROJECT_NAME+"/WebContent/pages/inputname.xhtml";
-	private static final String PAGE2_NAME = PROJECT_NAME+"/WebContent/pages/inputname2.xhtml";
+	private String PAGE_NAME = getProjectName()+"/WebContent/pages/inputname.xhtml";
+	private String PAGE2_NAME = getProjectName()+"/WebContent/pages/inputname2.xhtml";
 	public IProject project = null;
 
 	protected void setUp() {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject(
-				PROJECT_NAME);
+				getProjectName());
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeAllEditors(false);
+	}
+
+	protected String getProjectName() {
+		return "JSF2CompositeOpenOn";
 	}
 	
 	protected void tearDown() {
