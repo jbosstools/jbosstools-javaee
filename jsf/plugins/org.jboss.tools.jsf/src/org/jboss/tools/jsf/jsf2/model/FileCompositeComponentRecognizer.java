@@ -13,15 +13,18 @@ public class FileCompositeComponentRecognizer implements EntityRecognizer, Compo
 
 	String getEntityName(String ext, String body) {
 		if(body == null) return null;
-		if(isComponents(body)) {
+		if(isComponents(body, COMPOSITE_XMLNS)) {
 			return ENT_FILE_COMPONENT;
+		}
+		if(isComponents(body, COMPOSITE_XMLNS_2_2)) {
+			return ENT_FILE_COMPONENT_22;
 		}
 		return null;
 	}
 
-    private boolean isComponents(String body) {
+    private boolean isComponents(String body, String uri) {
     	String q = "\""; //$NON-NLS-1$
-    	int i = body.indexOf(q + COMPOSITE_XMLNS + q);
+    	int i = body.indexOf(q + uri + q);
     	while(i > 0) {
     		int j = body.lastIndexOf("xmlns", i); //$NON-NLS-1$
     		if(j > 0) {
@@ -33,7 +36,7 @@ public class FileCompositeComponentRecognizer implements EntityRecognizer, Compo
     				}
     			}
     		}
-    		i = body.indexOf(q + COMPOSITE_XMLNS + q, i + 1);
+    		i = body.indexOf(q + uri + q, i + 1);
     	}
     	return false;
     }

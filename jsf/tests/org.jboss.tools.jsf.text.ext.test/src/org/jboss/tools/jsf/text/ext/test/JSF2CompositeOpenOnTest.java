@@ -30,14 +30,18 @@ import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
 
 public class JSF2CompositeOpenOnTest extends TestCase {
-	private static final String PROJECT_NAME = "JSF2CompositeOpenOn";
-	private static final String PAGE_NAME = PROJECT_NAME+"/WebContent/resources/demo/input.xhtml";
+	private String PAGE_NAME = getProjectName() +"/WebContent/resources/demo/input.xhtml";
+
 	public IProject project = null;
 
 	protected void setUp() {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject(
-				PROJECT_NAME);
+				getProjectName());
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeAllEditors(false);
+	}
+
+	protected String getProjectName() {
+		return "JSF2CompositeOpenOn";
 	}
 	
 	protected void tearDown() {
@@ -48,7 +52,7 @@ public class JSF2CompositeOpenOnTest extends TestCase {
 		super("JSF2 OpenOn on composite test");
 	}
 	
-	private void testTag(String tagName, String editorName) throws PartInitException, BadLocationException {
+	protected void testTag(String tagName, String editorName) throws PartInitException, BadLocationException {
 		IEditorPart editor = WorkbenchUtils.openEditor(PAGE_NAME);
 		assertTrue(editor instanceof JSPMultiPageEditor);
 		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
@@ -83,19 +87,23 @@ public class JSF2CompositeOpenOnTest extends TestCase {
 	}
 	
 	public void testFormOpenOn() throws PartInitException, BadLocationException {
-		testTag("form", "html_basic.tld");
+		testTag("form", getTaglibName());
 	}
 
 	public void testOutputTextOpenOn() throws PartInitException, BadLocationException {
-		testTag("outputText", "html_basic.tld");	
+		testTag("outputText", getTaglibName());	
 	}
 
 	public void testInputTextTextOpenOn() throws PartInitException, BadLocationException {
-		testTag("inputText", "html_basic.tld");	
+		testTag("inputText", getTaglibName());	
 	}
 
 	public void testCommandButtonOpenOn() throws PartInitException, BadLocationException {
-		testTag("commandButton", "html_basic.tld");
+		testTag("commandButton", getTaglibName());
+	}
+
+	protected String getTaglibName() {
+		return "html_basic.tld";
 	}
 
 }

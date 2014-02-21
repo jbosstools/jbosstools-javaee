@@ -26,6 +26,7 @@ import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.RenameParticipant;
 import org.eclipse.ui.ide.IDE;
+import org.jboss.tools.jsf.jsf2.model.CompositeComponentConstants;
 import org.jboss.tools.jsf.jsf2.refactoring.core.StructuredChanges;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
@@ -133,7 +134,7 @@ public class JSF2RenameParticipant extends RenameParticipant {
 				for (int i = 3; i < segments.length - 1; i++) {
 					uri.append("/" + segments[i]); //$NON-NLS-1$
 				}
-				uri.insert(0, JSF2ResourceUtil.JSF2_URI_PREFIX);
+				uri.insert(0, CompositeComponentConstants.COMPOSITE_XMLNS);
 			}
 		}
 		return uri.toString();

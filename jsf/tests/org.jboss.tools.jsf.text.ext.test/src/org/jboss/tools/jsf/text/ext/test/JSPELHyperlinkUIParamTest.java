@@ -41,14 +41,17 @@ import org.jboss.tools.test.util.WorkbenchUtils;
  * @author Viacheslav Kabanovich
  */
 public class JSPELHyperlinkUIParamTest  extends TestCase {
-	private static final String PROJECT_NAME = "JSF2CompositeOpenOn";
 	public IProject project = null;
 	private ELHyperlinkDetector elHyperlinkDetector = new ELHyperlinkDetector();
 
 	protected void setUp() {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject(
-				PROJECT_NAME);
+				getProjectName());
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeAllEditors(false);
+	}
+
+	protected String getProjectName() {
+		return "JSF2CompositeOpenOn";
 	}
 	
 	protected void tearDown() {
@@ -64,7 +67,7 @@ public class JSPELHyperlinkUIParamTest  extends TestCase {
 		//Activate page, include model is lazy.
 		PageContextFactory.createPageContext(project.getFile(new Path("/WebContent/params/a.xhtml")));
 		PageContextFactory.createPageContext(project.getFile(new Path("/WebContent/params/c.xhtml")));
-		String pageName = PROJECT_NAME+"/WebContent/params/b.xhtml";
+		String pageName = getProjectName()+"/WebContent/params/b.xhtml";
 		String textToFind = "myparam1";
 		String[] resultEditor = new String[]{"a.xhtml", "Person.java"};
 		try {

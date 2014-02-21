@@ -19,6 +19,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
+import org.jboss.tools.jsf.jsf2.model.CompositeComponentConstants;
 import org.jboss.tools.jsf.jsf2.refactoring.action.rename.CompositeAttributeRenameDescriptor;
 import org.jboss.tools.jsf.jsf2.refactoring.action.rename.IRenameDescriptor;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
@@ -55,11 +56,11 @@ public class RefactoringActionFactory {
 			ISourceViewer sourceViewer, IFile file) {
 		IRenameDescriptor renameDescriptor = null;
 		String uri = createJSF2URIFromPath(file.getParent().getFullPath());
-		if (JSF2ResourceUtil.JSF2_URI_PREFIX.equals(uri)) {
+		if (CompositeComponentConstants.COMPOSITE_XMLNS.equals(uri)) {
 			return renameDescriptor;
 		}
 		if (!attr.getOwnerElement().getNamespaceURI().trim().equalsIgnoreCase(
-				JSF2ResourceUtil.JSF2_URI_PREFIX)) {
+				CompositeComponentConstants.COMPOSITE_XMLNS)) {
 			return renameDescriptor;
 		}
 		if (!"attribute".equals(attr.getOwnerElement().getLocalName())) { //$NON-NLS-1$
@@ -84,7 +85,7 @@ public class RefactoringActionFactory {
 				}
 			}
 		}
-		uri.insert(0, JSF2ResourceUtil.JSF2_URI_PREFIX);
+		uri.insert(0, CompositeComponentConstants.COMPOSITE_XMLNS);
 		return uri.toString();
 	}
 

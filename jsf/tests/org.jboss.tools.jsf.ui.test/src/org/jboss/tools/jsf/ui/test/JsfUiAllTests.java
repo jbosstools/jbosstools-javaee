@@ -22,6 +22,7 @@ import org.jboss.tools.jsf.jsp.ca.test.CAELBeanPropertyTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAELFunctionsTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAELInsideTagBodyInJspFileTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAELNoTagProposalsInELTest;
+import org.jboss.tools.jsf.jsp.ca.test.CAForCompositeComponent22Test;
 import org.jboss.tools.jsf.jsp.ca.test.CAForCompositeComponentTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForELJavaAndJSTCompareTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForELinStyleTest;
@@ -67,6 +68,7 @@ public class JsfUiAllTests {
 		suite.addTestSuite(NewJSFProjectTest.class);
 		suite.addTestSuite(CAForUnclosedELTest.class);
 		suite.addTestSuite(CAForCompositeComponentTest.class);
+		suite.addTestSuite(CAForCompositeComponent22Test.class);
 		suite.addTestSuite(CAForFaceletTaglibInJSFImplJarTest.class);
 		suite.addTestSuite(CAForJSF2BeansTest.class);
 		suite.addTestSuite(CAForJSF2BeanMapValuesTest.class); 

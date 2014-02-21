@@ -29,6 +29,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
+import org.jboss.tools.jsf.jsf2.model.CompositeComponentConstants;
 import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -61,8 +62,8 @@ public class JSF2ComponentUtil {
 			String namespaceURI = elementImpl.getNamespaceURI();
 			if (namespaceURI != null
 					&& namespaceURI
-							.startsWith(JSF2ResourceUtil.JSF2_URI_PREFIX)
-					&& !namespaceURI.equals(JSF2ResourceUtil.JSF2_URI_PREFIX)) {
+							.startsWith(CompositeComponentConstants.COMPOSITE_XMLNS)
+					&& !namespaceURI.equals(CompositeComponentConstants.COMPOSITE_XMLNS)) {
 				List<Element> elements = elementsMap.get(namespaceURI);
 				if (elements == null) {
 					elements = new ArrayList<Element>(0);
@@ -99,9 +100,9 @@ public class JSF2ComponentUtil {
 					String attrValue = attr.getValue();
 					if (attrValue != null
 							&& attrValue
-									.indexOf(JSF2ResourceUtil.JSF2_URI_PREFIX) > -1) {
+									.indexOf(CompositeComponentConstants.COMPOSITE_XMLNS) > -1) {
 						String compPath = attrValue.replaceFirst(
-								JSF2ResourceUtil.JSF2_URI_PREFIX, ""); //$NON-NLS-1$
+								CompositeComponentConstants.COMPOSITE_XMLNS, ""); //$NON-NLS-1$
 						if (!"".equals(compPath.trim())) { //$NON-NLS-1$
 							if (isCorrectCompositeShemaAttrName(attr.getName())) {
 								attrsList.add(attr);
@@ -202,7 +203,7 @@ public class JSF2ComponentUtil {
 		if (node instanceof ElementImpl) {
 			ElementImpl impl = (ElementImpl) node;
 			String nameSpace = impl.getNamespaceURI();
-			if (JSF2ResourceUtil.JSF2_URI_PREFIX.equals(nameSpace)) {
+			if (CompositeComponentConstants.COMPOSITE_XMLNS.equals(nameSpace)) {
 				String nodeName = impl.getLocalName();
 				if ("implementation".equals(nodeName)) { //$NON-NLS-1$
 					interfaceElement[0] = impl;

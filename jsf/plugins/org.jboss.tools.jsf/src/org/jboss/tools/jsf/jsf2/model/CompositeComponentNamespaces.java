@@ -39,7 +39,9 @@ public class CompositeComponentNamespaces {
 	private Map<String, String> uriToNamespace = new HashMap<String, String>();
 	
 	private CompositeComponentNamespaces(XModelMetaData meta, String versionSuffix) {
-		XMapping m = meta.getMapping("JSF2CompositeNamespaces"); //$NON-NLS-1$
+		String mappingName = "22".equals(versionSuffix) ? "JSF22CompositeNamespaces"
+				: "JSF2CompositeNamespaces";
+		XMapping m = meta.getMapping(mappingName); //$NON-NLS-1$
 		if(m == null) return;
 		this.versionSuffix = versionSuffix;
 		String[] keys = m.getKeys();

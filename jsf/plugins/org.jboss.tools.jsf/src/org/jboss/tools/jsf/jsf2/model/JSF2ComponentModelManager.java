@@ -124,7 +124,7 @@ public class JSF2ComponentModelManager {
 		if (node instanceof ElementImpl) {
 			ElementImpl impl = (ElementImpl) node;
 			String nameSpace = impl.getNamespaceURI();
-			if (JSF2ResourceUtil.JSF2_URI_PREFIX.equals(nameSpace)) {
+			if (CompositeComponentConstants.COMPOSITE_XMLNS.equals(nameSpace)) {
 				String nodeName = impl.getLocalName();
 				if (INTERFACE.equals(nodeName)) { //$NON-NLS-1$
 					return impl;
@@ -152,7 +152,7 @@ public class JSF2ComponentModelManager {
 			for (int i = 0; i < attrNames.length; i++) {
 				if (!existInerfaceAttrs.contains(attrNames[i])) {
 					Element attrEl = document.createElementNS(
-							JSF2ResourceUtil.JSF2_URI_PREFIX, prefix
+							CompositeComponentConstants.COMPOSITE_XMLNS, prefix
 									+ COLON+ATTRIBUTE); //$NON-NLS-1$
 					attrEl.setAttribute(NAME, attrNames[i]); //$NON-NLS-1$
 					element.appendChild(attrEl);
@@ -162,7 +162,7 @@ public class JSF2ComponentModelManager {
 			for (int i = 0; i < attrNames.length; i++) {
 				if (!existInerfaceAttrs.contains(attrNames[i])) {
 					Element attrEl = document.createElementNS(
-							JSF2ResourceUtil.JSF2_URI_PREFIX, ATTRIBUTE); //$NON-NLS-1$
+							CompositeComponentConstants.COMPOSITE_XMLNS, ATTRIBUTE); //$NON-NLS-1$
 					attrEl.setAttribute(NAME, attrNames[i]); //$NON-NLS-1$
 					element.appendChild(attrEl);
 				}
@@ -193,7 +193,7 @@ public class JSF2ComponentModelManager {
 			return null;
 		}
 		
-		if(!hasNamespace(element, JSF2ResourceUtil.JSF2_URI_PREFIX))
+		if(!hasNamespace(element, CompositeComponentConstants.COMPOSITE_XMLNS))
 			return null;
 		
 		return findInterfaceComponent(element);
@@ -222,7 +222,7 @@ public class JSF2ComponentModelManager {
 	}
 	
 	private Element findNodeToCreateCompositeInterface(Element rootNode){
-		if(hasNamespace(rootNode, JSF2ResourceUtil.JSF2_URI_PREFIX))
+		if(hasNamespace(rootNode, CompositeComponentConstants.COMPOSITE_XMLNS))
 			return rootNode;
 		NodeList children = rootNode.getChildNodes();
 		for(int i = 0; i < children.getLength(); i++){
@@ -249,7 +249,7 @@ public class JSF2ComponentModelManager {
 			node = rootElement;
 		}
 		
-		String prefix = getPrefix(node, JSF2ResourceUtil.JSF2_URI_PREFIX);
+		String prefix = getPrefix(node, CompositeComponentConstants.COMPOSITE_XMLNS);
 		Element interfaceElement = document.createElement(prefix+COLON+INTERFACE);
 		
 		node.appendChild(interfaceElement);
@@ -272,7 +272,7 @@ public class JSF2ComponentModelManager {
 		rootElement.setAttributeNode(attr);
 		
 		attr = document.createAttribute(XMLNS+COLON+DEFAULT_COMPOSITE_PREFIX);
-		attr.setValue(JSF2ResourceUtil.JSF2_URI_PREFIX);
+		attr.setValue(CompositeComponentConstants.COMPOSITE_XMLNS);
 		rootElement.setAttributeNode(attr);
 		
 		document.appendChild(rootElement);
@@ -281,7 +281,7 @@ public class JSF2ComponentModelManager {
 	
 	private void addURI(Document document, Element rootElement){
 		Attr attr = document.createAttribute(XMLNS+COLON+DEFAULT_COMPOSITE_PREFIX);
-		attr.setValue(JSF2ResourceUtil.JSF2_URI_PREFIX);
+		attr.setValue(CompositeComponentConstants.COMPOSITE_XMLNS);
 		rootElement.setAttributeNode(attr);
 	}
 

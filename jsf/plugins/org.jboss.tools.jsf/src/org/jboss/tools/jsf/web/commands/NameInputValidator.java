@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.dialogs.IInputValidator;
+import org.jboss.tools.jsf.jsf2.model.CompositeComponentConstants;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 
 public class NameInputValidator implements IInputValidator {
@@ -50,7 +51,7 @@ public class NameInputValidator implements IInputValidator {
 		} else if(!NAME_PATTERN.matcher(split[1]).matches()) {
 			result = "Name '"+split[1]+"' has wrong spelling, please correct"; //$NON-NLS-1$ //$NON-NLS-2$
 		} else {
-			String nameSpaceURI = JSF2ResourceUtil.JSF2_URI_PREFIX + "/" + split[0];  //$NON-NLS-1$
+			String nameSpaceURI = CompositeComponentConstants.COMPOSITE_XMLNS + "/" + split[0];  //$NON-NLS-1$
 			Object fld = JSF2ResourceUtil.findResourcesFolderContainerByNameSpace(project, nameSpaceURI);
 			if (fld instanceof IFolder) {
 				IResource res = ((IFolder) fld).findMember(split[1]+ ".xhtml"); //$NON-NLS-1$

@@ -25,6 +25,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jsf.JSFModelPlugin;
+import org.jboss.tools.jsf.jsf2.model.CompositeComponentConstants;
 import org.jboss.tools.jsf.web.validation.composite.CompositeComponentValidator;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -38,8 +39,6 @@ import org.w3c.dom.Node;
 public class JSF2ComponentResolutionGenerator implements
 		IMarkerResolutionGenerator2 {
 	
-	public static final String JSF2_URI_PREFIX = "http://java.sun.com/jsf/composite"; //$NON-NLS-1$
-
 	public IMarkerResolution[] getResolutions(IMarker marker) {
 		try {
 			int messageId = getMessageID(marker);
@@ -96,7 +95,7 @@ public class JSF2ComponentResolutionGenerator implements
 		String path;
 		String uriString = node.getNamespaceURI();
 		String relativeLocation = uriString.replaceFirst(
-				JSF2_URI_PREFIX, ""); //$NON-NLS-1$
+				CompositeComponentConstants.COMPOSITE_XMLNS, ""); //$NON-NLS-1$
 		String nodeName = node.getLocalName();
 		path = relativeLocation + "/" + nodeName + ".xhtml"; //$NON-NLS-1$ //$NON-NLS-2$
 		return path;

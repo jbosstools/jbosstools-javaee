@@ -27,7 +27,8 @@ public class FileCompositeComponentLoader extends SimpleWebFileLoader {
     }
 
     protected String loadNamespace(Element element, XModelObject object) {
-    	NamespaceMapping namespaceMapping = CompositeComponentNamespaces.getInstance(object.getModel().getMetaData(), "").getNamespaceMapping(element);
+    	String version = getMappingVersion(object);
+    	NamespaceMapping namespaceMapping = CompositeComponentNamespaces.getInstance(object.getModel().getMetaData(), version).getNamespaceMapping(element);
     	object.set(NamespaceMapping.ATTR_NAMESPACE_MAPPING, namespaceMapping.toString()); //$NON-NLS-1$
     	util.setNamespaceMapping(namespaceMapping);
     	
@@ -39,10 +40,17 @@ public class FileCompositeComponentLoader extends SimpleWebFileLoader {
         String publicId = object.getAttributeValue("publicId"); //$NON-NLS-1$
     	String rootName = getRootName(object);
         Element element = createRootElement(rootName, publicId, systemId);
-        CompositeComponentNamespaces.getInstance(object.getModel().getMetaData(), "").validateNamespaces(object, element);
+        String version = getMappingVersion(object);
+        CompositeComponentNamespaces.getInstance(object.getModel().getMetaData(), version).validateNamespaces(object, element);
 		NamespaceMapping namespaceMapping = NamespaceMapping.load(object);
     	util.setNamespaceMapping(namespaceMapping);
     	return element;
+    }
+
+    private String getMappingVersion(XModelObject object) {
+    	String entity = object.getModelEntity().getName();
+    	return (CompositeComponentConstants.ENT_FILE_COMPONENT_22.equals(entity))
+        		? "22" : "20";
     }
 
 }
@@ -60,7 +68,7 @@ class FileCompositeComponentUtil extends XModelObjectLoaderUtil {
 
     public void load(Element element, XModelObject o) {
     	super.load(element, o);
-    	if(o.getModelEntity().getName().startsWith("FileJSF2Component")) {
+    	if(o.getModelEntity().getName().startsWith(CompositeComponentConstants.ENT_FILE_COMPONENT)) {
     		o.setAttributeValue("tag", element.getNodeName());
     		Element c = XMLUtilities.getUniqueChild(element, "composite:interface");
     		if(c == null) {
