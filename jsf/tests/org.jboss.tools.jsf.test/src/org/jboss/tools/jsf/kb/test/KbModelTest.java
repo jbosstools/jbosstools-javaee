@@ -10,22 +10,13 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.kb.test;
 
-import java.util.List;
-
 import junit.framework.TestCase;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.jst.web.kb.IKbProject;
-import org.jboss.tools.jst.web.kb.internal.scanner.LoadedDeclarations;
-import org.jboss.tools.jst.web.kb.internal.scanner.ScannerException;
-import org.jboss.tools.jst.web.kb.internal.scanner.XMLScanner;
-import org.jboss.tools.jst.web.kb.internal.taglib.ELFunction;
 import org.jboss.tools.jst.web.kb.internal.taglib.composite.CompositeTagLibrary;
 import org.jboss.tools.jst.web.kb.taglib.IComponent;
-import org.jboss.tools.jst.web.kb.taglib.IELFunction;
-import org.jboss.tools.jst.web.kb.taglib.IFunctionLibrary;
 import org.jboss.tools.jst.web.kb.taglib.ITagLibrary;
 import org.jboss.tools.test.util.JUnitUtils;
 
@@ -54,20 +45,11 @@ public class KbModelTest extends TestCase {
 	}
 
 	public void testCompositeComponentLibraries() {
-		IKbProject kbProject = getKbProject();
-		ITagLibrary[] ls = kbProject.getTagLibraries("http://java.sun.com/jsf/composite/demo");
-		assertEquals(1, ls.length);
-		ITagLibrary l = ls[0];
-		assertTrue(l instanceof CompositeTagLibrary);
+		assertCompositeComponentLibraries("http://java.sun.com/jsf/composite/demo", "");
+	}
 
-		//input.xhtml has root element other than <html>
-		IComponent c = l.getComponent("input");
-		assertNotNull(c);
-		assertNotNull(c.getAttribute("label"));
-		
-		c = l.getComponent("input2");
-		assertNotNull(c);
-		assertNotNull(c.getAttribute("label2"));
+	public void testCompositeComponent22Libraries() {
+		assertCompositeComponentLibraries("http://xmlns.jcp.org/jsf/composite/demo", "CC22");
 	}
 
 	public void testFaceletLibraryWithCompositeLibraryName() {
@@ -76,9 +58,25 @@ public class KbModelTest extends TestCase {
 		assertEquals(1, ls.length);
 		ITagLibrary l = ls[0];
 		IComponent[] cs = l.getComponents();
-		assertEquals(2, cs.length);
+		assertEquals(4, cs.length);
 		IComponent c = l.getComponent("input");
 		assertNotNull(c);
 	}
 
+	public void assertCompositeComponentLibraries(String uri, String sufix) {
+		IKbProject kbProject = getKbProject();
+		ITagLibrary[] ls = kbProject.getTagLibraries(uri);
+		assertEquals(1, ls.length);
+		ITagLibrary l = ls[0];
+		assertTrue(l instanceof CompositeTagLibrary);
+
+		//input.xhtml has root element other than <html>
+		IComponent c = l.getComponent("input" + sufix);
+		assertNotNull(c);
+		assertNotNull(c.getAttribute("label"));
+
+		c = l.getComponent("input2" + sufix);
+		assertNotNull(c);
+		assertNotNull(c.getAttribute("label2"));
+	}
 }
