@@ -25,6 +25,7 @@ import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.jsf.jsf2.model.CompositeComponentConstants;
 import org.jboss.tools.jsf.text.ext.JSFTextExtMessages;
 import org.jboss.tools.jst.web.ui.internal.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
@@ -79,7 +80,7 @@ public class JsfJSPTagNameHyperlink extends AbstractHyperlink {
 
 	protected String openJSF2Component(IFile documentFile, Properties p) {
 		String uri = p.getProperty("prefix");
-		if(uri == null || !uri.startsWith("http://java.sun.com/jsf/composite/")) {
+		if(uri == null || (!uri.startsWith(CompositeComponentConstants.COMPOSITE_XMLNS) && !uri.startsWith(CompositeComponentConstants.COMPOSITE_XMLNS_2_2))) {
 			return null;
 		}
 		ITagLibrary[] ls = KbProjectFactory.getKbProject(documentFile.getProject(), true).getTagLibraries(uri);

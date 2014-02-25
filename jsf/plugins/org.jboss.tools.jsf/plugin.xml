@@ -449,6 +449,32 @@
          <uri 
             name="http://jboss.org/schema/richfaces/cdk/xhtml-el" 
             uri="platform:/plugin/org.jboss.tools.jsf/schemas/xhtml-el.xsd"/>
+
+         <uri 
+            name="http://java.sun.com/jsf/html" 
+            uri="platform:/plugin/org.jboss.tools.jsf/taglibs/html_basic.taglib.xml"/>
+         <uri 
+            name="http://xmlns.jcp.org/jsf/html" 
+            uri="platform:/plugin/org.jboss.tools.jsf/taglibs/html_basic_22.taglib.xml"/>
+         <uri 
+            name="http://java.sun.com/jsf/core" 
+            uri="platform:/plugin/org.jboss.tools.jsf/taglibs/facelets_jsf_core.taglib.xml"/>
+         <uri 
+            name="http://xmlns.jcp.org/jsf/core" 
+            uri="platform:/plugin/org.jboss.tools.jsf/taglibs/facelets_jsf_core_22.taglib.xml"/>
+         <uri 
+            name="http://richfaces.org/rich" 
+            uri="platform:/plugin/org.jboss.tools.jsf/taglibs/rich.taglib.xml"/>
+         <uri 
+            name="http://richfaces.org/a4j" 
+            uri="platform:/plugin/org.jboss.tools.jsf/taglibs/a4j.taglib.xml"/>
+         <uri 
+            name="http://java.sun.com/jsf/composite" 
+            uri="platform:/plugin/org.jboss.tools.jsf/taglibs/composite.taglib.xml"/>
+         <uri 
+            name="http://xmlns.jcp.org/jsf/composite" 
+            uri="platform:/plugin/org.jboss.tools.jsf/taglibs/composite.taglib_22.xml"/>
+
       </catalogContribution>
   </extension>
 
