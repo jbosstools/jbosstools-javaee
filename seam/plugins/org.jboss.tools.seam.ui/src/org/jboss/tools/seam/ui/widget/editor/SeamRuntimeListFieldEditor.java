@@ -111,6 +111,21 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 	private List<SeamRuntime> removed = new ArrayList<SeamRuntime>();
 	
 	private AddAction addAction;
+	private IPropertyChangeListener propertyChangeListener = new IPropertyChangeListener() {
+		
+		@Override
+		public void propertyChange(PropertyChangeEvent event) {
+			if (tableView != null && tableView.getControl() != null && !tableView.getControl().isDisposed()) {
+				Display.getDefault().asyncExec(new Runnable() {
+					
+					@Override
+					public void run() {
+						tableView.setInput(new ArrayList<SeamRuntime>(Arrays.asList(SeamRuntimeManager.getInstance().getRuntimes())));;
+					}
+				});
+			}
+		}
+	};
 
 	// ------------------------------------------------------------------------
 	// Constructors
@@ -364,6 +379,9 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 				checkedElements.add(rt);
 			}
 		}
+		
+		SeamCorePlugin.getDefault()
+		.getPreferenceStore().addPropertyChangeListener(propertyChangeListener);
 	}
 	
 	protected void createActionBar() {
@@ -1212,5 +1230,12 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 			}
 			return false;
 		}
+	}
+
+	@Override
+	public void dispose() {
+		SeamCorePlugin.getDefault()
+		.getPreferenceStore().removePropertyChangeListener(propertyChangeListener);
+		super.dispose();
 	}
 }
