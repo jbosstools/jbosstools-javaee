@@ -24,6 +24,10 @@
 	          class="org.jboss.tools.cdi.deltaspike.core.DeltaspikeSecurityExtension"
 	          runtime="org.apache.deltaspike.security.impl.extension.SecurityExtension">
 	    </cdiextension>
+	    <cdiextension
+	          class="org.jboss.tools.cdi.deltaspike.core.DeltaspikePartialbeanExtension"
+	          runtime="org.apache.deltaspike.partialbean.impl.PartialBeanBindingExtension">
+	    </cdiextension>
 	</extension>
 
    <extension point="org.eclipse.core.runtime.preferences">

@@ -9,5 +9,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/deltaspike-core-impl-0.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/deltaspike-security-module-api-0.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/deltaspike-security-module-impl-0.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/deltaspike-partial-bean-module-api-0.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/deltaspike-partial-bean-module-impl-0.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
