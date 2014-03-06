@@ -27,6 +27,8 @@ import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.test.DependentProjectTest;
 import org.jboss.tools.cdi.deltaspike.core.DeltaspikeAuthorityMethod;
 import org.jboss.tools.cdi.deltaspike.core.DeltaspikeConstants;
+import org.jboss.tools.cdi.deltaspike.core.DeltaspikePartialbeanBindingConfiguration;
+import org.jboss.tools.cdi.deltaspike.core.DeltaspikePartialbeanExtension;
 import org.jboss.tools.cdi.deltaspike.core.DeltaspikeSecurityBindingConfiguration;
 import org.jboss.tools.cdi.deltaspike.core.DeltaspikeSecurityExtension;
 import org.jboss.tools.cdi.deltaspike.core.SecurityBindingDeclaration;
@@ -127,5 +129,36 @@ public class DeltaspikeBeansTest extends DeltaspikeCoreTest {
 			}
 		}
 		
+	}
+
+	public void testPartialbean() throws Exception {
+		IProject project = getTestProject();
+		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		
+		DeltaspikePartialbeanExtension extension = DeltaspikePartialbeanExtension.getExtension(cdi.getNature());
+		
+		DeltaspikePartialbeanBindingConfiguration c = extension.getContext().getConfiguration("deltaspike.partialbean.BindingA");
+		assertNotNull(c);
+		Map<String, TypeDefinition> pb = c.getPartialBeans();
+		assertTrue(pb.containsKey("deltaspike.partialbean.BeanA")); // abstract class
+		assertFalse(pb.containsKey("deltaspike.partialbean.BeanA1")); // concrete class
+		assertFalse(pb.containsKey("deltaspike.partialbean.BeanA2")); // another binding precedes
+		assertTrue(pb.containsKey("deltaspike.partialbean.BeanA3")); // interface
+		assertFalse(cdi.getBeans("beanA", true).isEmpty()); //finds deltaspike.partialbean.BeanA
+		assertFalse(cdi.getBeans("beanA3", true).isEmpty()); //finds deltaspike.partialbean.BeanA3
+		
+		Map<String, TypeDefinition> ph = c.getInvocationHandlers();
+		assertTrue(ph.containsKey("deltaspike.partialbean.HandlerA"));
+		assertEquals(ph.size(), 1);
+
+		Map<String, TypeDefinition> pi = c.getInvalidPartialBeans();
+		assertTrue(pi.containsKey("deltaspike.partialbean.BeanA1")); // concrete class
+		
+		c = extension.getContext().getConfiguration("deltaspike.partialbean.BindingB");
+		pb = c.getPartialBeans();
+		assertTrue(pb.containsKey("deltaspike.partialbean.BeanA2")); // another binding precedes
+
+		ph = c.getInvocationHandlers();
+		assertEquals(ph.size(), 2);
 	}
 }

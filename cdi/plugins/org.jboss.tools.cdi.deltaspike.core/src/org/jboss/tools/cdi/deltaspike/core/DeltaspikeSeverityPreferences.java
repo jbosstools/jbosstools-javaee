@@ -35,6 +35,13 @@ public class DeltaspikeSeverityPreferences extends ValidationSeverityPreferences
 	public static final String UNRESOLVED_AUTHORIZER = INSTANCE.createSeverityOption("unresolvedAuthorizer", "unresolved-authorizer"); //$NON-NLS-1$ //$NON-NLS-2$
 	public static final String INVALID_AUTHORIZER = INSTANCE.createSeverityOption("invalidAuthorizer", "invalid-authorizer"); //$NON-NLS-1$ //$NON-NLS-2$
 
+	public static final String ILLEGAL_PARTIAL_BEAN = INSTANCE.createSeverityOption("illegalPartialBean", "invalid-partial-bean"); //$NON-NLS-1$ //$NON-NLS-2$
+	public static final String MULTIPLE_PARTIAL_BEAN_HANDLERS = INSTANCE.createSeverityOption("multiplePartialBeanHandlers", "multiple-partial-bean-handlers"); //$NON-NLS-1$ //$NON-NLS-2$
+	public static final String INVALID_PARTIAL_BEAN_HANDLER = INSTANCE.createSeverityOption("invalidPartialBeanHandler", "invalid-partial-bean-handler"); //$NON-NLS-1$ //$NON-NLS-2$
+	public static final String MISSING_PARTIAL_BEAN_HANDLER = INSTANCE.createSeverityOption("missingPartialBeanHandler", "missing-partial-bean-handler"); //$NON-NLS-1$ //$NON-NLS-2$
+	public static final String MULTIPLE_PARTIAL_BEAN_BINDINGS = INSTANCE.createSeverityOption("multiplePartialBeanBindings", "multiple-partial-bean-bindings"); //$NON-NLS-1$ //$NON-NLS-2$
+	
+
 	public static DeltaspikeSeverityPreferences getInstance() {
 		return INSTANCE;
 	}

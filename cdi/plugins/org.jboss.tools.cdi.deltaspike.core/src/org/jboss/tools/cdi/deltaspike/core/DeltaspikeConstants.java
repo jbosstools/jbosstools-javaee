@@ -39,4 +39,7 @@ public interface DeltaspikeConstants {
 	public String SECURITY_BINDING_ANNOTATION_KIND = "securityBindingAnnotation"; //$NON-NLS-1$
 	public String SECURES_ANNOTATION_KIND = "securesAnnotation"; //$NON-NLS-1$
 
+	public String INVOCATION_HANDLER_TYPE = "java.lang.reflect.InvocationHandler";
+	public String PARTIALBEAN_BINDING_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.partialbean.api.PartialBeanBinding"; //$NON-NLS-1$
+	public String PARTIALBEAN_BINDING_ANNOTATION_KIND = "partialbeanBindingAnnotation"; //$NON-NLS-1$
 }

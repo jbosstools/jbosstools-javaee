@@ -28,6 +28,12 @@ public class DeltaspikeValidationMessages extends NLS {
 	public static String INVALID_AUTHORIZER_MULTIPLE_BINDINGS;
 	public static String INVALID_AUTHORIZER_NO_BINDINGS;
 	public static String INVALID_AUTHORIZER_NOT_BOOLEAN;
+
+	public static String ILLEGAL_PARTIAL_BEAN;
+	public static String MULTIPLE_PARTIAL_BEAN_HANDLERS;
+	public static String INVALID_PARTIAL_BEAN_HANDLER;
+	public static String MISSING_PARTIAL_BEAN_HANDLER;
+	public static String MULTIPLE_PARTIAL_BEAN_BINDINGS;
 	
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, DeltaspikeValidationMessages.class);

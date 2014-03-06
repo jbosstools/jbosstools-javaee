@@ -43,4 +43,29 @@ public class DeltaspikeValidationTest extends DeltaspikeCoreTest {
 		message = NLS.bind(DeltaspikeValidationMessages.UNRESOLVED_AUTHORIZER, "deltaspike.security.CustomSecurityBinding", "doSomething3"); //$NON-NLS-1$ //$NON-NLS-2$
 		getAnnotationTest().assertAnnotationIsCreated(file, message, 29);
 	}
+
+	public void testPartialbeanValidation() throws Exception {
+		IFile file = getTestProject().getFile("src/deltaspike/partialbean/BeanA1.java"); //$NON-NLS-1$
+		String message = NLS.bind(DeltaspikeValidationMessages.ILLEGAL_PARTIAL_BEAN, "deltaspike.partialbean.BindingA"); //$NON-NLS-1$
+		getAnnotationTest().assertAnnotationIsCreated(file, message, 3);
+
+		file = getTestProject().getFile("src/deltaspike/partialbean/BeanA2.java"); //$NON-NLS-1$
+		message = NLS.bind(DeltaspikeValidationMessages.MULTIPLE_PARTIAL_BEAN_BINDINGS, "deltaspike.partialbean.BindingA", "deltaspike.partialbean.BindingB"); //$NON-NLS-1$
+		getAnnotationTest().assertAnnotationIsCreated(file, message, 6);
+
+		file = getTestProject().getFile("src/deltaspike/partialbean/HandlerB.java"); //$NON-NLS-1$
+		message = NLS.bind(DeltaspikeValidationMessages.INVALID_PARTIAL_BEAN_HANDLER, new String[0]); //$NON-NLS-1$
+		getAnnotationTest().assertAnnotationIsCreated(file, message, 6);
+
+		file = getTestProject().getFile("src/deltaspike/partialbean/HandlerB1.java"); //$NON-NLS-1$
+		message = NLS.bind(DeltaspikeValidationMessages.MULTIPLE_PARTIAL_BEAN_HANDLERS, "deltaspike.partialbean.BindingB"); //$NON-NLS-1$
+		getAnnotationTest().assertAnnotationIsCreated(file, message, 8);
+
+		file = getTestProject().getFile("src/deltaspike/partialbean/BeanC.java"); //$NON-NLS-1$
+		message = NLS.bind(DeltaspikeValidationMessages.MISSING_PARTIAL_BEAN_HANDLER, "deltaspike.partialbean.BeanC", "deltaspike.partialbean.BindingC"); //$NON-NLS-1$
+		getAnnotationTest().assertAnnotationIsCreated(file, message, 3);
+
+	}
+
+
 }
