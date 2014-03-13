@@ -28,10 +28,7 @@ public class XMLCatalogTest extends TestCase {
 	}
 
 	public void testSeam23Lib() {
-		File file = TagLibraryManager.getStaticTLD("http://richfaces.org/rich");
-		assertNotNull(file);
-		assertTrue(file.exists());
-		file = TagLibraryManager.getStaticTLD("http://jboss.org/schema/seam/taglib");
+		File file = TagLibraryManager.getStaticTLD("http://jboss.org/schema/seam/taglib");
 		assertNotNull(file);
 		assertTrue(file.exists());
 	}

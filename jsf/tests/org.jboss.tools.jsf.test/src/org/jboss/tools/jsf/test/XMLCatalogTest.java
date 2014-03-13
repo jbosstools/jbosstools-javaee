@@ -1,5 +1,6 @@
 package org.jboss.tools.jsf.test;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
@@ -7,6 +8,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.wst.xml.core.internal.XMLCorePlugin;
 import org.eclipse.wst.xml.core.internal.catalog.provisional.ICatalog;
+import org.jboss.tools.jst.web.kb.taglib.TagLibraryManager;
 
 public class XMLCatalogTest extends TestCase {
 
@@ -21,6 +23,8 @@ public class XMLCatalogTest extends TestCase {
 		uri = catalog.resolveURI("http://jboss.org/schema/richfaces/cdk/jstl/core");
 		assertNotNull(uri);
 		uri = catalog.resolveURI("http://jboss.org/schema/richfaces/cdk/xhtml-el");
+		assertNotNull(uri);
+		uri = catalog.resolveURI("http://richfaces.org/rich");
 		assertNotNull(uri);
 	}
 }
