@@ -190,4 +190,33 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 		beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 0, beans.size());
 	}
+
+
+	/**
+	 * (cdi 1.1) Section 5.2.4 - Assignability of raw and parameterized types
+	 * A raw bean type is considered assignable to a parameterized required type if the raw types are identical and all type parameters
+	 * of the required type are either unbounded type variables or java.lang.Object.
+	 * 
+	 * @throws CoreException 
+	 */
+	public void testAssignabilityOfRawTypeWithTypeVariablesToParameterizedType() throws CoreException {
+		//@Inject Result2<?> injection5;
+		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/AssignabilityOfRawAndParameterizedTypes.java", "injection5");
+		Collection<IBean> beans = cdiProject.getBeans(true, injection);
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		assertContainsBeanTypes(beans.iterator().next(), "org.jboss.jsr299.tck.tests.jbt.resolution.Result2"/*, "java.lang.Object"*/);
+
+		//@Inject Result2<Object> injection6;
+		injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/AssignabilityOfRawAndParameterizedTypes.java", "injection6");
+		beans = cdiProject.getBeans(true, injection);
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		assertContainsBeanTypes(beans.iterator().next(), "org.jboss.jsr299.tck.tests.jbt.resolution.Result2"/*, "java.lang.Object"*/);
+
+		//@Inject Result2<T3> injection7;
+		injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/AssignabilityOfRawAndParameterizedTypes.java", "injection7");
+		beans = cdiProject.getBeans(true, injection);
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		assertContainsBeanTypes(beans.iterator().next(), "org.jboss.jsr299.tck.tests.jbt.resolution.Result2"/*, "java.lang.Object"*/);
+	}
+
 }
