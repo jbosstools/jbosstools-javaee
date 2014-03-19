@@ -28,6 +28,10 @@
 	          class="org.jboss.tools.cdi.deltaspike.core.DeltaspikePartialbeanExtension"
 	          runtime="org.apache.deltaspike.partialbean.impl.PartialBeanBindingExtension">
 	    </cdiextension>
+	    <cdiextension
+	          class="org.jboss.tools.cdi.deltaspike.core.DeltaspikeSchedulerExtension"
+	          runtime="org.apache.deltaspike.scheduler.impl.SchedulerExtension">
+	    </cdiextension>
 	</extension>
 
    <extension point="org.eclipse.core.runtime.preferences">
