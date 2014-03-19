@@ -11,5 +11,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/deltaspike-security-module-impl-0.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/deltaspike-partial-bean-module-api-0.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/deltaspike-partial-bean-module-impl-0.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib2/deltaspike-scheduler-module-api-0.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib2/deltaspike-scheduler-module-impl-0.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

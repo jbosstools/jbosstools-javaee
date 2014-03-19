@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -24,6 +25,7 @@ import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
+import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.test.DependentProjectTest;
 import org.jboss.tools.cdi.deltaspike.core.DeltaspikeAuthorityMethod;
 import org.jboss.tools.cdi.deltaspike.core.DeltaspikeConstants;
@@ -161,4 +163,23 @@ public class DeltaspikeBeansTest extends DeltaspikeCoreTest {
 		ph = c.getInvocationHandlers();
 		assertEquals(ph.size(), 2);
 	}
+
+
+	public void testScheduler() throws Exception {
+		IProject project = getTestProject();
+		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+
+		IType t = cdi.getNature().getType("org.apache.deltaspike.scheduler.impl.QuartzScheduler");
+		assertNotNull(t);
+		IClassBean b = cdi.getBeanClass(t);
+		assertNull(b); //vetoed
+
+		IInjectionPointField f1 = DependentProjectTest.getInjectionPointField(cdi, project, "/src/deltaspike/scheduler/SchedulerController.java", "scheduler"); //$NON-NLS-1$ //$NON-NLS-2$
+		assertNotNull(f1);
+		Collection<IBean> bs = cdi.getBeans(true, f1);
+		assertEquals(1, bs.size());
+		IBean bean = bs.iterator().next();
+		assertTrue(bean instanceof IProducer);
+	}
+
 }

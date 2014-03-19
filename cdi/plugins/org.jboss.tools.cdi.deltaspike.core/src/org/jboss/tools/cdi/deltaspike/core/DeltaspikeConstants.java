@@ -42,4 +42,6 @@ public interface DeltaspikeConstants {
 	public String INVOCATION_HANDLER_TYPE = "java.lang.reflect.InvocationHandler";
 	public String PARTIALBEAN_BINDING_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.partialbean.api.PartialBeanBinding"; //$NON-NLS-1$
 	public String PARTIALBEAN_BINDING_ANNOTATION_KIND = "partialbeanBindingAnnotation"; //$NON-NLS-1$
+
+	public String SCHEDULER_TYPE = "org.apache.deltaspike.scheduler.spi.Scheduler"; //$NON-NLS-1$
 }
