@@ -115,15 +115,15 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 		
 		@Override
 		public void propertyChange(PropertyChangeEvent event) {
-			if (tableView != null && tableView.getControl() != null && !tableView.getControl().isDisposed()) {
-				Display.getDefault().asyncExec(new Runnable() {
-					
-					@Override
-					public void run() {
-						tableView.setInput(new ArrayList<SeamRuntime>(Arrays.asList(SeamRuntimeManager.getInstance().getRuntimes())));;
+			Display.getDefault().asyncExec(new Runnable() {
+				
+				@Override
+				public void run() {
+					if (tableView != null && tableView.getControl() != null && !tableView.getControl().isDisposed()) {
+						tableView.setInput(new ArrayList<SeamRuntime>(Arrays.asList(SeamRuntimeManager.getInstance().getRuntimes())));
 					}
-				});
-			}
+				}
+			});
 		}
 	};
 
