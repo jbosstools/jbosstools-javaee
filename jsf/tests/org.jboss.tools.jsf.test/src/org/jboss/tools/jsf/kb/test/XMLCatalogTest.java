@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.kb.test;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
@@ -17,6 +18,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.wst.xml.core.internal.XMLCorePlugin;
 import org.eclipse.wst.xml.core.internal.catalog.provisional.ICatalog;
+import org.jboss.tools.jst.web.kb.taglib.TagLibraryManager;
 
 /**
  * @author Alexey Kazakov
@@ -42,5 +44,7 @@ public class XMLCatalogTest extends TestCase {
 		ICatalog catalog = XMLCorePlugin.getDefault().getDefaultXMLCatalog();
 		String file = catalog.resolveURI(uri);
 		assertNotNull(file);
+		File f = TagLibraryManager.getStaticTLD(uri);
+		assertTrue(f.isFile());
 	}
 }
