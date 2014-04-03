@@ -1,5 +1,6 @@
 package org.jboss.tools.jsf.project;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +93,7 @@ public class JSFAutoLoad implements IAutoLoad, XModelObjectConstants {
 			webinf.removeFromParent();
 			modified = true;
 		}
-
+		
 		List<XModelObject> existingRoots = getExistingWebRoots(fs);
 		boolean rootsChanged = rootsChanged(webRootLocations, existingRoots);
 		if(rootsChanged) {
@@ -166,11 +167,13 @@ public class JSFAutoLoad implements IAutoLoad, XModelObjectConstants {
 	static String getWebInfPath(IProject project, String webInfLocation) {
 		IVirtualComponent component = ComponentCore.createComponent(project);	
 		if(component != null && component.getRootFolder() != null) {
+			String virtual = null;
 			IContainer[] cs = WebUtils.getWebRootFolders(project, true);
 			for (IContainer c: cs) {
 				if(c.exists()) {
 					IFolder f = c.getFolder(new Path("/WEB-INF")); //$NON-NLS-1$
 					if(f.exists()) {
+						//If one of web roots contains WEB-INF, return it.
 						try {
 							String location = f.getLocation().toFile().getCanonicalPath().replace('\\', '/');
 							String relative = FileUtil.getRelativePath(webInfLocation, location);
@@ -178,8 +181,21 @@ public class JSFAutoLoad implements IAutoLoad, XModelObjectConstants {
 						} catch (IOException e) {
 							continue;
 						}
+					} else if(virtual == null) {
+						//Find the first web root without WEB-INF, and return it if there is no web root with WEB-INF.
+						//For advanced servers, WEB-INF folder is not required.
+						try {
+							String location = c.getLocation().toFile().getCanonicalPath().replace('\\', '/') + "/WEB-INF";
+							String relative = FileUtil.getRelativePath(webInfLocation, location);
+							virtual = (relative != null) ? XModelConstants.WORKSPACE_REF + relative : location;
+						} catch (IOException e) {
+							continue;
+						}
 					}
 				}
+			}
+			if(virtual != null) {
+				return virtual;
 			}
 		}
 		return null;

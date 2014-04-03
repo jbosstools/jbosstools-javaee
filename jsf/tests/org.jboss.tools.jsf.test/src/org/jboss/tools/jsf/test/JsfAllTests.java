@@ -74,6 +74,12 @@ public class JsfAllTests {
 				"JSFKickStartOldFormat")); //$NON-NLS-1$
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				JSFWithoutWEBINFTest.class
+				),
+				"org.jboss.tools.jsf.test", "projects/JSFWithoutWEBINF", //$NON-NLS-1$ //$NON-NLS-2$
+				"JSFWithoutWEBINF")); //$NON-NLS-1$
+
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				JSFPromptingProviderTest.class),
 				"org.jboss.tools.jsf.test", //$NON-NLS-1$
 				new String[]{
