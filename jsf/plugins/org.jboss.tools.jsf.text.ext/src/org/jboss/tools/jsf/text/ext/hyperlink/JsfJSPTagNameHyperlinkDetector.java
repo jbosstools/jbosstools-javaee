@@ -64,6 +64,7 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 			Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
 			
 			IRegion reg = getRegion(n, region.getOffset());
+			boolean prefixExist = false;
 			
 			if(reg != null && n instanceof IDOMElement) {
 				String tagName = n.getNodeName();
@@ -71,8 +72,12 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 				KbQuery query = new KbQuery();
 				query.setType(KbQuery.Type.TAG_NAME);
 				
-				if(i > 0) query.setPrefix(tagName.substring(0, i));
-				else query.setPrefix("");
+				if(i > 0){
+					query.setPrefix(tagName.substring(0, i));
+					prefixExist = true;
+				}else{
+					query.setPrefix("");
+				}
 				
 				query.setOffset(reg.getOffset());
 				query.setValue(tagName);
@@ -101,8 +106,12 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 				KbQuery query = new KbQuery();
 				query.setType(KbQuery.Type.ATTRIBUTE_NAME);
 				
-				if(i > 0) query.setPrefix(tagName.substring(0, i));
-				else query.setPrefix("");
+				if(i > 0){
+					query.setPrefix(tagName.substring(0, i));
+					prefixExist = true;
+				}else{
+					query.setPrefix("");
+				}
 				
 				query.setUri(getURI(region, textViewer.getDocument()));
 				query.setParentTags(new String[]{tagName});
@@ -128,8 +137,10 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 						return (IHyperlink[]) hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);
 				}
 			}
-			
-			return parse(textViewer.getDocument(), xmlDocument, region);
+			if(prefixExist){
+				return parse(textViewer.getDocument(), xmlDocument, region);
+			}
+			return null;
 		} finally {
 			smw.dispose();
 		}
