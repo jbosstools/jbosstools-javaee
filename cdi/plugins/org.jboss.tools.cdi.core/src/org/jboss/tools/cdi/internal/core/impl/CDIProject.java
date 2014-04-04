@@ -1285,8 +1285,15 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			newDefinitionToClassbeans.put(typeDefinition, bean);
 
 			String typeName = typeDefinition.getType().getFullyQualifiedName();
-			if(!typeDefinition.isVetoed() 
-					&& !isExcluded(typeName, excluded)
+			boolean vetoed = typeDefinition.isVetoed();
+			IPath isexcludedBy = null;
+			if(!vetoed) {
+				isexcludedBy = isExcludedBy(typeName, excluded);
+				if(isexcludedBy != null) {
+					getNature().getDefinitions().addDependency(isexcludedBy, typeDefinition.getType().getPath());
+				}
+			}
+			if(!vetoed && isexcludedBy == null
 					    //Type is defined in another project and modified/replaced in config in this (dependent) project
 					    //We should reject type definition based on type, but we have to accept 
 					&& !(vetoedTypes.contains(typeName) && getNature().getDefinitions().getTypeDefinition(typeName) == null && typeDefinition.getOriginalDefinition() == null)) {
@@ -1343,13 +1350,13 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	
 	}
 
-	private boolean isExcluded(String typeName, Collection<IExcluded> excluded) {
+	private IPath isExcludedBy(String typeName, Collection<IExcluded> excluded) {
 		for (IExcluded e: excluded) {
 			if(e.isExcluded(typeName)) {
-				return true;
+				return e.getSource();
 			}
 		}
-		return false;
+		return null;
 	}
 	
 	/**
