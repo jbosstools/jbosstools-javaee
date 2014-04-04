@@ -79,6 +79,7 @@ import org.jboss.tools.cdi.core.test.tck.validation.ELValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.IncrementalValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.MissingBeansXmlValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.SuppressWarningsTests;
+import org.jboss.tools.cdi.core.test.tck.validation.WeldExcludeIncrementalValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.WeldValidationTest;
 import org.jboss.tools.cdi.core.test.tck11.AssignabilityOfRawAndParameterizedTypesCDI11Test;
 import org.jboss.tools.cdi.core.test.tck11.BeanDefinitionCDI11Test;
@@ -241,6 +242,7 @@ public class CDICoreAllTests {
 		TestSuite weldSuite = new TestSuite("Weld Tests");
 		weldSuite.addTestSuite(BuiltInContextBeanInjectionWeldTest.class);
 		weldSuite.addTestSuite(WeldExcludeTest.class);
+		weldSuite.addTestSuite(WeldExcludeIncrementalValidationTest.class);
 		ProjectImportTestSetup weldTestSetup = new ProjectImportTestSetup(weldSuite,
 				"org.jboss.tools.cdi.core.test",
 				new String[]{"projects/weld1.1"},

@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.internal.core.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IExcluded;
@@ -29,7 +30,16 @@ public class Excluded implements IExcluded {
 	private List<String> typesAvailable = EMPTY;
 	private List<String> typesNotAvailable = EMPTY;
 
-	public Excluded() {}
+	private IPath source = null;
+
+	public Excluded(IPath source) {
+		this.source = source;
+	}
+
+	@Override
+	public IPath getSource() {
+		return source;
+	}
 
 	@Override
 	public boolean isExcluded(String typeName) {

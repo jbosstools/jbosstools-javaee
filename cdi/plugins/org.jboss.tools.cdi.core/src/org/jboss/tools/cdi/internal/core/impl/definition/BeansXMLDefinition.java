@@ -86,7 +86,7 @@ public class BeansXMLDefinition implements CDIBeansConstants {
 			if("exclude".equals(c.getAttributeValue(XModelObjectConstants.ATTR_ELEMENT_TYPE))) {
 				String name = c.getAttributeValue(XModelObjectConstants.ATTR_NAME);
 				if(name == null || name.startsWith("!")) continue; //not supported
-				Excluded excluded = new Excluded();
+				Excluded excluded = new Excluded(path);
 				excluded.setFilter(name);
 				XModelObject[] cs2 = c.getChildren();
 				for (XModelObject c2: cs2) {

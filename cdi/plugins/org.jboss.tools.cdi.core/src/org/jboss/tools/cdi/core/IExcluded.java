@@ -10,7 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.core;
 
-import org.eclipse.jdt.core.IType;
+import org.eclipse.core.runtime.IPath;
 
 /**
  * 
@@ -18,6 +18,8 @@ import org.eclipse.jdt.core.IType;
  *
  */
 public interface IExcluded {
+
+	public IPath getSource();
 
 	/**
 	 * 
