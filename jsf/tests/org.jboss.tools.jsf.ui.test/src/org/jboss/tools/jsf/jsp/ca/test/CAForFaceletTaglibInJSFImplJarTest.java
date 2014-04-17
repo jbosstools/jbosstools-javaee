@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2014 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributor:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.jsf.jsp.ca.test;
 
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
@@ -22,7 +32,7 @@ public class CAForFaceletTaglibInJSFImplJarTest extends ContentAssistantTestCase
 	
 	public void testCAForJSFCore(){
 		String[] proposals = {
-			"f:ajax"
+			"<f:ajax"
 		};
 
 		checkProposals(PAGE_NAME, "<f:a />", 4, proposals, false);
@@ -34,7 +44,7 @@ public class CAForFaceletTaglibInJSFImplJarTest extends ContentAssistantTestCase
 	 */
 	public void testCAForJSF22Core(){
 		String[] proposals = {
-			"f:ajax"
+			"<f:ajax"
 		};
 
 		checkProposals(PAGE_NAME, "<f:a />", 4, proposals, false);
