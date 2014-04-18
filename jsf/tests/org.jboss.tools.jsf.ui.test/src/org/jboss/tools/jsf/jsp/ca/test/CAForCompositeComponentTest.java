@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2014 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributor:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.jsf.jsp.ca.test;
 
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
@@ -23,7 +33,7 @@ public class CAForCompositeComponentTest extends ContentAssistantTestCase{
 	
 	public void testCAForCompositeComponent(){
 		String[] proposals = {
-			"sample:tag", "sample:tag2", "sample:tag3"
+			"<sample:tag", "<sample:tag2", "<sample:tag3"
 		};
 
 		checkProposals(PAGE_NAME, "<sample:tag />", 8, proposals, false);

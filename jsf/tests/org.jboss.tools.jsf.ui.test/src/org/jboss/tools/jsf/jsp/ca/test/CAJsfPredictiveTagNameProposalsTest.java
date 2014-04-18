@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 Red Hat, Inc.
+ * Copyright (c) 2012-2014 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -31,7 +31,7 @@ public class CAJsfPredictiveTagNameProposalsTest extends ContentAssistantTestCas
 
 	private static final String INSERT_BEFORE = "</ui:composition>";
 	private static final String INSERTION = "<define";
-	private static final String PROPOSAL_TO_APPLY = "ui:define";
+	private static final String PROPOSAL_TO_APPLY = "<ui:define";
 	
 	public void setUp() throws Exception {
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
@@ -82,7 +82,7 @@ public class CAJsfPredictiveTagNameProposalsTest extends ContentAssistantTestCas
 
 			String documentUpdatedContent = document.get();
 			// Make the document text to compare
-			String documentContentToCompare = newDocumentContent.substring(0, start + 1) +
+			String documentContentToCompare = newDocumentContent.substring(0, start) +
 					replacementString + newDocumentContent.substring(start + INSERTION.length());
 
 			assertTrue("The proposal replacement is failed.", documentContentToCompare.equals(documentUpdatedContent));
