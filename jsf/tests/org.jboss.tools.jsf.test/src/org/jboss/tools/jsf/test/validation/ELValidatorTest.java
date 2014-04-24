@@ -249,7 +249,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 			for (int i = 8; i < 108; i++) {
 				IMarker marker = ValidationErrorManager.addError("test error", IMessage.HIGH_SEVERITY, new Object[0], -1, 1, 79397 + i, file, validator.getDocumentProvider(), "testMarkerId", this.getClass(), 100, "testMarkerType");
 				assertNotNull("Marker has not been created.", marker);
-				assertTrue("Wrong line number", marker.getAttribute(IMarker.LINE_NUMBER, -1)>1807);
+				assertTrue("Wrong line number", marker.getAttribute(IMarker.LINE_NUMBER, -1)>0);
 				markers.add(marker);
 			}
 			withoutLineNumber = System.currentTimeMillis() - withoutLineNumber;

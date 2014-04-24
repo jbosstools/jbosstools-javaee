@@ -90,6 +90,9 @@ public class XHTMLValidatorTest extends AbstractResourceMarkerTest {
 			long start = System.currentTimeMillis();
 			ValidationResult result = validator.validate(file, IResourceDelta.CHANGED, state, new NullProgressMonitor());
 			long goodValidationTime = System.currentTimeMillis() - start;
+			if(goodValidationTime==0) {
+				goodValidationTime = 1;
+			}
 			System.out.println("XHTML file with good DOCTYPE declaration and no XHTML Syntax errors validation time: " + goodValidationTime + " ms");
 			assertTrue("XHTML file with good DOCTYPE declaration and no XHTML Syntax errors validation takes too much time (more than " + MAX_VALIDATION_TIME + " ms)", (goodValidationTime < MAX_VALIDATION_TIME));
 			assertNotNull("No validation result is returned", result);
