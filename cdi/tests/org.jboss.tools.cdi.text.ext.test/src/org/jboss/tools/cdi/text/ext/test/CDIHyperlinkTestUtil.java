@@ -33,6 +33,7 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
+import org.eclipse.jface.text.hyperlink.IHyperlinkDetector;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -88,7 +89,7 @@ public class CDIHyperlinkTestUtil extends TestCase{
 		return null;
 	}
 	
-	public static void checkRegions(IProject project, String fileName, List<TestRegion> regionList, AbstractHyperlinkDetector hlDetector) throws Exception {
+	public static void checkRegions(IProject project, String fileName, List<TestRegion> regionList, IHyperlinkDetector hlDetector) throws Exception {
 		IFile file = project.getFile(fileName);
 
 		assertNotNull("The file \"" + fileName + "\" is not found", file);
@@ -100,7 +101,7 @@ public class CDIHyperlinkTestUtil extends TestCase{
 		checkRegions(fileName, editorInput, editorPart, regionList, hlDetector);
 	}
 	
-	public static void checkRegionsForAsYouType(IProject project, String fileName, String newContent, List<TestRegion> regionList, AbstractHyperlinkDetector hlDetector) throws Exception {
+	public static void checkRegionsForAsYouType(IProject project, String fileName, String newContent, List<TestRegion> regionList, IHyperlinkDetector hlDetector) throws Exception {
 		IFile file = project.getFile(fileName);
 		IFile nFile = project.getFile(newContent);
 
@@ -129,22 +130,43 @@ public class CDIHyperlinkTestUtil extends TestCase{
 		}
 	}
 	
-	private static void checkRegions(String fileName, IEditorInput editorInput, IEditorPart editorPart, List<TestRegion> regionList, AbstractHyperlinkDetector hlDetector) throws Exception {
+	private static void checkRegions(String fileName, IEditorInput editorInput, IEditorPart editorPart, List<TestRegion> regionList, IHyperlinkDetector hlDetector) throws Exception {
 		
 		ISourceViewer viewer = null;
+		
 		if(editorPart instanceof JavaEditor){
 			viewer = ((JavaEditor)editorPart).getViewer();
-			hlDetector.setContext(new TestContext((ITextEditor)editorPart));
+			if(hlDetector instanceof AbstractHyperlinkDetector){
+				((AbstractHyperlinkDetector)hlDetector).setContext(new TestContext((ITextEditor)editorPart));
+			}
 		}else if(editorPart instanceof EditorPartWrapper){
 			if(((EditorPartWrapper)editorPart).getEditor() instanceof WebCompoundEditor){
 				WebCompoundEditor wce = (WebCompoundEditor)((EditorPartWrapper)editorPart).getEditor();
 				viewer = wce.getSourceEditor().getTextViewer();
-				hlDetector.setContext(new TestContext(wce.getSourceEditor()));
+				if(hlDetector instanceof AbstractHyperlinkDetector){
+					((AbstractHyperlinkDetector)hlDetector).setContext(new TestContext(wce.getSourceEditor()));
+				}
 			}else if(((EditorPartWrapper)editorPart).getEditor() instanceof XMLTextEditorStandAlone){
 				XMLTextEditorStandAlone xtesa = (XMLTextEditorStandAlone)((EditorPartWrapper)editorPart).getEditor();
 				viewer = xtesa.getTextViewer();
-				hlDetector.setContext(new TestContext(xtesa));
+				if(hlDetector instanceof AbstractHyperlinkDetector){
+					((AbstractHyperlinkDetector)hlDetector).setContext(new TestContext(xtesa));
+				}
 			}else fail("unsupported editor type - "+((EditorPartWrapper)editorPart).getEditor().getClass());
+		}else if (editorPart instanceof XMLMultiPageEditorPart) {
+			IEditorPart[] parts = ((XMLMultiPageEditorPart)editorPart).findEditors(editorInput);
+			if(parts.length>0) {
+				viewer = ((StructuredTextEditor)parts[0]).getTextViewer();
+			}
+		} else if (editorPart instanceof JSPMultiPageEditor) {
+			IEditorPart[] parts = ((JSPMultiPageEditorPart)editorPart).findEditors(editorInput);
+			if(parts.length>0) {
+				viewer = ((StructuredTextEditor)parts[0]).getTextViewer();
+			}
+		} else if(editorPart instanceof ObjectMultiPageEditor) {
+			viewer = ((ObjectMultiPageEditor)editorPart).getSourceEditor().getTextViewer();
+		} else if(editorPart instanceof StructuredTextEditor) {
+			viewer = ((StructuredTextEditor)editorPart).getTextViewer();
 		}else fail("unsupported editor type - "+editorPart.getClass());
 
 		IDocument document = viewer.getDocument();
