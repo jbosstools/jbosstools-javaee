@@ -440,7 +440,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		Set<String> oldReletedResources = getValidationContext().getVariableNamesByCoreResource(SHORT_ID, validatingResource.getFullPath(), false);
 		if (oldReletedResources != null) {
 			for (String resourcePath : oldReletedResources) {
-				if(resourcePath.startsWith("/")) {
+				if(resourcePath.startsWith("/") || resourcePath.startsWith("\\")) {
 					relatedResources.add(Path.fromOSString(resourcePath));
 				}
 			}
@@ -593,7 +593,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 					}
 				}
 				for (IPath p: resources) {
-					getValidationContext().addLinkedCoreResource(SHORT_ID, p.toOSString(), file.getFullPath(), false);
+					getValidationContext().addLinkedCoreResource(SHORT_ID, p.toString(), file.getFullPath(), false);
 				}					
 			}
 		}
@@ -713,7 +713,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		}
 		String beanPath = null;
 		if(!isAsYouTypeValidation()) {
-			beanPath = bean.getSourcePath().toOSString();
+			beanPath = bean.getSourcePath().toString();
 			Collection<IScopeDeclaration> scopeDeclarations = bean.getScopeDeclarations();
 			for (IScopeDeclaration scopeDeclaration : scopeDeclarations) {
 				IScope scope = scopeDeclaration.getScope();
@@ -999,7 +999,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		IBean specializedBean = bean.getSpecializedBean();
 		if(specializedBean!=null) {
 			if(!isAsYouTypeValidation() && shouldValidateType(specializedBean.getBeanClass())) {
-				getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toOSString(), specializedBean.getSourcePath(), false);
+				getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toString(), specializedBean.getSourcePath(), false);
 			}
 
 			String beanClassName = bean.getBeanClass().getElementName();
@@ -1059,8 +1059,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 						if(specializingBean != bean && specializingBean.isEnabled()) {
 							specializingBeanNames.add(specializingBean.getElementName());
 							if(!isAsYouTypeValidation() && shouldValidateType(specializingBean.getBeanClass())) {
-								getValidationContext().addLinkedCoreResource(SHORT_ID, specializingBean.getSourcePath().toOSString(), bean.getSourcePath(), false);
-								getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toOSString(), specializingBean.getSourcePath(), false);
+								getValidationContext().addLinkedCoreResource(SHORT_ID, specializingBean.getSourcePath().toString(), bean.getSourcePath(), false);
+								getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toString(), specializingBean.getSourcePath(), false);
 							}
 						}
 					}
@@ -1360,7 +1360,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 					addProblem(bindedErrorMessage, preferencesKey, declaration, bean.getResource(), id);
 				}
 			} else if (!isAsYouTypeValidation() && iMethod != method.getMethod() && !iMethod.isBinary()) {
-				getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toOSString(), iMethod.getResource().getFullPath(), false);
+				getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toString(), iMethod.getResource().getFullPath(), false);
 			}
 		}
 	}
@@ -1542,7 +1542,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 						addProblem(bindedErrorMessage, CDIPreferences.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, producer.getProducesAnnotation(), producer.getResource(), ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID);
 						saveAllSuperTypesAsLinkedResources(classBean);
 					} else if (!isAsYouTypeValidation() && method != producerMethod.getMethod() && method.exists() && !method.isReadOnly()) {
-						getValidationContext().addLinkedCoreResource(SHORT_ID, classBean.getSourcePath().toOSString(), method.getResource().getFullPath(), false);
+						getValidationContext().addLinkedCoreResource(SHORT_ID, classBean.getSourcePath().toString(), method.getResource().getFullPath(), false);
 					}
 				}
 
@@ -1620,7 +1620,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			for (IParametedType type : bean.getAllTypes()) {
 				IType superType = type.getType();
 				if(superType!=null && !superType.isBinary() && superType.getResource()!=null && superType!=bean.getBeanClass()) {
-					getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toOSString(), superType.getResource().getFullPath(), false);
+					getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toString(), superType.getResource().getFullPath(), false);
 				}
 			}
 		}
@@ -1822,7 +1822,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			if(!shouldIgnoreInjection(context, type, injection)) {
 				boolean instance = type!=null && CDIConstants.INSTANCE_TYPE_NAME.equals(type.getFullyQualifiedName());
 				if(!isAsYouTypeValidation()) {
-					String injectionFilePath = injection.getSourcePath().toOSString();
+					String injectionFilePath = injection.getSourcePath().toString();
 					for (IBean bean : cdiProject.getBeans(false, injection)) {
 						if(shouldValidateType(bean.getBeanClass())) {
 							try {
@@ -2452,7 +2452,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 					if(!checkTheOnlySuper(context, decorator, delegateParametedType)) {
 						List<String> supers = null;
 						if(!isAsYouTypeValidation() && shouldValidateType(delegateType)) {
-							getValidationContext().addLinkedCoreResource(SHORT_ID, decorator.getSourcePath().toOSString(), delegateType.getResource().getFullPath(), false);
+							getValidationContext().addLinkedCoreResource(SHORT_ID, decorator.getSourcePath().toString(), delegateType.getResource().getFullPath(), false);
 						}
 						for (IParametedType decoratedParametedType : decorator.getDecoratedTypes()) {
 							IType decoratedType = decoratedParametedType.getType();
@@ -2460,7 +2460,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 								continue;
 							}
 							if(!isAsYouTypeValidation() && shouldValidateType(decoratedType)) {
-								getValidationContext().addLinkedCoreResource(SHORT_ID, decorator.getSourcePath().toOSString(), decoratedType.getResource().getFullPath(), false);
+								getValidationContext().addLinkedCoreResource(SHORT_ID, decorator.getSourcePath().toString(), decoratedType.getResource().getFullPath(), false);
 							}
 							String decoratedTypeName = decoratedType.getFullyQualifiedName();
 							// Ignore the type of the decorator class bean
@@ -2638,7 +2638,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		if(!shouldValidateResourceOfElement(resource)) {
 			return;
 		}
-		addLinkedStereotypes(stereotype.getSourcePath().toOSString(), stereotype);
+		addLinkedStereotypes(stereotype.getSourcePath().toString(), stereotype);
 		List<IAnnotationDeclaration> as = stereotype.getAnnotationDeclarations();
 
 		// 1. non-empty name
@@ -2691,7 +2691,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			return;
 		}
 
-		addLinkedInterceptorBindings(binding.getSourcePath().toOSString(), binding);
+		addLinkedInterceptorBindings(binding.getSourcePath().toString(), binding);
 
 		/*
 		 * 9.5.2. Interceptor binding types with members
