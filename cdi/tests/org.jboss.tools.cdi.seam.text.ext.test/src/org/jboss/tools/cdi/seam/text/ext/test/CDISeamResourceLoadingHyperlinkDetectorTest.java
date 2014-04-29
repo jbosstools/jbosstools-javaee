@@ -24,6 +24,13 @@ import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestHyperlink;
 import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestRegion;
 
 public class CDISeamResourceLoadingHyperlinkDetectorTest extends TCKTest{
+	private static final String INJECT_STRING = "@Inject";
+	private static final String BEANS_XML_STRING = "beansXml;";
+	private static final String PROPERTIES1_STRING = "properties1;";
+	private static final String PROPERTIES2_STRING = "properties2;";
+	private static final String PROPERTIES3_STRING = "properties3;";
+	private static final String PROPERTIES4_STRING = "properties4;";
+	
 	
 	public void testCDISeamResourceLoadingHyperlinkDetector_Solder30() throws Exception {
 		checkFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/ResourceLoader30.java");
@@ -40,41 +47,40 @@ public class CDISeamResourceLoadingHyperlinkDetectorTest extends TCKTest{
 		
 		ArrayList<TestRegion> regionList = new ArrayList<TestRegion>();
 		
-		int injectPosition = text.indexOf("@Inject");
-		if(injectPosition > 0){
-			regionList.add(new TestRegion(injectPosition, 58,
-					new TestHyperlink[]{new TestHyperlink(CDISeamResourceLoadingHyperlink.class, NLS.bind(CDISeamExtMessages.CDI_SEAM_RESOURCE_LOADING_HYPERLINK,
+		int injectPosition = text.indexOf(INJECT_STRING);
+		int length = text.indexOf(BEANS_XML_STRING, injectPosition)+BEANS_XML_STRING.length()-injectPosition;
+		regionList.add(new TestRegion(injectPosition, length,
+			new TestHyperlink[]{new TestHyperlink(CDISeamResourceLoadingHyperlink.class, NLS.bind(CDISeamExtMessages.CDI_SEAM_RESOURCE_LOADING_HYPERLINK,
 							"WEB-INF/beans.xml",
 							"WebContent/WEB-INF/beans.xml"))}));
-		}
-		injectPosition = text.indexOf("@Inject",injectPosition+1);
-		if(injectPosition > 0){
-			regionList.add(new TestRegion(injectPosition, 97,
-					new TestHyperlink[]{new TestHyperlink(CDISeamResourceLoadingHyperlink.class, NLS.bind(CDISeamExtMessages.CDI_SEAM_RESOURCE_LOADING_HYPERLINK,
+		
+		injectPosition = text.indexOf(INJECT_STRING,injectPosition+1);
+		length = text.indexOf(PROPERTIES1_STRING, injectPosition)+PROPERTIES1_STRING.length()-injectPosition;
+		regionList.add(new TestRegion(injectPosition, length,
+			new TestHyperlink[]{new TestHyperlink(CDISeamResourceLoadingHyperlink.class, NLS.bind(CDISeamExtMessages.CDI_SEAM_RESOURCE_LOADING_HYPERLINK,
 							"org/jboss/jsr299/tck/tests/jbt/openon/test.properties",
 							"JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/test.properties"))}));
-		}
-		injectPosition = text.indexOf("@Inject",injectPosition+1);
-		if(injectPosition > 0){
-			regionList.add(new TestRegion(injectPosition, 86,
-					new TestHyperlink[]{new TestHyperlink(CDISeamResourceLoadingHyperlink.class, NLS.bind(CDISeamExtMessages.CDI_SEAM_RESOURCE_LOADING_HYPERLINK,
+		
+		injectPosition = text.indexOf(INJECT_STRING,injectPosition+1);
+		length = text.indexOf(PROPERTIES2_STRING, injectPosition)+PROPERTIES2_STRING.length()-injectPosition;
+		regionList.add(new TestRegion(injectPosition, length,
+			new TestHyperlink[]{new TestHyperlink(CDISeamResourceLoadingHyperlink.class, NLS.bind(CDISeamExtMessages.CDI_SEAM_RESOURCE_LOADING_HYPERLINK,
 							"org/jboss/jsr299/tck/tests/jbt/openon/test",
 							"JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/test.properties"))}));
-		}
-		injectPosition = text.indexOf("@Inject",injectPosition+1);
-		if(injectPosition > 0){
-			regionList.add(new TestRegion(injectPosition, 97,
-					new TestHyperlink[]{new TestHyperlink(CDISeamResourceLoadingHyperlink.class, NLS.bind(CDISeamExtMessages.CDI_SEAM_RESOURCE_LOADING_HYPERLINK,
+		
+		injectPosition = text.indexOf(INJECT_STRING,injectPosition+1);
+		length = text.indexOf(PROPERTIES3_STRING, injectPosition)+PROPERTIES3_STRING.length()-injectPosition;
+		regionList.add(new TestRegion(injectPosition, length,
+			new TestHyperlink[]{new TestHyperlink(CDISeamResourceLoadingHyperlink.class, NLS.bind(CDISeamExtMessages.CDI_SEAM_RESOURCE_LOADING_HYPERLINK,
 							"org.jboss.jsr299.tck.tests.jbt.openon.test.properties",
 							"JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/test.properties"))}));
-		}
-		injectPosition = text.indexOf("@Inject",injectPosition+1);
-		if(injectPosition > 0){
-			regionList.add(new TestRegion(injectPosition, 86,
-					new TestHyperlink[]{new TestHyperlink(CDISeamResourceLoadingHyperlink.class, NLS.bind(CDISeamExtMessages.CDI_SEAM_RESOURCE_LOADING_HYPERLINK,
+		
+		injectPosition = text.indexOf(INJECT_STRING,injectPosition+1);
+		length = text.indexOf(PROPERTIES4_STRING, injectPosition)+PROPERTIES4_STRING.length()-injectPosition;
+		regionList.add(new TestRegion(injectPosition, length,
+			new TestHyperlink[]{new TestHyperlink(CDISeamResourceLoadingHyperlink.class, NLS.bind(CDISeamExtMessages.CDI_SEAM_RESOURCE_LOADING_HYPERLINK,
 							"org.jboss.jsr299.tck.tests.jbt.openon.test",
 							"JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/test.properties"))}));
-		}
 		 
 		CDIHyperlinkTestUtil.checkRegions(tckProject, fileName, regionList, new CDISeamResourceLoadingHyperlinkDetector());
 	}
