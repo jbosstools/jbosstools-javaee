@@ -27,11 +27,17 @@ import org.jboss.tools.common.util.FileUtil;
  *
  */
 public class SeamConfigTagNameHyperlinkTest extends SeamConfigTest {
+	private static final String FILE_NAME = "src/META-INF/beans.xml";
+	
 	public SeamConfigTagNameHyperlinkTest() {}
 
 	public void testSeamConfigTagNameHyperlink() throws Exception {
-		int offset = 802; // <|test602:Report>
-		IHyperlink hyperlink = CDIHyperlinkTestUtil.checkHyperLinkInXml("src/META-INF/beans.xml", project, offset, "org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigTagNameHyperlink");
+		IFile file = getTestProject().getFile(FILE_NAME);
+		String content = FileUtil.getContentFromEditorOrFile(file);
+		
+		//int offset = 802; // <|test602:Report>
+		int offset = content.indexOf("test602:Report");
+		IHyperlink hyperlink = CDIHyperlinkTestUtil.checkHyperLinkInXml(FILE_NAME, project, offset, "org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigTagNameHyperlink");
 		hyperlink.open();
 		
 		IEditorPart editor = CDISeamExtPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
@@ -41,8 +47,13 @@ public class SeamConfigTagNameHyperlinkTest extends SeamConfigTest {
 	}
 
 	public void testSeamConfigTagAttributeHyperlink() throws Exception {
-		int offset = 1088; // <test603:OtherQualifier va|lue1="AA"
-		IHyperlink hyperlink = CDIHyperlinkTestUtil.checkHyperLinkInXml("src/META-INF/beans.xml", project, offset, "org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigTagNameHyperlink");
+		IFile file = getTestProject().getFile(FILE_NAME);
+		String content = FileUtil.getContentFromEditorOrFile(file);
+		//int offset = 1088; // <test603:OtherQualifier va|lue1="AA"
+		int offset = content.indexOf("test603");
+		offset = content.indexOf("value1", offset);
+		
+		IHyperlink hyperlink = CDIHyperlinkTestUtil.checkHyperLinkInXml(FILE_NAME, project, offset, "org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigTagNameHyperlink");
 		hyperlink.open();
 		
 		IEditorPart editor = CDISeamExtPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
