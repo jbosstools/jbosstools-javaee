@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
@@ -33,7 +34,7 @@ public class BeanDefinitionTest extends TCKTest {
 	 *   a) A bean comprises of a (nonempty) set of bean types.
 	 * @throws JavaModelException 
 	 */
-	public void testBeanTypesNonEmpty() throws JavaModelException {
+	public void testBeanTypesNonEmpty() throws CoreException {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/bean/RedSnapper.java");
 		Collection<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		assertEquals("There should be the only bean in org.jboss.jsr299.tck.tests.definition.bean.RedSnapper", 1, beans.size());
@@ -43,8 +44,9 @@ public class BeanDefinitionTest extends TCKTest {
 		assertTrue("No legal types were found for org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", bean.getLegalTypes().size() > 0);
 		Collection<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
 		assertEquals("There should be two type declarations in org.jboss.jsr299.tck.tests.definition.bean.RedSnapper bean.", declarations.size(), 2);
-		assertLocationEquals(declarations, 914, 10);
-		assertLocationEquals(declarations, 936, 6);
+		file = (IFile)bean.getResource();
+		assertLocationEquals(file, declarations, "lass RedSnapper implement", 5/*914*/, 10);
+		assertLocationEquals(file, declarations, "ents Animal", 5/*936*/, 6);
 	}
 
 	/**
@@ -124,7 +126,7 @@ public class BeanDefinitionTest extends TCKTest {
 	 * section 2.2 l)
 	 * section 11.1 ba)
 	 */
-	public void testBeanTypes() throws JavaModelException {
+	public void testBeanTypes() throws CoreException {
 		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.Tarantula");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.Tarantula type", 1, beans.size());
 		IBean bean = beans.iterator().next();
@@ -137,9 +139,11 @@ public class BeanDefinitionTest extends TCKTest {
 
 		Collection<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
 		assertEquals("There should be three type declarations in org.jboss.jsr299.tck.tests.definition.bean.Tarantula bean.", declarations.size(), 3);
-		assertLocationEquals(declarations, 841, 9);
-		assertLocationEquals(declarations, 859, 6);
-		assertLocationEquals(declarations, 877, 12);
+		//TODOs
+		IFile file = (IFile)bean.getResource();
+		assertLocationEquals(file, declarations, "lass Tarantula exte", 5/*841*/, 9);
+		assertLocationEquals(file, declarations, "ends Spider implement", 5/*859*/, 6);
+		assertLocationEquals(file, declarations, "ents DeadlySpider", 5/*877*/, 12);
 	}
 
 	/**
@@ -147,7 +151,7 @@ public class BeanDefinitionTest extends TCKTest {
 	 *
 	 * @throws JavaModelException
 	 */
-	public void testAbstractApiType() throws JavaModelException {
+	public void testAbstractApiType() throws CoreException {
 		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope type", 1, beans.size());
 		IBean bean = beans.iterator().next();
@@ -158,8 +162,9 @@ public class BeanDefinitionTest extends TCKTest {
 
 		Collection<ITypeDeclaration> declarations = bean.getAllTypeDeclarations();
 		assertEquals("There should be three type declarations in org.jboss.jsr299.tck.tests.definition.bean.FriendlyAntelope bean.", declarations.size(), 2);
-		assertLocationEquals(declarations, 842, 16);
-		assertLocationEquals(declarations, 867, 16);
+		IFile file = (IFile)bean.getResource();
+		assertLocationEquals(file, declarations, "lass FriendlyAntelope extends A", 5/*842*/, 16);
+		assertLocationEquals(file, declarations, "ends AbstractAntelope", 5/*867*/, 16);
 	}
 
 	/**

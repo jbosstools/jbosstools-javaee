@@ -12,6 +12,8 @@ package org.jboss.tools.cdi.core.test.tck;
 
 import java.util.Collection;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
 
@@ -26,22 +28,24 @@ public class NameDefinitionTest extends TCKTest {
 	 *
 	 * @throws JavaModelException 
 	 */
-	public void testNonDefaultNamed() throws JavaModelException {
+	public void testNonDefaultNamed() throws CoreException {
 //		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/name/Moose.java");
 //		Collection<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.name.Moose");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.name.Moose type.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong EL name of org.jboss.jsr299.tck.tests.definition.name.Moose bean.", "aMoose", bean.getName());
-		assertLocationEquals(bean.getNameLocation(true), 897, 16);
+		IFile file = (IFile)bean.getResource();
+		assertLocationEquals(file, "@Named(\"aMoose\") @Default", bean.getNameLocation(true), 0/*897*/, 16);
 	}
 
-	public void testNamedWithConstant() throws JavaModelException {
+	public void testNamedWithConstant() throws CoreException {
 		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.name.Bear");
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.name.Bear type.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong EL name of org.jboss.jsr299.tck.tests.definition.name.Bear bean.", "aBear", bean.getName());
-		assertLocationEquals(bean.getNameLocation(true), 897, 17);
+		IFile file = (IFile)bean.getResource();
+		assertLocationEquals(file, "@Named(Bear.NAME)", bean.getNameLocation(true), 0/*897*/, 17);
 	}
 
 	/**
