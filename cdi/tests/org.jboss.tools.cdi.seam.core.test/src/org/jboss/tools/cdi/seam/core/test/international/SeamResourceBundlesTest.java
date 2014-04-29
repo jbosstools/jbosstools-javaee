@@ -124,8 +124,8 @@ public class SeamResourceBundlesTest extends SeamCoreTest {
 	public void testSeamInternationalHyperlinks() throws Exception {
 		// Perform Hyperlink test
 		ArrayList<TestRegion> regionList = new ArrayList<TestRegion>();
-		regionList.add(new TestRegion(381, 15, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open bundle 'messages'", null)})); 
-		regionList.add(new TestRegion(398, 10, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'home_header' of bundle 'messages'", null)})); 
+		regionList.add(new TestRegion(/*381, 15*/"bundles.message", new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open bundle 'messages'", null)})); 
+		regionList.add(new TestRegion(/*398, 10*/"home_heade", new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'home_header' of bundle 'messages'", null)})); 
 
 		HyperlinkTestUtil.checkRegions(getTestProject(), PAGE_NAME, regionList, new ELHyperlinkDetector());
 	}
