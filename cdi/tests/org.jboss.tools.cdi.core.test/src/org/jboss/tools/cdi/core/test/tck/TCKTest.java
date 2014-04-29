@@ -49,6 +49,7 @@ import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.java.impl.JavaAnnotation;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
+import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.osgi.framework.Bundle;
 
@@ -228,10 +229,15 @@ public class TCKTest extends TestCase {
 		assertEquals("There should be the only bean with " + typeName + " type", 1, beans.size());
 	}
 
-	public static void assertLocationEquals(Collection<? extends ITextSourceReference> references, int startPosition, int length) {
+	public static void assertLocationEquals(IFile file, Collection<? extends ITextSourceReference> references, String wrappingText, int startPosition, int length) throws CoreException {
+		assertNotNull(wrappingText);
+		int correctedStart = startPosition;
+		String c = FileUtil.readStream(file);
+		int i = c.indexOf(wrappingText);
+		if(i >= 0) correctedStart += i;
 		for (ITextSourceReference reference : references) {
-			if(reference.getStartPosition()==startPosition) {
-				assertLocationEquals(reference, startPosition, length);
+			if(reference.getStartPosition()==correctedStart) {
+				assertLocationEquals(file, wrappingText, reference, startPosition, length);
 				return;
 			}
 		}
@@ -472,7 +478,11 @@ public class TCKTest extends TestCase {
 		}
 	}
 
-	public static void assertLocationEquals(ITextSourceReference reference, int startPosition, int length) {
+	public static void assertLocationEquals(IFile file, String wrappingText, ITextSourceReference reference, int startPosition, int length) throws CoreException {
+		assertNotNull(wrappingText);
+		String c = FileUtil.readStream(file);
+		int i = c.indexOf(wrappingText);
+		if(i >= 0) startPosition += i;
 		assertEquals("Wrong start position", startPosition, reference.getStartPosition());
 		assertEquals("Wrong length", length, reference.getLength());
 	}

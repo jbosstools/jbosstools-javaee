@@ -12,13 +12,16 @@ package org.jboss.tools.cdi.core.test.tck;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.core.IProducerMethod;
+import org.jboss.tools.common.util.FileUtil;
 
 /**
  * @author Alexey Kazakov
@@ -31,14 +34,16 @@ public class ProducerMethodDefinitionTest extends TCKTest {
 	 *
 	 * @throws JavaModelException 
 	 */
-	public void testBindingTypesAppliedToProducerMethodParameters() throws JavaModelException {
+	public void testBindingTypesAppliedToProducerMethodParameters() throws CoreException {
 		Collection<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.implementation.producer.method.definition.Tarantula", "org.jboss.jsr299.tck.tests.implementation.producer.method.definition.Deadliest");
 		IBean bean = beans.iterator().next();
 		Collection<IInjectionPoint> injections = bean.getInjectionPoints();
 		assertEquals("Wrong number of injection points in the producer.", 2, injections.size());
 		// TODO use real location for injection points.
-		assertLocationEquals(injections, 1287, 29);
-		assertLocationEquals(injections, 1328, 19);
+		
+		IFile file = (IFile)bean.getResource();
+		assertLocationEquals(file, injections, "@Tame Tarantula tameTarantula", 0/*1287*/, 29);
+		assertLocationEquals(file, injections, "Tarantula tarantula)", 0/*1328*/, 19);
 	}
 
 	// TODO continue implementing producer tests.

@@ -86,7 +86,7 @@ public class RemoveJarFromClasspathTest extends TestCase {
 	private boolean contains(Libs libs, String path) {
 		List<String> paths = libs.getPaths();
 		for (String p: paths) {
-			if(p.endsWith(path)) return true;
+			if(p.replace('\\',  '/').endsWith(path)) return true;
 		}
 		return false;
 	}

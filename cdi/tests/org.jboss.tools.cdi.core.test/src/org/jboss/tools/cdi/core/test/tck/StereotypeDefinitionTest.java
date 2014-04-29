@@ -12,6 +12,8 @@ package org.jboss.tools.cdi.core.test.tck;
 
 import java.util.Collection;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
@@ -28,7 +30,7 @@ public class StereotypeDefinitionTest extends TCKTest {
 	 * 
 	 * @throws JavaModelException
 	 */
-	public void testStereotypeWithScopeType() throws JavaModelException {
+	public void testStereotypeWithScopeType() throws CoreException {
 		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.stereotype.Moose");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
@@ -39,7 +41,8 @@ public class StereotypeDefinitionTest extends TCKTest {
 				.getStereotypeDeclarations();
 		assertEquals("Wrong number of stereotype declarations", 1, declarations
 				.size());
-		assertLocationEquals(declarations, 835, 17);
+		IFile file = (IFile)bean.getResource();
+		assertLocationEquals(file, declarations, "@AnimalStereotype", 0/*835*/, 17);
 	}
 
 	/**
@@ -72,7 +75,7 @@ public class StereotypeDefinitionTest extends TCKTest {
 	 * section 2.7.2 e)
 	 * section 2.7 d)
 	 */
-	public void testMultipleStereotypesAllowed() {
+	public void testMultipleStereotypesAllowed() throws CoreException {
 		Collection<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.definition.stereotype.HighlandCow", "org.jboss.jsr299.tck.tests.definition.stereotype.Tame");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
@@ -83,12 +86,13 @@ public class StereotypeDefinitionTest extends TCKTest {
 						.getSourceType().getFullyQualifiedName());
 		Collection<? extends ITextSourceReference> declarations = bean.getQualifierDeclarations(false);
 		assertEquals("Wrong number of qualifier declarations", 1, declarations.size());
-		assertLocationEquals(declarations, 877, 5);
+		IFile file = (IFile)bean.getResource();
+		assertLocationEquals(file, declarations, "@Tame", 0/*877*/, 5);
 
 		declarations = bean.getStereotypeDeclarations();
 		assertEquals("Wrong number of stereotype declarations", 2, declarations.size());
-		assertLocationEquals(declarations, 835, 23);
-		assertLocationEquals(declarations, 859, 17);
+		assertLocationEquals(file, declarations, "@HornedMammalStereotype", 0/*835*/, 23);
+		assertLocationEquals(file, declarations, "@AnimalStereotype", 0/*859*/, 17);
 	}
 
 	/**

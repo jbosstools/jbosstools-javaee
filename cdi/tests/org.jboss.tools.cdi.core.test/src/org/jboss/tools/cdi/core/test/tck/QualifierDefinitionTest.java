@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.core.test.tck;
 
 import java.util.Collection;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
@@ -88,15 +89,16 @@ public class QualifierDefinitionTest extends TCKTest {
 		assertEquals("Wrong number of qualifiers.", 2, qualifiers.size());
 		assertContainsQualifier(bean, synchronous);
 		Collection<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
+		IFile file = (IFile)bean.getResource();
 		assertEquals("Wrong number of qualifier declarations.", 1, declarations.size());
-		assertLocationEquals(declarations, 836, 12);
+		assertLocationEquals(file, declarations, "@Synchronous", 0/*836*/, 12);
 	}
 
 	/**
 	 * section 2.3.3 d)
 	 * @throws JavaModelException 
 	 */
-	public void testMultipleQualifiers() throws JavaModelException {
+	public void testMultipleQualifiers() throws CoreException {
 		IQualifierDeclaration chunky = getQualifierDeclarationFromClass("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/Cod.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Chunky");
 		IQualifierDeclaration whitefish = getQualifierDeclarationFromClass("JavaSource/org/jboss/jsr299/tck/tests/definition/qualifier/Cod.java", "org.jboss.jsr299.tck.tests.definition.qualifier.Whitefish");
 		IParametedType type = getType("org.jboss.jsr299.tck.tests.definition.qualifier.Cod");
@@ -107,15 +109,16 @@ public class QualifierDefinitionTest extends TCKTest {
 		assertEquals("Wrong number of qualifiers.", 4, qualifiers.size());
 		Collection<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
 		assertEquals("Wrong number of qualifier declarations.", 3, declarations.size());
-		assertLocationEquals(declarations, 862, 10);
-		assertLocationEquals(declarations, 873, 24);
+		IFile file = (IFile)bean.getResource();
+		assertLocationEquals(file, declarations, "@Whitefish", 0/*862*/, 10);
+		assertLocationEquals(file, declarations, "@Chunky(realChunky=true)", 0/*873*/, 24);
 	}
 
 	/**
 	 * section 2.3.5 a)
 	 * @throws JavaModelException 
 	 */
-	public void testFieldInjectedFromProducerMethod() throws JavaModelException {
+	public void testFieldInjectedFromProducerMethod() throws CoreException {
 		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.qualifier.Barn");
 		assertEquals("Wrong number of beans with org.jboss.jsr299.tck.tests.definition.qualifier.Barn type.", 1, beans.size());
 		IBean bean = beans.iterator().next();
@@ -123,7 +126,8 @@ public class QualifierDefinitionTest extends TCKTest {
 		IInjectionPoint point = points.iterator().next();
 		Collection<IQualifierDeclaration> declarations = point.getQualifierDeclarations();
 		assertEquals("Wrong number of qualifier declarations.", 1, declarations.size());
-		assertLocationEquals(declarations, 891, 5);
+		IFile file = (IFile)bean.getResource();
+		assertLocationEquals(file, declarations, "ject @Tame", 5/*891*/, 5);
 
 		Collection<IBean> injectedBeans = cdiProject.getBeans(true, point);
 		assertEquals("Wrong number of beans.", 1, injectedBeans.size());
@@ -134,7 +138,8 @@ public class QualifierDefinitionTest extends TCKTest {
 		IProducerMethod producer = (IProducerMethod)injectedBean;
 		declarations = producer.getQualifierDeclarations();
 		assertEquals("Wrong number of qualifier declarations.", 1, declarations.size());
-		assertLocationEquals(declarations, 916, 5);
+		file = (IFile)injectedBean.getResource();
+		assertLocationEquals(file, declarations, "uces @Tame publ", 5/*916*/, 5);
 	}
 
 	/**

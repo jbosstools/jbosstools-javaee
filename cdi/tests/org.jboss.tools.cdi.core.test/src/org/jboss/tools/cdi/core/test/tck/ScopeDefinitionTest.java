@@ -12,6 +12,8 @@ package org.jboss.tools.cdi.core.test.tck;
 
 import java.util.Collection;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
@@ -26,7 +28,7 @@ public class ScopeDefinitionTest extends TCKTest {
 	 * 
 	 * @throws JavaModelException
 	 */
-	public void testScopeTypesAreExtensible() throws JavaModelException {
+	public void testScopeTypesAreExtensible() throws CoreException {
 		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.Mullet");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
@@ -36,7 +38,8 @@ public class ScopeDefinitionTest extends TCKTest {
 		Collection<IScopeDeclaration> declarations = bean.getScopeDeclarations();
 		assertEquals("Wrong number of scope declarations", 1, declarations
 				.size());
-		assertLocationEquals(declarations, 830, 17);
+		IFile file = (IFile)bean.getResource();
+		assertLocationEquals(file, declarations, "@AnotherScopeType", 0/*830*/, 17);
 	}
 
 	/**
@@ -44,7 +47,7 @@ public class ScopeDefinitionTest extends TCKTest {
 	 * 
 	 * @throws JavaModelException
 	 */
-	public void testScopeDeclaredInJava() throws JavaModelException {
+	public void testScopeDeclaredInJava() throws CoreException {
 		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.SeaBass");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
@@ -54,7 +57,8 @@ public class ScopeDefinitionTest extends TCKTest {
 		Collection<IScopeDeclaration> declarations = bean.getScopeDeclarations();
 		assertEquals("Wrong number of scope declarations", 1, declarations
 				.size());
-		assertLocationEquals(declarations, 878, 14);
+		IFile file = (IFile)bean.getResource();
+		assertLocationEquals(file, declarations, "@RequestScoped", 0/*878*/, 14);
 	}
 
 	/**
@@ -75,7 +79,7 @@ public class ScopeDefinitionTest extends TCKTest {
 	 * 
 	 * @throws JavaModelException
 	 */
-	public void testScopeSpecifiedAndStereotyped() throws JavaModelException {
+	public void testScopeSpecifiedAndStereotyped() throws CoreException {
 		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.Minnow");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
@@ -85,7 +89,8 @@ public class ScopeDefinitionTest extends TCKTest {
 		Collection<IScopeDeclaration> declarations = bean.getScopeDeclarations();
 		assertEquals("Wrong number of scope declarations", 1, declarations
 				.size());
-		assertLocationEquals(declarations, 899, 14);
+		IFile file = (IFile)bean.getResource();
+		assertLocationEquals(file, declarations, "@RequestScoped", 0/*899*/, 14);
 	}
 
 	/**
@@ -94,7 +99,7 @@ public class ScopeDefinitionTest extends TCKTest {
 	 * @throws JavaModelException
 	 */
 	public void testMultipleIncompatibleScopeStereotypesWithScopeSpecified()
-			throws JavaModelException {
+			throws CoreException {
 		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.Pollock");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
@@ -103,7 +108,8 @@ public class ScopeDefinitionTest extends TCKTest {
 		Collection<IScopeDeclaration> declarations = bean.getScopeDeclarations();
 		assertEquals("Wrong number of scope declarations", 1, declarations
 				.size());
-		assertLocationEquals(declarations, 908, 10);
+		IFile file = (IFile)bean.getResource();
+		assertLocationEquals(file, declarations, "@Dependent", 0/*908*/, 10);
 	}
 
 	/**
@@ -127,7 +133,7 @@ public class ScopeDefinitionTest extends TCKTest {
 	 * @throws JavaModelException
 	 */
 	public void testWebBeanScopeTypeOverridesStereotype()
-			throws JavaModelException {
+			throws CoreException {
 		Collection<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.scope.RedSnapper");
 		assertEquals("Wrong number of beans.", 1, beans.size());
 		IBean bean = beans.iterator().next();
@@ -137,7 +143,8 @@ public class ScopeDefinitionTest extends TCKTest {
 		Collection<IScopeDeclaration> declarations = bean.getScopeDeclarations();
 		assertEquals("Wrong number of scope declarations", 1, declarations
 				.size());
-		assertLocationEquals(declarations, 894, 14);
+		IFile file = (IFile)bean.getResource();
+		assertLocationEquals(file, declarations, "@RequestScoped", 0/*894*/, 14);
 	}
 
 	/**
