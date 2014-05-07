@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2009-2012 Red Hat, Inc. 
+ * Copyright (c) 2009-2014 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -90,9 +90,7 @@ public class XHTMLValidatorTest extends AbstractResourceMarkerTest {
 			long start = System.currentTimeMillis();
 			ValidationResult result = validator.validate(file, IResourceDelta.CHANGED, state, new NullProgressMonitor());
 			long goodValidationTime = System.currentTimeMillis() - start;
-			if(goodValidationTime==0) {
-				goodValidationTime = 1;
-			}
+
 			System.out.println("XHTML file with good DOCTYPE declaration and no XHTML Syntax errors validation time: " + goodValidationTime + " ms");
 			assertTrue("XHTML file with good DOCTYPE declaration and no XHTML Syntax errors validation takes too much time (more than " + MAX_VALIDATION_TIME + " ms)", (goodValidationTime < MAX_VALIDATION_TIME));
 			assertNotNull("No validation result is returned", result);
@@ -115,7 +113,7 @@ public class XHTMLValidatorTest extends AbstractResourceMarkerTest {
 			assertEquals("Wrong number of error messages reported", 0, messages == null ? 0 : messages.size());
 	
 			// Check that the difference between good and bad files validation time is not greater that NOT_BAD_DIFF_PERCENTAGE (%) of a good value
-			double diff = 100*badValidationTime/goodValidationTime;
+			double diff = 100*(badValidationTime + 1)/(goodValidationTime + 1);
 			System.out.println("(With no errors) Validation time difference: " + diff + "%");
 			assertTrue("Validation time difference between good and wrong content is greater than " + NOT_BAD_DIFF_PERCENTAGE + "%", (diff < NOT_BAD_DIFF_PERCENTAGE));
 			
@@ -126,6 +124,7 @@ public class XHTMLValidatorTest extends AbstractResourceMarkerTest {
 			start = System.currentTimeMillis();
 			result = validator.validate(file, IResourceDelta.CHANGED, state, new NullProgressMonitor());
 			goodValidationTime = System.currentTimeMillis() - start;
+
 			System.out.println("XHTML file with good DOCTYPE declaration and XHTML Syntax errors validation time: " + goodValidationTime + " ms");
 			assertTrue("XHTML file with good DOCTYPE declaration and XHTML Syntax errors validation takes too much time (more than " + MAX_VALIDATION_TIME + " ms)", (goodValidationTime < MAX_VALIDATION_TIME));
 			assertNotNull("No validation result is returned", result);
@@ -157,7 +156,7 @@ public class XHTMLValidatorTest extends AbstractResourceMarkerTest {
 				assertTrue("Unexpected error message found: " + message.getText(), LOCALIZED_ERROR_MESSAGES.contains(message.getText()));
 			}
 			// Check that the difference between good and bad files validation time is not greater that NOT_BAD_DIFF_PERCENTAGE (%) of a good value
-			diff = 100*badValidationTime/goodValidationTime;
+			diff = 100*(badValidationTime + 1)/(goodValidationTime + 1);
 			System.out.println("(With errors) Validation time difference: " + diff + "%");
 			assertTrue("Validation time difference between good and wrong content is greater than " + NOT_BAD_DIFF_PERCENTAGE + "%", (diff < NOT_BAD_DIFF_PERCENTAGE));
 		} finally {
