@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.filesystems.FilePathHelper;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
@@ -94,6 +95,7 @@ public class OpenKeyHelper {
 			if(o == null) o = l.get(0);
 			int i = bundle.lastIndexOf('.');
 			String name = (i < 0) ? bundle : bundle.substring(i + 1);
+			name = FilePathHelper.toPathPath(name);
 			XModelObject[] ps = o.getParent().getChildren();
 			for (XModelObject c: ps) {
 				if(!l.contains(c)) {
