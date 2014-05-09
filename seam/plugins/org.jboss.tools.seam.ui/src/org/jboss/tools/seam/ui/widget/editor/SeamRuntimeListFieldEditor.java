@@ -26,6 +26,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -63,8 +64,8 @@ import org.jboss.tools.common.ui.widget.editor.BaseFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamCoreMessages;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamUtil;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
@@ -370,6 +371,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 					checkedElements.remove(selRt);
 				}
 				pcs.firePropertyChange(getName(), null, getValue());
+				validateRuntimes();
 			}
 		});
 
@@ -389,24 +391,26 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 				getAddAction(), new EditAction(), new RemoveAction()});
 		tableView.addSelectionChangedListener(actionPanel);
 	}
-
-	/**
-	 * Checks all runtimes and set default one (for each version) if user did not do it. 
-	 */
-	private void setDefaultRuntimes() {
-		List<SeamRuntime> runtimes = (List<SeamRuntime>)getValue();
-		for (SeamRuntime seamRuntime : runtimes) {
-			boolean checked = false;
-			for(SeamRuntime checkedElement: checkedElements) {
-				if(checkedElement.getVersion() == seamRuntime.getVersion()) {
-					checked = true;
-					break;
+	
+	private void validateRuntimes(){
+		if(preferencePage != null){
+			preferencePage.setErrorMessage(null);
+			boolean valid = true;
+			List<SeamRuntime> runtimes = (List<SeamRuntime>)getValue();
+			for (SeamRuntime seamRuntime : runtimes) {
+				boolean checked = false;
+				for(SeamRuntime checkedElement: checkedElements) {
+					if(checkedElement.getVersion() == seamRuntime.getVersion()) {
+						checked = true;
+						break;
+					}
+				}
+				if(!checked) {
+					valid = false;
+					preferencePage.setErrorMessage(NLS.bind(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_YOU_MUST_SELECT_DEFAULT_SEAM_RUNTIME, seamRuntime.getVersion().toString()));
 				}
 			}
-			if(!checked) {
-				tableView.setChecked(seamRuntime, true);
-				checkedElements.add(seamRuntime);
-			}
+			preferencePage.setValid(valid);
 		}
 	}
 
@@ -1077,7 +1081,6 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 					.getActiveShell(), wiz);
 			dialog.open();
 			tableView.refresh();
-			setDefaultRuntimes();
 			performApply();
 		}
 		
@@ -1093,7 +1096,6 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 					.getActiveShell(), wiz);
 			dialog.open();
 			tableView.refresh();
-			setDefaultRuntimes();
 			performApply();
 		}
 	}
@@ -1191,7 +1193,6 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 				removeRuntime(rt);
 			}
 			tableView.refresh();
-			setDefaultRuntimes();
 			performApply();
 			busy = false;
 			updateEnablement();
@@ -1237,5 +1238,11 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 		SeamCorePlugin.getDefault()
 		.getPreferenceStore().removePropertyChangeListener(propertyChangeListener);
 		super.dispose();
+	}
+	
+	private PreferencePage preferencePage;
+	
+	public void setPreferencePage(PreferencePage preferencePage){
+		this.preferencePage = preferencePage;
 	}
 }
