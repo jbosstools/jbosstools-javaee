@@ -92,6 +92,7 @@ public class SeamPreferencePage extends PreferencePage implements IWorkbenchPref
 		container.setLayoutData(gd);
 		
 		seamRuntimes.doFillIntoGrid(container);
+		seamRuntimes.setPreferencePage(this);
 		return root;
 	}
 	
