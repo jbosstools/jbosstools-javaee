@@ -664,4 +664,9 @@ public class Type extends CDIElement implements IType {
 		return null;
 	}
 
+	@Override 
+	public boolean isLambda() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
