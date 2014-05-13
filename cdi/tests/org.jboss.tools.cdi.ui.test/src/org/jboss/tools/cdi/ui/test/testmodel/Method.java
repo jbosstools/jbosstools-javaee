@@ -388,4 +388,10 @@ public class Method implements IMethod {
 		return false;
 	}
 
+	@Override
+	public boolean isLambdaMethod() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
