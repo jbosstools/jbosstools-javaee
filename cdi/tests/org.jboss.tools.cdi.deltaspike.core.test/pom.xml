@@ -43,39 +43,53 @@
 							<artifactItem>
 								<groupId>org.apache.deltaspike.core</groupId>
 								<artifactId>deltaspike-core-api</artifactId>
-								<version>0.5</version>
+								<version>0.7</version>
 							    <outputDirectory>${basedir}/projects/DeltaspikeCoreTest/lib/</outputDirectory>
 							</artifactItem>
 							<artifactItem>
 								<groupId>org.apache.deltaspike.core</groupId>
 								<artifactId>deltaspike-core-impl</artifactId>
-								<version>0.5</version>
+								<version>0.7</version>
 							    <outputDirectory>${basedir}/projects/DeltaspikeCoreTest/lib/</outputDirectory>
 							</artifactItem>
 							<artifactItem>
 								<groupId>org.apache.deltaspike.modules</groupId>
 								<artifactId>deltaspike-security-module-api</artifactId>
-								<version>0.5</version>
+								<version>0.7</version>
 							    <outputDirectory>${basedir}/projects/DeltaspikeCoreTest/lib/</outputDirectory>
 							</artifactItem>
 							<artifactItem>
 								<groupId>org.apache.deltaspike.modules</groupId>
 								<artifactId>deltaspike-security-module-impl</artifactId>
-								<version>0.5</version>
+								<version>0.7</version>
 							    <outputDirectory>${basedir}/projects/DeltaspikeCoreTest/lib/</outputDirectory>
 							</artifactItem>
 							<artifactItem>
 								<groupId>org.apache.deltaspike.modules</groupId>
 								<artifactId>deltaspike-partial-bean-module-api</artifactId>
-								<version>0.5</version>
+								<version>0.7</version>
 							    <outputDirectory>${basedir}/projects/DeltaspikeCoreTest/lib/</outputDirectory>
 							</artifactItem>
 							<artifactItem>
 								<groupId>org.apache.deltaspike.modules</groupId>
 								<artifactId>deltaspike-partial-bean-module-impl</artifactId>
-								<version>0.5</version>
+								<version>0.7</version>
 							    <outputDirectory>${basedir}/projects/DeltaspikeCoreTest/lib/</outputDirectory>
 							</artifactItem>
+
+							<artifactItem>
+								<groupId>org.apache.deltaspike.modules</groupId>
+								<artifactId>deltaspike-scheduler-module-api</artifactId>
+								<version>0.7</version>
+							    <outputDirectory>${basedir}/projects/DeltaspikeCoreTest/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>org.apache.deltaspike.modules</groupId>
+								<artifactId>deltaspike-scheduler-module-impl</artifactId>
+								<version>0.7</version>
+							    <outputDirectory>${basedir}/projects/DeltaspikeCoreTest/lib/</outputDirectory>
+							</artifactItem>
+
 							<artifactItem>
 								<groupId>javax.enterprise</groupId>
 								<artifactId>cdi-api</artifactId>
