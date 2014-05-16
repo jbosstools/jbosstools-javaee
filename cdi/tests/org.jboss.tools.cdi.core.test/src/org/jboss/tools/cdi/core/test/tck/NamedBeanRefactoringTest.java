@@ -23,6 +23,7 @@ import org.jboss.tools.cdi.internal.core.refactoring.RenameNamedBeanProcessor;
 import org.jboss.tools.common.base.test.AbstractRefactorTest;
 import org.jboss.tools.common.base.test.AbstractRefactorTest.TestChangeStructure;
 import org.jboss.tools.common.base.test.AbstractRefactorTest.TestTextChange;
+import org.jboss.tools.common.util.FileUtil;
 
 public class NamedBeanRefactoringTest extends TCKTest {
 	private static final String FILE_NAME1 = "JavaSource/org/jboss/jsr299/tck/tests/jbt/refactoring/Gamme.java";
@@ -36,8 +37,12 @@ public class NamedBeanRefactoringTest extends TCKTest {
 	public void testNamedBeanClassRename() throws CoreException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
+		IFile sourceFile = tckProject.getProject().getFile(FILE_NAME1);		
+		String sourceFileContent = FileUtil.getContentFromEditorOrFile(sourceFile);
+		int position = sourceFileContent.indexOf("@Named") + 8;
+		
 		TestChangeStructure structure = new TestChangeStructure(tckProject, FILE_NAME1);
-		TestTextChange change = new TestTextChange(328, NUM_OF_CHAR, newName);
+		TestTextChange change = new TestTextChange(/*328*/position, NUM_OF_CHAR, newName);
 		structure.addTextChange(change);
 		list.add(structure);
 
@@ -57,8 +62,6 @@ public class NamedBeanRefactoringTest extends TCKTest {
 		change = new TestTextChange(/*293*/"gamme.biggest}", NUM_OF_CHAR, newName);
 		structure.addTextChange(change);
 		list.add(structure);
-
-		IFile sourceFile = tckProject.getProject().getFile(FILE_NAME1);
 
 		IBean bean = getBean(sourceFile, "gamme");
 		assertNotNull("Can't get the bean.", bean);
