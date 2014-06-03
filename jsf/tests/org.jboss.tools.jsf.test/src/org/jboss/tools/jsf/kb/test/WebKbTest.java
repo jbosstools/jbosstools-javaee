@@ -16,8 +16,11 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.common.el.core.resolver.ELContext;
+import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.IPageContext;
+import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
+import org.jboss.tools.jst.web.kb.internal.KbProject;
 import org.jboss.tools.jst.web.kb.internal.proposal.CustomProposalType;
 import org.jboss.tools.jst.web.kb.internal.taglib.CustomTagLibAttribute;
 import org.jboss.tools.jst.web.kb.taglib.CustomTagLibManager;
@@ -144,5 +147,13 @@ public class WebKbTest extends TestCase {
 		ITagLibrary[] pageLibs = ((IPageContext)context).getLibraries();
 
 		assertEquals(templateLibs.length, pageLibs.length);
+	}
+
+	public void testLibsFromPluginJar() {
+		IKbProject kb = KbProjectFactory.getKbProject(testProject, true);
+		ITagLibrary[] ls = kb.getTagLibraries("http://jboss.tools.org/webkb/lib1");
+		assertEquals("http://jboss.tools.org/webkb/lib1", 1, ls.length);
+		ls = kb.getTagLibraries("http://jboss.tools.org/webkb/lib2");
+		assertEquals("http://jboss.tools.org/webkb/lib2", 1, ls.length);
 	}
 }
