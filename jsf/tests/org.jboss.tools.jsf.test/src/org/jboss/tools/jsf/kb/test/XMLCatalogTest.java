@@ -18,6 +18,8 @@ import junit.framework.TestCase;
 
 import org.eclipse.wst.xml.core.internal.XMLCorePlugin;
 import org.eclipse.wst.xml.core.internal.catalog.provisional.ICatalog;
+import org.jboss.tools.jst.web.kb.internal.KbProject;
+import org.jboss.tools.jst.web.kb.taglib.ITagLibrary;
 import org.jboss.tools.jst.web.kb.taglib.TagLibraryManager;
 
 /**
@@ -46,5 +48,8 @@ public class XMLCatalogTest extends TestCase {
 		assertNotNull(file);
 		File f = TagLibraryManager.getStaticTLD(uri);
 		assertTrue(f.isFile());
+
+		ITagLibrary[] ls = new KbProject().getTagLibraries(uri);
+		assertEquals("Library is not found: " + uri, 1, ls.length);
 	}
 }

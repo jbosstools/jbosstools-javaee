@@ -92,4 +92,15 @@ public class JSF2ComponentsValidatorTest extends TestCase {
 		assertEquals(0, markers.length);
 	}
 
+	public void testCompositeLibAvailableForValidation() throws Exception {
+		IResource resource = project.findMember("/WebContent/resources/xdata/data.xhtml"); //$NON-NLS-1$
+		assertTrue(resource.exists());
+		IMarker[] markers = resource.findMarkers(IMarker.PROBLEM, true, 0);
+		StringBuilder ms = new StringBuilder();
+		for (int i = 0; i < markers.length; i++) {
+			ms.append(markers[i].getAttribute(IMarker.MESSAGE, "") + "\n");
+		}
+		assertEquals("Unexpected markers: " + ms.toString(), 0, markers.length);
+	}
+
 }
