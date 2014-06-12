@@ -257,6 +257,14 @@ public class CDICoreAllTests {
 		suiteAll.addTest(archiveTestSetup);
 		suiteAll.addTest(new CDICoreTestSetup(suite));
 
+		TestSuite cdi11Suite = new TestSuite("CDI 1.1 Annotated Tests");
+		cdi11Suite.addTestSuite(CDI11AnnotatedTest.class);
+		ProjectImportTestSetup cdi11TestSetup = new ProjectImportTestSetup(cdi11Suite,
+				"org.jboss.tools.cdi.core.test",
+				new String[]{"projects/CDITest11"},
+				new String[]{"CDITest11"});
+		suiteAll.addTest(cdi11TestSetup);
+
 		suite = new TestSuite(MissingBeansXmlValidationTest.class.getName());
 		suite.addTestSuite(MissingBeansXmlValidationTest.class);
 		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suite,

@@ -65,6 +65,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.CDIBuilderDelegate;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.cdi.internal.core.scanner.ImplementationCollector;
+import org.jboss.tools.cdi.internal.core.scanner.lib.BeanArchiveDetector;
 import org.jboss.tools.common.CommonPlugin;
 import org.jboss.tools.common.java.IJavaReference;
 import org.jboss.tools.common.java.IParametedType;
@@ -134,6 +135,12 @@ public class CDIProjectAsYouType implements ICDIProject, ICDIElement {
 					}
 				} else {
 					IType[] ts = unit.getTypes();
+					if(getNature().getBeanDiscoveryMode() == BeanArchiveDetector.NONE) {
+						ts = new IType[0];
+					}
+					if(ts.length > 0 && getNature().getBeanDiscoveryMode() == BeanArchiveDetector.ANNOTATED) {
+						ts = BeanArchiveDetector.getAnnotatedTypes(ts, getNature());
+					}
 					fileSet.add(file.getFullPath(), ts);
 				}
 			}
