@@ -71,4 +71,4 @@ Export-Package: org.jboss.tools.seam.ui.test,
  org.jboss.tools.seam.ui.test.view,
  org.jboss.tools.seam.ui.test.wizard
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
