@@ -95,6 +95,7 @@ import org.jboss.tools.cdi.core.extension.feature.IValidatorFeature;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.CDIProjectAsYouType;
+import org.jboss.tools.cdi.internal.core.impl.ClassBean;
 import org.jboss.tools.cdi.internal.core.impl.SessionBean;
 import org.jboss.tools.cdi.internal.core.impl.definition.Dependencies;
 import org.jboss.tools.common.EclipseUtil;
@@ -2167,7 +2168,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		IAnnotationDeclaration specializesDeclaration = bean.getSpecializesAnnotationDeclaration();
 		if (specializesDeclaration != null) {
 			saveAllSuperTypesAsLinkedResources(bean);
-			try {
 				IBean sBean = bean.getSpecializedBean();
 				if (sBean != null) {
 					if (sBean instanceof ISessionBean || sBean.getAnnotation(CDIConstants.STATELESS_ANNOTATION_TYPE_NAME) != null
@@ -2177,18 +2177,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 								specializesDeclaration, bean.getResource());
 					} else {
 						// Validate the specializing bean extends a non simple bean
-						boolean hasDefaultConstructor = true;
-						IMethod[] methods = sBean.getBeanClass().getMethods();
-						for (IMethod method : methods) {
-							if (method.isConstructor()) {
-								if (Flags.isPublic(method.getFlags()) && method.getParameterNames().length == 0) {
-									hasDefaultConstructor = true;
-									break;
-								}
-								hasDefaultConstructor = false;
-							}
-						}
-						if (!hasDefaultConstructor) {
+						if (sBean instanceof ClassBean && !((ClassBean)sBean).getDefinition().hasBeanConstructor()) {
 							addProblem(CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_BEAN,	specializesDeclaration, bean.getResource());
 						}
 					}
@@ -2196,9 +2185,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 					// The specializing bean extends nothing
 					addProblem(CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, CDIPreferences.ILLEGAL_SPECIALIZING_BEAN, specializesDeclaration, bean.getResource());
 				}
-			} catch (JavaModelException e) {
-				CDICorePlugin.getDefault().logError(e);
-			}
 		}
 
 		try {

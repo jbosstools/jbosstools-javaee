@@ -215,8 +215,13 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	 * @throws Exception
 	 */
 	public void testSpecializingClassExtendsNonSimpleBean() throws Exception {
+		//Case of inheriting from a class that has no bean constructor is an illegal specialization.
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/simple/broken/noextend3/Cow_Broken.java");
 		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, 21);
+
+		// Case of inheriting from a class with protected bean constructor is a legal specialization.
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/simple/Chicken.java");
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.ILLEGAL_SPECIALIZING_MANAGED_BEAN, 26);
 	}
 
 	/**
