@@ -33,7 +33,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.jboss.tools.seam.xml.ui,
  org.jboss.tools.seam.text.ext,
  org.jboss.ide.eclipse.as.core;bundle-version="2.4.0",
- org.jboss.tools.runtime.seam.detector;bundle-version="3.4.0"
+ org.jboss.tools.runtime.seam.detector;bundle-version="3.4.0",
+ org.jboss.tools.as.runtimes.integration;bundle-version="3.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: %BundleVendor
