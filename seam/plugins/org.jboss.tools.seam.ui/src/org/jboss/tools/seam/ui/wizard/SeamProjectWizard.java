@@ -579,7 +579,9 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 			return launchNewServerWizard(shell, model, null);
 		}
 
-		public boolean isAs7Selected() {
+		private final String eapRuntimeId = "org.jboss.ide.eclipse.as.runtime.eap.";
+
+		public boolean isAs7orHigherSelected() {
 			String runtimeName = serverRuntimeTargetCombo.getText();
 			if(RuntimeManager.isRuntimeDefined(runtimeName)) {
 				IRuntime targetRuntime = RuntimeManager.getRuntime(runtimeName);
@@ -587,8 +589,21 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 					List<IRuntimeComponent> components = ((BridgedRuntime)targetRuntime).getRuntimeComponents();
 					for (IRuntimeComponent component : components) {
 						String typeId = component.getProperty("type-id");
-						if(typeId!=null && (typeId.startsWith("org.jboss.ide.eclipse.as.runtime.7") || typeId.startsWith("org.jboss.ide.eclipse.as.runtime.eap.6"))) {
-							return true;
+						if(typeId!=null) {
+							if(typeId.startsWith("org.jboss.ide.eclipse.as.runtime.7") || typeId.startsWith("org.jboss.ide.eclipse.as.runtime.wildfly")) {
+								return true;
+							} else if(typeId.startsWith(eapRuntimeId) && typeId.length() > eapRuntimeId.length()) {
+								String v = typeId.substring(eapRuntimeId.length());
+								int number = 0;
+								try {
+									number = Integer.parseInt(v);
+								} catch(NumberFormatException e) {
+									number = v.compareTo("6")>=0?6:0;
+								}
+								if(number>=6) {
+									return true;
+								}
+							}
 						}
 					}
 				}
@@ -613,7 +628,7 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 					break;
 				}
 			}
-			if(isAs7Selected() && primaryVersionCombo.getItemCount()>0) {
+			if(isAs7orHigherSelected() && primaryVersionCombo.getItemCount()>0) {
 				setTemplate(templateJstSeam23, primaryVersionCombo.getItemCount()-1);
 				return true;
 			} else if(lastWeb25Template!=null && !lastWeb25Template.equals(seamConfigTemplate)) {
