@@ -69,4 +69,8 @@ public class VarAttributesTest extends TestCase {
 	public void testSet() throws Exception {
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(xhtml, messageOk, 43);
 	}
+
+	public void testArrayIndex() throws Exception {
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(xhtml, MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new Object[]{"0"}), 47);
+	}
 }
