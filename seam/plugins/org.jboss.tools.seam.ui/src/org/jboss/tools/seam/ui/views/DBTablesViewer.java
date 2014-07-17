@@ -25,15 +25,15 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.progress.WorkbenchJob;
 import org.hibernate.HibernateException;
 import org.hibernate.JDBCException;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.JDBCReaderFactory;
+import org.hibernate.cfg.Settings;
 import org.hibernate.cfg.reveng.dialect.MetaDataDialect;
 import org.hibernate.console.ConsoleConfiguration;
 import org.hibernate.console.ImageConstants;
 import org.hibernate.console.execution.ExecutionContext;
 import org.hibernate.eclipse.console.utils.EclipseImages;
 import org.hibernate.mapping.Table;
-import org.jboss.tools.hibernate.proxy.SettingsProxy;
-import org.jboss.tools.hibernate.spi.IConfiguration;
 import org.jboss.tools.seam.ui.internal.reveng.JDBCTablesColumnsReader;
 import org.jboss.tools.seam.ui.internal.reveng.TablesColumnsCollector;
 
@@ -110,9 +110,9 @@ public class DBTablesViewer extends TreeViewer {
 	protected ITreeContentProvider createContentProvider() {
 		return new ITreeContentProvider(){
 			
-			private IConfiguration cfg = null;
+			private Configuration cfg = null;
 			
-			private SettingsProxy buildSettings = null;
+			private Settings buildSettings = null;
 			
 			private String placeHolder = "Pending...";	//$NON-NLS-1$
 			
@@ -205,11 +205,11 @@ public class DBTablesViewer extends TreeViewer {
 						@Override
 						public IStatus runInUIThread(IProgressMonitor monitor) {
 							try{
-								MetaDataDialect realMetaData = JDBCReaderFactory.newMetaDataDialect(buildSettings.getTarget()
+								MetaDataDialect realMetaData = JDBCReaderFactory.newMetaDataDialect(buildSettings
 										.getDialect(), cfg.getProperties());
 								
 								JDBCTablesColumnsReader reader = new JDBCTablesColumnsReader(realMetaData,
-										buildSettings.getConnectionProvider(), buildSettings.getTarget().getSQLExceptionConverter());
+										buildSettings.getConnectionProvider(), buildSettings.getSQLExceptionConverter());
 								reader.readDatabaseTables(tablesCollector, buildSettings.getDefaultCatalogName(), buildSettings.getDefaultSchemaName());
 								
 								connectionState = CHILDREN_FETCHED;
@@ -244,7 +244,7 @@ public class DBTablesViewer extends TreeViewer {
 						cfg = cc.getConfiguration();
 						cc.getExecutionContext().execute(new ExecutionContext.Command() {
 							public Object execute() {
-								SettingsProxy newSettings = (SettingsProxy)cfg.buildSettings();
+								Settings newSettings = cfg.buildSettings();
 								if (!newSettings.equals(buildSettings)){
 									buildSettings = newSettings;
 									connectionState = BEGIN_STATE;
