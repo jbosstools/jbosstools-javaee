@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.progress.WorkbenchJob;
 import org.hibernate.HibernateException;
 import org.hibernate.JDBCException;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.JDBCReaderFactory;
 import org.hibernate.cfg.Settings;
 import org.hibernate.cfg.reveng.dialect.MetaDataDialect;
@@ -33,7 +34,6 @@ import org.hibernate.console.ImageConstants;
 import org.hibernate.console.execution.ExecutionContext;
 import org.hibernate.eclipse.console.utils.EclipseImages;
 import org.hibernate.mapping.Table;
-import org.jboss.tools.hibernate.spi.IConfiguration;
 import org.jboss.tools.seam.ui.internal.reveng.JDBCTablesColumnsReader;
 import org.jboss.tools.seam.ui.internal.reveng.TablesColumnsCollector;
 
@@ -110,7 +110,7 @@ public class DBTablesViewer extends TreeViewer {
 	protected ITreeContentProvider createContentProvider() {
 		return new ITreeContentProvider(){
 			
-			private IConfiguration cfg = null;
+			private Configuration cfg = null;
 			
 			private Settings buildSettings = null;
 			
