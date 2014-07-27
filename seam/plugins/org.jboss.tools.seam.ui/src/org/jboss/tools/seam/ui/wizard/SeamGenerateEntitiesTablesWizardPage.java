@@ -10,6 +10,7 @@
   ******************************************************************************/
 package org.jboss.tools.seam.ui.wizard;
 
+import org.eclipse.jdt.internal.ui.wizards.dialogfields.ComboDialogField;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -52,7 +53,12 @@ public class SeamGenerateEntitiesTablesWizardPage extends WizardPage /*implement
 			}
 		};
 
-		model = new ReverseEngineeringDefinitionImpl();
+		// always force hibernate 3.5
+		model = new ReverseEngineeringDefinitionImpl(new ComboDialogField(SWT.NONE) {
+			public String getText() {
+				return "3.5";
+			}
+		});
 
 		tfView.setModel(model);
 
