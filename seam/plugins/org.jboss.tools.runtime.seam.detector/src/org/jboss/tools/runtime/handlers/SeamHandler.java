@@ -73,6 +73,14 @@ public class SeamHandler extends AbstractRuntimeDetectorDelegate {
 			SeamVersion seamVersion = getSeamVersion(seamFile.getAbsolutePath());
 			if (seamVersion != null) {
 				String name = "Seam " + runtimeDefinition.getName() + " " + seamVersion; //$NON-NLS-1$ //$NON-NLS-2$
+				List<String> names = SeamRuntimeManager.getInstance().getAllRuntimeNames();
+				if (names != null && names.size() > 0) {
+					int i = 2;
+					String baseName = "Seam " + runtimeDefinition.getName(); //$NON-NLS-1$
+					while (names.contains(name)) {
+						name = baseName + " (" + i++ + ") " + seamVersion; //$NON-NLS-1$ //$NON-NLS-2$
+					}
+				}
 				addSeam(map, seamFile.getAbsolutePath(), seamVersion, name);
 			}
 		}
