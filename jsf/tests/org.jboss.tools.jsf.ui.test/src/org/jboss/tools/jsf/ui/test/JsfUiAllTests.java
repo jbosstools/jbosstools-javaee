@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007-2013 Red Hat, Inc.
+ * Copyright (c) 2007-2014 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -8,7 +8,6 @@
  * Contributors:
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-
 package org.jboss.tools.jsf.ui.test;
 
 import junit.framework.Test;
@@ -32,6 +31,7 @@ import org.jboss.tools.jsf.jsp.ca.test.CAForInputTagSrcAttributeSuggestsFilePath
 import org.jboss.tools.jsf.jsp.ca.test.CAForJSF2BeanMapValuesTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForJSF2BeansInJavaTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForJSF2BeansTest;
+import org.jboss.tools.jsf.jsp.ca.test.CAForNotJsf;
 import org.jboss.tools.jsf.jsp.ca.test.CAForUnclosedELTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAInEventAttributesTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAJsfAddInfoInELMessagesTest;
@@ -84,6 +84,8 @@ public class JsfUiAllTests {
 		suite.addTestSuite(FasesConfigEditorTest.class);
 		
 		suite.addTestSuite(PropertiesNewWizardTest.class);
+
+		suite.addTestSuite(CAForNotJsf.class);
 		
 		suite.addTest(
 				new ProjectImportTestSetup(JsfJspLongResourceBundlePropertyNamesTest.suite(),
