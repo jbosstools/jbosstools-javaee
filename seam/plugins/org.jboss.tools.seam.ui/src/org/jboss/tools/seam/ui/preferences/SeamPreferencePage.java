@@ -153,4 +153,10 @@ public class SeamPreferencePage extends PreferencePage implements IWorkbenchPref
 		performApply();
 		return super.performOk();
 	}
+	
+    @Override
+	public void dispose() {
+    	seamRuntimes.dispose();
+    	super.dispose();
+    }
 }

@@ -24,6 +24,7 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.PreferencePage;
@@ -191,6 +192,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 
 	public void performApply() {
 		for (SeamRuntime rt : getAddedSeamRuntimes()) {
+			rt.setDefault(true);
 			SeamRuntimeManager.getInstance().addRuntime(rt);
 		}
 		getAddedSeamRuntimes().clear();
@@ -286,6 +288,19 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 			public void inputChanged(Viewer viewer, Object oldInput,
 					Object newInput) {
 				viewer.refresh();
+				setValue(newInput);
+				checkedElements.clear();
+				if(newInput != null){
+					for (SeamRuntime rt : (List<SeamRuntime>) getValue()) {
+						if (rt.isDefault()) {
+							tableView.setChecked(rt, true);
+							checkedElements.add(rt);
+						}else{
+							tableView.setChecked(rt, false);
+						}
+					}
+					validateRuntimes();
+				}
 			}
 		});
 
@@ -1079,9 +1094,9 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 					(List<SeamRuntime>) getValue(), added);
 			WizardDialog dialog = new WizardDialog(Display.getCurrent()
 					.getActiveShell(), wiz);
-			dialog.open();
-			tableView.refresh();
-			performApply();
+			if(dialog.open() == Dialog.OK){
+				performApply();
+			}
 		}
 		
 		public void run(String name, String version) {
@@ -1094,9 +1109,9 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 			
 			WizardDialog dialog = new WizardDialog(Display.getCurrent()
 					.getActiveShell(), wiz);
-			dialog.open();
-			tableView.refresh();
-			performApply();
+			if(dialog.open() == Dialog.OK){
+				performApply();
+			}
 		}
 	}
 
@@ -1139,15 +1154,15 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 					(List<SeamRuntime>) getValue(), runtimes[0], added, changed);
 			WizardDialog dialog = new WizardDialog(Display.getCurrent()
 					.getActiveShell(), wiz);
-			dialog.open();
-			tableView.refresh();
-			if (changed.containsValue(selected)) {
-				SeamRuntime c = findChangedRuntime(selected);
-				if (c != null) {
-					tableView.setSelection(new StructuredSelection(c));
+			if(dialog.open() == Dialog.OK){
+				if (changed.containsValue(selected)) {
+					SeamRuntime c = findChangedRuntime(selected);
+					if (c != null) {
+						tableView.setSelection(new StructuredSelection(c));
+					}
 				}
+				performApply();
 			}
-			performApply();
 		}
 
 		private SeamRuntime findChangedRuntime(SeamRuntime source) {
@@ -1192,7 +1207,6 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 			for (SeamRuntime rt : runtimes) {
 				removeRuntime(rt);
 			}
-			tableView.refresh();
 			performApply();
 			busy = false;
 			updateEnablement();
@@ -1216,8 +1230,8 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 					added.remove(r);
 				}
 				((List) getValue()).remove(r);
+				checkedElements.remove(r);
 			}
-			checkedElements.remove(r);
 		}
 
 		private boolean isRuntimeUsed(String runtimeName) {
