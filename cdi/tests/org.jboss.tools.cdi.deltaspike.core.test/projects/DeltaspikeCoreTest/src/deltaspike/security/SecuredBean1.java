@@ -6,7 +6,9 @@ import org.apache.deltaspike.security.api.authorization.AccessDecisionVoter;
 import org.apache.deltaspike.security.api.authorization.AccessDecisionVoterContext;
 import org.apache.deltaspike.security.api.authorization.SecurityViolation;
 import org.apache.deltaspike.security.api.authorization.Secured;
+import javax.enterprise.context.ApplicationScoped;
 
+@ApplicationScoped
 public class SecuredBean1 {
 
 	@CustomSecurityBinding2

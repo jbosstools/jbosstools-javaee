@@ -2,7 +2,7 @@ package deltaspike.partialbean;
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-@BindingA
-public class BeanA1 {
-  
+@BindingD
+public interface BeanD {
+
 }

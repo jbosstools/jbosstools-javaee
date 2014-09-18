@@ -74,7 +74,7 @@ public class CDISeamSolderServiceHandlerExtension implements ICDIExtension, IBui
 		Map<IPath, List<IType>> is = fileSet.getInterfaces();
 		for (IPath path: is.keySet()) {
 			for (IType t: is.get(path)) {
-				InterfaceDefinition i = new InterfaceDefinition(t, context);
+				InterfaceDefinition i = new InterfaceDefinition(t, workingCopy);
 				List<IAnnotationDeclaration> as = i.getAnnotations();
 				for (IAnnotationDeclaration a: as) {
 					if(workingCopy.isServiceAnnotation(a.getType())) {

@@ -105,7 +105,7 @@ public class DeltaspikePartialbeanExtension implements ICDIExtension, IBuildPart
 		Map<IPath, List<IType>> is = fileSet.getInterfaces();
 		for (IPath p: is.keySet()) {
 			for (IType type: is.get(p)) {
-				InterfaceDefinition def = new InterfaceDefinition(type, context);
+				InterfaceDefinition def = new InterfaceDefinition(type, workingCopy);
 				IAnnotationDeclaration d = findAnnotationAnnotatedWithPartialBeanBindingType(def, workingCopy.getRootContext());
 				if(d != null) {
 					TypeDefinition typeDefinition = new TypeDefinition();
