@@ -11,7 +11,9 @@ import org.apache.deltaspike.security.api.authorization.Secures;
 import deltaspike.security.Admin;
 import deltaspike.security.CustomSecurityBinding;
 import deltaspike.security.CustomSecurityBinding2;
+import javax.enterprise.context.ApplicationScoped;
 
+@ApplicationScoped
 public class SecuredBean2 {
 
 	@CustomSecurityBinding2

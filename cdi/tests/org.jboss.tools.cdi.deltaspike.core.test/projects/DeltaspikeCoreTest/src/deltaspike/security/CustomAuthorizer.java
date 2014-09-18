@@ -1,7 +1,9 @@
 package deltaspike.security;
 
 import org.apache.deltaspike.security.api.authorization.Secures;
+import javax.enterprise.context.ApplicationScoped;
 
+@ApplicationScoped
 public class CustomAuthorizer {
 	
 	@Secures 

@@ -66,7 +66,7 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 		Map<IPath, List<IType>> is = fileSet.getInterfaces();
 		for (IPath path: is.keySet()) {
 			for (IType t: is.get(path)) {
-				InterfaceDefinition i = new InterfaceDefinition(t, context);
+				InterfaceDefinition i = new InterfaceDefinition(t, workingCopy);
 				if(i.isAnnotationPresent(getVersion().getMessageLoggerAnnotationTypeName())) {
 					TypeDefinition d = new TypeDefinition();
 					d.setType(t, workingCopy.getRootContext(), 0);
