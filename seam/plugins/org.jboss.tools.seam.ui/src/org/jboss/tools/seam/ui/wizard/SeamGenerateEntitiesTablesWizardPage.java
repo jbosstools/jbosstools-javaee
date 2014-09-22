@@ -53,10 +53,9 @@ public class SeamGenerateEntitiesTablesWizardPage extends WizardPage /*implement
 			}
 		};
 
-		// always force hibernate 3.5
 		model = new ReverseEngineeringDefinitionImpl(new ComboDialogField(SWT.NONE) {
 			public String getText() {
-				return "3.5";
+				return cfgName;
 			}
 		});
 
