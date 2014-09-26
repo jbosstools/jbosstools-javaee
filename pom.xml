@@ -20,6 +20,9 @@
 		<module>seam</module>
 		<module>site</module>
 	</modules>
+	<profiles>
+	<profile>
+		<id>javaee-requirements</id>
 	<repositories>
 		<!-- All these replace the need to rely on composite or aggregate.
 		It offers better control on a per-project basis.
@@ -69,4 +72,6 @@
 			</snapshots>
 		</repository>
 	</repositories>
+	</profile>
+	</profiles>
 </project>
