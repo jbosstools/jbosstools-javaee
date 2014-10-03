@@ -53,8 +53,6 @@ import org.jboss.tools.jsf.jsp.ca.test.JspElFunctionsTest;
 import org.jboss.tools.jsf.jsp.ca.test.WebContentAssistProviderTest;
 import org.jboss.tools.jsf.jsp.hover.ELTooltipTest;
 import org.jboss.tools.jsf.ui.test.refactoring.ELReferencesRenameTest;
-import org.jboss.tools.jsf.ui.test.validation.JSFAsYouTypeValidationTest;
-import org.jboss.tools.jsf.ui.test.validation.java.JSFAsYouTypeInJavaValidationTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class JsfUiAllTests {
@@ -158,8 +156,10 @@ public class JsfUiAllTests {
 				CAJsfAddInfoInELMessagesTest.class,
 				CAJsfResourceBundlePropertyApplyTest.class,
 				CAELBeanPropertyTest.class,
-				JSFAsYouTypeInJavaValidationTest.class,
-				JSFAsYouTypeValidationTest.class,
+// 				The following as-you-type validation tests are temporary disabled
+//				until we find any solution to fix them. See https://issues.jboss.org/browse/JBIDE-18504
+//				JSFAsYouTypeInJavaValidationTest.class,
+//				JSFAsYouTypeValidationTest.class,
 				CAJsfPredictiveTagNameProposalsTest.class,
 				CAELNoTagProposalsInELTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
