@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2011 Red Hat, Inc. 
+ * Copyright (c) 2011-2014 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -36,6 +36,8 @@ import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.StyledString.Styler;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.TextStyle;
 import org.eclipse.swt.widgets.Composite;
@@ -361,17 +363,47 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 		}
 	}
 
-	private static class CDIBeanStyler extends Styler {
+	private class CDIBeanStyler extends Styler {
 		private final Color foreground;
+		private final boolean bold;
+		private Font fBoldFont;
 
+		public CDIBeanStyler(boolean bold) {
+			this(null, bold);
+		}
 		public CDIBeanStyler(Color foreground) {
+			this(foreground, false);
+		}
+		public CDIBeanStyler(Color foreground, boolean bold) {
 			this.foreground = foreground;
+			this.bold = bold;
 		}
 
 		public void applyStyles(TextStyle textStyle) {
 			if (foreground != null) {
 				textStyle.foreground = foreground;
 			}
+			if (bold) {
+				textStyle.font= getBoldFont();
+			}
+		}
+		
+		/**
+		 * Create the bold variant of the currently used font.
+		 * 
+		 * @return the bold font
+		 * @since 3.5
+		 */
+		private Font getBoldFont() {
+			if (fBoldFont == null) {
+				Font font= getDialogArea().getFont();
+				FontData[] data= font.getFontData();
+				for (int i= 0; i < data.length; i++) {
+					data[i].setStyle(SWT.BOLD);
+				}
+				fBoldFont= new Font(font.getDevice(), data);
+			}
+			return fBoldFont;
 		}
 	}
 
@@ -383,8 +415,7 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 
 		private Styler getNameStyle() {
 			if(nameStyle==null) {
-				Color black = getShell().getDisplay().getSystemColor(SWT.COLOR_INFO_FOREGROUND);
-				nameStyle = new CDIBeanStyler(black);
+				nameStyle = new CDIBeanStyler(true);
 			}
 			return nameStyle;
 		}
