@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.jsr299.tck.tests.jbt.validation.annotations.qualifier.broken;
+package org.jboss.jsr299.tck.tests.jbt.validation.annotations.qualifier;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.CONSTRUCTOR;
+import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -29,12 +29,12 @@ import java.lang.annotation.Target;
 
 import javax.inject.Qualifier;
 
-@Target( { TYPE, METHOD, CONSTRUCTOR })
+@Target( { TYPE, METHOD, PARAMETER })
 @Retention(RUNTIME)
 @Documented
 @Qualifier
 @Inherited
-@interface Hairy_WrongTarget
+@interface HairyTarget11Ok
 {
    
    public boolean clipped();
