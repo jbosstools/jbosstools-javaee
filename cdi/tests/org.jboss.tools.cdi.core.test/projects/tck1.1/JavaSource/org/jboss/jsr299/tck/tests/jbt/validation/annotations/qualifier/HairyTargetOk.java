@@ -1,4 +1,4 @@
-package org.jboss.jsr299.tck.tests.jbt.validation.annotations.qualifier.broken;
+package org.jboss.jsr299.tck.tests.jbt.validation.annotations.qualifier;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
