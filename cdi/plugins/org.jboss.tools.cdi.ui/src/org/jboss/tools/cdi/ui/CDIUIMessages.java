@@ -164,4 +164,6 @@ public class CDIUIMessages extends NLS{
 	public static String CDI_PROJECT_WIZARD_NEW_PROJECT_TITLE;
 	public static String CDI_PROJECT_WIZARD_NEW_PROJECT_DESCRIPTION;
 	public static String CDI_PROJECT_WIZARD_PAGE1_CDI_FACET_MUST_BE_SPECIFIED;
+
+	public static String VERSION_LABEL;
 }

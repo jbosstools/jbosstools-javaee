@@ -14,6 +14,10 @@ package org.jboss.tools.cdi.ui.wizard;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -21,11 +25,18 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -39,13 +50,18 @@ import org.eclipse.ui.internal.ide.misc.ContainerSelectionGroup;
 import org.eclipse.ui.internal.ide.misc.ResourceAndContainerGroup;
 import org.eclipse.ui.internal.wizards.newresource.ResourceMessages;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
+import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIImages;
+import org.jboss.tools.cdi.core.CDIVersion;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
+import org.jboss.tools.cdi.xml.beans.model.CDIBeansConstants;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.project.ProjectHome;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
+import org.jboss.tools.common.ui.widget.editor.SwtFieldEditorFactory;
 
 /**
  * 
@@ -55,7 +71,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 public class NewBeansXMLCreationWizard extends BasicNewResourceWizard {
 	public static final String WIZARD_ID = "org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard"; //$NON-NLS-1$
 	
-    private WizardNewFileCreationPage mainPage;
+    private WizardNewBeansXMLFileCreationPage mainPage;
 
 	private boolean fOpenEditorOnFinish = true;
 
@@ -64,6 +80,14 @@ public class NewBeansXMLCreationWizard extends BasicNewResourceWizard {
      */
     public NewBeansXMLCreationWizard() {
         super();
+    }
+
+    public void setVersion(CDIVersion version) {
+    	mainPage.versionEditor.setValue(version.toString());
+    }
+
+    public String getVersion() {
+    	return mainPage.versionEditor.getValueAsString();
     }
 
     /* (non-Javadoc)
@@ -134,6 +158,7 @@ public class NewBeansXMLCreationWizard extends BasicNewResourceWizard {
 	}
 
     class WizardNewBeansXMLFileCreationPage extends WizardNewFileCreationPage {
+    	IFieldEditor versionEditor = null;
 
 		public WizardNewBeansXMLFileCreationPage(String pageName, IStructuredSelection selection) {
 			super(pageName, selection);
@@ -216,9 +241,88 @@ public class NewBeansXMLCreationWizard extends BasicNewResourceWizard {
 		}
 		
 		protected InputStream getInitialContents() {
-			FileAnyImpl file = (FileAnyImpl)PreferenceModelUtilities.getPreferenceModel().createModelObject("FileCDIBeans", new Properties());
+			FileAnyImpl file = (FileAnyImpl)PreferenceModelUtilities.getPreferenceModel().createModelObject(getEntityName(), new Properties());
 			return new ByteArrayInputStream(file.getAsText().getBytes());
 		}
+
+		String getEntityName() {
+			String versionName = versionEditor.getValueAsString();
+			if(versionName.equals(CDIVersion.CDI_1_0.toString())) {
+				return CDIBeansConstants.ENT_CDI_BEANS;
+			}
+
+			String expectedEntityName = CDIBeansConstants.ENT_CDI_BEANS;
+			for (int i = 0; i < versionName.length(); i++) {
+				char c = versionName.charAt(i);
+				if(Character.isDigit(c)) {
+					expectedEntityName += c;
+				}
+			}
+			if(PreferenceModelUtilities.getPreferenceModel().getMetaData().getEntity(expectedEntityName) != null) {
+				return expectedEntityName;
+			}
+
+			String lastEntity = CDIBeansConstants.ENT_CDI_BEANS;
+			int lastVersion = 0;
+			for (String e: PreferenceModelUtilities.getPreferenceModel().getMetaData().entities()) {
+				if(e.startsWith(CDIBeansConstants.ENT_CDI_BEANS) && Character.isDigit(e.charAt(e.length() - 1))) {
+					String suff = e.substring(CDIBeansConstants.ENT_CDI_BEANS.length());
+					int vi = Integer.parseInt(suff);
+					if(vi > lastVersion) {
+						lastEntity = e;
+						lastVersion = vi;
+					}
+					
+				}
+			}
+			return lastEntity;
+		}
+
+		//Advanced capability is removed.
+		@Override
+		protected IStatus validateLinkedResource() {
+			return Status.OK_STATUS;
+		}
+
+		//Advanced capability is removed.
+		@Override
+		protected void createLinkTarget() {
+		}
+
+		protected void createAdvancedControls(Composite parent) {
+			Label separator = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
+			GridData sd = new GridData(GridData.FILL_HORIZONTAL);
+			separator.setLayoutData(sd);
+
+			List<String> versions = new ArrayList<String>();
+			for (CDIVersion v: CDIVersion.ALL_VERSIONS) {
+				versions.add(v.toString());
+			}
+			versionEditor = SwtFieldEditorFactory.INSTANCE.createComboEditor("version", CDIUIMessages.VERSION_LABEL, versions, getInitialCDIVersion(), false, "");
+			Composite c = new Composite(parent, 0);
+			c.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			GridLayout gl = new GridLayout(3, false);
+			gl.marginWidth = 5;
+			gl.marginHeight = 5;
+			gl.verticalSpacing = 0;
+			gl.horizontalSpacing = 5;
+			c.setLayout(gl);
+			versionEditor.doFillIntoGrid(c);
+		}
+
+	    String getInitialCDIVersion() {
+	    	IPath path = getContainerFullPath();
+	    	if(path != null) {
+	    		IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(path.segment(0));
+	    		if(p != null && CDICorePlugin.getCDI(p, false) != null) {
+	    			CDIVersion v = CDICorePlugin.getCDI(p, true).getVersion();
+	    			if(v != null) {
+	    				return v.toString();
+	    			}
+	    		}
+	    	}
+	    	return CDIVersion.getLatestDefaultVersion().toString();
+	    }
 
     }
 

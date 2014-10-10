@@ -36,6 +36,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIVersion;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
@@ -552,6 +553,8 @@ public class NewCDIWizardTest extends TestCase {
 			assertTrue(context.wizard.canFinish());
 			String c = page.getContainerFullPath().toString();
 			assertEquals("/tck/WebContent/WEB-INF", c);
+
+			assertEquals(CDIVersion.CDI_1_0.toString(), context.wizard.getVersion());
 			
 			context.wizard.performFinish();
 		
@@ -560,6 +563,37 @@ public class NewCDIWizardTest extends TestCase {
 			
 			String text = FileUtil.readStream(f.getContents());
 			assertTrue(text.indexOf("http://java.sun.com/xml/ns/javaee") > 0);
+
+		} finally {
+			context.close();
+		}
+	}
+
+	public void testNewBeansXMLWizard11() throws CoreException {
+		NewBeansXMLWizardContext context = new NewBeansXMLWizardContext();
+		context.init("org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard");
+		
+		try {
+			
+			WizardNewFileCreationPage page = (WizardNewFileCreationPage)context.wizard.getPage("newFilePage1");
+			String s = page.getFileName();
+			assertEquals("beans.xml", s);
+			assertFalse(context.wizard.canFinish());
+			page.setFileName("beans3.xml");
+			assertTrue(context.wizard.canFinish());
+			String c = page.getContainerFullPath().toString();
+			assertEquals("/tck/WebContent/WEB-INF", c);
+
+			assertEquals(CDIVersion.CDI_1_0.toString(), context.wizard.getVersion());
+			context.wizard.setVersion(CDIVersion.CDI_1_1);
+			
+			context.wizard.performFinish();
+		
+			IFile f = context.tck.getParent().getFile(page.getContainerFullPath().append(page.getFileName()));
+			assertTrue(f.exists());
+			
+			String text = FileUtil.readStream(f.getContents());
+			assertTrue(text.indexOf("1.1") > 0);
 
 		} finally {
 			context.close();
