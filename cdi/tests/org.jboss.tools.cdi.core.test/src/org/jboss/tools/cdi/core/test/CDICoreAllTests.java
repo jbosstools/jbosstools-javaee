@@ -151,6 +151,7 @@ public class CDICoreAllTests {
 		ValidationExceptionTest.initLogger();
 
 		TestSuite suiteAll = new TestSuite("CDI Core Tests");
+		suiteAll.addTestSuite(CDIFacetedProjectListenerTest.class);
 		suiteAll.addTestSuite(CDIImagesTest.class);
 		suiteAll.addTestSuite(TypeTest.class);
 		TestSuite suite = new TestSuite("TCK Tests");
