@@ -294,4 +294,14 @@
 	      </exclude>
 	   </validator>
 	</extension>
+
+   <extension
+   		point="org.eclipse.wst.common.project.facet.core.listeners">
+      <listener
+            class="org.jboss.tools.cdi.internal.core.project.facet.CDIFacetedProjectListener"
+            eventTypes="PRE_INSTALL">
+      </listener>
+   </extension>
+
+
 </plugin>

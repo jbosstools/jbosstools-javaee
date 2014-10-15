@@ -34,7 +34,7 @@ public class JSFProcessHelper implements JSFConstants {
 	
 	private XModelObject getTemplate() {
 		if(TEMPLATE == null && process != null) {
-			TEMPLATE = process.getModel().createModelObject(ENT_PROCESS_GROUP, null);
+			TEMPLATE = XModelFactory.getDefaultInstance().createModelObject(ENT_PROCESS_GROUP, null);
 		}
 		return TEMPLATE;
 	}
