@@ -10,7 +10,6 @@
   ******************************************************************************/
 package org.jboss.tools.seam.ui.wizard;
 
-import org.eclipse.jdt.internal.ui.wizards.dialogfields.ComboDialogField;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -18,6 +17,7 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.hibernate.eclipse.console.model.IConsoleConfigurationNameProvider;
 import org.hibernate.eclipse.console.model.IReverseEngineeringDefinition;
 import org.hibernate.eclipse.console.model.ITableFilter;
 import org.hibernate.eclipse.console.model.impl.ReverseEngineeringDefinitionImpl;
@@ -52,9 +52,10 @@ public class SeamGenerateEntitiesTablesWizardPage extends WizardPage /*implement
 				return cfgName;
 			}
 		};
-
-		model = new ReverseEngineeringDefinitionImpl(new ComboDialogField(SWT.NONE) {
-			public String getText() {
+		
+		model = new ReverseEngineeringDefinitionImpl(new IConsoleConfigurationNameProvider() {
+			@Override
+			public String getConsoleConfigurationName() {
 				return cfgName;
 			}
 		});
