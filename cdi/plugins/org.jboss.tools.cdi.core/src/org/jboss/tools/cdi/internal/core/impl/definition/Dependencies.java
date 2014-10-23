@@ -24,7 +24,7 @@ public class Dependencies {
 	
 	public Dependencies() {}
 
-	public void addDependency(IPath source, IPath target) {
+	public synchronized void addDependency(IPath source, IPath target) {
 		source = UniquePaths.getInstance().intern(source);
 		target = UniquePaths.getInstance().intern(target);
 		Set<IPath> ps = direct.get(source);
@@ -42,12 +42,12 @@ public class Dependencies {
 		ps.add(source);
 	}
 
-	public void clean() {
+	public synchronized void clean() {
 		direct.clear();
 		reverse.clear();
 	}
 
-	public void clean(IPath path) {
+	public synchronized void clean(IPath path) {
 		Set<IPath> ps = reverse.remove(path);
 		if(ps != null) {
 			for (IPath p: ps) {
@@ -57,8 +57,13 @@ public class Dependencies {
 		}
 	}
 
-	public Set<IPath> getDirectDependencies(IPath path) {
+	public synchronized Set<IPath> getDirectDependencies(IPath path) {
 		return direct.get(path);
+	}
+
+	synchronized void copyTo(Dependencies other) {
+		other.direct.putAll(direct);
+		other.reverse.putAll(reverse);
 	}
 
 }
