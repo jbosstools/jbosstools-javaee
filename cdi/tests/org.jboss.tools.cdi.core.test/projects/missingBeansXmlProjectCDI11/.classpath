@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/cdi-api-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/weld-se-1.1.10.Final.jar"/>
+	<classpathentry kind="lib" path="lib/cdi-api-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/weld-se-2.2.6.Final.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
