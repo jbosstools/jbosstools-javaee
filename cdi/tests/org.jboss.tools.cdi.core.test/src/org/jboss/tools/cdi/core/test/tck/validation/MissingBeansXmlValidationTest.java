@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2013 Red Hat, Inc. 
+ * Copyright (c) 2013-2014 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -31,18 +31,24 @@ public class MissingBeansXmlValidationTest extends TestCase {
 
 	IProject missingBeansXmlParentProject;
 	IProject missingBeansXmlChildProject;
+	IProject missingBeansXmlProjectCDI11;
 	boolean saveAutoBuild;
-	
+
+	@Override
 	public void setUp() throws Exception {
 		missingBeansXmlParentProject = ResourcesPlugin.getWorkspace().getRoot().getProject("missingBeansXmlParentProject");
-		assertNotNull("Can't load missingBeansXmlParentProject", missingBeansXmlParentProject);
+		assertTrue("Can't load missingBeansXmlParentProject", missingBeansXmlParentProject.exists());
 		missingBeansXmlChildProject = ResourcesPlugin.getWorkspace().getRoot().getProject("missingBeansXmlChildProject");
-		assertNotNull("Can't load missingBeansXmlChildProject", missingBeansXmlChildProject);
+		assertTrue("Can't load missingBeansXmlChildProject", missingBeansXmlChildProject.exists());
+		missingBeansXmlProjectCDI11 = ResourcesPlugin.getWorkspace().getRoot().getProject("missingBeansXmlProjectCDI11");
+		assertTrue("Can't load missingBeansXmlProjectCDI11", missingBeansXmlProjectCDI11.exists());
 		saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		TestUtil._waitForValidation(missingBeansXmlParentProject);
 		TestUtil._waitForValidation(missingBeansXmlChildProject);
+		TestUtil._waitForValidation(missingBeansXmlProjectCDI11);
 	}
 
+	@Override
 	public void tearDown() throws CoreException {
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
@@ -73,5 +79,9 @@ public class MissingBeansXmlValidationTest extends TestCase {
 
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 		}
+	}
+
+	public void testMissingBeansXmlCDI11() throws CoreException {
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(missingBeansXmlProjectCDI11, NLS.bind(CDIValidationMessages.MISSING_BEANS_XML, "missingBeansXmlProjectCDI11"));
 	}
 }

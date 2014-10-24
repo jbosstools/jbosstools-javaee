@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2009-2012 Red Hat, Inc. 
+ * Copyright (c) 2009-2014 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -427,7 +427,10 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			Set<IProject> allProjects = projectSet.getAllProjects();
 			for (IProject project : allProjects) {
 				removeAllMessagesFromProject(project);
-				if(!projectsWithBeansXml.contains(project.getName())) {
+				CDIValidationContext context = getCDIContext(project);
+				// Report missing beans.xml only for CDI 1.0 projects 
+				if(context.getCdiProject().getVersion() == CDIVersion.CDI_1_0
+						&& !projectsWithBeansXml.contains(project.getName())) {
 					reportMissingBeansXml(project);
 				}
 			}

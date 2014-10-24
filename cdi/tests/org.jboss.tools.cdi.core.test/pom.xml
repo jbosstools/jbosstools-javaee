@@ -378,6 +378,45 @@
 								<version>1.1</version>
 							    <outputDirectory>${basedir}/projects/CDITest11/lib/</outputDirectory>
 							</artifactItem>
+
+							<artifactItem>
+							    <groupId>org.jboss.weld.se</groupId>
+							    <artifactId>weld-se</artifactId>
+							    <version>1.1.10.Final</version>
+							    <outputDirectory>${basedir}/projects/missingBeansXmlParentProject/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.enterprise</groupId>
+								<artifactId>cdi-api</artifactId>
+								<version>1.0</version>
+							    <outputDirectory>${basedir}/projects/missingBeansXmlParentProject/lib/</outputDirectory>
+							</artifactItem>
+
+							<artifactItem>
+							    <groupId>org.jboss.weld.se</groupId>
+							    <artifactId>weld-se</artifactId>
+							    <version>1.1.10.Final</version>
+							    <outputDirectory>${basedir}/projects/missingBeansXmlChildProject/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.enterprise</groupId>
+								<artifactId>cdi-api</artifactId>
+								<version>1.0</version>
+							    <outputDirectory>${basedir}/projects/missingBeansXmlChildProject/lib/</outputDirectory>
+							</artifactItem>
+
+							<artifactItem>
+							    <groupId>org.jboss.weld.se</groupId>
+							    <artifactId>weld-se</artifactId>
+							    <version>2.2.6.Final</version>
+							    <outputDirectory>${basedir}/projects/missingBeansXmlProjectCDI11/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.enterprise</groupId>
+								<artifactId>cdi-api</artifactId>
+								<version>1.1</version>
+							    <outputDirectory>${basedir}/projects/missingBeansXmlProjectCDI11/lib/</outputDirectory>
+							</artifactItem>
 					      </artifactItems>
 					      <skip>false</skip>
 					      <outputDirectory>${basedir}/projects/tck1.1/WebContent/WEB-INF/lib/</outputDirectory>
@@ -396,6 +435,9 @@
 				     <directory>${basedir}/projects/weld1.1/lib</directory>
 				     <directory>${basedir}/projects/CDIArchivesTest/lib</directory>
 				     <directory>${basedir}/projects/CDITest11/lib</directory>
+				     <directory>${basedir}/projects/missingBeansXmlParentProject/lib</directory>
+				     <directory>${basedir}/projects/missingBeansXmlChildProject/lib</directory>
+				     <directory>${basedir}/projects/missingBeansXmlProjectCDI11/lib</directory>
 				     <includes>
 		                           <include>*.jar</include>
 				     </includes>

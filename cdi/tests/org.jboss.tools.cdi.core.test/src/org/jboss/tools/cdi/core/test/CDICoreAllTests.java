@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2009 Red Hat, Inc. 
+ * Copyright (c) 2009-2014 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -270,8 +270,8 @@ public class CDICoreAllTests {
 		suite.addTestSuite(MissingBeansXmlValidationTest.class);
 		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suite,
 				"org.jboss.tools.cdi.core.test",
-				new String[]{"projects/missingBeansXmlParentProject", "projects/missingBeansXmlChildProject"},
-				new String[]{"missingBeansXmlParentProject", "missingBeansXmlChildProject"});
+				new String[]{"projects/missingBeansXmlParentProject", "projects/missingBeansXmlChildProject", "projects/missingBeansXmlProjectCDI11"},
+				new String[]{"missingBeansXmlParentProject", "missingBeansXmlChildProject", "missingBeansXmlProjectCDI11"});
 		suiteAll.addTest(testSetup);
 
 		suite = new TestSuite(BuilderOrderValidationTest.class.getName());
