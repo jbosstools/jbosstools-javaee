@@ -36,6 +36,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIVersion;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -248,9 +249,35 @@ public class BeanArchiveDetector {
 				//session bean annotation
 				return true;
 			}
+			if(CDIVersion.CDI_1_2.equals(project.getVersion())) {
+				if(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME.equals(typeName)
+						|| CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME.equals(typeName)) {
+					return true;
+				}
+			}
 			IType at = project.getType(typeName);
-			if(at != null && project.getDefinitions().getAnnotationKind(at) == AnnotationDefinition.SCOPE) {
-				//scope annotation
+			if(at != null) {
+				int k = project.getDefinitions().getAnnotationKind(at);
+				if(k == AnnotationDefinition.SCOPE) {
+					//scope annotation
+					return true;
+				}
+				if(CDIVersion.CDI_1_2.equals(project.getVersion()) && k == AnnotationDefinition.STEREOTYPE) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public static boolean isQualifier(IType type) throws JavaModelException {
+		if(!type.isAnnotation()) {
+			return false;
+		}
+		IAnnotation[] as = type.getAnnotations();
+		for (IAnnotation a: as) {
+			String typeName = EclipseJavaUtil.resolveType(type, a.getElementName());
+			if(CDIConstants.QUALIFIER_ANNOTATION_TYPE_NAME.equals(typeName)) {
 				return true;
 			}
 		}
@@ -279,7 +306,8 @@ public class BeanArchiveDetector {
 	}
 
 	public static IType[] getAnnotatedTypes(IType[] ts,CDICoreNature project) throws CoreException {
-		if(ts.length == 1 && BeanArchiveDetector.isAnnotatedBean(ts[0], project)) {
+		if(ts.length == 1 && (BeanArchiveDetector.isAnnotatedBean(ts[0], project)
+				|| BeanArchiveDetector.isQualifier(ts[0]))) {
 			return ts;
 		}
 		List<IType> result = new ArrayList<IType>();

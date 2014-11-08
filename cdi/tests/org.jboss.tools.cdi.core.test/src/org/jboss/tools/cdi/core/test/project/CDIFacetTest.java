@@ -39,6 +39,10 @@ public class CDIFacetTest extends TestCase {
 		assertActions(CDIFacetInstallDelegate.CDI_11);
 	}
 
+	public void testCDI12Actions() {
+		assertActions(CDIFacetInstallDelegate.CDI_12);
+	}
+
 	private void assertActions(IProjectFacetVersion cdiVersion) {
 		IProjectFacet jsfFacet = ProjectFacetsManager.getProjectFacet(IJSFCoreConstants.JSF_CORE_FACET_ID);
 		IProjectFacetVersion jsfVersion = jsfFacet.getVersion(IJSFCoreConstants.FACET_VERSION_2_0);

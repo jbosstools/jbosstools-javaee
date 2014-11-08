@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2011 Red Hat, Inc. 
+ * Copyright (c) 2011-2014 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -137,8 +137,8 @@ public class NewCDIWebProjectWizardTest extends TestCase{
 		assertCDIProjectCreated(IJ2EEFacetConstants.DYNAMIC_WEB_30, "beans.xml", CDIProjectWizard.CDI10_TEMPALTE);
 	}
 
-	public void testCDI11ProjectCreated() throws Exception {
-		assertCDIProjectCreated(IJ2EEFacetConstants.DYNAMIC_WEB_31, "beans11.xml", CDIProjectWizard.CDI11_TEMPALTE);
+	public void testCDI12ProjectCreated() throws Exception {
+		assertCDIProjectCreated(IJ2EEFacetConstants.DYNAMIC_WEB_31, "beans11.xml", CDIProjectWizard.CDI12_TEMPALTE);
 	}
 
 	public void assertCDIProjectCreated(IProjectFacetVersion webVersion, String beansXmlTemplateFileName, String cdiTemplateName) throws Exception {

@@ -18,7 +18,12 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.osgi.util.NLS;
+import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIVersion;
+import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.internal.core.scanner.lib.BeanArchiveDetector;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.test.util.ResourcesUtils;
@@ -32,6 +37,7 @@ public class MissingBeansXmlValidationTest extends TestCase {
 	IProject missingBeansXmlParentProject;
 	IProject missingBeansXmlChildProject;
 	IProject missingBeansXmlProjectCDI11;
+	IProject missingBeansXmlProjectCDI12;
 	boolean saveAutoBuild;
 
 	@Override
@@ -42,10 +48,13 @@ public class MissingBeansXmlValidationTest extends TestCase {
 		assertTrue("Can't load missingBeansXmlChildProject", missingBeansXmlChildProject.exists());
 		missingBeansXmlProjectCDI11 = ResourcesPlugin.getWorkspace().getRoot().getProject("missingBeansXmlProjectCDI11");
 		assertTrue("Can't load missingBeansXmlProjectCDI11", missingBeansXmlProjectCDI11.exists());
+		missingBeansXmlProjectCDI12 = ResourcesPlugin.getWorkspace().getRoot().getProject("missingBeansXmlProjectCDI12");
+		assertTrue("Can't load missingBeansXmlProjectCDI12", missingBeansXmlProjectCDI12.exists());
 		saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		TestUtil._waitForValidation(missingBeansXmlParentProject);
 		TestUtil._waitForValidation(missingBeansXmlChildProject);
 		TestUtil._waitForValidation(missingBeansXmlProjectCDI11);
+		TestUtil._waitForValidation(missingBeansXmlProjectCDI12);
 	}
 
 	@Override
@@ -83,5 +92,18 @@ public class MissingBeansXmlValidationTest extends TestCase {
 
 	public void testMissingBeansXmlCDI11() throws CoreException {
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(missingBeansXmlProjectCDI11, NLS.bind(CDIValidationMessages.MISSING_BEANS_XML, "missingBeansXmlProjectCDI11"));
+	}
+
+	public void testMissingBeansXmlCDI12() throws CoreException {
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(missingBeansXmlProjectCDI12, NLS.bind(CDIValidationMessages.MISSING_BEANS_XML, "missingBeansXmlProjectCDI12"));
+		ICDIProject cdi = CDICorePlugin.getCDIProject(missingBeansXmlProjectCDI12, true);
+		assertEquals(CDIVersion.CDI_1_2, cdi.getVersion());
+		assertEquals(BeanArchiveDetector.ANNOTATED, cdi.getNature().getBeanDiscoveryMode());
+		
+		//check beans loaded in annotated mode
+		assertTrue(cdi.getBeans("beanNotAnnotated", false).isEmpty());
+		assertFalse(cdi.getBeans(new Path("/missingBeansXmlProjectCDI12/src/beans/DecoratorAnnotatedBean.java")).isEmpty());
+		assertFalse(cdi.getBeans("scopeAnnotatedBean", false).isEmpty());
+		assertFalse(cdi.getBeans("stereotypeAnnotatedBean", false).isEmpty());
 	}
 }

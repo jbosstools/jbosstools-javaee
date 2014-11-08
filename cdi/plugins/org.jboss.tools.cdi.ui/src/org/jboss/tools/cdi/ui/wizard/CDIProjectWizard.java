@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2011 Red Hat, Inc. 
+ * Copyright (c) 2011-2014 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -42,7 +42,7 @@ import org.jboss.tools.cdi.ui.CDIUIMessages;
 public class CDIProjectWizard extends WebProjectWizard implements IExecutableExtension {
 
 	public static final String CDI10_TEMPALTE = "template.jboss.tools.cdi10";
-	public static final String CDI11_TEMPALTE = "template.jboss.tools.cdi11";
+	public static final String CDI12_TEMPALTE = "template.jboss.tools.cdi12";
 	private IPreset oldPreset;
 	public static final String ID = "org.jboss.tools.cdi.ui.wizard.NewCDIProjectWizard";
 	private FirstPage firstPage;
@@ -187,7 +187,7 @@ public class CDIProjectWizard extends WebProjectWizard implements IExecutableExt
 			super.handlePrimaryFacetVersionSelectedEvent();
 
 			IFacetedProjectWorkingCopy dm = getFacetedProjectWorkingCopy();
-			IFacetedProjectTemplate template = dm.hasProjectFacet(IJ2EEFacetConstants.DYNAMIC_WEB_31)?ProjectFacetsManager.getTemplate(CDI11_TEMPALTE):ProjectFacetsManager.getTemplate(CDI10_TEMPALTE);
+			IFacetedProjectTemplate template = dm.hasProjectFacet(IJ2EEFacetConstants.DYNAMIC_WEB_31)?ProjectFacetsManager.getTemplate(CDI12_TEMPALTE):ProjectFacetsManager.getTemplate(CDI10_TEMPALTE);
 	        dm.setFixedProjectFacets(template.getFixedProjectFacets());
 	        dm.setProjectFacets(template.getInitialPreset().getProjectFacets());
 	        dm.setSelectedPreset(template.getInitialPreset().getId());
@@ -201,7 +201,7 @@ public class CDIProjectWizard extends WebProjectWizard implements IExecutableExt
 		        IFacetedProjectTemplate template = null;
 		        String webFacet = null;
 				if(runtime.supports(IJ2EEFacetConstants.DYNAMIC_WEB_31)) {
-					template = ProjectFacetsManager.getTemplate(CDI11_TEMPALTE);
+					template = ProjectFacetsManager.getTemplate(CDI12_TEMPALTE);
 					webFacet = IJ2EEFacetConstants.DYNAMIC_WEB_31.getVersionString();
 				} else if(runtime.supports(IJ2EEFacetConstants.DYNAMIC_WEB_30)) {
 					template = ProjectFacetsManager.getTemplate(CDI10_TEMPALTE);
