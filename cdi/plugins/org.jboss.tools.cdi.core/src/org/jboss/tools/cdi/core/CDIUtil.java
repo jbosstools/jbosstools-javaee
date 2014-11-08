@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.core;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,8 +22,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import org.apache.tools.ant.util.FileUtils;
 import org.eclipse.core.resources.IContainer;
@@ -34,8 +38,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotatable;
 import org.eclipse.jdt.core.IAnnotation;
@@ -45,11 +51,14 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
+import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jst.j2ee.project.facet.IJ2EEFacetConstants;
 import org.eclipse.swt.widgets.Display;
@@ -62,6 +71,7 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.cdi.internal.core.impl.CDIProjectAsYouType;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
+import org.jboss.tools.cdi.internal.core.project.facet.CDIFacetInstallDelegate;
 import org.jboss.tools.cdi.internal.core.validation.AnnotationValidationDelegate;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.common.EclipseUtil;
@@ -843,20 +853,22 @@ public class CDIUtil {
 			} else if(member instanceof IBeanMethod) {
 				signature = ((IBeanMethod)member).getMethod().getReturnType();
 			}
-			return isTypeVariable(variables, signature);
+			boolean checkArrayType = CDIVersion.CDI_1_2.equals(member.getCDIProject().getVersion());
+			return isTypeVariable(variables, signature, checkArrayType);
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
 		return false;
 	}
 
-	private static boolean isTypeVariable(List<String> typeVariables, String signature) {
+	private static boolean isTypeVariable(List<String> typeVariables, String signature, boolean checkArrayType) {
 		if(signature==null) {
 			return false;
 		}
 		String typeString = Signature.toString(signature);
 		for (String variableName : typeVariables) {
-			if(typeString.equals(variableName)) {
+			if(typeString.equals(variableName) 
+				|| (checkArrayType && typeString.startsWith(variableName + "["))) {
 				return true;
 			}
 		}
@@ -1319,12 +1331,98 @@ public class CDIUtil {
 
 		try {
 			if(EclipseJavaUtil.findType(jp, CDIConstants.VETOED_ANNOTATION_TYPE_NAME) != null) {
-				return CDIVersion.CDI_1_1;
+				IFacetedProject facetedProject = ProjectFacetsManager.create(project);
+				if(facetedProject != null) {
+					IProjectFacetVersion v = facetedProject.getProjectFacetVersion(CDIFacetInstallDelegate.CDI_FACET);
+					if(v != null) {
+						if(v.equals(CDIFacetInstallDelegate.CDI_11)) {
+							return CDIVersion.CDI_1_1;
+						}
+					}
+				}
+				String v = getCDIImplementationVersion(project);
+				if(v != null && v.startsWith("1.1")) {
+					return CDIVersion.CDI_1_1;
+				}
+				return CDIVersion.CDI_1_2;
 			} else if(EclipseJavaUtil.findType(jp, CDIConstants.QUALIFIER_ANNOTATION_TYPE_NAME) != null) {
 				return CDIVersion.CDI_1_0;
 			}
-		} catch (JavaModelException e) {
+		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
+		}
+		return null;
+	}
+
+	/**
+	 * Returns implementation version of 'jsf-api.jar' if it is included into class path;
+	 * returns null if 'cdi-api*.jar' is not found in the class path.
+	 * 
+	 * @param project
+	 * @return
+	 * @throws CoreException
+	 */
+	public static String getCDIImplementationVersion(IProject project) throws CoreException {
+		try {
+			InputStream content = readManifest(project);
+			if(content != null) {
+				Properties p = new Properties();
+				p.load(content);
+				return p.getProperty("Specification-Version");
+			}
+		} catch (IOException e) {
+			throw new CoreException(new Status(IStatus.ERROR, CDICorePlugin.PLUGIN_ID, "Failed to read manifest in cdi-api.jar in project " + project.getName(), e));
+		}
+		return null;
+	}
+
+	/**
+	 * Returns input stream with content of META-INF/MANIFEST.MF of selected jar file;
+	 * returns null if jar file is not found in the class path.
+	 * 
+	 * @param project
+	 * @param jarName
+	 * @return
+	 * @throws CoreException
+	 * @throws IOException
+	 */
+	public static InputStream readManifest(IProject project) throws CoreException, IOException {
+		IPackageFragmentRoot library = findLibrary(project);
+		if(library instanceof JarPackageFragmentRoot) {
+			ZipFile zip = ((JarPackageFragmentRoot)library).getJar();
+			ZipEntry entry = zip.getEntry("META-INF/MANIFEST.MF");
+			if(entry != null) {
+				InputStream is = zip.getInputStream(entry);
+				if(is != null) {
+					return is;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns root object of Java Model for selected jar file;
+	 * returns null if jar file is not found in the class path.	 * 
+	 * 
+	 * @param project
+	 * @param jarName
+	 * @return
+	 * @throws JavaModelException
+	 */
+	public static IPackageFragmentRoot findLibrary(IProject project) throws JavaModelException {
+		if(project == null || !project.isAccessible()) {
+			return null;
+		}
+		IJavaProject javaProject = JavaCore.create(project);
+		if(javaProject == null || !javaProject.exists()) {
+			return null;
+		}
+		for (IPackageFragmentRoot fragmentRoot : javaProject.getAllPackageFragmentRoots()) {
+			IPath resource = fragmentRoot.getPath();
+			if(resource != null && resource.lastSegment().startsWith("cdi-api")) {
+				return fragmentRoot;
+			}
 		}
 		return null;
 	}

@@ -1384,6 +1384,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 				 * 
 				 * 2.2.1 Legal bean types
 				 *  - a parameterized type that contains a wildcard type parameter is not a legal bean type.
+				 *  - in CDI 1.2 an array type, whose component type is not a legal bean type, is not a legal bean type.
 				 * 
 				 * 3.4. Producer fields
 				 *  - producer field type contains a wildcard type parameter
@@ -1460,11 +1461,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 				if (typeVariables.length > 0) {
 					String typeSign = producerField.getField().getTypeSignature();
 					String typeString = Signature.toString(typeSign);
-					for (String variableSig : typeVariables) {
-						String variableName = Signature.getTypeVariable(variableSig);
-						if (typeString.equals(variableName)) {
-							addProblem(CDIValidationMessages.PRODUCER_FIELD_TYPE_IS_VARIABLE, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD_OR_VARIABLE, typeDeclaration != null ? typeDeclarationReference : producer, producer.getResource());
-						}
+					if(isTypeVariable(producerField, typeString, typeVariables)) {
+						addProblem(CDIValidationMessages.PRODUCER_FIELD_TYPE_IS_VARIABLE, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD_OR_VARIABLE, typeDeclaration != null ? typeDeclarationReference : producer, producer.getResource());
 					}
 				}
 				/*
@@ -1527,6 +1525,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 				 * 
 				 * 2.2.1 - Legal bean types
 				 *  - a type variable is not a legal bean type
+				 *  - in CDI 1.2 an array type, whose component type is not a legal bean type, is not a legal bean type.
 				 */
 				String typeSign = producerMethod.getMethod().getReturnType();
 				String typeString = Signature.toString(typeSign);
@@ -1599,11 +1598,12 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	}
 
 	private boolean isTypeVariable(IProducer producer, String type, String[] typeVariables) throws JavaModelException {
+		boolean checkArrayType = CDIVersion.CDI_1_2.equals(producer.getCDIProject().getVersion());
 		if(producer instanceof IProducerMethod) {
 			ITypeParameter[] paramTypes = ((IProducerMethod)producer).getMethod().getTypeParameters();
 			for (ITypeParameter param : paramTypes) {
 				String variableName = param.getElementName();
-				if (variableName.equals(type)) {
+				if (variableName.equals(type) || (checkArrayType && type.startsWith(variableName + "["))) {
 					return true;
 				}
 			}
@@ -1611,7 +1611,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		if (typeVariables.length > 0) {
 			for (String variableSig : typeVariables) {
 				String variableName = Signature.getTypeVariable(variableSig);
-				if (type.equals(variableName)) {
+				if (type.equals(variableName) || (checkArrayType && type.startsWith(variableName + "["))) {
 					return true;
 				}
 			}

@@ -69,6 +69,7 @@ import org.jboss.tools.cdi.core.test.tck.validation.AYTWeldValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.AnnotationsValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.BeansXmlValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.BuilderOrderValidationTest;
+import org.jboss.tools.cdi.core.test.tck.validation.CDI12ArrayValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.CoreValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.DefenitionErrorsValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.DependentProjectValidationTest;
@@ -268,10 +269,11 @@ public class CDICoreAllTests {
 
 		suite = new TestSuite(MissingBeansXmlValidationTest.class.getName());
 		suite.addTestSuite(MissingBeansXmlValidationTest.class);
+		suite.addTestSuite(CDI12ArrayValidationTest.class);
 		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suite,
 				"org.jboss.tools.cdi.core.test",
-				new String[]{"projects/missingBeansXmlParentProject", "projects/missingBeansXmlChildProject", "projects/missingBeansXmlProjectCDI11"},
-				new String[]{"missingBeansXmlParentProject", "missingBeansXmlChildProject", "missingBeansXmlProjectCDI11"});
+				new String[]{"projects/missingBeansXmlParentProject", "projects/missingBeansXmlChildProject", "projects/missingBeansXmlProjectCDI11", "projects/missingBeansXmlProjectCDI12"},
+				new String[]{"missingBeansXmlParentProject", "missingBeansXmlChildProject", "missingBeansXmlProjectCDI11", "missingBeansXmlProjectCDI12"});
 		suiteAll.addTest(testSetup);
 
 		suite = new TestSuite(BuilderOrderValidationTest.class.getName());

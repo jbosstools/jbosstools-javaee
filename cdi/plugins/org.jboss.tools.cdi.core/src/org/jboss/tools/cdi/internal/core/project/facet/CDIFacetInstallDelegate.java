@@ -37,6 +37,7 @@ public class CDIFacetInstallDelegate implements ILogListener, IDelegate,
 	public static IProjectFacet CDI_FACET = ProjectFacetsManager.getProjectFacet(ICDIFacetDataModelProperties.CDI_FACET_ID);
 	public static final IProjectFacetVersion CDI_10 = CDI_FACET.getVersion(CDIVersion.CDI_1_0.toString()); //$NON-NLS-1$
 	public static final IProjectFacetVersion CDI_11 = CDI_FACET.getVersion(CDIVersion.CDI_1_1.toString()); //$NON-NLS-1$
+	public static final IProjectFacetVersion CDI_12 = CDI_FACET.getVersion(CDIVersion.CDI_1_2.toString()); //$NON-NLS-1$
 
 	private boolean errorOccurs = false;
 
