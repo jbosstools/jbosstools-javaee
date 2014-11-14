@@ -29,9 +29,9 @@ public class BeansXmlValidationTest extends ValidationTest {
 
 	public void testBeansXMLInBin() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/META-INF/beans.xml");
-		getAnnotationTest().assertAnnotationIsCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME, "cdi.test.alternative.Unxisting"), false, 6);
+		getAnnotationTest().assertAnnotationIsCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME[getVersionIndex()], "cdi.test.alternative.Unxisting"), false, 6);
 		file = tckProject.getFile("WebContent/WEB-INF/classes/META-INF/beans.xml");
-		getAnnotationTest().assertAnnotationIsNotCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME, "cdi.test.alternative.Unxisting"), 6);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME[getVersionIndex()], "cdi.test.alternative.Unxisting"), 6);
 	}
 
 	/**
@@ -42,8 +42,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testNoAlternativeClassWithSpecifiedName() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		getAnnotationTest().assertAnnotationIsCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME, "org.jboss.jsr299.tck.tests.policy.broken.incorrect.name.NonExistingClass"), false, 7);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME, "org.jboss.jsr299.tck.tests.policy.broken.same.type.twice.Dog"), 19);
+		getAnnotationTest().assertAnnotationIsCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME[getVersionIndex()], "org.jboss.jsr299.tck.tests.policy.broken.incorrect.name.NonExistingClass"), false, 7);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME[getVersionIndex()], "org.jboss.jsr299.tck.tests.policy.broken.same.type.twice.Dog"), 19);
 	}
 
 	/**
@@ -53,8 +53,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testIllegalAlternativeClassWithSpecifiedName() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		getAnnotationTest().assertAnnotationIsCreated(file, NLS.bind(CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS, "org.jboss.jsr299.tck.tests.policy.broken.not.policy.Cat"), 4);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, NLS.bind(CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS, "org.jboss.jsr299.tck.tests.policy.broken.same.type.twice.Dog"), 19);
+		getAnnotationTest().assertAnnotationIsCreated(file, NLS.bind(CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS[getVersionIndex()], "org.jboss.jsr299.tck.tests.policy.broken.not.policy.Cat"), 4);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, NLS.bind(CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS[getVersionIndex()], "org.jboss.jsr299.tck.tests.policy.broken.same.type.twice.Dog"), 19);
 	}
 
 	/**
@@ -65,8 +65,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testNoAlternativeAnnotationWithSpecifiedName() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		getAnnotationTest().assertAnnotationIsCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME, "org.jboss.jsr299.tck.tests.policy.broken.not.policy.stereotype.NotExistingStereotype"), 12);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME, "org.jboss.jsr299.tck.tests.jbt.validation.beansxml.AlternativeStereotype"), 17);
+		getAnnotationTest().assertAnnotationIsCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME[getVersionIndex()], "org.jboss.jsr299.tck.tests.policy.broken.not.policy.stereotype.NotExistingStereotype"), 12);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME[getVersionIndex()], "org.jboss.jsr299.tck.tests.jbt.validation.beansxml.AlternativeStereotype"), 17);
 	}
 
 	/**
@@ -76,8 +76,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testIllegalAlternativeAnnotationWithSpecifiedName() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		getAnnotationTest().assertAnnotationIsCreated(file, NLS.bind(CDIValidationMessages.ILLEGAL_ALTERNATIVE_ANNOTATION, "org.jboss.jsr299.tck.tests.policy.broken.not.policy.stereotype.Mock"), 15);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, NLS.bind(CDIValidationMessages.ILLEGAL_ALTERNATIVE_ANNOTATION, "org.jboss.jsr299.tck.tests.jbt.validation.beansxml.AlternativeStereotype"), 17);
+		getAnnotationTest().assertAnnotationIsCreated(file, NLS.bind(CDIValidationMessages.ILLEGAL_ALTERNATIVE_ANNOTATION[getVersionIndex()], "org.jboss.jsr299.tck.tests.policy.broken.not.policy.stereotype.Mock"), 15);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, NLS.bind(CDIValidationMessages.ILLEGAL_ALTERNATIVE_ANNOTATION[getVersionIndex()], "org.jboss.jsr299.tck.tests.jbt.validation.beansxml.AlternativeStereotype"), 17);
 	}
 
 	/**
@@ -87,9 +87,9 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testSameAlternativeClassListedTwice() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 20, 22, 26, 27);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 17);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 19);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE[getVersionIndex()], 20, 22, 26, 27);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE[getVersionIndex()], 17);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE[getVersionIndex()], 19);
 	}
 
 	/**
@@ -99,8 +99,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testNonExistantDecoratorClassInBeansXmlNotOK() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		getAnnotationTest().assertAnnotationIsCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME, "com.acme.NonExistantDecoratorClass"), 34);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME, "org.jboss.jsr299.tck.tests.decorators.resolution.BarDecorator"), BAR_DECORATOR_LINE);
+		getAnnotationTest().assertAnnotationIsCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME[getVersionIndex()], "com.acme.NonExistantDecoratorClass"), 34);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME[getVersionIndex()], "org.jboss.jsr299.tck.tests.decorators.resolution.BarDecorator"), BAR_DECORATOR_LINE);
 	}
 
 	/**
@@ -110,8 +110,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testEnabledDecoratorNotADecorator() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		getAnnotationTest().assertAnnotationIsCreated(file, NLS.bind(CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS, "org.jboss.jsr299.tck.tests.decorators.definition.broken.enabledDecoratorIsNotDecorator.TimestampLogger"), 37);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, NLS.bind(CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS, "org.jboss.jsr299.tck.tests.decorators.resolution.BarDecorator"), BAR_DECORATOR_LINE);
+		getAnnotationTest().assertAnnotationIsCreated(file, NLS.bind(CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS[getVersionIndex()], "org.jboss.jsr299.tck.tests.decorators.definition.broken.enabledDecoratorIsNotDecorator.TimestampLogger"), 37);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, NLS.bind(CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS[getVersionIndex()], "org.jboss.jsr299.tck.tests.decorators.resolution.BarDecorator"), BAR_DECORATOR_LINE);
 	}
 
 	/**
@@ -121,8 +121,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testDecoratorListedTwiceInBeansXmlNotOK() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.DUPLICATE_DECORATOR_CLASS, 39, 40);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.DUPLICATE_DECORATOR_CLASS, BAR_DECORATOR_LINE);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.DUPLICATE_DECORATOR_CLASS[getVersionIndex()], 39, 40);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.DUPLICATE_DECORATOR_CLASS[getVersionIndex()], BAR_DECORATOR_LINE);
 	}
 
 	/**
@@ -132,8 +132,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testNonExistantClassInBeansXmlNotOk() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		getAnnotationTest().assertAnnotationIsCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME, "com.acme.Foo"), FOO_LINE);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME, "org.jboss.jsr299.tck.tests.jbt.validation.interceptors.CatInterceptor"), CAT_INTERCEPTOR_LINE);
+		getAnnotationTest().assertAnnotationIsCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME[getVersionIndex()], "com.acme.Foo"), FOO_LINE);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, NLS.bind(CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME[getVersionIndex()], "org.jboss.jsr299.tck.tests.jbt.validation.interceptors.CatInterceptor"), CAT_INTERCEPTOR_LINE);
 	}
 
 	/**
@@ -143,8 +143,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testNonInterceptorClassInBeansXmlNotOk() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		getAnnotationTest().assertAnnotationIsCreated(file, NLS.bind(CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS, "org.jboss.jsr299.tck.tests.interceptors.definition.broken.nonInterceptorClassInBeansXml.Foo"), NON_INTERCEPTOR_LINE);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, NLS.bind(CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS, "org.jboss.jsr299.tck.tests.jbt.validation.interceptors.CatInterceptor"), CAT_INTERCEPTOR_LINE);
+		getAnnotationTest().assertAnnotationIsCreated(file, NLS.bind(CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS[getVersionIndex()], "org.jboss.jsr299.tck.tests.interceptors.definition.broken.nonInterceptorClassInBeansXml.Foo"), NON_INTERCEPTOR_LINE);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, NLS.bind(CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS[getVersionIndex()], "org.jboss.jsr299.tck.tests.jbt.validation.interceptors.CatInterceptor"), CAT_INTERCEPTOR_LINE);
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testSameInterceptorClassListedTwiceInBeansXmlNotOk() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS, FORD_INTERCEPTOR_1_LINE, FORD_INTERCEPTOR_2_LINE);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS, CAT_INTERCEPTOR_LINE);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS[getVersionIndex()], FORD_INTERCEPTOR_1_LINE, FORD_INTERCEPTOR_2_LINE);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS[getVersionIndex()], CAT_INTERCEPTOR_LINE);
 	}
 }

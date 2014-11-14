@@ -10,23 +10,18 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.core.test.tck.validation;
 
-import java.text.MessageFormat;
-
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIVersion;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.internal.core.scanner.lib.BeanArchiveDetector;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.common.base.test.validation.TestUtil;
-import org.jboss.tools.jst.web.kb.internal.validation.ELValidationMessages;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
@@ -62,9 +57,9 @@ public class CDI12ArrayValidationTest extends TestCase {
 		
 	
 		IFile file = missingBeansXmlProjectCDI12.getFile("/src/beans/DependentBean.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.INJECTION_TYPE_IS_VARIABLE, 18, 22);
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_FIELD_TYPE_IS_VARIABLE, 10);
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE, 13);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.INJECTION_TYPE_IS_VARIABLE[CDIVersion.CDI_1_2.getIndex()], 18, 22);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_FIELD_TYPE_IS_VARIABLE[CDIVersion.CDI_1_2.getIndex()], 10);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE[CDIVersion.CDI_1_2.getIndex()], 13);
 		
 	}
 }

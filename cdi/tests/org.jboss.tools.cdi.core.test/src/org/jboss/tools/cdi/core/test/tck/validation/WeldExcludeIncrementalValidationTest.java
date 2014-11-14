@@ -41,23 +41,27 @@ public class WeldExcludeIncrementalValidationTest extends TestCase {
 		cdi = CDICorePlugin.getCDIProject(project, true);
 	}
 
+	int getVersionIndex() {
+		return cdi == null || cdi.getVersion() == null ? 0 : cdi.getVersion().getIndex();
+	}
+
 	//<weld:exclude name="exclude.p1.Bean1"/>
 	public void testExactMatch() throws Exception {
 		IFile bean_xml = project.getFile("src/META-INF/beans.xml");
 		//Bean exclude.p1.Bean1 is excluded
 		IInjectionPointField bean1 = getInjectionPointField(cdi, fileName, "bean1");
 		TestUtil.validate(bean_xml);
-		AbstractResourceMarkerTest.assertMarkerIsCreated(bean1.getResource(), CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 14, 16, 18, 19);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(bean1.getResource(), CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 14, 16, 18, 19);
 
 		IFile beans_modified = project.getFile("src/META-INF/beans.modified");
 		bean_xml.setContents(beans_modified.getContents(), IFile.FORCE, new NullProgressMonitor());
 		TestUtil.validate(bean_xml);
-		AbstractResourceMarkerTest.assertMarkerIsCreated(bean1.getResource(), CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 16, 18, 19);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(bean1.getResource(), CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 16, 18, 19);
 
 		IFile beans_original = project.getFile("src/META-INF/beans.original");
 		bean_xml.setContents(beans_original.getContents(), IFile.FORCE, new NullProgressMonitor());
 		TestUtil.validate(bean_xml);
-		AbstractResourceMarkerTest.assertMarkerIsCreated(bean1.getResource(), CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 14, 16, 18, 19);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(bean1.getResource(), CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 14, 16, 18, 19);
 	}
 
 	protected IInjectionPointField getInjectionPointField(ICDIProject cdi, String beanClassFilePath, String fieldName) {

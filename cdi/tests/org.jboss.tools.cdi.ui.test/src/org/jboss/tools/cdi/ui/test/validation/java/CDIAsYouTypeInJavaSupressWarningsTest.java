@@ -33,7 +33,6 @@ public class CDIAsYouTypeInJavaSupressWarningsTest extends TCKTest {
 
 	private static final String SUPPRESSWARNINGS_NAME = "cdi-ambiguous-dependency";
 	private static final String INJECT_ANNOTATION_NAME = "@Inject";
-	private static final String ERROR_MESSAGE = CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS;
 
 	@Override
 	public void setUp() throws Exception {
@@ -89,10 +88,10 @@ public class CDIAsYouTypeInJavaSupressWarningsTest extends TCKTest {
 		
 		// do check marker and marker annotation are absent at line of @Inject annotation 
 		int line = baseTest.getDocument().getLineOfOffset(injectStart);
-		baseTest.assertNoResourceMarkerIsCreated(baseTest.getFile(), toRegex(ERROR_MESSAGE), line + 1);
+		baseTest.assertNoResourceMarkerIsCreated(baseTest.getFile(), toRegex(CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()]), line + 1);
 
 		Annotation problemAnnotation = baseTest.waitForAnnotation(
-				start, start + length, ERROR_MESSAGE, AbstractAsYouTypeValidationTest.MAX_SECONDS_TO_WAIT, true, false);
+				start, start + length, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], AbstractAsYouTypeValidationTest.MAX_SECONDS_TO_WAIT, true, false);
 		assertNull("Problem Marker Annotation found for \'" + INJECT_ANNOTATION_NAME + "\'!", problemAnnotation);
 
 		//=================================================================================================
@@ -108,8 +107,8 @@ public class CDIAsYouTypeInJavaSupressWarningsTest extends TCKTest {
 		String message = problemAnnotation.getText();
 		assertEquals(
 				"Not expected error message found in ProblemAnnotation. Expected: ["
-						+ ERROR_MESSAGE + "], Found: [" + message + "]",
-				ERROR_MESSAGE, message);
+						+ CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()] + "], Found: [" + message + "]",
+					CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], message);
 
 		//=================================================================================================
 		// - Restore broken @SupressWarnings Annotation Type => see error annotation disappearance 
@@ -118,7 +117,7 @@ public class CDIAsYouTypeInJavaSupressWarningsTest extends TCKTest {
 		baseTest.getDocument().replace(start, 3, SUPPRESSWARNINGS_NAME);
 
 		problemAnnotation = baseTest.waitForAnnotation(
-				start, start + length, ERROR_MESSAGE, AbstractAsYouTypeValidationTest.MAX_SECONDS_TO_WAIT, false, false);
+				start, start + length, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], AbstractAsYouTypeValidationTest.MAX_SECONDS_TO_WAIT, false, false);
 
 		assertNull("Problem Annotation didn't disappeare!", problemAnnotation);
 	}

@@ -12,6 +12,8 @@ package org.jboss.tools.cdi.deltaspike.core.test;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.test.tck.validation.AbstractValidationTest;
 
 /**
@@ -19,6 +21,11 @@ import org.jboss.tools.cdi.core.test.tck.validation.AbstractValidationTest;
  */
 public class DeltaspikeCoreTest extends AbstractValidationTest {
 
+	protected int getVersionIndex() throws Exception {
+		IProject p = getTestProject();
+		ICDIProject cdi = CDICorePlugin.getCDIProject(p, true);
+		return cdi == null || cdi.getVersion() == null ? 0 : cdi.getVersion().getIndex();
+	}
 	protected IProject getTestProject() throws Exception {
 		return ResourcesPlugin.getWorkspace().getRoot().getProject(DeltaspikeCoreTestSetup.PROJECT_NAME);
 	}

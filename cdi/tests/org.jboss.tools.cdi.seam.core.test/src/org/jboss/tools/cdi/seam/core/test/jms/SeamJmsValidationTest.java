@@ -27,14 +27,14 @@ public class SeamJmsValidationTest extends SeamCoreTest {
 	 */
 	public void testJmsResourceInjection() throws Exception {
 		IFile file = getTestProject().getFile("src/org/jboss/tools/seam/jms/validation/test/JmsResourceInjection.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 17);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[0], 17);
 		assertNoError(file, 19, 20, 22, 23, 25, 26, 28, 29, 31, 32, 34, 35, 37, 38, 40, 41);
 	}
 
 	private void assertNoError(IFile file, Integer... integers) throws Exception {
 		for (Integer integer : integers) {
-			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, integer);
-			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, integer);
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[0], integer);
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[0], integer);
 		}
 	}
 }

@@ -52,20 +52,20 @@ public class SuppressWarningsTests extends ValidationTest {
 
 	public void testWOSuppress() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/suppresswarnings/AnotherFish.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 20, 24, 28, 31, 39, 42, 45);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 20, 24, 28, 31, 39, 42, 45);
 	}
 
 	public void testClass() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/suppresswarnings/Fish.java");
-		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME, ".*"), 8);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME[getVersionIndex()], ".*"), 8);
 
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/suppresswarnings/AnotherFish.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME, ".*"), 7, 12, 38);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME[getVersionIndex()], ".*"), 7, 12, 38);
 	}
 
 	public void testFieldWithSuppressInParentElement() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/suppresswarnings/Fish.java");
-		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME, ".*"), 13);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME[getVersionIndex()], ".*"), 13);
 	}
 
 	public void testField() throws Exception {
@@ -75,10 +75,10 @@ public class SuppressWarningsTests extends ValidationTest {
 			modifyPreferences();
 			boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 			TestUtil.validate(file);
-			getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, 17);
-			getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, 19);
+			getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT[getVersionIndex()], 17);
+			getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT[getVersionIndex()], 19);
 	
-			getAnnotationTest().assertAnnotationIsCreated(file2, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, 15, 17, 23);
+			getAnnotationTest().assertAnnotationIsCreated(file2, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT[getVersionIndex()], 15, 17, 23);
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 		} finally {
 			restorePreferences(file);
@@ -88,8 +88,8 @@ public class SuppressWarningsTests extends ValidationTest {
 
 	public void testParam() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/suppresswarnings/Fish.java");
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 22);
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 31);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 22);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 31);
 	}
 
 	public void testMultipleSuppress() throws Exception {
@@ -98,8 +98,8 @@ public class SuppressWarningsTests extends ValidationTest {
 			modifyPreferences();
 			boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 			TestUtil.validate(file);
-			getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 27);
-			getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, 26);
+			getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 27);
+			getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT[getVersionIndex()], 26);
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 		} finally {
 			restorePreferences(file);
@@ -110,19 +110,19 @@ public class SuppressWarningsTests extends ValidationTest {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/suppresswarnings/Fish.java");
 		TestUtil.validate(file);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 27);
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, 17, 19, 26);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 27);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT[getVersionIndex()], 17, 19, 26);
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
 
 	public void testNameAll() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/suppresswarnings/Fish.java");
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 35);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 35);
 	}
 
 	public void testGroupName() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/suppresswarnings/Fish.java");
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 49);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 49);
 	}
 
 	/**
@@ -139,11 +139,11 @@ public class SuppressWarningsTests extends ValidationTest {
 	}
 
 	public void testWarningsOnClassNameRegion() throws Exception {
-		String message = NLS.bind(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN, "Rabbit", "SessionScoped");
+		String message = NLS.bind(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN[getVersionIndex()], "Rabbit", "SessionScoped");
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/suppresswarnings/Rabbit.java");
 		getAnnotationTest().assertAnnotationIsNotCreated(file, message, 9);
 
-		message = NLS.bind(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN, "AnotherRabbit", "SessionScoped");
+		message = NLS.bind(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN[getVersionIndex()], "AnotherRabbit", "SessionScoped");
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/suppresswarnings/AnotherRabbit.java");
 		getAnnotationTest().assertAnnotationIsCreated(file, message, 8);
 	}
@@ -160,20 +160,20 @@ public class SuppressWarningsTests extends ValidationTest {
 			modifyPreferences(CDIPreferences.ILLEGAL_TYPE_IN_TYPED_DECLARATION);
 			boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 			TestUtil.validate(file);
-			getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION, 13);
+			getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION[getVersionIndex()], 13);
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 		} finally {
 			restorePreferences(CDIPreferences.ILLEGAL_TYPE_IN_TYPED_DECLARATION, file);
 		}
 
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/suppresswarnings/AnotherRabbit.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION, 11);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION[getVersionIndex()], 11);
 	}
 
 	public void testMultipleSuppressFromElementAndItsParent() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/suppresswarnings/Fish.java");
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 45);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME, ".*"), 44);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 45);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME[getVersionIndex()], ".*"), 44);
 	}
 
 	public void testWarningsOnAnnotatedParam() throws Exception {
@@ -182,14 +182,14 @@ public class SuppressWarningsTests extends ValidationTest {
 			modifyPreferences(CDIPreferences.OBSERVER_ANNOTATED_INJECT);
 			boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 			TestUtil.validate(file);
-			getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.OBSERVER_ANNOTATED_INJECT, 51);
-			getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.OBSERVER_ANNOTATED_INJECT, 52);
+			getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.OBSERVER_ANNOTATED_INJECT[getVersionIndex()], 51);
+			getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.OBSERVER_ANNOTATED_INJECT[getVersionIndex()], 52);
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 		} finally {
 			restorePreferences(CDIPreferences.OBSERVER_ANNOTATED_INJECT, file);
 		}
 
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/suppresswarnings/AnotherFish.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.OBSERVER_ANNOTATED_INJECT, 44, 45);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.OBSERVER_ANNOTATED_INJECT[getVersionIndex()], 44, 45);
 	}
 }

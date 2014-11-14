@@ -36,9 +36,9 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 */
 	public void testInconsistentSpecialization() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/simple/broken/inconsistent/Maid.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.INCONSISTENT_SPECIALIZATION, "Maid, Manager", "Employee"), 21);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.INCONSISTENT_SPECIALIZATION[getVersionIndex()], "Maid, Manager", "Employee"), 21);
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/simple/broken/inconsistent/Manager.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.INCONSISTENT_SPECIALIZATION, "Manager, Maid", "Employee"), 21);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.INCONSISTENT_SPECIALIZATION[getVersionIndex()], "Manager, Maid", "Employee"), 21);
 	}
 
 	/**
@@ -49,15 +49,15 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 */
 	public void testAmbiguousDependency() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/dependency/resolution/broken/ambiguous/Farm_Broken.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 25);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 25);
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateField/TimestampLogger.java");
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 34);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 34);
 	}
 
 	public void testAmbiguousDependencyWithNamed() throws Exception {
 		String path = "JavaSource/org/jboss/jsr299/tck/tests/jbt/lookup/duplicateName/TestNamed.java";
 		IFile file = tckProject.getFile(path);
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 9, 25, 26);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 9, 25, 26);
 		
 		IInjectionPointField p = getInjectionPointField(path, "s5");
 		Collection<IBean> bs = cdiProject.getBeans(false, p);
@@ -87,17 +87,17 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 */
 	public void testUnsatisfiedDependency() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/dependency/resolution/broken/unsatisfied/Bean_Broken.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 25);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 25);
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateField/TimestampLogger.java");
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 34);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 34);
 	}
 
 	public void testUnsatisfiedDependencyWithNamed() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/lookup/duplicateName/TestNamed.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 22, 23, 19, 20);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 22, 23, 19, 20);
 		int[] lines = {10, 11, 13, 14, 16, 17};
 		for (int i: lines) {
-			getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, i);
+			getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], i);
 		}
 	}
 
@@ -109,8 +109,8 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 */
 	public void testAmbiguousDependencyForInstance() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/InjectionInstance.java");
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 8);
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 11);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 8);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 11);
 	}
 
 	/**
@@ -121,8 +121,8 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 */
 	public void testUnsatisfiedDependencyForInstance() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/InjectionInstance.java");
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 9);
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 12);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 9);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 12);
 	}
 
 	/**
@@ -132,9 +132,9 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 */
 	public void testBeansWithDefaultCounstructor() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/defaultconstructors/CurrentProject.java");
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 12);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 12);
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 15);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 12);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 12);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 15);
 	}
 
 	/**
@@ -145,13 +145,13 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 */
 	public void testPrimitiveInjectionPointResolvedToNonPrimitiveProducerMethod() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/GameBroken.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 7, 19);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 9);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 10);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 11);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 20);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 21);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 22);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN[getVersionIndex()], 7, 19);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN[getVersionIndex()], 9);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN[getVersionIndex()], 10);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN[getVersionIndex()], 11);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN[getVersionIndex()], 20);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN[getVersionIndex()], 21);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN[getVersionIndex()], 22);
 	}
 
 	/**
@@ -164,15 +164,15 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 */
 	public void testInjectionPointWithArrayType() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/unproxyable/InjectionPointBean_Broken.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE, "TestType[]", "ArrayProducer.produce()"), 6);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE, "TestType", "TestType"), 7);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE, "TestType[]", "ArrayProducer.produce2()"), 8);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE[getVersionIndex()], "TestType[]", "ArrayProducer.produce()"), 6);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE[getVersionIndex()], "TestType", "TestType"), 7);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE[getVersionIndex()], "TestType[]", "ArrayProducer.produce2()"), 8);
 	}
 
 	public void testNormalBeanWithArrayType() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/unproxyable/ArrayProducer.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE_2, "TestType[]", "ArrayProducer.produce()"), 8);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE_2, "TestType[]", "ArrayProducer.produce2()"), 8);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE_2[getVersionIndex()], "TestType[]", "ArrayProducer.produce()"), 8);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE_2[getVersionIndex()], "TestType[]", "ArrayProducer.produce2()"), 8);
 	}
 
 	/**
@@ -185,18 +185,18 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 */
 	public void testInjectionPointWithUnproxyableTypeWhichResolvesToNormalScopedBean() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/unproxyable/Number_Broken.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "int", "NumberProducer.produce()"), 9);
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "long", "NumberProducer.foo"), 13);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "Short", "NumberProducer.foo2"), 17);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "NumberProducer.foo3"), 21);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE[getVersionIndex()], "int", "NumberProducer.produce()"), 9);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE[getVersionIndex()], "long", "NumberProducer.foo"), 13);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE[getVersionIndex()], "Short", "NumberProducer.foo2"), 17);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE[getVersionIndex()], "boolean", "NumberProducer.foo3"), 21);
 	}
 
 	public void testNormalScopedBeanWithUnproxyableType() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/unproxyable/NumberProducer.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE_2, "int", "NumberProducer.produce()"), 9);
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE_2, "long", "NumberProducer.foo"), 16);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE_2, "Short", "NumberProducer.foo2"), 21);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE_2, "boolean", "NumberProducer.foo3"), 21);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE_2[getVersionIndex()], "int", "NumberProducer.produce()"), 9);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE_2[getVersionIndex()], "long", "NumberProducer.foo"), 16);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE_2[getVersionIndex()], "Short", "NumberProducer.foo2"), 21);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE_2[getVersionIndex()], "boolean", "NumberProducer.foo3"), 21);
 	}
 
 	/**
@@ -209,8 +209,8 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 */
 	public void testClassWithPrivateConstructor() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/privateConstructor/InjectionPointBean.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC, "Unproxyable_Broken", "Unproxyable_Broken"), 23);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC.substring(0, 0), 25);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC[getVersionIndex()], "Unproxyable_Broken", "Unproxyable_Broken"), 23);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC[getVersionIndex()].substring(0, 0), 25);
 	}
 
 	/**
@@ -219,7 +219,7 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 */
 	public void testClassWithDefaultConstructor() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/unproxyable/Number_Broken.java");
-		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC, "BeanWithDefaultConsturctor", "BeanWithDefaultConsturctor"), 24);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC[getVersionIndex()], "BeanWithDefaultConsturctor", "BeanWithDefaultConsturctor"), 24);
 	}
 
 	/**
@@ -232,19 +232,19 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 */
 	public void testInjectionPointWhichResolvesToNormalScopedFinalBean() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/finalClass/FishFarm.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE, "Tuna_Broken", "Tuna_Broken"), 24);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE.substring(0, 0) + ".*", 26);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE[getVersionIndex()], "Tuna_Broken", "Tuna_Broken"), 24);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE[getVersionIndex()].substring(0, 0) + ".*", 26);
 
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/finalClass/Opportunity.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE, "String", "Opportunity.t"), 26);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE[getVersionIndex()], "String", "Opportunity.t"), 26);
 	}
 
 	public void testNormalScopedFinalBean() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/finalClass/Tuna_Broken.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE_2, "Tuna_Broken", "Tuna_Broken"), 21);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE_2[getVersionIndex()], "Tuna_Broken", "Tuna_Broken"), 21);
 
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/finalClass/Opportunity.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE_2, "String", "Opportunity.t"), 32);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE_2[getVersionIndex()], "String", "Opportunity.t"), 32);
 	}
 
 	/**
@@ -257,11 +257,11 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 */
 	public void testClassWithFinalMethodCannotBeProxied() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/finalMethod/FishFarm.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM, "Tuna_Broken", "Tuna_Broken"), 23);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM.substring(0, 0) + ".*", 25);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM[getVersionIndex()], "Tuna_Broken", "Tuna_Broken"), 23);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM[getVersionIndex()].substring(0, 0) + ".*", 25);
 		
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/finalMethod/Tuna_Broken.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM_2, "Tuna_Broken", "Tuna_Broken"), 21);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM_2[getVersionIndex()], "Tuna_Broken", "Tuna_Broken"), 21);
 		
 	}
 
@@ -275,14 +275,14 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 */
 	public void testDuplicateNamedBeans() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/byname/duplicateNameResolution/Cod.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME, "Cod, Sole"), 21);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME[getVersionIndex()], "Cod, Sole"), 21);
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/byname/duplicateNameResolution/Sole.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME, "Sole, Cod"), 21);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME[getVersionIndex()], "Sole, Cod"), 21);
 		
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/lookup/duplicateName/TestNamed.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME, "TestNamed.foo4.*"), 40, 49);
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME, "TestNamed.foo5.*"), 43);
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME, "TestNamed.foo6.*"), 46);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME[getVersionIndex()], "TestNamed.foo4.*"), 40, 49);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME[getVersionIndex()], "TestNamed.foo5.*"), 43);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME[getVersionIndex()], "TestNamed.foo6.*"), 46);
 	}
 
 	/**
@@ -293,7 +293,7 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 */
 	public void testDuplicateBeanNamePrefix() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/byname/duplicatePrefixResolution/ExampleWebsite_Broken.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNRESOLVABLE_EL_NAME, "example.com", "com", "example", "Example"), 22);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNRESOLVABLE_EL_NAME[getVersionIndex()], "example.com", "com", "example", "Example"), 22);
 	}
 
 	/**
@@ -305,7 +305,7 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 */
 	public void testAppliesToFinalManagedBeanClass() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/broken/finalBeanClass/TimestampLogger.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_CLASS, "MockLogger"), 31);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_CLASS[getVersionIndex()], "MockLogger"), 31);
 	}
 
 	/**
@@ -317,7 +317,7 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 */
 	public void testAppliesToFinalMethodOnManagedBeanClass() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/broken/finalBeanMethod/TimestampLogger.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_METHOD, "MockLogger", "log(String string)"), 31);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_METHOD[getVersionIndex()], "MockLogger", "log(String string)"), 31);
 	}
 
 	/**
@@ -329,6 +329,6 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 */
 	public void testSimpleWebBeanWithNonSerializableImplementationClassFails() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/context/passivating/broken/nonPassCapableManBeanHasPassScope/Hamina_Broken.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN, "Hamina_Broken", "SessionScoped"), 22);
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN[getVersionIndex()], "Hamina_Broken", "SessionScoped"), 22);
 	}
 }

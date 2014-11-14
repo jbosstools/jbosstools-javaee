@@ -55,7 +55,7 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, SeamSolderValidationMessages.WRONG_GENERIC_CONFIGURATION_ANNOTATION_REFERENCE.substring(0, 25) + ".*", 8);
 	}
 
-	public void testRemovingGenericPointConfiguration() throws CoreException {
+	public void testRemovingGenericPointConfiguration() throws Exception {
 		/*
 		 * Injection point: in class MessageManager
 		 *     @Inject @Generic MessageQueue queue;
@@ -63,7 +63,7 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 		 * Assert that MessageLogger has error marker.
 		 */
 		IFile file = getTestProject().getFile(new Path("src/org/jboss/generic2/MessageLogger.java"));
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS + ".*", 15);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()] + ".*", 15);
 
 
 		/*
@@ -72,7 +72,7 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 		 */
 		removeFile("src/org/jboss/generic2/DurableQueueConfiguration.java");
 
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS + ".*");
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()] + ".*");
 
 		/*
 		 * Set original DurableQueueConfiguration.java back.
@@ -81,10 +81,10 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 		writeFile(getTestProject(), "src/org/jboss/generic2/DurableQueueConfiguration.original",
 				"src/org/jboss/generic2/DurableQueueConfiguration.java");
 
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS + ".*", 15);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()] + ".*", 15);
 	}
 
-	public void testDisablingGenericPointConfiguration() throws CoreException {
+	public void testDisablingGenericPointConfiguration() throws Exception {
 		/*
 		 * Injection point: in class MessageManager
 		 *     @Inject @Generic MessageQueue queue;
@@ -93,7 +93,7 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 		 * in all cases bean is produced by MyGenericBean.createMyFirstBean()
 		 */
 		IFile file = getTestProject().getFile(new Path("src/org/jboss/generic2/MessageLogger.java"));
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS + ".*", 15);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()] + ".*", 15);
 
 
 		/*
@@ -103,7 +103,7 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 		writeFile(getTestProject(), "src/org/jboss/generic2/DurableQueueConfiguration.notgeneric",
 				"src/org/jboss/generic2/DurableQueueConfiguration.java");
 
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS + ".*");
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()] + ".*");
 
 		/*
 		 * Set original DurableQueueConfiguration.java back.
@@ -112,7 +112,7 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 		writeFile(getTestProject(), "src/org/jboss/generic2/DurableQueueConfiguration.original",
 				"src/org/jboss/generic2/DurableQueueConfiguration.java");
 
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS + ".*", 15);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()] + ".*", 15);
 	}
 
 	public void testWrongTypeOfGenericPointConfiguration() throws CoreException {
@@ -171,9 +171,9 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 	}
 
 	// https://issues.jboss.org/browse/JBIDE-9255
-	public void testDuplicateNamedBeans() throws CoreException {
+	public void testDuplicateNamedBeans() throws Exception {
 		IFile file = getTestProject().getFile(new Path("src/org/jboss/generic4/MyMessageQueues.java"));
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.DUPLCICATE_EL_NAME.substring(0, 11) + ".*", 10, 17);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.DUPLCICATE_EL_NAME[getVersionIndex()].substring(0, 11) + ".*", 10, 17);
 	}
 
 	public static void writeFile(IProject project, String sourcePath, String targetPath) throws CoreException {

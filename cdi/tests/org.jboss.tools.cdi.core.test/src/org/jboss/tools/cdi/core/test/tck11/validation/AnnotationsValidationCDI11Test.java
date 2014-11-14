@@ -27,18 +27,43 @@ public class AnnotationsValidationCDI11Test extends AnnotationsValidationTest {
 	}
 
 	public void testQualifierWithMissingTarget() throws Exception {
+		assertNull(CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE[getVersionIndex()]);
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/qualifier/broken/Hairy_MissingTarget.java");
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE.substring(0, 56) + ".*", 36);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE[0].substring(0, 56) + ".*", 36);
 	}
 
 	public void testQualifierWithWrongTarget() throws Exception {
+		assertNull(CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE[getVersionIndex()]);
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/qualifier/broken/Hairy_WrongTarget.java");
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE.substring(0, 56) + ".*", 32);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE[0].substring(0, 56) + ".*", 32);
 	}
 
 	public void testQualifierWithTarget11Ok() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/qualifier/HairyTarget11Ok.java");
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE.substring(0, 56) + ".*", 32);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE[0].substring(0, 56) + ".*", 32);
+	}
+
+	public void testStereotypeWithMissingTarget() throws Exception {
+		assertNull(CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE[getVersionIndex()]);
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/stereotype/broken/FishStereotype_MissingTarget.java");
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE[0].substring(0, 56) + ".*", 19);
+	}
+
+	public void testStereotypeWithWrongTarget() throws Exception {
+		assertNull(CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE[getVersionIndex()]);
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/stereotype/broken/FishStereotype_WrongTarget.java");
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE[0].substring(0, 56) + ".*", 15);
+	}
+
+	public void testScopeWithWrongTarget() throws Exception {
+		assertNull(CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE[getVersionIndex()]);
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/scope/broken/FooScoped_WrongTarget.java");
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE[0].substring(0, 52) + ".*", 30);
+	}
+
+	public void testScopeWithMissingTarget() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/scope/broken/FooScoped_MissingTarget.java");
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE[0].substring(0, 52) + ".*", 33);
 	}
 
 }

@@ -27,8 +27,8 @@ public class SeamRestValidationTest extends SeamCoreTest {
 	 */
 	public void testRestClientInjection() throws Exception {
 		IFile file = getTestProject().getFile("src/org/jboss/tools/seam/rest/validation/test/RestClientInjection.java");
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 9);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 14);
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 17);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[0], 9);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[0], 14);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[0], 17);
 	}
 }

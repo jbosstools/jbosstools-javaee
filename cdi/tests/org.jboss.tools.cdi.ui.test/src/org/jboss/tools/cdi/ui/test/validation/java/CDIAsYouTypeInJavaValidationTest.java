@@ -31,12 +31,6 @@ public class CDIAsYouTypeInJavaValidationTest extends TCKTest {
 	private BaseAsYouTypeInJavaValidationTest baseTest = null;
 	protected IProject project;
 
-	private static final String [][] ANNOTATIONS2VALIDATE = 
-		{ 
-			{"@Inject", CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS}, 
-			{"@Produces", CDIValidationMessages.PRODUCER_IN_DECORATOR}
-		};
-
 	@Override
 	public void setUp() throws Exception {
 		project = findTestProject();
@@ -46,6 +40,11 @@ public class CDIAsYouTypeInJavaValidationTest extends TCKTest {
 	}
 
 	public void testAsYouTypeInJavaValidation() throws BadLocationException, CoreException {
+		String [][] ANNOTATIONS2VALIDATE = 
+			{ 
+				{"@Inject", CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()]}, 
+				{"@Produces", CDIValidationMessages.PRODUCER_IN_DECORATOR[getVersionIndex()]}
+			};
  		assertNotNull("Test project '" + getProjectNameProvider().getMainProjectName() + "' is not prepared", project);
 			for (int i = 0; i < ANNOTATIONS2VALIDATE.length; i++) {
 				baseTest.openEditor(PAGE_NAME);

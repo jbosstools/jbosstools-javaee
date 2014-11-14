@@ -18,22 +18,35 @@ public enum CDIVersion {
 	/**
 	 * CDI version 1.0
 	 */
-	CDI_1_0("1.0"), //$NON-NLS-1$
+	CDI_1_0("1.0", 0), //$NON-NLS-1$
 
 	/**
 	 * CDI version 1.1
 	 */
-	CDI_1_1("1.1"), //$NON-NLS-1$
+	CDI_1_1("1.1", 1), //$NON-NLS-1$
 
 	/**
 	 * CDI version 1.2
 	 */
-	CDI_1_2("1.2"); //$NON-NLS-1$
+	CDI_1_2("1.2", 2); //$NON-NLS-1$
 
 	String version = ""; //$NON-NLS-1$
 
-	CDIVersion(String version) {
+	int versionIndex;
+
+	CDIVersion(String version, int versionIndex) {
 		this.version = version;
+		this.versionIndex = versionIndex;
+	}
+
+	/**
+	 * Unique index used for accessing arrays that keep ordered data for each version.
+	 * For example of such an array see CDIValidationMessages.
+	 * 
+	 * @return
+	 */
+	public int getIndex() {
+		return versionIndex;
 	}
 
 	/**

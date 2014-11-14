@@ -41,6 +41,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIVersion;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInterceptor;
@@ -185,7 +186,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 							typepath = typepath + "/" + typeNode.getTypeName(); //$NON-NLS-1$
 							attr = typeValidator.getTypeElementName();
 						}
-						IType type = getType(beansXml, typeNode, typeValidator, typepath, attr);
+						IType type = getType(context, beansXml, typeNode, typeValidator, typepath, attr);
 						if(type!=null) {
 							if(!validator.isAsYouTypeValidation() && !type.isBinary()) {
 								validator.getValidationContext().addLinkedCoreResource(CDICoreValidator.SHORT_ID, beansXml.getFullPath().toOSString(), type.getPath(), false);
@@ -200,7 +201,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 							}
 							String typeError = typeValidator.validateType(context, type);
 							if(typeError != null) {
-								IMarker marker = validator.addProblem(typeValidator.getIllegalTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
+								IMarker marker = validator.addProblem(typeValidator.getIllegalTypeErrorMessage(context.getCdiProject().getVersion()), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
 										new String[]{typeNode.getTypeName()}, typeNode.getLength(), typeNode.getStartOffset(), beansXml, typeValidator.getIllegalTypeErrorMessageId());
 								if(marker != null) bindMarkerToModel(marker, typepath, typeValidator.getTypeElementName());
 								if(type.isBinary()) {
@@ -210,14 +211,14 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 							TypeNode node = uniqueTypes.get(typeNode.getTypeName());
 							if(node!=null) {
 								if(!node.isMarkedAsDuplicated()) {
-									IMarker marker = validator.addProblem(typeValidator.getDuplicateTypeErrorMessage(), CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
+									IMarker marker = validator.addProblem(typeValidator.getDuplicateTypeErrorMessage(context.getCdiProject().getVersion()), CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
 											new String[]{}, node.getLength(), node.getStartOffset(), beansXml);
 									if(marker != null) bindMarkerToModel(marker, typepath, typeValidator.getTypeElementName());
 								}
 								node.setMarkedAsDuplicated(true);
 								typeNode.setMarkedAsDuplicated(true);
 								typeNode.setDuplicationIndex(node.getDuplicationIndex() + 1);
-								IMarker marker = validator.addProblem(typeValidator.getDuplicateTypeErrorMessage(), CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
+								IMarker marker = validator.addProblem(typeValidator.getDuplicateTypeErrorMessage(context.getCdiProject().getVersion()), CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
 										new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml);
 								if(marker != null) {
 									int di = typeNode.getDuplicationIndex();
@@ -257,7 +258,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		return null;
 	}
 
-	private IType getType(IFile beansXml, TypeNode node, TypeValidator typeValidator, String xmodelpath, String attr) {
+	private IType getType(CDICoreValidator.CDIValidationContext context, IFile beansXml, TypeNode node, TypeValidator typeValidator, String xmodelpath, String attr) {
 		IType type = null;
 		String typeName = node.getTypeName();
 		if(typeName!=null && typeName.trim().length() > 0) {
@@ -271,14 +272,14 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 				return null;
 			}
 		} else {
-			IMarker marker = validator.addProblem(typeValidator.getEmptyTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
+			IMarker marker = validator.addProblem(typeValidator.getEmptyTypeErrorMessage(context.getCdiProject().getVersion()), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
 					new String[]{node.getTypeName()}, node.getLength(), node.getStartOffset(), beansXml, typeValidator.getUnknownTypeErrorMessageId());
 			bindMarkerToModel(marker, xmodelpath, attr);
 			return null;
 		}
 		if(type==null) {
 			addLinkedResourcesForUnknownType(beansXml, node.getTypeName());
-			IMarker marker = validator.addProblem(typeValidator.getUnknownTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
+			IMarker marker = validator.addProblem(typeValidator.getUnknownTypeErrorMessage(context.getCdiProject().getVersion()), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
 					new String[]{node.getTypeName()}, node.getLength(), node.getStartOffset(), beansXml, typeValidator.getUnknownTypeErrorMessageId());
 			bindMarkerToModel(marker, xmodelpath, attr);
 		}
@@ -416,17 +417,17 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 
 		String getParrentElementname();
 
-		String getEmptyTypeErrorMessage();
+		String getEmptyTypeErrorMessage(CDIVersion version);
 
-		String getUnknownTypeErrorMessage();
+		String getUnknownTypeErrorMessage(CDIVersion version);
 		
 		int getUnknownTypeErrorMessageId();
 
-		String getIllegalTypeErrorMessage();
+		String getIllegalTypeErrorMessage(CDIVersion version);
 		
 		int getIllegalTypeErrorMessageId();
 
-		String getDuplicateTypeErrorMessage();
+		String getDuplicateTypeErrorMessage(CDIVersion version);
 	}
 
 	private abstract class AbstractTypeValidator implements TypeValidator {
@@ -439,14 +440,14 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		@Override
 		public String validateType(CDICoreValidator.CDIValidationContext context, IType type) throws JavaModelException {
 			if(!validateKindOfType(type)) {
-				return getIllegalTypeErrorMessage();
+				return getIllegalTypeErrorMessage(context.getCdiProject().getVersion());
 			}
 			if(type.isBinary()) {			
 				if(!validateBinaryType(type)) {
-					return getIllegalTypeErrorMessage();
+					return getIllegalTypeErrorMessage(context.getCdiProject().getVersion());
 				}
 			} else if(!validateSourceType(context, type)) {
-				return getIllegalTypeErrorMessage();
+				return getIllegalTypeErrorMessage(context.getCdiProject().getVersion());
 			}
 			return null;
 		}
@@ -490,13 +491,13 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 
 		@Override
-		public String getEmptyTypeErrorMessage() {
-			return CDIValidationMessages.EMPTY_ALTERNATIVE_BEAN_CLASS_NAME;
+		public String getEmptyTypeErrorMessage(CDIVersion version) {
+			return CDIValidationMessages.EMPTY_ALTERNATIVE_BEAN_CLASS_NAME[version.getIndex()];
 		}
 
 		@Override
-		public String getUnknownTypeErrorMessage() {
-			return CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME;
+		public String getUnknownTypeErrorMessage(CDIVersion version) {
+			return CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME[version.getIndex()];
 		}
 
 		@Override
@@ -505,8 +506,8 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 
 		@Override
-		public String getIllegalTypeErrorMessage() {
-			return CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS;
+		public String getIllegalTypeErrorMessage(CDIVersion version) {
+			return CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS[version.getIndex()];
 		}
 
 		@Override
@@ -515,8 +516,8 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 
 		@Override
-		public String getDuplicateTypeErrorMessage() {
-			return CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE;
+		public String getDuplicateTypeErrorMessage(CDIVersion version) {
+			return CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE[version.getIndex()];
 		}
 
 		@Override
@@ -549,13 +550,13 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 
 		@Override
-		public String getEmptyTypeErrorMessage() {
-			return CDIValidationMessages.EMPTY_ALTERNATIVE_ANNOTATION_NAME;
+		public String getEmptyTypeErrorMessage(CDIVersion version) {
+			return CDIValidationMessages.EMPTY_ALTERNATIVE_ANNOTATION_NAME[version.getIndex()];
 		}
 
 		@Override
-		public String getUnknownTypeErrorMessage() {
-			return CDIValidationMessages.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME;
+		public String getUnknownTypeErrorMessage(CDIVersion version) {
+			return CDIValidationMessages.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME[version.getIndex()];
 		}
 
 		@Override
@@ -564,8 +565,8 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 
 		@Override
-		public String getIllegalTypeErrorMessage() {
-			return CDIValidationMessages.ILLEGAL_ALTERNATIVE_ANNOTATION;
+		public String getIllegalTypeErrorMessage(CDIVersion version) {
+			return CDIValidationMessages.ILLEGAL_ALTERNATIVE_ANNOTATION[version.getIndex()];
 		}
 
 		@Override
@@ -574,8 +575,8 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 
 		@Override
-		public String getDuplicateTypeErrorMessage() {
-			return CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE;
+		public String getDuplicateTypeErrorMessage(CDIVersion version) {
+			return CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE[version.getIndex()];
 		}
 
 		@Override
@@ -598,13 +599,13 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 
 		@Override
-		public String getEmptyTypeErrorMessage() {
-			return CDIValidationMessages.EMPTY_DECORATOR_BEAN_CLASS_NAME;
+		public String getEmptyTypeErrorMessage(CDIVersion version) {
+			return CDIValidationMessages.EMPTY_DECORATOR_BEAN_CLASS_NAME[version.getIndex()];
 		}
 
 		@Override
-		public String getUnknownTypeErrorMessage() {
-			return CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME;
+		public String getUnknownTypeErrorMessage(CDIVersion version) {
+			return CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME[version.getIndex()];
 		}
 
 		@Override
@@ -613,8 +614,8 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 
 		@Override
-		public String getIllegalTypeErrorMessage() {
-			return CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS;
+		public String getIllegalTypeErrorMessage(CDIVersion version) {
+			return CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS[version.getIndex()];
 		}
 
 		@Override
@@ -623,8 +624,8 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 
 		@Override
-		public String getDuplicateTypeErrorMessage() {
-			return CDIValidationMessages.DUPLICATE_DECORATOR_CLASS;
+		public String getDuplicateTypeErrorMessage(CDIVersion version) {
+			return CDIValidationMessages.DUPLICATE_DECORATOR_CLASS[version.getIndex()];
 		}
 
 		@Override
@@ -647,13 +648,13 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 
 		@Override
-		public String getEmptyTypeErrorMessage() {
-			return CDIValidationMessages.EMPTY_INTERCEPTOR_CLASS_NAME;
+		public String getEmptyTypeErrorMessage(CDIVersion version) {
+			return CDIValidationMessages.EMPTY_INTERCEPTOR_CLASS_NAME[version.getIndex()];
 		}
 
 		@Override
-		public String getUnknownTypeErrorMessage() {
-			return CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME;
+		public String getUnknownTypeErrorMessage(CDIVersion version) {
+			return CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME[version.getIndex()];
 		}
 
 		@Override
@@ -662,8 +663,8 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 
 		@Override
-		public String getIllegalTypeErrorMessage() {
-			return CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS;
+		public String getIllegalTypeErrorMessage(CDIVersion version) {
+			return CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS[version.getIndex()];
 		}
 
 		@Override
@@ -672,8 +673,8 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 
 		@Override
-		public String getDuplicateTypeErrorMessage() {
-			return CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS;
+		public String getDuplicateTypeErrorMessage(CDIVersion version) {
+			return CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS[version.getIndex()];
 		}
 
 		@Override

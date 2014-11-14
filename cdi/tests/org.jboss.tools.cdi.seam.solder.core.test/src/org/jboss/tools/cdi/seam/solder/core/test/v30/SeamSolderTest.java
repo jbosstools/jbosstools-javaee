@@ -60,6 +60,10 @@ public class SeamSolderTest extends TestCase {
 		return cdiProject;
 	}
 
+	protected int getVersionIndex() {
+		return cdiProject == null || cdiProject.getVersion() == null ? 0 : cdiProject.getVersion().getIndex();
+	}
+
 	public ICDIProject getDependentCDIProject() {
 		if(cdiDependentProject==null) {
 			getDependentTestProject();

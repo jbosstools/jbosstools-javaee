@@ -107,14 +107,17 @@ public class SeamConfigValidationTest extends TestCase {
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, message, 28);
 	}
 
+	int getVersionIndex() {
+		return cdiProject.getVersion() == null ? 0 : cdiProject.getVersion().getIndex();
+	}
 	public void testSettingInlineBeanValuesToBeanOrSetOrMap() throws CoreException {
 		//correct element of set assignment
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 75);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 57);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 75);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 57);
 		//correct bean assignment
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 119);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 119);
 
-		AbstractResourceMarkerTest.assertMarkerIsCreated(f, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 61, 71, 102, 109, 124);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 61, 71, 102, 109, 124);
 
 		//set
 		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.INLINE_BEAN_TYPE_MISMATCH, "Integer", "String"), 62);
@@ -146,7 +149,7 @@ public class SeamConfigValidationTest extends TestCase {
 		String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_TYPE, "org.jboss.beans.validation.test.MyBean2");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(f, message, 8);
 
-		AbstractResourceMarkerTest.assertMarkerIsCreated(f, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 61, 71, 102, 109, 124);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 61, 71, 102, 109, 124);
 	}
 
 	/**

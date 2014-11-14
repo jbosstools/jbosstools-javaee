@@ -17,6 +17,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.test.tck.validation.AbstractValidationTest;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.common.base.test.validation.TestUtil;
@@ -43,22 +45,28 @@ public class SeamFacesValidationTest extends AbstractValidationTest {
 		return project;
 	}
 
+	protected int getVersionIndex() throws Exception {
+		IProject p = getTestProject();
+		ICDIProject cdi = CDICorePlugin.getCDIProject(p, true);
+		return cdi == null || cdi.getVersion() == null ? 0 : cdi.getVersion().getIndex();
+	}
+
 	public void testInjectionAnnotatedInputField() throws Exception {
 		IFile file = getTestProject().getFile("src/org/jboss/beans/validation/test/Validation.java");
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 18, 23);
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 20, 28);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 18, 23);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 20, 28);
 
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 9);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 11);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 14);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 14);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 9);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 11);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 14);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 14);
 	}
 
 	public void testInjectionWInputElemnt() throws Exception {
 		IFile file = getTestProject().getFile("src/org/jboss/beans/validation/test/Validation2.java");
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 9);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 11);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 14);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 14);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 9);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 11);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 14);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 14);
 	}
 }

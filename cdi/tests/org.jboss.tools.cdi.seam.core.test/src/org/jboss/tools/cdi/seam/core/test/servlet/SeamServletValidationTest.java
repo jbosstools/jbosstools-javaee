@@ -28,11 +28,11 @@ public class SeamServletValidationTest extends SeamCoreTest {
 	public void testInjectionValidationForField() throws Exception {
 		IFile file = getTestProject().getFile("src/org/jboss/tools/seam/servlet/validation/test/Validation.java");
 		for (int i = 12; i < 30; i++) {
-			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, i);
-			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, i);
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[0], i);
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[0], i);
 		}
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 40, 42);
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 41, 43);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[0], 40, 42);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[0], 41, 43);
 	}
 
 	/**
@@ -43,8 +43,8 @@ public class SeamServletValidationTest extends SeamCoreTest {
 	public void testInjectionValidationForParam() throws Exception {
 		IFile file = getTestProject().getFile("src/org/jboss/tools/seam/servlet/validation/test/Validation.java");
 		for (int i = 30; i < 39; i++) {
-			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, i);
-			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, i);
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[0], i);
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[0], i);
 		}
 	}
 }

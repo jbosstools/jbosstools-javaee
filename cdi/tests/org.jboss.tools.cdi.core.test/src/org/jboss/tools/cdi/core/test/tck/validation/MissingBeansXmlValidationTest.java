@@ -63,11 +63,11 @@ public class MissingBeansXmlValidationTest extends TestCase {
 	}
 
 	public void testMissingBeansXml() throws CoreException {
-		AbstractResourceMarkerTest.assertMarkerIsCreated(missingBeansXmlChildProject, NLS.bind(CDIValidationMessages.MISSING_BEANS_XML, "missingBeansXmlChildProject"), 0);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(missingBeansXmlParentProject, NLS.bind(CDIValidationMessages.MISSING_BEANS_XML, "missingBeansXmlParentProject"));
+		AbstractResourceMarkerTest.assertMarkerIsCreated(missingBeansXmlChildProject, NLS.bind(CDIValidationMessages.MISSING_BEANS_XML[CDIVersion.CDI_1_0.getIndex()], "missingBeansXmlChildProject"), 0);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(missingBeansXmlParentProject, NLS.bind(CDIValidationMessages.MISSING_BEANS_XML[CDIVersion.CDI_1_0.getIndex()], "missingBeansXmlParentProject"));
 
 		IFile beansXml = missingBeansXmlParentProject.getFile("src/META-INF/beans.xml");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(beansXml, NLS.bind(CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME, "demo.TestInt"), 5);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(beansXml, NLS.bind(CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME[CDIVersion.CDI_1_0.getIndex()], "demo.TestInt"), 5);
 	}
 
 	public void testCreatingBeansXml() throws CoreException {
@@ -78,8 +78,8 @@ public class MissingBeansXmlValidationTest extends TestCase {
 			beansXml.move(newBeansXml.getFullPath(), true, new NullProgressMonitor());
 			TestUtil.validate(missingBeansXmlChildProject, new IResource[]{beansXml, newBeansXml});
 
-			AbstractResourceMarkerTest.assertMarkerIsNotCreated(missingBeansXmlChildProject, NLS.bind(CDIValidationMessages.MISSING_BEANS_XML, "missingBeansXmlChildProject"));
-			AbstractResourceMarkerTest.assertMarkerIsNotCreated(missingBeansXmlParentProject, NLS.bind(CDIValidationMessages.MISSING_BEANS_XML, "missingBeansXmlParentProject"));
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(missingBeansXmlChildProject, NLS.bind(CDIValidationMessages.MISSING_BEANS_XML[CDIVersion.CDI_1_0.getIndex()], "missingBeansXmlChildProject"));
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(missingBeansXmlParentProject, NLS.bind(CDIValidationMessages.MISSING_BEANS_XML[CDIVersion.CDI_1_0.getIndex()], "missingBeansXmlParentProject"));
 		} finally {
 			IFile beansXml = missingBeansXmlChildProject.getFile("src/META-INF/beans.xml");
 			IFile newBeansXml = missingBeansXmlChildProject.getFile("src/META-INF/beans_.xml");
@@ -91,11 +91,11 @@ public class MissingBeansXmlValidationTest extends TestCase {
 	}
 
 	public void testMissingBeansXmlCDI11() throws CoreException {
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(missingBeansXmlProjectCDI11, NLS.bind(CDIValidationMessages.MISSING_BEANS_XML, "missingBeansXmlProjectCDI11"));
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(missingBeansXmlProjectCDI11, NLS.bind(CDIValidationMessages.MISSING_BEANS_XML[CDIVersion.CDI_1_1.getIndex()], "missingBeansXmlProjectCDI11"));
 	}
 
 	public void testMissingBeansXmlCDI12() throws CoreException {
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(missingBeansXmlProjectCDI12, NLS.bind(CDIValidationMessages.MISSING_BEANS_XML, "missingBeansXmlProjectCDI12"));
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(missingBeansXmlProjectCDI12, NLS.bind(CDIValidationMessages.MISSING_BEANS_XML[CDIVersion.CDI_1_2.getIndex()], "missingBeansXmlProjectCDI12"));
 		ICDIProject cdi = CDICorePlugin.getCDIProject(missingBeansXmlProjectCDI12, true);
 		assertEquals(CDIVersion.CDI_1_2, cdi.getVersion());
 		assertEquals(BeanArchiveDetector.ANNOTATED, cdi.getNature().getBeanDiscoveryMode());

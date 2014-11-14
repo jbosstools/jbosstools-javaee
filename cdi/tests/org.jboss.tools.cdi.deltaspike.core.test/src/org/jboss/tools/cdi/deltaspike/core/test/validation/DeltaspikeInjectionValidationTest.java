@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.deltaspike.core.test.validation;
 
 import org.eclipse.core.resources.IFile;
+import org.jboss.tools.cdi.core.CDIVersion;
 import org.jboss.tools.cdi.deltaspike.core.test.DeltaspikeCoreTest;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 
@@ -22,8 +23,8 @@ public class DeltaspikeInjectionValidationTest extends DeltaspikeCoreTest {
 	public void testConfigPropertyValidation() throws Exception {
 		IFile file = getTestProject().getFile("src/deltaspike/config/SettingsBean.java"); //$NON-NLS-1$
 
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 10);
-		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 14);
-		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 18);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 10);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 14);
+		getAnnotationTest().assertAnnotationIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 18);
 	}
 }
