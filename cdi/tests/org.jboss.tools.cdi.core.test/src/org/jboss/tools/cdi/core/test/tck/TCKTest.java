@@ -75,6 +75,10 @@ public class TCKTest extends TestCase {
 		cdiProject = CDICorePlugin.getCDIProject(tckProject, false);
 	}
 
+	protected void setUp() throws Exception {
+		cdiProject = CDICorePlugin.getCDIProject(tckProject, false);
+	}
+
 	protected int getVersionIndex() {
 		return cdiProject.getVersion() == null ? 0 : cdiProject.getVersion().getIndex();
 	}

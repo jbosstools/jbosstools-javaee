@@ -13,6 +13,19 @@ package org.jboss.tools.cdi.internal.core.validation;
 import org.eclipse.osgi.util.NLS;
 
 /**
+ * CDI 1.2 is a maintenance version and most validating rules are not changed since CDI 1.1.
+ * So, this bundle should contain only new and modified validation messages comparing to CDI 1.1.
+ * 
+ * Class CDIValidationMessages will use a constant from CDIValidationMessages11 for CDI 1.2
+ * validation if the constant is missing in CDIValidationMessages12 and CDIValidationMessages 
+ * does not specify the version rage for the rule. 
+ * 
+ * In respect of inherited, changed and new constants, CDIValidationMessages12 extends CDIValidationMessages11. 
+ * However, Java inheritance is not used to correctly treat the case of a validation rule being obsolete 
+ * in a newer version (CDIValidationMessages sets a range for it).
+ * 
+ * TODO add new messages
+ * 
  * @author Viacheslav Kabanovich
  */
 public class CDIValidationMessages12 {
