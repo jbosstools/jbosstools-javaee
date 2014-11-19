@@ -52,6 +52,7 @@ import org.jboss.tools.jst.web.tld.model.helpers.TLDToPaletteHelper;
 import org.jboss.tools.jst.web.ui.WebDevelopmentPerspectiveFactory;
 import org.jboss.tools.jst.web.ui.palette.PaletteAdapter;
 import org.jboss.tools.jst.web.ui.palette.PaletteViewer;
+import org.jboss.tools.jst.web.ui.palette.model.IPaletteModel;
 import org.jboss.tools.jst.web.ui.palette.model.PaletteItem;
 import org.jboss.tools.jst.web.ui.palette.model.PaletteModel;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -87,7 +88,7 @@ public class TestPalette  extends TestCase {
 	
 		PagePaletteContents contents = new PagePaletteContents(editor);
 		//check palette model
-		PaletteModel paletteModel = PaletteModel.getInstance(contents);
+		IPaletteModel paletteModel = PaletteModel.getInstance(contents);
 		assertNotNull(paletteModel);
 		PaletteRoot root = paletteModel.getPaletteRoot();
 		List<?> tabs = root.getChildren();
