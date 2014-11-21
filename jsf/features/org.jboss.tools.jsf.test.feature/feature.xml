@@ -2,7 +2,7 @@
 <feature
       id="org.jboss.tools.jsf.test.feature"
       label="%featureName"
-      version="3.6.0.qualifier"
+      version="3.6.1.qualifier"
       provider-name="%featureProvider">
 
    <description>
