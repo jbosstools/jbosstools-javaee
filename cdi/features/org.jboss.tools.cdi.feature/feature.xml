@@ -2,7 +2,7 @@
 <feature
       id="org.jboss.tools.cdi.feature"
       label="%featureName"
-      version="1.6.0.qualifier"
+      version="1.7.0.qualifier"
       provider-name="%featureProvider"
       plugin="org.jboss.tools.cdi.ui">
 
