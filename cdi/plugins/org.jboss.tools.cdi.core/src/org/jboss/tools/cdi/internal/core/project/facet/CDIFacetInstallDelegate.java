@@ -61,7 +61,7 @@ public class CDIFacetInstallDelegate implements ILogListener, IDelegate,
 		boolean generateBeansXml = model.getBooleanProperty(GENERATE_BEANS_XML);
 		CDIVersion beansXmlVersion = null;
 		if(generateBeansXml) {
-			beansXmlVersion = fv.compareTo(CDI_11)==0?CDIVersion.CDI_1_1:CDIVersion.CDI_1_0;
+			beansXmlVersion = fv.compareTo(CDI_10) == 0 ? CDIVersion.CDI_1_0 : CDIVersion.CDI_1_1;
 		}
 		CDIUtil.enableCDI(project, beansXmlVersion, monitor);
 		if(errorOccurs) {
