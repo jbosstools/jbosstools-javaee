@@ -10,10 +10,37 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck.validation;
 
+import java.io.ByteArrayInputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
+import java.util.HashMap;
+
+import junit.framework.TestCase;
+
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.wst.validation.ValidationFramework;
+import org.eclipse.wst.validation.internal.ConfigurationManager;
+import org.eclipse.wst.validation.internal.FilterUtil;
+import org.eclipse.wst.validation.internal.InternalValidatorManager;
+import org.eclipse.wst.validation.internal.ProjectConfiguration;
+import org.eclipse.wst.validation.internal.RegistryConstants;
+import org.eclipse.wst.validation.internal.operations.ValidatorSubsetOperation;
+import org.jboss.tools.cdi.core.CDICoreBuilder;
+import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IInjectionPointField;
+import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.common.base.test.validation.TestUtil;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
+import org.jboss.tools.common.util.FileUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
@@ -182,6 +209,76 @@ public class IncrementalValidationTest extends ValidationTest {
 			AbstractResourceMarkerTest.assertMarkerIsCreated(bean, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 7);
 		} finally {
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+		}
+	}
+
+	public void testRemovingType() throws Exception {
+		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
+		try {
+			IFile hibernationFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/removingtype/Hibernation.java");
+			IFile denFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/removingtype/Den.java");
+
+			//1. First check that we do have an injection to test.
+			IInjectionPointField point = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/removingtype/Den.java", "bear");
+			assertNotNull(point);
+			Collection<IBean> bs = point.getCDIProject().getBeans(false, point);
+			assertEquals(bs.size(), 1);
+
+			//2. Next destroy qualifier type.
+			String content = FileUtils.readStream(hibernationFile);
+			hibernationFile.setContents(new ByteArrayInputStream("".getBytes()), true, false, new NullProgressMonitor());
+
+			//3. Validate after Java build but without CDI build.
+			//Exception will be caught by ValidationManager and ValidationExceptionTest
+			//will fail reporting it.
+			validateAfterJavaBuild(denFile);
+
+			//4. Check that CDI model has not changed but the qualifier declaration cannot find Java type. 
+			point = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/incremental/removingtype/Den.java", "bear");
+			IAnnotationDeclaration d = point.getAnnotation("org.jboss.jsr299.tck.tests.jbt.validation.inject.incremental.removingtype.Hibernation");
+			assertNotNull(d); //because CDI builder has not been invoked.
+			assertNull(d.getType()); //because Java builder has been invoked.
+
+			//5. direct check of fix of JBIDE-18491
+			try {
+				CDIProject.getAnnotationDeclarationKey(d);
+			} catch (NullPointerException e) {
+				TestCase.fail("CDIProject.getAnnotationDeclarationKey fails with obsolete type.");
+			}
+
+			//6. Rebuild/revalidate and restore the qualifier type.
+			TestUtil.validate(denFile);
+			hibernationFile.setContents(new ByteArrayInputStream(content.getBytes()), true, false, new NullProgressMonitor());
+			TestUtil.validate(denFile);
+		} finally {
+			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+		}
+	}
+
+	public static void validateAfterJavaBuild(IResource resource) throws CoreException {
+		ValidationFramework.getDefault().suspendAllValidation(true);
+		resource.getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, JavaCore.BUILDER_ID, new HashMap<String, String>(), new NullProgressMonitor());
+		ValidationFramework.getDefault().suspendAllValidation(false);
+		
+		try {
+			new IncrementalValidatorOperation(resource.getProject(), new Object[]{resource}).run(new NullProgressMonitor());
+		} catch (OperationCanceledException e) {
+			e.printStackTrace();
+			TestCase.fail(e.getMessage());
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+			TestCase.fail(e.getMessage());
+		} finally {
+			ValidationFramework.getDefault().suspendAllValidation(true);
+		}
+	}
+
+	private static class IncrementalValidatorOperation extends ValidatorSubsetOperation {
+		public IncrementalValidatorOperation(IProject project, Object[] changedResources) throws InvocationTargetException {
+			super(project, shouldForce(changedResources), RegistryConstants.ATT_RULE_GROUP_DEFAULT, false);
+			ProjectConfiguration prjp = ConfigurationManager.getManager().getProjectConfiguration(project);
+			setEnabledValidators(InternalValidatorManager.wrapInSet(prjp.getEnabledIncrementalValidators(true)));
+			setFileDeltas(FilterUtil.getFileDeltas(getEnabledValidators(), changedResources, false));
 		}
 	}
 }

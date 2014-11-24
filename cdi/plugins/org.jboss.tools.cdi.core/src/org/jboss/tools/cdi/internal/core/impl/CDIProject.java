@@ -653,12 +653,15 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 
 	private static String getAnnotationDeclarationKey(IAnnotationDeclaration d, Collection<IMethod> ignoredMembers) throws CoreException {
 		Collection<IMethod> nb = ignoredMembers == null ? new ArrayList<IMethod>() : ignoredMembers;
-		IType type = d.getType();
 		StringBuffer result = new StringBuffer();
 		result.append(d.getTypeName());
 		if(CDIConstants.NAMED_QUALIFIER_TYPE_NAME.equals(d.getTypeName())) {
 			//Declared name is excluded from comparison; names should be compared by invoking getName() method.
 			return result.toString();
+		}
+		IType type = d.getType();
+		if(type == null) {
+			return "";
 		}
 		IMethod[] ms = type.getMethods();
 		if(ms.length > 0) {
