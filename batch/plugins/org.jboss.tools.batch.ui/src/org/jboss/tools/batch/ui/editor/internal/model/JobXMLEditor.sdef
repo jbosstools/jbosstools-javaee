@@ -1,0 +1,931 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition>
+	<import>
+		<package>org.jboss.tools.batch.ui.editor.internal.model</package>
+	</import>
+
+	<editor-page>
+		<id>design</id>
+		<page-name>Design</page-name>
+		<page-header-text>Batch Job Configuration editor</page-header-text>
+		<element-type>Job</element-type>
+		<root-node>
+			<node>
+				<label>Job</label>
+				<image>${ Image() }</image>
+				<section>
+					<label>Job</label>
+					<content>
+						<property-editor>
+							<property>Id</property>
+						</property-editor>
+						<property-editor>
+							<property>Version</property>
+						</property-editor>
+						<property-editor>
+							<property>Restartable</property>
+						</property-editor>
+					</content>
+				</section>
+
+				<section>
+			   	 <label>Flow Elements</label>
+					<content>
+						<include>FlowElementsForm</include>
+					</content>
+				</section>
+
+				<section>
+					<label>Properties</label>
+					<content>
+						<include>PropertiesSection</include>
+					</content>
+				</section>
+
+				<node-include>ListenersNode</node-include>
+				<node-include>FlowElementsNode</node-include>
+
+			</node>
+            
+		</root-node>
+	</editor-page>
+
+	<node>
+		<id>ListenersNode</id>
+		<label>Listeners</label>
+		<image>listeners.png</image>
+		<section>
+			<description>Define a listener</description>
+			<content>
+				<actuator>
+					<action-id>Sapphire.Add</action-id>
+					<label>add a listener</label>
+				</actuator>
+			</content>
+		</section>
+		<node-include>ListenerList</node-include>
+	</node>
+
+	<node>
+		<id>FlowElementsNode</id>
+		<label>Flow Elements</label>
+		<image>flow-elements.png</image>
+		<section>
+			<description>Define a flow element</description>
+			<content>
+				<!--actuator>
+					<action-id>Sapphire.Add</action-id>
+					<label>add a flow</label>
+				</actuator-->
+				<include>FlowElementsForm</include>
+			</content>
+		</section>
+		<node-include>FlowElementList</node-include>
+	</node>
+
+	<node>
+		<id>OutcomesNode</id>
+		<visible-when>${OutcomeElements.size() > 0}</visible-when>
+		<label>Transitions</label>
+		<section>
+			<content>
+				<include>OutcomesForm</include>
+			</content>
+		</section>
+		<node-include>OutcomeList</node-include>
+	</node>
+
+	<node-factory>
+		<id>BatchletAndChunkFactory</id>
+		<property>BatchletOrChunk</property>
+		<case>
+			<element-type>Batchlet</element-type>
+			<label>Batchlet</label>
+			<image>${ Image() }</image>
+			<section>
+				<content>
+					<property-editor>
+						<property>Ref</property>
+					</property-editor>
+				</content>
+			</section>
+			<section>
+				<label>Properties</label>
+				<content>
+					<include>PropertiesSection</include>
+				</content>
+			</section>
+		</case>
+		<case>
+			<element-type>Chunk</element-type>
+			<label>Chunk</label>
+			<image>${ Image() }</image>
+			<section>
+				<content>
+					<include>ChunkForm</include>
+				</content>
+			</section>
+			<section>
+				<label>Processor</label>
+				<content>
+					<include>ProcessorForm</include>
+				</content>
+			</section>
+			<section>
+				<label>Checkpoint Algorithm</label>
+				<content>
+					<include>CheckpointAlgorithmForm</include>
+				</content>
+			</section>
+			<section>
+				<label>Skippable Exception Classes</label>
+				<content>
+					<include>SkippableExceptionClassesForm</include>
+				</content>
+			</section>
+			<section>
+				<label>Retryable Exception Classes</label>
+				<content>
+					<include>RetryableExceptionClassesForm</include>
+				</content>
+			</section>
+			<section>
+				<label>No Rollback Exception Classes</label>
+				<content>type filter text
+					<include>NoRollbackExceptionClassesForm</include>
+				</content>
+			</section>
+			<!--
+			<section>
+				<label>Reader</label>
+				<content>type filter text
+					<include>ReaderForm</include>
+				</content>
+			</section>
+			-->
+			<node-include>ReaderNode</node-include>
+			<node-include>WriterNode</node-include>
+			<node-include>ProcessNodeFactory</node-include>
+			<node-include>CheckpointAlgorithmNodeFactory</node-include>
+		</case>
+	</node-factory>
+
+	<node-factory>
+		<id>ProcessNodeFactory</id>
+		<property>Processor</property>
+		<case>
+		    <element-type>Processor</element-type>
+			<image>${ Image() }</image>
+			<label>${ Ref == null ? "" : Ref }</label>
+			<section>
+				<label>Processor</label>
+				<content>
+					<property-editor>
+						<property>Ref</property>
+					</property-editor>
+				</content>
+			</section>
+			<section>
+				<label>Properties</label>
+				<content>
+					<include>PropertiesSection</include>
+				</content>
+			</section>
+		</case>
+	</node-factory>
+
+	<node-factory>
+		<id>CheckpointAlgorithmNodeFactory</id>
+		<property>CheckpointAlgorithm</property>
+		<case>
+		    <element-type>CheckpointAlgorithm</element-type>
+			<image>${ Image() }</image>
+			<label>${ Ref == null ? "" : Ref }</label>
+			<section>
+				<label>Checkpoint Algorithm</label>
+				<content>
+					<property-editor>
+						<property>Ref</property>
+					</property-editor>
+				</content>
+			</section>
+			<section>
+				<label>Properties</label>
+				<content>
+					<include>PropertiesSection</include>
+				</content>
+			</section>
+		</case>
+	</node-factory>
+
+
+
+	<node>
+		<id>ReaderNode</id>
+		<property>Reader</property>
+		<label>Reader</label>
+		<image>${ Image() }</image>
+		<section>
+			<content>
+				<property-editor>
+					<property>Ref</property>
+				</property-editor>
+			</content>
+		</section>
+		<section>
+			<label>Properties</label>
+			<content>
+				<include>PropertiesSection</include>
+			</content>
+		</section>
+	</node>
+
+	<form>
+		<id>ReaderForm</id>
+		<content>
+			<with>
+				<path>Reader</path>
+				<case>
+					<content>
+						<property-editor>
+							<property>Ref</property>
+						</property-editor>
+						<include>PropertiesSection</include>
+					</content>
+				</case>
+			</with>
+		</content>
+	</form>
+
+	<node>
+		<id>WriterNode</id>
+		<property>Writer</property>
+		<label>Writer</label>
+		<image>${ Image() }</image>
+		<section>
+			<content>
+				<property-editor>
+					<property>Ref</property>
+				</property-editor>
+			</content>
+		</section>
+		<section>
+			<label>Properties</label>
+			<content>
+				<include>PropertiesSection</include>
+			</content>
+		</section>
+	</node>
+
+	<node>
+		<id>PartitionNode</id>
+		<label>Partition</label>
+		<visible-when>${Partition != null}</visible-when>
+		<section>
+			<content>
+				<with>
+					<path>Partition</path>
+					<case>
+						<content>
+				<section>
+					<visible-when>${Mapper != null || Plan == null}</visible-when>
+					<label>Mapper</label>
+					<content>
+						<include>MapperForm</include>
+					</content>
+				</section>
+				<section>
+					<visible-when>${Mapper == null || Plan != null}</visible-when>
+					<label>Plan</label>
+					<content>
+						<include>PlanForm</include>
+					</content>
+				</section>
+				<section>
+					<label>Collector</label>
+					<content>
+						<include>CollectorForm</include>
+					</content>
+				</section>
+				<section>
+					<label>Analyzer</label>
+					<content>
+						<include>AnalyzerForm</include>
+					</content>
+				</section>
+				<section>
+					<label>Reducer</label>
+					<content>
+						<include>ReducerForm</include>
+					</content>
+				</section>
+						</content>
+					</case>
+				</with>
+			</content>
+		</section>
+		<node-include>PlanNode</node-include>
+	</node>
+
+	<node>
+		<id>PlanNode</id>
+		<label>Plan</label>
+		<visible-when>${Partition != null and Partition.Plan != null}</visible-when>
+		<section>
+			<content>
+				<with>
+					<path>Partition</path>
+					<case>
+						<content>
+
+				<with>
+					<path>Plan</path>
+					<case>
+						<content>
+				<section>
+					<label>Plan</label>
+					<content>
+						<property-editor>
+							<property>Partitions</property>
+						</property-editor>
+						<property-editor>
+							<property>Threads</property>
+						</property-editor>
+					</content>
+				</section>
+						</content>
+					</case>
+				</with>
+
+						</content>
+					</case>
+				</with>
+			</content>
+		</section>
+
+	</node>
+
+	<form>
+		<id>ChunkForm</id>
+		<content>
+			<property-editor>
+				<property>CheckpointPolicy</property>
+			</property-editor>
+			<property-editor>
+				<property>ItemCount</property>
+			</property-editor>
+			<property-editor>
+				<property>RetryLimit</property>
+			</property-editor>
+			<property-editor>
+				<property>SkipLimit</property>
+			</property-editor>
+			<property-editor>
+				<property>TimeLimit</property>
+			</property-editor>
+		</content>
+	</form>
+
+	<form>
+		<id>OutcomesForm</id>
+		<content>
+			<property-editor>
+				<show-label>false</show-label>
+				<property>OutcomeElements</property>
+			</property-editor>
+		</content>
+	</form>
+
+	<form>
+		<id>FlowElementsForm</id>
+		<content>
+			<property-editor>
+				<show-label>false</show-label>
+				<property>FlowElements</property>
+			</property-editor>
+		</content>
+	</form>
+
+	<form>
+		<id>FlowsForm</id>
+		<content>
+			<property-editor>
+				<show-label>false</show-label>
+				<property>Flows</property>
+			</property-editor>
+		</content>
+	</form>
+
+	<node-factory>
+		<id>OutcomeList</id>
+		<property>OutcomeElements</property>
+		<case>
+			<element-type>End</element-type>
+			<label>${ (On == null ? "" : On) }</label>
+			<image>${ Image() }</image>
+			<section>
+				<label>End</label>
+				<content>
+					<property-editor>
+						<property>On</property>
+					</property-editor>
+					<property-editor>
+						<property>ExitStatus</property>
+					</property-editor>
+				</content>
+			</section>
+		</case>
+		<case>
+			<element-type>Fail</element-type>
+			<label>${ (On == null ? "" : On) }</label>
+			<image>${ Image() }</image>
+			<section>
+				<label>Fail</label>
+				<content>
+					<property-editor>
+						<property>On</property>
+					</property-editor>
+					<property-editor>
+						<property>ExitStatus</property>
+					</property-editor>
+				</content>
+			</section>
+		</case>
+		<case>
+			<element-type>Stop</element-type>
+			<label>${ (On == null ? "" : On) }</label>
+			<image>${ Image() }</image>
+			<section>
+				<label>Stop</label>
+				<content>
+					<property-editor>
+						<property>On</property>
+					</property-editor>
+					<property-editor>
+						<property>ExitStatus</property>
+					</property-editor>
+					<property-editor>
+						<property>Restart</property>
+					</property-editor>
+				</content>
+			</section>
+		</case>
+		<case>
+			<element-type>Next</element-type>
+			<label>${ (On == null ? "" : On) }</label>
+			<image>${ Image() }</image>
+			<section>
+				<label>Next</label>
+				<content>
+					<property-editor>
+						<property>On</property>
+					</property-editor>
+					<property-editor>
+						<property>To</property>
+					</property-editor>
+				</content>
+			</section>
+		</case>
+	</node-factory>
+
+	<node>
+		<id>PropertiesNode</id>
+		<label>Properties</label>
+		<section>
+			<content>
+				<with>
+					<path>Properties</path>
+					<case>
+						<content>
+							<property-editor>
+								<property>Partition</property>
+							</property-editor>
+							<property-editor>
+								<property>Properties</property>
+							</property-editor>
+						</content>
+					</case>
+				</with>
+			</content>
+		</section>
+	</node>
+
+	<form>
+		<id>PropertiesSection</id>
+		<content>
+			<with>
+				<path>Properties</path>
+				<case>
+					<content>
+						<property-editor>
+							<property>Partition</property>
+						</property-editor>
+						<property-editor>
+							<property>Properties</property>
+						</property-editor>
+					</content>
+				</case>
+			</with>
+		</content>
+	</form>
+
+	<node-factory>
+		<id>ListenerList</id>
+		<property>Listeners</property>
+		<case>
+			<label>${ Ref == null ? "&lt;listener&gt;" : Ref }</label>
+			<image>${ Image() }</image>
+			<section>
+				<content>
+					<property-editor>
+						<property>Ref</property>
+					</property-editor>
+				</content>
+			</section>
+
+			<section>
+				<label>Properties</label>
+				<content>
+					<include>PropertiesSection</include>
+				</content>
+			</section>
+		</case>
+	</node-factory>
+
+	<node-factory>
+		<id>FlowElementList</id>
+		<property>FlowElements</property>
+		<case>
+			<element-type>Flow</element-type>
+			<image>${ Image() }</image>
+			<label>${(Id == null) ? "" : Id}</label>
+			<section>
+				<label>Flow</label>
+				<content>
+					<property-editor>
+						<property>Id</property>
+					</property-editor>
+					<property-editor>
+						<property>Next</property>
+					</property-editor>
+				</content>
+			</section>
+
+			<section>
+			    <label>Flow Elements</label>
+				<content>
+					<include>FlowElementsForm</include>
+				</content>
+			</section>
+
+			<section>
+			    <label>Transitions</label>
+				<content>
+					<include>OutcomesForm</include>
+				</content>
+			</section>
+
+			<node-include>FlowElementsNode</node-include>
+			<node-include>OutcomesNode</node-include>
+		</case>
+		<case>
+			<element-type>Split</element-type>
+			<image>${ Image() }</image>
+			<label>${Id == null ? "" : Id}</label>
+			<section>
+				<label>Split</label>
+				<content>
+					<property-editor>
+						<property>Id</property>
+					</property-editor>
+					<property-editor>
+						<property>Next</property>
+					</property-editor>
+				</content>
+			</section>
+
+			<section>
+			    <label>Flow Elements</label>
+				<content>
+					<include>FlowsForm</include>
+				</content>
+			</section>
+
+			<node-include>FlowList</node-include>
+		</case>
+		<case>
+			<element-type>Decision</element-type>
+			<image>${ Image() }</image>
+			<label>${Id == null ? "" : Id}</label>
+			<section>
+				<label>Decision</label>
+				<content>
+					<property-editor>
+						<property>Id</property>
+					</property-editor>
+					<property-editor>
+						<property>Ref</property>
+					</property-editor>
+				</content>
+			</section>
+
+			<section>
+			    <label>Transitions</label>
+				<content>
+					<include>OutcomesForm</include>
+				</content>
+			</section>
+
+			<section>
+				<label>Properties</label>
+				<content>
+					<include>PropertiesSection</include>
+				</content>
+			</section>
+
+			<node-include>OutcomesNode</node-include>
+		</case>
+		<case>
+			<element-type>Step</element-type>
+			<label>${Id == null ? "" : Id}</label>
+			<image>${ Image() }</image>
+			<section>
+				<label>Step</label>
+				<content>
+					<include>StepForm</include>
+				</content>
+			</section>
+
+			<section>
+			    <label>Partition</label>
+				<content>
+					<include>PartitionForm</include>
+				</content>
+			</section>
+
+			<section>
+			    <label>Transitions</label>
+				<content>
+					<include>OutcomesForm</include>
+				</content>
+			</section>
+
+			<section>
+				<label>Properties</label>
+				<content>
+					<include>PropertiesSection</include>
+				</content>
+			</section>
+
+			<node-include>ListenersNode</node-include>
+			<node-include>BatchletAndChunkFactory</node-include>
+			<node-include>PartitionNode</node-include>
+			<node-include>OutcomesNode</node-include>
+		</case>
+	</node-factory>
+
+	<node-factory>
+		<id>FlowList</id>
+		<property>Flows</property>
+		<case>
+			<image>${ Image() }</image>
+			<label>${ Id == null ? "" : Id }</label>
+			<section>
+				<label>Flow</label>
+				<content>
+					<property-editor>
+						<property>Id</property>
+					</property-editor>
+					<property-editor>
+						<property>Next</property>
+					</property-editor>
+				</content>
+			</section>
+
+			<section>
+			    <label>Flow Elements</label>
+				<content>
+					<include>FlowElementsForm</include>
+				</content>
+			</section>
+
+			<section>
+			    <label>Transitions</label>
+				<content>
+					<include>OutcomesForm</include>
+				</content>
+			</section>
+
+			<node-include>FlowElementsNode</node-include>
+			<node-include>OutcomesNode</node-include>
+		</case>
+	</node-factory>
+
+	<form>
+		<id>StepForm</id>
+		<content>
+			<property-editor>
+				<property>Id</property>
+			</property-editor>
+			<property-editor>
+				<property>Next</property>
+			</property-editor>
+			<property-editor>
+				<property>AllowStartIfComplete</property>
+			</property-editor>
+		</content>
+	</form>
+
+	<form>
+		<id>PartitionForm</id>
+		<content>
+			<with>
+				<path>Partition</path>
+				<case>
+					<content>
+					</content>
+				</case>
+			</with>
+		</content>
+	</form>
+
+	<form>
+		<id>MapperForm</id>
+		<content>
+			<with>
+				<path>Mapper</path>
+				<case>
+					<content>
+						<property-editor>
+							<property>Ref</property>
+						</property-editor>
+						<include>PropertiesSection</include>
+					</content>
+				</case>
+			</with>
+		</content>
+	</form>
+
+	<form>
+		<id>PlanForm</id>
+		<content>
+			<with>
+				<path>Plan</path>
+				<case>
+					<content>
+						<property-editor>
+							<property>Partitions</property>
+						</property-editor>
+						<property-editor>
+							<property>Threads</property>
+						</property-editor>
+					</content>
+				</case>
+			</with>
+		</content>
+	</form>
+
+	<form>
+		<id>CollectorForm</id>
+		<content>
+			<with>
+				<path>Collector</path>
+				<case>
+					<content>
+						<property-editor>
+							<property>Ref</property>
+						</property-editor>
+						<include>PropertiesSection</include>
+					</content>
+				</case>
+			</with>
+		</content>
+	</form>
+
+	<form>
+		<id>AnalyzerForm</id>
+		<content>
+			<with>
+				<path>Analyzer</path>
+				<case>
+					<content>
+						<property-editor>
+							<property>Ref</property>
+						</property-editor>
+						<include>PropertiesSection</include>
+					</content>
+				</case>
+			</with>
+		</content>
+	</form>
+
+	<form>
+		<id>ReducerForm</id>
+		<content>
+			<with>
+				<path>Reducer</path>
+				<case>
+					<content>
+						<property-editor>
+							<property>Ref</property>
+						</property-editor>
+						<include>PropertiesSection</include>
+					</content>
+				</case>
+			</with>
+		</content>
+	</form>
+
+	<form>
+		<id>ProcessorForm</id>
+		<content>
+			<with>
+				<path>Processor</path>
+				<case>
+					<content>
+						<property-editor>
+							<property>Ref</property>
+						</property-editor>
+						<include>PropertiesSection</include>
+					</content>
+				</case>
+			</with>
+		</content>
+	</form>
+
+	<form>
+		<id>CheckpointAlgorithmForm</id>
+		<content>
+			<with>
+				<path>CheckpointAlgorithm</path>
+				<case>
+					<content>
+						<property-editor>
+							<property>Ref</property>
+						</property-editor>
+						<include>PropertiesSection</include>
+					</content>
+				</case>
+			</with>
+		</content>
+	</form>
+
+	<form>
+		<id>SkippableExceptionClassesForm</id>
+		<content>
+			<with>
+				<path>SkippableExceptionClasses</path>
+				<case>
+					<content>
+						<property-editor>
+							<property>Includes</property>
+						</property-editor>
+						<property-editor>
+							<property>Excludes</property>
+						</property-editor>
+					</content>
+				</case>
+			</with>
+		</content>
+	</form>
+
+	<form>
+		<id>RetryableExceptionClassesForm</id>
+		<content>
+			<with>
+				<path>RetryableExceptionClasses</path>
+				<case>
+					<content>
+						<property-editor>
+							<property>Includes</property>
+						</property-editor>
+						<property-editor>
+							<property>Excludes</property>
+						</property-editor>
+					</content>
+				</case>
+			</with>
+		</content>
+	</form>
+
+	<form>
+		<id>NoRollbackExceptionClassesForm</id>
+		<content>
+			<with>
+				<path>NoRollbackExceptionClasses</path>
+				<case>
+					<content>
+						<property-editor>
+							<property>Includes</property>
+						</property-editor>
+						<property-editor>
+							<property>Excludes</property>
+						</property-editor>
+					</content>
+				</case>
+			</with>
+		</content>
+	</form>
+
+
+</definition>
