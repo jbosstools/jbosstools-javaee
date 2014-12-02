@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension point="org.eclipse.ui.editors">
+    <editor
+      id="org.jboss.tools.batch.editor.JobXmlEditor"
+      name="Batch Job Configuration Editor"
+      icon="platform:/plugin/org.jboss.tools.batch.ui/images/batch_icon16.png"
+      default="true">
+      <contentTypeBinding contentTypeId="org.jboss.tools.batch.ui.jobxml"/>
+      
+      <!--
+      <class class="org.eclipse.sapphire.ui.swt.xml.editor.SapphireEditorForXml">
+        <parameter name="sdef" value="org.jboss.tools.batch.ui.editor.internal.model.JobXMLEditor"/>
+      </class>
+      -->
+      
+      <class class="org.jboss.tools.batch.ui.editor.internal.model.JobXMLEditor"></class>
+    </editor>
+  </extension>
+  
+  <extension point="org.eclipse.wst.xml.core.catalogContributions">
+    <catalogContribution>
+      <uri
+        name="jobXML_1_0.xsd"
+        uri="schemas/jobXML_1_0.xsd"/>
+      <system
+            systemId="http://xmlns.jcp.org/xml/ns/javaee"
+            uri="schemas/jobXML_1_0.xsd">
+      </system>
+      <public
+            publicId="http://xmlns.jcp.org/xml/ns/javaee"
+            uri="schemas/jobXML_1_0.xsd">
+      </public>
+    </catalogContribution>
+  </extension>
+
+  <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <content-type
+            base-type="org.eclipse.core.runtime.xml"
+            default-charset="UTF-8"
+            file-extensions="xml"
+            id="jobxml"
+            name="Job XML file"
+            priority="high">
+         <describer
+               class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber">
+            <parameter
+                  name="element"
+                  value="job">
+            </parameter>
+         </describer>
+      </content-type>
+  </extension>
+
+</plugin>

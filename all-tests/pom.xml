@@ -12,6 +12,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>../batch/tests</module>
 		<module>../cdi/tests</module>
 		<module>../jsf/tests</module>
 		<module>../seam/tests</module>

@@ -16,6 +16,7 @@
  		<tycho.scmUrl>scm:git:https://github.com/jbosstools/jbosstools-javaee.git</tycho.scmUrl>
  	</properties>
 	<modules>
+		<module>batch</module>
 		<module>cdi</module>
 		<module>jsf</module>
 		<module>seam</module>

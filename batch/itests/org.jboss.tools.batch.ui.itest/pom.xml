@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion> 
+	<parent>
+		<groupId>org.jboss.tools.batch</groupId>
+		<artifactId>itests</artifactId>
+		<version>1.7.0-SNAPSHOT</version>
+	</parent>
+	<groupId>org.jboss.tools.batch.tests</groupId>
+	<artifactId>org.jboss.tools.batch.ui.itest</artifactId> 
+	<packaging>eclipse-test-plugin</packaging>
+
+	<properties>
+		<emma.instrument.bundles>org.jboss.tools.batch.ui</emma.instrument.bundles>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tychoVersion}</version>
+				<configuration>
+					<testSuite>org.jboss.tools.batch.ui.itest</testSuite>
+					<testClass>org.jboss.tools.batch.ui.itest.BatchUIAllTests</testClass>
+					<dependencies>
+						<dependency>
+							<type>eclipse-plugin</type>
+							<artifactId>org.eclipse.sapphire.osgi.fragment</artifactId>
+							<version>0.0.0</version>
+						</dependency>
+						<dependency>
+							<type>eclipse-feature</type>
+							<artifactId>org.eclipse.e4.rcp</artifactId>
+							<version>0.0.0</version>
+						</dependency>
+					</dependencies>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
