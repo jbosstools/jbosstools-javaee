@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2010 Red Hat, Inc. 
+ * Copyright (c) 2010-2014 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -74,7 +74,28 @@ public class CDIProjectTree implements IValidatingProjectTree {
 								CDICorePlugin.getCDI(p, true); //all should be active.
 							}
 							
-							IValidatingProjectSet brunch = new ValidatingProjectSet(root.getProject(), requiredProjects, rootContext);
+							IValidatingProjectSet brunch = new ValidatingProjectSet(root.getProject(), requiredProjects, rootContext){
+								@Override
+								public boolean isFullValidationRequired() {
+									for (IProject p: getAllProjects()) {
+										CDICoreNature n = CDICorePlugin.getCDI(p, false);
+										if(n != null && n.getValidationContext().isFullValidationRequired()) {
+											return true;
+										}
+									}
+									return false;
+								}
+
+								@Override
+								public void setFullValidationRequired(boolean b) {
+									for (IProject p: getAllProjects()) {
+										CDICoreNature n = CDICorePlugin.getCDI(p, false);
+										if(n != null) {
+											n.getValidationContext().setFullValidationRequired(b);
+										}
+									}
+								}
+							};
 							brunches.put(rootProject, brunch);
 							allProjects.addAll(brunch.getAllProjects());
 						}
@@ -88,6 +109,7 @@ public class CDIProjectTree implements IValidatingProjectTree {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree#getBrunches()
 	 */
+	@Override
 	public Map<IProject, IValidatingProjectSet> getBrunches() {
 		return brunches;
 	}
@@ -103,6 +125,7 @@ public class CDIProjectTree implements IValidatingProjectTree {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree#getAllProjects()
 	 */
+	@Override
 	public Set<IProject> getAllProjects() {
 		return allProjects;
 	}

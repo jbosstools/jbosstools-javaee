@@ -76,6 +76,8 @@ import org.jboss.tools.cdi.core.test.tck.validation.DefenitionErrorsValidationTe
 import org.jboss.tools.cdi.core.test.tck.validation.DependentProjectValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.DeploymentProblemsValidationTests;
 import org.jboss.tools.cdi.core.test.tck.validation.DisableCDISupportTest;
+import org.jboss.tools.cdi.core.test.tck.validation.DiscoveryModeChangeTest;
+import org.jboss.tools.cdi.core.test.tck.validation.DiscoveryModeChangeTestSetup;
 import org.jboss.tools.cdi.core.test.tck.validation.ELReferenceTest;
 import org.jboss.tools.cdi.core.test.tck.validation.ELValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.IncrementalValidationTest;
@@ -206,6 +208,11 @@ public class CDICoreAllTests {
 		ValidationExceptionTest.initLogger();
 
 		TestSuite suiteAll = new TestSuite("CDI Core Tests");
+
+		TestSuite suiteD = new TestSuite("Discovery Mode Change Test");		
+		suiteD.addTestSuite(DiscoveryModeChangeTest.class);
+		suiteAll.addTest(new DiscoveryModeChangeTestSetup(suiteD));
+
 		suiteAll.addTestSuite(CDIValidationMessagesTest.class);
 		suiteAll.addTestSuite(CDIFacetedProjectListenerTest.class);
 		suiteAll.addTestSuite(CDIImagesTest.class);
