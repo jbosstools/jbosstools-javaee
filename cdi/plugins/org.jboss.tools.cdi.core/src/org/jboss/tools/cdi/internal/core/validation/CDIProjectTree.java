@@ -74,7 +74,28 @@ public class CDIProjectTree implements IValidatingProjectTree {
 								CDICorePlugin.getCDI(p, true); //all should be active.
 							}
 							
-							IValidatingProjectSet brunch = new ValidatingProjectSet(root.getProject(), requiredProjects, rootContext);
+							IValidatingProjectSet brunch = new ValidatingProjectSet(root.getProject(), requiredProjects, rootContext){
+								@Override
+								public boolean isFullValidationRequired() {
+									for (IProject p: getAllProjects()) {
+										CDICoreNature n = CDICorePlugin.getCDI(p, false);
+										if(n != null && n.getValidationContext().isFullValidationRequired()) {
+											return true;
+										}
+									}
+									return false;
+								}
+
+								@Override
+								public void setFullValidationRequired(boolean b) {
+									for (IProject p: getAllProjects()) {
+										CDICoreNature n = CDICorePlugin.getCDI(p, false);
+										if(n != null && n.getValidationContext().isFullValidationRequired()) {
+											n.getValidationContext().setFullValidationRequired(false);
+										}
+									}
+								}
+							};
 							brunches.put(rootProject, brunch);
 							allProjects.addAll(brunch.getAllProjects());
 						}

@@ -419,6 +419,20 @@
 							</artifactItem>
 
 							<artifactItem>
+								<groupId>javax.enterprise</groupId>
+								<artifactId>cdi-api</artifactId>
+								<version>1.1</version>
+							    <outputDirectory>${basedir}/projects/DiscoveryModeChangeTest/lib/</outputDirectory>
+							</artifactItem>
+
+							<artifactItem>
+								<groupId>javax.inject</groupId>
+								<artifactId>javax.inject</artifactId>
+								<version>1</version>
+							    <outputDirectory>${basedir}/projects/DiscoveryModeChangeTest/lib/</outputDirectory>
+							</artifactItem>
+
+							<artifactItem>
 							    <groupId>org.jboss.weld.se</groupId>
 							    <artifactId>weld-se</artifactId>
 							    <version>2.2.6.Final</version>
@@ -834,6 +848,7 @@
 				     <directory>${basedir}/projects/missingBeansXmlChildProject/lib</directory>
 				     <directory>${basedir}/projects/missingBeansXmlProjectCDI11/lib</directory>
 				     <directory>${basedir}/projects/missingBeansXmlProjectCDI12/lib</directory>
+				     <directory>${basedir}/projects/DiscoveryModeChangeTest/lib</directory>
 				     <includes>
 		                           <include>*.jar</include>
 				     </includes>

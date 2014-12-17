@@ -229,6 +229,9 @@ try {
 			//5.2.a Update bean discovery mode.
 			if(updateBeanDiscoveryMode()) {
 				kind = FULL_BUILD;
+				if(this.cdi == null) { //excluding initial model loading
+					getCDICoreNature().getValidationContext().setFullValidationRequired(true);
+				}
 			}
 
 			IResourceDelta delta = null;
@@ -323,14 +326,17 @@ try {
 	}
 
 	protected void fullBuild(final IProgressMonitor monitor) throws CoreException {
-		if(getCDICoreNature().getBeanDiscoveryMode() == BeanArchiveDetector.NONE) {
-			return;
-		}
 		try {
 			CDIResourceVisitor rv = getResourceVisitor();
 			rv.incremental = false;
 			getCurrentProject().accept(rv);
 			FileSet fs = rv.fileSet;
+			if(getCDICoreNature().getBeanDiscoveryMode() == BeanArchiveDetector.NONE) {
+				for (IPath path: fs.getClasses().keySet()) {
+					getCDICoreNature().getDefinitions().getWorkingCopy().clean(path);
+				}
+				fs = new FileSet();
+			}
 			invokeBuilderDelegates(fs, getCDICoreNature());
 			
 		} catch (CoreException e) {
