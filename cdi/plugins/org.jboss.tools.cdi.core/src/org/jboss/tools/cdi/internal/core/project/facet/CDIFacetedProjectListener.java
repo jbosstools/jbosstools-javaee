@@ -54,7 +54,8 @@ public class CDIFacetedProjectListener implements IFacetedProjectListener  {
 
 	@Override
 	public void handleEvent(IFacetedProjectEvent event) {
-		if(event.getType() == Type.PRE_INSTALL && event instanceof IProjectFacetActionEvent) {
+		if((event.getType() == Type.PRE_INSTALL || event.getType() == Type.PRE_VERSION_CHANGE) 
+				&& event instanceof IProjectFacetActionEvent) {
 			IProject project = event.getProject().getProject();
 			IProjectFacet facet = ((IProjectFacetActionEvent)event).getProjectFacet();
 			IProjectFacetVersion version = ((IProjectFacetActionEvent)event).getProjectFacetVersion();

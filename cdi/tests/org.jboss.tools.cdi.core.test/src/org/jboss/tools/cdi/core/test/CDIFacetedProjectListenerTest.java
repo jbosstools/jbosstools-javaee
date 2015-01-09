@@ -52,6 +52,11 @@ public class CDIFacetedProjectListenerTest extends TestCase {
 		doTestFacet(IModuleConstants.JST_WEB_MODULE, "3.1", true);
 	}
 
+	public void testChangeWeb30ToWeb31() throws Exception {
+		doTestFacet(IModuleConstants.JST_WEB_MODULE, "3.0", false);
+		doTestFacet(IModuleConstants.JST_WEB_MODULE, "3.1", true);
+	}
+
 	public void testEJB31() throws Exception {
 		doTestFacet(IModuleConstants.JST_EJB_MODULE, "3.1", false);
 	}
@@ -70,6 +75,10 @@ public class CDIFacetedProjectListenerTest extends TestCase {
 				: facet.getDefaultVersion();
 		IFacetedProject fp = ProjectFacetsManager.create(project);
 		IFacetedProjectWorkingCopy wc = fp.createWorkingCopy();
+		IProjectFacetVersion oldVersion = wc.getProjectFacetVersion(facet);
+		if(oldVersion != null) {
+			wc.removeProjectFacet(oldVersion);
+		}
 		wc.addProjectFacet(version);
 		wc.commitChanges(new NullProgressMonitor());
 		wc.dispose();
