@@ -21,6 +21,7 @@ import java.util.Set;
 import org.eclipse.core.filebuffers.FileBuffers;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -366,6 +367,8 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 						proposedInfo = JavadocContentAccess2.getHTMLContent(member, true);
 						if(proposedInfo == null) proposedInfo = "";
 					} catch (JavaModelException e) {
+						CDISeamConfigUIPlugin.getDefault().logError(e);
+					} catch (CoreException e) {
 						CDISeamConfigUIPlugin.getDefault().logError(e);
 					}
 				}
