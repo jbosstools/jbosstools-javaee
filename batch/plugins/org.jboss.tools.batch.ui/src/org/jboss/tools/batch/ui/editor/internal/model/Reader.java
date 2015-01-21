@@ -18,7 +18,7 @@ import org.eclipse.sapphire.modeling.annotations.Image;
  * @author Viacheslav Kabanovich
  *
  */
-//@Image(path = "reader.png")
+@Image(path = "reader.png")
 public interface Reader extends ItemHandlingElement {
 	ElementType TYPE = new ElementType( Reader.class );
 

@@ -29,7 +29,7 @@ import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
  *
  */
 @Label( standard = "chunk" )
-//@Image ( path = "chunk.png" )
+@Image ( path = "chunk.png" )
 @XmlBinding( path = "chunk" )
 public interface Chunk extends BatchletOrChunk {
 

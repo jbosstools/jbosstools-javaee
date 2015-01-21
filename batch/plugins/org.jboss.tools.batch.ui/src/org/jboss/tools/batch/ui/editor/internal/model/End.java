@@ -23,7 +23,7 @@ import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
  *
  */
 @Label( standard = "end" )
-//@Image ( path = "end.png" )
+@Image ( path = "end.png" )
 @XmlBinding( path = "end" )
 
 public interface End extends OutcomeElement {

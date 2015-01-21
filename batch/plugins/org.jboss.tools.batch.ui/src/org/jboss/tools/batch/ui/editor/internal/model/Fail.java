@@ -23,7 +23,7 @@ import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
  *
  */
 @Label( standard = "fail" )
-//@Image ( path = "fail.png" )
+@Image ( path = "fail.png" )
 @XmlBinding( path = "fail" )
 
 public interface Fail extends OutcomeElement {

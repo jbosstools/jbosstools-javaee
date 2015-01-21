@@ -18,7 +18,7 @@ import org.eclipse.sapphire.modeling.annotations.Image;
  * @author Viacheslav Kabanovich
  *
  */
-//@Image ( path = "checkpoint-algorithm.png" )
+@Image ( path = "checkpoint-algorithm.png" )
 public interface CheckpointAlgorithm extends ItemHandlingElement {
 	ElementType TYPE = new ElementType( CheckpointAlgorithm.class );
 

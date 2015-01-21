@@ -27,7 +27,7 @@ import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
  * @author Viacheslav Kabanovich
  *
  */
-//@Image ( path = "listener.png" )
+@Image ( path = "listener.png" )
 public interface Listener extends Element {
 
 	ElementType TYPE = new ElementType( Listener.class );

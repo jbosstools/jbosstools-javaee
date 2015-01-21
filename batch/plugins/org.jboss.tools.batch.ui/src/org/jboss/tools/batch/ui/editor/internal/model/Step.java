@@ -36,7 +36,7 @@ import org.jboss.tools.batch.ui.editor.internal.services.NextPossibleValuesServi
  *
  */
 @Label( standard = "step" )
-//@Image ( path = "step.png" )
+@Image ( path = "step.png" )
 @XmlBinding( path = "step" )
 public interface Step extends FlowElement {
 

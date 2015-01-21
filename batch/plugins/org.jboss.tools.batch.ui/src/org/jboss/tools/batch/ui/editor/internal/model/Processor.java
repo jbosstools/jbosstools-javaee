@@ -18,7 +18,7 @@ import org.eclipse.sapphire.modeling.annotations.Image;
  * @author Viacheslav Kabanovich
  *
  */
-//@Image ( path = "processor.png" )
+@Image ( path = "processor.png" )
 public interface Processor extends ItemHandlingElement {
 	ElementType TYPE = new ElementType( Processor.class );
 

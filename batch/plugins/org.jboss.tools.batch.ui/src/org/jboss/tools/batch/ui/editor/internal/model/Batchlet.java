@@ -27,7 +27,7 @@ import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
  *
  */
 @Label( standard = "batchlet" )
-//@Image ( path = "batchlet.png" )
+@Image ( path = "batchlet.png" )
 @XmlBinding( path = "batchlet" )
 public interface Batchlet extends BatchletOrChunk {
 	ElementType TYPE = new ElementType( Batchlet.class );

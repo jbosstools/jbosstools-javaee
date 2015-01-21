@@ -30,7 +30,7 @@ import org.eclipse.sapphire.modeling.xml.annotations.XmlListBinding;
  *
  */
 @Label( standard = "decision" )
-//@Image ( path = "decision.png" )
+@Image ( path = "decision.png" )
 @XmlBinding( path = "decision" )
 public interface Decision extends FlowElement {
 

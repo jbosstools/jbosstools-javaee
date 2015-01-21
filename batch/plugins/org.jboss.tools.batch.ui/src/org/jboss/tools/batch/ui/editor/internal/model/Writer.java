@@ -18,7 +18,7 @@ import org.eclipse.sapphire.modeling.annotations.Image;
  * @author Viacheslav Kabanovich
  *
  */
-//@Image(path = "writer.png")
+@Image(path = "writer.png")
 public interface Writer extends ItemHandlingElement {
 	ElementType TYPE = new ElementType( Writer.class );
 

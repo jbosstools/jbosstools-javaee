@@ -30,7 +30,7 @@ import org.jboss.tools.batch.ui.editor.internal.services.NextPossibleValuesServi
  *
  */
 @Label( standard = "split" )
-//@Image ( path = "split.png" )
+@Image ( path = "split.png" )
 @XmlBinding( path = "split" )
 public interface Split extends FlowElement {
 

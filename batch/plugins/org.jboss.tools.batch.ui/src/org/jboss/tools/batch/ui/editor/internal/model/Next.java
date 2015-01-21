@@ -27,7 +27,7 @@ import org.jboss.tools.batch.ui.editor.internal.services.NextPossibleValuesServi
  *
  */
 @Label( standard = "next" )
-//@Image ( path = "next.png" )
+@Image ( path = "next.png" )
 @XmlBinding( path = "next" )
 
 public interface Next extends OutcomeElement {
