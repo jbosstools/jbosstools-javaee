@@ -702,5 +702,11 @@
 			markerType="org.jboss.tools.jsf.compositeproblem"
 			class="org.jboss.tools.jsf.web.validation.jsf2.action.JSF2ComponentResolutionGenerator"/>
 	</extension>
+    <extension
+          point="org.jboss.tools.jst.web.kb.cobuilders">
+       <builder
+             class="org.jboss.tools.jsf.jsf2.bean.build.JSF2ProjectBuilder">
+       </builder>
+    </extension>
  
 </plugin>
