@@ -33,7 +33,7 @@ import org.hibernate.console.execution.ExecutionContext;
 import org.hibernate.eclipse.console.utils.EclipseImages;
 import org.hibernate.mapping.Table;
 import org.jboss.tools.hibernate.proxy.SettingsProxy;
-import org.jboss.tools.hibernate.spi.IConfiguration;
+import org.jboss.tools.hibernate.runtime.spi.IConfiguration;
 import org.jboss.tools.seam.ui.internal.reveng.JDBCTablesColumnsReader;
 import org.jboss.tools.seam.ui.internal.reveng.TablesColumnsCollector;
 
