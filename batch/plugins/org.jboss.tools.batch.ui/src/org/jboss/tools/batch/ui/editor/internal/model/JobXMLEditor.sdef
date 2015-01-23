@@ -87,7 +87,7 @@
 		<id>OutcomesNode</id>
 		<visible-when>${OutcomeElements.size() > 0}</visible-when>
 		<label>Transitions</label>
-		<image>flow-elements.png</image>
+		<image>transitions.png</image>
 		<section>
 			<content>
 				<include>OutcomesForm</include>
