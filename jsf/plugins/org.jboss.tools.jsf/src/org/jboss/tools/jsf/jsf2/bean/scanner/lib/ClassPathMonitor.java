@@ -33,6 +33,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.bean.model.IJSF2Project;
 import org.jboss.tools.jsf.jsf2.bean.model.JSF2ProjectFactory;
+import org.jboss.tools.jst.web.kb.internal.IKbProjectExtension;
 
 public class ClassPathMonitor extends AbstractClassPathMonitor<IJSF2Project>{
 	IPath[] srcs = new IPath[0];
@@ -112,15 +113,15 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<IJSF2Project>{
 			JSFModelPlugin.getDefault().logError(e);
 		}
 		if(ps != null) {
-			Set<? extends IJSF2Project> set = project.getUsedProjects();
-			Set<IJSF2Project> removable = new HashSet<IJSF2Project>();
+			Set<IKbProjectExtension> set = project.getUsedProjects();
+			Set<IKbProjectExtension> removable = new HashSet<IKbProjectExtension>();
 			removable.addAll(set);
 			removable.removeAll(ps);
 			ps.removeAll(set);
-			for (IJSF2Project p : ps) {
+			for (IKbProjectExtension p : ps) {
 				project.addUsedProject(p);
 			}
-			for (IJSF2Project p : removable) {
+			for (IKbProjectExtension p : removable) {
 				project.removeUsedProject(p);
 			}
 		}
@@ -135,15 +136,15 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<IJSF2Project>{
 			JSFModelPlugin.getDefault().logError(e);
 		}
 		if(ps != null) {
-			Set<? extends IJSF2Project> set = project.getUsedProjects();
-			Set<IJSF2Project> removable = new HashSet<IJSF2Project>();
+			Set<IKbProjectExtension> set = project.getUsedProjects();
+			Set<IKbProjectExtension> removable = new HashSet<IKbProjectExtension>();
 			removable.addAll(set);
 			removable.removeAll(ps);
 			ps.removeAll(set);
-			for (IJSF2Project p : ps) {
+			for (IKbProjectExtension p : ps) {
 				return true;
 			}
-			for (IJSF2Project p : removable) {
+			for (IKbProjectExtension p : removable) {
 				return true;
 			}
 		}

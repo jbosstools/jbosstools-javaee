@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+    <extension
+          point="org.jboss.tools.jst.web.kb.cobuilders">
+       <builder
+             class="org.jboss.tools.batch.internal.core.impl.BatchBuilder">
+       </builder>
+    </extension>
+
+</plugin>
