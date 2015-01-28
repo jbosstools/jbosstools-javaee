@@ -21,47 +21,30 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.model.XJob.XRunnable;
-import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.common.util.EclipseJavaUtil;
 import org.jboss.tools.common.util.FileUtil;
-import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.bean.build.JSF2ProjectBuilder;
 import org.jboss.tools.jsf.jsf2.bean.model.IJSF2ManagedBean;
 import org.jboss.tools.jsf.jsf2.bean.model.IJSF2Project;
 import org.jboss.tools.jsf.jsf2.bean.model.JSF2ProjectFactory;
 import org.jboss.tools.jsf.jsf2.bean.scanner.lib.ClassPathMonitor;
-import org.jboss.tools.jst.web.kb.WebKbPlugin;
-import org.jboss.tools.jst.web.kb.internal.KbBuilder;
-import org.w3c.dom.Element;
+import org.jboss.tools.jst.web.kb.internal.AbstractKbProjectExtension;
+import org.jboss.tools.jst.web.kb.internal.IKbProjectExtension;
 
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public class JSF2Project implements IJSF2Project {
-	IProject project = null;
-
+public class JSF2Project extends AbstractKbProjectExtension implements IJSF2Project {
 	ClassPathMonitor classPath = new ClassPathMonitor(this);
 	DefinitionContext definitions = new DefinitionContext();
 	
-	boolean isBuilt = false;
-	private boolean isStorageResolved = false;
-
-	Set<JSF2Project> dependsOn = new HashSet<JSF2Project>();
-	Set<JSF2Project> usedBy = new HashSet<JSF2Project>();
-
 	private Set<IJSF2ManagedBean> allBeans = new HashSet<IJSF2ManagedBean>();
 	private Map<IPath, Set<IJSF2ManagedBean>> beansByPath = new HashMap<IPath, Set<IJSF2ManagedBean>>();
 	private Map<String, Set<IJSF2ManagedBean>> beansByName = new HashMap<String, Set<IJSF2ManagedBean>>();
@@ -102,103 +85,32 @@ public class JSF2Project implements IJSF2Project {
 		return result;
 	}
 
+	@Override
 	public boolean isMetadataComplete() {
 		return isMetadataComplete;
 	}
 
 	@Override
-	public IProject getProject() {
-		return project;
-	}
-
-	/**
-	 * Convenience method.
-	 * 
-	 * @param qualifiedName
-	 * @return
-	 */
-	public IType getType(String qualifiedName) {
-		IJavaProject jp = EclipseResourceUtil.getJavaProject(getProject());
-		if(jp == null) return null;
-		try {
-			return EclipseJavaUtil.findType(jp, qualifiedName);
-		} catch (JavaModelException e) {
-			JSFModelPlugin.getDefault().logError(e);
-		}
-		return null;
-	}
-
 	public void setProject(IProject project) {
-		this.project = project;
+		super.setProject(project);
 		classPath.init();
 	}
 
 	@Override
-	public Set<JSF2Project> getUsedProjects() {
-		return dependsOn;
-	}
-
-	public Set<JSF2Project> getUsedProjects(boolean hierarchy) {
-		if(hierarchy) {
-			if(dependsOn.isEmpty()) return dependsOn;
-			Set<JSF2Project> result = new HashSet<JSF2Project>();
-			getAllUsedProjects(result);
-			return result;
-		} else {
-			return dependsOn;
-		}
-	}
-
-	void getAllUsedProjects(Set<JSF2Project> result) {
-		for (JSF2Project n: dependsOn) {
-			if(result.contains(n)) continue;
-			result.add(n);
-			n.getAllUsedProjects(result);
-		}
-	}
-
-	public Set<JSF2Project> getDependentProjects() {
-		return usedBy;
-	}
-
-	@Override
-	public void addUsedProject(final IJSF2Project project) {
-		if(dependsOn.contains(project)) return;
-		addUsedProjectInternal(project);
-		project.addDependentProject(this);
-		if(!project.isStorageResolved()) {
-			XJob.addRunnableWithPriority(new XRunnable() {
-				public void run() {
-					project.resolve();
-					project.update(true);
-				}				
-				public String getId() {
-					return "Build JSF2 Project " + project.getProject().getName();
-				}
-			});
-		}
-	}
-
-	synchronized void addUsedProjectInternal(IJSF2Project project) {
-		dependsOn.add((JSF2Project)project);
-	}
-
-	public void addDependentProject(IJSF2Project project) {
-		usedBy.add((JSF2Project)project);
-	}
-
-	@Override
-	public void removeUsedProject(IJSF2Project project) {
-		JSF2Project p = (JSF2Project)project;
-		if(!dependsOn.contains(p)) return;
-		p.usedBy.remove(this);
-		synchronized (this) {
-			dependsOn.remove(p);
-		}
+	protected void resolveUsedProjectInJob(final IKbProjectExtension project) {
+		XJob.addRunnableWithPriority(new XRunnable() {
+			public void run() {
+				project.resolve();
+				project.update(true);
+			}				
+			public String getId() {
+				return "Build JSF2 Project " + project.getProject().getName();
+			}
+		});
 	}
 
 	public List<TypeDefinition> getAllTypeDefinitions() {
-		Set<JSF2Project> ps = getUsedProjects(true);
+		Set<IKbProjectExtension> ps = getUsedProjects(true);
 		if(ps == null || ps.isEmpty()) {
 			return getDefinitions().getTypeDefinitions();
 		}
@@ -210,8 +122,8 @@ public class JSF2Project implements IJSF2Project {
 			IType t = d.getType();
 			if(t != null) types.add(t);
 		}
-		for (JSF2Project p: ps) {
-			List<TypeDefinition> ds2 = p.getDefinitions().getTypeDefinitions();
+		for (IKbProjectExtension p: ps) {
+			List<TypeDefinition> ds2 = ((JSF2Project)p).getDefinitions().getTypeDefinitions();
 			for (TypeDefinition d: ds2) {
 				IType t = d.getType();
 				if(t != null && !types.contains(t)) {
@@ -236,40 +148,11 @@ public class JSF2Project implements IJSF2Project {
 		return classPath;
 	}
 
-	@Override
-	public boolean isStorageResolved() {
-		return isStorageResolved;
-	}
-
-	public void resolveStorage(boolean load) {
-		if(isStorageResolved) return;
-		if(load) {
-			load();
-		} else {
-			isStorageResolved = true;
-		}
-	}
-
-	public void resolve() {
-		resolveStorage(true);
-	}
-
-	public void load() {
-		if(isStorageResolved) return;
-		isStorageResolved = true;
+	protected void build() {
 		try {
 			new JSF2ProjectBuilder(this);
 		} catch (CoreException e) {
 			JSFModelPlugin.getDefault().logError(e);
-		}
-		
-		postponeFiring();
-		
-		try {		
-			//Use kb storage for dependent projects since cdi is not stored.
-			loadProjectDependenciesFromKBProject();
-		} finally {
-			fireChanges();
 		}
 	}
 
@@ -314,8 +197,8 @@ public class JSF2Project implements IJSF2Project {
 		}
 
 		if(updateDependent) {
-			Collection<JSF2Project> dependent = new ArrayList<JSF2Project>(usedBy);
-			for (JSF2Project p: dependent) {
+			Collection<IKbProjectExtension> dependent = new ArrayList<IKbProjectExtension>(usedBy);
+			for (IKbProjectExtension p: dependent) {
 				p.update(false);
 			}
 		}
@@ -371,72 +254,9 @@ public class JSF2Project implements IJSF2Project {
 		return f == null || !f.exists();
 	}
 
-	public void postponeFiring() {
-		//TODO
-	}
-
-	public void fireChanges() {
-		//TODO
-	}
-
-	/**
-	 * Test method.
-	 */
-	public void reloadProjectDependencies() {
-		dependsOn.clear();
-		usedBy.clear();
-		loadProjectDependenciesFromKBProject();
-	}
-
-	private void loadProjectDependenciesFromKBProject() {
-		Element root = null;
-		File file = getKBStorageFile();
-		if(file != null && file.isFile()) {
-			root = XMLUtilities.getElement(file, null);
-			if(root != null) {
-				loadProjectDependencies(root);
-			}
-		}		
-	}
-	
-	private File getKBStorageFile() {
-		IPath path = WebKbPlugin.getDefault().getStateLocation();
-		File file = new File(path.toFile(), "projects/" + project.getName() + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$
-		return file;
-	}
-	
-	private void loadProjectDependencies(Element root) {
-		Element dependsOnElement = XMLUtilities.getUniqueChild(root, "depends-on-projects"); //$NON-NLS-1$
-		if(dependsOnElement != null) {
-			Element[] paths = XMLUtilities.getChildren(dependsOnElement, "project"); //$NON-NLS-1$
-			for (int i = 0; i < paths.length; i++) {
-				String p = paths[i].getAttribute("name"); //$NON-NLS-1$
-				if(p == null || p.trim().length() == 0) continue;
-				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(p);
-				if(project == null || !project.isAccessible()) continue;
-				IJSF2Project sp = JSF2ProjectFactory.getJSF2Project(project, false);
-				if(sp != null) {
-					addUsedProjectInternal(sp);
-					sp.addDependentProject(this);
-				}
-			}
-		}
-
-		Element usedElement = XMLUtilities.getUniqueChild(root, "used-by-projects"); //$NON-NLS-1$
-		if(usedElement != null) {
-			Element[] paths = XMLUtilities.getChildren(usedElement, "project"); //$NON-NLS-1$
-			for (int i = 0; i < paths.length; i++) {
-				String p = paths[i].getAttribute("name"); //$NON-NLS-1$
-				if(p == null || p.trim().length() == 0) continue;
-				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(p);
-				if(project == null || !project.isAccessible()) continue;
-				IJSF2Project sp = JSF2ProjectFactory.getJSF2Project(project, false);
-				if(sp != null) {
-					addDependentProject(sp);
-				}
-			}
-		}
-	
+	@Override
+	protected IKbProjectExtension loadWithFactory(IProject project, boolean resolve) {
+		return JSF2ProjectFactory.getJSF2Project(project, resolve);
 	}
 
 }

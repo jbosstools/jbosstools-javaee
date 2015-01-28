@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion> 
+	<parent>
+		<groupId>org.jboss.tools.batch</groupId>
+		<artifactId>itests</artifactId>
+		<version>1.7.0-SNAPSHOT</version>
+	</parent>
+	<groupId>org.jboss.tools.batch.tests</groupId>
+	<artifactId>org.jboss.tools.batch.core.itest</artifactId> 
+	<packaging>eclipse-test-plugin</packaging>
+
+	<properties>
+		<emma.instrument.bundles>org.jboss.tools.batch.core</emma.instrument.bundles>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tychoVersion}</version>
+				<configuration>
+					<testSuite>org.jboss.tools.batch.core.itest</testSuite>
+					<testClass>org.jboss.tools.batch.core.itest.BatchCoreAllTests</testClass>
+					<dependencies>
+						<dependency>
+							<type>eclipse-plugin</type>
+							<artifactId>org.eclipse.sapphire.osgi.fragment</artifactId>
+							<version>0.0.0</version>
+						</dependency>
+						<dependency>
+							<type>eclipse-feature</type>
+							<artifactId>org.eclipse.e4.rcp</artifactId>
+							<version>0.0.0</version>
+						</dependency>
+					</dependencies>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+				  <execution>
+				    <id>get-libs</id>
+				    <goals>
+				      <goal>copy</goal>
+				    </goals>
+				    <phase>generate-resources</phase>
+					<configuration>
+					      <skip>false</skip>
+					      <artifactItems>
+							<artifactItem>
+								<groupId>javax.inject</groupId>
+								<artifactId>javax.inject</artifactId>
+								<version>1</version>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.batch</groupId>
+								<artifactId>javax.batch-api</artifactId>
+								<version>1.0</version>
+							</artifactItem>
+					      </artifactItems>
+					      <skip>false</skip>
+					      <outputDirectory>${basedir}/projects/TestProject/lib/</outputDirectory>
+					</configuration>
+				  </execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+			  <!-- make sure lib dir is removed after clean to avoid "dirty" build -->
+			  <artifactId>maven-clean-plugin</artifactId>
+			  <configuration>
+			    <filesets>
+			      <fileset>
+				     <directory>${basedir}/projects/TestProject/lib</directory>
+				     <includes>
+		                           <include>*.jar</include>
+				     </includes>
+			      </fileset>
+			    </filesets>
+			  </configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>
