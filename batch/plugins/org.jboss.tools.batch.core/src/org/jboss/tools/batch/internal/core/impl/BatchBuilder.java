@@ -344,7 +344,7 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 					}
 				}
 				for (int i = 0; i < srcs.length; i++) {
-					if(batch_jobs[i].isPrefixOf(path)) {
+					if(batch_jobs[i] != null && batch_jobs[i].isPrefixOf(path)) {
 						if(f.getName().toLowerCase().endsWith(".xml")) {
 							fileSet.addBatchJob(f);
 						}
