@@ -21,15 +21,18 @@ public class PrefixUrlPattern implements JSFUrlPattern {
 	}	
 
 	public boolean matches(String path) {
-		return path.startsWith(prefix);
+		return path.startsWith(prefix) || (!path.startsWith("/") && ("/" + path).startsWith(prefix));
 	}
 		
 	public boolean isJSFUrl(String path) {
-		return (path.startsWith(prefix) || path.indexOf(".") < 0);
+		return (matches(path) || path.indexOf(".") < 0);
 	}
 	
 	public String getJSFPath(String url) {
 		if(url == null || url.length() == 0) return url;
+		if(!url.startsWith("/") && ("/" + url).startsWith(prefix)) {
+			return url.substring(prefix.length() - 2);
+		}
 		return (url.startsWith(prefix)) ? url.substring(prefix.length() - 1) : url;
 	}
 	

@@ -46,6 +46,7 @@ public class JsfAllTests {
 
 		TestSuite suite = new TestSuite("Test model loading for JSF projects"); //$NON-NLS-1$
 
+		suite.addTestSuite(JSFURLPatternTest.class);
 		suite.addTestSuite(JSFTemplateTest.class);
 		suite.addTestSuite(JSFFacetOnExistingProjectTest.class);
 
