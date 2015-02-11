@@ -158,8 +158,9 @@ public class JsfUiAllTests {
 				CAJsfAddInfoInELMessagesTest.class,
 				CAJsfResourceBundlePropertyApplyTest.class,
 				CAELBeanPropertyTest.class,
-				JSFAsYouTypeInJavaValidationTest.class,
-				JSFAsYouTypeValidationTest.class,
+// TODO As-You-Type tests are temporary disabled. See https://issues.jboss.org/browse/JBIDE-18505				
+//				JSFAsYouTypeInJavaValidationTest.class,
+//				JSFAsYouTypeValidationTest.class,
 				CAJsfPredictiveTagNameProposalsTest.class,
 				CAELNoTagProposalsInELTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
