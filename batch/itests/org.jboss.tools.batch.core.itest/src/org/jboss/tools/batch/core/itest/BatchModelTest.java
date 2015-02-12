@@ -18,11 +18,11 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.jboss.tools.batch.internal.core.BatchArtifactType;
-import org.jboss.tools.batch.internal.core.BatchProjectFactory;
-import org.jboss.tools.batch.internal.core.IBatchArtifact;
-import org.jboss.tools.batch.internal.core.IBatchProject;
-import org.jboss.tools.batch.internal.core.IBatchProperty;
+import org.jboss.tools.batch.core.BatchArtifactType;
+import org.jboss.tools.batch.core.BatchCorePlugin;
+import org.jboss.tools.batch.core.IBatchArtifact;
+import org.jboss.tools.batch.core.IBatchProject;
+import org.jboss.tools.batch.core.IBatchProperty;
 
 /**
  * @author Viacheslav Kabanovich
@@ -43,14 +43,14 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testAllArtifacts() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 		Collection<IBatchArtifact> cs = batchProject.getAllArtifacts();
 		assertFalse(cs.isEmpty());
 	}
 
 	public void testBatchlet() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.BATCHLET);
@@ -77,7 +77,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testDecider() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.DECIDER);
@@ -95,7 +95,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testReader() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.ITEM_READER);
@@ -113,7 +113,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testProcessor() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.ITEM_PROCESSOR);
@@ -131,7 +131,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testCheckpointAlgorithm() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.CHECKPOINT_ALGORITHM);
@@ -149,7 +149,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testWriter() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.ITEM_WRITER);
@@ -167,7 +167,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testAnalyzerInJar() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.PARTITION_ANALYZER);
@@ -185,7 +185,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testCollectorInJar() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.PARTITION_COLLECTOR);
@@ -203,7 +203,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testMapperInJar() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.PARTITION_MAPPER);
@@ -221,7 +221,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testReducerInJar() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.PARTITION_REDUCER);
@@ -239,7 +239,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testJobListener() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.JOB_LISTENER);
@@ -257,7 +257,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testStepListener() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.STEP_LISTENER);
@@ -275,7 +275,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testChunkListener() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.CHUNK_LISTENER);
@@ -293,7 +293,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testItemReadListener() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.ITEM_READ_LISTENER);
@@ -311,7 +311,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testItemProcessListener() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.ITEM_PROCESS_LISTENER);
@@ -329,7 +329,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testItemWriteListener() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.ITEM_WRITE_LISTENER);
@@ -347,7 +347,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testSkipReadListener() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.SKIP_READ_LISTENER);
@@ -365,7 +365,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testSkipProcessListener() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.SKIP_PROCESS_LISTENER);
@@ -383,7 +383,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testSkipWriteListener() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.SKIP_WRITE_LISTENER);
@@ -401,7 +401,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testRetryReadListener() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.RETRY_READ_LISTENER);
@@ -419,7 +419,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testRetryProcessListener() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.RETRY_PROCESS_LISTENER);
@@ -437,7 +437,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testRetryWriteListener() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.RETRY_WRITE_LISTENER);
@@ -455,7 +455,7 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testBatchJobs() {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProject(project, true);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 		
 		Set<IFile> batchJobs = batchProject.getDeclaredBatchJobs();

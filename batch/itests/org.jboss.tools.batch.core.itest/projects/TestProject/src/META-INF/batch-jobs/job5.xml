@@ -1,0 +1,20 @@
+<job  id="myJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <step id="myStep1">
+      <chunk>
+      	<reader ref="myReader"></reader>
+      	<processor ref="myProcessor"></processor>
+      	<writer ref="myWriter"></writer>
+      	<skippable-exception-classes>
+      		<exclude class="aaa"/>
+      		<exclude class="java.lang.ArrayIndexOutOfBoundsException"/>
+      		<exclude class="java.util.ArrayList"/>
+      	</skippable-exception-classes>
+      	<retryable-exception-classes>
+      		<include class="aaa"/>
+      		<include class="java.lang.ArrayIndexOutOfBoundsException"/>
+      		<include class="java.util.ArrayList"/>
+      	</retryable-exception-classes>
+      </chunk>
+      
+    </step>
+</job>

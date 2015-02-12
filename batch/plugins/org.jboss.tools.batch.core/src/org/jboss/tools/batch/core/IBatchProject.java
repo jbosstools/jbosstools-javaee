@@ -8,7 +8,7 @@
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
  ************************************************************************************/
-package org.jboss.tools.batch.internal.core;
+package org.jboss.tools.batch.core;
 
 import java.util.Collection;
 import java.util.Set;

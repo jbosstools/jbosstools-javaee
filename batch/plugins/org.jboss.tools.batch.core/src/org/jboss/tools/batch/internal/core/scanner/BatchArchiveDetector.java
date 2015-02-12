@@ -29,7 +29,7 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.batch.core.BatchCorePlugin;
-import org.jboss.tools.batch.internal.core.IBatchProject;
+import org.jboss.tools.batch.core.IBatchProject;
 import org.jboss.tools.batch.internal.core.impl.BatchBuilder;
 import org.jboss.tools.batch.internal.core.impl.BatchProject;
 import org.jboss.tools.batch.internal.core.impl.definition.TypeDefinition;

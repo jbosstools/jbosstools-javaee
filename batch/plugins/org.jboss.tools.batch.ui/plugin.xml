@@ -55,4 +55,33 @@
       </content-type>
   </extension>
 
+  <extension
+         point="org.eclipse.ui.propertyPages">
+       <page
+            name="%PreferencePage_JSFValidation"
+            class="org.jboss.tools.batch.ui.internal.preferences.BatchValidationPreferencePage"
+            id="org.jboss.tools.batch.ui.propertyPages.BatchValidationPreferencePage">
+         <enabledWhen>
+		     	<adapt type="org.eclipse.core.resources.IProject">
+		     		<test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.jst.web.kb.kbnature"/>
+				</adapt>
+         </enabledWhen>
+      </page>
+   </extension>
+
+   <extension point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.jboss.tools.common.model.ui.MainPreferencePage"
+            class="org.jboss.tools.batch.ui.internal.preferences.BatchPreferencesPage"
+            id="org.jboss.tools.common.model.ui.batch"
+            name="%PreferencePage_Batch">
+      </page>
+      <page 
+         category="org.jboss.tools.common.model.ui.batch" 
+         class="org.jboss.tools.batch.ui.internal.preferences.BatchValidationPreferencePage" 
+         id="org.jboss.tools.batch.ui.preferences.BatchValidationPreferencePage" 
+         name="%PreferencePage_Validator">
+      </page>
+   </extension>
+
 </plugin>

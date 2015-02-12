@@ -8,7 +8,7 @@
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
  ************************************************************************************/
-package org.jboss.tools.batch.internal.core;
+package org.jboss.tools.batch.core;
 
 /**
  * 
@@ -86,13 +86,37 @@ public interface BatchConstants {
 	public String TAG_ANALYZER = "analyzer";
 	public String TAG_BATCHLET = "batchlet";
 	public String TAG_CHECKPOINT_ALGORITHM = "checkpoint-algorithm";
+	public String TAG_CHUNK = "chunk";
 	public String TAG_COLLECTOR = "collector";
 	public String TAG_DECISION = "decision";
+	public String TAG_EXCLUDE = "exclude";
+	public String TAG_FLOW = "flow";
+	public String TAG_INCLUDE = "include";
 	public String TAG_JOB = "job";
+	public String TAG_LISTENER = "listener";
+	public String TAG_LISTENERS = "listeners";
 	public String TAG_MAPPER = "mapper";
+	public String TAG_NEXT = "next";
+	public String TAG_NO_ROLLBACK_EXCEPTION_CLASSES = "no-rollback-exception-classes";
+	public String TAG_PARTITION = "partition";
 	public String TAG_PROCESSOR = "processor";
+	public String TAG_PROPERTIES = "properties";
+	public String TAG_PROPERTY = "property";
 	public String TAG_READER = "reader";
 	public String TAG_REDUCER = "reducer";
+	public String TAG_RETRYABLE_EXCEPTION_CLASSES = "retryable-exception-classes";
+	public String TAG_SKIPPABLE_EXCEPTION_CLASSES = "skippable-exception-classes";
+	public String TAG_STOP = "stop";
+	public String TAG_SPLIT = "split";
 	public String TAG_STEP = "step";
 	public String TAG_WRITER = "writer";
+
+	public String ATTR_CLASS = "class";
+	public String ATTR_ID = "id";
+	public String ATTR_NAME = "name";
+	public String ATTR_NEXT = "next";
+	public String ATTR_REF = "ref";
+	public String ATTR_RESTART = "restart";
+	public String ATTR_TO = "to";
+	public String ATTR_VALUE = "value";
 }

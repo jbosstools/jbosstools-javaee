@@ -8,7 +8,7 @@
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
  ************************************************************************************/
-package org.jboss.tools.batch.internal.core;
+package org.jboss.tools.batch.core;
 
 import java.util.Collection;
 
@@ -59,4 +59,11 @@ public interface IBatchArtifact {
 	 * @return
 	 */
 	public Collection<IBatchProperty> getProperties();
+
+	/**
+	 * Returns batch property by its name or null.
+	 * @param name
+	 * @return
+	 */
+	public IBatchProperty getProperty(String name);
 }

@@ -8,4 +8,26 @@
        </builder>
     </extension>
 
+   <extension point="org.eclipse.core.runtime.preferences">
+      <initializer class="org.jboss.tools.batch.internal.core.preferences.BatchPreferenceInitializer"/>
+   </extension>
+
+   <extension
+         id="BatchValidator"
+         point="org.jboss.tools.common.validation.validator">
+         <validator
+               class="org.jboss.tools.batch.internal.core.validation.BatchValidator"
+               name="%BatchValidator"
+               id="org.jboss.tools.batch.validator.BatchValidator"
+               problemType="org.jboss.tools.batch.core.batchproblem">
+         </validator>
+   </extension>
+
+   <extension id="batchproblem" name="%BatchProblemName" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.common.validation.JBTValidationProblem">
+      </super>
+      <persistent value="true">
+      </persistent>
+   </extension>
+
 </plugin>

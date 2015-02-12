@@ -10,6 +10,9 @@
  ************************************************************************************/
 package org.jboss.tools.batch.core;
 
+import org.eclipse.core.resources.IProject;
+import org.jboss.tools.batch.internal.core.impl.BatchProject;
+import org.jboss.tools.batch.internal.core.impl.BatchProjectFactory;
 import org.jboss.tools.foundation.core.plugin.log.IPluginLog;
 import org.jboss.tools.foundation.ui.plugin.BaseUIPlugin;
 
@@ -36,5 +39,11 @@ public class BatchCorePlugin extends BaseUIPlugin {
 	public static IPluginLog pluginLog() {
 		return getDefault().pluginLogInternal();
 	}
+
+	public static IBatchProject getBatchProject(IProject project, boolean resolve) {
+		BatchProject result = BatchProjectFactory.getBatchProject(project, resolve);
+		return (result != null && result.exists()) ? result : null;
+	}
+
 
 }

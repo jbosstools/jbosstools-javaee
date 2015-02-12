@@ -1,0 +1,13 @@
+<job  id="myJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <step id="myStep1">
+      
+    </step>
+    <flow id="myFlow1">
+    	<split id="mySplit1">
+    		<flow id="myFlow2">
+    			<stop on="x" restart="myFlow2"/>  
+   			    <stop on="x" restart="myStep1"/>  
+    		</flow>
+    	</split>
+    </flow>
+</job>

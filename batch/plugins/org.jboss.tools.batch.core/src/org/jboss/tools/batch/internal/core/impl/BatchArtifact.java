@@ -12,13 +12,15 @@ package org.jboss.tools.batch.internal.core.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IType;
-import org.jboss.tools.batch.internal.core.BatchArtifactType;
-import org.jboss.tools.batch.internal.core.IBatchArtifact;
-import org.jboss.tools.batch.internal.core.IBatchProperty;
+import org.jboss.tools.batch.core.BatchArtifactType;
+import org.jboss.tools.batch.core.IBatchArtifact;
+import org.jboss.tools.batch.core.IBatchProperty;
 import org.jboss.tools.batch.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.batch.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
@@ -33,6 +35,7 @@ public class BatchArtifact implements IBatchArtifact {
 	String name;
 	
 	List<IBatchProperty> properties = new ArrayList<IBatchProperty>();
+	Map<String, IBatchProperty> propertiesByName = new HashMap<String, IBatchProperty>();
 
 	public BatchArtifact() {
 	}
@@ -46,6 +49,7 @@ public class BatchArtifact implements IBatchArtifact {
 			p.setArtifact(this);
 			p.setDefinition(f);
 			properties.add(p);
+			propertiesByName.put(p.getPropertyName(), p);
 		}
 	}
 
@@ -94,6 +98,11 @@ public class BatchArtifact implements IBatchArtifact {
 	@Override
 	public Collection<IBatchProperty> getProperties() {
 		return properties;
+	}
+
+	@Override
+	public IBatchProperty getProperty(String name) {
+		return propertiesByName.get(name);
 	}
 
 }

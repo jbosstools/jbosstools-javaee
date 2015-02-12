@@ -20,8 +20,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IType;
-import org.jboss.tools.batch.internal.core.BatchArtifactType;
-import org.jboss.tools.batch.internal.core.IRootDefinitionContext;
+import org.jboss.tools.batch.core.BatchArtifactType;
+import org.jboss.tools.batch.core.IRootDefinitionContext;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.java.ParametedType;
 

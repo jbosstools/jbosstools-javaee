@@ -19,7 +19,7 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaProject;
-import org.jboss.tools.batch.internal.core.IRootDefinitionContext;
+import org.jboss.tools.batch.core.IRootDefinitionContext;
 import org.jboss.tools.batch.internal.core.impl.definition.BatchJobDefinition;
 import org.jboss.tools.batch.internal.core.impl.definition.Dependencies;
 import org.jboss.tools.batch.internal.core.impl.definition.TypeDefinition;

@@ -1,0 +1,29 @@
+<job  id="myJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <step id="myBatchletStep1">
+      <batchlet ref="batchlet1"></batchlet> 
+      <partition>
+         <mapper ref="myMapper"></mapper>
+         <collector ref="myCollector"></collector>
+         <analyzer ref="myAnalyzer"></analyzer>
+         <reducer ref="myReducer"></reducer>
+       </partition>
+    </step>
+    <step id="myBatchletStep2">
+      <batchlet ref="batchlet1"></batchlet> 
+      <partition>
+         <mapper ref="myMapperX"></mapper>
+         <collector ref="myCollectorX"></collector>
+         <analyzer ref="myAnalyzerX"></analyzer>
+         <reducer ref="myReducerX"></reducer>
+       </partition>
+    </step>
+    <step id="myBatchletStep3">
+      <batchlet ref="batchlet1"></batchlet> 
+      <partition>
+         <mapper ref="myAnalyzer"></mapper>
+         <collector ref="myReducer"></collector>
+         <analyzer ref="myMapper"></analyzer>
+         <reducer ref="myCollector"></reducer>
+       </partition>
+    </step>
+</job>

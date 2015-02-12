@@ -8,7 +8,7 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/ 
-package org.jboss.tools.batch.internal.core;
+package org.jboss.tools.batch.internal.core.impl;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -18,7 +18,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.batch.core.BatchCorePlugin;
-import org.jboss.tools.batch.internal.core.impl.BatchProject;
+import org.jboss.tools.batch.core.IBatchProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
 
@@ -29,8 +29,17 @@ import org.jboss.tools.jst.web.kb.internal.KbProject;
  */
 public class BatchProjectFactory {
 	private static final String MODEL_ID = "Batch";
-	
-	public static IBatchProject getBatchProject(IProject project, boolean resolve) {
+
+	/**
+	 * This internal method returns non-null handle object even when project
+	 * has no batch capabilities. Result may be checked for exists() which 
+	 * returns true for a Batch project. 
+	 * 
+	 * @param project
+	 * @param resolve
+	 * @return
+	 */
+	public static BatchProject getBatchProject(IProject project, boolean resolve) {
 		BatchProject result = null;
 		KbProject kb = (KbProject)KbProjectFactory.getKbProject(project, resolve);
 		

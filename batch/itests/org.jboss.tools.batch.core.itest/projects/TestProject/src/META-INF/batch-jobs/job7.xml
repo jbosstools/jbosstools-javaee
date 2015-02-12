@@ -1,0 +1,26 @@
+<job  id="myJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <step id="myChunkStep1">
+      <chunk>
+		<reader ref="myReader"></reader>
+		<processor ref="myProcessor"></processor>
+		<writer ref="myWriter"></writer>
+		<checkpoint-algorithm ref="myCheckpointAlgorithm"></checkpoint-algorithm>     
+      </chunk>
+    </step>
+    <step id="myChunkStep2">
+      <chunk>
+		<reader ref="myReaderX"></reader>
+		<processor ref="myProcessorX"></processor>
+		<writer ref="myWriterX"></writer>
+		<checkpoint-algorithm ref="myCheckpointAlgorithmX"></checkpoint-algorithm>     
+      </chunk>
+    </step>
+    <step id="myChunkStep3">
+      <chunk>
+		<reader ref="myWriter"></reader>
+		<processor ref="myCheckpointAlgorithm"></processor>
+		<writer ref="myReader"></writer>
+		<checkpoint-algorithm ref="myProcessor"></checkpoint-algorithm>     
+      </chunk>
+    </step>
+</job>

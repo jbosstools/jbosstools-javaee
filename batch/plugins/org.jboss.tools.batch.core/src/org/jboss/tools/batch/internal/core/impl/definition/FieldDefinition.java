@@ -11,7 +11,7 @@
 package org.jboss.tools.batch.internal.core.impl.definition;
 
 import org.eclipse.jdt.core.IField;
-import org.jboss.tools.batch.internal.core.IRootDefinitionContext;
+import org.jboss.tools.batch.core.IRootDefinitionContext;
 import org.jboss.tools.common.java.ITypeDeclaration;
 
 /**

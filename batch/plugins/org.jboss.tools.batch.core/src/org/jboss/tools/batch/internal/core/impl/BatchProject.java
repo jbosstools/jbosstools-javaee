@@ -34,11 +34,11 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.batch.core.BatchArtifactType;
+import org.jboss.tools.batch.core.BatchConstants;
 import org.jboss.tools.batch.core.BatchCorePlugin;
-import org.jboss.tools.batch.internal.core.BatchArtifactType;
-import org.jboss.tools.batch.internal.core.BatchProjectFactory;
-import org.jboss.tools.batch.internal.core.IBatchArtifact;
-import org.jboss.tools.batch.internal.core.IBatchProject;
+import org.jboss.tools.batch.core.IBatchArtifact;
+import org.jboss.tools.batch.core.IBatchProject;
 import org.jboss.tools.batch.internal.core.impl.definition.BatchJobDefinition;
 import org.jboss.tools.batch.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.batch.internal.core.scanner.lib.ClassPathMonitor;
@@ -147,6 +147,10 @@ public class BatchProject extends AbstractKbProjectExtension implements IBatchPr
 		public static void setSuspended(boolean suspended) {
 			BatchProject.suspended = suspended;
 		}
+	}
+
+	public boolean exists() {
+		return getType(BatchConstants.ABSTRACT_BATCHLET_TYPE) != null;
 	}
 
 	public List<TypeDefinition> getAllTypeDefinitions() {
@@ -264,7 +268,7 @@ public class BatchProject extends AbstractKbProjectExtension implements IBatchPr
 	@Override
 	public synchronized Collection<IBatchArtifact> getArtifacts(IResource resource) {
 		Set<IBatchArtifact> result = artifactsByPath.get(resource.getFullPath());
-		return result != null ? new HashSet<IBatchArtifact>(result) : null;
+		return result != null ? new HashSet<IBatchArtifact>(result) : EMPTY;
 	}
 
 	@Override

@@ -11,8 +11,8 @@
 package org.jboss.tools.batch.internal.core.impl;
 
 import org.eclipse.jdt.core.IField;
-import org.jboss.tools.batch.internal.core.IBatchArtifact;
-import org.jboss.tools.batch.internal.core.IBatchProperty;
+import org.jboss.tools.batch.core.IBatchArtifact;
+import org.jboss.tools.batch.core.IBatchProperty;
 import org.jboss.tools.batch.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 

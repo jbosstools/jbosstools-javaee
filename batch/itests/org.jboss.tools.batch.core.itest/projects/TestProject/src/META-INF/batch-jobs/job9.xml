@@ -1,0 +1,11 @@
+<job  id="myJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <step id="myBatchletStep1">
+  	  <listeners>
+  	    <listener ref="myJobListener"></listener>
+	    <listener ref="myStepListenerX"></listener>
+	    <listener ref="myStepListener"></listener>
+	    <listener ref="mySkipWriteListener"></listener>
+	  </listeners>
+      <batchlet ref="batchlet1"></batchlet> 
+    </step>
+</job>

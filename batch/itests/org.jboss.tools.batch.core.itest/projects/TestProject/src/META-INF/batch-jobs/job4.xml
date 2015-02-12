@@ -1,0 +1,17 @@
+<job  id="myJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <step id="myBatchletStep1" next="myBatchletStep2">
+      <batchlet ref="batchlet1"></batchlet> 
+    </step>
+    <step id="myBatchletStep2" next="myBatchletStep3">
+      <batchlet ref="batchlet1"></batchlet> 
+    </step>
+    <step id="myBatchletStep3" next="myBatchletStep1">
+      <batchlet ref="batchlet1"></batchlet> 
+    </step>
+    <step id="myBatchletStep4" next="myBatchletStep4">
+      <batchlet ref="batchlet1"></batchlet> 
+    </step>
+    <step id="myBatchletStep5" next="myBatchletStep1">
+      <batchlet ref="batchlet1"></batchlet> 
+    </step>
+</job>

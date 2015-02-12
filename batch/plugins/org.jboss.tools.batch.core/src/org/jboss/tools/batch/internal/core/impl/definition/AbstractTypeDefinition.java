@@ -22,7 +22,7 @@ import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.SourceRange;
 import org.jboss.tools.batch.core.BatchCorePlugin;
-import org.jboss.tools.batch.internal.core.IRootDefinitionContext;
+import org.jboss.tools.batch.core.IRootDefinitionContext;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.java.ParametedType;
 import org.jboss.tools.common.util.FileUtil;

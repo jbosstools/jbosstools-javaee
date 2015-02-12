@@ -1,0 +1,7 @@
+<job  id="myJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+	<listeners>
+	    <listener ref="myJobListener"></listener>
+	    <listener ref="myJobListener1"></listener>
+	    <listener ref="myStepListener"></listener>
+	</listeners>
+</job>

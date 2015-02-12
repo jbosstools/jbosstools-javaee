@@ -8,7 +8,7 @@
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
  ************************************************************************************/
-package org.jboss.tools.batch.internal.core;
+package org.jboss.tools.batch.core;
 
 /**
  * 
@@ -61,5 +61,9 @@ public enum BatchArtifactType implements BatchConstants {
 
 	public String getClassName() {
 		return className;
+	}
+
+	public String getTag() {
+		return tag;
 	}
 }

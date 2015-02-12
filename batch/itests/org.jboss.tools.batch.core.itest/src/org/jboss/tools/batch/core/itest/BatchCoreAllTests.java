@@ -16,6 +16,7 @@ import junit.framework.TestSuite;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.wst.validation.ValidationFramework;
+import org.jboss.tools.common.base.test.validation.ValidationProjectTestSetup;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.test.util.ResourcesUtils;
 
@@ -45,6 +46,20 @@ public class BatchCoreAllTests {
 
 		suiteAll.addTest(testSetup);
 		
+		suiteAll.addTest(new ValidationProjectTestSetup(new TestSuite(
+				BatchValidatorTest.class), "org.jboss.tools.batch.core.itest", //$NON-NLS-1$
+				new String[] { "projects/TestProject" }, //$NON-NLS-1$
+				new String[] { "TestProject" })); //$NON-NLS-1$
+
+		suite = new TestSuite("As-You-Type Validation");
+		suite.addTestSuite(BatchAsYouTypeValidationTest.class);
+
+		testSetup = new ProjectImportTestSetup(suite,
+				"org.jboss.tools.batch.core.itest",
+				new String[]{"projects/TestProject"},
+				new String[]{"TestProject"});
+
+		suiteAll.addTest(testSetup);
 		return suiteAll;
 	}
 }

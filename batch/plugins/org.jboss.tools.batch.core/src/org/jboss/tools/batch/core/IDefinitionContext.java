@@ -8,7 +8,7 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/ 
-package org.jboss.tools.batch.internal.core;
+package org.jboss.tools.batch.core;
 
 import java.util.List;
 

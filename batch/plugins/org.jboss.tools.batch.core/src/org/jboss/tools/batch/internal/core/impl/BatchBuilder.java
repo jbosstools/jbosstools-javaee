@@ -39,9 +39,8 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.batch.core.BatchConstants;
 import org.jboss.tools.batch.core.BatchCorePlugin;
-import org.jboss.tools.batch.internal.core.BatchConstants;
-import org.jboss.tools.batch.internal.core.BatchProjectFactory;
 import org.jboss.tools.batch.internal.core.impl.definition.BatchJobDefinition;
 import org.jboss.tools.batch.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.batch.internal.core.scanner.FileSet;
@@ -131,7 +130,7 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 			}
 		
 			//5.2 Discover sources and build definitions.
-			if(isClassPathUpdated) {
+			if(isClassPathUpdated || kind == FULL_BUILD) {
 				buildJars(newJars);
 				
 				n.getClassPath().validateProjectDependencies();
@@ -387,5 +386,10 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 	//In case if we will need that
 	Set<IFile> getDependentFiles(IPath path, Set<IPath> visited) {
 		return null;
+	}
+
+	protected void clean(IProgressMonitor monitor) throws CoreException {
+		BatchProject p = getBatchProject();
+		if(p != null) p.clean();
 	}
 }
