@@ -551,6 +551,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		validationHelper.setValidationContextManager(validationContext);
 		init(rootProject, validationHelper, projectContext, validatorManager, reporter);
 		setAsYouTypeValidation(true);
+		asYouTypeTimestamp++;
 		this.document = validationContext.getDocument();
 		if(rootCdiProject == null) {
 			return;

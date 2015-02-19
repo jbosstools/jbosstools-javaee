@@ -227,6 +227,7 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 		validationHelper.setValidationContextManager(validationContext);
 		init(rootProject, validationHelper, projectContext, validatorManager, reporter);
 		setAsYouTypeValidation(true);
+		asYouTypeTimestamp++;
 		this.document = validationContext.getDocument();
 
 		IBatchProject batchProject = BatchCorePlugin.getBatchProject(file.getProject(), true);
