@@ -49,5 +49,6 @@ Require-Bundle: org.junit,
  org.eclipse.sapphire.ui.swt.gef;bundle-version="0.7.1",
  org.eclipse.sapphire.workspace,
  org.eclipse.sapphire.workspace.ui,
- org.apache.ant
+ org.apache.ant,
+ org.jboss.tools.batch.core.itest
 Export-Package: org.jboss.tools.batch.ui.itest

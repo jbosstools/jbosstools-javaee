@@ -32,7 +32,7 @@ public class BatchModelTest extends TestCase {
 
 	@Override
 	public void setUp() {
-		project =  ResourcesPlugin.getWorkspace().getRoot().getProject("TestProject");
+		project =  ResourcesPlugin.getWorkspace().getRoot().getProject("BatchTestProject");
 		assertNotNull(project);
 	}
 

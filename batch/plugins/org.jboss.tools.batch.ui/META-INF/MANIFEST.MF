@@ -6,6 +6,7 @@ Bundle-Vendor: %providerName
 Export-Package: org.jboss.tools.batch.ui,
  org.jboss.tools.batch.ui.editor.internal.model,
  org.jboss.tools.batch.ui.editor.internal.services,
+ org.jboss.tools.batch.ui.hyperlink,
  org.jboss.tools.batch.ui.internal.preferences
 Bundle-SymbolicName: org.jboss.tools.batch.ui; singleton:=true
 Bundle-Localization: plugin
@@ -42,7 +43,11 @@ Require-Bundle: org.eclipse.jface.text;bundle-version="3.7.0",
  org.jboss.tools.foundation.ui,
  org.jboss.tools.common.core,
  org.jboss.tools.common.ui,
- org.jboss.tools.batch.core
+ org.jboss.tools.batch.core,
+ org.jboss.tools.common.text.ext,
+ org.jboss.tools.common,
+ org.jboss.tools.jst.web.kb
 Bundle-Version: 1.7.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ManifestVersion: 2
+Import-Package: org.eclipse.jdt.core

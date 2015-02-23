@@ -83,5 +83,13 @@
          name="%PreferencePage_Validator">
       </page>
    </extension>
-
+<extension
+         point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+      <hyperlinkDetector
+            class="org.jboss.tools.batch.ui.hyperlink.BatchHyperlinkDetector"
+            id="org.jboss.tools.batch.ui.text.ext.BatchHyperlinkDetector"
+            name="Batch XML hyperlinks"
+            targetId="org.eclipse.core.runtime.xml">
+      </hyperlinkDetector>
+   	</extension>
 </plugin>

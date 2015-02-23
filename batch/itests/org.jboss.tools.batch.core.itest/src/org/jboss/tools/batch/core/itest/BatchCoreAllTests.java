@@ -41,23 +41,23 @@ public class BatchCoreAllTests {
 
 		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suite,
 				"org.jboss.tools.batch.core.itest",
-				new String[]{"projects/TestProject"},
-				new String[]{"TestProject"});
+				new String[]{"projects/BatchTestProject"},
+				new String[]{"BatchTestProject"});
 
 		suiteAll.addTest(testSetup);
 		
 		suiteAll.addTest(new ValidationProjectTestSetup(new TestSuite(
 				BatchValidatorTest.class), "org.jboss.tools.batch.core.itest", //$NON-NLS-1$
-				new String[] { "projects/TestProject" }, //$NON-NLS-1$
-				new String[] { "TestProject" })); //$NON-NLS-1$
+				new String[] { "projects/BatchTestProject" }, //$NON-NLS-1$
+				new String[] { "BatchTestProject" })); //$NON-NLS-1$
 
 		suite = new TestSuite("As-You-Type Validation");
 		suite.addTestSuite(BatchAsYouTypeValidationTest.class);
 
 		testSetup = new ProjectImportTestSetup(suite,
 				"org.jboss.tools.batch.core.itest",
-				new String[]{"projects/TestProject"},
-				new String[]{"TestProject"});
+				new String[]{"projects/BatchTestProject"},
+				new String[]{"BatchTestProject"});
 
 		suiteAll.addTest(testSetup);
 		return suiteAll;

@@ -39,7 +39,7 @@ public class BatchEditorTest extends TestCase {
 
 	@Override
 	public void setUp() {
-		project =  ResourcesPlugin.getWorkspace().getRoot().getProject("TestProject");
+		project =  ResourcesPlugin.getWorkspace().getRoot().getProject("BatchTestProject");
 		assertNotNull(project);
 	}
 
@@ -53,7 +53,7 @@ public class BatchEditorTest extends TestCase {
 	}
 
 	public void testEditor() {
-		 editor = openEditor("job.xml");
+		 editor = openEditor("src/META-INF/batch-jobs/job.xml");
 		 JobXMLEditor jobEditor = (JobXMLEditor)editor;
 
 		 Job job = jobEditor.getSchema();

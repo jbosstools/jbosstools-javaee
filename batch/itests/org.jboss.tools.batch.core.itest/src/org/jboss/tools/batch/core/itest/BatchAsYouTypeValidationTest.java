@@ -25,7 +25,7 @@ import junit.framework.TestCase;
  * @author Viacheslav Kabanovich
  */
 public class BatchAsYouTypeValidationTest  extends TestCase {
-	public static String PROJECT_NAME = "TestProject"; //$NON-NLS-1$
+	public static String PROJECT_NAME = "BatchTestProject"; //$NON-NLS-1$
 	private IProject project;
 
 	BaseAsYouTypeInJobXMLValidationTest baseTest = null;

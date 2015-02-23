@@ -16,12 +16,12 @@ import org.eclipse.sapphire.modeling.xml.RootXmlResource;
 import org.eclipse.sapphire.ui.SapphireEditor;
 import org.eclipse.sapphire.ui.def.DefinitionLoader;
 import org.eclipse.sapphire.ui.forms.swt.MasterDetailsEditorPage;
-import org.eclipse.sapphire.ui.swt.gef.SapphireDiagramEditor;
 import org.eclipse.sapphire.ui.swt.xml.editor.XmlEditorResourceStore;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
+import org.jboss.tools.common.text.ext.IMultiPageEditor;
 
-public class JobXMLEditor extends SapphireEditor {
+public class JobXMLEditor extends SapphireEditor implements IMultiPageEditor{
 	private Job jobModel;
 	private StructuredTextEditor schemaSourceEditor;
 //	private SapphireDiagramEditor schemaDiagram;

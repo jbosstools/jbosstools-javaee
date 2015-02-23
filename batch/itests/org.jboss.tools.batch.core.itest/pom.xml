@@ -63,7 +63,7 @@
 							</artifactItem>
 					      </artifactItems>
 					      <skip>false</skip>
-					      <outputDirectory>${basedir}/projects/TestProject/lib/</outputDirectory>
+					      <outputDirectory>${basedir}/projects/BatchTestProject/lib/</outputDirectory>
 					</configuration>
 				  </execution>
 				</executions>
@@ -75,7 +75,7 @@
 			  <configuration>
 			    <filesets>
 			      <fileset>
-				     <directory>${basedir}/projects/TestProject/lib</directory>
+				     <directory>${basedir}/projects/BatchTestProject/lib</directory>
 				     <includes>
 		                           <include>*.jar</include>
 				     </includes>

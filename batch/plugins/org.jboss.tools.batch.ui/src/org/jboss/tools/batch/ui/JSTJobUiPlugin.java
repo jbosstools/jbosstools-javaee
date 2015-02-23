@@ -10,7 +10,8 @@
  ************************************************************************************/
 package org.jboss.tools.batch.ui;
 
-import org.jboss.tools.foundation.ui.plugin.BaseUIPlugin;
+import org.jboss.tools.common.log.BaseUIPlugin;
+
 
 public class JSTJobUiPlugin extends BaseUIPlugin {
 	public static String PLUGIN_ID = "org.jboss.tools.batch.ui"; //$NON-NLS-1$

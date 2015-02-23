@@ -26,7 +26,7 @@ import junit.framework.TestCase;
  *
  */
 public class BatchValidatorTest extends TestCase {
-	public static String PROJECT_NAME = "TestProject"; //$NON-NLS-1$
+	public static String PROJECT_NAME = "BatchTestProject"; //$NON-NLS-1$
 	private IProject project;
 
 	public BatchValidatorTest() {}
