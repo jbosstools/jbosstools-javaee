@@ -10,8 +10,11 @@
  ************************************************************************************/
 package org.jboss.tools.batch.core;
 
+import java.util.Collection;
+
 import org.eclipse.jdt.core.IField;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
+import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * 
@@ -49,4 +52,13 @@ public interface IBatchProperty {
 	 * @return
 	 */
 	public IBatchArtifact getArtifact();
+
+	/**
+	 * Returns references to this property by its name returned by getPropertyName() method,
+	 * scanning all job XML files declared by the current project.
+	 * At present, implementation does the scan at every request to avoid it at build.
+	 * 
+	 * @return
+	 */
+	public Collection<ITextSourceReference> getReferences();
 }

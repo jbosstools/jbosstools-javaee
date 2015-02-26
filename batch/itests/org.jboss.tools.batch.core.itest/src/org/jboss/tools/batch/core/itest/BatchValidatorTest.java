@@ -41,8 +41,8 @@ public class BatchValidatorTest extends TestCase {
 		assertTrue(resource.exists());
 		TestUtil.validate(resource);
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(resource, NLS.bind(BatchValidationMessages.BATCHLET_IS_NOT_FOUND, new String[]{"batchlet"}), 3); //$NON-NLS-1$
-		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(BatchValidationMessages.BATCHLET_IS_EXPECTED, new String[]{"myDecider"}), 6); //$NON-NLS-1$
-		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(BatchValidationMessages.BATCHLET_IS_NOT_FOUND, new String[]{"batchlet_1"}), 9); //$NON-NLS-1$
+		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(BatchValidationMessages.BATCHLET_IS_EXPECTED, new String[]{"myDecider"}), 10); //$NON-NLS-1$
+		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(BatchValidationMessages.BATCHLET_IS_NOT_FOUND, new String[]{"batchlet_1"}), 13); //$NON-NLS-1$
 	}
 
 	public void testExecutionLoop() throws Exception {

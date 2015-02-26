@@ -15,6 +15,8 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.jdt.core.IType;
+import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.internal.IKbProjectExtension;
 
 /**
@@ -53,10 +55,25 @@ public interface IBatchProject extends IKbProjectExtension {
 	public Collection<IBatchArtifact> getArtifacts(String name);
 
 	/**
+	 * Returns Batch artifact model object for the Java type or null.
+	 * @param name
+	 * @return
+	 */
+	public IBatchArtifact getArtifact(IType type);
+
+	/**
 	 * Returns set of batch jobs declared in the current project.
 	 * @return
 	 */
 	public Set<IFile> getDeclaredBatchJobs();
+
+	/**
+	 * Returns references to type in batch resources by fully qualified name.
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public Collection<ITextSourceReference> getReferences(IType type);
 
 //	public Set<? extends IBatchProject> getUsedProjects();
 

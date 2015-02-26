@@ -18,53 +18,75 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IType;
 import org.jboss.tools.batch.core.BatchArtifactType;
 import org.jboss.tools.batch.core.BatchCorePlugin;
 import org.jboss.tools.batch.core.IBatchArtifact;
 import org.jboss.tools.batch.core.IBatchProject;
 import org.jboss.tools.batch.core.IBatchProperty;
+import org.jboss.tools.batch.internal.core.impl.BatchProject;
+import org.jboss.tools.common.text.ITextSourceReference;
+import org.jboss.tools.common.util.FileUtil;
 
 /**
  * @author Viacheslav Kabanovich
  */
 public class BatchModelTest extends TestCase {
-	private IProject project;
+	protected IProject project;
+	protected IBatchProject batchProject;
 
 	@Override
 	public void setUp() {
 		project =  ResourcesPlugin.getWorkspace().getRoot().getProject("BatchTestProject");
 		assertNotNull(project);
+		batchProject = BatchCorePlugin.getBatchProject(project, true);
+		assertNotNull(batchProject);
+		assertTrue(((BatchProject)batchProject).exists());
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-
 		super.tearDown();
 	}
 
 	public void testAllArtifacts() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		assertNotNull(batchProject);
 		Collection<IBatchArtifact> cs = batchProject.getAllArtifacts();
 		assertFalse(cs.isEmpty());
+		int total = cs.size();
+		int total2 = 0;
+		for (BatchArtifactType t: BatchArtifactType.values()) {
+			cs = batchProject.getArtifacts(t);
+			total2 += cs.size();
+		}
+		assertEquals(total, total2);
 	}
 
-	public void testBatchlet() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.BATCHLET);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.BATCHLET);
-		}
-
-		cs = batchProject.getArtifacts("batchlet1");
+	IBatchArtifact assertArtifactByNameAndType(String name, BatchArtifactType type) {
+		Collection<IBatchArtifact> cs = batchProject.getArtifacts(name);
 		assertEquals(1, cs.size());
 
 		IBatchArtifact b = cs.iterator().next();
 		assertNotNull(b.getNamedDeclaration());
-		assertEquals("batchlet1", b.getName());
+		assertEquals(name, b.getName());
+		assertTrue(b.getArtifactType() == type);
+		return b;
+	}
+
+	Collection<IBatchArtifact> assertArtifactsByType(BatchArtifactType type) {
+		Collection<IBatchArtifact> cs = batchProject.getArtifacts(type);
+		assertFalse(cs.isEmpty());
+		for (IBatchArtifact a: cs) {
+			assertTrue(a.getArtifactType() == type);
+		}
+		return cs;
+	}
+
+	public void testBatchlet() {
+		assertArtifactsByType(BatchArtifactType.BATCHLET);
+
+		IBatchArtifact b = assertArtifactByNameAndType("batchlet1", BatchArtifactType.BATCHLET);
 
 		Collection<IBatchProperty> ps = b.getProperties();
 		assertEquals(1, ps.size());
@@ -74,396 +96,155 @@ public class BatchModelTest extends TestCase {
 		assertTrue(p.getArtifact() == b);
 		assertNotNull(p.getInjectDeclaration());
 		assertNotNull(p.getBatchPropertyDeclaration());
+		
+	}
+
+	public void testBatchArtifactReferences() {
+		IBatchArtifact b = assertArtifactByNameAndType("batchlet1", BatchArtifactType.BATCHLET);
+		assertTextSourceReferences(b.getReferences(), b.getName());
+	}
+
+	public void testBatchPropertyReferences() {
+		IBatchArtifact b = assertArtifactByNameAndType("batchlet1", BatchArtifactType.BATCHLET);
+		IBatchProperty p = b.getProperty("worktime");
+		assertTextSourceReferences(p.getReferences(), p.getPropertyName());
+	}
+
+	public void testTypeReferences() {
+		String typeName = "java.lang.ArrayIndexOutOfBoundsException";
+		IType type = ((BatchProject)batchProject).getType(typeName);
+		assertNotNull(type);
+		assertTextSourceReferences(batchProject.getReferences(type), typeName);
+	}
+
+	void assertTextSourceReferences(Collection<ITextSourceReference> references, String expectedContent) {
+		assertFalse(references.isEmpty());
+		for (ITextSourceReference ref: references) {
+			assertTextSourceReference(ref, expectedContent);
+		}
+	}
+
+	void assertTextSourceReference(ITextSourceReference ref, String expectedContent) {
+		try {
+			String text = FileUtil.readStream((IFile)ref.getResource());
+			String content = text.substring(ref.getStartPosition(), ref.getStartPosition() + ref.getLength());
+			assertEquals(expectedContent, content);
+		} catch (CoreException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	public void testDecider() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.DECIDER);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.DECIDER);
-		}
-
-		cs = batchProject.getArtifacts("myDecider");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("myDecider", b.getName());
+		assertArtifactsByType(BatchArtifactType.DECIDER);
+		assertArtifactByNameAndType("myDecider", BatchArtifactType.DECIDER);
 	}
 
 	public void testReader() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.ITEM_READER);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.ITEM_READER);
-		}
-
-		cs = batchProject.getArtifacts("myReader");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("myReader", b.getName());
+		assertArtifactsByType(BatchArtifactType.ITEM_READER);
+		assertArtifactByNameAndType("myReader", BatchArtifactType.ITEM_READER);
 	}
 
 	public void testProcessor() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.ITEM_PROCESSOR);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.ITEM_PROCESSOR);
-		}
-
-		cs = batchProject.getArtifacts("myProcessor");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("myProcessor", b.getName());
+		assertArtifactsByType(BatchArtifactType.ITEM_PROCESSOR);
+		assertArtifactByNameAndType("myProcessor", BatchArtifactType.ITEM_PROCESSOR);
 	}
 
 	public void testCheckpointAlgorithm() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.CHECKPOINT_ALGORITHM);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.CHECKPOINT_ALGORITHM);
-		}
-
-		cs = batchProject.getArtifacts("myCheckpointAlgorithm");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("myCheckpointAlgorithm", b.getName());
+		assertArtifactsByType(BatchArtifactType.CHECKPOINT_ALGORITHM);
+		assertArtifactByNameAndType("myCheckpointAlgorithm", BatchArtifactType.CHECKPOINT_ALGORITHM);
 	}
 
 	public void testWriter() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.ITEM_WRITER);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.ITEM_WRITER);
-		}
-
-		cs = batchProject.getArtifacts("myWriter");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("myWriter", b.getName());
+		assertArtifactsByType(BatchArtifactType.ITEM_WRITER);
+		assertArtifactByNameAndType("myWriter", BatchArtifactType.ITEM_WRITER);
 	}
 
 	public void testAnalyzerInJar() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.PARTITION_ANALYZER);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.PARTITION_ANALYZER);
-		}
-
-		cs = batchProject.getArtifacts("myAnalyzer");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("myAnalyzer", b.getName());
+		assertArtifactsByType(BatchArtifactType.PARTITION_ANALYZER);
+		assertArtifactByNameAndType("myAnalyzer", BatchArtifactType.PARTITION_ANALYZER);
 	}
 
 	public void testCollectorInJar() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.PARTITION_COLLECTOR);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.PARTITION_COLLECTOR);
-		}
-
-		cs = batchProject.getArtifacts("myCollector");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("myCollector", b.getName());
+		assertArtifactsByType(BatchArtifactType.PARTITION_COLLECTOR);
+		assertArtifactByNameAndType("myCollector", BatchArtifactType.PARTITION_COLLECTOR);
 	}
 
 	public void testMapperInJar() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.PARTITION_MAPPER);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.PARTITION_MAPPER);
-		}
-
-		cs = batchProject.getArtifacts("myMapper");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("myMapper", b.getName());
+		assertArtifactsByType(BatchArtifactType.PARTITION_MAPPER);
+		assertArtifactByNameAndType("myMapper", BatchArtifactType.PARTITION_MAPPER);
 	}
 
 	public void testReducerInJar() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.PARTITION_REDUCER);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.PARTITION_REDUCER);
-		}
-
-		cs = batchProject.getArtifacts("myReducer");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("myReducer", b.getName());
+		assertArtifactsByType(BatchArtifactType.PARTITION_REDUCER);
+		assertArtifactByNameAndType("myReducer", BatchArtifactType.PARTITION_REDUCER);
 	}
 
 	public void testJobListener() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.JOB_LISTENER);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.JOB_LISTENER);
-		}
-
-		cs = batchProject.getArtifacts("myJobListener");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("myJobListener", b.getName());
+		assertArtifactsByType(BatchArtifactType.JOB_LISTENER);
+		assertArtifactByNameAndType("myJobListener", BatchArtifactType.JOB_LISTENER);
 	}
 
 	public void testStepListener() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.STEP_LISTENER);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.STEP_LISTENER);
-		}
-
-		cs = batchProject.getArtifacts("myStepListener");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("myStepListener", b.getName());
+		assertArtifactsByType(BatchArtifactType.STEP_LISTENER);
+		assertArtifactByNameAndType("myStepListener", BatchArtifactType.STEP_LISTENER);
 	}
 
 	public void testChunkListener() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.CHUNK_LISTENER);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.CHUNK_LISTENER);
-		}
-
-		cs = batchProject.getArtifacts("myChunkListener");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("myChunkListener", b.getName());
+		assertArtifactsByType(BatchArtifactType.CHUNK_LISTENER);
+		assertArtifactByNameAndType("myChunkListener", BatchArtifactType.CHUNK_LISTENER);
 	}
 
 	public void testItemReadListener() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.ITEM_READ_LISTENER);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.ITEM_READ_LISTENER);
-		}
-
-		cs = batchProject.getArtifacts("myItemReadListener");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("myItemReadListener", b.getName());
+		assertArtifactsByType(BatchArtifactType.ITEM_READ_LISTENER);
+		assertArtifactByNameAndType("myItemReadListener", BatchArtifactType.ITEM_READ_LISTENER);
 	}
 
 	public void testItemProcessListener() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.ITEM_PROCESS_LISTENER);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.ITEM_PROCESS_LISTENER);
-		}
-
-		cs = batchProject.getArtifacts("myItemProcessListener");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("myItemProcessListener", b.getName());
+		assertArtifactsByType(BatchArtifactType.ITEM_PROCESS_LISTENER);
+		assertArtifactByNameAndType("myItemProcessListener", BatchArtifactType.ITEM_PROCESS_LISTENER);
 	}
 
 	public void testItemWriteListener() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.ITEM_WRITE_LISTENER);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.ITEM_WRITE_LISTENER);
-		}
-
-		cs = batchProject.getArtifacts("myItemWriteListener");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("myItemWriteListener", b.getName());
+		assertArtifactsByType(BatchArtifactType.ITEM_WRITE_LISTENER);
+		assertArtifactByNameAndType("myItemWriteListener", BatchArtifactType.ITEM_WRITE_LISTENER);
 	}
 
 	public void testSkipReadListener() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.SKIP_READ_LISTENER);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.SKIP_READ_LISTENER);
-		}
-
-		cs = batchProject.getArtifacts("mySkipReadListener");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("mySkipReadListener", b.getName());
+		assertArtifactsByType(BatchArtifactType.SKIP_READ_LISTENER);
+		assertArtifactByNameAndType("mySkipReadListener", BatchArtifactType.SKIP_READ_LISTENER);
 	}
 
 	public void testSkipProcessListener() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.SKIP_PROCESS_LISTENER);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.SKIP_PROCESS_LISTENER);
-		}
-
-		cs = batchProject.getArtifacts("mySkipProcessListener");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("mySkipProcessListener", b.getName());
+		assertArtifactsByType(BatchArtifactType.SKIP_PROCESS_LISTENER);
+		assertArtifactByNameAndType("mySkipProcessListener", BatchArtifactType.SKIP_PROCESS_LISTENER);
 	}
 
 	public void testSkipWriteListener() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.SKIP_WRITE_LISTENER);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.SKIP_WRITE_LISTENER);
-		}
-
-		cs = batchProject.getArtifacts("mySkipWriteListener");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("mySkipWriteListener", b.getName());
+		assertArtifactsByType(BatchArtifactType.SKIP_WRITE_LISTENER);
+		assertArtifactByNameAndType("mySkipWriteListener", BatchArtifactType.SKIP_WRITE_LISTENER);
 	}
 
 	public void testRetryReadListener() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.RETRY_READ_LISTENER);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.RETRY_READ_LISTENER);
-		}
-
-		cs = batchProject.getArtifacts("myRetryReadListener");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("myRetryReadListener", b.getName());
+		assertArtifactsByType(BatchArtifactType.RETRY_READ_LISTENER);
+		assertArtifactByNameAndType("myRetryReadListener", BatchArtifactType.RETRY_READ_LISTENER);
 	}
 
 	public void testRetryProcessListener() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.RETRY_PROCESS_LISTENER);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.RETRY_PROCESS_LISTENER);
-		}
-
-		cs = batchProject.getArtifacts("myRetryProcessListener");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("myRetryProcessListener", b.getName());
+		assertArtifactsByType(BatchArtifactType.RETRY_PROCESS_LISTENER);
+		assertArtifactByNameAndType("myRetryProcessListener", BatchArtifactType.RETRY_PROCESS_LISTENER);
 	}
 
 	public void testRetryWriteListener() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-
-		Collection<IBatchArtifact> cs = batchProject.getArtifacts(BatchArtifactType.RETRY_WRITE_LISTENER);
-		assertFalse(cs.isEmpty());
-		for (IBatchArtifact a: cs) {
-			assertTrue(a.getArtifactType() == BatchArtifactType.RETRY_WRITE_LISTENER);
-		}
-
-		cs = batchProject.getArtifacts("myRetryWriteListener");
-		assertEquals(1, cs.size());
-
-		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
-		assertEquals("myRetryWriteListener", b.getName());
+		assertArtifactsByType(BatchArtifactType.RETRY_WRITE_LISTENER);
+		assertArtifactByNameAndType("myRetryWriteListener", BatchArtifactType.RETRY_WRITE_LISTENER);
 	}
 
 	public void testBatchJobs() {
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
-		assertNotNull(batchProject);
-		
 		Set<IFile> batchJobs = batchProject.getDeclaredBatchJobs();
 		assertFalse(batchJobs.isEmpty());
 		for (IFile batchJob: batchJobs) {
 			assertTrue(batchJob.exists());
-		}
-		
+		}		
 	}
 
 }

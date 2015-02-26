@@ -1,6 +1,10 @@
 <job  id="myJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
     <step id="myBatchletStep1">
-      <batchlet ref="batchlet1"></batchlet> 
+      <batchlet ref="batchlet1">
+        <properties>
+          <property name="worktime" value="a value"/>
+        </properties>
+      </batchlet> 
     </step>
     <step id="myBatchletStep2">
       <batchlet ref="myDecider"></batchlet> 

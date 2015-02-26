@@ -1,0 +1,22 @@
+<job  id="myJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+	<properties>
+	  <property name="p1" value="v1"/>
+	</properties>
+    <step id="step1">
+	  <properties>
+	    <property name="p2" value="v2"/>
+	  </properties>
+      <batchlet ref="batchlet1">
+        <properties>
+          <property name="x" value=""/>
+        </properties>
+      </batchlet>
+    </step>
+    <step id="step1">
+	  <properties>
+	    <property name="p3" value="v3"/>
+	  </properties>
+      <batchlet ref="batchlet1">
+      </batchlet>
+    </step>
+</job>

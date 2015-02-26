@@ -1,0 +1,29 @@
+<job  id="myJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <listeners>
+      <listener ref="my-j"></listener>
+    </listeners>
+    <step id="step1">
+      <listeners>
+        <listener ref="my-b"></listener>
+      </listeners>
+      <batchlet ref="">
+      </batchlet>
+    </step>
+    <step id="step2">
+    <listeners>
+      <listener ref="my-c"></listener>
+     </listeners>
+      <chunk>
+        <reader ref=""></reader>
+        <processor ref=""></processor>
+        <writer ref=""></writer>
+        <checkpoint-algorithm ref=""></checkpoint-algorithm>
+      </chunk>
+      <partition>
+        <mapper ref=""></mapper>
+        <collector ref=""></collector>
+        <analyzer ref=""></analyzer>
+        <reducer ref=""></reducer>         
+      </partition>
+    </step>
+</job>

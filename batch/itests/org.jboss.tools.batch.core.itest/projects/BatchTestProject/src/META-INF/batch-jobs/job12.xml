@@ -1,0 +1,17 @@
+<job  id="myJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <step id="myBatchletStep1">
+      <chunk>
+        <reader ref="myReader"></reader>
+        <writer ref="myWriter"></writer>
+        <skippable-exception-classes>
+          <include class="java.lang.ArrayIndexOutOfBoundsException"/>
+        </skippable-exception-classes>
+        <retryable-exception-classes>
+          <include class="java.lang.ArrayIndexOutOfBoundsException"/>
+        </retryable-exception-classes>
+        <no-rollback-exception-classes>
+          <exclude class="java.lang.ArrayIndexOutOfBoundsException"/>
+        </no-rollback-exception-classes>
+      </chunk> 
+    </step>
+</job>

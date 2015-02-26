@@ -16,6 +16,9 @@ import junit.framework.TestSuite;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.wst.validation.ValidationFramework;
+import org.jboss.tools.batch.ui.itest.ca.JobArtifactRefContentAssist;
+import org.jboss.tools.batch.ui.itest.ca.JobPropertyNameContentAssist;
+import org.jboss.tools.batch.ui.itest.ca.JobTransitionsContentAssist;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.test.util.ResourcesUtils;
 
@@ -39,12 +42,25 @@ public class BatchUIAllTests {
 		suite.addTestSuite(BatchEditorTest.class);
 		suite.addTestSuite(BatchHyperlinkDetectorTest.class);
 
+		TestSuite suite1 = new TestSuite("Content assist");
+		suite1.addTestSuite(JobTransitionsContentAssist.class);
+		suite1.addTestSuite(JobArtifactRefContentAssist.class);
+		suite1.addTestSuite(JobPropertyNameContentAssist.class);
+		suite.addTest(suite1);
+
 		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suite,
 				"org.jboss.tools.batch.core.itest",
 				new String[]{"projects/BatchTestProject"},
-				new String[]{"TestProject"});
+				new String[]{"BatchTestProject"});
 
 		suiteAll.addTest(testSetup);
+		
+
+//		testSetup = new ProjectImportTestSetup(suite,
+//				"org.jboss.tools.batch.core.itest",
+//				new String[]{"projects/BatchTestProject"},
+//				new String[]{"TestProject"});
+//				suiteAll.addTest(testSetup);
 		
 		return suiteAll;
 	}

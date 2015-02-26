@@ -43,6 +43,7 @@ import org.jboss.tools.batch.internal.core.impl.definition.BatchJobDefinition;
 import org.jboss.tools.batch.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.batch.internal.core.scanner.lib.ClassPathMonitor;
 import org.jboss.tools.common.java.ParametedTypeFactory;
+import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.internal.AbstractKbProjectExtension;
 import org.jboss.tools.jst.web.kb.internal.IKbProjectExtension;
 
@@ -61,6 +62,7 @@ public class BatchProject extends AbstractKbProjectExtension implements IBatchPr
 	private Map<IPath, Set<IBatchArtifact>> artifactsByPath = new HashMap<IPath, Set<IBatchArtifact>>();
 	private Map<String, Set<IBatchArtifact>> artifactsByName = new HashMap<String, Set<IBatchArtifact>>();
 	private Map<BatchArtifactType, Set<IBatchArtifact>> artifactsByType = new HashMap<BatchArtifactType, Set<IBatchArtifact>>();
+	private Map<String, IBatchArtifact> artifactsByJavaType = new HashMap<String, IBatchArtifact>();
 
 	public BatchProject() {
 		definitions.setProject(this);
@@ -179,9 +181,13 @@ public class BatchProject extends AbstractKbProjectExtension implements IBatchPr
 		return result;
 	}
 
+	public Set<BatchJobDefinition> getDeclaredBatchJobDefinitions() {
+		return getDefinitions().getBatchJobDefinitions();
+	}
+
 	public Set<BatchJobDefinition> getAllBatchJobDefinitions() {
 		if(!dependsOnOtherProjects()) {
-			return getDefinitions().getBatchJobDefinitions();
+			return getDeclaredBatchJobDefinitions();
 		}
 		Set<BatchJobDefinition> ds = getDefinitions().getBatchJobDefinitions();
 		Set<BatchJobDefinition> result = new HashSet<BatchJobDefinition>();
@@ -192,7 +198,7 @@ public class BatchProject extends AbstractKbProjectExtension implements IBatchPr
 			if(t != null) paths.add(t);
 		}
 		for (BatchProject p: getBatchProjects(true)) {
-			Set<BatchJobDefinition> ds2 = p.getDefinitions().getBatchJobDefinitions();
+			Set<BatchJobDefinition> ds2 = p.getDeclaredBatchJobDefinitions();
 			for (BatchJobDefinition d: ds2) {
 				IPath t = d.getPath();
 				if(t != null && !paths.contains(t)) {
@@ -286,12 +292,27 @@ public class BatchProject extends AbstractKbProjectExtension implements IBatchPr
 		return result != null ? new HashSet<IBatchArtifact>(result) : EMPTY;
 	}
 
+	@SuppressWarnings("unchecked")
 	static Collection<IBatchArtifact> EMPTY = Collections.EMPTY_SET;
 
 	@Override
 	public synchronized Collection<IBatchArtifact> getArtifacts(BatchArtifactType type) {
 		Collection<IBatchArtifact> result = artifactsByType.get(type);
 		return result != null ? new HashSet<IBatchArtifact>(result) : EMPTY;
+	}
+
+	@Override
+	public IBatchArtifact getArtifact(IType type) {
+		return artifactsByJavaType.get(type.getFullyQualifiedName());
+	}
+
+	@Override
+	public Collection<ITextSourceReference> getReferences(IType type) {
+		Collection<ITextSourceReference> result = new HashSet<ITextSourceReference>();
+		for (IFile file: getDeclaredBatchJobs()) {
+			result.addAll(BatchUtil.getAttributeReferences(file, BatchConstants.ATTR_CLASS, type.getFullyQualifiedName()));
+		}
+		return result;
 	}
 
 	public void store() throws IOException {
@@ -327,6 +348,7 @@ public class BatchProject extends AbstractKbProjectExtension implements IBatchPr
 			artifactsByPath.clear();
 			artifactsByName.clear();
 			artifactsByType.clear();
+			artifactsByJavaType.clear();
 			allArtifacts.clear();
 		}
 
@@ -340,12 +362,13 @@ public class BatchProject extends AbstractKbProjectExtension implements IBatchPr
 	 */
 	@Override
 	public void update(boolean updateDependent) {
-		Set<BatchJobDefinition> batchJobs = getAllBatchJobDefinitions();
+		//Set<BatchJobDefinition> batchJobs = getAllBatchJobDefinitions();
 		//
 		List<TypeDefinition> typeDefinitions = getAllTypeDefinitions();
 		List<IBatchArtifact> artifacts = new ArrayList<IBatchArtifact>();
 		for (TypeDefinition typeDefinition: typeDefinitions) {
 			BatchArtifact a = new BatchArtifact();
+			a.setProject(this);
 			a.setDefinition(typeDefinition);
 			artifacts.add(a);
 		}
@@ -353,6 +376,7 @@ public class BatchProject extends AbstractKbProjectExtension implements IBatchPr
 			artifactsByPath.clear();
 			artifactsByName.clear();
 			artifactsByType.clear();
+			artifactsByJavaType.clear();
 			allArtifacts.clear();
 		}
 		for (IBatchArtifact a: artifacts) {
@@ -371,6 +395,7 @@ public class BatchProject extends AbstractKbProjectExtension implements IBatchPr
 		addToMap(artifactsByName, artifact.getName(), artifact);
 		addToMap(artifactsByType, artifact.getArtifactType(), artifact);
 		addToMap(artifactsByPath, artifact.getSourcePath(), artifact);
+		artifactsByJavaType.put(artifact.getType().getFullyQualifiedName(), artifact);
 		synchronized (this) {
 			allArtifacts.add(artifact);
 		}

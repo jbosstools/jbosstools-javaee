@@ -68,6 +68,8 @@ import org.jboss.tools.jst.web.kb.internal.KbBuilder;
 import org.jboss.tools.jst.web.kb.internal.validation.KBValidator;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
 /**
  * 
@@ -613,9 +615,19 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 					declared.put(name, new SimpleReference(property, ATTR_NAME, file));
 				}
 				for (Element property: es) {
-					String value = property.getAttribute(ATTR_VALUE);
+					lookForPropertyReferences(property, file);
+				}
+			}		
+		}
+
+		void lookForPropertyReferences(Element e, IFile file) {
+			NamedNodeMap as = e.getAttributes();
+			for (int k = 0; k < as.getLength(); k++) {
+				Node n = as.item(k);
+				if(n instanceof Attr) {
+					String value = ((Attr)n).getValue();
 					if(value.trim().length() > 0) {
-						SimpleReference v = new SimpleReference(property, ATTR_VALUE, file);
+						SimpleReference v = new SimpleReference(e, n.getNodeName(), file);
 						int i = 0;
 						while(i < value.length()) {
 							int i1 = value.indexOf(JOB_PROPERTY_CALL_START, i);
@@ -632,8 +644,9 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 							i = i2;
 						}
 					}
+					
 				}
-			}		
+			}
 		}
 		boolean requestProperty(String name) {
 			if(declared.containsKey(name)) {
