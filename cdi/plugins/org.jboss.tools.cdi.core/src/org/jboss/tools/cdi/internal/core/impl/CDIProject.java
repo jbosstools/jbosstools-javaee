@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -54,6 +55,7 @@ import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.core.IProducer;
+import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
@@ -1047,7 +1049,20 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		}
 	}
 
+	@Override
 	public Set<IBeanMethod> resolveDisposers(IProducerMethod producer) {
+		return resolveDisposersInternal(producer);
+	}
+
+	@Override
+	public Set<IBeanMethod> resolveDisposers(IProducer producer) {
+		if(getCDIProject().getVersion() == CDIVersion.CDI_1_0 && producer instanceof IProducerField) {
+			return Collections.emptySet();
+		}
+		return resolveDisposersInternal(producer);
+	}
+
+	private Set<IBeanMethod> resolveDisposersInternal(IProducer producer) {
 		Set<IBeanMethod> result = new HashSet<IBeanMethod>();
 		IClassBean cb = producer.getClassBean();
 		if(cb != null) {

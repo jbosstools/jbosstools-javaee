@@ -43,6 +43,7 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIVersion;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.ICDIProject;
@@ -488,6 +489,10 @@ public class CDIProjectAsYouType implements ICDIProject, ICDIElement {
 
 	@Override
 	public Collection<IBeanMethod> resolveDisposers(IProducerMethod producer) {
+		return project.resolveDisposers(producer);
+	}
+
+	public Collection<IBeanMethod> resolveDisposers(IProducer producer) {
 		return project.resolveDisposers(producer);
 	}
 

@@ -335,9 +335,21 @@ public interface IBeanManager {
 	 * 			  a producer method
 	 * 
 	 * @return bound disposer methods
+	 * @deprecated Use resolveDisposers(IProducer)
 	 */
+	@Deprecated
 	Collection<IBeanMethod> resolveDisposers(IProducerMethod producer);
 
+	/**
+	 * Return the disposer members which are bound to the producer method or field.
+	 * Since CDI 1.1 disposer allows also producer fields.
+	 * 
+	 * @param producer
+	 * 			  a producer
+	 * 
+	 * @return bound disposer methods
+	 */
+	Collection<IBeanMethod> resolveDisposers(IProducer producer);
 	/**
 	 * Tests the given annotation type to determine if it is a scope type.
 	 * 

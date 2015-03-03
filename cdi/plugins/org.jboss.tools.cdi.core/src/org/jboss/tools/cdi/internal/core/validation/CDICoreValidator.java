@@ -1206,14 +1206,15 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 
 		Set<IBeanMethod> boundDisposers = new HashSet<IBeanMethod>();
 		for (IProducer producer : bean.getProducers()) {
-			if (producer instanceof IProducerMethod && producer.exists()) {
-				IProducerMethod producerMethod = (IProducerMethod) producer;
-				Collection<IBeanMethod> disposerMethods = producer.getCDIProject().resolveDisposers(producerMethod);
+			if(producer.exists() && (producer instanceof IProducerMethod || producer.getCDIProject().getVersion() != CDIVersion.CDI_1_0)) {
+				Collection<IBeanMethod> disposerMethods = producer.getCDIProject().resolveDisposers(producer);
 				boundDisposers.addAll(disposerMethods);
 				if (disposerMethods.size() > 1) {
 					/*
-					 * 3.3.7. Disposer method resolution
+					 * 3.3.7. Disposer method resolution (CDI 1.0)
 					 *  - there are multiple disposer methods for a single producer method
+					 * 3.5.3. Disposer method resolution (CDI 1.1 and 1.2)
+					 *  - there are multiple disposer methods for a single producer method or producer field
 					 */
 					for (IBeanMethod disposerMethod : disposerMethods) {
 						Collection<ITextSourceReference> disposerDeclarations = CDIUtil.getAnnotationPossitions(disposerMethod, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
@@ -1342,6 +1343,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			/*
 			 * 3.3.7. Disposer method resolution
 			 *  - there is no producer method declared by the (same) bean class that is assignable to the disposed parameter of a disposer method
+			 * 3.5.3. Disposer method resolution (CDI 1.1 and 1.2)
+			 *  - there is no producer method or producer field declared by the bean class that is assignable to the disposed parameter of a disposer method	 
 			 */
 			if (!boundDisposers.contains(disposer)) {
 				for (ITextSourceReference declaration : disposerDeclarations) {

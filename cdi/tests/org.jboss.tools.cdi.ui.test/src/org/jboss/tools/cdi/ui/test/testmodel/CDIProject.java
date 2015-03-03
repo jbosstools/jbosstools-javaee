@@ -22,6 +22,7 @@ import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDIVersion;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
@@ -31,6 +32,7 @@ import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParameter;
+import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
@@ -245,6 +247,11 @@ public class CDIProject implements ICDIProject{
 
 	@Override
 	public Set<IBeanMethod> resolveDisposers(IProducerMethod producer) {
+		return null;
+	}
+
+	@Override
+	public Collection<IBeanMethod> resolveDisposers(IProducer producer) {
 		return null;
 	}
 
