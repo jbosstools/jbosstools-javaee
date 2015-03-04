@@ -173,7 +173,7 @@ public class FacesConfigValidator extends ValidationErrorManager implements IVal
 		String ENT_RENDERER = "JSFRenderer", ENT_RENDERER_11 = ENT_RENDERER + SUFF_11;
 		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_RENDERER_CLASS, "renderer-class", false, null, "javax.faces.render.Renderer"), ENT_RENDERER, ENT_RENDERER_11);
 		String ENT_VALIDATOR = "JSFValidator", ENT_VALIDATOR_12 = ENT_VALIDATOR + SUFF_12;
-		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_VALIDATOR_CLASS, "validator-class", false, null, "javax.faces.validator.Validator"), ENT_VALIDATOR, ENT_VALIDATOR_12);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_VALIDATOR_CLASS, "validator-class", false, "javax.faces.validator.Validator", null), ENT_VALIDATOR, ENT_VALIDATOR_12);
 
 		addCheck(new JSFCheckFromViewId(this), new String[]{ENT_NAVIGATION_CASE, ENT_NAVIGATION_CASE_20, ENT_NAVIGATION_RULE, ENT_NAVIGATION_RULE_20});
 		addCheck(new JSFCheckToViewId(this), new String[]{ENT_NAVIGATION_CASE, ENT_NAVIGATION_CASE_20, ENT_NAVIGATION_RULE, ENT_NAVIGATION_RULE_20});

@@ -51,4 +51,12 @@
  </application>
  <factory/>
  <lifecycle/>
+ <validator>
+  <validator-id>goodValidator</validator-id>
+  <validator-class>demo.GoodValidator</validator-class>
+ </validator>
+ <validator>
+  <validator-id>brokenValidator</validator-id> 
+  <validator-class>demo.BrokenValidator</validator-class>
+ </validator>
 </faces-config>
