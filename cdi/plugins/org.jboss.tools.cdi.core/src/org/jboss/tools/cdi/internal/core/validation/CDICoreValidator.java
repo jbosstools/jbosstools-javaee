@@ -432,7 +432,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 				// Report missing beans.xml only for CDI 1.0 projects 
 				if(context.getCdiProject().getVersion() == CDIVersion.CDI_1_0
 						&& !projectsWithBeansXml.contains(project.getName())) {
-					reportMissingBeansXml(project, context.getCdiProject().getVersion());
+					reportMissingBeansXml(project, CDIVersion.CDI_1_0);
 				}
 			}
 			missingBeansXmlValidated = true;
@@ -1106,7 +1106,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		}
 	}
 
-	private int getVersionIndex(ICDIElement element) {
+	int getVersionIndex(ICDIElement element) {
 		return element.getCDIProject().getVersion().getIndex();
 	}
 

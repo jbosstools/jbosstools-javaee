@@ -50,7 +50,7 @@ public class SeamSolderTest extends AbstractValidationTest {
 	}
 
 	protected int getVersionIndex() throws Exception {
-		return cdiProject == null || cdiProject.getVersion() == null ? 0 : cdiProject.getVersion().getIndex();
+		return cdiProject == null ? 0 : cdiProject.getVersion().getIndex();
 	}
 
 	public IProject getDependentTestProject() {

@@ -66,13 +66,13 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 		 * Stereotype annotation type should be annotated with @Retention(RUNTIME)
 		 */
 		if(stereotype.getCDIProject().getVersion() == CDIVersion.CDI_1_0) {
-			validateTargetAnnotation(stereotype, STEREOTYPE_GENERAL_TARGET_VARAINTS, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE[stereotype.getCDIProject().getVersion().getIndex()], resource, CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE_ID);
+			validateTargetAnnotation(stereotype, STEREOTYPE_GENERAL_TARGET_VARAINTS, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE[validator.getVersionIndex(stereotype)], resource, CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE_ID);
 		}
 
 		/*
 		 * Stereotype annotation type should be annotated with @Retention(RUNTIME)
 		 */
-		validateRetentionAnnotation(stereotype, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE[stereotype.getCDIProject().getVersion().getIndex()], resource, CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE_ID);
+		validateRetentionAnnotation(stereotype, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE[validator.getVersionIndex(stereotype)], resource, CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE_ID);
 
 		IAnnotationDeclaration target = stereotype.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
 		if(target!=null) {
@@ -90,22 +90,22 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 						String stName = stereotype.getSourceType().getElementName();
 						String superStName = superStereotype.getSourceType().getElementName();
 						if(result) {
-							validator.addProblem(CDIValidationMessages.ILLEGAL_TARGET_IN_STEREOTYPE_TYPE_TMF[stereotype.getCDIProject().getVersion().getIndex()], CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, new String[]{superStName, stName}, stereotypeDeclaration, resource);
+							validator.addProblem(CDIValidationMessages.ILLEGAL_TARGET_IN_STEREOTYPE_TYPE_TMF[validator.getVersionIndex(stereotype)], CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, new String[]{superStName, stName}, stereotypeDeclaration, resource);
 							continue;
 						}
 						result = CDIUtil.checkTargetAnnotation(target, STEREOTYPE_M_VARIANTS);
 						if(result) {
-							validator.addProblem(CDIValidationMessages.ILLEGAL_TARGET_IN_STEREOTYPE_TYPE_M[stereotype.getCDIProject().getVersion().getIndex()], CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, new String[]{superStName, stName}, stereotypeDeclaration, resource);
+							validator.addProblem(CDIValidationMessages.ILLEGAL_TARGET_IN_STEREOTYPE_TYPE_M[validator.getVersionIndex(stereotype)], CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, new String[]{superStName, stName}, stereotypeDeclaration, resource);
 							continue;
 						}
 						result = CDIUtil.checkTargetAnnotation(target, STEREOTYPE_F_VARIANTS);
 						if(result) {
-							validator.addProblem(CDIValidationMessages.ILLEGAL_TARGET_IN_STEREOTYPE_TYPE_F[stereotype.getCDIProject().getVersion().getIndex()], CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, new String[]{superStName, stName}, stereotypeDeclaration, resource);
+							validator.addProblem(CDIValidationMessages.ILLEGAL_TARGET_IN_STEREOTYPE_TYPE_F[validator.getVersionIndex(stereotype)], CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, new String[]{superStName, stName}, stereotypeDeclaration, resource);
 							continue;
 						}
 						result = CDIUtil.checkTargetAnnotation(target, STEREOTYPE_MF_VARIANTS);
 						if(result) {
-							validator.addProblem(CDIValidationMessages.ILLEGAL_TARGET_IN_STEREOTYPE_TYPE_MF[stereotype.getCDIProject().getVersion().getIndex()], CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, new String[]{superStName, stName}, stereotypeDeclaration, resource);
+							validator.addProblem(CDIValidationMessages.ILLEGAL_TARGET_IN_STEREOTYPE_TYPE_MF[validator.getVersionIndex(stereotype)], CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, new String[]{superStName, stName}, stereotypeDeclaration, resource);
 						}
 					}
 				}
@@ -126,7 +126,7 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 					first = false;
 				}
 				String stName = stereotype.getSourceType().getElementName();
-				validator.addProblem(CDIValidationMessages.ILLEGAL_TARGET_IN_INTERCEPTOR_BINDING_TYPE_FOR_STEREOTYPE[stereotype.getCDIProject().getVersion().getIndex()], CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, new String[]{stName, bindings.toString()}, target, resource);
+				validator.addProblem(CDIValidationMessages.ILLEGAL_TARGET_IN_INTERCEPTOR_BINDING_TYPE_FOR_STEREOTYPE[validator.getVersionIndex(stereotype)], CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, new String[]{stName, bindings.toString()}, target, resource);
 			}
 		}
 	}
@@ -146,7 +146,7 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 						IAnnotationType superBinding = declaration.getAnnotation();
 						Boolean result = CDIUtil.checkTargetAnnotation(superBinding, TYPE_VARIANTS);
 						if(result!=null && result) {
-							validator.addProblem(CDIValidationMessages.ILLEGAL_TARGET_IN_INTERCEPTOR_BINDING_TYPE[binding.getCDIProject().getVersion().getIndex()], CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, new String[]{superBinding.getSourceType().getElementName(), binding.getSourceType().getElementName()}, declaration, binding.getResource());
+							validator.addProblem(CDIValidationMessages.ILLEGAL_TARGET_IN_INTERCEPTOR_BINDING_TYPE[validator.getVersionIndex(binding)], CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, new String[]{superBinding.getSourceType().getElementName(), binding.getSourceType().getElementName()}, declaration, binding.getResource());
 						}
 					}
 				}
@@ -179,13 +179,13 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 		 * Scope annotation type should be annotated with @Target({TYPE, METHOD, FIELD})
 		 */
 		if(scope.getCDIProject().getVersion() == CDIVersion.CDI_1_0) {
-			validateTargetAnnotation(scope, SCOPE_GENERAL_TARGET_VARIANTS, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE[scope.getCDIProject().getVersion().getIndex()], resource, CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE_ID);
+			validateTargetAnnotation(scope, SCOPE_GENERAL_TARGET_VARIANTS, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE[validator.getVersionIndex(scope)], resource, CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE_ID);
 		}
 		
 		/*
 		 * Scope annotation type should be annotated with @Retention(RUNTIME)
 		 */
-		validateRetentionAnnotation(scope, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_SCOPE_TYPE[scope.getCDIProject().getVersion().getIndex()], resource, CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_SCOPE_TYPE_ID);
+		validateRetentionAnnotation(scope, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_SCOPE_TYPE[validator.getVersionIndex(scope)], resource, CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_SCOPE_TYPE_ID);
 	}
 
 	void validateRetentionAnnotation(ICDIAnnotation type, String message, IResource resource, int message_id) throws JavaModelException {
@@ -206,13 +206,13 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 		 * Qualifier annotation type should be annotated with @Retention(RUNTIME)
 		 */
 		if(qualifier.getCDIProject().getVersion() == CDIVersion.CDI_1_0) { 
-			validateTargetAnnotation(qualifier, QUALIFIER_GENERAL_TARGET_VARIANTS, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE[qualifier.getCDIProject().getVersion().getIndex()], resource, CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE_ID);
+			validateTargetAnnotation(qualifier, QUALIFIER_GENERAL_TARGET_VARIANTS, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE[validator.getVersionIndex(qualifier)], resource, CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE_ID);
 		}
 
 		/*
 		 * Qualifier annotation type should be annotated with @Retention(RUNTIME)
 		 */
-		validateRetentionAnnotation(qualifier, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE[qualifier.getCDIProject().getVersion().getIndex()], resource, CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE_ID);
+		validateRetentionAnnotation(qualifier, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE[validator.getVersionIndex(qualifier)], resource, CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE_ID);
 	}
 
 	private void validateTargetAnnotation(ICDIAnnotation annotationType, String[][] variants, String message, IResource resource, int message_id) throws JavaModelException {

@@ -22,6 +22,12 @@ public interface ICDIProject extends IBeanManager {
 	public boolean isTypeAlternative(String qualifiedName);
 	public boolean isStereotypeAlternative(String qualifiedName);
 	public boolean isClassAlternativeActivated(String fullQualifiedTypeName);
-	
+
+	/**
+	 * Returns CDI project version determined by version of CDI API in project classpath.
+	 * Returns CDI.CDI_UNKNOWN if classpath has no CDI API.
+	 * May not return null.
+	 * @return
+	 */
 	public CDIVersion getVersion();
 }

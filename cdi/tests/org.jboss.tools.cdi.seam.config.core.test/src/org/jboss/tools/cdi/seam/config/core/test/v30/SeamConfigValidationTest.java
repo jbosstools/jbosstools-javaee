@@ -108,7 +108,7 @@ public class SeamConfigValidationTest extends TestCase {
 	}
 
 	int getVersionIndex() {
-		return cdiProject.getVersion() == null ? 0 : cdiProject.getVersion().getIndex();
+		return cdiProject.getVersion().getIndex();
 	}
 	public void testSettingInlineBeanValuesToBeanOrSetOrMap() throws CoreException {
 		//correct element of set assignment

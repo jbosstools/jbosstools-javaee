@@ -1327,7 +1327,7 @@ public class CDIUtil {
 	 */
 	public static CDIVersion getCDIVersion(IProject project) {
 		IJavaProject jp = EclipseResourceUtil.getJavaProject(project);
-		if(jp == null) return null;
+		if(jp == null) return CDIVersion.CDI_UNKNOWN;
 
 		try {
 			if(EclipseJavaUtil.findType(jp, CDIConstants.VETOED_ANNOTATION_TYPE_NAME) != null) {
@@ -1351,7 +1351,7 @@ public class CDIUtil {
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
-		return null;
+		return CDIVersion.CDI_UNKNOWN;
 	}
 
 	/**

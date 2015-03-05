@@ -54,7 +54,7 @@ public class DependentProjectValidationTest extends ValidationTest {
 
 	int getVersionIndex(IProject p) {
 		ICDIProject cdi = CDICorePlugin.getCDIProject(p, true);
-		return cdi == null ? 0 : cdi.getVersion() == null ? 0 : cdi.getVersion().getIndex();
+		return cdi == null ? 0 : cdi.getVersion().getIndex();
 	}
 
 	/**

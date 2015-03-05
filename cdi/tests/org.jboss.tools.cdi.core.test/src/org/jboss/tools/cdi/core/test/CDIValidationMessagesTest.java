@@ -44,7 +44,7 @@ public class CDIValidationMessagesTest extends TestCase {
 				f.setAccessible(true);
 				
 				String[] values = (String[])f.get(null);
-				if(values.length != versionMessages.length || values.length != CDIVersion.values().length) {
+				if(values.length != versionMessages.length || values.length != CDIVersion.getVersionCount()) {
 					errorList.append("Wrong array length " + values.length + " for message " + name);
 				} else {
 					String[] contributions = new String[values.length];

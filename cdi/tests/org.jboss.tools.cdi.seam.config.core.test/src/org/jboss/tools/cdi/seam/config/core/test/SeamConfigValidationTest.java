@@ -47,7 +47,7 @@ public class SeamConfigValidationTest extends TestCase {
 	IFile f;
 
 	int getVersionIndex() {
-		return cdiProject == null || cdiProject.getVersion() == null ? 0 : cdiProject.getVersion().getIndex();
+		return cdiProject == null ? 0 : cdiProject.getVersion().getIndex();
 	}
 
 	public SeamConfigValidationTest() {

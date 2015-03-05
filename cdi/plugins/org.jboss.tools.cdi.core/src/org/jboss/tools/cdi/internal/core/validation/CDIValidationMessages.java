@@ -222,7 +222,7 @@ public class CDIValidationMessages {
 	 * @return
 	 */
 	static String[] createTemplate(int sinceIndex, int untilIndex) {
-		String[] result = new String[CDIVersion.values().length];
+		String[] result = new String[CDIVersion.getVersionCount()];
 		for (int i = sinceIndex; i <= untilIndex; i++) {
 			result[i] = "";
 		}
@@ -242,7 +242,7 @@ public class CDIValidationMessages {
 			String name = f.getName();
 			f.setAccessible(true);
 			String[] template = (String[])f.get(null);
-			String[] values = new String[CDIVersion.values().length];
+			String[] values = new String[CDIVersion.getVersionCount()];
 			f.set(null, values);
 
 			String[] contributions = new String[values.length];

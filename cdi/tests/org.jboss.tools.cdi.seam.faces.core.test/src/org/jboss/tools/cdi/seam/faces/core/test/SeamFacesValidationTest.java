@@ -48,7 +48,7 @@ public class SeamFacesValidationTest extends AbstractValidationTest {
 	protected int getVersionIndex() throws Exception {
 		IProject p = getTestProject();
 		ICDIProject cdi = CDICorePlugin.getCDIProject(p, true);
-		return cdi == null || cdi.getVersion() == null ? 0 : cdi.getVersion().getIndex();
+		return cdi == null ? 0 : cdi.getVersion().getIndex();
 	}
 
 	public void testInjectionAnnotatedInputField() throws Exception {

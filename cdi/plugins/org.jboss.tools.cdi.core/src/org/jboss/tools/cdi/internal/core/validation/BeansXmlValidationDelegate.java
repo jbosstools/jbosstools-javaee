@@ -201,7 +201,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 							}
 							String typeError = typeValidator.validateType(context, type);
 							if(typeError != null) {
-								IMarker marker = validator.addProblem(typeValidator.getIllegalTypeErrorMessage(context.getCdiProject().getVersion()), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
+								IMarker marker = validator.addProblem(typeValidator.getIllegalTypeErrorMessage(getVersion(context)), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
 										new String[]{typeNode.getTypeName()}, typeNode.getLength(), typeNode.getStartOffset(), beansXml, typeValidator.getIllegalTypeErrorMessageId());
 								if(marker != null) bindMarkerToModel(marker, typepath, typeValidator.getTypeElementName());
 								if(type.isBinary()) {
@@ -211,14 +211,14 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 							TypeNode node = uniqueTypes.get(typeNode.getTypeName());
 							if(node!=null) {
 								if(!node.isMarkedAsDuplicated()) {
-									IMarker marker = validator.addProblem(typeValidator.getDuplicateTypeErrorMessage(context.getCdiProject().getVersion()), CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
+									IMarker marker = validator.addProblem(typeValidator.getDuplicateTypeErrorMessage(getVersion(context)), CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
 											new String[]{}, node.getLength(), node.getStartOffset(), beansXml);
 									if(marker != null) bindMarkerToModel(marker, typepath, typeValidator.getTypeElementName());
 								}
 								node.setMarkedAsDuplicated(true);
 								typeNode.setMarkedAsDuplicated(true);
 								typeNode.setDuplicationIndex(node.getDuplicationIndex() + 1);
-								IMarker marker = validator.addProblem(typeValidator.getDuplicateTypeErrorMessage(context.getCdiProject().getVersion()), CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
+								IMarker marker = validator.addProblem(typeValidator.getDuplicateTypeErrorMessage(getVersion(context)), CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
 										new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml);
 								if(marker != null) {
 									int di = typeNode.getDuplicationIndex();
@@ -272,14 +272,14 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 				return null;
 			}
 		} else {
-			IMarker marker = validator.addProblem(typeValidator.getEmptyTypeErrorMessage(context.getCdiProject().getVersion()), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
+			IMarker marker = validator.addProblem(typeValidator.getEmptyTypeErrorMessage(getVersion(context)), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
 					new String[]{node.getTypeName()}, node.getLength(), node.getStartOffset(), beansXml, typeValidator.getUnknownTypeErrorMessageId());
 			bindMarkerToModel(marker, xmodelpath, attr);
 			return null;
 		}
 		if(type==null) {
 			addLinkedResourcesForUnknownType(beansXml, node.getTypeName());
-			IMarker marker = validator.addProblem(typeValidator.getUnknownTypeErrorMessage(context.getCdiProject().getVersion()), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
+			IMarker marker = validator.addProblem(typeValidator.getUnknownTypeErrorMessage(getVersion(context)), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
 					new String[]{node.getTypeName()}, node.getLength(), node.getStartOffset(), beansXml, typeValidator.getUnknownTypeErrorMessageId());
 			bindMarkerToModel(marker, xmodelpath, attr);
 		}
@@ -409,6 +409,10 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 	}
 
+	protected CDIVersion getVersion(CDICoreValidator.CDIValidationContext context) {
+		return context.getCdiProject().getVersion();
+	}
+	
 	private static interface TypeValidator {
 
 		String validateType(CDICoreValidator.CDIValidationContext context, IType type) throws JavaModelException;
@@ -428,6 +432,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		int getIllegalTypeErrorMessageId();
 
 		String getDuplicateTypeErrorMessage(CDIVersion version);
+
 	}
 
 	private abstract class AbstractTypeValidator implements TypeValidator {
@@ -440,18 +445,18 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		@Override
 		public String validateType(CDICoreValidator.CDIValidationContext context, IType type) throws JavaModelException {
 			if(!validateKindOfType(type)) {
-				return getIllegalTypeErrorMessage(context.getCdiProject().getVersion());
+				return getIllegalTypeErrorMessage(getVersion(context));
 			}
 			if(type.isBinary()) {			
 				if(!validateBinaryType(type)) {
-					return getIllegalTypeErrorMessage(context.getCdiProject().getVersion());
+					return getIllegalTypeErrorMessage(getVersion(context));
 				}
 			} else if(!validateSourceType(context, type)) {
-				return getIllegalTypeErrorMessage(context.getCdiProject().getVersion());
+				return getIllegalTypeErrorMessage(getVersion(context));
 			}
 			return null;
 		}
-		
+
 		abstract public boolean validateSourceType(CDICoreValidator.CDIValidationContext context, IType type);
 
 		/**

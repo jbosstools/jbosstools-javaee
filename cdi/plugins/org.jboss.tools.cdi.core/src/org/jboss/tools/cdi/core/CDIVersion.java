@@ -16,6 +16,12 @@ package org.jboss.tools.cdi.core;
 public enum CDIVersion {
 
 	/**
+	 * CDI API is not available in the project classpath.
+	 * Most CDI capabilities are disabled.
+	 */
+	CDI_UNKNOWN("0.0", 0), //$NON-NLS-1$
+
+	/**
 	 * CDI version 1.0
 	 */
 	CDI_1_0("1.0", 0), //$NON-NLS-1$
@@ -31,6 +37,16 @@ public enum CDIVersion {
 	CDI_1_2("1.2", 2); //$NON-NLS-1$
 
 	String version = ""; //$NON-NLS-1$
+
+	/**
+	 * Returns number of recognized versions.
+	 * The number is 1 less than length of values() array, because CDI_UNKNOWN is not a version.
+	 * 
+	 * @return
+	 */
+	public static int getVersionCount() {
+		return values().length - 1;
+	}
 
 	int versionIndex;
 

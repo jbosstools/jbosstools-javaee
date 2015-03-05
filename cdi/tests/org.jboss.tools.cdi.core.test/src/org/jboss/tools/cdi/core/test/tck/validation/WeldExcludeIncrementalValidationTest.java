@@ -42,7 +42,7 @@ public class WeldExcludeIncrementalValidationTest extends TestCase {
 	}
 
 	int getVersionIndex() {
-		return cdi == null || cdi.getVersion() == null ? 0 : cdi.getVersion().getIndex();
+		return cdi == null ? 0 : cdi.getVersion().getIndex();
 	}
 
 	//<weld:exclude name="exclude.p1.Bean1"/>

@@ -81,7 +81,7 @@ public class DiscoveryModeChangeTest extends TestCase {
 	}
 
 	protected int getVersionIndex() {
-		return cdiTestProject.getVersion() == null ? 0 : cdiTestProject.getVersion().getIndex();
+		return cdiTestProject.getVersion().getIndex();
 	}
 
 	protected void deleteTestProject() throws Exception {

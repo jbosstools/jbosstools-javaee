@@ -24,7 +24,7 @@ public class DeltaspikeCoreTest extends AbstractValidationTest {
 	protected int getVersionIndex() throws Exception {
 		IProject p = getTestProject();
 		ICDIProject cdi = CDICorePlugin.getCDIProject(p, true);
-		return cdi == null || cdi.getVersion() == null ? 0 : cdi.getVersion().getIndex();
+		return cdi == null ? 0 : cdi.getVersion().getIndex();
 	}
 	protected IProject getTestProject() throws Exception {
 		return ResourcesPlugin.getWorkspace().getRoot().getProject(DeltaspikeCoreTestSetup.PROJECT_NAME);

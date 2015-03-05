@@ -80,7 +80,7 @@ public class TCKTest extends TestCase {
 	}
 
 	protected int getVersionIndex() {
-		return cdiProject.getVersion() == null ? 0 : cdiProject.getVersion().getIndex();
+		return cdiProject.getVersion().getIndex();
 	}
 
 	public ITCKProjectNameProvider getProjectNameProvider() {
