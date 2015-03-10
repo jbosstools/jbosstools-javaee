@@ -326,6 +326,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		Set<IPath> resources = new HashSet<IPath>(); // Resources which we have
 														// to validate.
+		boolean hasDotProject = false;
 		Set<IPath> resourcesToClean = new HashSet<IPath>(); // Resource which we should remove from validation context
 		for(IFile file: changedFiles) {
 			resourcesToClean.add(file.getFullPath());
@@ -338,6 +339,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 						collectAllRelatedInjections(f, resources);
 					}
 				}
+			}
+			if(file.getName().endsWith(".project")) {
+				hasDotProject = true;
 			}
 		}
 
@@ -401,6 +405,10 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		// Then we can validate them
 		for (IFile file : filesToValidate) {
 			validateResource(file);
+		}
+		
+		if(hasDotProject) {
+			validateMissingBeansXml();
 		}
 
 		cleanSavedMarkers();
