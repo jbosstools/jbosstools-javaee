@@ -30,4 +30,29 @@
       </persistent>
    </extension>
 
+   <extension
+         point="org.jboss.tools.common.el.core.elResolver">
+         <el-resolver id="batchELResolver">
+         	<project-nature id="org.jboss.tools.jst.web.kb.kbnature" 
+         		resolver-class="org.jboss.tools.batch.internal.core.el.JobPropertiesELCompletionEngine"/>
+         </el-resolver>
+   </extension>
+
+   <extension
+         point="org.jboss.tools.common.el.core.elResolver">
+         <el-resolver id="batchELResolver2">
+         	<project-nature id="org.jboss.tools.jst.web.kb.kbnature" 
+         		resolver-class="org.jboss.tools.batch.internal.core.el.JobELValidator"/>
+         </el-resolver>
+   </extension>
+
+   <extension
+   		 id="BatchELValidationDelegate"
+         point="org.jboss.tools.jst.web.kb.elValidationDelegate">
+         <delegate
+         	   name="%BatchELValidationDelegate"
+               class="org.jboss.tools.batch.internal.core.validation.BatchELValidationDelegate">
+         </delegate>
+   </extension>
+
 </plugin>

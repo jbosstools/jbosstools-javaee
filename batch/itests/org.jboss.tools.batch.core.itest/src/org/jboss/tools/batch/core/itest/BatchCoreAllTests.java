@@ -47,7 +47,9 @@ public class BatchCoreAllTests {
 		suiteAll.addTest(testSetup);
 		
 		suiteAll.addTest(new ValidationProjectTestSetup(new TestSuite(
-				BatchValidatorTest.class), "org.jboss.tools.batch.core.itest", //$NON-NLS-1$
+				BatchValidatorTest.class,
+				JobPropertiesELCompletionEngineTest.class), 
+				"org.jboss.tools.batch.core.itest", //$NON-NLS-1$
 				new String[] { "projects/BatchTestProject" }, //$NON-NLS-1$
 				new String[] { "BatchTestProject" })); //$NON-NLS-1$
 

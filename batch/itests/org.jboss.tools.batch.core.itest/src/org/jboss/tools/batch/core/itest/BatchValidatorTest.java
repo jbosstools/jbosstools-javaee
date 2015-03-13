@@ -12,9 +12,14 @@ package org.jboss.tools.batch.core.itest;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.batch.internal.core.validation.BatchValidationMessages;
 import org.jboss.tools.common.base.test.validation.TestUtil;
+import org.jboss.tools.common.preferences.SeverityPreferences;
+import org.jboss.tools.jst.web.kb.WebKbPlugin;
+import org.jboss.tools.jst.web.kb.internal.validation.ELValidationMessages;
+import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
@@ -175,4 +180,14 @@ public class BatchValidatorTest extends TestCase {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(BatchValidationMessages.REDUCER_IS_EXPECTED, new String[]{}), 26);
 	}
 
+	public void testELValidator() throws Exception {
+		IResource resource = project.findMember("/src/META-INF/batch-jobs/job13.xml"); //$NON-NLS-1$
+		IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
+		assertTrue(resource.exists());
+		store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, SeverityPreferences.WARNING);
+		TestUtil.validate(resource);
+		store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, SeverityPreferences.IGNORE);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(resource, NLS.bind(ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME, "jobProperties"), 12); //$NON-NLS-1$
+		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME, "jobPropertie"), 11); //$NON-NLS-1$
+	}
 }
