@@ -98,13 +98,13 @@
 	<proposalCategory
           icon="images/batch_icon16.png"
           id="org.jboss.tools.batch.ui.proposalCategory.batchJob"
-          name="%proposalCategory.cdiClass">
+          name="%proposalCategory.batchJob">
     </proposalCategory>
     <proposalComputer
           activate="true"
           categoryId="org.jboss.tools.batch.ui.proposalCategory.batchJob"
           class="org.jboss.tools.batch.ui.internal.contentassist.BatchJobCompletionProposalComputer"
-          id="org.jboss.tools.cdi.ui.proposalComputer.cdiClass">
+          id="org.jboss.tools.batch.ui.proposalComputer.batchJob">
 			<contentType id="org.eclipse.core.runtime.xml">
 				<partitionType id="org.eclipse.wst.xml.XML_DEFAULT" />
 			</contentType>

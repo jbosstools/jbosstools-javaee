@@ -16,6 +16,13 @@ package org.jboss.tools.batch.core;
  *
  */
 public interface BatchConstants {
+	public String JAVAEE_NAMESPACE = "http://xmlns.jcp.org/xml/ns/javaee";
+
+	public String JOB_PROPERTIES_OPERATOR = "jobProperties";
+	public String JOB_PARAMETERS_OPERATOR = "jobParameters";
+	public String SYSTEM_PROPERTIES_OPERATOR = "systemProperties";
+	public String PARTITION_PLAN_OPERATOR = "partitionPlan";
+	
 	public String API_PACKAGE = "javax.batch.api";
 	public String CHUNK_PACKAGE = API_PACKAGE + ".chunk";
 	public String LISTENER_PACKAGE = API_PACKAGE + ".listener";

@@ -269,7 +269,7 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 					IDOMDocument document = domModel.getDocument();
 					if(document != null) {
 						Element element = document.getDocumentElement();
-						if(TAG_JOB.equals(element.getNodeName())) {
+						if(element != null && TAG_JOB.equals(element.getNodeName())) {
 							validateJobElement(batchProject, file, element);
 						}
 					}
