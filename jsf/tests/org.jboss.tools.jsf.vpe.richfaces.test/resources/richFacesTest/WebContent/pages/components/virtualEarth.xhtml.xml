@@ -1,5 +1,0 @@
-<tests>
-    <test id="virtualEarth">
-        <IMG SRC="/.*resources/virtualEarth/earth_road.png/"/>
-    </test>
-</tests>

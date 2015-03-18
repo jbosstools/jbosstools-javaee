@@ -1,9 +1,0 @@
-<tests>
-	<test id="id1">
-		<LABEL CLASS="#{invalid?'error':''}" STYLE="-moz-user-modify: read-only; cursor: pointer;">
-			<SPAN CLASS="vpe-text">
-				Label
-            </SPAN>
-		</LABEL>
-	</test>
-</tests>

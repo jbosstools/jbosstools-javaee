@@ -1,8 +1,0 @@
-<tests>
-	<test id="insert">
-		<DIV STYLE="color: red; font-weight: bold;">
-			Resource reading error.
-			<BR VPE:PSEUDO-ELEMENT="yes"/>
-		</DIV>
-	</test>
-</tests>

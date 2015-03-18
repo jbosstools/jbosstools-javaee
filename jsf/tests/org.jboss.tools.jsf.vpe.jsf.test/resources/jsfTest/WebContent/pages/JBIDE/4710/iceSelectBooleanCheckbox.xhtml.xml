@@ -1,5 +1,0 @@
-<tests>
-<test id="iceSelectBooleanCheckbox">
-<INPUT TYPE="checkbox" ID="uiOutput" NAME="uiOutput" ONBLUR="setFocus('');" ONFOCUS="setFocus(this.id);" ONKEYPRESS="Ice.util.radioCheckboxEnter(form,this,event);" STYLE="color: blue;"/>
-</test>
-</tests>

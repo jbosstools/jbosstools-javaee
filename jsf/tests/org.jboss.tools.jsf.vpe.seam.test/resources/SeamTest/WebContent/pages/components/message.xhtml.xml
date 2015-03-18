@@ -1,7 +1,0 @@
-<tests>
-	<test id="id1">
-		<SPAN CLASS="error" STYLE="-moz-user-modify: read-only;">
-			Error Messages
-        </SPAN>
-	</test>
-</tests>

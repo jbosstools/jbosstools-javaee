@@ -1,6 +1,0 @@
-Here is some wiki text: 
-*bold* |mono| ~deleted~ _underline_ /italic/ ^super^
-
-This is a new paragraph. (Just leave a blank line.)
-
-*/_Multiple ~tags~ styles_ can be nested!/*

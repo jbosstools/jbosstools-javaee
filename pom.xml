@@ -47,16 +47,6 @@
 			<layout>p2</layout>
 			<url>${jbosstools-hibernate-site}</url>
 		</repository>
-		<repository>
-			<id>jbosstools-vpe</id>
-			<layout>p2</layout>
-			<url>${jbosstools-vpe-site}</url>
-		</repository>
-		<repository>
-			<id>jbosstools-xulrunner</id>
-			<layout>p2</layout>
-			<url>${jbosstools-xulrunner-site}</url>
-		</repository>
 
 		<!-- To resolve parent artifact -->
 		<repository>

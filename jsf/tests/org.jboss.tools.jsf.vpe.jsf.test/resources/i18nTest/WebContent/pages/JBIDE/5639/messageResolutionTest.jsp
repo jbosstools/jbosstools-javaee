@@ -1,4 +1,0 @@
-#{msg.hello_message}
-
-
-
