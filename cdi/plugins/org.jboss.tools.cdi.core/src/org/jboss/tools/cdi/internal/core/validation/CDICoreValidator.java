@@ -475,6 +475,12 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 			return OK_STATUS;
 		}
 
+		for (IProject iProject : projectSet.getAllProjects()) {
+			if(notValidatedYet(iProject)) {
+				removeAllMessagesFromResource(iProject);
+			}
+		}
+
 		displaySubtask(CDIValidationMessages10.VALIDATING_PROJECT, new String[] {rootProjectName});
 
 		Set<IFile> filesToValidate = new HashSet<IFile>();

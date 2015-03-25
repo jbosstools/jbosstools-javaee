@@ -151,8 +151,15 @@ public class DiscoveryModeChangeTest extends TestCase {
 		
 			IFile zoo = rootProject.getFile("src/beans/Zoo.java");
 			assertTrue(zoo.exists());
+
+			IFile wilderness = testProject.getFile("src/beans/Wilderness.java");
+			assertTrue(wilderness.exists());
+
 			AbstractResourceMarkerTest.assertMarkerIsNotCreated(zoo, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 9);
 			AbstractResourceMarkerTest.assertMarkerIsNotCreated(zoo, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 9);
+		
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(wilderness, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 9);
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(wilderness, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 9);
 		
 			IFile beansxml_all = testProject.getFile("src/META-INF/beans.xml.all");
 			assertTrue(beansxml_all.exists());
@@ -160,6 +167,7 @@ public class DiscoveryModeChangeTest extends TestCase {
 			JobUtils.waitForIdle();
 			TestUtil.validate(beansxml);
 			AbstractResourceMarkerTest.assertMarkerIsCreated(zoo, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 9);
+			AbstractResourceMarkerTest.assertMarkerIsCreated(wilderness, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 9);
 		
 			IFile beansxml_none = testProject.getFile("src/META-INF/beans.xml.none");
 			assertTrue(beansxml_none.exists());
@@ -167,6 +175,8 @@ public class DiscoveryModeChangeTest extends TestCase {
 			JobUtils.waitForIdle();
 			TestUtil.validate(beansxml);
 			AbstractResourceMarkerTest.assertMarkerIsCreated(zoo, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 9);
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(wilderness, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 9);
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(wilderness, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 9);
 		
 			IFile beansxml_original = testProject.getFile("src/META-INF/beans.xml.original");
 			assertTrue(beansxml_original.exists());
@@ -175,6 +185,8 @@ public class DiscoveryModeChangeTest extends TestCase {
 			TestUtil.validate(beansxml);
 			AbstractResourceMarkerTest.assertMarkerIsNotCreated(zoo, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 9);
 			AbstractResourceMarkerTest.assertMarkerIsNotCreated(zoo, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 9);
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(wilderness, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS[getVersionIndex()], 9);
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(wilderness, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[getVersionIndex()], 9);
 		} finally {
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 		}
