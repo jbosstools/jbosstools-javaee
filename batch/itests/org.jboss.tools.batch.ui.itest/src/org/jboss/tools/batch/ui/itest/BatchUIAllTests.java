@@ -42,19 +42,25 @@ public class BatchUIAllTests {
 		suite.addTestSuite(BatchEditorTest.class);
 		suite.addTestSuite(BatchHyperlinkDetectorTest.class);
 		suite.addTestSuite(BatchELHyperlinkTest.class);
+		suiteAll.addTest(suite);
 
 		TestSuite suite1 = new TestSuite("Content assist");
 		suite1.addTestSuite(JobTransitionsContentAssist.class);
 		suite1.addTestSuite(JobArtifactRefContentAssist.class);
 		suite1.addTestSuite(JobPropertyNameContentAssist.class);
-		suite.addTest(suite1);
+		suiteAll.addTest(suite1);
+		
+		TestSuite suite2 = new TestSuite("Wizards");
+		suite2.addTestSuite(NewBatchWizardTest.class);
+		
+		suiteAll.addTest(suite2);
 
-		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suite,
+		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suiteAll,
 				"org.jboss.tools.batch.core.itest",
 				new String[]{"projects/BatchTestProject"},
 				new String[]{"BatchTestProject"});
 
-		suiteAll.addTest(testSetup);
+//		suiteAll.addTest(testSetup);
 		
 
 //		testSetup = new ProjectImportTestSetup(suite,
@@ -63,6 +69,6 @@ public class BatchUIAllTests {
 //				new String[]{"TestProject"});
 //				suiteAll.addTest(testSetup);
 		
-		return suiteAll;
+		return testSetup;
 	}
 }

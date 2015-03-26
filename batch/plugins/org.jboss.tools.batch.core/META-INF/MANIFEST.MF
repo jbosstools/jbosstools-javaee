@@ -7,7 +7,8 @@ Export-Package: org.jboss.tools.batch.core,
  org.jboss.tools.batch.internal.core.impl;x-friends:="org.jboss.tools.batch.core.itest,org.jboss.tools.batch.ui",
  org.jboss.tools.batch.internal.core.preferences;x-friends:="org.jboss.tools.batch.core.itest,org.jboss.tools.batch.ui",
  org.jboss.tools.batch.internal.core.validation;x-friends:="org.jboss.tools.batch.core.itest,org.jboss.tools.batch.ui",
- org.jboss.tools.batch.internal.core.el;x-friends:="org.jboss.tools.batch.core.itest,org.jboss.tools.batch.ui"
+ org.jboss.tools.batch.internal.core.el;x-friends:="org.jboss.tools.batch.core.itest,org.jboss.tools.batch.ui",
+ org.jboss.tools.batch.internal.core.impl.definition;x-friends:="org.jboss.tools.batch.core.itest,org.jboss.tools.batch.ui"
 Bundle-SymbolicName: org.jboss.tools.batch.core; singleton:=true
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.jface.text;bundle-version="3.7.0",

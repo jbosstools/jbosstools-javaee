@@ -22,6 +22,8 @@ public class BatchJobDefinition {
 	IPath path;
 	IFile file;
 
+	String jobID = "";
+
 	public BatchJobDefinition() {}
 
 	public void setPath(IPath path) {
@@ -39,6 +41,14 @@ public class BatchJobDefinition {
 
 	public IFile getFile() {
 		return file;
+	}
+
+	public void setJobID(String id) {
+		jobID = id;
+	}
+
+	public String getJobID() {
+		return jobID;
 	}
 
 }

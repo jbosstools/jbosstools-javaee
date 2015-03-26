@@ -41,12 +41,15 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.batch.core.BatchConstants;
 import org.jboss.tools.batch.core.BatchCorePlugin;
+import org.jboss.tools.batch.internal.core.impl.BatchUtil.DocumentScanner;
 import org.jboss.tools.batch.internal.core.impl.definition.BatchJobDefinition;
 import org.jboss.tools.batch.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.batch.internal.core.scanner.FileSet;
 import org.jboss.tools.batch.internal.core.scanner.lib.JarSet;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.jst.web.kb.internal.IIncrementalProjectBuilderExtension;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * 
@@ -236,8 +239,21 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 		Set<IFile> batchJobs = fs.getBatchJobs();
 		if(!batchJobs.isEmpty()) {
 			for (IFile batchJob: batchJobs) {
-				BatchJobDefinition def = new BatchJobDefinition();
+				final BatchJobDefinition def = new BatchJobDefinition();
 				def.setFile(batchJob);
+				BatchUtil.scanXMLFile(batchJob, new DocumentScanner() {					
+					@Override
+					public void scanDocument(Document document) {
+						if(document != null) {
+							Element element = document.getDocumentElement();
+							if(element != null) {
+								String id = element.getAttribute(BatchConstants.ATTR_ID);
+								def.setJobID(id);
+							}
+						}
+						
+					}
+				});
 				//
 				context.addBatchConfig(def);
 			}
@@ -317,7 +333,7 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 
 				batch_jobs = new IPath[srcs.length];
 				for (int i = 0; i < srcs.length; i++) {
-					IPath b = srcs[i].append("META-INF/batch-jobs");
+					IPath b = srcs[i].append(BatchConstants.BATCH_JOBS_PATH);
 					IResource findMember = ResourcesPlugin.getWorkspace().getRoot().findMember(b);
 					if(findMember != null && findMember.exists()) {
 						batch_jobs[i] = findMember.getFullPath();

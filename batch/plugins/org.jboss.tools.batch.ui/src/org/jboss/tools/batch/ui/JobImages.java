@@ -32,6 +32,7 @@ public class JobImages {
 	public static final String DECISION_IMAGE = "decision.png"; //$NON-NLS-1$
 	public static final String FLOW_IMAGE = "flow.png"; //$NON-NLS-1$
 	public static final String JOB_LISTENER_IMAGE = "listener.png"; //$NON-NLS-1$
+	public static final String JOB_IMAGE = "job.png"; //$NON-NLS-1$
 	public static final String MAPPER_IMAGE = "partition.png"; //$NON-NLS-1$
 	public static final String PROCESSOR_IMAGE = "processor.png"; //$NON-NLS-1$
 	public static final String PROPERTY_IMAGE = "property.png"; //$NON-NLS-1$
@@ -39,6 +40,8 @@ public class JobImages {
 	public static final String REDUCER_IMAGE = "partition.png"; //$NON-NLS-1$
 	public static final String STEP_LISTENER_IMAGE = "listener.png"; //$NON-NLS-1$
 	public static final String WRITER_IMAGE = "writer.png"; //$NON-NLS-1$
+
+	public static final String NEW_JOB_XML_IMAGE = "BatchXMLWizBan.png"; //$NON-NLS-1$
 
 	private JobImages() {}
 	/**
@@ -52,7 +55,7 @@ public class JobImages {
 		return getImage(getImageDescriptor(key));
 	}
 
-	static ImageDescriptor getImageDescriptor(String key) {
+	public static ImageDescriptor getImageDescriptor(String key) {
 		ImageDescriptor descriptor = getImageRegistry().getDescriptor(key);
 		if(descriptor == null) {
 			descriptor = ImageDescriptor.createFromFile(Job.class, key);

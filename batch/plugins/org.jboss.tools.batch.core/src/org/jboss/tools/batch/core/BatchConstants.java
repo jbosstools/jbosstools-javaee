@@ -18,6 +18,10 @@ package org.jboss.tools.batch.core;
 public interface BatchConstants {
 	public String JAVAEE_NAMESPACE = "http://xmlns.jcp.org/xml/ns/javaee";
 
+	public String META_INF = "META-INF";
+	public String BATCH_JOBS = "batch-jobs";
+	public String BATCH_JOBS_PATH = META_INF + "/" + BATCH_JOBS;
+
 	public String JOB_PROPERTIES_OPERATOR = "jobProperties";
 	public String JOB_PARAMETERS_OPERATOR = "jobParameters";
 	public String SYSTEM_PROPERTIES_OPERATOR = "systemProperties";
@@ -126,4 +130,5 @@ public interface BatchConstants {
 	public String ATTR_RESTART = "restart";
 	public String ATTR_TO = "to";
 	public String ATTR_VALUE = "value";
+	public String ATTR_VERSION = "version";
 }

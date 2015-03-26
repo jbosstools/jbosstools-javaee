@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.batch.internal.core.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
@@ -22,6 +23,9 @@ import javax.xml.xpath.XPathFactory;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
@@ -30,7 +34,9 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.jboss.tools.batch.core.BatchCorePlugin;
 import org.jboss.tools.common.text.ITextSourceReference;
+import org.jboss.tools.common.zip.UnzipOperation;
 import org.jboss.tools.jst.web.kb.WebKbPlugin;
+import org.osgi.framework.Bundle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -154,5 +160,27 @@ public class BatchUtil {
 		public Collection<ITextSourceReference> getResults() {
 			return results;
 		}
+	}
+
+	private static File TEMPLATE_FOLDER;
+
+	public static File getTemplatesFolder() throws IOException {
+		if(TEMPLATE_FOLDER == null) {
+			Bundle bundle = BatchCorePlugin.getDefault().getBundle();
+			String version = bundle.getVersion().toString();
+			IPath stateLocation = Platform.getStateLocation(bundle);
+			File templatesDir = FileLocator.getBundleFile(bundle);
+			if(templatesDir.isFile()) {
+				File toCopy = new File(stateLocation.toFile(),version);
+				if(!toCopy.exists()) {
+					toCopy.mkdirs();
+					UnzipOperation unZip = new UnzipOperation(templatesDir.getAbsolutePath());
+					unZip.execute(toCopy, "templates.*");
+				}
+				templatesDir = toCopy;
+			}
+			TEMPLATE_FOLDER = new File(templatesDir, "templates");
+		}
+		return TEMPLATE_FOLDER;
 	}
 }

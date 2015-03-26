@@ -135,4 +135,37 @@
          </action>
       </editorContribution>
    </extension>
+   
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            name="Batch"
+            id="org.jboss.tools.batch.ui">
+      </category>
+
+      <wizard
+            name="%NewWizards.job.file"
+            icon="platform:/plugin/org.jboss.tools.batch.ui/images/batch_icon16.png"
+            category="org.jboss.tools.batch.ui"
+            class="org.jboss.tools.batch.ui.internal.wizard.NewJobXMLCreationWizard"
+            id="org.jboss.tools.batch.ui.internal.wizard.NewJobXMLCreationWizard">
+         <description>
+            %NewWizards.job.file.description
+         </description>
+         <selection
+               class="org.eclipse.core.resources.IResource">
+         </selection>
+         <keywordReference
+               id="org.jboss.tools.batch.ui.newJobXML">
+         </keywordReference>
+      </wizard>
+
+   </extension>
+
+   <extension
+   		point="org.eclipse.ui.keywords">
+      <keyword
+            label="%preferenceKeywords.newJobXML"
+            id="org.jboss.tools.batch.ui.newJobXML"/>
+   </extension>
+
 </plugin>
