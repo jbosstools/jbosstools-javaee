@@ -67,11 +67,11 @@ public class CDIProjectWizard extends WebProjectWizard implements IExecutableExt
 	 */
 	@Override
     protected void setRuntimeAndDefaultFacets(IRuntime runtime) {
-		IPreset preset = getFacetedProjectWorkingCopy().getSelectedPreset();
+		IFacetedProjectWorkingCopy dm = getFacetedProjectWorkingCopy();
+        IPreset preset = dm.getSelectedPreset();
 		if(preset!=null) {
 			oldPreset = preset;
 		}
-		IFacetedProjectWorkingCopy dm = getFacetedProjectWorkingCopy();
 		dm.setTargetedRuntimes(Collections.<IRuntime> emptySet());
 		boolean dontUseRuntimeConfig = false;
 		if (runtime != null) {
@@ -200,7 +200,20 @@ public class CDIProjectWizard extends WebProjectWizard implements IExecutableExt
 			if(runtime!=null) {
 		        IFacetedProjectTemplate template = null;
 		        String webFacet = null;
-				if(runtime.supports(IJ2EEFacetConstants.DYNAMIC_WEB_31)) {
+				IPreset defaultPreset = dm.getDefaultConfiguration();
+				boolean defaultPresetContainsWeb30 = false;
+				if(defaultPreset!=null) {
+					Set<IProjectFacetVersion> presetFacets = defaultPreset.getProjectFacets();
+					for (IProjectFacetVersion facetVersion : presetFacets) {
+						if(facetVersion.equals(IJ2EEFacetConstants.DYNAMIC_WEB_30)) {
+							// Don't use CDI 1.2 && JavaEE 7 facets for runtimes with Web 3.0 (JavaEE 6) as default facet even if it supports Web 3.1.
+							// See https://issues.jboss.org/browse/JBIDE-19356
+							defaultPresetContainsWeb30 = true;
+							break;
+						}
+					}
+				}
+				if(!defaultPresetContainsWeb30 && runtime.supports(IJ2EEFacetConstants.DYNAMIC_WEB_31)) {
 					template = ProjectFacetsManager.getTemplate(CDI12_TEMPALTE);
 					webFacet = IJ2EEFacetConstants.DYNAMIC_WEB_31.getVersionString();
 				} else if(runtime.supports(IJ2EEFacetConstants.DYNAMIC_WEB_30)) {
