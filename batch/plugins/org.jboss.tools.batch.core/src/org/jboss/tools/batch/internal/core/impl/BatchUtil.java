@@ -32,6 +32,7 @@ import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.xml.core.internal.document.AttrImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
+import org.jboss.tools.batch.core.BatchConstants;
 import org.jboss.tools.batch.core.BatchCorePlugin;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.zip.UnzipOperation;
@@ -100,6 +101,22 @@ public class BatchUtil {
 	 */
 	public static Collection<ITextSourceReference> getAttributeReferences(IFile file, String name, String value) {
 		String expression = "//*[@" + name + "=\"" + value + "\"]/@" + name;
+		AttrReferencesRequestor requestor = new AttrReferencesRequestor(file, expression);
+		scanXMLFile(file, requestor);
+		return requestor.results;
+	}
+
+	/**
+	 * Returns collection of text source references in xml file to name attribute of property tag by refValue and nameValue
+	 * 
+	 * @param file
+	 * @param refValue value of ref attribute
+	 * @param nameValue value of name attribute
+	 * @return
+	 */
+	public static Collection<ITextSourceReference> getPropertyAttributeReferences(IFile file, String refValue, String propertyName) {
+		String expression = "//*[@"+BatchConstants.ATTR_REF+"=\""+refValue+"\"]//*[@" + BatchConstants.ATTR_NAME +
+				"=\"" + propertyName + "\"]/@" + BatchConstants.ATTR_NAME;
 		AttrReferencesRequestor requestor = new AttrReferencesRequestor(file, expression);
 		scanXMLFile(file, requestor);
 		return requestor.results;

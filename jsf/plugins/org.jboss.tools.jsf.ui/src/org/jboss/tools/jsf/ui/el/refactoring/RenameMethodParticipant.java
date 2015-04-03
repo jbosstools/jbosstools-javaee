@@ -28,6 +28,7 @@ import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.ISharableParticipant;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringArguments;
+import org.eclipse.ltk.core.refactoring.participants.RenameArguments;
 import org.eclipse.ltk.core.refactoring.participants.RenameParticipant;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.text.edits.MultiTextEdit;
@@ -114,25 +115,6 @@ public class RenameMethodParticipant extends RenameParticipant implements IShara
 			oldName = method.getElementName();
 			
 			newName = RefactorSearcher.getPropertyName(method, getArguments().getNewName());
-			searcher = new RenameMethodSearcher((IFile)method.getResource(), oldName);
-			return true;
-		}
-		return false;
-	}
-	
-	// for test only
-	public boolean initialize(Object element, String newName) {
-		if(element instanceof IMethod){
-			IMethod method = (IMethod)element;
-			status = new RefactoringStatus();
-			
-			rootChange = new CompositeChange(JsfUIMessages.RENAME_METHOD_PARTICIPANT_UPDATE_METHOD_REFERENCES);
-			
-			this.element = method;
-			
-			oldName = method.getElementName();
-			
-			this.newName = newName;
 			searcher = new RenameMethodSearcher((IFile)method.getResource(), oldName);
 			return true;
 		}

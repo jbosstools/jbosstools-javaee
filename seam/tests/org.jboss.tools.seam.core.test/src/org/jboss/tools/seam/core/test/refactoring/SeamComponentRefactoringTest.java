@@ -10,11 +10,13 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.text.edits.MultiTextEdit;
+import org.jboss.tools.common.base.test.RenameParticipantTestUtil;
+import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestChangeStructure;
+import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestTextChange;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentProcessor;
-import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
 public class SeamComponentRefactoringTest extends SeamRefactoringTest {
@@ -122,7 +124,7 @@ public class SeamComponentRefactoringTest extends SeamRefactoringTest {
 
 			MultiTextEdit edit = (MultiTextEdit)fileChange.getEdit();
 			
-			TestChangeStructure change = findChange(changeList, fileChange.getFile());
+			TestChangeStructure change = RenameParticipantTestUtil.findChange(changeList, fileChange.getFile());
 			if(change != null){
 				assertEquals(change.size(), edit.getChildrenSize());
 			}

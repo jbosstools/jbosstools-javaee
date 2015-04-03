@@ -21,8 +21,8 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.internal.core.refactoring.RenameNamedBeanProcessor;
 import org.jboss.tools.common.base.test.AbstractRefactorTest;
-import org.jboss.tools.common.base.test.AbstractRefactorTest.TestChangeStructure;
-import org.jboss.tools.common.base.test.AbstractRefactorTest.TestTextChange;
+import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestChangeStructure;
+import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestTextChange;
 import org.jboss.tools.common.util.FileUtil;
 
 public class NamedBeanRefactoringTest extends TCKTest {

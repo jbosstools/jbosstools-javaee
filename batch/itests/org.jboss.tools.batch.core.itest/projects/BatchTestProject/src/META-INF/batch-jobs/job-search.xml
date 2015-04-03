@@ -1,0 +1,29 @@
+<job  id="myJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <step id="step1" next="step2">
+        <batchlet ref="searchableBatchlet">
+            <properties>
+                <property name="secondName" value="A"/>
+            </properties>
+        </batchlet> 
+        <stop on="stop" restart="step3"/>
+        <next on="next" to="step2"/>
+    </step>
+    <step id="step2">
+      <chunk>
+        <reader ref=""></reader>
+        <writer ref="rewriter"></writer>
+        <skippable-exception-classes>
+          <include class="batch.SearchableException"/>
+        </skippable-exception-classes>
+        <retryable-exception-classes>
+          <include class="batch.SearchableException"/>
+        </retryable-exception-classes>
+        <no-rollback-exception-classes>
+          <exclude class="batch.SearchableException"/>
+        </no-rollback-exception-classes>
+      </chunk> 
+    </step>
+    <step id="step3">
+      <batchlet ref="searchableBatchlet"></batchlet> 
+    </step>
+</job>

@@ -16,6 +16,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.common.base.test.AbstractRefactorTest;
+import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestChangeStructure;
+import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestTextChange;
 import org.jboss.tools.jsf.el.refactoring.RenameELVariableProcessor;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 

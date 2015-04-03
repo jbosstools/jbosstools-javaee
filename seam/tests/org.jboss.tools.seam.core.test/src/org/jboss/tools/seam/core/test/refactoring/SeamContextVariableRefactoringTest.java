@@ -1,18 +1,12 @@
 package org.jboss.tools.seam.core.test.refactoring;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.ltk.core.refactoring.CompositeChange;
-import org.eclipse.ltk.core.refactoring.TextFileChange;
-import org.eclipse.text.edits.MultiTextEdit;
-import org.jboss.tools.common.util.FileUtil;
-import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestChangeStructure;
+import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestTextChange;
 import org.jboss.tools.seam.internal.core.refactoring.RenameSeamContextVariableProcessor;
-import org.jboss.tools.test.util.JobUtils;
 
 public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 	public SeamContextVariableRefactoringTest(){

@@ -21,7 +21,7 @@ import org.jboss.tools.batch.core.IBatchArtifact;
 import org.jboss.tools.batch.core.IBatchProject;
 import org.jboss.tools.batch.core.IBatchProperty;
 import org.jboss.tools.batch.internal.core.impl.BatchProjectFactory;
-import org.jboss.tools.batch.ui.JSTJobUiPlugin;
+import org.jboss.tools.batch.ui.BatchUIPlugin;
 import org.jboss.tools.common.refactoring.MarkerResolutionUtils;
 import org.jboss.tools.common.text.ext.hyperlink.OpenJavaElementHyperlink;
 import org.jboss.tools.common.text.ext.hyperlink.xml.XMLJumpToHyperlink;
@@ -126,7 +126,7 @@ public class BatchHyperlinkDetector extends AbstractHyperlinkDetector {
 		try {
 			sourceRegion = Utils.getAttributeValueRegion(textViewer.getDocument(), attribute);
 		} catch (BadLocationException e) {
-			JSTJobUiPlugin.getDefault().logError(e);
+			BatchUIPlugin.getDefault().logError(e);
 		}
 
 		if (sourceRegion != null && offset >= sourceRegion.getOffset()

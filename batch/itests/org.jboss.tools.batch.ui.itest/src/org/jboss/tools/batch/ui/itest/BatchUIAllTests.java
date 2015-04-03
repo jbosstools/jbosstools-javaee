@@ -42,8 +42,11 @@ public class BatchUIAllTests {
 		suite.addTestSuite(BatchEditorTest.class);
 		suite.addTestSuite(BatchHyperlinkDetectorTest.class);
 		suite.addTestSuite(BatchELHyperlinkTest.class);
-		suiteAll.addTest(suite);
+		suite.addTestSuite(BatchQueryParticipantTest.class);
+		suite.addTestSuite(BatchRenameParticipantTest.class);
 
+		suiteAll.addTest(suite);
+		
 		TestSuite suite1 = new TestSuite("Content assist");
 		suite1.addTestSuite(JobTransitionsContentAssist.class);
 		suite1.addTestSuite(JobArtifactRefContentAssist.class);

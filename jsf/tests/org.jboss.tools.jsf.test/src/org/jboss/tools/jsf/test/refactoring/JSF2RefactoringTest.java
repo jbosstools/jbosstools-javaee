@@ -20,6 +20,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ltk.internal.core.refactoring.resource.MoveResourcesProcessor;
 import org.eclipse.ltk.internal.core.refactoring.resource.RenameResourceProcessor;
 import org.jboss.tools.common.base.test.AbstractRefactorTest;
+import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestChangeStructure;
+import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestTextChange;
 import org.jboss.tools.jsf.jsf2.refactoring.JSF2RenameParticipant;
 import org.jboss.tools.jsf.jsf2.refactoring.JSf2MoveParticipant;
 import org.jboss.tools.test.util.ProjectImportTestSetup;

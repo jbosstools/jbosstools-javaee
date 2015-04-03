@@ -1,22 +1,14 @@
 package org.jboss.tools.jsf.ui.test.refactoring;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
-import org.eclipse.ltk.core.refactoring.CompositeChange;
-import org.eclipse.ltk.core.refactoring.RefactoringStatus;
-import org.eclipse.ltk.core.refactoring.TextFileChange;
-import org.eclipse.text.edits.MultiTextEdit;
-import org.jboss.tools.common.util.FileUtil;
+import org.eclipse.jdt.internal.corext.refactoring.rename.RenameNonVirtualMethodProcessor;
+import org.jboss.tools.common.base.test.RenameParticipantTestUtil;
+import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestChangeStructure;
+import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestTextChange;
 import org.jboss.tools.jsf.ui.el.refactoring.RenameMethodParticipant;
-import org.jboss.tools.test.util.JobUtils;
 
 public class ELReferencesRenameTest extends ELRefactoringTest {
 
@@ -37,66 +29,9 @@ public class ELReferencesRenameTest extends ELRefactoringTest {
 		structure.addTextChange(change);
 		list.add(structure);
 
-		IMethod method = getJavaMethod(jsfProject, "demo.User", "getName");
+		IMethod method = RenameParticipantTestUtil.getJavaMethod(jsfProject, "demo.User", "getName");
+		RenameNonVirtualMethodProcessor renameProcessor = new RenameNonVirtualMethodProcessor(method);
 
-		renameELReferences(method, "alias", list);
-	}
-
-	private void renameELReferences(IJavaElement element, String newName, List<TestChangeStructure> changeList) throws CoreException{
-		JobUtils.waitForIdle();
-		
-		int[] numberOfMarkers = new int[changeList.size()];
-
-		// Rename EL references
-		RenameMethodParticipant participant = new RenameMethodParticipant();
-		participant.initialize(element, newName);
-		RefactoringStatus status = participant.checkConditions(new NullProgressMonitor(), null);
-
-		assertNotNull("Rename participant returned null status", status);
-
-		assertFalse("There is fatal errors in rename participant", status.hasFatalError());
-
-		CompositeChange rootChange = (CompositeChange)participant.createChange(new NullProgressMonitor());
-
-		assertEquals("There is unexpected number of changes",changeList.size(), rootChange.getChildren().length);
-
-		for(int i = 0; i < rootChange.getChildren().length;i++){
-			TextFileChange fileChange = (TextFileChange)rootChange.getChildren()[i];
-			IFile file = fileChange.getFile();
-			IMarker[] markers = file.findMarkers(null, true, IResource.DEPTH_INFINITE);
-			numberOfMarkers[i] = markers.length;
-
-			MultiTextEdit edit = (MultiTextEdit)fileChange.getEdit();
-
-			TestChangeStructure change = findChange(changeList, file);
-			if(change != null){
-				assertEquals(change.size(), edit.getChildrenSize());
-			}
-		}
-
-		rootChange.perform(new NullProgressMonitor());
-		JobUtils.waitForIdle();
-		// Test results
-
-		int index = 0;
-		for(TestChangeStructure changeStructure : changeList){
-			IFile file = changeStructure.getProject().getFile(changeStructure.getFileName());
-			String content = null;
-			try {
-				content = FileUtil.readStream(file);
-			} catch (CoreException e) {
-				e.printStackTrace();
-				fail(e.getMessage());
-			}
-			//System.out.println("File - "+file.getName()+" offset - "+changeStructure.getOffset()+" expected - ["+changeStructure.getText()+"] actual - ["+content.substring(changeStructure.getOffset(), changeStructure.getOffset()+changeStructure.getLength())+"]");
-			for(TestTextChange change : changeStructure.getTextChanges()){
-				assertEquals("There is unexpected change in resource - "+file.getName(), newName, content.substring(change.getOffset(), change.getOffset()+newName.length()));
-			}
-			
-			IMarker[] markers = file.findMarkers(null, true, IResource.DEPTH_INFINITE);
-			assertTrue("Refactoring increased number of problems", markers.length <= numberOfMarkers[index]);
-			
-			index++;
-		}
+		RenameParticipantTestUtil.checkRenameParticipant(method, renameProcessor, new RenameMethodParticipant(), "alias", list);
 	}
 }

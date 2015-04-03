@@ -13,15 +13,15 @@ package org.jboss.tools.batch.ui;
 import org.jboss.tools.common.log.BaseUIPlugin;
 
 
-public class JSTJobUiPlugin extends BaseUIPlugin {
+public class BatchUIPlugin extends BaseUIPlugin {
 	public static String PLUGIN_ID = "org.jboss.tools.batch.ui"; //$NON-NLS-1$
-	static JSTJobUiPlugin plugin = null;
+	static BatchUIPlugin plugin = null;
 
-	public JSTJobUiPlugin() {
+	public BatchUIPlugin() {
 		plugin = this;
 	}
 	
-	public static JSTJobUiPlugin getDefault() {
+	public static BatchUIPlugin getDefault() {
 		return plugin;
 	}
 

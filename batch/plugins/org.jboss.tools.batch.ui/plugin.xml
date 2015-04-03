@@ -135,7 +135,6 @@
          </action>
       </editorContribution>
    </extension>
-   
    <extension point="org.eclipse.ui.newWizards">
       <category
             name="Batch"
@@ -167,5 +166,29 @@
             label="%preferenceKeywords.newJobXML"
             id="org.jboss.tools.batch.ui.newJobXML"/>
    </extension>
-
+   <extension
+        point="org.eclipse.jdt.ui.queryParticipants">
+     <queryParticipant
+           class="org.jboss.tools.batch.ui.participants.BatchArtifactSearchParticipant"
+           id="org.jboss.tools.batch.ui.participants.BatchArtifactSearchParticipant"
+           name="Batch Artifact Query Participant"
+           nature="org.eclipse.jdt.core.javanature">
+     </queryParticipant>
+  </extension>
+      <extension
+         point="org.eclipse.ltk.core.refactoring.renameParticipants">
+         <renameParticipant
+            class="org.jboss.tools.batch.ui.participants.BatchArtifactRenameParticipant"
+            id="org.jboss.tools.batch.ui.participants.BatchArtifactRenameParticipant"
+            name="Batch Artifact Rename Participant">
+         <enablement>
+            <with variable="element">
+                <or>
+                  	<instanceof value="org.eclipse.jdt.core.IType"/>
+                	<instanceof value="org.eclipse.jdt.core.IField"/>
+                </or>
+            </with>
+         </enablement>
+      </renameParticipant>
+   </extension>
 </plugin>

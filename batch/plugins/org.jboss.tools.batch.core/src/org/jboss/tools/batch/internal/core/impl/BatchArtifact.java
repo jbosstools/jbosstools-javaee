@@ -29,6 +29,7 @@ import org.jboss.tools.batch.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.batch.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.text.ITextSourceReference;
+import org.jboss.tools.common.util.BeanUtil;
 
 /**
  * 
@@ -71,11 +72,7 @@ public class BatchArtifact implements IBatchArtifact {
 			if(v != null) {
 				name = v.toString();
 			} else {
-				String n = definition.getType().getElementName();
-				if(n.length() > 0) {
-					n = n.substring(0, 1).toLowerCase() + n.substring(1);
-				}
-				name = n;
+				name = BeanUtil.getDefaultBeanName(definition.getType());
 			}
 		} else {
 			name = definition.getQualifiedName();

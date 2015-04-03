@@ -1,14 +1,15 @@
 Manifest-Version: 1.0
 Bundle-ActivationPolicy: lazy
 Bundle-Name: %pluginName
-Bundle-Activator: org.jboss.tools.batch.ui.JSTJobUiPlugin
+Bundle-Activator: org.jboss.tools.batch.ui.BatchUIPlugin
 Bundle-Vendor: %providerName
 Export-Package: org.jboss.tools.batch.ui,
  org.jboss.tools.batch.ui.editor.internal.model,
  org.jboss.tools.batch.ui.editor.internal.services,
  org.jboss.tools.batch.ui.hyperlink,
  org.jboss.tools.batch.ui.internal.preferences,
- org.jboss.tools.batch.ui.internal.wizard
+ org.jboss.tools.batch.ui.internal.wizard,
+ org.jboss.tools.batch.ui.participants
 Bundle-SymbolicName: org.jboss.tools.batch.ui; singleton:=true
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.jface.text;bundle-version="3.7.0",
@@ -50,7 +51,9 @@ Require-Bundle: org.eclipse.jface.text;bundle-version="3.7.0",
  org.jboss.tools.common,
  org.jboss.tools.jst.web.kb,
  org.jboss.tools.common.text.xml,
- org.jboss.tools.common.ui;bundle-version="3.7.0"
+ org.jboss.tools.common.ui;bundle-version="3.7.0",
+ org.eclipse.ltk.core.refactoring;bundle-version="3.6.200",
+ org.eclipse.search;bundle-version="3.9.200"
 Bundle-Version: 1.7.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ManifestVersion: 2

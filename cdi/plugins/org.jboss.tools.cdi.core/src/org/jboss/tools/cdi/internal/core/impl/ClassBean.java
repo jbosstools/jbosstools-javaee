@@ -54,6 +54,7 @@ import org.jboss.tools.common.java.ITypeDeclaration;
 import org.jboss.tools.common.java.ParametedType;
 import org.jboss.tools.common.java.TypeDeclaration;
 import org.jboss.tools.common.text.ITextSourceReference;
+import org.jboss.tools.common.util.BeanUtil;
 
 /**
  * 
@@ -386,10 +387,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		AnnotationDeclaration named = findNamedAnnotation();
 		if(named == null) return null;
 
-		String name = ((AbstractTypeDefinition)definition).getType().getElementName();
-		if(name.length() > 0) {
-			name = name.substring(0, 1).toLowerCase() + name.substring(1);
-		}
+		String name = BeanUtil.getDefaultBeanName(((AbstractTypeDefinition)definition).getType());
 
 		Object value = named.getMemberValue(null, true);
 		if(value != null && value.toString().trim().length() > 0) {

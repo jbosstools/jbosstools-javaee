@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.jsf2.bean.model.impl;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.common.java.impl.AnnotationDeclaration;
+import org.jboss.tools.common.util.BeanUtil;
 import org.jboss.tools.jsf.jsf2.bean.model.IJSF2ManagedBean;
 
 /**
@@ -39,10 +40,7 @@ public class JSF2ManagedBean implements IJSF2ManagedBean {
 				result = m.toString();
 			}
 			if(result == null || result.length() == 0) {
-				result = typeDefinition.getType().getElementName();
-				if(result.length() > 0) {
-					result = result.substring(0, 1).toLowerCase() + result.substring(1);
-				}
+				result = BeanUtil.getDefaultBeanName(typeDefinition.getType());
 			}
 		}
 		return result;

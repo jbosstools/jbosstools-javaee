@@ -66,7 +66,7 @@ public class JobImages {
 	
 
 	static ImageRegistry getImageRegistry() {
-		return JSTJobUiPlugin.getDefault().getImageRegistry();
+		return BatchUIPlugin.getDefault().getImageRegistry();
 	}
 
 	static Image getImage(ImageDescriptor descriptor) {

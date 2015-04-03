@@ -40,6 +40,7 @@ import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
+import org.jboss.tools.cdi.internal.core.impl.definition.AbstractTypeDefinition;
 import org.jboss.tools.common.refactoring.MarkerResolutionUtils;
 import org.jboss.tools.common.util.BeanUtil;
 
@@ -316,10 +317,7 @@ public class CDIMarkerResolutionUtils extends MarkerResolutionUtils{
 				return BeanUtil.getPropertyName(name);
 			}
 		}else{
-			name = bean.getBeanClass().getElementName();
-			if(name.length() > 0) {
-				name = name.substring(0, 1).toLowerCase() + name.substring(1);
-			}
+			name = BeanUtil.getDefaultBeanName(bean.getBeanClass());
 		}
 		
 		return name;

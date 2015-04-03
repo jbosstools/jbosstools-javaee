@@ -40,7 +40,7 @@ public interface IBatchArtifact {
 	public BatchArtifactType getArtifactType();
 
 	/**
-	 * Returns Named declaration at Java field. May return null.
+	 * Returns Named declaration at Java class. May return null.
 	 * 
 	 * @return
 	 */
