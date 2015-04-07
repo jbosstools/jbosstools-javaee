@@ -72,6 +72,9 @@ public abstract class NewCDIAnnotationWizardPage extends NewAnnotationWizardPage
 	protected abstract void addAnnotations(ImportsManager imports, StringBuffer sb, String lineDelimiter);
 
 	protected void addTargetAnnotation(ImportsManager imports, StringBuffer sb, String lineDelimiter, String[] targets) {
+		if(targets.length == 0) {
+			return;
+		}
 		imports.addImport("java.lang.annotation.Target");
 		StringBuffer list = new StringBuffer();
 		for (int i = 0; i < targets.length; i++) {
@@ -177,7 +180,7 @@ public abstract class NewCDIAnnotationWizardPage extends NewAnnotationWizardPage
 			return new String[]{"TYPE", "METHOD", "PARAMETER", "FIELD"};
 		}
 		String value = (String)target.getValue();
-		String[] vs = value.split(",");
+		String[] vs = value.length() == 0 ? new String[0] : value.split(",");
 		for (int i = 0; i < vs.length; i++) vs[i] = vs[i].trim();
 		return vs;
 	}

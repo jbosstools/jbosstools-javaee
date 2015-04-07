@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
+import org.jboss.tools.cdi.core.CDIVersion;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IStereotype;
@@ -69,6 +70,7 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 		mayBeRegisteredInBeansXML = b;
 	}
 
+	@Override
 	protected void addAnnotations(ImportsManager imports, StringBuffer sb, String lineDelimiter) {
 		addStereotypeAnnotation(imports, sb, lineDelimiter);
 		addInheritedAnnotation(imports, sb, lineDelimiter);
@@ -176,18 +178,34 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 		setScopes(getPackageFragmentRoot());
 	}
 
+	String[] CDI_10_TARGETS = {
+		"TYPE,METHOD,FIELD",
+		"METHOD,FIELD",	
+		"TYPE",
+		"METHOD",
+		"FIELD"
+	};
+
+	String[] CDI_11_TARGETS = {
+		"",
+		"TYPE,METHOD,FIELD",
+		"METHOD,FIELD",	
+		"TYPE",
+		"METHOD",
+		"FIELD"
+	};
+
 	protected void createTargetField(Composite composite) {
 		List<String> targetOptions = new ArrayList<String>();
-		targetOptions.add("TYPE,METHOD,FIELD");
-		targetOptions.add("METHOD,FIELD");
-		targetOptions.add("TYPE");
-		targetOptions.add("METHOD");
-		targetOptions.add("FIELD");
+		for (String t: CDI_10_TARGETS) {
+			targetOptions.add(t);
+		}
 		createTargetField(composite, targetOptions);
 		target.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				validateTargetAndStereotype();
 			}});
+		setTargets(getPackageFragmentRoot());
 	}
 
 	protected void createInterceptorBindingField(Composite composite) {
@@ -220,9 +238,11 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 			}});
 	}
 
+	@Override
 	public void setPackageFragmentRoot(IPackageFragmentRoot root, boolean canBeModified) {
 		super.setPackageFragmentRoot(root, canBeModified);
 		setScopes(root);
+		setTargets(root);
 	}
 
 	void setScopes(IPackageFragmentRoot root) {
@@ -236,6 +256,28 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 			}
 		} else {
 			setScopes(new String[]{""});
+		}
+	}
+
+	void setTargets(IPackageFragmentRoot root) {
+		if(target instanceof ITaggedFieldEditor) {
+			ITaggedFieldEditor f = (ITaggedFieldEditor)target;
+			boolean cdi10 = true;
+			String[] currentTargets = f.getTags();
+			if(root != null) {
+				IJavaProject jp = root.getJavaProject();
+				ICDIProject cdi = getCDIProject(jp);
+				if(cdi != null) {
+					cdi10 = cdi.getVersion() == CDIVersion.CDI_1_0; 
+				}
+			}
+			String[] newTargets = cdi10 ?  CDI_10_TARGETS : CDI_11_TARGETS;
+			if (newTargets.length != currentTargets.length) {
+				f.setTags(newTargets);
+			}
+			if(cdi10 && f.getValueAsString().length() == 0) {
+				f.setValue(CDI_10_TARGETS[0]);
+			}			
 		}
 	}
 
@@ -302,6 +344,7 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 		updateStatus(status);
 	}
 
+	@Override
 	protected void updateStatus(IStatus[] status) {
 		IStatus[] ns = new IStatus[status.length + 1];
 		System.arraycopy(status, 0, ns, 0, status.length);
@@ -367,12 +410,14 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 		return false;
 	}
 
+	@Override
 	protected IStatus packageChanged() {
 		IStatus result = super.packageChanged();
 		registerInBeansXML.validate();
 		return result;
 	}
 
+	@Override
 	protected IStatus typeNameChanged() {
 		IStatus result = super.typeNameChanged();
 		registerInBeansXML.validate();
