@@ -297,8 +297,8 @@
    <XModelAttribute default="scan" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="id=true;category=general" default="Scan"
-    name="name" visibility="false">
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="Weld Scan" name="name" visibility="false">
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
@@ -349,9 +349,46 @@
     kind="list" name="CreateActions">
     <XActionItem ICON="action.empty" displayName="Weld" group="1"
      kind="list" name="Weld">
-     <XActionItem HandlerClassName="org.jboss.tools.cdi.xml.beans.model.handlers.AddScanHandler" ICON="action.empty"
-      PROPERTIES="validator.add=true" displayName="Scan..."
-      kind="action" name="AddScan">
+     <XActionItem
+      HandlerClassName="org.jboss.tools.cdi.xml.beans.model.handlers.AddScanHandler"
+      ICON="action.empty" PROPERTIES="validator.add=true"
+      displayName="Weld Scan..." kind="action" name="AddScan">
+      <EntityData EntityName="CDIWeldScan"/>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileCDIBeans11">
+  <XChildrenEntities>
+   <XChildEntity maxCount="1" name="CDIWeldScan"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Weld" group="1"
+     kind="list" name="Weld">
+     <XActionItem
+      HandlerClassName="org.jboss.tools.cdi.xml.beans.model.handlers.AddScanHandler"
+      ICON="action.empty" PROPERTIES="validator.add=true"
+      displayName="Weld Scan..." kind="action" name="AddScan">
+      <EntityData EntityName="CDIWeldScan"/>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileCDIBeans11_EditorActionList">
+  <XChildrenEntities/>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Weld" group="1"
+     kind="list" name="Weld">
+     <XActionItem
+      HandlerClassName="org.jboss.tools.cdi.xml.beans.model.handlers.AddScanHandler"
+      ICON="action.empty" PROPERTIES="validator.add=true"
+      displayName="Weld Scan..." kind="action" name="AddScan">
       <EntityData EntityName="CDIWeldScan"/>
      </XActionItem>
     </XActionItem>
@@ -365,9 +402,10 @@
     kind="list" name="CreateActions">
     <XActionItem ICON="action.empty" displayName="Weld" group="1"
      kind="list" name="Weld">
-     <XActionItem HandlerClassName="org.jboss.tools.cdi.xml.beans.model.handlers.AddScanHandler" ICON="action.empty"
-      PROPERTIES="validator.add=true" displayName="Scan..."
-      kind="action" name="AddScan">
+     <XActionItem
+      HandlerClassName="org.jboss.tools.cdi.xml.beans.model.handlers.AddScanHandler"
+      ICON="action.empty" PROPERTIES="validator.add=true"
+      displayName="Weld Scan..." kind="action" name="AddScan">
       <EntityData EntityName="CDIWeldScan"/>
      </XActionItem>
     </XActionItem>

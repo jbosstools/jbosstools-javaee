@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.core.test;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import junit.framework.TestCase;
 
@@ -18,7 +19,12 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.jboss.tools.cdi.core.IExcluded;
+import org.jboss.tools.cdi.internal.core.impl.Excluded;
+import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
+import org.jboss.tools.cdi.xml.beans.model.CDIBeansConstants;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
@@ -64,7 +70,7 @@ public class BeansXMLTest extends TestCase {
 
 		assertEquals("FileCDIBeans", beansXML.getModelEntity().getName());
 
-		XModelObject scan = beansXML.getChildByPath("Scan");
+		XModelObject scan = beansXML.getChildByPath(CDIBeansConstants.WELD_SCAN);
 		assertNotNull(scan);
 
 		XModelObject include1 = scan.getChildByPath("cls1");
@@ -130,11 +136,41 @@ public class BeansXMLTest extends TestCase {
 		assertNotNull(beansXML.getChildByPath("Decorators/test.MyDecorator"));
 		assertNotNull(beansXML.getChildByPath("Alternatives/test.MyAlternative"));
 		assertNotNull(beansXML.getChildByPath("Alternatives/test.MyStereotypeAlternative"));
-		
-		assertNotNull(beansXML.getChildByPath("Scan"));
-		assertNotNull(beansXML.getChildByPath("Scan/test.ExcludedType"));
-		assertNotNull(beansXML.getChildByPath("Scan/test.excluded.*"));
-		assertEquals(4, beansXML.getChildByPath("Scan/test.ExcludedType").getChildren().length);
 
+		XModelObject scan = beansXML.getChildByPath(CDIBeansConstants.SCAN);
+		assertNotNull(scan);
+		assertNotNull(scan.getChildByPath("test.ExcludedType"));
+		assertNotNull(scan.getChildByPath("test.excluded.*"));
+		assertEquals(4, scan.getChildByPath("test.ExcludedType").getChildren().length);
+
+	}
+
+	public void testBeans11XMLWithWeld() throws CoreException, IOException {
+		IFile file = project.getFile(new Path("META-INF/weld-beans11.xml"));
+		assertNotNull(file);
+		XModelObject beansXML = EclipseResourceUtil.createObjectForResource(file);
+		assertNotNull(beansXML);
+
+		XModelObject scan = beansXML.getChildByPath(CDIBeansConstants.SCAN);
+		assertNotNull(scan);
+		assertNotNull(scan.getChildByPath("test.ExcludedType"));
+
+		scan = beansXML.getChildByPath(CDIBeansConstants.WELD_SCAN);
+		assertNotNull(scan);
+		assertNotNull(scan.getChildByPath("exclude.Bean1"));
+		
+		BeansXMLDefinition def = new BeansXMLDefinition();
+		def.setBeansXML(beansXML);
+		assertTrue(isExcluded("test.ExcludedType", def.getExcluded()));
+		assertTrue(isExcluded("exclude.Bean1", def.getExcluded()));
+	}
+
+	private boolean isExcluded(String typeName, Collection<Excluded> excluded) {
+		for (IExcluded e: excluded) {
+			if(e.isExcluded(typeName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

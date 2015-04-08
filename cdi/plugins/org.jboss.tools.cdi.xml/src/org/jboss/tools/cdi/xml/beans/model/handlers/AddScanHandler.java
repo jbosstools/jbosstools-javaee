@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.xml.beans.model.handlers;
 
+import org.jboss.tools.cdi.xml.beans.model.CDIBeansConstants;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.model.XModelObject;
 
@@ -20,8 +21,9 @@ import org.jboss.tools.common.model.XModelObject;
  */
 public class AddScanHandler extends DefaultCreateHandler {
 
+	@Override
 	public boolean isEnabled(XModelObject object) {
-		return super.isEnabled(object) && object.getChildByPath("Scan") == null;
+		return super.isEnabled(object) && object.getChildByPath(CDIBeansConstants.WELD_SCAN) == null;
 	}
 	   
 }

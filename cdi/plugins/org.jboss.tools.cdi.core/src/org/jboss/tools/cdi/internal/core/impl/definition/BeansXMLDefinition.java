@@ -40,7 +40,7 @@ public class BeansXMLDefinition implements CDIBeansConstants {
 	public BeansXMLDefinition() {}
 
 	public void setBeansXML(XModelObject beansXML) {
-		if(beansXML.getModelEntity().getName().startsWith("FileCDIBeans")) {
+		if(beansXML.getModelEntity().getName().startsWith(CDIBeansConstants.ENT_CDI_BEANS)) {
 			if(beansXML instanceof FileAnyImpl) {
 				FileAnyImpl f = (FileAnyImpl)beansXML;
 				if(f.getParent() instanceof FolderImpl) {
@@ -64,16 +64,20 @@ public class BeansXMLDefinition implements CDIBeansConstants {
 			}
 			XModelObject alternativesObject = beansXML.getChildByPath(NODE_ALTERNATIVES);
 			if(alternativesObject != null) {
-				XModelObject[] cs = alternativesObject.getChildren("CDIClass");
+				XModelObject[] cs = alternativesObject.getChildren(CDIBeansConstants.ENT_CDI_CLASS);
 				for (XModelObject o: cs) {
 					typeAlternatives.add(new XMLNodeReference(o, ATTR_CLASS));
 				}
-				cs = alternativesObject.getChildren("CDIStereotype");
+				cs = alternativesObject.getChildren(CDIBeansConstants.ENT_CDI_STEREOTYPE);
 				for (XModelObject o: cs) {
 					stereotypeAlternatives.add(new XMLNodeReference(o, ATTR_STEREOTYPE));
 				}
 			}
-			XModelObject scan = beansXML.getChildByPath("Scan");
+			XModelObject scan = beansXML.getChildByPath(CDIBeansConstants.WELD_SCAN);
+			if(scan != null) {
+				loadScan(scan);
+			}
+			scan = beansXML.getChildByPath(CDIBeansConstants.SCAN);
 			if(scan != null) {
 				loadScan(scan);
 			}

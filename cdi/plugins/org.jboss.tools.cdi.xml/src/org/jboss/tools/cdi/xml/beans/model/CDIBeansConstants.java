@@ -31,4 +31,7 @@ public interface CDIBeansConstants {
 	public String NODE_INTERCEPTORS = "Interceptors"; //$NON-NLS-1$
 	public String NODE_DECORATORS = "Decorators"; //$NON-NLS-1$
 	public String NODE_ALTERNATIVES = "Alternatives"; //$NON-NLS-1$
+
+	public String SCAN = "Scan"; //$NON-NLS-1$
+	public String WELD_SCAN = "Weld Scan"; //$NON-NLS-1$
 }
