@@ -13,10 +13,8 @@ package org.jboss.tools.cdi.internal.core.scanner.lib;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IContainer;
@@ -260,7 +258,11 @@ public class BeanArchiveDetector {
 				int k = project.getDefinitions().getAnnotationKind(at);
 				if(k == AnnotationDefinition.SCOPE) {
 					//scope annotation
-					return true;
+					if(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(typeName)) {
+						return true;
+					}
+					AnnotationDefinition sa = project.getDefinitions().getAnnotation(at);
+					return sa != null && sa.getAnnotation(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME) != null;
 				}
 				if(CDIVersion.CDI_1_2.equals(project.getVersion()) && k == AnnotationDefinition.STEREOTYPE) {
 					return true;

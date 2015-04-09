@@ -89,4 +89,25 @@ public class CDI11AnnotatedTest extends TestCase {
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeEditor(editorPart, false);
 		}
 	}
+
+	/**
+	 * Class declared in file has scope annotation that is not a normal scope.
+	 * @throws Exception
+	 */
+	public void testModelE() throws Exception {
+		IFile f = project.getFile("src/test/a/BeanE.java");
+		assertTrue(f.exists());
+		
+		IEditorPart editorPart = WorkbenchUtils.openEditor(f.getFullPath());
+		assertNotNull(editorPart);
+
+		try {
+			CDIProjectAsYouType ayt = new CDIProjectAsYouType(cdiProject, f);
+			Collection<IBean> bs = ayt.getBeans(f.getFullPath());
+			assertEquals(0, bs.size());
+		} finally {
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeEditor(editorPart, false);
+		}
+	}
+
 }
