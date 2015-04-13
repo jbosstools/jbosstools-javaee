@@ -20,8 +20,7 @@
 
    <requires>
       <import feature="org.jboss.tools.common.feature" version="3.6.0" match="greaterOrEqual"/>
-      <import feature="org.jboss.tools.jst.feature" version="3.6.0" match="greaterOrEqual"/>
-      <import feature="org.jboss.tools.vpe.feature" version="3.3.0" match="greaterOrEqual"/>
+      <import feature="org.jboss.tools.jst.feature" version="3.6.0" match="greaterOrEqual"/>OC
       <import feature="org.eclipse.wst.web_ui.feature" version="3.3.2" match="greaterOrEqual"/>
    </requires>
 
@@ -66,53 +65,5 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.facelets"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.richfaces"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.seam"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.ajax4jsf"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.jsf"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.myfaces"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.jbpm"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.jstl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
 
 </feature>

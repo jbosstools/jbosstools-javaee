@@ -1,6 +1,0 @@
-<tests>
-    <test id="tab">
-        <!-- rich:tab is rendered inside RichFacesTabPanelTempalte -->
-        <!-- so it can't be found on its own account -->
-    </test>
-</tests>

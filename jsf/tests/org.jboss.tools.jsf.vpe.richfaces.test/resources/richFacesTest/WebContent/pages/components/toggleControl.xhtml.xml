@@ -1,8 +1,0 @@
-<tests>
-	<test id="toggleControl">
-		<SPAN STYLE="color: blue; text-decoration: underline;"
-			VPE-USER-TOGGLE-ID="">
-			<SPAN> CLOSED </SPAN>
-		</SPAN>
-	</test>
-</tests>

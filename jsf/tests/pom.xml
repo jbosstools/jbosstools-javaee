@@ -21,34 +21,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<module>org.jboss.tools.jsf.text.ext.test</module>
 		<module>org.jboss.tools.jsf.ui.test</module>
 		<module>org.jboss.tools.jsf.verification.test</module>
-		<module>org.jboss.tools.jsf.vpe.ajax4jsf.test</module>
-		<module>org.jboss.tools.jsf.vpe.facelets.test</module>
-		<module>org.jboss.tools.jsf.vpe.jbpm.test</module>
-		<module>org.jboss.tools.jsf.vpe.jsf.test</module>
-		<module>org.jboss.tools.jsf.vpe.jstl.test</module>
-		<module>org.jboss.tools.jsf.vpe.myfaces.test</module>
-		<module>org.jboss.tools.jsf.vpe.richfaces.test</module>
-		<module>org.jboss.tools.jsf.vpe.seam.test</module>
 		<module>org.jboss.tools.jsf.base.test</module>
 	</modules>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-surefire-plugin</artifactId>
-				<configuration>
-					<product>org.jboss.tools.tests.product</product>
-					<explodedBundles>
-						<bundle>org.jboss.tools.vpe</bundle>
-						<bundle>org.mozilla.xulrunner.cocoa.macosx</bundle>
-						<bundle>org.mozilla.xulrunner.gtk.linux.x86</bundle>
-						<bundle>org.mozilla.xulrunner.gtk.linux.x86_64</bundle>
-						<bundle>org.mozilla.xulrunner.win32.win32.x86</bundle>
-					</explodedBundles>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>
-	

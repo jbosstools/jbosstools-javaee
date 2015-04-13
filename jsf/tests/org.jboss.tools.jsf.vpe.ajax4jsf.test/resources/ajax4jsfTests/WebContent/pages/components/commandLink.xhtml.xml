@@ -1,8 +1,0 @@
-<tests>
-	<test id="commandLink1">
-		<A><SPAN CLASS="vpe-text">Say Hello</SPAN></A>
-	</test>
-	<test id="commandLink2">
-		<A><SPAN CLASS="vpe-text">Link</SPAN></A>
-	</test>
-</tests>

@@ -1,7 +1,0 @@
-<tests>
-	<test id="jbide4812">
-		<FORM STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px;">
-			<INPUT TYPE="submit" VALUE="/.*jsf2test/WebContent/resources/css/stylesBlue.css/" />
-		</FORM>
-	</test>
-</tests>

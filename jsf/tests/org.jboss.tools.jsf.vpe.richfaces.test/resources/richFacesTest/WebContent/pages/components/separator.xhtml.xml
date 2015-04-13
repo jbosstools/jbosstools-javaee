@@ -1,9 +1,0 @@
-<tests>
-	<test id="separator">
-		<DIV ALIGN="left" CLASS="td-parentdiv">
-			<DIV CLASS="separator-color"
-				STYLE="border-style: double; width: 100%;">
-			</DIV>
-		</DIV>
-	</test>
-</tests>
