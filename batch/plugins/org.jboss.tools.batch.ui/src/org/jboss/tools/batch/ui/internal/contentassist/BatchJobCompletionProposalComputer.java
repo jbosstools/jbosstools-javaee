@@ -13,10 +13,23 @@ package org.jboss.tools.batch.ui.internal.contentassist;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.search.IJavaSearchConstants;
+import org.eclipse.jdt.core.search.IJavaSearchScope;
+import org.eclipse.jdt.core.search.SearchEngine;
+import org.eclipse.jdt.core.search.SearchPattern;
+import org.eclipse.jdt.core.search.TypeNameRequestor;
+import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.wst.sse.ui.contentassist.CompletionProposalInvocationContext;
 import org.eclipse.wst.sse.ui.internal.contentassist.CustomCompletionProposal;
 import org.eclipse.wst.xml.core.internal.contentmodel.CMNode;
@@ -30,8 +43,10 @@ import org.jboss.tools.batch.core.BatchCorePlugin;
 import org.jboss.tools.batch.core.IBatchArtifact;
 import org.jboss.tools.batch.core.IBatchProject;
 import org.jboss.tools.batch.core.IBatchProperty;
+import org.jboss.tools.batch.ui.BatchUIPlugin;
 import org.jboss.tools.batch.ui.JobImages;
 import org.jboss.tools.common.text.TextProposal;
+import org.jboss.tools.common.ui.CommonUIImages;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.w3c.dom.Attr;
@@ -50,6 +65,13 @@ public class BatchJobCompletionProposalComputer extends AbstractXMLModelQueryCom
 	CompletionProposalInvocationContext context;
 	IFile file;
 	IBatchProject bp;
+	IProgressMonitor monitor;
+
+	@Override
+	public List computeCompletionProposals(CompletionProposalInvocationContext context, IProgressMonitor monitor) {
+		this.monitor = monitor;
+		return super.computeCompletionProposals(context, monitor);
+	}
 
 	@Override
 	protected XMLContentModelGenerator getContentGenerator() {
@@ -61,6 +83,7 @@ public class BatchJobCompletionProposalComputer extends AbstractXMLModelQueryCom
 		return false;
 	}
 
+	@Override
 	protected void addAttributeValueProposals(ContentAssistRequest contentAssistRequest, CompletionProposalInvocationContext context) {
 		this.context = context;
 
@@ -105,6 +128,12 @@ public class BatchJobCompletionProposalComputer extends AbstractXMLModelQueryCom
 				}
 			} else if(ATTR_NAME.equals(n.getNodeName()) && TAG_PROPERTY.equals(current.getNodeName())) {
 				addPropertyNameValueProposals(contentAssistRequest, context, current, matchString, begin, length);
+			} else if(ATTR_CLASS.equals(n.getNodeName())) {
+				try {
+					addClassValueProposals(contentAssistRequest, context, current, matchString, begin, length);
+				} catch (JavaModelException e) {
+					BatchUIPlugin.getDefault().logError(e);
+				}
 			}
 		}
 	}
@@ -263,4 +292,51 @@ public class BatchJobCompletionProposalComputer extends AbstractXMLModelQueryCom
 		return node;
 	}
 
+	private void addClassValueProposals(final ContentAssistRequest contentAssistRequest, CompletionProposalInvocationContext context, 
+			Element current, String matchString, final int begin, final int length) throws JavaModelException {
+		if (matchString.length()>0) {
+			int lastDot = matchString.lastIndexOf('.');
+			String packageNameString = null;
+			String classNameString = matchString;
+			int packagePatern = SearchPattern.R_PREFIX_MATCH;
+			if(lastDot>0) {
+				if(matchString.length()>lastDot+1 && Character.isUpperCase(matchString.charAt(lastDot+1))) {
+					classNameString = matchString.substring(lastDot+1);
+					packageNameString = matchString.substring(0, lastDot);
+					packagePatern = SearchPattern.R_EXACT_MATCH;
+				} else {
+					classNameString = null;
+					packageNameString = matchString;
+				}
+			}
+			char[] packageName = packageNameString!=null?packageNameString.toCharArray():null;
+			char[] className = classNameString!=null?classNameString.toCharArray():null;
+
+			IProject project = bp.getProject();
+			IJavaProject jp = JavaCore.create(project);
+			IJavaSearchScope scope = SearchEngine.createJavaSearchScope(new IJavaElement[] {jp});
+			SearchEngine engine = new SearchEngine();
+			engine.searchAllTypeNames(packageName, packagePatern, className, SearchPattern.R_PREFIX_MATCH, IJavaSearchConstants.CLASS, scope, new TypeNameRequestor() {
+				@Override
+				public void acceptType(
+						int modifiers,
+						char[] packageName,
+						char[] simpleTypeName,
+						char[][] enclosingTypeNames,
+						String path) {
+
+					StringBuffer fullName = new StringBuffer();
+					fullName.append(packageName).append('.').append(simpleTypeName);
+					String fn = fullName.toString();
+					CustomCompletionProposal proposal = new CustomCompletionProposal(
+							fn, begin, length, fn.length(),
+							CommonUIImages.getImage(JavaPluginImages.DESC_OBJS_CLASS),
+							new String(simpleTypeName), fn, null, fn, 
+							TextProposal.R_XML_ATTRIBUTE_VALUE, true);
+						contentAssistRequest.addProposal(proposal);
+					}
+				},
+				IJavaSearchConstants.FORCE_IMMEDIATE_SEARCH, monitor);
+		}
+	}
 }

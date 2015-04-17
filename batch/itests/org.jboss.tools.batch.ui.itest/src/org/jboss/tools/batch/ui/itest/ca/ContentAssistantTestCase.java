@@ -36,6 +36,7 @@ public class ContentAssistantTestCase extends AbstractContentAssistantTestCase {
 		return PROJECT_NAME;
 	}
 
+	@Override
 	protected void obtainTextEditor(IEditorPart editorPart) {
 		if (editorPart instanceof JobXMLEditor)
 			jobEditor = (JobXMLEditor) editorPart;
@@ -49,10 +50,12 @@ public class ContentAssistantTestCase extends AbstractContentAssistantTestCase {
 		textEditor = jobTextEditor = jobEditor.getSourceEditor();
 	}
 
+	@Override
 	protected ISourceViewer getTextViewer() {
 		return ((StructuredTextEditor)textEditor).getTextViewer();
 	}
 
+	@Override
 	protected boolean isRelevantProposal(ICompletionProposal proposal) {
 		return proposal instanceof CustomCompletionProposal;
 	}
@@ -94,5 +97,4 @@ public class ContentAssistantTestCase extends AbstractContentAssistantTestCase {
 		}
 		return result;
 	}
-
 }

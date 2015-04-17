@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job  id="myJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+    <step id="step1">
+	  <properties>
+	    <property name="p2" value="v2"/>
+	  </properties>
+	  <chunk>
+		  <reader ref="">
+		  </reader>
+		  <processor ref=""></processor>
+		  <writer ref=""></writer>
+		  <retryable-exception-classes>
+			  <exclude class="excepT"/>
+		  </retryable-exception-classes>
+		  <no-rollback-exception-classes>
+		  		<exclude class="runtimee"/>
+		  </no-rollback-exception-classes>
+		  <skippable-exception-classes>
+		  		<include class="java.lang.Excep"/>
+		  </skippable-exception-classes>
+	  </chunk>
+    </step>
+</job>

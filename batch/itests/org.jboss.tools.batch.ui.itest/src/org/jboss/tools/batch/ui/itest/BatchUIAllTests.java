@@ -10,17 +10,17 @@
  ******************************************************************************/ 
 package org.jboss.tools.batch.ui.itest;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.wst.validation.ValidationFramework;
+import org.jboss.tools.batch.ui.itest.ca.ClassAttributeContentAssist;
 import org.jboss.tools.batch.ui.itest.ca.JobArtifactRefContentAssist;
 import org.jboss.tools.batch.ui.itest.ca.JobPropertyNameContentAssist;
 import org.jboss.tools.batch.ui.itest.ca.JobTransitionsContentAssist;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.test.util.ResourcesUtils;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * @author Viacheslav Kabanovich
@@ -28,8 +28,8 @@ import org.jboss.tools.test.util.ResourcesUtils;
 public class BatchUIAllTests {
 
 	public static Test suite() {
-		// it could be done here because it is not needed to be enabled back
-		JavaModelManager.getIndexManager().shutdown();
+//		We need the index manager enabled for <* class=""> content assist
+//		JavaModelManager.getIndexManager().shutdown();
 		try {
 			ResourcesUtils.setBuildAutomatically(false);
 			ValidationFramework.getDefault().suspendAllValidation(true);
@@ -51,6 +51,7 @@ public class BatchUIAllTests {
 		suite1.addTestSuite(JobTransitionsContentAssist.class);
 		suite1.addTestSuite(JobArtifactRefContentAssist.class);
 		suite1.addTestSuite(JobPropertyNameContentAssist.class);
+		suite1.addTestSuite(ClassAttributeContentAssist.class);
 		suiteAll.addTest(suite1);
 		
 		TestSuite suite2 = new TestSuite("Wizards");
