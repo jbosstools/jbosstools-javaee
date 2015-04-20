@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<job  id="myJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
+<job  id="myJob" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/jobXML_1_0.xsd" xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="1.0">
     <step id="step1">
 	  <properties>
 	    <property name="p2" value="v2"/>

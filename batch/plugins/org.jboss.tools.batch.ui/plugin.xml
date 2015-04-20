@@ -20,21 +20,6 @@
     </editor>
   </extension>
   
-  <extension point="org.eclipse.wst.xml.core.catalogContributions">
-    <catalogContribution>
-      <uri
-        name="jobXML_1_0.xsd"
-        uri="schemas/jobXML_1_0.xsd"/>
-      <system
-            systemId="http://xmlns.jcp.org/xml/ns/javaee"
-            uri="schemas/jobXML_1_0.xsd">
-      </system>
-      <public
-            publicId="http://xmlns.jcp.org/xml/ns/javaee"
-            uri="schemas/jobXML_1_0.xsd">
-      </public>
-    </catalogContribution>
-  </extension>
 
   <extension
          point="org.eclipse.core.contenttype.contentTypes">
@@ -191,4 +176,30 @@
          </enablement>
       </renameParticipant>
    </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <wizard 
+         category="org.jboss.tools.batch.ui" 
+         class="org.jboss.tools.batch.ui.internal.wizard.NewBatchArtifactWizard" 
+         icon="platform:/plugin/org.jboss.tools.batch.ui/images/BatchArtifact.png"
+         id="org.jboss.tools.batch.ui.internal.wizard.NewBatchArtifactWizard" 
+         name="Batch Artifact" 
+         project="false">
+         <description>
+            Create a Batch Artifact Type
+         </description>
+         <keywordReference
+               id="org.jboss.tools.batch.ui.newJava">
+         </keywordReference>
+      </wizard>
+
+   </extension>
+
+   <extension
+   		point="org.eclipse.ui.keywords">
+      <keyword
+            label="%preferenceKeywords.newJava"
+            id="org.jboss.tools.batch.ui.newJava"/>
+    </extension>
+
 </plugin>
