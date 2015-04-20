@@ -24,6 +24,7 @@ import org.eclipse.sapphire.modeling.annotations.Type;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlListBinding;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlNamespace;
+import org.eclipse.sapphire.modeling.xml.annotations.XmlSchema;
 
 /**
  * 
@@ -32,12 +33,12 @@ import org.eclipse.sapphire.modeling.xml.annotations.XmlNamespace;
  */
 @XmlNamespace( prefix = "", uri = "http://xmlns.jcp.org/xml/ns/javaee" )
 
-//@XmlSchema
-//(
-//    namespace = "http://xmlns.jcp.org/xml/ns/javaee",
-//    location = "http://xmlns.jcp.org/xml/ns/javaee"
-////    location = "file:///home/slava/JBossTools/sandbox/org.jboss.tools.jst.job.ui/schemas/jobXML_1_0.xsd"
-//)
+@XmlSchema
+(
+    namespace = "http://xmlns.jcp.org/xml/ns/javaee",
+    location = "http://xmlns.jcp.org/xml/ns/javaee/jobXML_1_0.xsd"
+//    location = "file:///home/slava/JBossTools/sandbox/org.jboss.tools.jst.job.ui/schemas/jobXML_1_0.xsd"
+)
 @Image ( path = "job.png" )
 @XmlBinding( path = "job" )
 public interface Job extends Element {

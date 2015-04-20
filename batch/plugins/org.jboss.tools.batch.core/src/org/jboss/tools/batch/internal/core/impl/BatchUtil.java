@@ -21,6 +21,8 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
@@ -34,6 +36,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.jboss.tools.batch.core.BatchConstants;
 import org.jboss.tools.batch.core.BatchCorePlugin;
+import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.zip.UnzipOperation;
 import org.jboss.tools.jst.web.kb.WebKbPlugin;
@@ -199,5 +202,28 @@ public class BatchUtil {
 			TEMPLATE_FOLDER = new File(templatesDir, "templates");
 		}
 		return TEMPLATE_FOLDER;
+	}
+
+	/**
+	 * Returns path to existing batch.xml, or to implied batch.xml in Java source folder,
+	 * or null, if there is no source folders.
+	 *   
+	 * @param p
+	 * @return
+	 */
+	public static IPath getBatchXMLPath(IProject p) {
+		IPath result = null;
+		for (IResource f: EclipseUtil.getJavaSourceRoots(p)) {
+			if(f instanceof IFolder) {
+				IFolder fm = ((IFolder)f).getFolder(BatchConstants.META_INF);
+				IFile batch = fm.getFile(BatchConstants.BATCH_XML);
+				if(batch.exists()) {
+					return batch.getFullPath();
+				} else if(result == null || fm.exists()) {
+					result = batch.getFullPath();
+				}
+			}
+		}
+		return result;			
 	}
 }
