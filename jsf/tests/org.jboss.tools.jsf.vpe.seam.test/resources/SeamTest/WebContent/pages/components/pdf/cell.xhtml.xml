@@ -1,9 +1,0 @@
-<tests>
-	<test id="cellID">
-		<TD ALIGN="center" STYLE="border: 2px solid black;">
-			<SPAN CLASS="vpe-text">
-				1
-</SPAN>
-		</TD>
-	</test>
-</tests>

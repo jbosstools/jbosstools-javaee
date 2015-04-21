@@ -1,0 +1,26 @@
+<p:document subject="subject" title="title" author="author" type="pdf"
+	creator="creator" pageSize="LETTER" orientation="portrait"
+	margins="50 50 50 50" xmlns:p="http://jboss.com/products/seam/pdf"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets">                                                      
+  	The document goes here.
+  	<p:html id="htmlID1" value="This is HTML that is just plain text." />
+    <p:html id="htmlID2" value="This is HTML with &lt;b&gt;some markup&lt;/b&gt;." />
+
+    <p:html id="htmlID3">
+        This is HTML with text with text in the <b>body</b>.
+    </p:html>
+
+
+    <p:html id="htmlID4"> 
+        <h1>This is more complex HTML</h1>
+        <ul>
+            <li>one</li>
+            <li>two</li>
+            <li>three</li>
+        </ul>
+    </p:html>
+
+</p:document>

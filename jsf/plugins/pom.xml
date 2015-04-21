@@ -26,7 +26,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<module>org.jboss.tools.jsf.vpe.jstl</module>
 		<module>org.jboss.tools.jsf.vpe.myfaces</module>
 		<module>org.jboss.tools.jsf.vpe.richfaces</module>
-		<module>org.jboss.tools.jsf.vpe.seam</module>
 	</modules>
 </project>
 	

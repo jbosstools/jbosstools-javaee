@@ -1,0 +1,49 @@
+<tests>
+	<test id="tableID">
+		<DIV>
+			<TABLE WIDTH="100%" CELLSPACING="0px" ALIGN="center">
+				<TR>
+					<TD STYLE="border: 2px solid black;">
+						<SPAN CLASS="vpe-text">
+							1
+</SPAN>
+					</TD>
+					<TD STYLE="border: 2px solid black;">
+						<SPAN CLASS="vpe-text">
+							2
+</SPAN>
+					</TD>
+					<TD STYLE="border: 2px solid black;">
+						<SPAN CLASS="vpe-text">
+							3
+</SPAN>
+					</TD>
+				</TR>
+				<TR>
+					<TD STYLE="border: 2px solid black;">
+						<SPAN CLASS="vpe-text">
+							4
+</SPAN>
+					</TD>
+					<TD COLSPAN="2" STYLE="border: 2px solid black;">
+						<SPAN CLASS="vpe-text">
+							5
+</SPAN>
+					</TD>
+				</TR>
+				<TR>
+					<TD STYLE="border: 2px solid black;">
+						<SPAN CLASS="vpe-text">
+							6
+</SPAN>
+					</TD>
+					<TD COLSPAN="2" STYLE="border: 2px solid black;">
+						<SPAN CLASS="vpe-text">
+							7
+</SPAN>
+					</TD>
+				</TR>
+			</TABLE>
+		</DIV>
+	</test>
+</tests>

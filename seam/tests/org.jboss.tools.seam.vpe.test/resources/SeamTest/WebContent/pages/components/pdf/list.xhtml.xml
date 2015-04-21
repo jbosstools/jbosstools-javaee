@@ -1,0 +1,50 @@
+<tests>
+	<test id="listID1">
+		<OL>
+			<LI>
+				<SPAN CLASS="vpe-text">
+					Item 1
+</SPAN>
+			</LI>
+			<LI>
+				<SPAN CLASS="vpe-text">
+					Item 2
+</SPAN>
+			</LI>
+			<LI>
+				<SPAN CLASS="vpe-text">
+					Item 3
+</SPAN>
+			</LI>
+			<LI>
+				<SPAN CLASS="vpe-text">
+					Item 4
+</SPAN>
+			</LI>
+		</OL>
+	</test>
+	<test id="listID2">
+		<UL>
+			<LI>
+				<SPAN CLASS="vpe-text">
+					Item 1
+</SPAN>
+			</LI>
+			<LI>
+				<SPAN CLASS="vpe-text">
+					Item 2
+</SPAN>
+			</LI>
+			<LI>
+				<SPAN CLASS="vpe-text">
+					Item 3
+</SPAN>
+			</LI>
+			<LI>
+				<SPAN CLASS="vpe-text">
+					Item 4
+</SPAN>
+			</LI>
+		</UL>
+	</test>
+</tests>

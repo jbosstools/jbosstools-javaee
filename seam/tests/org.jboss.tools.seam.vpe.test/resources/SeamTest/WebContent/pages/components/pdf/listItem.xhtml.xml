@@ -1,0 +1,9 @@
+<tests>
+	<test id="listItemID1">
+		<LI>
+			<SPAN CLASS="vpe-text">
+				Item 1
+</SPAN>
+		</LI>
+	</test>
+</tests>

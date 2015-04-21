@@ -33,4 +33,5 @@
 	<plugin id="org.jboss.tools.seam.text.ext" download-size="0" install-size="0" version="0.0.0" unpack="false" />
 	<plugin id="org.jboss.tools.seam.pages.xml" download-size="0" install-size="0" version="0.0.0" unpack="false" />
 	<plugin id="org.jboss.tools.seam.ui.pages" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam.vpe" download-size="0" install-size="0" version="0.0.0"/>
 </feature>

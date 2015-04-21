@@ -1,0 +1,19 @@
+<tests>
+	<test id="fontID">
+		<DIV STYLE="margin: 70px 60px 80px 50px;">
+			<SPAN STYLE="font-family: courier; font-size: 34pt; font-style: italic;">
+				<DIV>
+					<SPAN CLASS="vpe-text">
+						Paragraph Text
+</SPAN>
+				</DIV>
+			</SPAN>
+			<DIV ALIGN="center"
+				STYLE="font-family: courier; font-size: 34pt; font-style: italic;">
+				<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-only;">
+					1
+</SPAN>
+			</DIV>
+		</DIV>
+	</test>
+</tests>
