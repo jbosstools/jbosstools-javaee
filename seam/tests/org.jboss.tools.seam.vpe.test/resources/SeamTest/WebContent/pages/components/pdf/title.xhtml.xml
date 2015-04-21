@@ -1,0 +1,18 @@
+<tests>
+	<test id="titleID1">
+		<SPAN CLASS="vpe-text">
+			<SPAN CLASS="vpe-text">
+				Chapter title
+</SPAN>
+		</SPAN>
+	</test>
+	<test id="titleID2">
+		<SPAN CLASS="vpe-text">
+			<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-write;">
+				<SPAN CLASS="vpe-text">
+					Section Title
+</SPAN>
+			</SPAN>
+		</SPAN>
+	</test>
+</tests>

@@ -1,0 +1,16 @@
+<tests>
+	<test id="documentID1">
+		<DIV STYLE="margin: 70px 60px 80px 50px;">
+			<SPAN CLASS="vpe-text">
+				Document 1 goes here
+</SPAN>
+		</DIV>
+	</test>
+	<test id="documentID2">
+		<DIV STYLE="margin: 36px;">
+			<SPAN CLASS="vpe-text">
+				Document 2 goes here
+</SPAN>
+		</DIV>
+	</test>
+</tests>

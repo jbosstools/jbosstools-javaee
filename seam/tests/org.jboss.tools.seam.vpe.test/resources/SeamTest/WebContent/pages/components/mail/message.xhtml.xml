@@ -1,0 +1,16 @@
+<tests>
+	<test id="id1">
+	<DIV STYLE="-moz-user-modify: read-write;">
+<DIV>
+<P STYLE="color: red; -moz-user-modify: read-write;">
+<SPAN CLASS="vpe-text">
+Dear Yura
+</SPAN>
+<SPAN CLASS="vpe-text">
+,
+</SPAN>
+</P>
+</DIV>
+</DIV>
+	</test>
+</tests>

@@ -1,0 +1,8 @@
+<tests>
+	<test id="barchartID1">
+		<IMG SRC="/.*resources/barChart/barChart.png/" STYLE="width: 508px; height: 615px;" />
+	</test>
+	<test id="barchartID2">
+		<IMG SRC="/.*resources/barChart/barChartSeriesNested.png/" />
+	</test>
+</tests>

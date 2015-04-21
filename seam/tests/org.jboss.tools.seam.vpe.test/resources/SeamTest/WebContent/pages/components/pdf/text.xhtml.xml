@@ -1,0 +1,7 @@
+<tests>
+	<test id="textID">
+		<SPAN CLASS="vpe-text">
+			Text value
+</SPAN>
+	</test>
+</tests>
