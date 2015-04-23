@@ -17,8 +17,6 @@ public class JsfUIMessages extends NLS {
 	public static String JSFManagedPropertyNameAdapter_Rename;
 	public static String LinkEditPart_Link;
 	
-	public static String RENAME_METHOD_PARTICIPANT_GETTER_WARNING;
-	public static String RENAME_METHOD_PARTICIPANT_SETTER_WARNING;
 	public static String RENAME_METHOD_PARTICIPANT_OUT_OF_SYNC_PROJECT;
 	public static String RENAME_METHOD_PARTICIPANT_ERROR_READ_ONLY_FILE;
 	public static String RENAME_METHOD_PARTICIPANT_UPDATE_METHOD_REFERENCES;

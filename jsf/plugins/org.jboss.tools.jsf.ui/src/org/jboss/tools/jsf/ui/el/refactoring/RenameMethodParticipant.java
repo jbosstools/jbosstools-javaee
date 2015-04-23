@@ -28,14 +28,12 @@ import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.ISharableParticipant;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringArguments;
-import org.eclipse.ltk.core.refactoring.participants.RenameArguments;
 import org.eclipse.ltk.core.refactoring.participants.RenameParticipant;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.common.refactoring.FileChangeFactory;
-import org.jboss.tools.common.util.BeanUtil;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jst.web.kb.refactoring.ELProjectSetExtension;
@@ -56,35 +54,13 @@ public class RenameMethodParticipant extends RenameParticipant implements IShara
 	@Override
 	public RefactoringStatus checkConditions(IProgressMonitor pm,
 			CheckConditionsContext context) throws OperationCanceledException {
-		if(searcher == null)
-			return status;
-		if(element instanceof IMethod) {
-			IMethod method = (IMethod)element;
-			IMethod anotherMethod = getAnotherMethod();
-			if(method != null){
-				if(BeanUtil.isGetter(method)){
-					if(anotherMethod == null || BeanUtil.isGetter(anotherMethod))
-						status.addWarning(JsfUIMessages.RENAME_METHOD_PARTICIPANT_GETTER_WARNING);
-					
-				}else if(BeanUtil.isSetter(method)){
-					if(anotherMethod == null || BeanUtil.isSetter(anotherMethod))
-						status.addWarning(JsfUIMessages.RENAME_METHOD_PARTICIPANT_SETTER_WARNING);
-				}
-				
-				searcher.findELReferences(pm);
-			}
+		if(searcher != null && element != null && element instanceof IMethod) {
+			searcher.findELReferences(pm);
 		}
-		
+
 		return status;
 	}
 	
-	private IMethod getAnotherMethod(){
-		for(Object object : otherElements)
-			if(object instanceof IMethod)
-				return (IMethod)object;
-		return null;
-	}
-
 	@Override
 	public Change createChange(IProgressMonitor pm) throws CoreException,
 			OperationCanceledException {
