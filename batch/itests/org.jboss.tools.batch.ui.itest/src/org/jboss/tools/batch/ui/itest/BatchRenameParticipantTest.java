@@ -19,6 +19,7 @@ import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.internal.corext.refactoring.rename.RenameFieldProcessor;
 import org.eclipse.jdt.internal.corext.refactoring.rename.RenameTypeProcessor;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.batch.ui.participants.BatchArtifactRenameParticipant;
 import org.jboss.tools.common.base.test.AbstractRefactorTest;
@@ -45,7 +46,7 @@ public class BatchRenameParticipantTest extends AbstractRefactorTest {
 		super("Batch Rename Participants Test");
 	}
 	
-	public void testBatchArtifactRename() throws CoreException{
+	public void testBatchArtifactRename() throws CoreException, BadLocationException{
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(project, "/src/META-INF/batch-jobs/job-refactor.xml");
@@ -59,7 +60,7 @@ public class BatchRenameParticipantTest extends AbstractRefactorTest {
 		RenameParticipantTestUtil.checkRenameParticipant(type, renameProcessor, new BatchArtifactRenameParticipant(), "abcdmableBatchlet", list);
 	}
 
-	public void testBatchPropertyRename() throws CoreException{
+	public void testBatchPropertyRename() throws CoreException, BadLocationException{
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(project, "/src/META-INF/batch-jobs/job-refactor.xml");
@@ -73,25 +74,35 @@ public class BatchRenameParticipantTest extends AbstractRefactorTest {
 		RenameParticipantTestUtil.checkRenameParticipant(field, renameProcessor, new BatchArtifactRenameParticipant(), "abcdeName", list);
 	}
 	
-	public void testClassRename() throws CoreException{
+	public void testClassRename() throws CoreException, BadLocationException{
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(project, "/src/META-INF/batch-jobs/job-refactor.xml");
-		TestTextChange change = new TestTextChange("batch.RenamableException", 24, "batch.AbcdmableException");
+		TestTextChange change = new TestTextChange("batch.SecondRenamableException", 30, "batch.AbcdefRenamableException");
 		structure.addTextChange(change);
 		list.add(structure);
 
-		change = new TestTextChange("batch.RenamableException", 24, "batch.AbcdmableException");
+		change = new TestTextChange("batch.SecondRenamableException", 30, "batch.AbcdefRenamableException");
 		structure.addTextChange(change);
 
-		change = new TestTextChange("batch.RenamableException", 24, "batch.AbcdmableException");
+		IType type = RenameParticipantTestUtil.getJavaType(project, "batch.SecondRenamableException");
+		RenameTypeProcessor renameProcessor = new RenameTypeProcessor(type);
+
+		RenameParticipantTestUtil.checkRenameParticipant(type, renameProcessor, new BatchArtifactRenameParticipant(), "AbcdefRenamableException", list);
+	}
+
+	public void testClassRename2() throws CoreException, BadLocationException{
+		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
+
+		TestChangeStructure structure = new TestChangeStructure(project, "/src/META-INF/batch-jobs/job-refactor.xml");
+		TestTextChange change = new TestTextChange("batch.RenamableException", 24, "batch.RenamableExceptio2");
 		structure.addTextChange(change);
+		list.add(structure);
 
 		IType type = RenameParticipantTestUtil.getJavaType(project, "batch.RenamableException");
 		RenameTypeProcessor renameProcessor = new RenameTypeProcessor(type);
 
-		RenameParticipantTestUtil.checkRenameParticipant(type, renameProcessor, new BatchArtifactRenameParticipant(), "AbcdmableException", list);
-
+		RenameParticipantTestUtil.checkRenameParticipant(type, renameProcessor, new BatchArtifactRenameParticipant(), "RenamableExceptio2", list);
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.text.BadLocationException;
 import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestChangeStructure;
 import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestTextChange;
 import org.jboss.tools.seam.internal.core.refactoring.RenameSeamContextVariableProcessor;
@@ -13,7 +14,7 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		super("Seam Context Variable Refactoring Test");
 	}
 	
-	public void testSeamContextVariable_Component_Rename() throws CoreException {
+	public void testSeamContextVariable_Component_Rename() throws CoreException, BadLocationException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestComponent.java");
@@ -30,40 +31,40 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		list.add(structure);
 
 		structure = new TestChangeStructure(ejbProject, "/ejbModule/org/domain/"+warProjectName+"/session/TestSeamComponent.java");
-		change = new TestTextChange(420, 11, "@In(\"best\")");
+		change = new TestTextChange("@In(\"test\")"/*420*/, 11, "@In(\"best\")");
 		structure.addTextChange(change);
 		
 		change = new TestTextChange(389, 8, "(\"best\")");
 		structure.addTextChange(change);
 		
-		change = new TestTextChange(455, 16, "@Factory(\"best\")");
+		change = new TestTextChange("@Factory"/*455*/, 16, "@Factory(\"best\")");
 		structure.addTextChange(change);
 		
-		change = new TestTextChange(529, 8, "(\"best\")");
+		change = new TestTextChange(521, 8, "(\"best\")");
 		structure.addTextChange(change);
 		
-		change = new TestTextChange(589, 4, "best");
+		change = new TestTextChange(573, 4, "best");
 		structure.addTextChange(change);
 		
 		list.add(structure);
 
 		structure = new TestChangeStructure(ejbProject, "/ejbModule/seam.properties");
-		change = new TestTextChange(0, 4, "best");
+		change = new TestTextChange("test", 4, "best");
 		structure.addTextChange(change);
 		list.add(structure);
 
 		structure = new TestChangeStructure(warProject, "/WebContent/test.xhtml");
-		change = new TestTextChange(1088, 4, "best");
+		change = new TestTextChange("test", 4, "best");
 		structure.addTextChange(change);
 		list.add(structure);
 
 		structure = new TestChangeStructure(warProject, "/WebContent/test.jsp");
-		change = new TestTextChange(227, 4, "best");
+		change = new TestTextChange("test", 4, "best");
 		structure.addTextChange(change);
 		list.add(structure);
 
 		structure = new TestChangeStructure(warProject, "/src/test.properties");
-		change = new TestTextChange(29, 4, "best");
+		change = new TestTextChange("test", 4, "best");
 		structure.addTextChange(change);
 		list.add(structure);
 		
@@ -75,11 +76,11 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		checkRename(processor, list);
 	}
 	
-	public void testSeamContextVariable_Factory1_Rename() throws CoreException {
+	public void testSeamContextVariable_Factory1_Rename() throws CoreException, BadLocationException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestContextVariableFactory.java");
-		TestTextChange change = new TestTextChange(464, 5, "\"bbc\"");
+		TestTextChange change = new TestTextChange("@Factory(\"abc\")", 15, "@Factory(\"bbc\")");
 		structure.addTextChange(change);
 		list.add(structure);
 		
@@ -96,7 +97,7 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		checkRename(processor, list);
 	}
 	
-	public void testSeamContextVariable_Factory2_Rename() throws CoreException {
+	public void testSeamContextVariable_Factory2_Rename() throws CoreException, BadLocationException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestContextVariableFactory.java");
@@ -117,11 +118,11 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		checkRename(processor, list);
 	}
 
-	public void testSeamContextVariable_Out1_Rename() throws CoreException {
+	public void testSeamContextVariable_Out1_Rename() throws CoreException, BadLocationException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestContextVariableOut.java");
-		TestTextChange change = new TestTextChange(455, 5, "\"bbb\"");
+		TestTextChange change = new TestTextChange("@Out(\"aaa\")", 11, "@Out(\"bbb\")");
 		structure.addTextChange(change);
 		list.add(structure);
 		
@@ -138,11 +139,11 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		checkRename(processor, list);
 	}
 	
-	public void testSeamContextVariable_Out2_Rename() throws CoreException {
+	public void testSeamContextVariable_Out2_Rename() throws CoreException, BadLocationException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestContextVariableOut.java");
-		TestTextChange change = new TestTextChange(516, 5, "\"eee\"");
+		TestTextChange change = new TestTextChange(515, 7, "(\"eee\")");
 		structure.addTextChange(change);
 		list.add(structure);
 		
@@ -159,11 +160,11 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		checkRename(processor, list);
 	}
 
-	public void testSeamContextVariable_DataModel1_Rename() throws CoreException {
+	public void testSeamContextVariable_DataModel1_Rename() throws CoreException, BadLocationException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestContextVariableDataModel.java");
-		TestTextChange change = new TestTextChange(483, 6, "\"dada\"");
+		TestTextChange change = new TestTextChange("@DataModel(\"data\")", 18, "@DataModel(\"dada\")");
 		structure.addTextChange(change);
 		list.add(structure);
 		
@@ -180,11 +181,11 @@ public class SeamContextVariableRefactoringTest extends SeamRefactoringTest {
 		checkRename(processor, list);
 	}
 	
-	public void testSeamContextVariable_DataModel2_Rename() throws CoreException {
+	public void testSeamContextVariable_DataModel2_Rename() throws CoreException, BadLocationException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestContextVariableDataModel.java");
-		TestTextChange change = new TestTextChange(551, 7, "\"modal\"");
+		TestTextChange change = new TestTextChange(550, 9, "(\"modal\")");
 		structure.addTextChange(change);
 		list.add(structure);
 		

@@ -16,10 +16,10 @@
           <include class="batch.RenamableException"/>
         </skippable-exception-classes>
         <retryable-exception-classes>
-          <include class="batch.RenamableException"/>
+          <include class="batch.SecondRenamableException"/>
         </retryable-exception-classes>
         <no-rollback-exception-classes>
-          <exclude class="batch.RenamableException"/>
+          <exclude class="batch.SecondRenamableException"/>
         </no-rollback-exception-classes>
       </chunk> 
     </step>

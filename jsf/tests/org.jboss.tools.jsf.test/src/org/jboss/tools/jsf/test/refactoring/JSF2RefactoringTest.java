@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.ltk.internal.core.refactoring.resource.MoveResourcesProcessor;
 import org.eclipse.ltk.internal.core.refactoring.resource.RenameResourceProcessor;
 import org.jboss.tools.common.base.test.AbstractRefactorTest;
@@ -39,7 +40,7 @@ public class JSF2RefactoringTest extends AbstractRefactorTest  {
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
-	public void testRenameCompositeComponentFile() throws CoreException {
+	public void testRenameCompositeComponentFile() throws CoreException, BadLocationException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(project.getProject(), "/WebContent/pages/inputname.xhtml");
@@ -57,11 +58,11 @@ public class JSF2RefactoringTest extends AbstractRefactorTest  {
 		checkRename(processor, sourceFile, "input2.xhtml", participant, list);
 	}
 
-	public void testRenameCompositeComponentFolder() throws CoreException {
+	public void testRenameCompositeComponentFolder() throws CoreException, BadLocationException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(project.getProject(), "/WebContent/pages/inputtype.xhtml");
-		TestTextChange change = new TestTextChange(382, 5, "type2");
+		TestTextChange change = new TestTextChange("http://java.sun.com/jsf/composite/type"/*382*/, 39, "http://java.sun.com/jsf/composite/type2");
 		structure.addTextChange(change);
 		list.add(structure);
 
@@ -75,11 +76,11 @@ public class JSF2RefactoringTest extends AbstractRefactorTest  {
 		checkRename(processor, sourceFolder, "type2", participant, list);
 	}
 
-	public void testMoveCompositeComponentFile() throws CoreException {
+	public void testMoveCompositeComponentFile() throws CoreException, BadLocationException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(project.getProject(), "/WebContent/pages/inputdata.xhtml");
-		TestTextChange change = new TestTextChange(382, 3, "new");
+		TestTextChange change = new TestTextChange("http://java.sun.com/jsf/composite/data"/*382*/, 37, "http://java.sun.com/jsf/composite/new");
 		structure.addTextChange(change);
 		list.add(structure);
 
@@ -94,11 +95,11 @@ public class JSF2RefactoringTest extends AbstractRefactorTest  {
 		checkMove(processor, sourceFile, destinationFolder, participant, list);
 	}
 	
-	public void testMoveCompositeComponentFolder() throws CoreException {
+	public void testMoveCompositeComponentFolder() throws CoreException, BadLocationException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(project.getProject(), "/WebContent/pages/inputnmbr.xhtml");
-		TestTextChange change = new TestTextChange(382, 8, "new/nmbr");
+		TestTextChange change = new TestTextChange("http://java.sun.com/jsf/composite/nmbr"/*382*/, 42, "http://java.sun.com/jsf/composite/new/nmbr");
 		structure.addTextChange(change);
 		list.add(structure);
 
