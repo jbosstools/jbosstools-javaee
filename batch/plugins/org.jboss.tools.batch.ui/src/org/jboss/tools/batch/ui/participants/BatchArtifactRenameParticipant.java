@@ -114,9 +114,9 @@ public class BatchArtifactRenameParticipant extends RenameParticipant {
 				newName = BeanUtil.getDefaultBeanName(getArguments().getNewName());
 			}
 		} else { // rename exception
-			String fullyQualifiedName = type.getFullyQualifiedName(); 
+			String fullyQualifiedName = type.getFullyQualifiedName();
 			StringBuilder b = new StringBuilder(fullyQualifiedName);
-			b.replace(fullyQualifiedName.lastIndexOf(type.getElementName()), fullyQualifiedName.lastIndexOf(type.getElementName()) + 1, getArguments().getNewName() );
+			b.replace(fullyQualifiedName.lastIndexOf(type.getElementName()), fullyQualifiedName.lastIndexOf(type.getElementName()) + type.getElementName().length(), getArguments().getNewName() );
 			newName = b.toString();
 		}
 		searchInProject(batchProject, artifact, property, pm);

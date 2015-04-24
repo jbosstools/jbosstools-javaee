@@ -13,8 +13,11 @@ package org.jboss.tools.cdi.core.test.tck;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.inject.Named;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.text.BadLocationException;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
@@ -23,7 +26,6 @@ import org.jboss.tools.cdi.internal.core.refactoring.RenameNamedBeanProcessor;
 import org.jboss.tools.common.base.test.AbstractRefactorTest;
 import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestChangeStructure;
 import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestTextChange;
-import org.jboss.tools.common.util.FileUtil;
 
 public class NamedBeanRefactoringTest extends TCKTest {
 	private static final String FILE_NAME1 = "JavaSource/org/jboss/jsr299/tck/tests/jbt/refactoring/Gamme.java";
@@ -34,15 +36,13 @@ public class NamedBeanRefactoringTest extends TCKTest {
 	private static final String newName = "abcde";
 	private static final int NUM_OF_CHAR = 5;
 
-	public void testNamedBeanClassRename() throws CoreException {
+	public void testNamedBeanClassRename() throws CoreException, BadLocationException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		IFile sourceFile = tckProject.getProject().getFile(FILE_NAME1);		
-		String sourceFileContent = FileUtil.getContentFromEditorOrFile(sourceFile);
-		int position = sourceFileContent.indexOf("@Named") + 8;
 		
 		TestChangeStructure structure = new TestChangeStructure(tckProject, FILE_NAME1);
-		TestTextChange change = new TestTextChange(/*328*/position, NUM_OF_CHAR, newName);
+		TestTextChange change = new TestTextChange("@Named", 15, "@Named(\"abcde\")");
 		structure.addTextChange(change);
 		list.add(structure);
 
@@ -72,11 +72,11 @@ public class NamedBeanRefactoringTest extends TCKTest {
 		AbstractRefactorTest.checkRename(processor, list);
 	}
 	
-	public void testNamedBeanProducerFieldRename() throws CoreException {
+	public void testNamedBeanProducerFieldRename() throws CoreException, BadLocationException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(tckProject, "JavaSource/org/jboss/jsr299/tck/tests/jbt/refactoring/ProducerFieldBean.java");
-		TestTextChange change = new TestTextChange("sField\")", 6, "uField");
+		TestTextChange change = new TestTextChange("@Named(\"sField\")", 16, "@Named(\"uField\")");
 		structure.addTextChange(change);
 		change = new TestTextChange("sField.charAt(0)}", 6, "uField");
 		structure.addTextChange(change);
@@ -93,11 +93,11 @@ public class NamedBeanRefactoringTest extends TCKTest {
 		AbstractRefactorTest.checkRename(processor, list);
 	}
 
-	public void testNamedBeanProducerMethodRename() throws CoreException {
+	public void testNamedBeanProducerMethodRename() throws CoreException, BadLocationException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(tckProject, "JavaSource/org/jboss/jsr299/tck/tests/jbt/refactoring/ProducerMethodBean.java");
-		TestTextChange change = new TestTextChange("infoMethod\")", 10, "memoMethod");
+		TestTextChange change = new TestTextChange("@Named(\"infoMethod\")", 20, "@Named(\"memoMethod\")");
 		structure.addTextChange(change);
 		change = new TestTextChange("infoMethod.charAt(0)}", 10, "memoMethod");
 		structure.addTextChange(change);

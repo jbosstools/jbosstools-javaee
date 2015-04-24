@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.TextSelection;
 import org.jboss.tools.common.base.test.AbstractRefactorTest;
 import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestChangeStructure;
@@ -41,7 +42,7 @@ public class MessagePropertyRefactoringTest extends AbstractRefactorTest{
 		project = ProjectImportTestSetup.loadProject(projectName);
 	}
 	
-	public void testMessagePropertyRename() throws CoreException {
+	public void testMessagePropertyRename() throws CoreException, BadLocationException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		IFile sourceFile = project.getProject().getFile("/WebContent/pages/hello.jsp");

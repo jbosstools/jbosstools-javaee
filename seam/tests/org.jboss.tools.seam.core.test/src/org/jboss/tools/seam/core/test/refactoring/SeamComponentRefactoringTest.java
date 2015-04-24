@@ -8,6 +8,8 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
+import org.eclipse.ltk.core.refactoring.RefactoringStatus;
+import org.eclipse.ltk.core.refactoring.RefactoringStatusEntry;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.jboss.tools.common.base.test.RenameParticipantTestUtil;
@@ -18,6 +20,7 @@ import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentProcessor;
 import org.jboss.tools.test.util.ResourcesUtils;
+import org.junit.Assert;
 
 public class SeamComponentRefactoringTest extends SeamRefactoringTest {
 	
@@ -114,7 +117,26 @@ public class SeamComponentRefactoringTest extends SeamRefactoringTest {
 		// Rename Seam Component
 		RenameComponentProcessor processor = new RenameComponentProcessor(component);
 		processor.setNewName(newName);
-		processor.checkFinalConditions(new NullProgressMonitor(), null);
+		RefactoringStatus status = processor.checkInitialConditions(new NullProgressMonitor());
+		
+		RefactoringStatusEntry[] entries = status.getEntries();
+		for (RefactoringStatusEntry entry : entries) {
+			System.out.println("Refactor status - " + entry.getMessage());
+		}
+
+		Assert.assertNull("Rename processor returns fatal error",
+				status.getEntryMatchingSeverity(RefactoringStatus.FATAL));
+		
+		status = processor.checkFinalConditions(new NullProgressMonitor(), null);
+		
+		entries = status.getEntries();
+		for (RefactoringStatusEntry entry : entries) {
+			System.out.println("Refactor status - " + entry.getMessage());
+		}
+
+		Assert.assertNull("Rename processor returns fatal error",
+				status.getEntryMatchingSeverity(RefactoringStatus.FATAL));
+		
 		CompositeChange rootChange = (CompositeChange)processor.createChange(new NullProgressMonitor());
 		
 		assertEquals("There is unexpected number of changes",changeList.size(), rootChange.getChildren().length);
