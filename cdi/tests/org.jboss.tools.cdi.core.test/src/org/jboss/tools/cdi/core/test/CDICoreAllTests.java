@@ -128,6 +128,7 @@ import org.jboss.tools.cdi.core.test.tck11.validation.AYTDefenitionErrorsValidat
 import org.jboss.tools.cdi.core.test.tck11.validation.AYTDeploymentProblemsValidationCDI11Tests;
 import org.jboss.tools.cdi.core.test.tck11.validation.AYTSuppressWarningsCDI11Tests;
 import org.jboss.tools.cdi.core.test.tck11.validation.AYTWeldValidationCDI11Test;
+import org.jboss.tools.cdi.core.test.tck11.validation.AnnotationsValidationCDI11ATest;
 import org.jboss.tools.cdi.core.test.tck11.validation.AnnotationsValidationCDI11Test;
 import org.jboss.tools.cdi.core.test.tck11.validation.BeansXmlValidationCDI11Test;
 import org.jboss.tools.cdi.core.test.tck11.validation.CoreValidationCDI11Test;
@@ -419,9 +420,18 @@ public class CDICoreAllTests {
 
 		suiteAll.addTest(new CDI11CoreTestSetup(suite));
 
+		/***** TCK 1.1 in annotated discovery mode project tests *****/
+
+		suite = new TestSuite("TCK 1.1 Annotated Tests");
 		
-		
-		
+		//TODO add other 1.1 tests.
+
+		// Marker validation tests
+		suite.addTestSuite(AnnotationsValidationCDI11ATest.class);
+
+		suiteAll.addTest(new CDI11AnnotatedCoreTestSetup(suite));
+
+
 		/***** TCK 1.2 project tests *****/
 
 		// Core tests

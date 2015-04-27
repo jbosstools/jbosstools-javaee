@@ -13,8 +13,10 @@ package org.jboss.tools.cdi.internal.core.scanner.lib;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IContainer;
@@ -286,6 +288,37 @@ public class BeanArchiveDetector {
 		return false;
 	}
 
+	/**
+	 * Annotations that define CDI annotation types: qualifiers, scopes, stereotypes, interceptor bindings.
+	 */
+	static Set<String> CDI_ANNOTATIONS = new HashSet<String>();
+	static {
+		CDI_ANNOTATIONS.add(CDIConstants.QUALIFIER_ANNOTATION_TYPE_NAME);
+		CDI_ANNOTATIONS.add(CDIConstants.SCOPE_ANNOTATION_TYPE_NAME);
+		CDI_ANNOTATIONS.add(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME);
+		CDI_ANNOTATIONS.add(CDIConstants.STEREOTYPE_ANNOTATION_TYPE_NAME);
+		CDI_ANNOTATIONS.add(CDIConstants.INTERCEPTOR_BINDING_ANNOTATION_TYPE_NAME);
+	}
+	/**
+	 * Scope or Qualifier or Stereotype
+	 * @param type
+	 * @return
+	 * @throws JavaModelException
+	 */
+	public static boolean isCDIAnnotation(IType type) throws JavaModelException {
+		if(!type.isAnnotation()) {
+			return false;
+		}
+		IAnnotation[] as = type.getAnnotations();
+		for (IAnnotation a: as) {
+			String typeName = EclipseJavaUtil.resolveType(type, a.getElementName());
+			if(CDI_ANNOTATIONS.contains(typeName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static IType findPackageInfo(IClassFile[] cs) {
 		for (IClassFile cf: cs) {
 			IType c = cf.getType();
@@ -309,7 +342,7 @@ public class BeanArchiveDetector {
 
 	public static IType[] getAnnotatedTypes(IType[] ts,CDICoreNature project) throws CoreException {
 		if(ts.length == 1 && (BeanArchiveDetector.isAnnotatedBean(ts[0], project)
-				|| BeanArchiveDetector.isQualifier(ts[0]))) {
+				|| BeanArchiveDetector.isCDIAnnotation(ts[0]))) {
 			return ts;
 		}
 		List<IType> result = new ArrayList<IType>();
