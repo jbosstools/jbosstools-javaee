@@ -8,7 +8,7 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/
-package org.jboss.tools.cdi.extension.core.test;
+package org.jboss.tools.cdi.extension.core.test.jms;
 
 import java.util.Collection;
 

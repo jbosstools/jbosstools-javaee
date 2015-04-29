@@ -49,6 +49,25 @@
 								<version>8.0.0.Beta1-SNAPSHOT</version>
 							</artifactItem-->
 
+							<artifactItem>
+								<groupId>javax.enterprise</groupId>
+								<artifactId>cdi-api</artifactId>
+								<version>1.1</version>
+							    <outputDirectory>${basedir}/projects/BatchTest/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.inject</groupId>
+								<artifactId>javax.inject</artifactId>
+								<version>1</version>
+							    <outputDirectory>${basedir}/projects/BatchTest/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.batch</groupId>
+								<artifactId>javax.batch-api</artifactId>
+								<version>1.0</version>
+							    <outputDirectory>${basedir}/projects/BatchTest/lib/</outputDirectory>
+							</artifactItem>
+
 					      </artifactItems>
 					      <skip>false</skip>
 					      <outputDirectory>${basedir}/projects/JMSContextTest/lib/</outputDirectory>
@@ -64,6 +83,7 @@
 			    <filesets>
 			      <fileset>
 				     <directory>${basedir}/projects/JMSContextTest/lib</directory>
+				     <directory>${basedir}/projects/BatchTest/lib</directory>
 				     <includes>
 		                           <include>*.jar</include>
 				     </includes>
