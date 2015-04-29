@@ -8,7 +8,7 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/
-package org.jboss.tools.cdi.extension.internal.core;
+package org.jboss.tools.cdi.extension.internal.core.jms;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;

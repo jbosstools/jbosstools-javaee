@@ -4,9 +4,14 @@
 	<extension
 	      point="org.jboss.tools.cdi.core.cdiextensions">
 	    <cdiextension
-	          class="org.jboss.tools.cdi.extension.internal.core.JMSContextExtension"
+	          class="org.jboss.tools.cdi.extension.internal.core.jms.JMSContextExtension"
 	          recognizer="org.jboss.tools.cdi.core.extension.DefaultExtensionRecognizer"
 	          runtime="org.jboss.as.messaging.deployment.JMSCDIExtension">
+	    </cdiextension>
+	    <cdiextension
+	          class="org.jboss.tools.cdi.extension.internal.core.batch.BatchExtension"
+	          recognizer="org.jboss.tools.cdi.core.extension.DefaultExtensionRecognizer"
+	          runtime="javax.batch.runtime.BatchRuntime">
 	    </cdiextension>
 	</extension>
 </plugin>
