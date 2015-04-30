@@ -363,10 +363,10 @@ public class NewJobXMLCreationWizard extends BasicNewResourceWizard {
 					return false;
 				}
 				IPath p = getContainerFullPath();
-				if(!p.equals(lastPath)) {
-					IFolder folder = ResourcesPlugin.getWorkspace().getRoot().getFolder(p);
-					if(folder.exists()) {
-						BatchProject bp = (BatchProject)BatchCorePlugin.getBatchProject(folder.getProject(), true);
+				if(!p.equals(lastPath) && p.segmentCount() > 0) {
+					IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(p.segment(0));
+					if(project != null) {
+						BatchProject bp = (BatchProject)BatchCorePlugin.getBatchProject(project, true);
 						if(bp != null) {
 							ids = new HashSet<String>();
 							for (BatchJobDefinition def: bp.getDeclaredBatchJobDefinitions()) {
