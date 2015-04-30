@@ -3,6 +3,7 @@ package cdi.test.extension;
 import javax.batch.api.BatchProperty;
 import javax.batch.api.Batchlet;
 import javax.batch.runtime.context.JobContext;
+import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -12,6 +13,9 @@ import javax.inject.Named;
 public class BatchArtifact implements Batchlet {
 	@Inject
 	JobContext context;
+
+	@Inject
+	StepContext stepContext;
 
 	@Inject
 	String notABatchProperty;

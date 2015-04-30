@@ -26,8 +26,8 @@ public class BatchValidationTest extends TestCase {
 
 	public void testBatchInjection() throws Exception {
 		IFile file = getTestProject().getFile("src/cdi/test/extension/BatchArtifact.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[1], 16);
-		assertNoError(file, 13, 19);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[1], 20);
+		assertNoError(file, 14, 17, 23);
 	}
 
 	private void assertNoError(IFile file, Integer... integers) throws Exception {
