@@ -26,11 +26,13 @@ public class BatchExtension implements ICDIExtension, IInjectionPointValidatorFe
 
 	private static final String BATCH_PROPERTY_QUALIFIER = "javax.batch.api.BatchProperty";
 	private static final String JOB_CONTEXT_TYPE = "javax.batch.runtime.context.JobContext";
+	private static final String STEP_CONTEXT_TYPE = "javax.batch.runtime.context.StepContext";
 
 	@Override
 	public boolean shouldIgnoreInjection(IType typeOfInjectionPoint, IInjectionPoint injection) {
 		if(typeOfInjectionPoint != null) {
-			if(JOB_CONTEXT_TYPE.equals(typeOfInjectionPoint.getFullyQualifiedName())) {
+			String typeName = typeOfInjectionPoint.getFullyQualifiedName();
+			if(JOB_CONTEXT_TYPE.equals(typeName) || STEP_CONTEXT_TYPE.equals(typeName)) {
 				return true;
 			}
 			IAnnotationDeclaration declaration = CDIUtil.getAnnotationDeclaration(injection, BATCH_PROPERTY_QUALIFIER);
