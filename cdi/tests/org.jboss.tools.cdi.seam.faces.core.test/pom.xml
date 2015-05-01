@@ -14,4 +14,72 @@
 		<emma.instrument.bundles>org.jboss.tools.cdi.seam.faces.core,org.jboss.tools.cdi.core,org.jboss.tools.cdi.xml</emma.instrument.bundles>
 	</properties>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+				  <execution>
+				    <id>get-libs</id>
+				    <goals>
+				      <goal>copy</goal>
+				    </goals>
+				    <phase>generate-resources</phase>
+					<configuration>
+					      <skip>false</skip>
+					      <artifactItems>
+
+							<!-- SeamFacesTest -->
+							<artifactItem>
+								<groupId>javax.enterprise</groupId>
+								<artifactId>cdi-api</artifactId>
+								<version>1.0</version>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.inject</groupId>
+								<artifactId>javax.inject</artifactId>
+								<version>1</version>
+							</artifactItem>
+							<artifactItem>
+								<groupId>org.jboss.interceptor</groupId>
+								<artifactId>jboss-interceptor-api</artifactId>
+								<version>1.1</version>
+							</artifactItem>
+							<artifactItem>
+								<groupId>org.jboss.seam.faces</groupId>
+								<artifactId>seam-faces-api</artifactId>
+								<version>3.1.0.Final</version>
+							</artifactItem>
+							<artifactItem>
+								<groupId>org.jboss.seam.faces</groupId>
+								<artifactId>seam-faces</artifactId>
+								<version>3.1.0.Final</version>
+							</artifactItem>
+
+						</artifactItems>
+						<skip>false</skip>
+					    <outputDirectory>${basedir}/projects/SeamFacesTest/lib/</outputDirectory>
+					</configuration>
+				  </execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+			  <!-- make sure lib dir is removed after clean to avoid "dirty" build -->
+			  <artifactId>maven-clean-plugin</artifactId>
+			  <configuration>
+			    <filesets>
+			      <fileset>
+					<directory>${basedir}/projects/SeamFacesTest/lib</directory>
+					<includes>
+						<include>*.jar</include>
+					</includes>
+			      </fileset>
+			    </filesets>
+			  </configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

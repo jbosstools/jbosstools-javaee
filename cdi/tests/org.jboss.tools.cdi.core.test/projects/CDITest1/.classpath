@@ -2,12 +2,12 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/cdi-api.jar"/>
-	<classpathentry kind="lib" path="lib/javax.inject.jar"/>
-	<classpathentry kind="lib" path="lib/weld-api.jar"/>
-	<classpathentry kind="lib" path="lib/weld-core.jar"/>
-	<classpathentry kind="lib" path="lib/weld-se.jar"/>
-	<classpathentry kind="lib" path="lib/weld-servlet.jar"/>
+	<classpathentry kind="lib" path="lib2/cdi-api-1.0.jar"/>
+	<classpathentry kind="lib" path="lib2/javax.inject-1.jar"/>
+	<classpathentry kind="lib" path="lib2/weld-api-1.1.Final.jar"/>
+	<classpathentry kind="lib" path="lib2/weld-core-1.1.10.Final.jar"/>
+	<classpathentry kind="lib" path="lib2/weld-se-1.1.10.Final.jar"/>
+	<classpathentry kind="lib" path="lib2/weld-servlet-1.1.10.Final.jar"/>
 	<classpathentry kind="lib" path="lib/some-weld.jar"/>
 	<classpathentry kind="lib" path="lib/example.jar"/>
 	<classpathentry kind="output" path="bin"/>

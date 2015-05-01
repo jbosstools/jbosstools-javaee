@@ -103,18 +103,19 @@ public class CDISeamPersistenceExtension implements ICDIExtension, IBuildPartici
 				if(isArtefact(p)) {
 					BeanMember m = (BeanMember)p;
 					TypeDeclaration d = m.getTypeDeclaration();
-					
-					ParametedType substitute = null;
-					if(entityManagerFactory != null && entityManager != null && d.getType().equals(entityManagerFactory.getType())) {
-						substitute = entityManager;
-					} else if(sessionFactory != null && session != null && d.getType().equals(sessionFactory.getType())) {
-						substitute = session;
-					}
-					
-					if(substitute != null) {
-						d = new TypeDeclaration(substitute, d.getResource(), d.getStartPosition(), d.getLength());
-						m.setTypeDeclaration(d);
-						cdi.addBean(p);
+					if(d!=null && d.getType()!=null) {
+						ParametedType substitute = null;
+						if(entityManagerFactory != null && entityManager != null && d.getType().equals(entityManagerFactory.getType())) {
+							substitute = entityManager;
+						} else if(sessionFactory != null && session != null && d.getType().equals(sessionFactory.getType())) {
+							substitute = session;
+						}
+						
+						if(substitute != null) {
+							d = new TypeDeclaration(substitute, d.getResource(), d.getStartPosition(), d.getLength());
+							m.setTypeDeclaration(d);
+							cdi.addBean(p);
+						}
 					}
 				}
 			}

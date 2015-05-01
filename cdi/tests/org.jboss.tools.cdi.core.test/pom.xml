@@ -29,6 +29,8 @@
 					<configuration>
 					      <skip>false</skip>
 					      <artifactItems>
+
+					      	<!-- tck1.1 -->
 							<artifactItem>
 								<groupId>com.beust</groupId>
 								<artifactId>jcommander</artifactId>
@@ -339,13 +341,190 @@
 								<artifactId>sac</artifactId>
 								<version>1.3</version>
 							</artifactItem>
-
 							<artifactItem>
 								<groupId>javax.validation</groupId>
 								<artifactId>validation-api</artifactId>
 								<version>1.1.0.Final</version>
 							</artifactItem>
 
+							<!-- tck -->
+							<artifactItem>
+								<groupId>javax.enterprise</groupId>
+								<artifactId>cdi-api</artifactId>
+								<version>1.0</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.inject</groupId>
+								<artifactId>javax.inject</artifactId>
+								<version>1</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>org.jboss.interceptor</groupId>
+								<artifactId>jboss-interceptor-api</artifactId>
+								<version>1.1</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>commons-logging</groupId>
+								<artifactId>commons-logging</artifactId>
+								<version>1.0.4</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>commons-collections</groupId>
+								<artifactId>commons-collections</artifactId>
+								<version>3.2.1</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>commons-beanutils</groupId>
+								<artifactId>commons-beanutils</artifactId>
+								<version>1.6.1</version>
+  							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>commons-digester</groupId>
+								<artifactId>commons-digester</artifactId>
+								<version>1.7</version>
+  							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.annotation</groupId>
+								<artifactId>jsr250-api</artifactId>
+								<version>1.0</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.jws</groupId>
+								<artifactId>jsr181-api</artifactId>
+								<version>1.0-MR1</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.el</groupId>
+								<artifactId>el-api</artifactId>
+								<version>2.2</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>net.sourceforge.htmlunit</groupId>
+								<artifactId>htmlunit-core-js</artifactId>
+								<version>2.9</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.xml.bind</groupId>
+								<artifactId>jaxb-api</artifactId>
+								<version>2.2.2</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.xml.ws</groupId>
+								<artifactId>jaxws-api</artifactId>
+								<version>2.2</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>org.jboss.ejb3</groupId>
+								<artifactId>jboss-ejb3-api</artifactId>
+								<version>3.1.0</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>org.jboss.test-audit</groupId>
+								<artifactId>jboss-test-audit-api</artifactId>
+								<version>1.0.0</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>org.jboss.test-harness</groupId>
+								<artifactId>jboss-test-harness-api</artifactId>
+								<version>1.0.0</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>org.jboss.test-harness</groupId>
+								<artifactId>jboss-test-harness</artifactId>
+								<version>1.0.0</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.faces</groupId>
+								<artifactId>jsf-api</artifactId>
+								<version>1.2_15</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.faces</groupId>
+								<artifactId>jsf-impl</artifactId>
+								<version>1.2_15</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.servlet.jsp</groupId>
+								<artifactId>jsp-api</artifactId>
+								<version>2.1</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>org.jboss.jsr299.tck</groupId>
+								<artifactId>jsr299-tck-api</artifactId>
+								<version>1.0.6.Final</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.servlet</groupId>
+								<artifactId>jstl</artifactId>
+								<version>1.1.0</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.transaction</groupId>
+								<artifactId>jta</artifactId>
+								<version>1.1</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.persistence</groupId>
+								<artifactId>persistence-api</artifactId>
+								<version>1.0</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.servlet</groupId>
+								<artifactId>servlet-api</artifactId>
+								<version>2.5</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+							    <groupId>org.jboss.weld.se</groupId>
+							    <artifactId>weld-se</artifactId>
+							    <version>1.1.10.Final</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>org.apache.taglibs</groupId>
+								<artifactId>taglibs-standard-impl</artifactId>
+								<version>1.2.5</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>org.testng</groupId>
+								<artifactId>testng</artifactId>
+								<version>5.10</version>
+								<classifier>jdk15</classifier>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.validation</groupId>
+								<artifactId>validation-api</artifactId>
+								<version>1.0.0.GA</version>
+							    <outputDirectory>${basedir}/projects/tck/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+
+							<!-- weld1.1 -->
 							<artifactItem>
 							    <groupId>org.jboss.weld.se</groupId>
 							    <artifactId>weld-se</artifactId>
@@ -353,6 +532,7 @@
 							    <outputDirectory>${basedir}/projects/weld1.1/lib/</outputDirectory>
 							</artifactItem>
 
+							<!-- CDIArchivesTest -->
 							<artifactItem>
 							    <groupId>org.jboss.weld.se</groupId>
 							    <artifactId>weld-se</artifactId>
@@ -366,6 +546,59 @@
 							    <outputDirectory>${basedir}/projects/CDIArchivesTest/lib/</outputDirectory>
 							</artifactItem>
 
+							<!-- CDITest1 -->
+							<artifactItem>
+								<groupId>javax.enterprise</groupId>
+								<artifactId>cdi-api</artifactId>
+								<version>1.0</version>
+							    <outputDirectory>${basedir}/projects/CDITest1/lib2/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.inject</groupId>
+								<artifactId>javax.inject</artifactId>
+								<version>1</version>
+							    <outputDirectory>${basedir}/projects/CDITest1/lib2/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>org.jboss.weld</groupId>
+								<artifactId>weld-api</artifactId>
+								<version>1.1.Final</version>
+							    <outputDirectory>${basedir}/projects/CDITest1/lib2/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>org.jboss.weld</groupId>
+								<artifactId>weld-core</artifactId>
+								<version>1.1.10.Final</version>
+							    <outputDirectory>${basedir}/projects/CDITest1/lib2/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+							    <groupId>org.jboss.weld.se</groupId>
+							    <artifactId>weld-se</artifactId>
+							    <version>1.1.10.Final</version>
+							    <outputDirectory>${basedir}/projects/CDITest1/lib2/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>org.jboss.weld.servlet</groupId>
+								<artifactId>weld-servlet</artifactId>
+								<version>1.1.10.Final</version>
+							    <outputDirectory>${basedir}/projects/CDITest1/lib2/</outputDirectory>
+							</artifactItem>
+
+							<!-- CDITest2 -->
+							<artifactItem>
+								<groupId>javax.enterprise</groupId>
+								<artifactId>cdi-api</artifactId>
+								<version>1.0</version>
+							    <outputDirectory>${basedir}/projects/CDITest2/lib2/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.inject</groupId>
+								<artifactId>javax.inject</artifactId>
+								<version>1</version>
+							    <outputDirectory>${basedir}/projects/CDITest2/lib2/</outputDirectory>
+							</artifactItem>
+
+							<!-- CDITest11 -->
 							<artifactItem>
 							    <groupId>org.jboss.weld.se</groupId>
 							    <artifactId>weld-se</artifactId>
@@ -379,6 +612,47 @@
 							    <outputDirectory>${basedir}/projects/CDITest11/lib/</outputDirectory>
 							</artifactItem>
 
+							<!-- RemoveJarTest -->
+							<artifactItem>
+								<groupId>javax.enterprise</groupId>
+								<artifactId>cdi-api</artifactId>
+								<version>1.0</version>
+							    <outputDirectory>${basedir}/projects/RemoveJarTest/lib2/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.inject</groupId>
+								<artifactId>javax.inject</artifactId>
+								<version>1</version>
+							    <outputDirectory>${basedir}/projects/RemoveJarTest/lib2/</outputDirectory>
+							</artifactItem>
+
+							<!-- TwoWebContentFolders -->
+							<artifactItem>
+								<groupId>javax.enterprise</groupId>
+								<artifactId>cdi-api</artifactId>
+								<version>1.0</version>
+							    <outputDirectory>${basedir}/projects/TwoWebContentFolders/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.inject</groupId>
+								<artifactId>javax.inject</artifactId>
+								<version>1</version>
+							    <outputDirectory>${basedir}/projects/TwoWebContentFolders/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>org.jboss.interceptor</groupId>
+								<artifactId>jboss-interceptor-api</artifactId>
+								<version>1.1</version>
+							    <outputDirectory>${basedir}/projects/TwoWebContentFolders/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>org.jboss.seam.config</groupId>
+								<artifactId>seam-config-xml</artifactId>
+								<version>3.0.0.Final</version>
+							    <outputDirectory>${basedir}/projects/TwoWebContentFolders/WebContent/WEB-INF/lib/</outputDirectory>
+  							</artifactItem>
+
+							<!-- missingBeansXmlParentProject -->
 							<artifactItem>
 							    <groupId>org.jboss.weld.se</groupId>
 							    <artifactId>weld-se</artifactId>
@@ -392,6 +666,7 @@
 							    <outputDirectory>${basedir}/projects/missingBeansXmlParentProject/lib/</outputDirectory>
 							</artifactItem>
 
+							<!-- missingBeansXmlChildProject -->
 							<artifactItem>
 							    <groupId>org.jboss.weld.se</groupId>
 							    <artifactId>weld-se</artifactId>
@@ -405,6 +680,7 @@
 							    <outputDirectory>${basedir}/projects/missingBeansXmlChildProject/lib/</outputDirectory>
 							</artifactItem>
 
+							<!-- missingBeansXmlProjectCDI11 -->
 							<artifactItem>
 							    <groupId>org.jboss.weld.se</groupId>
 							    <artifactId>weld-se</artifactId>
@@ -418,13 +694,13 @@
 							    <outputDirectory>${basedir}/projects/missingBeansXmlProjectCDI11/lib/</outputDirectory>
 							</artifactItem>
 
+							<!-- DiscoveryModeChangeTest -->
 							<artifactItem>
 								<groupId>javax.enterprise</groupId>
 								<artifactId>cdi-api</artifactId>
 								<version>1.1</version>
 							    <outputDirectory>${basedir}/projects/DiscoveryModeChangeTest/lib/</outputDirectory>
 							</artifactItem>
-
 							<artifactItem>
 								<groupId>javax.inject</groupId>
 								<artifactId>javax.inject</artifactId>
@@ -432,6 +708,7 @@
 							    <outputDirectory>${basedir}/projects/DiscoveryModeChangeTest/lib/</outputDirectory>
 							</artifactItem>
 
+							<!-- missingBeansXmlProjectCDI12 -->
 							<artifactItem>
 							    <groupId>org.jboss.weld.se</groupId>
 							    <artifactId>weld-se</artifactId>
@@ -445,7 +722,7 @@
 							    <outputDirectory>${basedir}/projects/missingBeansXmlProjectCDI12/lib/</outputDirectory>
 							</artifactItem>
 
-
+							<!-- tck1.1-annotated -->
 							<artifactItem>
 								<groupId>com.beust</groupId>
 								<artifactId>jcommander</artifactId>
@@ -825,7 +1102,7 @@
 							    <outputDirectory>${basedir}/projects/tck1.1-annotated/WebContent/WEB-INF/lib/</outputDirectory>
 							</artifactItem>
 
-
+							<!-- tck1.2 -->
 							<artifactItem>
 								<groupId>com.beust</groupId>
 								<artifactId>jcommander</artifactId>
@@ -1219,20 +1496,30 @@
 			  <configuration>
 			    <filesets>
 			      <fileset>
+				     <directory>${basedir}/projects/tck/WebContent/WEB-INF/lib</directory>
 				     <directory>${basedir}/projects/tck1.1/WebContent/WEB-INF/lib</directory>
 				     <directory>${basedir}/projects/tck1.1-annotated/WebContent/WEB-INF/lib</directory>
 				     <directory>${basedir}/projects/tck1.2/WebContent/WEB-INF/lib</directory>
 				     <directory>${basedir}/projects/weld1.1/lib</directory>
 				     <directory>${basedir}/projects/CDIArchivesTest/lib</directory>
+				     <directory>${basedir}/projects/CDITest1/lib2/</directory>
+				     <directory>${basedir}/projects/CDITest2/lib2/</directory>
 				     <directory>${basedir}/projects/CDITest11/lib</directory>
+				     <directory>${basedir}/projects/RemoveJarTest/lib2</directory>
 				     <directory>${basedir}/projects/missingBeansXmlParentProject/lib</directory>
 				     <directory>${basedir}/projects/missingBeansXmlChildProject/lib</directory>
 				     <directory>${basedir}/projects/missingBeansXmlProjectCDI11/lib</directory>
 				     <directory>${basedir}/projects/missingBeansXmlProjectCDI12/lib</directory>
 				     <directory>${basedir}/projects/DiscoveryModeChangeTest/lib</directory>
+				     <directory>${basedir}/projects/TwoWebContentFolders/WebContent/WEB-INF/lib</directory>
 				     <includes>
 		                           <include>*.jar</include>
 				     </includes>
+				     <excludes>
+							<exclude>common-annotations.jar</exclude>
+							<exclude>openon_test.jar</exclude>
+							<exclude>seam-solder-test.jar</exclude>
+				     </excludes>
 			      </fileset>
 			    </filesets>
 			  </configuration>

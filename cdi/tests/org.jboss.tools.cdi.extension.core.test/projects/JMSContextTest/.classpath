@@ -4,7 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="lib/cdi-api-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/javax.inject-1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jboss-jms-api_2.0_spec-1.0.0.Alpha1.jar"/>
-	<classpathentry kind="lib" path="lib2/jboss-as-messaging.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jboss-jms-api_2.0_spec-1.0.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/wildfly-messaging-8.2.0.Final.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

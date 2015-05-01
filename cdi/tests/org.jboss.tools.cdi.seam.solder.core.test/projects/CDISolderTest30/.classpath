@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="lib/cdi-api.jar"/>
-	<classpathentry kind="lib" path="lib/javax.inject.jar"/>
-	<classpathentry kind="lib" path="lib/seam-solder.jar"/>
+	<classpathentry kind="lib" path="lib2/cdi-api-1.0.jar"/>
+	<classpathentry kind="lib" path="lib2/javax.inject-1.jar"/>
+	<classpathentry kind="lib" path="lib2/seam-solder-3.0.0.Final.jar"/>
 	<classpathentry kind="lib" path="lib/cdi-solder-birds.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

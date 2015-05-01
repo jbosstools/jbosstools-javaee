@@ -2,10 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/CDIConfigTest/lib/cdi-api.jar"/>
-	<classpathentry kind="lib" path="/CDIConfigTest30/lib/javax.inject.jar"/>
-	<classpathentry kind="lib" path="/CDIConfigTest30/lib/seam-config-xml.jar"/>
-	<classpathentry kind="lib" path="/CDIConfigTest30/lib/seam-solder.jar"/>
+	<classpathentry kind="lib" path="/CDIConfigTest/lib/cdi-api-1.0.jar"/>
+	<classpathentry kind="lib" path="/CDIConfigTest30/lib/javax.inject-1.jar"/>
+	<classpathentry kind="lib" path="/CDIConfigTest30/lib/seam-config-xml-3.0.0.Final.jar"/>
+	<classpathentry kind="lib" path="/CDIConfigTest30/lib/seam-solder-3.0.0.Final.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CDIConfigTest30"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

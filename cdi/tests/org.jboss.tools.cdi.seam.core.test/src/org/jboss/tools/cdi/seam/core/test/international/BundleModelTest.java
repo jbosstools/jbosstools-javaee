@@ -69,15 +69,17 @@ public class BundleModelTest extends SeamCoreTest {
 		Set<String> originalBundles = originalBundleModel.getAllAvailableBundles();
 		assertFalse(originalBundles.isEmpty());
 
-		String path = "WebContent/WEB-INF/lib/seam-international.jar";
-		String original = "WebContent/WEB-INF/lib/seam-international.original";
+		String path = "WebContent/WEB-INF/lib/seam-international-empty.jar";
+		String original = "WebContent/WEB-INF/lib/seam-international-empty.original";
 
+		GenericBeanValidationTest.writeFile(getTestProject(), path, original);
 		GenericBeanValidationTest.removeFile(getTestProject(), path);
 		
 		IBundleModel bundleModel = BundleModelFactory.getBundleModel(getTestProject());
 		assertNull(bundleModel);
 
 		GenericBeanValidationTest.writeFile(getTestProject(), original, path);
+		GenericBeanValidationTest.removeFile(getTestProject(), original);
 		bundleModel = BundleModelFactory.getBundleModel(getTestProject());
 		assertNotNull(bundleModel);
 		Set<String> bundles = bundleModel.getAllAvailableBundles();
