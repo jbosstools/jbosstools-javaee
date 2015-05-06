@@ -19,7 +19,6 @@ import org.eclipse.sapphire.modeling.annotations.Image;
  *
  */
 @Image(path = "reader.png")
-public interface Reader extends ItemHandlingElement {
+public interface Reader extends ItemHandlingElement, RefAttributeElement {
 	ElementType TYPE = new ElementType( Reader.class );
-
 }

@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
+ *     Tomas Milata - Added Batch diagram editor (JBIDE-19717).
  ************************************************************************************/
 package org.jboss.tools.batch.ui.editor.internal.model;
 
@@ -19,7 +20,6 @@ import org.eclipse.sapphire.modeling.annotations.Image;
  *
  */
 @Image(path = "writer.png")
-public interface Writer extends ItemHandlingElement {
+public interface Writer extends ItemHandlingElement, RefAttributeElement {
 	ElementType TYPE = new ElementType( Writer.class );
-
 }

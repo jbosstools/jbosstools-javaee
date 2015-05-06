@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
+ *     Tomas Milata - Added Batch diagram editor (JBIDE-19717).
  ************************************************************************************/
 package org.jboss.tools.batch.ui.editor.internal.model;
 
@@ -15,11 +16,8 @@ import org.eclipse.sapphire.ElementList;
 import org.eclipse.sapphire.ElementProperty;
 import org.eclipse.sapphire.ElementType;
 import org.eclipse.sapphire.ListProperty;
-import org.eclipse.sapphire.Value;
-import org.eclipse.sapphire.ValueProperty;
 import org.eclipse.sapphire.modeling.annotations.Image;
 import org.eclipse.sapphire.modeling.annotations.Label;
-import org.eclipse.sapphire.modeling.annotations.Required;
 import org.eclipse.sapphire.modeling.annotations.Type;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlListBinding;
@@ -32,18 +30,9 @@ import org.eclipse.sapphire.modeling.xml.annotations.XmlListBinding;
 @Label( standard = "decision" )
 @Image ( path = "decision.png" )
 @XmlBinding( path = "decision" )
-public interface Decision extends FlowElement {
+public interface Decision extends FlowElement, RefAttributeElement {
 
 	ElementType TYPE = new ElementType( Decision.class );
-
-	@Label( standard = "ref" )
-	@XmlBinding( path = "@ref" )
-	@Required
-
-	ValueProperty PROP_REF = new ValueProperty( TYPE, "Ref" );
-
-	Value<String> getRef();
-	void setRef( String ref);
 
 	@Type( base = Properties.class )
 	@Label( standard = "properties" )
@@ -62,8 +51,30 @@ public interface Decision extends FlowElement {
 			}
 	)
 	@XmlListBinding( path = "" )
-	ListProperty PROP_OUTCOME_ELEMENTS = new ListProperty(TYPE, "OutcomeElements");
+	ListProperty PROP_OUTCOME_ELEMENTS = new ListProperty( TYPE, "OutcomeElements" );
 
 	ElementList<OutcomeElement> getOutcomeElements();
+	
+	@Type( base = Next.class )
+	@XmlListBinding( path = "" )
+	// Next vs terminating elements have to be in separate list becase the need
+	// to be handled differently in diagram. (Next via connections).
+	ListProperty PROP_NEXT_ELEMENTS = new ListProperty( TYPE, "NextElements" );
+
+	ElementList<Next> getNextElements();
+	
+	@Type( base = OutcomeElement.class,
+			possible = {
+				End.class,
+				Fail.class,
+				Stop.class
+			}
+	)
+	@XmlListBinding( path = "" )
+	// Next vs terminating elements have to be in separate list becase the need
+	// to be handled differently in diagram. (Next via connections).
+	ListProperty PROP_TERMINATING_ELEMENTS = new ListProperty( TYPE, "TerminatingElements" );
+
+	ElementList<OutcomeElement> getTerminatingElements();
 	
 }

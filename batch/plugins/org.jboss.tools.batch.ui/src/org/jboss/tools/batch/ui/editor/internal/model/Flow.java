@@ -7,22 +7,18 @@
  * 
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
+ *     Tomas Milata - Added Batch diagram editor (JBIDE-19717).
  ************************************************************************************/
 package org.jboss.tools.batch.ui.editor.internal.model;
 
 import org.eclipse.sapphire.ElementList;
 import org.eclipse.sapphire.ElementType;
 import org.eclipse.sapphire.ListProperty;
-import org.eclipse.sapphire.Value;
-import org.eclipse.sapphire.ValueProperty;
 import org.eclipse.sapphire.modeling.annotations.Image;
 import org.eclipse.sapphire.modeling.annotations.Label;
-import org.eclipse.sapphire.modeling.annotations.Service;
-import org.eclipse.sapphire.modeling.annotations.Services;
 import org.eclipse.sapphire.modeling.annotations.Type;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlListBinding;
-import org.jboss.tools.batch.ui.editor.internal.services.NextPossibleValuesService;
 
 /**
  * 
@@ -32,33 +28,10 @@ import org.jboss.tools.batch.ui.editor.internal.services.NextPossibleValuesServi
 @Label( standard = "flow" )
 @Image ( path = "flow.png" )
 @XmlBinding( path = "flow" )
-public interface Flow extends FlowElement {
+public interface Flow extends FlowElement, FlowElementsContainer, NextAttributeElement {
 	
 	ElementType TYPE = new ElementType( Flow.class );
     
-    @Label( standard = "next" )
-    @XmlBinding( path = "@next" )
-	@Services ( {
-		@Service( impl = NextPossibleValuesService.class )
-	})
-    
-    ValueProperty PROP_NEXT = new ValueProperty( TYPE, "Next" );
-	
-    Value<String> getNext();
-    void setNext( String next);
-	
-	@Type( base = FlowElement.class,
-			possible = {
-				Flow.class,
-				Step.class,
-				Decision.class,
-				Split.class
-			}
-	)
-	@XmlListBinding( path = "" )
-	ListProperty PROP_FLOW_ELEMENTS = new ListProperty(TYPE, "FlowElements");
-
-	ElementList<FlowElement> getFlowElements();
 	
 	@Type( base = OutcomeElement.class,
 			possible = {
@@ -72,5 +45,28 @@ public interface Flow extends FlowElement {
 	ListProperty PROP_OUTCOME_ELEMENTS = new ListProperty(TYPE, "OutcomeElements");
 
 	ElementList<OutcomeElement> getOutcomeElements();
+		
+	@Type( base = Next.class )
+	@XmlListBinding( path = "" )
+	// Next vs terminating elements have to be in separate list becase the need
+	// to be handled differently in diagram. (Next via connections).
+	ListProperty PROP_NEXT_ELEMENTS = new ListProperty(TYPE, "NextElements");
+
+	ElementList<Next> getNextElements();
+	
+	@Type( base = OutcomeElement.class,
+			possible = {
+				End.class,
+				Fail.class,
+				Stop.class
+			}
+	)
+	@XmlListBinding( path = "" )
+	// Next vs terminating elements have to be in separate list becase the need
+	// to be handled differently in diagram. (Next via connections).
+	ListProperty PROP_TERMINATING_ELEMENTS = new ListProperty(TYPE, "TerminatingElements");
+
+	ElementList<OutcomeElement> getTerminatingElements();
+	
 	
 }

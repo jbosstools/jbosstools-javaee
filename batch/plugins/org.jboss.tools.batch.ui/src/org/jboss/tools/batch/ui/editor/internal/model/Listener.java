@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
+ *     Tomas Milata - Added Batch diagram editor (JBIDE-19717).
  ************************************************************************************/
 package org.jboss.tools.batch.ui.editor.internal.model;
 
@@ -14,11 +15,8 @@ import org.eclipse.sapphire.Element;
 import org.eclipse.sapphire.ElementHandle;
 import org.eclipse.sapphire.ElementProperty;
 import org.eclipse.sapphire.ElementType;
-import org.eclipse.sapphire.Value;
-import org.eclipse.sapphire.ValueProperty;
 import org.eclipse.sapphire.modeling.annotations.Image;
 import org.eclipse.sapphire.modeling.annotations.Label;
-import org.eclipse.sapphire.modeling.annotations.Required;
 import org.eclipse.sapphire.modeling.annotations.Type;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
 
@@ -32,15 +30,7 @@ public interface Listener extends Element {
 
 	ElementType TYPE = new ElementType( Listener.class );
 
-	@Label( standard = "ref" )
-	@XmlBinding( path = "@ref" )
-	@Required
-	ValueProperty PROP_REF = new ValueProperty( TYPE, "Ref" );
-
-	Value<String> getRef();
-	void setRef( String ref);
-
-
+	
 	@Type( base = Properties.class )
 	@Label( standard = "properties" )
 	@XmlBinding( path = "properties" )

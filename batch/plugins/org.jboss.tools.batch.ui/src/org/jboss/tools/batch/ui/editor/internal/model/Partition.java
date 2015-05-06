@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
+ *     Tomas Milata - Added Batch diagram editor (JBIDE-19717).
  ************************************************************************************/
 package org.jboss.tools.batch.ui.editor.internal.model;
 
@@ -14,6 +15,7 @@ import org.eclipse.sapphire.Element;
 import org.eclipse.sapphire.ElementHandle;
 import org.eclipse.sapphire.ElementProperty;
 import org.eclipse.sapphire.ElementType;
+import org.eclipse.sapphire.modeling.annotations.Image;
 import org.eclipse.sapphire.modeling.annotations.Label;
 import org.eclipse.sapphire.modeling.annotations.Type;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
@@ -24,6 +26,7 @@ import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
  *
  */
 @Label( standard = "partition" )
+@Image ( path = "partition.png" )
 public interface Partition extends Element {
 
 	ElementType TYPE = new ElementType( Partition.class );
@@ -42,15 +45,15 @@ public interface Partition extends Element {
 
 	ElementProperty PROP_PLAN = new ElementProperty( TYPE, "Plan" );
 
-	ElementHandle<Mapper> getPlan();
+	ElementHandle<Plan> getPlan();
 
-	@Type( base = ItemHandlingElement.class )
+	@Type( base = Collector.class )
 	@Label( standard = "collector" )
 	@XmlBinding( path = "collector" )
 
 	ElementProperty PROP_COLLECTOR = new ElementProperty( TYPE, "Collector" );
 
-	ElementHandle<ItemHandlingElement> getCollector();
+	ElementHandle<Collector> getCollector();
 
 	@Type( base = Analyzer.class )
 	@Label( standard = "analyzer" )

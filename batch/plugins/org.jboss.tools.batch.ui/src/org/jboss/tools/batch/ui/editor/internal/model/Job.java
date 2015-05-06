@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
+ *     Tomas Milata - Added Batch diagram editor (JBIDE-19717).
  ************************************************************************************/
 package org.jboss.tools.batch.ui.editor.internal.model;
 
@@ -41,7 +42,7 @@ import org.eclipse.sapphire.modeling.xml.annotations.XmlSchema;
 )
 @Image ( path = "job.png" )
 @XmlBinding( path = "job" )
-public interface Job extends Element {
+public interface Job extends Element, FlowElementsContainer {
 
 	ElementType TYPE = new ElementType( Job.class );
 
@@ -78,25 +79,12 @@ public interface Job extends Element {
 
 	ElementHandle<Properties> getProperties();
 
-	@Type( base = Listener.class )
+	@Type( base = JobListener.class )
 	@Label( standard = "listener" )
-	@XmlListBinding( path = "listeners", mappings = @XmlListBinding.Mapping( element = "listener", type = Listener.class ))
+	@XmlListBinding( path = "listeners", mappings = @XmlListBinding.Mapping( element = "listener", type = JobListener.class ))
 
 	ListProperty PROP_LISTENERS = new ListProperty( TYPE, "Listeners" ); //$NON-NLS-1$ 
 
-	ElementList<Listener> getListeners();
-
-	@Type( base = FlowElement.class,
-			possible = {
-				Flow.class,
-				Step.class,
-				Decision.class,
-				Split.class
-			}
-	)
-	@XmlListBinding( path = "" )
-	ListProperty PROP_FLOW_ELEMENTS = new ListProperty(TYPE, "FlowElements");
-
-	ElementList<FlowElement> getFlowElements();
+	ElementList<JobListener> getListeners();
 	
 }

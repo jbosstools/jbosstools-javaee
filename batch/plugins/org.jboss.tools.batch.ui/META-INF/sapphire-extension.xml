@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ******************************************************************************
+  Copyright (c) 2014 Red Hat, Inc. and others.
+  All rights reserved. This program and the accompanying materials 
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+  http://www.eclipse.org/legal/epl-v10.html
+  
+  Contributors:
+      Tomas Milata - Initital version.
+      
+ ******************************************************************************
+ -->
+<extension xmlns="http://www.eclipse.org/sapphire/xmlns/extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <function>
+        <name>BatchPath</name>
+        <impl>org.jboss.tools.batch.ui.editor.internal.extensions.BatchPathFunction</impl>
+        <signature>
+            <parameter>org.jboss.tools.batch.ui.editor.internal.model.FlowElementsContainer</parameter>
+        </signature>
+        <description>Returns a String representation of a path from root to a Flow in a valid Batch model. The path consist of Job/Flow/Split ids separated by '/'.</description>
+    </function>
+</extension>

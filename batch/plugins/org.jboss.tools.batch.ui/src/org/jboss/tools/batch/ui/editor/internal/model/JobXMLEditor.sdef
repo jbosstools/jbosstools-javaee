@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ******************************************************************************
+  Copyright (c) 2014 Red Hat, Inc. and others.
+  All rights reserved. This program and the accompanying materials 
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+  http://www.eclipse.org/legal/epl-v10.html
+  
+  Contributors:
+      JBoss by Red Hat - Initial implementation.
+      Tomas Milata - Added Batch diagram editor (JBIDE-19717).
+      
+ ******************************************************************************
+ -->
 <definition>
 	<import>
 		<package>org.jboss.tools.batch.ui.editor.internal.model</package>
@@ -16,20 +30,12 @@
 				<section>
 					<label>Job</label>
 					<content>
-						<property-editor>
-							<property>Id</property>
-						</property-editor>
-						<property-editor>
-							<property>Version</property>
-						</property-editor>
-						<property-editor>
-							<property>Restartable</property>
-						</property-editor>
+						<include>JobForm</include>
 					</content>
 				</section>
 
 				<section>
-			   	 <label>Flow Elements</label>
+					<label>Flow Elements</label>
 					<content>
 						<include>FlowElementsForm</include>
 					</content>
@@ -46,9 +52,17 @@
 				<node-include>FlowElementsNode</node-include>
 
 			</node>
-            
+
 		</root-node>
 	</editor-page>
+	<form>
+		<id>JobForm</id>
+		<content>
+			<property-editor>Id</property-editor>
+			<property-editor>Version</property-editor>
+			<property-editor>Restartable</property-editor>
+		</content>
+	</form>
 
 	<node>
 		<id>ListenersNode</id>
@@ -73,10 +87,8 @@
 		<section>
 			<description>Define a flow element</description>
 			<content>
-				<!--actuator>
-					<action-id>Sapphire.Add</action-id>
-					<label>add a flow</label>
-				</actuator-->
+				<!--actuator> <action-id>Sapphire.Add</action-id> <label>add a flow</label> 
+					</actuator -->
 				<include>FlowElementsForm</include>
 			</content>
 		</section>
@@ -152,18 +164,13 @@
 			</section>
 			<section>
 				<label>No Rollback Exception Classes</label>
-				<content>type filter text
+				<content>
+					type filter text
 					<include>NoRollbackExceptionClassesForm</include>
 				</content>
 			</section>
-			<!--
-			<section>
-				<label>Reader</label>
-				<content>type filter text
-					<include>ReaderForm</include>
-				</content>
-			</section>
-			-->
+			<!-- <section> <label>Reader</label> <content>type filter text <include>ReaderForm</include> 
+				</content> </section> -->
 			<node-include>ReaderNode</node-include>
 			<node-include>WriterNode</node-include>
 			<node-include>ProcessNodeFactory</node-include>
@@ -175,7 +182,7 @@
 		<id>ProcessNodeFactory</id>
 		<property>Processor</property>
 		<case>
-		    <element-type>Processor</element-type>
+			<element-type>Processor</element-type>
 			<image>${ Image() }</image>
 			<label>${ Ref == null ? "" : Ref }</label>
 			<section>
@@ -199,7 +206,7 @@
 		<id>CheckpointAlgorithmNodeFactory</id>
 		<property>CheckpointAlgorithm</property>
 		<case>
-		    <element-type>CheckpointAlgorithm</element-type>
+			<element-type>CheckpointAlgorithm</element-type>
 			<image>${ Image() }</image>
 			<label>${ Ref == null ? "" : Ref }</label>
 			<section>
@@ -251,8 +258,39 @@
 						<property-editor>
 							<property>Ref</property>
 						</property-editor>
-						<include>PropertiesSection</include>
+                        <section>
+                            <label>Properties</label>
+                            <content>
+                                <include>PropertiesSection</include>
+                            </content>
+                        </section>
 					</content>
+					<element-type>org.jboss.tools.batch.ui.editor.internal.model.Reader
+					</element-type>
+				</case>
+			</with>
+		</content>
+	</form>
+	
+	<form>
+		<id>WriterForm</id>
+		<content>
+			<with>
+				<path>Writer</path>
+				<case>
+					<content>
+						<property-editor>
+							<property>Ref</property>
+						</property-editor>
+                        <section>
+                            <label>Properties</label>
+                            <content>
+                                <include>PropertiesSection</include>
+                            </content>
+                        </section>
+					</content>
+					<element-type>org.jboss.tools.batch.ui.editor.internal.model.Writer
+					</element-type>
 				</case>
 			</with>
 		</content>
@@ -283,56 +321,62 @@
 		<label>Partition</label>
 		<image>partition.png</image>
 		<visible-when>${Partition != null}</visible-when>
-		<section>
-			<content>
-				<with>
-					<path>Partition</path>
-					<case>
-						<content>
-				<section>
-					<visible-when>${Mapper != null || Plan == null}</visible-when>
-					<label>Mapper</label>
-					<content>
-						<include>MapperForm</include>
-					</content>
-				</section>
-				<section>
-					<visible-when>${Mapper == null || Plan != null}</visible-when>
-					<label>Plan</label>
-					<content>
-						<include>PlanForm</include>
-					</content>
-				</section>
-				<section>
-					<label>Collector</label>
-					<content>
-						<include>CollectorForm</include>
-					</content>
-				</section>
-				<section>
-					<label>Analyzer</label>
-					<content>
-						<include>AnalyzerForm</include>
-					</content>
-				</section>
-				<section>
-					<label>Reducer</label>
-					<content>
-						<include>ReducerForm</include>
-					</content>
-				</section>
-						</content>
-					</case>
-				</with>
-			</content>
-		</section>
+
 		<node-include>PlanNode</node-include>
+		<section-ref>PartitionSection</section-ref>
 	</node>
+
+	<section>
+		<content>
+			<with>
+				<path>Partition</path>
+				<case>
+					<content>
+						<section>
+							<visible-when>${Mapper != null || Plan == null}</visible-when>
+							<label>Mapper</label>
+							<content>
+								<include>MapperForm</include>
+							</content>
+						</section>
+						<section>
+							<visible-when>${Mapper == null || Plan != null}</visible-when>
+							<label>Plan</label>
+							<content>
+								<include>PlanForm</include>
+							</content>
+						</section>
+						<section>
+							<label>Collector</label>
+							<content>
+								<include>CollectorForm</include>
+							</content>
+						</section>
+						<section>
+							<label>Analyzer</label>
+							<content>
+								<include>AnalyzerForm</include>
+							</content>
+						</section>
+						<section>
+							<label>Reducer</label>
+							<content>
+								<include>ReducerForm</include>
+							</content>
+						</section>
+					</content>
+				</case>
+			</with>
+		</content>
+		<id>PartitionSection</id>
+		<label>Partition</label>
+	</section>
 
 	<node>
 		<id>PlanNode</id>
 		<label>Plan</label>
-		<visible-when>${Partition != null and Partition.Plan != null}</visible-when>
+		<visible-when>${Partition != null and Partition.Plan != null}
+		</visible-when>
 		<section>
 			<content>
 				<with>
@@ -340,24 +384,24 @@
 					<case>
 						<content>
 
-				<with>
-					<path>Plan</path>
-					<case>
-						<content>
-				<section>
-					<label>Plan</label>
-					<content>
-						<property-editor>
-							<property>Partitions</property>
-						</property-editor>
-						<property-editor>
-							<property>Threads</property>
-						</property-editor>
-					</content>
-				</section>
-						</content>
-					</case>
-				</with>
+							<with>
+								<path>Plan</path>
+								<case>
+									<content>
+										<section>
+											<label>Plan</label>
+											<content>
+												<property-editor>
+													<property>Partitions</property>
+												</property-editor>
+												<property-editor>
+													<property>Threads</property>
+												</property-editor>
+											</content>
+										</section>
+									</content>
+								</case>
+							</with>
 
 						</content>
 					</case>
@@ -574,14 +618,14 @@
 			</section>
 
 			<section>
-			    <label>Flow Elements</label>
+				<label>Flow Elements</label>
 				<content>
 					<include>FlowElementsForm</include>
 				</content>
 			</section>
 
 			<section>
-			    <label>Transitions</label>
+				<label>Transitions</label>
 				<content>
 					<include>OutcomesForm</include>
 				</content>
@@ -597,17 +641,12 @@
 			<section>
 				<label>Split</label>
 				<content>
-					<property-editor>
-						<property>Id</property>
-					</property-editor>
-					<property-editor>
-						<property>Next</property>
-					</property-editor>
+					<include>SplitForm</include>
 				</content>
 			</section>
 
 			<section>
-			    <label>Flow Elements</label>
+				<label>Flow Elements</label>
 				<content>
 					<include>FlowsForm</include>
 				</content>
@@ -622,17 +661,12 @@
 			<section>
 				<label>Decision</label>
 				<content>
-					<property-editor>
-						<property>Id</property>
-					</property-editor>
-					<property-editor>
-						<property>Ref</property>
-					</property-editor>
+					<include>DecisionForm</include>
 				</content>
 			</section>
 
 			<section>
-			    <label>Transitions</label>
+				<label>Transitions</label>
 				<content>
 					<include>OutcomesForm</include>
 				</content>
@@ -659,14 +693,14 @@
 			</section>
 
 			<section>
-			    <label>Partition</label>
+				<label>Partition</label>
 				<content>
 					<include>PartitionForm</include>
 				</content>
 			</section>
 
 			<section>
-			    <label>Transitions</label>
+				<label>Transitions</label>
 				<content>
 					<include>OutcomesForm</include>
 				</content>
@@ -683,6 +717,9 @@
 			<node-include>BatchletAndChunkFactory</node-include>
 			<node-include>PartitionNode</node-include>
 			<node-include>OutcomesNode</node-include>
+            <action-handler-filter>
+                <impl>org.jboss.tools.batch.ui.editor.internal.action.AddBatchletOrChunkActionFilter</impl>
+            </action-handler-filter>
 		</case>
 	</node-factory>
 
@@ -695,24 +732,19 @@
 			<section>
 				<label>Flow</label>
 				<content>
-					<property-editor>
-						<property>Id</property>
-					</property-editor>
-					<property-editor>
-						<property>Next</property>
-					</property-editor>
+					<include>FlowForm</include>
 				</content>
 			</section>
 
 			<section>
-			    <label>Flow Elements</label>
+				<label>Flow Elements</label>
 				<content>
 					<include>FlowElementsForm</include>
 				</content>
 			</section>
 
 			<section>
-			    <label>Transitions</label>
+				<label>Transitions</label>
 				<content>
 					<include>OutcomesForm</include>
 				</content>
@@ -722,6 +754,20 @@
 			<node-include>OutcomesNode</node-include>
 		</case>
 	</node-factory>
+	<form>
+		<id>DecisionForm</id>
+		<content>
+			<property-editor>Id</property-editor>
+			<property-editor>Ref</property-editor>
+		</content>
+	</form>
+	<form>
+		<content>
+			<property-editor>Id</property-editor>
+			<property-editor>Next</property-editor>
+		</content>
+		<id>FlowForm</id>
+	</form>
 
 	<form>
 		<id>StepForm</id>
@@ -735,6 +781,13 @@
 			<property-editor>
 				<property>AllowStartIfComplete</property>
 			</property-editor>
+		</content>
+	</form>
+	<form>
+		<id>SplitForm</id>
+		<content>
+			<property-editor>Id</property-editor>
+			<property-editor>Next</property-editor>
 		</content>
 	</form>
 
@@ -763,6 +816,8 @@
 						</property-editor>
 						<include>PropertiesSection</include>
 					</content>
+					<element-type>org.jboss.tools.batch.ui.editor.internal.model.Mapper
+					</element-type>
 				</case>
 			</with>
 		</content>
@@ -799,6 +854,8 @@
 						</property-editor>
 						<include>PropertiesSection</include>
 					</content>
+					<element-type>org.jboss.tools.batch.ui.editor.internal.model.Collector
+					</element-type>
 				</case>
 			</with>
 		</content>
@@ -816,6 +873,8 @@
 						</property-editor>
 						<include>PropertiesSection</include>
 					</content>
+					<element-type>org.jboss.tools.batch.ui.editor.internal.model.Analyzer
+					</element-type>
 				</case>
 			</with>
 		</content>
@@ -833,6 +892,8 @@
 						</property-editor>
 						<include>PropertiesSection</include>
 					</content>
+					<element-type>org.jboss.tools.batch.ui.editor.internal.model.Reducer
+					</element-type>
 				</case>
 			</with>
 		</content>
@@ -850,6 +911,8 @@
 						</property-editor>
 						<include>PropertiesSection</include>
 					</content>
+					<element-type>org.jboss.tools.batch.ui.editor.internal.model.Processor
+					</element-type>
 				</case>
 			</with>
 		</content>
@@ -867,6 +930,8 @@
 						</property-editor>
 						<include>PropertiesSection</include>
 					</content>
+					<element-type>org.jboss.tools.batch.ui.editor.internal.model.CheckpointAlgorithm
+					</element-type>
 				</case>
 			</with>
 		</content>
@@ -928,6 +993,1189 @@
 			</with>
 		</content>
 	</form>
+	<diagram-page>
+		<id>DiagramPage</id>
+		<element-type>org.jboss.tools.batch.ui.editor.internal.model.FlowElementsContainer</element-type>
+		<node>
+			<model-element-type>org.jboss.tools.batch.ui.editor.internal.model.Step
+			</model-element-type>
+			<connection-binding>
+				<connection-id>NextOnConnection</connection-id>
+				<endpoint2>
+					<property>To</property>
+					<value>${id}</value>
+				</endpoint2>
+				<label>${empty on ? '&lt;on&gt;' : on}</label>
+				<property>NextElements</property>
+			</connection-binding>
+			<id>StepNode</id>
+			<properties-view>
+				<page>
+					<content>
+                        <section>
+                            <label>Step</label>
+                            <content>
+                                <include>StepForm</include>
+                            </content>
+                        </section>
+					</content>
+					<image>${Image()}</image>
+					<label>Step</label>
+				</page>
+				<page>
+					<label>Partition</label>
+					<image>partition.png</image>
+					<content>
+						<include>PartitionSection</include>
+					</content>
+				</page>
+			</properties-view>
+			<property>FlowElements</property>
+			<rectangle>
+				<content>
+					<rectangle>
+						<content>
+							<image>
+								<path>start.png</path>
+							</image>
+						</content>
+						<sequence-layout>
+							<orientation>horizontal</orientation>
+						</sequence-layout>
+						<visible-when>${Index(this) == 0}</visible-when>
+                        <sequence-layout-constraint>
+                            <expand-horizontally>true</expand-horizontally>
+                        </sequence-layout-constraint>
+					</rectangle>
+					<rectangle>
+						<content>
+							<rectangle>
+								<content>
+									<image>
+										<path>${Image()}</path>
+									</image>
+									<text>
+										<content>${id == null ? '&lt;id&gt;' : id}</content>
+										<font>
+											<bold></bold>
+										</font>
+									</text>
+									<validation-marker></validation-marker>
+								</content>
+								<sequence-layout>
+									<orientation>horizontal</orientation>
+								</sequence-layout>
+                                <sequence-layout-constraint>
+                                    <expand-horizontally>true</expand-horizontally>
+                                </sequence-layout-constraint>
+							</rectangle>
+							<rectangle>
+								<content>
+									<shape-factory>
+										<case>
+											<element-type>org.jboss.tools.batch.ui.editor.internal.model.Chunk
+											</element-type>
+											<rectangle>
+												<content>
+													<image>
+														<path>${Image()}</path>
+                                                        <sequence-layout-constraint>
+                                                            <expand-horizontally>true</expand-horizontally>
+                                                        </sequence-layout-constraint>
+													</image>
+													<text>
+														<content>Chunk</content>
+														<truncatable>false</truncatable>
+                                                        <sequence-layout-constraint>
+                                                            <expand-horizontally>true</expand-horizontally>
+                                                        </sequence-layout-constraint>
+													</text>
+													<validation-marker>
+														<size>small</size>
+                                                        <sequence-layout-constraint>
+                                                            <expand-horizontally>true</expand-horizontally>
+                                                        </sequence-layout-constraint>
+													</validation-marker>
+												</content>
+												<sequence-layout>
+													<orientation>horizontal</orientation>
+												</sequence-layout>
+												<properties-view>
+													<page>
+														<content>
+                                                            <section>
+                                                                <content>
+                                                                    <include>ChunkForm</include>
+                                                                </content>
+                                                                <label>Chunk</label>
+                                                            </section>
+														</content>
+														<image>${Image()}</image>
+														<label>Chunk</label>
+													</page>
+                                                    <page>
+                                                        <content>
+                                                            <section>
+                                                                <label>Reader</label>
+                                                                <content>
+                                                                    <include>ReaderForm</include>
+                                                                </content>
+                                                            </section>
+                                                        </content>
+                                                        <image>reader.png</image>
+                                                        <label>Reader</label>
+                                                    </page>
+													<page>
+														<content>
+                                                            <section>
+                                                                <label>Processor</label>
+                                                                <content>
+                                                                    <include>ProcessorForm</include>
+                                                                </content>
+                                                            </section>
+														</content>
+														<image>processor.png</image>
+														<label>Processor</label>
+													</page>
+                                                    <page>
+                                                        <image>writer.png</image>
+                                                        <label>Writer</label>
+                                                        <content>
+                                                            <section>
+                                                                <label>Writer</label>
+                                                                <content>
+                                                                    <include>WriterForm</include>
+                                                                </content>
+                                                            </section>
+                                                        </content>
+                                                    </page>
+													<page>
+														<content>
+                                                            <section>
+                                                                <label>Checkpoint Algorithm</label>
+                                                                <content>
+                                                                    <include>CheckpointAlgorithmForm</include>
+                                                                </content>
+                                                            </section>
+														</content>
+														<image>checkpoint-algorithm.png</image>
+														<label>Checkpoint Algorithm</label>
+													</page>
+													<page>
+														<content>
+                                                            <section>
+                                                                <label>Skippable Exceptions</label>
+                                                                <content>
+                                                                    <include>SkippableExceptionClassesForm</include>
+                                                                </content>
+                                                            </section>
+														</content>
+														<image>exception.png</image>
+														<label>Skippable Exceptions</label>
+													</page>
+													<page>
+														<content>
+                                                            <section>
+                                                                <label>Retryable Exceptions</label>
+                                                                <content>
+                                                                    <include>RetryableExceptionClassesForm</include>
+                                                                </content>
+                                                            </section>
+														</content>
+														<image>exception.png</image>
+														<label>Retryable Exceptions</label>
+													</page>
+													<page>
+														<content>
+                                                            <section>
+                                                                <label>No Rollback Exceptions</label>
+                                                                <content>
+                                                                    <include>NoRollbackExceptionClassesForm</include>
+                                                                </content>
+                                                            </section>
+														</content>
+														<image>exception.png</image>
+														<label>No Rollback Exceptions</label>
+													</page>
+												</properties-view>
+                                                <sequence-layout-constraint>
+                                                    <expand-horizontally>true</expand-horizontally>
+                                                </sequence-layout-constraint>
+											</rectangle>
+										</case>
+										<case>
+											<element-type>org.jboss.tools.batch.ui.editor.internal.model.Batchlet
+											</element-type>
+											<rectangle>
+												<content>
+													<image>
+														<path>${Image()}</path>
+													</image>
+													<text>
+														<content>Batchlet</content>
+														<truncatable>false</truncatable>
+                                                        <sequence-layout-constraint>
+                                                            <expand-horizontally>true</expand-horizontally>
+                                                        </sequence-layout-constraint>
+													</text>
+													<validation-marker>
+														<size>small</size>
+													</validation-marker>
+												</content>
+												<properties-view>
+													<page>
+														<content>
+															<separator></separator>
+                                                            <section>
+                                                                <content>
+                                                                    <property-editor>Ref</property-editor>
+                                                                </content>
+                                                                <label>Batchlet</label>
+                                                            </section>
+														</content>
+														<image>${Image()}</image>
+														<label>Batchlet</label>
+													</page>
+													<page>
+														<content>
+                                                            <section>
+                                                                <label>Properties</label>
+                                                                <content>
+                                                                    <include>PropertiesSection</include>
+                                                                </content>
+                                                            </section>
+														</content>
+														<image>properties.png</image>
+														<label>Properties</label>
+													</page>
+												</properties-view>
+                                                <sequence-layout-constraint>
+                                                    <expand-horizontally>true</expand-horizontally>
+                                                </sequence-layout-constraint>
+                                                <sequence-layout>
+                                                    <orientation>horizontal</orientation>
+                                                </sequence-layout>
+											</rectangle>
+										</case>
+										<property>BatchletOrChunk</property>
+									</shape-factory>
+								</content>
+                                <sequence-layout-constraint>
+                                    <expand-horizontally>true</expand-horizontally>
+                                </sequence-layout-constraint>
+                                <visible-when>${ !Empty(BatchletOrChunk)}</visible-when>
+                                <corner-radius>10</corner-radius>
+                                <border>
+                                    <style>dot</style>
+                                    <weight>1</weight>
+                                </border>
+                                <sequence-layout>
+                                    <spacing>0</spacing>
+                                    <margin>0</margin>
+                                </sequence-layout>
+							</rectangle>
+						</content>
+						<background>
+							<gradient></gradient>
+						</background>
+						<corner-radius>10</corner-radius>
+						<border>
+							<weight>1</weight>
+						</border>
+                        <sequence-layout-constraint>
+                            <expand-horizontally>true</expand-horizontally>
+                        </sequence-layout-constraint>
+					</rectangle>
+					<rectangle>
+						<content>
+							<shape-factory>
+								<case>
+									<element-type>org.jboss.tools.batch.ui.editor.internal.model.End
+									</element-type>
+									<rectangle>
+										<content>
+											<image>
+												<path>${Image()}</path>
+											</image>
+											<text>
+												<content>${on == null ? '&lt;status code&gt;' : on}
+												</content>
+												<truncatable>false</truncatable>
+											</text>
+											<validation-marker>
+												<size>small</size>
+											</validation-marker>
+										</content>
+										<sequence-layout>
+											<orientation>horizontal</orientation>
+										</sequence-layout>
+										<sequence-layout-constraint>
+											<expand-horizontally>true</expand-horizontally>
+										</sequence-layout-constraint>
+									</rectangle>
+								</case>
+								<case>
+									<element-type>org.jboss.tools.batch.ui.editor.internal.model.Stop
+									</element-type>
+									<rectangle>
+										<content>
+											<image>
+												<path>${Image()}</path>
+											</image>
+											<text>
+												<content>${on == null ? '&lt;status code&gt;' : on}
+												</content>
+												<truncatable>false</truncatable>
+											</text>
+											<validation-marker>
+												<size>small</size>
+											</validation-marker>
+										</content>
+										<sequence-layout>
+											<orientation>horizontal</orientation>
+										</sequence-layout>
+										<sequence-layout-constraint>
+											<expand-horizontally>true</expand-horizontally>
+										</sequence-layout-constraint>
+									</rectangle>
+								</case>
+								<case>
+									<element-type>org.jboss.tools.batch.ui.editor.internal.model.Fail
+									</element-type>
+									<rectangle>
+										<content>
+											<image>
+												<path>${Image()}</path>
+											</image>
+											<text>
+												<content>${on == null ? '&lt;status code&gt;' : on}
+												</content>
+												<truncatable>false</truncatable>
+												<sequence-layout-constraint>
+													<vertical-alignment>top</vertical-alignment>
+												</sequence-layout-constraint>
+											</text>
+											<validation-marker>
+												<size>small</size>
+											</validation-marker>
+										</content>
+										<sequence-layout>
+											<orientation>horizontal</orientation>
+										</sequence-layout>
+										<sequence-layout-constraint>
+											<expand-horizontally>true</expand-horizontally>
+										</sequence-layout-constraint>
+									</rectangle>
+								</case>
+								<property>TerminatingElements</property>
+							</shape-factory>
+						</content>
+						<visible-when>${! empty TerminatingElements}</visible-when>
+						<sequence-layout-constraint>
+							<expand-horizontally>true</expand-horizontally>
+						</sequence-layout-constraint>
+						<sequence-layout>
+							<spacing>0</spacing>
+						</sequence-layout>
+					</rectangle>
+				</content>
+				<sequence-layout>
+					<orientation>vertical</orientation>
+                    <spacing>0</spacing>
+				</sequence-layout>
+			</rectangle>
+			<tool-palette-image>step.png</tool-palette-image>
+			<tool-palette-label>Step</tool-palette-label>
+			<action-handler>
+				<impl>org.jboss.tools.batch.ui.editor.internal.action.diagram.SetStartActionHandler
+				</impl>
+				<action>SetStartAction</action>
+				<id>SetStartActionHandler</id>
+			</action-handler>
+			<action>
+				<id>SetStartAction</id>
+				<label>Set as start</label>
+				<image>start.png</image>
+				<tooltip>Move this element to the 1st position to se it as a start.
+				</tooltip>
+			</action>
+            <action-handler-filter>
+                <impl>org.jboss.tools.batch.ui.editor.internal.action.AddBatchletOrChunkActionFilter</impl>
+            </action-handler-filter>
+		</node>
+		<node>
+			<id>FlowNode</id>
+			<property>FlowElements</property>
+			<model-element-type>org.jboss.tools.batch.ui.editor.internal.model.Flow
+			</model-element-type>
+			<tool-palette-label>Flow</tool-palette-label>
+			<rectangle>
+				<content>
+					<rectangle>
+						<content>
+							<image>
+								<path>start.png</path>
+							</image>
+						</content>
+						<sequence-layout>
+							<orientation>horizontal</orientation>
+						</sequence-layout>
+						<visible-when>${Index(this) == 0}</visible-when>
+                        <sequence-layout-constraint>
+                            <expand-horizontally>true</expand-horizontally>
+                        </sequence-layout-constraint>
+					</rectangle>
+					<rectangle>
+						<content>
+							<image>
+								<path>${Image()}</path>
+							</image>
+							<text>
+								<content>${id == null ? '&lt;id&gt;' : id}</content>
+								<font>
+									<bold></bold>
+								</font>
+								<truncatable>false</truncatable>
+								<sequence-layout-constraint>
+									<expand-horizontally>false</expand-horizontally>
+									<margin-horizontal>5</margin-horizontal>
+								</sequence-layout-constraint>
+							</text>
+							<validation-marker></validation-marker>
+						</content>
+						<sequence-layout>
+							<orientation>horizontal</orientation>
+						</sequence-layout>
+						<background>
+							<gradient>
+								<gradient-segment>
+									<color>#DDB5DB</color>
+								</gradient-segment>
+								<gradient-segment>
+									<color>white</color>
+								</gradient-segment>
+							</gradient>
+						</background>
+						<sequence-layout-constraint>
+							<expand-vertically>false</expand-vertically>
+							<vertical-alignment>top</vertical-alignment>
+							<min-width>50</min-width>
+							<max-width>200</max-width>
+							<expand-horizontally>true</expand-horizontally>
+						</sequence-layout-constraint>
+						<corner-radius>10</corner-radius>
+						<border>
+							<weight>1</weight>
+						</border>
+					</rectangle>
+					<rectangle>
+						<content>
+							<shape-factory>
+								<case>
+									<element-type>org.jboss.tools.batch.ui.editor.internal.model.End
+									</element-type>
+									<rectangle>
+										<content>
+											<image>
+												<path>${Image()}</path>
+											</image>
+											<text>
+												<content>${on == null ? '&lt;status code&gt;' : on}
+												</content>
+												<truncatable>false</truncatable>
+											</text>
+											<validation-marker>
+												<size>small</size>
+											</validation-marker>
+										</content>
+										<sequence-layout>
+											<orientation>horizontal</orientation>
+										</sequence-layout>
+										<sequence-layout-constraint>
+											<expand-horizontally>true</expand-horizontally>
+										</sequence-layout-constraint>
+									</rectangle>
+								</case>
+								<case>
+									<element-type>org.jboss.tools.batch.ui.editor.internal.model.Stop
+									</element-type>
+									<rectangle>
+										<content>
+											<image>
+												<path>${Image()}</path>
+											</image>
+											<text>
+												<content>${on == null ? '&lt;status code&gt;' : on}
+												</content>
+												<truncatable>false</truncatable>
+											</text>
+											<validation-marker>
+												<size>small</size>
+											</validation-marker>
+										</content>
+										<sequence-layout>
+											<orientation>horizontal</orientation>
+										</sequence-layout>
+										<sequence-layout-constraint>
+											<expand-horizontally>true</expand-horizontally>
+										</sequence-layout-constraint>
+									</rectangle>
+								</case>
+								<case>
+									<element-type>org.jboss.tools.batch.ui.editor.internal.model.Fail
+									</element-type>
+									<rectangle>
+										<content>
+											<image>
+												<path>${Image()}</path>
+											</image>
+											<text>
+												<content>${on == null ? '&lt;status code&gt;' : on}
+												</content>
+												<truncatable>false</truncatable>
+												<sequence-layout-constraint>
+													<vertical-alignment>top</vertical-alignment>
+												</sequence-layout-constraint>
+											</text>
+											<validation-marker>
+												<size>small</size>
+											</validation-marker>
+										</content>
+										<sequence-layout>
+											<orientation>horizontal</orientation>
+										</sequence-layout>
+										<sequence-layout-constraint>
+											<expand-horizontally>true</expand-horizontally>
+										</sequence-layout-constraint>
+									</rectangle>
+								</case>
+								<property>TerminatingElements</property>
+							</shape-factory>
+						</content>
+						<visible-when>${! empty TerminatingElements}</visible-when>
+						<sequence-layout-constraint>
+							<expand-horizontally>true</expand-horizontally>
+						</sequence-layout-constraint>
+						<sequence-layout>
+							<spacing>0</spacing>
+						</sequence-layout>
+					</rectangle>
+				</content>
+				<sequence-layout>
+					<orientation>vertical</orientation>
+					<spacing>0</spacing>
+				</sequence-layout>
+				<sequence-layout-constraint>
+					<expand-vertically>false</expand-vertically>
+					<expand-horizontally>true</expand-horizontally>
+					<margin>0</margin>
+				</sequence-layout-constraint>
+			</rectangle>
+			<tool-palette-image>flow.png</tool-palette-image>
+			<connection-binding>
+				<connection-id>NextOnConnection</connection-id>
+				<property>NextElements</property>
+				<endpoint2>
+					<property>To</property>
+					<value>${id}</value>
+				</endpoint2>
+				<label>${empty on ? '&lt;on&gt;' : on}</label>
+			</connection-binding>
+			<action>
+				<id>OpenFlowAction</id>
+				<label>Open Flow</label>
+				<tooltip>Display internal structure of the flow in a diagram.
+				</tooltip>
+				<image>${Image()}</image>
+			</action>
+			<action-handler>
+				<action>OpenFlowAction</action>
+				<id>OpenFlowActionHandler</id>
+				<impl>org.jboss.tools.batch.ui.editor.internal.action.diagram.OpenFlowActionHandler
+				</impl>
+			</action-handler>
+			<action-handler>
+				<action>Sapphire.Diagram.Node.Default</action>
+				<id>OpenFlowActionHandler-DoubleClick</id>
+				<impl>org.jboss.tools.batch.ui.editor.internal.action.diagram.OpenFlowActionHandler
+				</impl>
+			</action-handler>
+			<action-handler>
+				<impl>org.jboss.tools.batch.ui.editor.internal.action.diagram.SetStartActionHandler
+				</impl>
+				<action>SetStartAction</action>
+				<id>SetStartActionHandler</id>
+			</action-handler>
+			<action>
+				<id>SetStartAction</id>
+				<label>Set as start</label>
+				<image>start.png</image>
+				<tooltip>Move this element to the 1st position to se it as a start.
+				</tooltip>
+			</action>
+			<properties-view>
+				<page>
+					<content>
+                        <section>
+                            <label>Flow</label>
+                            <content>
+                                <include>FlowForm</include>
+                            </content>
+                        </section>
+					</content>
+					<label>Flow</label>
+					<image>${Image()}</image>
+				</page>
+				<page>
+					<content>
+                        <section>
+                            <label>Flow Elements</label>
+                            <content>
+                                <include>FlowElementsForm</include>
+                            </content>
+                        </section>
+					</content>
+					<label>Flow Elements</label>
+					<image>flow-elements.png</image>
+				</page>
+				<page>
+					<content>
+                        <section>
+                            <label>Transitions</label>
+                            <content>
+                                <include>OutcomesForm</include>
+                            </content>
+                        </section>
+					</content>
+					<label>Transitions</label>
+					<image>transitions.png</image>
+				</page>
+			</properties-view>
+		</node>
+<!-- 		<page-header-text>${parent() == null ? '' : concat(parent().id, -->
+<!-- 			'/')}${id == null ? &quot;_&quot; : id}</page-header-text> -->
+<page-header-text>${Tail(BatchPath(this), 80)}</page-header-text>
+		<page-name>Diagram</page-name>
+		<connection>
+			<id>NextOnConnection</id>
+			<tool-palette-label>Next On</tool-palette-label>
+			<endpoint2>
+				<type>arrow</type>
+			</endpoint2>
+			<tool-palette-image>next-on.png</tool-palette-image>
+			<endpoint1>
+				<type>none</type>
+			</endpoint1>
+			<line-style>dash</line-style>
+			<tool-palette-desc>Conditional transition to another Step, Flow,
+				Split or Decision.
+			</tool-palette-desc>
+			<line-width>2</line-width>
+		</connection>
+		<grid>
+			<visible>true</visible>
+		</grid>
+		<guides>
+			<visible>true</visible>
+		</guides>
+		<node>
+			<id>DecisionNode</id>
+			<property>FlowElements</property>
+			<model-element-type>org.jboss.tools.batch.ui.editor.internal.model.Decision
+			</model-element-type>
+			<tool-palette-label>Decision</tool-palette-label>
+			<tool-palette-image>decision.png</tool-palette-image>
+			<connection-binding>
+				<connection-id>NextOnConnection</connection-id>
+				<property>NextElements</property>
+				<endpoint2>
+					<property>To</property>
+					<value>${id}</value>
+				</endpoint2>
+				<label>${empty on ? '&lt;on&gt;' : on}</label>
+			</connection-binding>
+
+			<properties-view>
+				<page>
+					<label>Decision</label>
+					<image>${Image()}</image>
+					<content>
+                        <section>
+                            <label>Decision</label>
+                            <content>
+                                <include>DecisionForm</include>
+                            </content>
+                        </section>
+					</content>
+				</page>
+				<page>
+					<label>Transitions</label>
+					<image>transitions.png</image>
+					<content>
+                        <section>
+                            <label>Transitions</label>
+                            <content>
+                                <include>OutcomesForm</include>
+                            </content>
+                        </section>
+					</content>
+				</page>
+				<page>
+					<label>Properties</label>
+					<content>
+                        <section>
+                            <label>Properties</label>
+                            <content>
+                                <include>PropertiesSection</include>
+                            </content>
+                        </section>
+					</content>
+					<image>properties.png</image>
+				</page>
+			</properties-view>
+			<rectangle>
+				<content>
+					<rectangle>
+						<content>
+							<image>
+								<path>${Image()}</path>
+							</image>
+							<text>
+								<content>${id == null ? '&lt;id&gt;' : id}</content>
+								<font>
+									<bold></bold>
+								</font>
+							</text>
+							<validation-marker></validation-marker>
+						</content>
+						<background>
+							<gradient>
+								<gradient-segment>
+									<color>#FFFF00</color>
+								</gradient-segment>
+								<gradient-segment>
+									<color>white</color>
+								</gradient-segment>
+							</gradient>
+						</background>
+						<sequence-layout>
+							<orientation>horizontal</orientation>
+						</sequence-layout>
+						<corner-radius>10</corner-radius>
+						<border>
+							<weight>1</weight>
+						</border>
+					</rectangle>
+					<rectangle>
+						<content>
+							<shape-factory>
+								<case>
+									<element-type>org.jboss.tools.batch.ui.editor.internal.model.End
+									</element-type>
+									<rectangle>
+										<content>
+											<image>
+												<path>${Image()}</path>
+											</image>
+											<text>
+												<content>${on == null ? '&lt;status code&gt;' : on}
+												</content>
+												<truncatable>false</truncatable>
+											</text>
+											<validation-marker>
+												<size>small</size>
+											</validation-marker>
+										</content>
+										<sequence-layout>
+											<orientation>horizontal</orientation>
+										</sequence-layout>
+										<sequence-layout-constraint>
+											<expand-horizontally>true</expand-horizontally>
+										</sequence-layout-constraint>
+									</rectangle>
+								</case>
+								<case>
+									<element-type>org.jboss.tools.batch.ui.editor.internal.model.Stop
+									</element-type>
+									<rectangle>
+										<content>
+											<image>
+												<path>${Image()}</path>
+											</image>
+											<text>
+												<content>${on == null ? '&lt;status code&gt;' : on}
+												</content>
+												<truncatable>false</truncatable>
+											</text>
+											<validation-marker>
+												<size>small</size>
+											</validation-marker>
+										</content>
+										<sequence-layout>
+											<orientation>horizontal</orientation>
+										</sequence-layout>
+										<sequence-layout-constraint>
+											<expand-horizontally>true</expand-horizontally>
+										</sequence-layout-constraint>
+									</rectangle>
+								</case>
+								<case>
+									<element-type>org.jboss.tools.batch.ui.editor.internal.model.Fail
+									</element-type>
+									<rectangle>
+										<content>
+											<image>
+												<path>${Image()}</path>
+											</image>
+											<text>
+												<content>${on == null ? '&lt;status code&gt;' : on}
+												</content>
+												<truncatable>false</truncatable>
+												<sequence-layout-constraint>
+													<vertical-alignment>top</vertical-alignment>
+												</sequence-layout-constraint>
+											</text>
+											<validation-marker>
+												<size>small</size>
+											</validation-marker>
+										</content>
+										<sequence-layout>
+											<orientation>horizontal</orientation>
+										</sequence-layout>
+										<sequence-layout-constraint>
+											<expand-horizontally>true</expand-horizontally>
+										</sequence-layout-constraint>
+									</rectangle>
+								</case>
+								<property>TerminatingElements</property>
+							</shape-factory>
+						</content>
+						<visible-when>${! empty TerminatingElements}</visible-when>
+						<sequence-layout-constraint>
+							<expand-horizontally>true</expand-horizontally>
+						</sequence-layout-constraint>
+						<sequence-layout>
+							<spacing>0</spacing>
+						</sequence-layout>
+					</rectangle>
+				</content>
+				<sequence-layout>
+					<spacing>0</spacing>
+				</sequence-layout>
+			</rectangle>
+		</node>
+		<node>
+			<id>SplitNode</id>
+			<property>FlowElements</property>
+			<model-element-type>org.jboss.tools.batch.ui.editor.internal.model.Split
+			</model-element-type>
+			<tool-palette-label>Split</tool-palette-label>
+			<tool-palette-image>split.png</tool-palette-image>
+
+			<action-handler>
+				<impl>org.jboss.tools.batch.ui.editor.internal.action.diagram.SetStartActionHandler
+				</impl>
+				<action>SetStartAction</action>
+				<id>SetStartActionHandler</id>
+			</action-handler>
+			<action>
+				<id>SetStartAction</id>
+				<label>Set as start</label>
+				<image>start.png</image>
+				<tooltip>Move this element to the 1st position to se it as a start.
+				</tooltip>
+			</action>
+			<properties-view>
+				<page>
+					<label>Split</label>
+					<image>${Image()}</image>
+					<content>
+                        <section>
+                            <label>Split</label>
+                            <content>
+                                <include>SplitForm</include>
+                            </content>
+                        </section>
+					</content>
+				</page>
+				<page>
+					<label>Flows</label>
+					<image>flow.png</image>
+					<content>
+                        <section>
+                            <label>Flows</label>
+                            <content>
+                                <include>FlowsForm</include>
+                            </content>
+                        </section>
+					</content>
+				</page>
+			</properties-view>
+			<rectangle>
+				<content>
+				<rectangle>
+						<content>
+							<image>
+								<path>start.png</path>
+							</image>
+						</content>
+						<sequence-layout>
+							<orientation>horizontal</orientation>
+						</sequence-layout>
+						<visible-when>${Index(this) == 0}</visible-when>
+                        <sequence-layout-constraint>
+                            <expand-horizontally>true</expand-horizontally>
+                        </sequence-layout-constraint>
+					</rectangle>
+					<rectangle>
+						<content>
+							<rectangle>
+								<content>
+									<image>
+										<path>${Image()}</path>
+									</image>
+									<text>
+										<content>${id == null ? '&lt;id&gt;' : id}</content>
+										<font>
+											<bold></bold>
+										</font>
+									</text>
+									<validation-marker></validation-marker>
+								</content>
+								<sequence-layout>
+									<orientation>horizontal</orientation>
+								</sequence-layout>
+                                <sequence-layout-constraint>
+                                    <expand-horizontally>true</expand-horizontally>
+                                </sequence-layout-constraint>
+							</rectangle>
+                            <rectangle>
+                                <content>
+                                    <text>
+                                        <content>{</content>
+                                        <font>
+                                            <size>32</size>
+                                        </font>
+                                        <sequence-layout-constraint>
+                                            <expand-horizontally>true</expand-horizontally>
+                                            <expand-vertically>true</expand-vertically>
+                                        </sequence-layout-constraint>
+                                        <truncatable>false</truncatable>
+                                    </text>
+                                    <rectangle>
+                                        <sequence-layout>
+                                            <orientation>vertical</orientation>
+                                            <spacing>0</spacing>
+                                            <margin>0</margin>
+                                        </sequence-layout>
+                                        <sequence-layout-constraint>
+                                            <expand-horizontally>true</expand-horizontally>
+                                            <expand-vertically>true</expand-vertically>
+                                        </sequence-layout-constraint>
+                                        <content>
+                                            <shape-factory>
+                                                <case>
+                                                    <element-type>org.jboss.tools.batch.ui.editor.internal.model.Flow</element-type>
+                                                    <rectangle>
+                                                        <action-handler>
+                                                            <action>OpenSplitFlowAction</action>
+                                                            <id>OpenSplitFlowActionHandler</id>
+                                                            <impl>org.jboss.tools.batch.ui.editor.internal.action.diagram.OpenSplitFlowActionHandler</impl>
+                                                        </action-handler>
+                                                        <action>
+                                                            <id>OpenSplitFlowAction</id>
+                                                            <image>flow.png</image>
+                                                            <label>Open Flow</label>
+                                                        </action>
+                                                        <content>
+                                                            <image>
+                                                                <action-handler>
+                                                                    <action>Sapphire.DoubleTap</action>
+                                                                    <id>OpenSplitFlowActionHandler-DoubleClick</id>
+                                                                    <impl>org.jboss.tools.batch.ui.editor.internal.action.diagram.OpenSplitFlowActionHandler</impl>
+                                                                </action-handler>
+                                                                <path>flow.png</path>
+                                                            </image>
+                                                            <text>
+                                                                <content>${id == null ? '&lt;id&gt;' : id}</content>
+                                                                <truncatable>false</truncatable>
+                                                                <sequence-layout-constraint>
+                                                                    <expand-horizontally>true</expand-horizontally>
+                                                                    <margin-horizontal>5</margin-horizontal>
+                                                                </sequence-layout-constraint>
+                                                            </text>
+                                                            <validation-marker>
+                                                                <size>small</size>
+                                                            </validation-marker>
+                                                        </content>
+                                                        <sequence-layout>
+                                                            <orientation>horizontal</orientation>
+                                                        </sequence-layout>
+                                                        <sequence-layout-constraint>
+                                                            <expand-horizontally>true</expand-horizontally>
+                                                        </sequence-layout-constraint>
+                                                    </rectangle>
+                                                </case>
+                                                <property>Flows</property>
+                                            </shape-factory>
+                                        </content>
+                                    </rectangle>
+                                    <text>
+                                        <content>}</content>
+                                        <font>
+                                            <size>32</size>
+                                        </font>
+                                        <sequence-layout-constraint>
+                                            <expand-horizontally>true</expand-horizontally>
+                                            <expand-vertically>true</expand-vertically>
+                                            <horizontal-alignment>right</horizontal-alignment>
+                                        </sequence-layout-constraint>
+                                        <truncatable>false</truncatable>
+                                    </text>
+                                </content>
+                                <sequence-layout>
+                                    <orientation>horizontal</orientation>
+                                    <spacing>0</spacing>
+                                    <margin>0</margin>
+                                </sequence-layout>
+                                <visible-when>${!empty Flows}</visible-when>
+                                <sequence-layout-constraint>
+                                    <expand-horizontally>true</expand-horizontally>
+                                    <expand-vertically>true</expand-vertically>
+                                </sequence-layout-constraint>
+                            </rectangle>
+						</content>
+						<sequence-layout>
+							<orientation>vertical</orientation>
+						</sequence-layout>
+						<background>
+							<gradient>
+								<gradient-segment>
+									<color>#75FF75</color>
+								</gradient-segment>
+								<gradient-segment>
+									<color>white</color>
+								</gradient-segment>
+							</gradient>
+						</background>
+						<corner-radius>10</corner-radius>
+						<border>
+							<weight>1</weight>
+						</border>
+					</rectangle>
+				</content>
+                <sequence-layout>
+                    <spacing>0</spacing>
+                </sequence-layout>
+			</rectangle>
+		</node>
+		<action>
+			<id>OpenParentAction</id>
+			<label>Parent</label>
+			<context>Sapphire.Diagram.Header</context>
+			<key-binding>CONTROL+ARROW_UP</key-binding>
+			<group>OpenParentButtonGroup</group>
+			<location>before:Sapphire.Diagram.Zoom.In</location>
+			<condition>org.jboss.tools.batch.ui.editor.internal.action.diagram.OpenParentActionCondition
+			</condition>
+			<hint>
+				<name>style</name>
+				<value>image+text</value>
+			</hint>
+            <image>parent.png</image>
+            <key-binding-behavior>local</key-binding-behavior>
+            <tooltip>Go Back To Parent</tooltip>
+		</action>
+		<action-handler>
+			<action>OpenParentAction</action>
+			<id>OpenParentActionHandler</id>
+			<impl>org.jboss.tools.batch.ui.editor.internal.action.diagram.OpenParentActionHandler
+			</impl>
+		</action-handler>
+		<connection>
+			<id>NextAttributeConnection</id>
+			<endpoint2>
+				<type>arrow</type>
+			</endpoint2>
+			<line-style>solid</line-style>
+			<tool-palette-label>Next</tool-palette-label>
+			<line-width>2</line-width>
+			<tool-palette-image>next.png</tool-palette-image>
+			<tool-palette-desc>Transition to another Step, Flow,
+				Split or
+				Decision.
+			</tool-palette-desc>
+		</connection>
+		<connection-service-type>custom</connection-service-type>
+		<service>
+			<implementation>org.jboss.tools.batch.ui.editor.internal.services.diagram.connection.BatchDiagramConnectionService
+			</implementation>
+		</service>
+		<properties-view>
+			<page>
+				<label>${InstanceOf(this, 'org.jboss.tools.batch.ui.editor.internal.model.Job') ? 'Job' : 'Flow'}</label>
+				<image>${Image()}</image>
+				<content>
+                    <section>
+                        <label>Job</label>
+                        <content>
+                            <include>JobForm</include>
+                        </content>
+                        <visible-when>${InstanceOf(this, 'org.jboss.tools.batch.ui.editor.internal.model.Job')}</visible-when>
+                    </section>
+                     <section>
+                        <label>Flow</label>
+                        <visible-when>${InstanceOf(this, 'org.jboss.tools.batch.ui.editor.internal.model.Flow')}</visible-when>
+                        <content>
+                            <include>FlowForm</include>
+                        </content>
+                    </section>
+				</content>
+			</page>
+			<page>
+				<label>Flow Elements</label>
+				<content>
+                    <section>
+                        <label>Flow Elements</label>
+                        <content>
+                            <include>FlowElementsForm</include>
+                        </content>
+                    </section>
+				</content>
+				<image>flow-elements.png</image>
+			</page>
+			<page>
+				
+				<label>Properties</label>
+				<image>properties.png</image>				
+                <content>
+                    <section>
+                        <content>
+                            <include>PropertiesSection</include>
+                        </content>
+                        <label>Properties</label>
+                        <visible-when>${InstanceOf(this, 'org.jboss.tools.batch.ui.editor.internal.model.Job')}</visible-when>
+                    </section>
+                </content>
+			</page>
+		</properties-view>
+		<palette>
+			<compartment>
+				<id>Sapphire.Diagram.Palette.Connections</id>
+				<label>Transitions</label>
+			</compartment>
+			<compartment>
+				<id>Sapphire.Diagram.Palette.Nodes</id>
+				<label>Flow Elements</label>
+			</compartment>
+		</palette>
+		<layout-persistence>custom</layout-persistence>
+		<service>
+			<implementation>org.jboss.tools.batch.ui.editor.internal.services.diagram.layout.persistence.BatchDiagramLayoutPersistenceService
+			</implementation>
+		</service>
+        <page-header-image>${Image()}</page-header-image>
+	</diagram-page>
 
 
 </definition>

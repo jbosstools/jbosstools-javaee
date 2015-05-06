@@ -7,22 +7,19 @@
  * 
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
+ *     Tomas Milata - Added Batch diagram editor (JBIDE-19717).
  ************************************************************************************/
 package org.jboss.tools.batch.ui.editor.internal.model;
 
 import org.eclipse.sapphire.ElementList;
 import org.eclipse.sapphire.ElementType;
 import org.eclipse.sapphire.ListProperty;
-import org.eclipse.sapphire.Value;
-import org.eclipse.sapphire.ValueProperty;
+import org.eclipse.sapphire.modeling.annotations.Enablement;
 import org.eclipse.sapphire.modeling.annotations.Image;
 import org.eclipse.sapphire.modeling.annotations.Label;
-import org.eclipse.sapphire.modeling.annotations.Service;
-import org.eclipse.sapphire.modeling.annotations.Services;
 import org.eclipse.sapphire.modeling.annotations.Type;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlListBinding;
-import org.jboss.tools.batch.ui.editor.internal.services.NextPossibleValuesService;
 
 /**
  * 
@@ -32,20 +29,10 @@ import org.jboss.tools.batch.ui.editor.internal.services.NextPossibleValuesServi
 @Label( standard = "split" )
 @Image ( path = "split.png" )
 @XmlBinding( path = "split" )
-public interface Split extends FlowElement {
+public interface Split extends FlowElement, NextAttributeElement {
 
 	ElementType TYPE = new ElementType( Split.class );
 
-	@Label( standard = "next" )
-	@XmlBinding( path = "@next" )
-	@Services ( {
-		@Service( impl = NextPossibleValuesService.class )
-	})
-
-	ValueProperty PROP_NEXT = new ValueProperty( TYPE, "Next" );
-
-	Value<String> getNext();
-	void setNext( String next);
 
 	@Type( base = Flow.class )
 	@Label( standard = "flows" )
@@ -54,6 +41,13 @@ public interface Split extends FlowElement {
 	ListProperty PROP_FLOWS = new ListProperty( TYPE, "Flows" );
 
 	ElementList<Flow> getFlows();
+	
+	@Type( base = Next.class )
+	@XmlListBinding( path = "" )
+	@Enablement( expr = "false" ) //TODO
+	ListProperty PROP_NEXT_ELEMENTS = new ListProperty( TYPE, "NextElements" );
+
+	ElementList<Next> getNextElements();
 
 }
 

@@ -7,7 +7,8 @@
  * 
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
- ******************************************************************************/ 
+ * Tomas Milata - Added Batch diagram editor (JBIDE-19717).
+ ******************************************************************************/
 package org.jboss.tools.batch.ui.itest;
 
 import org.eclipse.core.runtime.CoreException;
@@ -16,6 +17,9 @@ import org.jboss.tools.batch.ui.itest.ca.ClassAttributeContentAssist;
 import org.jboss.tools.batch.ui.itest.ca.JobArtifactRefContentAssist;
 import org.jboss.tools.batch.ui.itest.ca.JobPropertyNameContentAssist;
 import org.jboss.tools.batch.ui.itest.ca.JobTransitionsContentAssist;
+import org.jboss.tools.batch.ui.itest.ca.sapphire.ContentProposalTest;
+import org.jboss.tools.batch.ui.itest.diagram.BatchDiagramConnectionsTest;
+import org.jboss.tools.batch.ui.itest.diagram.BatchDiagramNavigationTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.test.util.ResourcesUtils;
 
@@ -28,8 +32,8 @@ import junit.framework.TestSuite;
 public class BatchUIAllTests {
 
 	public static Test suite() {
-//		We need the index manager enabled for <* class=""> content assist
-//		JavaModelManager.getIndexManager().shutdown();
+		// We need the index manager enabled for <* class=""> content assist
+		// JavaModelManager.getIndexManager().shutdown();
 		try {
 			ResourcesUtils.setBuildAutomatically(false);
 			ValidationFramework.getDefault().suspendAllValidation(true);
@@ -46,33 +50,36 @@ public class BatchUIAllTests {
 		suite.addTestSuite(BatchRenameParticipantTest.class);
 
 		suiteAll.addTest(suite);
-		
+
 		TestSuite suite1 = new TestSuite("Content assist");
 		suite1.addTestSuite(JobTransitionsContentAssist.class);
 		suite1.addTestSuite(JobArtifactRefContentAssist.class);
 		suite1.addTestSuite(JobPropertyNameContentAssist.class);
 		suite1.addTestSuite(ClassAttributeContentAssist.class);
+		suite1.addTestSuite(ContentProposalTest.class);
 		suiteAll.addTest(suite1);
-		
+
 		TestSuite suite2 = new TestSuite("Wizards");
 		suite2.addTestSuite(NewBatchWizardTest.class);
-		
+
 		suiteAll.addTest(suite2);
 
-		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suiteAll,
-				"org.jboss.tools.batch.core.itest",
-				new String[]{"projects/BatchTestProject"},
-				new String[]{"BatchTestProject"});
+		TestSuite diagramSuite = new TestSuite("Diagram editor");
+		diagramSuite.addTestSuite(BatchDiagramNavigationTest.class);
+		diagramSuite.addTestSuite(BatchDiagramConnectionsTest.class);
+		suiteAll.addTest(diagramSuite);
 
-//		suiteAll.addTest(testSetup);
-		
+		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suiteAll, "org.jboss.tools.batch.core.itest",
+				new String[] { "projects/BatchTestProject" }, new String[] { "BatchTestProject" });
 
-//		testSetup = new ProjectImportTestSetup(suite,
-//				"org.jboss.tools.batch.core.itest",
-//				new String[]{"projects/BatchTestProject"},
-//				new String[]{"TestProject"});
-//				suiteAll.addTest(testSetup);
-		
+		// suiteAll.addTest(testSetup);
+
+		// testSetup = new ProjectImportTestSetup(suite,
+		// "org.jboss.tools.batch.core.itest",
+		// new String[]{"projects/BatchTestProject"},
+		// new String[]{"TestProject"});
+		// suiteAll.addTest(testSetup);
+
 		return testSetup;
 	}
 }

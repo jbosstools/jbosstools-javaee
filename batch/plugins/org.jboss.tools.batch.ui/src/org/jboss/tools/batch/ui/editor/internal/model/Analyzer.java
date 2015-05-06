@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
+ *     Tomas Milata - Added Batch diagram editor (JBIDE-19717).
  ************************************************************************************/
 package org.jboss.tools.batch.ui.editor.internal.model;
 
@@ -17,7 +18,6 @@ import org.eclipse.sapphire.ElementType;
  * @author Viacheslav Kabanovich
  *
  */
-public interface Analyzer extends ItemHandlingElement {
+public interface Analyzer extends ItemHandlingElement, RefAttributeElement {
 	ElementType TYPE = new ElementType( Analyzer.class );
-
 }

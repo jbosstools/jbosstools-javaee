@@ -7,10 +7,10 @@
  * 
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
+ *     Tomas Milata - Added Batch diagram editor (JBIDE-19717).
  ************************************************************************************/
 package org.jboss.tools.batch.ui.editor.internal.model;
 
-import org.eclipse.sapphire.Element;
 import org.eclipse.sapphire.ElementHandle;
 import org.eclipse.sapphire.ElementList;
 import org.eclipse.sapphire.ElementProperty;
@@ -21,14 +21,11 @@ import org.eclipse.sapphire.ValueProperty;
 import org.eclipse.sapphire.modeling.annotations.CountConstraint;
 import org.eclipse.sapphire.modeling.annotations.Image;
 import org.eclipse.sapphire.modeling.annotations.Label;
-import org.eclipse.sapphire.modeling.annotations.Service;
-import org.eclipse.sapphire.modeling.annotations.Services;
 import org.eclipse.sapphire.modeling.annotations.Type;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlElementBinding;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlElementBinding.Mapping;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlListBinding;
-import org.jboss.tools.batch.ui.editor.internal.services.NextPossibleValuesService;
 
 /**
  * 
@@ -38,20 +35,9 @@ import org.jboss.tools.batch.ui.editor.internal.services.NextPossibleValuesServi
 @Label( standard = "step" )
 @Image ( path = "step.png" )
 @XmlBinding( path = "step" )
-public interface Step extends FlowElement {
+public interface Step extends FlowElement, NextAttributeElement {
 
 	ElementType TYPE = new ElementType( Step.class );
-
-	@Label( standard = "next" )
-	@XmlBinding( path = "@next" )
-	@Services ( {
-		@Service( impl = NextPossibleValuesService.class )
-	})
-
-	ValueProperty PROP_NEXT = new ValueProperty( TYPE, "Next" );
-
-	Value<String> getNext();
-	void setNext( String next);
 
 	@Label( standard = "allow-start-if-complete" )
 	@XmlBinding( path = "@allow-start-if-complete" )
@@ -69,16 +55,14 @@ public interface Step extends FlowElement {
 
 	ElementHandle<Properties> getProperties();
 
-	@Type( base = Listener.class )
+	@Type( base = StepListener.class )
 	@Label( standard = "listener" )
-	@XmlListBinding( path = "listeners", mappings = @XmlListBinding.Mapping( element = "listener", type = Listener.class ))
+	@XmlListBinding( path = "listeners", mappings = @XmlListBinding.Mapping( element = "listener", type = StepListener.class ))
 
 	ListProperty PROP_LISTENERS = new ListProperty( TYPE, "Listeners" ); //$NON-NLS-1$ 
 
-	ElementList<Listener> getListeners();
+	ElementList<StepListener> getListeners();
 
-	//TODO find a better way to add element [0..1] that has required children.
-	//Question: why Add Chunk is always enabled despite of constraint?
 	@Label( standard = "batchlet or chunk" )
 	@Type( base = BatchletOrChunk.class, 
 			possible = {
@@ -86,17 +70,15 @@ public interface Step extends FlowElement {
 				Chunk.class
 			}
 		)
-//	@XmlListBinding( path = "" )
+	@XmlListBinding( path = "" )
 	@XmlElementBinding(path = "", mappings = {
 			@Mapping(type=Batchlet.class, element = "batchlet"),
 			@Mapping(type=Chunk.class, element = "chunk"),
 	})
 	@CountConstraint(max = 1)
-//	ListProperty PROP_BATCHLET_OR_CHUNK = new ListProperty( TYPE, "BatchletOrChunk" );
-	ElementProperty PROP_BATCHLET_OR_CHUNK = new ElementProperty( TYPE, "BatchletOrChunk" );
+	ListProperty PROP_BATCHLET_OR_CHUNK = new ListProperty( TYPE, "BatchletOrChunk" );
 
-//	ElementList<Element> getBatchletOrChunk();
-	ElementHandle<BatchletOrChunk> getBatchletOrChunk();
+	ElementList<BatchletOrChunk> getBatchletOrChunk();
 
 	@Type( base = Partition.class )
 	@Label( standard = "partition" )
@@ -116,8 +98,30 @@ public interface Step extends FlowElement {
 			}
 	)
 	@XmlListBinding( path = "" )
-	ListProperty PROP_OUTCOME_ELEMENTS = new ListProperty(TYPE, "OutcomeElements");
+	ListProperty PROP_OUTCOME_ELEMENTS = new ListProperty( TYPE, "OutcomeElements" );
 
 	ElementList<OutcomeElement> getOutcomeElements();
+	
+	@Type( base = OutcomeElement.class,
+			possible = {
+				End.class,
+				Fail.class,
+				Stop.class
+			}
+	)
+	@XmlListBinding(path = "")
+	// Next vs terminating elements have to be in separate list becase the need
+	// to be handled differently in diagram. (Next via connections).
+	ListProperty PROP_TERMINATING_ELEMENTS = new ListProperty( TYPE, "TerminatingElements" );
+
+	ElementList<OutcomeElement> getTerminatingElements();
+	
+	@Type( base = Next.class )
+	@XmlListBinding( path = "" )
+	// Next vs terminating elements have to be in separate list becase the need
+	// to be handled differently in diagram. (Next via connections).
+	ListProperty PROP_NEXT_ELEMENTS = new ListProperty( TYPE, "NextElements" );
+
+	ElementList<Next> getNextElements();
 	
 }

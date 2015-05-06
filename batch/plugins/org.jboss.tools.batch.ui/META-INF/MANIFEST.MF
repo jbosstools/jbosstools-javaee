@@ -5,7 +5,8 @@ Bundle-Activator: org.jboss.tools.batch.ui.BatchUIPlugin
 Bundle-Vendor: %providerName
 Export-Package: org.jboss.tools.batch.ui,
  org.jboss.tools.batch.ui.editor.internal.model,
- org.jboss.tools.batch.ui.editor.internal.services,
+ org.jboss.tools.batch.ui.editor.internal.services.contentproposal,
+ org.jboss.tools.batch.ui.editor.internal.services.diagram.connection,
  org.jboss.tools.batch.ui.hyperlink,
  org.jboss.tools.batch.ui.internal.preferences,
  org.jboss.tools.batch.ui.internal.wizard,
