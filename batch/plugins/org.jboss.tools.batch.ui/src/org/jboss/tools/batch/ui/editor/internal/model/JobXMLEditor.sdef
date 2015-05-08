@@ -1056,7 +1056,7 @@
 										<path>${Image()}</path>
 									</image>
 									<text>
-										<content>${id == null ? '&lt;id&gt;' : id}</content>
+										<content>${id}</content>
 										<font>
 											<bold></bold>
 										</font>
@@ -1432,7 +1432,7 @@
 								<path>${Image()}</path>
 							</image>
 							<text>
-								<content>${id == null ? '&lt;id&gt;' : id}</content>
+								<content>${id}</content>
 								<font>
 									<bold></bold>
 								</font>
@@ -1742,7 +1742,7 @@
 								<path>${Image()}</path>
 							</image>
 							<text>
-								<content>${id == null ? '&lt;id&gt;' : id}</content>
+								<content>${id}</content>
 								<font>
 									<bold></bold>
 								</font>
@@ -1936,7 +1936,7 @@
 										<path>${Image()}</path>
 									</image>
 									<text>
-										<content>${id == null ? '&lt;id&gt;' : id}</content>
+										<content>${id}</content>
 										<font>
 											<bold></bold>
 										</font>
