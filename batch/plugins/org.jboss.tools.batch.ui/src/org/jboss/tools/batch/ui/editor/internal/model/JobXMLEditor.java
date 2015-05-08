@@ -63,6 +63,16 @@ public class JobXMLEditor extends SapphireEditor implements IMultiPageEditor {
 				DefinitionLoader.sdef(getClass()).page("DiagramPage"));
 		addEditorPage(DIAGRAM_PAGE_INDEX, this.schemaDiagram);
 		preferFlyoutPalette();
+		showPropertiesView();
+	}
+
+	private void showPropertiesView() {
+		try {
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+					.showView("org.eclipse.ui.views.PropertySheet");
+		} catch (PartInitException e) {
+			Sapphire.service(LoggingService.class).log(e);
+		}
 	}
 
 	@Override
