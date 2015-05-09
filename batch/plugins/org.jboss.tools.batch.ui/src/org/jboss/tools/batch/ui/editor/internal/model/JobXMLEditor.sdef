@@ -1051,6 +1051,7 @@
 						<content>
 							<rectangle>
 								<content>
+                                    <validation-marker></validation-marker>
 									<image>
 										<path>${Image()}</path>
 									</image>
@@ -1060,7 +1061,6 @@
 											<bold></bold>
 										</font>
 									</text>
-									<validation-marker></validation-marker>
 								</content>
 								<sequence-layout>
 									<orientation>horizontal</orientation>
@@ -1077,6 +1077,12 @@
 											</element-type>
 											<rectangle>
 												<content>
+                                                    <validation-marker>
+                                                        <sequence-layout-constraint>
+                                                            <expand-horizontally>true</expand-horizontally>
+                                                        </sequence-layout-constraint>
+                                                        <size>small</size>
+                                                    </validation-marker>
 													<image>
 														<path>${Image()}</path>
                                                         <sequence-layout-constraint>
@@ -1090,12 +1096,6 @@
                                                             <expand-horizontally>true</expand-horizontally>
                                                         </sequence-layout-constraint>
 													</text>
-													<validation-marker>
-														<size>small</size>
-                                                        <sequence-layout-constraint>
-                                                            <expand-horizontally>true</expand-horizontally>
-                                                        </sequence-layout-constraint>
-													</validation-marker>
 												</content>
 												<sequence-layout>
 													<orientation>horizontal</orientation>
@@ -1208,6 +1208,9 @@
 											</element-type>
 											<rectangle>
 												<content>
+                                                    <validation-marker>
+                                                        <size>small</size>
+                                                    </validation-marker>
 													<image>
 														<path>${Image()}</path>
 													</image>
@@ -1218,9 +1221,6 @@
                                                             <expand-horizontally>true</expand-horizontally>
                                                         </sequence-layout-constraint>
 													</text>
-													<validation-marker>
-														<size>small</size>
-													</validation-marker>
 												</content>
 												<properties-view>
 													<page>
@@ -1294,6 +1294,9 @@
 									</element-type>
 									<rectangle>
 										<content>
+                                            <validation-marker>
+                                                <size>small</size>
+                                            </validation-marker>
 											<image>
 												<path>${Image()}</path>
 											</image>
@@ -1302,9 +1305,6 @@
 												</content>
 												<truncatable>false</truncatable>
 											</text>
-											<validation-marker>
-												<size>small</size>
-											</validation-marker>
 										</content>
 										<sequence-layout>
 											<orientation>horizontal</orientation>
@@ -1319,6 +1319,9 @@
 									</element-type>
 									<rectangle>
 										<content>
+                                            <validation-marker>
+                                                <size>small</size>
+                                            </validation-marker>
 											<image>
 												<path>${Image()}</path>
 											</image>
@@ -1327,9 +1330,6 @@
 												</content>
 												<truncatable>false</truncatable>
 											</text>
-											<validation-marker>
-												<size>small</size>
-											</validation-marker>
 										</content>
 										<sequence-layout>
 											<orientation>horizontal</orientation>
@@ -1344,6 +1344,9 @@
 									</element-type>
 									<rectangle>
 										<content>
+                                            <validation-marker>
+                                                <size>small</size>
+                                            </validation-marker>
 											<image>
 												<path>${Image()}</path>
 											</image>
@@ -1355,9 +1358,6 @@
 													<vertical-alignment>top</vertical-alignment>
 												</sequence-layout-constraint>
 											</text>
-											<validation-marker>
-												<size>small</size>
-											</validation-marker>
 										</content>
 										<sequence-layout>
 											<orientation>horizontal</orientation>
@@ -1427,6 +1427,7 @@
 					</rectangle>
 					<rectangle>
 						<content>
+                            <validation-marker></validation-marker>
 							<image>
 								<path>${Image()}</path>
 							</image>
@@ -1441,7 +1442,6 @@
 									<margin-horizontal>5</margin-horizontal>
 								</sequence-layout-constraint>
 							</text>
-							<validation-marker></validation-marker>
 						</content>
 						<sequence-layout>
 							<orientation>horizontal</orientation>
@@ -1476,6 +1476,9 @@
 									</element-type>
 									<rectangle>
 										<content>
+                                            <validation-marker>
+                                                <size>small</size>
+                                            </validation-marker>
 											<image>
 												<path>${Image()}</path>
 											</image>
@@ -1484,9 +1487,6 @@
 												</content>
 												<truncatable>false</truncatable>
 											</text>
-											<validation-marker>
-												<size>small</size>
-											</validation-marker>
 										</content>
 										<sequence-layout>
 											<orientation>horizontal</orientation>
@@ -1501,6 +1501,9 @@
 									</element-type>
 									<rectangle>
 										<content>
+                                            <validation-marker>
+                                                <size>small</size>
+                                            </validation-marker>
 											<image>
 												<path>${Image()}</path>
 											</image>
@@ -1509,9 +1512,6 @@
 												</content>
 												<truncatable>false</truncatable>
 											</text>
-											<validation-marker>
-												<size>small</size>
-											</validation-marker>
 										</content>
 										<sequence-layout>
 											<orientation>horizontal</orientation>
@@ -1526,6 +1526,9 @@
 									</element-type>
 									<rectangle>
 										<content>
+                                            <validation-marker>
+                                                <size>small</size>
+                                            </validation-marker>
 											<image>
 												<path>${Image()}</path>
 											</image>
@@ -1537,9 +1540,6 @@
 													<vertical-alignment>top</vertical-alignment>
 												</sequence-layout-constraint>
 											</text>
-											<validation-marker>
-												<size>small</size>
-											</validation-marker>
 										</content>
 										<sequence-layout>
 											<orientation>horizontal</orientation>
@@ -1737,6 +1737,7 @@
 				<content>
 					<rectangle>
 						<content>
+                            <validation-marker></validation-marker>
 							<image>
 								<path>${Image()}</path>
 							</image>
@@ -1746,7 +1747,6 @@
 									<bold></bold>
 								</font>
 							</text>
-							<validation-marker></validation-marker>
 						</content>
 						<background>
 							<gradient>
@@ -1774,6 +1774,9 @@
 									</element-type>
 									<rectangle>
 										<content>
+                                            <validation-marker>
+                                                <size>small</size>
+                                            </validation-marker>
 											<image>
 												<path>${Image()}</path>
 											</image>
@@ -1782,9 +1785,6 @@
 												</content>
 												<truncatable>false</truncatable>
 											</text>
-											<validation-marker>
-												<size>small</size>
-											</validation-marker>
 										</content>
 										<sequence-layout>
 											<orientation>horizontal</orientation>
@@ -1799,6 +1799,9 @@
 									</element-type>
 									<rectangle>
 										<content>
+                                            <validation-marker>
+                                                <size>small</size>
+                                            </validation-marker>
 											<image>
 												<path>${Image()}</path>
 											</image>
@@ -1807,9 +1810,6 @@
 												</content>
 												<truncatable>false</truncatable>
 											</text>
-											<validation-marker>
-												<size>small</size>
-											</validation-marker>
 										</content>
 										<sequence-layout>
 											<orientation>horizontal</orientation>
@@ -1824,6 +1824,9 @@
 									</element-type>
 									<rectangle>
 										<content>
+                                            <validation-marker>
+                                                <size>small</size>
+                                            </validation-marker>
 											<image>
 												<path>${Image()}</path>
 											</image>
@@ -1835,9 +1838,6 @@
 													<vertical-alignment>top</vertical-alignment>
 												</sequence-layout-constraint>
 											</text>
-											<validation-marker>
-												<size>small</size>
-											</validation-marker>
 										</content>
 										<sequence-layout>
 											<orientation>horizontal</orientation>
@@ -1931,6 +1931,7 @@
 						<content>
 							<rectangle>
 								<content>
+                                    <validation-marker></validation-marker>
 									<image>
 										<path>${Image()}</path>
 									</image>
@@ -1940,7 +1941,6 @@
 											<bold></bold>
 										</font>
 									</text>
-									<validation-marker></validation-marker>
 								</content>
 								<sequence-layout>
 									<orientation>horizontal</orientation>
@@ -1988,6 +1988,9 @@
                                                             <label>Open Flow</label>
                                                         </action>
                                                         <content>
+                                                            <validation-marker>
+                                                                <size>small</size>
+                                                            </validation-marker>
                                                             <image>
                                                                 <action-handler>
                                                                     <action>Sapphire.DoubleTap</action>
@@ -2004,9 +2007,6 @@
                                                                     <margin-horizontal>5</margin-horizontal>
                                                                 </sequence-layout-constraint>
                                                             </text>
-                                                            <validation-marker>
-                                                                <size>small</size>
-                                                            </validation-marker>
                                                         </content>
                                                         <sequence-layout>
                                                             <orientation>horizontal</orientation>
