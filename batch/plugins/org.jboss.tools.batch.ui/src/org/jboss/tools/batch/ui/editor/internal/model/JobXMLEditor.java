@@ -114,4 +114,9 @@ public class JobXMLEditor extends SapphireEditor implements IMultiPageEditor {
 		// closes the view which activates the flyout composite
 		workbenchPage.hideView(paletteView);
 	}
+
+	@Override
+	public void switchToSourceTab() {
+		setActiveEditor(schemaSourceEditor);
+	}
 }

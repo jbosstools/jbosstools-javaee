@@ -77,6 +77,15 @@
             targetId="org.eclipse.core.runtime.xml">
       </hyperlinkDetector>
    	</extension>
+<extension
+         point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+      <hyperlinkDetector
+            class="org.jboss.tools.batch.ui.hyperlink.BatchPropertyHyperlinkDetector"
+            id="org.jboss.tools.batch.ui.hyperlink.BatchPropertyHyperlinkDetector"
+            name="Batch Property hyperlinks"
+            targetId="org.eclipse.jdt.ui.javaCode">
+      </hyperlinkDetector>
+   	</extension>
 
    <extension
        point="org.eclipse.wst.sse.ui.completionProposal">

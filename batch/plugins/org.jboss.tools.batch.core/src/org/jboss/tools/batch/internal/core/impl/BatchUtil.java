@@ -12,8 +12,10 @@ package org.jboss.tools.batch.internal.core.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -39,9 +41,11 @@ import org.jboss.tools.batch.core.BatchCorePlugin;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.zip.UnzipOperation;
+import org.jboss.tools.jst.web.kb.KbQuery.Tag;
 import org.jboss.tools.jst.web.kb.WebKbPlugin;
 import org.osgi.framework.Bundle;
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -102,9 +106,9 @@ public class BatchUtil {
 	 * @param value
 	 * @return
 	 */
-	public static Collection<ITextSourceReference> getAttributeReferences(IFile file, String name, String value) {
+	public static List<TextSourceReference> getAttributeReferences(IFile file, String name, String value) {
 		String expression = "//*[@" + name + "=\"" + value + "\"]/@" + name;
-		AttrReferencesRequestor requestor = new AttrReferencesRequestor(file, expression);
+		AttrReferencesRequestor<TextSourceReference> requestor = new AttrReferencesRequestor<TextSourceReference>(file, expression, TextSourceReference.class);
 		scanXMLFile(file, requestor);
 		return requestor.results;
 	}
@@ -117,24 +121,42 @@ public class BatchUtil {
 	 * @param nameValue value of name attribute
 	 * @return
 	 */
-	public static Collection<ITextSourceReference> getPropertyAttributeReferences(IFile file, String refValue, String propertyName) {
+	public static List<TextSourceReference> getPropertyAttributeReferences(IFile file, String refValue, String propertyName) {
 		String expression = "//*[@"+BatchConstants.ATTR_REF+"=\""+refValue+"\"]//*[@" + BatchConstants.ATTR_NAME +
 				"=\"" + propertyName + "\"]/@" + BatchConstants.ATTR_NAME;
-		AttrReferencesRequestor requestor = new AttrReferencesRequestor(file, expression);
+		AttrReferencesRequestor<TextSourceReference> requestor = new AttrReferencesRequestor<TextSourceReference>(file, expression, TextSourceReference.class);
 		scanXMLFile(file, requestor);
 		return requestor.results;
 	}
 
-	public static class AttrReferencesRequestor implements DocumentScanner {
+	/**
+	 * Returns collection of text source references in xml file to name attribute of property tag by refValue and nameValue
+	 * 
+	 * @param file
+	 * @param refValue value of ref attribute
+	 * @param nameValue value of name attribute
+	 * @return
+	 */
+	public static List<NodePathTextSourceReference> getNodePathPropertyAttributeReferences(IFile file, String refValue, String propertyName) {
+		String expression = "//*[@"+BatchConstants.ATTR_REF+"=\""+refValue+"\"]//*[@" + BatchConstants.ATTR_NAME +
+				"=\"" + propertyName + "\"]/@" + BatchConstants.ATTR_NAME;
+		AttrReferencesRequestor<NodePathTextSourceReference> requestor = new AttrReferencesRequestor<NodePathTextSourceReference>(file, expression, NodePathTextSourceReference.class);
+		scanXMLFile(file, requestor);
+		return requestor.results;
+	}
+
+	public static class AttrReferencesRequestor<E extends TextSourceReference> implements DocumentScanner {
 		IFile file;
 		String expression;
-		Collection<ITextSourceReference> results = new HashSet<ITextSourceReference>();
+		List<E> results = new ArrayList<E>();
+		Class<E> cls;
 
-		public AttrReferencesRequestor(IFile file, String expression) {
+		public AttrReferencesRequestor(IFile file, String expression, Class<E> cls) {
 			this.file = file;
 			this.expression = expression;
+			this.cls = cls;
 		}
-
+		
 		@Override
 		public void scanDocument(Document document) {
 			XPath xPath = XPathFactory.newInstance().newXPath();
@@ -154,21 +176,19 @@ public class BatchUtil {
 							}
 							final int start = start0;
 							final int length = length0;
-							ITextSourceReference ref = new ITextSourceReference() {
-								@Override
-								public int getStartPosition() {
-									return start;
-								}
-								@Override
-								public IResource getResource() {
-									return file;
-								}
-								@Override
-								public int getLength() {
-									return length;
-								}
-							};
-							results.add(ref);
+							try{
+						        E ref =   cls.newInstance();
+								ref.setLength(length);
+								ref.setResource(file);
+								ref.setStartPosition(start);
+								ref.setNodePath(n);
+								
+								results.add(ref);
+							}catch(InstantiationException e){
+								
+							}catch(IllegalAccessException e){
+								
+							}
 						}
 					}
 				}
@@ -177,11 +197,37 @@ public class BatchUtil {
 			}
 		}
 
-		public Collection<ITextSourceReference> getResults() {
+		public List<E> getResults() {
 			return results;
 		}
 	}
+	
+	private static List<Tag> getNodePath(Node node){
+		ArrayList<Tag> tags = new ArrayList<Tag>();
+		Node n = node;
+		if(n instanceof AttrImpl){
+			n = ((AttrImpl) node).getOwnerElement();
+		}
+		
+		while(!(n instanceof IDOMDocument) && n != null){
+			HashMap<String, String> attributes = new HashMap<String, String>();
+			if(n.hasAttributes()){
+				
+				NamedNodeMap attrs = n.getAttributes();
+				for(int index = 0; index < attrs.getLength(); index++){
+					Node attribute = attrs.item(index);
+					attributes.put(attribute.getNodeName(), attribute.getNodeValue());
+				}
+				
+			}
+			Tag tag = new Tag(n.getNodeName(), attributes);
+			tags.add(tag);
+			n = n.getParentNode();
+		}
 
+		return tags;
+	}
+	
 	private static File TEMPLATE_FOLDER;
 
 	public static File getTemplatesFolder() throws IOException {
@@ -225,5 +271,58 @@ public class BatchUtil {
 			}
 		}
 		return result;			
+	}
+	
+	public static class TextSourceReference implements ITextSourceReference{
+		private IResource resource;
+		int startPosition;
+		int length;
+		
+		public TextSourceReference(){
+		}
+
+		@Override
+		public int getStartPosition() {
+			return startPosition;
+		}
+
+		@Override
+		public int getLength() {
+			return length;
+		}
+
+		@Override
+		public IResource getResource() {
+			return resource;
+		}
+		
+		public void setResource(IResource resource) {
+			this.resource = resource;
+		}
+
+		public void setStartPosition(int startPosition) {
+			this.startPosition = startPosition;
+		}
+
+		public void setLength(int length) {
+			this.length = length;
+		}
+		
+		public void setNodePath(Node node){
+			
+		}
+		
+	}
+	
+	public static class NodePathTextSourceReference extends TextSourceReference{
+		private List<Tag> tags;
+
+		public Collection<Tag> getNodePath(){
+			return tags;
+		}
+		
+		public void setNodePath(Node node){
+			this.tags = BatchUtil.getNodePath(node);
+		}
 	}
 }

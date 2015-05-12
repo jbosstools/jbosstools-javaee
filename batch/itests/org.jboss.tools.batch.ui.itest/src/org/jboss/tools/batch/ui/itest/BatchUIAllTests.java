@@ -45,6 +45,7 @@ public class BatchUIAllTests {
 		TestSuite suite = new TestSuite("Editor");
 		suite.addTestSuite(BatchEditorTest.class);
 		suite.addTestSuite(BatchHyperlinkDetectorTest.class);
+		suite.addTestSuite(BatchPropertyHyperlinkDetectorTest.class);
 		suite.addTestSuite(BatchELHyperlinkTest.class);
 		suite.addTestSuite(BatchQueryParticipantTest.class);
 		suite.addTestSuite(BatchRenameParticipantTest.class);

@@ -19,6 +19,7 @@ import org.jboss.tools.batch.core.BatchConstants;
 import org.jboss.tools.batch.core.IBatchArtifact;
 import org.jboss.tools.batch.core.IBatchProperty;
 import org.jboss.tools.batch.internal.core.impl.BatchUtil.AttrReferencesRequestor;
+import org.jboss.tools.batch.internal.core.impl.BatchUtil.TextSourceReference;
 import org.jboss.tools.batch.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.text.ITextSourceReference;
@@ -82,9 +83,9 @@ public class BatchProperty implements IBatchProperty {
 					+ "/*[name()=\"" + BatchConstants.TAG_PROPERTIES + "\"]" 
 					+ "/*[name()=\"" + BatchConstants.TAG_PROPERTY + "\" and @" + BatchConstants.ATTR_NAME + "=\"" + getPropertyName() +"\"]" 
 					+ "/@" + BatchConstants.ATTR_NAME;
-			AttrReferencesRequestor requestor = new AttrReferencesRequestor(file, expression);
+			AttrReferencesRequestor<TextSourceReference> requestor = new AttrReferencesRequestor<TextSourceReference>(file, expression, TextSourceReference.class);
 			BatchUtil.scanXMLFile(file, requestor);
-			result.addAll(requestor.getResults());
+			result.addAll((Collection<? extends ITextSourceReference>) requestor.getResults());
 		}
 		return result;
 	}

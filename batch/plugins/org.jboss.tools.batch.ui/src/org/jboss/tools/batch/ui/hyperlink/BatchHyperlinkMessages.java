@@ -18,6 +18,9 @@ public class BatchHyperlinkMessages extends NLS{
 	public static String OPEN_JAVA_CLASS;
 	public static String GO_TO_NODE;
 	public static String OPEN_JAVA_FIELD;
+	public static String SHOW_ALL_BATCH_PROPERTY_REFERENCES;
+	public static String BATCH_PROPERTY_REFERENCES;
+	public static String SHOWING_REFERENCES_FOR_BATCH_PROPERTY;
 	
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, BatchHyperlinkMessages.class);
