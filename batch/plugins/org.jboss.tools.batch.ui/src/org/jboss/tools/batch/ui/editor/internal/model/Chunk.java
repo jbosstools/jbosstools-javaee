@@ -14,13 +14,13 @@ import org.eclipse.sapphire.ElementHandle;
 import org.eclipse.sapphire.ElementProperty;
 import org.eclipse.sapphire.ElementType;
 import org.eclipse.sapphire.ImpliedElementProperty;
+import org.eclipse.sapphire.Length;
+import org.eclipse.sapphire.Type;
 import org.eclipse.sapphire.Value;
 import org.eclipse.sapphire.ValueProperty;
-import org.eclipse.sapphire.modeling.annotations.CountConstraint;
 import org.eclipse.sapphire.modeling.annotations.Image;
 import org.eclipse.sapphire.modeling.annotations.Label;
 import org.eclipse.sapphire.modeling.annotations.Required;
-import org.eclipse.sapphire.modeling.annotations.Type;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
 
 /**
@@ -78,7 +78,7 @@ public interface Chunk extends BatchletOrChunk {
 	@Type( base = Reader.class )
 	@Label( standard = "Reader" )
 	@XmlBinding( path = "reader" )
-	@CountConstraint (min=1, max=1)
+	@Length (min=1, max=1)
 	@Required
 	ImpliedElementProperty PROP_READER = new ImpliedElementProperty( TYPE, "Reader" );
 
@@ -87,7 +87,7 @@ public interface Chunk extends BatchletOrChunk {
 	@Type( base = Processor.class )
 	@Label( standard = "Processor" )
 	@XmlBinding( path = "processor" )
-	@CountConstraint (max=1)
+	@Length (max=1)
 	ElementProperty PROP_PROCESSOR = new ElementProperty( TYPE, "Processor" );
 
 	ElementHandle<Processor> getProcessor();
@@ -95,7 +95,7 @@ public interface Chunk extends BatchletOrChunk {
 	@Type( base = Writer.class )
 	@Label( standard = "Writer" )
 	@XmlBinding( path = "writer" )
-	@CountConstraint (min=1, max=1)
+	@Length (min=1, max=1)
 	@Required
 	ImpliedElementProperty PROP_WRITER = new ImpliedElementProperty( TYPE, "Writer" );
 
@@ -104,7 +104,7 @@ public interface Chunk extends BatchletOrChunk {
 	@Type( base = CheckpointAlgorithm.class )
 	@Label( standard = "Checkpoint Algorithm" )
 	@XmlBinding( path = "checkpoint-algorithm" )
-	@CountConstraint (max=1)
+	@Length (max=1)
 	ElementProperty PROP_CHECKPOINT_ALGORITHM = new ElementProperty( TYPE, "CheckpointAlgorithm" );
 
 	ElementHandle<CheckpointAlgorithm> getCheckpointAlgorithm();

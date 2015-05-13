@@ -15,13 +15,13 @@ import org.eclipse.sapphire.ElementHandle;
 import org.eclipse.sapphire.ElementList;
 import org.eclipse.sapphire.ElementProperty;
 import org.eclipse.sapphire.ElementType;
+import org.eclipse.sapphire.Length;
 import org.eclipse.sapphire.ListProperty;
+import org.eclipse.sapphire.Type;
 import org.eclipse.sapphire.Value;
 import org.eclipse.sapphire.ValueProperty;
-import org.eclipse.sapphire.modeling.annotations.CountConstraint;
 import org.eclipse.sapphire.modeling.annotations.Image;
 import org.eclipse.sapphire.modeling.annotations.Label;
-import org.eclipse.sapphire.modeling.annotations.Type;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlElementBinding;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlElementBinding.Mapping;
@@ -75,7 +75,7 @@ public interface Step extends FlowElement, NextAttributeElement {
 			@Mapping(type=Batchlet.class, element = "batchlet"),
 			@Mapping(type=Chunk.class, element = "chunk"),
 	})
-	@CountConstraint(max = 1)
+	@Length(max = 1)
 	ListProperty PROP_BATCHLET_OR_CHUNK = new ListProperty( TYPE, "BatchletOrChunk" );
 
 	ElementList<BatchletOrChunk> getBatchletOrChunk();

@@ -19,7 +19,7 @@
    </license>
 
    <requires>
-      <import feature="org.eclipse.sapphire.java.jdt" version="9.0.0.201408261741" match="greaterOrEqual"/>
+      <import feature="org.eclipse.sapphire.java.jdt" version="9.0.0.201505051659" match="greaterOrEqual"/>
    </requires>
 
    <plugin

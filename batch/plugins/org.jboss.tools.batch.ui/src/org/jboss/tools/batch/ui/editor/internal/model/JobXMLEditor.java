@@ -67,6 +67,7 @@ public class JobXMLEditor extends SapphireEditor implements IMultiPageEditor {
 
 	@Override
 	protected void createFormPages() throws PartInitException {
+		createModel();
 		this.design = new MasterDetailsEditorPage(this, this.model, DefinitionLoader.sdef(getClass()).page("design"));
 		addPage(DESIGN_PAGE_INDEX, this.design);
 	}
