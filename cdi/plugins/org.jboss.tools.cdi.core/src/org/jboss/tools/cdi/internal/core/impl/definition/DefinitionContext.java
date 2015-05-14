@@ -28,6 +28,7 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
+import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.UniquePaths;
 
@@ -372,6 +373,25 @@ public class DefinitionContext implements IRootDefinitionContext {
 		return workingCopy;
 	}
 
+	public void applyIncrementalWorkingCopy() {
+		if(original != null) {
+			original.applyIncrementalWorkingCopy();
+			return;
+		}
+		if(workingCopy == null) {
+			return;
+		}
+		
+		incremental = true;
+		try {
+			applyWorkingCopy();
+		} finally {
+			incremental = false;
+		}
+	}
+
+	private boolean incremental = false;
+
 	public void applyWorkingCopy() {
 		if(original != null) {
 			original.applyWorkingCopy();
@@ -416,7 +436,11 @@ public class DefinitionContext implements IRootDefinitionContext {
 		//extensions may add to dependencies while they change
 		dependencies = workingCopy.dependencies;
 
-		project.getDelegate().update(true);
+		if(incremental && project.getDelegate() instanceof CDIProject) {
+			((CDIProject)project.getDelegate()).updateIncremental(true);
+		} else {
+			project.getDelegate().update(true);
+		}
 
 		workingCopy = null;
 		

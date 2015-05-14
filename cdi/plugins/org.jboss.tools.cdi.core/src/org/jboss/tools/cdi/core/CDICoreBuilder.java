@@ -50,6 +50,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationHelper;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.Dependencies;
 import org.jboss.tools.cdi.internal.core.impl.definition.PackageDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.CDIBuilderDelegate;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.cdi.internal.core.scanner.lib.BeanArchiveDetector;
@@ -176,7 +177,21 @@ try {
 				}
 			}
 
-			n.cleanTypeFactory();
+			IncrementCheck increment = null;
+			IResourceDelta delta = null;
+			if(kind != FULL_BUILD) {
+				delta = getDelta(getCurrentProject());
+				if(delta != null) {
+					increment = new IncrementCheck(delta, n);
+					if(!increment.isIncremental || increment.file == null) {
+						increment = null;
+					}
+				}
+			}
+
+			if(increment == null) {
+				n.cleanTypeFactory();
+			}
 
 			if(kind == FULL_BUILD) n.getClassPath().reset();
 		
@@ -234,20 +249,22 @@ try {
 				}
 			}
 
-			IResourceDelta delta = null;
-			if(kind != FULL_BUILD) {
-				delta = getDelta(getCurrentProject());
-			}
-
 			if (kind == FULL_BUILD || delta == null) {
+				increment = null;
 				fullBuild(monitor);
+			} else if(increment != null) {
+				incrementalBuild(increment, monitor);
 			} else {
 				incrementalBuild(delta, monitor);
 			}
 			for (IBuildParticipantFeature p: buildParticipants) p.buildDefinitions();
 
 			// 6. Save created definitions to project context and build beans.
-			getCDICoreNature().getDefinitions().applyWorkingCopy();
+			if(increment != null) {
+				getCDICoreNature().getDefinitions().applyIncrementalWorkingCopy();
+			} else {
+				getCDICoreNature().getDefinitions().applyWorkingCopy();
+			}
 			
 			long end = System.currentTimeMillis();
 			n.fullBuildTime += end - begin;
@@ -352,6 +369,18 @@ try {
 		CDIResourceVisitor rv = getResourceVisitor();
 		rv.incremental = true;
 		delta.accept(new SampleDeltaVisitor());
+		FileSet fs = rv.fileSet;
+		invokeBuilderDelegates(fs, getCDICoreNature());
+	}
+
+	protected void incrementalBuild(IncrementCheck increment,
+			IProgressMonitor monitor) throws CoreException {
+		if(getCDICoreNature().getBeanDiscoveryMode() == BeanArchiveDetector.NONE) {
+			return;
+		}
+		CDIResourceVisitor rv = getResourceVisitor();
+		rv.incremental = true;
+		rv.visit(increment.file);
 		FileSet fs = rv.fileSet;
 		invokeBuilderDelegates(fs, getCDICoreNature());
 	}
@@ -461,6 +490,110 @@ try {
 		}
 		
 		return result;		
+	}
+
+	/**
+	 * Check delta for incremental build to find that
+	 * 1) A single resource is changed, and
+	 * 2) It is a java source file, and
+	 * 3) It contains no annotations, no file level or inner static interfaces; and
+	 * 4) Each type was previously processed and TypeDefinition object is cached for it,
+	 * 5) Changes does not involve imports and super types.
+	 * 
+	 * If all this checks pass isIncremental remains set to true, and is changed to false otherwise.
+	 * 
+	 * This flag is used by build method to apply changes to model without
+	 * resetting all references to Java model objects in class beans that 
+	 * may not be affected.  
+	 *
+	 */
+	class IncrementCheck implements IResourceDeltaVisitor {
+		IFile file = null;
+		CDICoreNature n;
+
+		boolean isIncremental = true;
+		
+		IncrementCheck(IResourceDelta delta, CDICoreNature n) throws CoreException {
+			this.n = n;
+			isIncremental = true;
+			delta.accept(this);
+			if(!isIncremental) {
+				return;
+			}			
+			isIncremental = false;
+			if(file == null) {				
+				return;
+			}			
+			IPath path = file.getFullPath();
+			CDIResourceVisitor v = new CDIResourceVisitor();
+			for (int i = 0; i < v.outs.length; i++) {
+				if(v.outs[i].isPrefixOf(path)) {
+					return;
+				}
+			}
+			boolean foundInSrc = false;
+			for (int i = 0; i < v.srcs.length && !foundInSrc; i++) {
+				if(v.srcs[i].isPrefixOf(path)) {
+					foundInSrc = true;
+				}
+			}
+			if(!foundInSrc) {
+				return;
+			}
+			
+			ICompilationUnit unit = EclipseUtil.getCompilationUnit(file);
+			if(unit == null) {
+				return;
+			}
+			IType[] ts = unit.getTypes();
+			if(ts == null) {
+				return;
+			}
+			FileSet fs = new FileSet();
+			fs.add(file.getFullPath(), ts);
+			if(!fs.getAnnotations().isEmpty() || !fs.getInterfaces().isEmpty()) {
+				return;
+			}
+			List<IType> types = fs.getClasses().get(file.getFullPath());
+			for (IType t: types) {
+				TypeDefinition oldDefinition = n.getDefinitions().getTypeDefinition(t.getFullyQualifiedName());
+				if(oldDefinition == null) {
+					return;
+				}
+				TypeDefinition newDefinition = new TypeDefinition();
+				newDefinition.setType(t, n.getDefinitions(), 0);
+				if(oldDefinition.getParametedType().getInheritanceCode()
+						!= newDefinition.getParametedType().getInheritanceCode()) {
+					return;
+				}
+			}
+			isIncremental = true;
+		}
+
+		public boolean visit(IResourceDelta delta) throws CoreException {
+			if(!isIncremental) return false;
+			IResource resource = delta.getResource();
+			switch (delta.getKind()) {
+			case IResourceDelta.REMOVED:
+			case IResourceDelta.ADDED:
+				isIncremental = false;
+				return false;
+			case IResourceDelta.CHANGED:
+				if(resource instanceof IFile) {
+					IFile f = (IFile)resource;
+					if(f.getName().toLowerCase().endsWith(".class")) {
+						return false;
+					}
+					if(file != null || !f.getName().toLowerCase().endsWith(".java") || isPackageInfo(f)) {
+						isIncremental = false;
+						return false;
+					} else {
+						file = f;
+					}
+				}
+			}
+			return true;
+		}
 	}
 
 	class SampleDeltaVisitor implements IResourceDeltaVisitor {

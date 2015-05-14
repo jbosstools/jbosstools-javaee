@@ -1182,6 +1182,32 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		return cache.getScope(path);
 	}
 
+	/**
+	 * This method is called by builder after it checked that 
+	 * onle one resource that includes only concrete types is changed,
+	 * and that neither set of imports nor super types were changed.
+	 * Incremental update will not reset references to Java model objects
+	 * in class beans that were not modified. 
+	 * 
+	 * @param updateDependent
+	 */
+	public void updateIncremental(boolean updateDependent) {
+		cleanClassCacheWhenRebuildBeans = false;
+		try {
+			update(false);
+			if(updateDependent) {
+				CDICoreNature[] ps = n.getAllDependentProjects();
+				for (CDICoreNature p: ps) {
+					if(p.getProject() != null && p.getProject().isAccessible() && p.getDelegate() != null) {
+						((CDIProject)p.getDelegate()).updateIncremental(false);
+					}
+				}
+			}
+		} finally {
+			cleanClassCacheWhenRebuildBeans = true;
+		}
+	}
+
 	public void update(boolean updateDependent) {
 		synchronized (cache) {
 			
@@ -1263,6 +1289,8 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		}
 	}
 	
+	private boolean cleanClassCacheWhenRebuildBeans = true;
+
 	void rebuildBeans() {
 		List<TypeDefinition> typeDefinitions = n.getAllTypeDefinitions();
 		Set<String> vetoedTypes = n.getAllVetoedTypes();
@@ -1285,7 +1313,9 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			if(bean != null && (bean.getDefinition() == typeDefinition)
 				&& (updateLevel == 0 || (updateLevel == 1 && typeDefinition.getType().isBinary()))) {
 				//Type definitions are rebuilt when changed, otherwise old bean should be reused.
-				bean.cleanCache();
+				if(cleanClassCacheWhenRebuildBeans) {
+					bean.cleanCache();
+				}
 			} else {
 				if(typeDefinition.getInterceptorAnnotation() != null || ic.isInterceptor(typeDefinition.getType())) {
 					bean = new InterceptorBean();
