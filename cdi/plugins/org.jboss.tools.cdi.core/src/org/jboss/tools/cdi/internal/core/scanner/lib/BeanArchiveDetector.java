@@ -205,7 +205,7 @@ public class BeanArchiveDetector {
 				setBeanArchive(jar, NOT_ARCHIVE);
 			}
 		}
-		return UNRESOLVED;
+		return getBeanArchive(jar);
 	}
 
 	/**

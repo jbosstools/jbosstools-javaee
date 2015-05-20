@@ -11,10 +11,16 @@
 package org.jboss.tools.batch.core;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ISaveContext;
+import org.eclipse.core.resources.ISaveParticipant;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.batch.internal.core.impl.BatchProject;
 import org.jboss.tools.batch.internal.core.impl.BatchProjectFactory;
+import org.jboss.tools.batch.internal.core.scanner.BatchArchiveDetector;
 import org.jboss.tools.foundation.core.plugin.log.IPluginLog;
 import org.jboss.tools.foundation.ui.plugin.BaseUIPlugin;
+import org.osgi.framework.BundleContext;
 
 public class BatchCorePlugin extends BaseUIPlugin {
 	public static String PLUGIN_ID = "org.jboss.tools.batch.core"; //$NON-NLS-1$
@@ -26,6 +32,23 @@ public class BatchCorePlugin extends BaseUIPlugin {
 	
 	public static BatchCorePlugin getDefault() {
 		return plugin;
+	}
+
+	@Override
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
+		ResourcesPlugin.getWorkspace().addSaveParticipant(PLUGIN_ID, new ISaveParticipant() {			
+			@Override
+			public void saving(ISaveContext context) throws CoreException {
+				BatchArchiveDetector.getInstance().save();
+			}			
+			@Override
+			public void rollback(ISaveContext context) {}			
+			@Override
+			public void prepareToSave(ISaveContext context) throws CoreException {}			
+			@Override
+			public void doneSaving(ISaveContext context) {}
+		});
 	}
 
 	/**

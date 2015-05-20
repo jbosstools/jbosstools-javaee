@@ -195,7 +195,7 @@ public class BatchArchiveDetector {
 				setBatchArchive(jar, NOT_ARCHIVE);
 			}
 		}
-		return UNRESOLVED;
+		return getBatchArchive(jar);
 	}
 
 	boolean hasBatchArtifcts(IPackageFragmentRoot root, IBatchProject project) throws JavaModelException {
