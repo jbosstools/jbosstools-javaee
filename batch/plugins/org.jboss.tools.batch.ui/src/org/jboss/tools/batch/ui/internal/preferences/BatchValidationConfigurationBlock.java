@@ -18,6 +18,7 @@ import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.jboss.tools.batch.core.BatchCorePlugin;
 import org.jboss.tools.batch.internal.core.preferences.BatchSeverityPreferences;
+import org.jboss.tools.batch.ui.BatchUIPlugin;
 import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.common.ui.preferences.SeverityConfigurationBlock;
 
@@ -131,7 +132,7 @@ public class BatchValidationConfigurationBlock extends SeverityConfigurationBloc
 
 	@Override
 	protected IDialogSettings getDialogSettings() {
-		return BatchCorePlugin.getDefault().getDialogSettings().getSection(SETTINGS_SECTION_NAME);
+		return BatchUIPlugin.getDefault().getDialogSettings().getSection(SETTINGS_SECTION_NAME);
 	}
 
 	@Override

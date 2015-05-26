@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.internal.core.scanner.lib;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,11 +34,17 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.jandex.AnnotationInstance;
+import org.jboss.jandex.ClassInfo;
+import org.jboss.jandex.DotName;
+import org.jboss.jandex.Index;
+import org.jboss.jandex.Indexer;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIVersion;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
+import org.jboss.tools.common.core.jandex.JandexUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
@@ -197,13 +204,23 @@ public class BeanArchiveDetector {
 	}
 
 	public int resolve(String jar, CDICoreNature project) throws JavaModelException {
-		IPackageFragmentRoot root = findPackageFragmentRoot(jar, project);
-		if (root != null && root.exists()) {
-			if(hasAnnotatedBeans(root, project)) {
+		File jarFile = new File(jar);
+		if (jarFile.isFile()) {
+			if(hasAnnotatedBeans(jarFile, project)) {
 				setBeanArchive(jar, ANNOTATED);
 			} else {
 				setBeanArchive(jar, NOT_ARCHIVE);
 			}
+		} else {
+			IPackageFragmentRoot root = findPackageFragmentRoot(jar, project);
+			if (root != null && root.exists()) {
+				if(hasAnnotatedBeans(root, project)) {
+					setBeanArchive(jar, ANNOTATED);
+				} else {
+					setBeanArchive(jar, NOT_ARCHIVE);
+				}
+			}
+			
 		}
 		return getBeanArchive(jar);
 	}
@@ -241,34 +258,66 @@ public class BeanArchiveDetector {
 	 * @throws JavaModelException
 	 */
 	public static boolean isAnnotatedBean(IType type, CDICoreNature project) throws JavaModelException {
-		IAnnotation[] as = type.getAnnotations();
-		for (IAnnotation a: as) {
+		for (IAnnotation a: type.getAnnotations()) {
 			String typeName = EclipseJavaUtil.resolveType(type, a.getElementName());
-			if(CDIConstants.STATELESS_ANNOTATION_TYPE_NAME.equals(typeName)
-					|| CDIConstants.SINGLETON_ANNOTATION_TYPE_NAME.equals(typeName)) {
-				//session bean annotation
+			if(isBeanAnnotation(typeName, project)) {
 				return true;
 			}
-			if(CDIVersion.CDI_1_2.equals(project.getVersion())) {
-				if(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME.equals(typeName)
-						|| CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME.equals(typeName)) {
+		}
+		return false;
+	}
+
+	static boolean hasAnnotatedBeans(File jarFile, CDICoreNature project) throws JavaModelException {
+		try {
+			Indexer indexer = new Indexer();
+			Index index = JandexUtil.createJarIndex(jarFile, indexer);
+
+			for (ClassInfo cls: index.getKnownClasses()) {
+				if(isAnnotatedBean(cls, project)) {
 					return true;
 				}
 			}
-			IType at = project.getType(typeName);
-			if(at != null) {
-				int k = project.getDefinitions().getAnnotationKind(at);
-				if(k == AnnotationDefinition.SCOPE) {
-					//scope annotation
-					if(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(typeName)) {
-						return true;
-					}
-					AnnotationDefinition sa = project.getDefinitions().getAnnotation(at);
-					return sa != null && sa.getAnnotation(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME) != null;
-				}
-				if(CDIVersion.CDI_1_2.equals(project.getVersion()) && k == AnnotationDefinition.STEREOTYPE) {
+		} catch (IOException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		return false;
+	}
+
+	static boolean isAnnotatedBean(ClassInfo type, CDICoreNature project) throws JavaModelException {
+		for (Map.Entry<DotName, List<AnnotationInstance>> es: type.annotations().entrySet()) {
+			String typeName = es.getKey().toString();
+			if(isBeanAnnotation(typeName, project)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	static boolean isBeanAnnotation(String typeName, CDICoreNature project) throws JavaModelException {
+		if(CDIConstants.STATELESS_ANNOTATION_TYPE_NAME.equals(typeName)
+				|| CDIConstants.SINGLETON_ANNOTATION_TYPE_NAME.equals(typeName)) {
+			//session bean annotation
+			return true;
+		}
+		if(CDIVersion.CDI_1_2.equals(project.getVersion())) {
+			if(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME.equals(typeName)
+					|| CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME.equals(typeName)) {
+				return true;
+			}
+		}
+		IType at = project.getType(typeName);
+		if(at != null) {
+			int k = project.getDefinitions().getAnnotationKind(at);
+			if(k == AnnotationDefinition.SCOPE) {
+				//scope annotation
+				if(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(typeName)) {
 					return true;
 				}
+				AnnotationDefinition sa = project.getDefinitions().getAnnotation(at);
+				return sa != null && sa.getAnnotation(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME) != null;
+			}
+			if(CDIVersion.CDI_1_2.equals(project.getVersion()) && k == AnnotationDefinition.STEREOTYPE) {
+				return true;
 			}
 		}
 		return false;

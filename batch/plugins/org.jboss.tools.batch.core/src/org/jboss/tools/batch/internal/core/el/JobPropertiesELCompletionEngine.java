@@ -59,6 +59,7 @@ import org.jboss.tools.common.validation.SkipValidation;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.jst.web.kb.IXmlContext;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
+import org.jboss.tools.jst.web.kb.WebKbPlugin;
 import org.jboss.tools.jst.web.kb.internal.XmlContextImpl;
 import org.jboss.tools.jst.web.kb.taglib.INameSpace;
 import org.w3c.dom.Attr;
@@ -554,7 +555,7 @@ public class JobPropertiesELCompletionEngine extends AbstractELCompletionEngine<
 		@Override
 		public boolean open() {
 			try {
-				IEditorPart part = IDE.openEditor(BatchCorePlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage(), file);
+				IEditorPart part = IDE.openEditor(WebKbPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage(), file);
 				StructuredTextEditor text = (StructuredTextEditor)part.getAdapter(ITextEditor.class);
 				text.selectAndReveal(start, length);
 			} catch (PartInitException e) {

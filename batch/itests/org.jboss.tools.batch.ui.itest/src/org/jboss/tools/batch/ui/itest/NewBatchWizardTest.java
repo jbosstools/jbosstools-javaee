@@ -31,7 +31,7 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.jboss.tools.batch.core.BatchArtifactType;
-import org.jboss.tools.batch.core.BatchCorePlugin;
+import org.jboss.tools.batch.ui.BatchUIPlugin;
 import org.jboss.tools.batch.ui.internal.wizard.NewBatchArtifactWizard;
 import org.jboss.tools.batch.ui.internal.wizard.NewBatchArtifactWizardPage;
 import org.jboss.tools.batch.ui.internal.wizard.NewJobXMLCreationWizard;
@@ -74,7 +74,7 @@ public class NewBatchWizardTest extends TestCase {
 
 		public void init(String wizardId) {
 			wizard = (NewJobXMLCreationWizard)WorkbenchUtils.findWizardByDefId(wizardId);
-			wizard.init(BatchCorePlugin.getDefault().getWorkbench(), new StructuredSelection(jp));
+			wizard.init(BatchUIPlugin.getDefault().getWorkbench(), new StructuredSelection(jp));
 			wizard.setOpenEditorAfterFinish(false);
 			open();
 		}
@@ -120,7 +120,7 @@ public class NewBatchWizardTest extends TestCase {
 
 		public void init(String wizardId, String packName, String typeName) {
 			wizard = (NewBatchArtifactWizard)WorkbenchUtils.findWizardByDefId(wizardId);
-			wizard.init(BatchCorePlugin.getDefault().getWorkbench(), new StructuredSelection(jp));
+			wizard.init(BatchUIPlugin.getDefault().getWorkbench(), new StructuredSelection(jp));
 			wizard.setOpenEditorAfterFinish(false);
 			open();
 			page = (NewTypeWizardPage)dialog.getSelectedPage();
