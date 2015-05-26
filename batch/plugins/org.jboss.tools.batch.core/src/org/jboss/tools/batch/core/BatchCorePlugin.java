@@ -18,11 +18,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.batch.internal.core.impl.BatchProject;
 import org.jboss.tools.batch.internal.core.impl.BatchProjectFactory;
 import org.jboss.tools.batch.internal.core.scanner.BatchArchiveDetector;
+import org.jboss.tools.foundation.core.plugin.BaseCorePlugin;
 import org.jboss.tools.foundation.core.plugin.log.IPluginLog;
-import org.jboss.tools.foundation.ui.plugin.BaseUIPlugin;
 import org.osgi.framework.BundleContext;
 
-public class BatchCorePlugin extends BaseUIPlugin {
+public class BatchCorePlugin extends BaseCorePlugin {
 	public static String PLUGIN_ID = "org.jboss.tools.batch.core"; //$NON-NLS-1$
 	static BatchCorePlugin plugin = null;
 

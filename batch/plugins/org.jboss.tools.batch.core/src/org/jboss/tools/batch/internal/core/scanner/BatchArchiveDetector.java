@@ -11,6 +11,7 @@
 package org.jboss.tools.batch.internal.core.scanner;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -28,12 +29,17 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.jandex.DotName;
+import org.jboss.jandex.Index;
+import org.jboss.jandex.Indexer;
+import org.jboss.tools.batch.core.BatchArtifactType;
 import org.jboss.tools.batch.core.BatchCorePlugin;
 import org.jboss.tools.batch.core.IBatchProject;
 import org.jboss.tools.batch.internal.core.impl.BatchBuilder;
 import org.jboss.tools.batch.internal.core.impl.BatchProject;
 import org.jboss.tools.batch.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.core.jandex.JandexUtil;
 import org.jboss.tools.common.util.FileUtil;
 
 /**
@@ -187,13 +193,10 @@ public class BatchArchiveDetector {
 	}
 
 	public int resolve(String jar, IBatchProject project) throws JavaModelException {
-		IPackageFragmentRoot root = findPackageFragmentRoot(jar, project);
-		if (root != null && root.exists()) {
-			if(hasBatchArtifcts(root, project)) {
-				setBatchArchive(jar, ARCHIVE);
-			} else {
-				setBatchArchive(jar, NOT_ARCHIVE);
-			}
+		if(computeIsJarBatchArchive(new File(jar))) {
+			setBatchArchive(jar, ARCHIVE);
+		} else {
+			setBatchArchive(jar, NOT_ARCHIVE);
 		}
 		return getBatchArchive(jar);
 	}
@@ -250,4 +253,31 @@ public class BatchArchiveDetector {
 		return root;
 	}
 
+	/**
+	 * Use of Jandex in checking jar for subclasses of Batch artifact types 
+	 * is much faster than use of JDT.
+	 * 
+	 * @param jarFile
+	 * @return
+	 */
+	boolean computeIsJarBatchArchive(File jarFile) {
+		try {
+			Indexer indexer = new Indexer();
+			Index index = JandexUtil.createJarIndex(jarFile, indexer);
+
+			for (BatchArtifactType t: BatchArtifactType.values()) {
+				String className = t.getClassName();
+				if(className != null && !index.getAllKnownSubclasses(DotName.createSimple(className)).isEmpty()) {
+					return true;
+				}
+				className = t.getInterfaceName();
+				if(className != null && !index.getAllKnownImplementors(DotName.createSimple(className)).isEmpty()) {
+					return true;
+				}
+			}
+		} catch (IOException e) {
+			BatchCorePlugin.pluginLog().logError(e);
+		}
+		return false;
+	}
 }

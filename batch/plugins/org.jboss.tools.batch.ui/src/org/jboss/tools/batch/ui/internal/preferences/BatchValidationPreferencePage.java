@@ -12,8 +12,8 @@ package org.jboss.tools.batch.ui.internal.preferences;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
-import org.jboss.tools.batch.core.BatchCorePlugin;
 import org.jboss.tools.batch.internal.core.validation.BatchValidator;
+import org.jboss.tools.batch.ui.BatchUIPlugin;
 import org.jboss.tools.common.ui.preferences.SeverityPreferencePage;
 import org.jboss.tools.common.ui.preferences.SeverityConfigurationBlock.SectionDescription;
 
@@ -26,7 +26,7 @@ public class BatchValidationPreferencePage extends SeverityPreferencePage {
 	public static final String PROP_ID = BatchValidator.PROPERTY_PAGE_ID;
 
 	public BatchValidationPreferencePage() {
-		setPreferenceStore(BatchCorePlugin.getDefault().getPreferenceStore());
+		setPreferenceStore(BatchUIPlugin.getDefault().getPreferenceStore());
 		setTitle(BatchSeverityPreferencesMessages.BATCH_VALIDATION_PREFERENCE_PAGE_BATCH_VALIDATOR);
 	}
 
