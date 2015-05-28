@@ -12,6 +12,8 @@
 package org.jboss.tools.cdi.core.test.tck;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -76,7 +78,9 @@ public class DecoratorDefinitionTest extends TCKTest {
 		IFile f = tckProject.getFile("/WebContent/WEB-INF/tests/decorators/resolution/beans.xml");
 		assertTrue("File /WebContent/WEB-INF/tests/decorators/resolution/beans.xml not found", f != null && f.exists());
 
-		IPath old = ((CDIProject)cdiProject).replaceBeanXML(f.getFullPath());
+		Set<IPath> paths = new HashSet<IPath>();
+		paths.add(f.getFullPath());
+		Set<IPath> old = ((CDIProject)cdiProject).replaceBeanXML(paths);
 		
 		assertTrue("Old beans.xml is not found", old != null);
 
