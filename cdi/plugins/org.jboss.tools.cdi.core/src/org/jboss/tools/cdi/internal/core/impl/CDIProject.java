@@ -1571,7 +1571,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	 * For usage in TCK tests which contain many versions of beans.xml in packages.
 	 * @param path
 	 */
-	public IPath replaceBeanXML(IPath path) {
+	public Set<IPath> replaceBeanXML(Set<IPath> paths) {
 		getNature().getDefinitions().newWorkingCopy(false);
 		DefinitionContext context = getNature().getDefinitions().getWorkingCopy();
 		
@@ -1584,6 +1584,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			}
 		}
 		for (IPath p: old) context.clean(p);
+		for (IPath path: paths) {
 		IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 		if(f != null && f.exists()) {
 			XModelObject beansXML = EclipseResourceUtil.getObjectByResource(f);
@@ -1597,9 +1598,10 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 				context.addBeanXML(f.getFullPath(), def);
 			}
 		}
+		}
 
 		context.applyWorkingCopy();
-		return old.isEmpty() ? null : old.iterator().next();
+		return old;
 	}
 
 	/*
