@@ -29,13 +29,12 @@ public class OpenCDINamedBeanDialogTest extends TCKTest {
 
 	public void testCDINamedBeanDialogSearch() throws CoreException {
 		find("spi", "SpiderSize", "OtherSpiderProducer.java", true);
-		find("bla", "blackWidow", "BlackWidowProducer.java", true);
+		find("alk", "alkalineBatarry", "BatarryBeanProducer.java", true);
 		find("lady", "ladybirdSpider", "SpiderProducer.java", true);
 	}
 	
 	public void testCDINamedBeanDialogSearchShortHand() throws CoreException {
 		find("s*ze", "SpiderSize", "OtherSpiderProducer.java", true);
-		find("b*w", "blackWidow", "BlackWidowProducer.java", true);
 		find("*dSp*r", "ladybirdSpider", "SpiderProducer.java", true);
 		find("foo?", "foo3", "TestNamed.java", true);
 	}
@@ -60,10 +59,23 @@ public class OpenCDINamedBeanDialogTest extends TCKTest {
 			assertNotNull("Search dialog returned null when searching for " + pattern, objects);
 			
 			assertTrue("Component "+beanName+" not found", objects.length != 0);
-		
-			bean = findNamedBean(objects, beanName);
-		
-			assertNotNull("Component "+beanName+" not found with " + pattern, bean);
+
+			StringBuilder sb = new StringBuilder();
+			for (Object o: objects) {
+				CDINamedBeanWrapper wrapper = (CDINamedBeanWrapper)o;
+				assertNotNull(wrapper.getBean());
+				String foundName = wrapper.getBeanName();
+				if(sb.length()>0) {
+					sb.append(", ");
+				}
+				sb.append(foundName);
+				if(beanName.equals(foundName)) {
+					bean = wrapper.getBean();
+					break;
+				}
+			}
+
+			assertNotNull("Bean "+beanName+" not found with " + pattern + ". Found beans: {" + sb.toString() + "}", bean);
 		} finally {
 			dialog.okPressed();
 			dialog.close();
