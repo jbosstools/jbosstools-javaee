@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.batch.ui.internal.contentassist;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -67,9 +68,13 @@ public class BatchJobCompletionProposalComputer extends AbstractXMLModelQueryCom
 	IBatchProject bp;
 	IProgressMonitor monitor;
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List computeCompletionProposals(CompletionProposalInvocationContext context, IProgressMonitor monitor) {
 		this.monitor = monitor;
+		if(context.getDocument() != null && context.getDocument().get().indexOf("<job ") < 0) {
+			return new ArrayList();
+		}
 		return super.computeCompletionProposals(context, monitor);
 	}
 
