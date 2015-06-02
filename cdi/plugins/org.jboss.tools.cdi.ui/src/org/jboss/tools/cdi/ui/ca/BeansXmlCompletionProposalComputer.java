@@ -10,7 +10,12 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.ca;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
@@ -32,12 +37,25 @@ import org.jboss.tools.jst.web.ui.internal.editor.contentassist.AutoContentAssis
 import org.jboss.tools.jst.web.ui.internal.editor.contentassist.computers.XmlTagCompletionProposalComputer;
 import org.jboss.tools.jst.web.kb.KbQuery;
 import org.jboss.tools.jst.web.kb.KbQuery.Type;
+import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
 
 @SuppressWarnings("restriction")
 public class BeansXmlCompletionProposalComputer extends XmlTagCompletionProposalComputer {
+
+	@Override
+	@SuppressWarnings("rawtypes")
+	public List computeCompletionProposals(
+			CompletionProposalInvocationContext context,
+			IProgressMonitor monitor) {
+		IFile file = PageContextFactory.getResource(context.getDocument());
+		if(file == null || !"beans.xml".equalsIgnoreCase(file.getName())) {
+			return new ArrayList();
+		}		
+		return super.computeCompletionProposals(context, monitor);
+	}
 
 	@Override
 	protected void addTagInsertionProposals(
