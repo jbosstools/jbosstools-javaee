@@ -50,4 +50,3 @@ Export-Package: org.jboss.tools.cdi.core,
  org.jboss.tools.cdi.internal.core.scanner;x-internal:=true,
  org.jboss.tools.cdi.internal.core.scanner.lib;x-internal:=true,
  org.jboss.tools.cdi.internal.core.validation;x-internal:=true
-Import-Package: org.jboss.jandex

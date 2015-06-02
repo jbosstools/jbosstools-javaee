@@ -52,5 +52,4 @@ Require-Bundle: org.eclipse.jface.text;bundle-version="3.7.0",
 Bundle-Version: 1.7.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ManifestVersion: 2
-Import-Package: org.jboss.jandex
 

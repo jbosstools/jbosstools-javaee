@@ -11,7 +11,6 @@
 package org.jboss.tools.cdi.internal.core.scanner.lib;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,11 +33,6 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
-import org.jboss.jandex.AnnotationInstance;
-import org.jboss.jandex.ClassInfo;
-import org.jboss.jandex.DotName;
-import org.jboss.jandex.Index;
-import org.jboss.jandex.Indexer;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -267,30 +261,19 @@ public class BeanArchiveDetector {
 		return false;
 	}
 
-	static boolean hasAnnotatedBeans(File jarFile, CDICoreNature project) throws JavaModelException {
-		try {
-			Indexer indexer = new Indexer();
-			Index index = JandexUtil.createJarIndex(jarFile, indexer);
-
-			for (ClassInfo cls: index.getKnownClasses()) {
-				if(isAnnotatedBean(cls, project)) {
-					return true;
+	static boolean hasAnnotatedBeans(File jarFile, final CDICoreNature project) throws JavaModelException {
+		JandexUtil.IAnnotationCheck check = new JandexUtil.IAnnotationCheck() {
+			@Override
+			public boolean isRelevant(String annotationType) {
+				try {
+					return isBeanAnnotation(annotationType, project);
+				} catch (JavaModelException e) {
+					CDICorePlugin.getDefault().logError(e);
 				}
+				return false;
 			}
-		} catch (IOException e) {
-			CDICorePlugin.getDefault().logError(e);
-		}
-		return false;
-	}
-
-	static boolean isAnnotatedBean(ClassInfo type, CDICoreNature project) throws JavaModelException {
-		for (Map.Entry<DotName, List<AnnotationInstance>> es: type.annotations().entrySet()) {
-			String typeName = es.getKey().toString();
-			if(isBeanAnnotation(typeName, project)) {
-				return true;
-			}
-		}
-		return false;
+		};
+		return JandexUtil.hasAnnotation(jarFile, check);
 	}
 
 	static boolean isBeanAnnotation(String typeName, CDICoreNature project) throws JavaModelException {
