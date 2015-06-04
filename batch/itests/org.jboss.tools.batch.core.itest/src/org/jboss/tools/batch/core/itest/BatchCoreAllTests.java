@@ -38,6 +38,7 @@ public class BatchCoreAllTests {
 
 		TestSuite suite = new TestSuite("Model");
 		suite.addTestSuite(BatchModelTest.class);
+		suite.addTestSuite(BatchArchiveDetectorTest.class);
 
 		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suite,
 				"org.jboss.tools.batch.core.itest",

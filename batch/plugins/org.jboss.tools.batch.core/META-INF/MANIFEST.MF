@@ -6,6 +6,7 @@ Bundle-Vendor: %providerName
 Export-Package: org.jboss.tools.batch.core,
  org.jboss.tools.batch.internal.core.impl;x-friends:="org.jboss.tools.batch.core.itest,org.jboss.tools.batch.ui",
  org.jboss.tools.batch.internal.core.preferences;x-friends:="org.jboss.tools.batch.core.itest,org.jboss.tools.batch.ui",
+ org.jboss.tools.batch.internal.core.scanner;x-friends:="org.jboss.tools.batch.core.itest,org.jboss.tools.batch.ui",
  org.jboss.tools.batch.internal.core.validation;x-friends:="org.jboss.tools.batch.core.itest,org.jboss.tools.batch.ui",
  org.jboss.tools.batch.internal.core.el;x-friends:="org.jboss.tools.batch.core.itest,org.jboss.tools.batch.ui",
  org.jboss.tools.batch.internal.core.impl.definition;x-friends:="org.jboss.tools.batch.core.itest,org.jboss.tools.batch.ui"

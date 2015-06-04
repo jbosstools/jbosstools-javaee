@@ -5,5 +5,7 @@
 	<classpathentry kind="lib" path="lib/javax.batch-api-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/javax.inject-1.jar"/>
 	<classpathentry kind="lib" path="lib1/batchlib.jar"/>
+	<classpathentry kind="lib" path="lib1/batchfolder"/>
+	<classpathentry kind="lib" path="lib1/nobatchfolder"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

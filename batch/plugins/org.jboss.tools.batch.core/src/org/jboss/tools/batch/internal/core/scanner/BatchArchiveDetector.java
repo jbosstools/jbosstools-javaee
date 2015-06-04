@@ -191,10 +191,22 @@ public class BatchArchiveDetector {
 	}
 
 	public int resolve(String jar, IBatchProject project) throws JavaModelException {
-		if(computeIsJarBatchArchive(new File(jar))) {
-			setBatchArchive(jar, ARCHIVE);
-		} else {
-			setBatchArchive(jar, NOT_ARCHIVE);
+		File jarFile = new File(jar);
+		if(jarFile.isFile()) {
+			if(computeIsJarBatchArchive(jarFile)) {
+				setBatchArchive(jar, ARCHIVE);
+			} else {
+				setBatchArchive(jar, NOT_ARCHIVE);
+			}
+		} else if(jarFile.isDirectory()) {
+			IPackageFragmentRoot root = findPackageFragmentRoot(jar, project);
+			if (root != null && root.exists()) {
+				if(hasBatchArtifcts(root, project)) {
+					setBatchArchive(jar, ARCHIVE);
+				} else {
+					setBatchArchive(jar, NOT_ARCHIVE);
+				}
+			}
 		}
 		return getBatchArchive(jar);
 	}
