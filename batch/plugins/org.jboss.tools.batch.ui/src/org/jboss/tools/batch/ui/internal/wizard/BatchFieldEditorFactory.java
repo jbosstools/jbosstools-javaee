@@ -92,6 +92,17 @@ public class BatchFieldEditorFactory {
 				WizardMessages.artifactLabel, ARTIFACT_LIST, getArtifactLabel(artifact));
 	}
 
+	public static IFieldEditor createArtifactEditor(BatchArtifactType artifact, List<BatchArtifactType> types) {
+		List<String> list = new ArrayList<String>();
+		for (String t: ARTIFACT_LIST) {
+			if(types.contains(ARTIFACTS.get(t))) {
+				list.add(t);
+			}
+		}
+		return SwtFieldEditorFactory.INSTANCE.createComboEditor(ARTIFACT_EDITOR, 
+				WizardMessages.artifactLabel, list, getArtifactLabel(artifact));
+	}
+
 	public static final String DERIVE_FROM_CLASS = "class";
 	public static final String DERIVE_FROM_INTERFACE = "interface";
 	

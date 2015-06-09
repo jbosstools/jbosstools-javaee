@@ -31,6 +31,9 @@ public class WizardMessages {
 	public static String NEW_BATCHLET_WIZARD_PAGE_NAME;
 	public static String NEW_BATCHLET_WIZARD_DESCRIPTION;
 
+	public static String actionOpenArtifact;
+	public static String actionCreateArtifact;
+
 	public static String addPropertyDialogTitle;
 
 	public static String artifactLabel;

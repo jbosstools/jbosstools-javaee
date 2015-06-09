@@ -12,6 +12,7 @@ package org.jboss.tools.batch.ui.internal.wizard;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -25,6 +26,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.internal.ui.wizards.NewElementWizard;
 import org.eclipse.jdt.ui.wizards.NewClassWizardPage;
+import org.jboss.tools.batch.core.BatchArtifactType;
 import org.jboss.tools.batch.core.BatchConstants;
 import org.jboss.tools.batch.core.BatchCorePlugin;
 import org.jboss.tools.batch.internal.core.impl.BatchUtil;
@@ -41,15 +43,28 @@ public class NewBatchArtifactWizard extends NewElementWizard implements BatchCon
 
 	protected NewBatchArtifactWizardPage fPage;
 
+	protected List<BatchArtifactType> types = null;
+
 	public NewBatchArtifactWizard() {
 		setWindowTitle(WizardMessages.NEW_BATCH_ARTIFACT_WIZARD_TITLE);
+	}
+
+	public void setTypes(List<BatchArtifactType> types) {
+		this.types = types;
+	}
+
+	public List<BatchArtifactType> getTypes() {
+		return types;
 	}
 
 	@Override
 	public void addPages() {
 		if (fPage == null) {
-			fPage = new  NewBatchArtifactWizardPage();
+			fPage = new NewBatchArtifactWizardPage();
+			fPage.setWizard(this);
 			((NewClassWizardPage)fPage).init(getSelection());
+		} else {
+			fPage.setWizard(this);
 		}
 		addPage(fPage);
 	}

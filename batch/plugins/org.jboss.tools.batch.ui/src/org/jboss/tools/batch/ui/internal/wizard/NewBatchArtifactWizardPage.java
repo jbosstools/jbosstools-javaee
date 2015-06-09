@@ -73,6 +73,7 @@ public class NewBatchArtifactWizardPage extends NewClassWizardPage implements Pr
 
 	IFieldEditor nameOptions;
 	IFieldEditor name;
+	boolean canNameBeModified = true;
 	
 	IFieldEditor properties;
 
@@ -113,6 +114,16 @@ public class NewBatchArtifactWizardPage extends NewClassWizardPage implements Pr
 		name.setValue(artifactName);
 	}
 
+	public void setArtifactName(String artifactName, boolean canBeModified) {
+		name.setValue(artifactName);
+		canNameBeModified = canBeModified;
+		name.setEnabled(canBeModified);
+	}
+
+	public String getArtifactName() {
+		return name.getValueAsString();
+	}
+
 	void setArtifactByLabel(String label) {
 		artifacts.setValue(label);
 	}
@@ -149,7 +160,9 @@ public class NewBatchArtifactWizardPage extends NewClassWizardPage implements Pr
 		defaultTypeName = null;
 		setSuperClass(BatchArtifactType.ABSTRACT_BATCHLET_TYPE, false);
 
-		artifacts = BatchFieldEditorFactory.createArtifactEditor(getDefaultArtifact());
+		List<BatchArtifactType> types = ((NewBatchArtifactWizard)getWizard()).getTypes();
+		artifacts = types != null && types.size() > 1 ? BatchFieldEditorFactory.createArtifactEditor(getDefaultArtifact(), types)
+				: BatchFieldEditorFactory.createArtifactEditor(getDefaultArtifact());
 		derivedFrom = BatchFieldEditorFactory.createDerivedFromEditor();
 
 		nameOptions = BatchFieldEditorFactory.createNameOptionsEditor();
@@ -349,7 +362,7 @@ public class NewBatchArtifactWizardPage extends NewClassWizardPage implements Pr
 	@Override
 	protected IStatus typeNameChanged() {
 		IStatus result = super.typeNameChanged();
-		if(name != null) {
+		if(name != null && canNameBeModified) {
 			if(isArtifactNameDefault) {
 				if(!isArtifactNameQualified()) {
 					name.setValue(BeanUtil.getDefaultBeanName(getTypeName()));

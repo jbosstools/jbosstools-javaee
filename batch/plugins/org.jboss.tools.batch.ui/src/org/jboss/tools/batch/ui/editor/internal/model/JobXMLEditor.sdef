@@ -118,6 +118,10 @@
 			<section>
 				<content>
 					<property-editor>
+ 		               <hint>
+ 		                   <name>assist.contributors</name>
+		                   <value>OpenRefAssistContributor</value>
+                		</hint>
 						<property>Ref</property>
 					</property-editor>
 				</content>
@@ -189,6 +193,10 @@
 				<label>Processor</label>
 				<content>
 					<property-editor>
+ 		               <hint>
+ 		                   <name>assist.contributors</name>
+		                   <value>OpenRefAssistContributor</value>
+                		</hint>
 						<property>Ref</property>
 					</property-editor>
 				</content>
@@ -213,6 +221,10 @@
 				<label>Checkpoint Algorithm</label>
 				<content>
 					<property-editor>
+ 		               <hint>
+ 		                   <name>assist.contributors</name>
+		                   <value>OpenRefAssistContributor</value>
+                		</hint>
 						<property>Ref</property>
 					</property-editor>
 				</content>
@@ -236,6 +248,10 @@
 		<section>
 			<content>
 				<property-editor>
+ 		            <hint>
+ 		               <name>assist.contributors</name>
+		               <value>OpenRefAssistContributor</value>
+                	</hint>
 					<property>Ref</property>
 				</property-editor>
 			</content>
@@ -256,6 +272,10 @@
 				<case>
 					<content>
 						<property-editor>
+ 		                   <hint>
+ 		                       <name>assist.contributors</name>
+		                       <value>OpenRefAssistContributor</value>
+                		    </hint>
 							<property>Ref</property>
 						</property-editor>
                         <section>
@@ -280,6 +300,10 @@
 				<case>
 					<content>
 						<property-editor>
+ 		               <hint>
+ 		                   <name>assist.contributors</name>
+		                   <value>OpenRefAssistContributor</value>
+                		</hint>
 							<property>Ref</property>
 						</property-editor>
                         <section>
@@ -304,6 +328,10 @@
 		<section>
 			<content>
 				<property-editor>
+ 		            <hint>
+ 		               <name>assist.contributors</name>
+		               <value>OpenRefAssistContributor</value>
+                	</hint>
 					<property>Ref</property>
 				</property-editor>
 			</content>
@@ -584,6 +612,10 @@
 			<section>
 				<content>
 					<property-editor>
+ 		               <hint>
+ 		                   <name>assist.contributors</name>
+		                   <value>OpenRefAssistContributor</value>
+                		</hint>
 						<property>Ref</property>
 					</property-editor>
 				</content>
@@ -758,7 +790,13 @@
 		<id>DecisionForm</id>
 		<content>
 			<property-editor>Id</property-editor>
-			<property-editor>Ref</property-editor>
+					<property-editor>
+ 		               <hint>
+ 		                   <name>assist.contributors</name>
+		                   <value>OpenRefAssistContributor</value>
+                		</hint>
+						<property>Ref</property>
+					</property-editor>
 		</content>
 	</form>
 	<form>
@@ -812,6 +850,10 @@
 				<case>
 					<content>
 						<property-editor>
+ 		               <hint>
+ 		                   <name>assist.contributors</name>
+		                   <value>OpenRefAssistContributor</value>
+                		</hint>
 							<property>Ref</property>
 						</property-editor>
 						<include>PropertiesSection</include>
@@ -850,6 +892,10 @@
 				<case>
 					<content>
 						<property-editor>
+ 		               <hint>
+ 		                   <name>assist.contributors</name>
+		                   <value>OpenRefAssistContributor</value>
+                		</hint>
 							<property>Ref</property>
 						</property-editor>
 						<include>PropertiesSection</include>
@@ -869,6 +915,10 @@
 				<case>
 					<content>
 						<property-editor>
+ 		               <hint>
+ 		                   <name>assist.contributors</name>
+		                   <value>OpenRefAssistContributor</value>
+                		</hint>
 							<property>Ref</property>
 						</property-editor>
 						<include>PropertiesSection</include>
@@ -888,6 +938,10 @@
 				<case>
 					<content>
 						<property-editor>
+ 		               <hint>
+ 		                   <name>assist.contributors</name>
+		                   <value>OpenRefAssistContributor</value>
+                		</hint>
 							<property>Ref</property>
 						</property-editor>
 						<include>PropertiesSection</include>
@@ -907,6 +961,10 @@
 				<case>
 					<content>
 						<property-editor>
+ 		               <hint>
+ 		                   <name>assist.contributors</name>
+		                   <value>OpenRefAssistContributor</value>
+                		</hint>
 							<property>Ref</property>
 						</property-editor>
 						<include>PropertiesSection</include>
@@ -926,6 +984,10 @@
 				<case>
 					<content>
 						<property-editor>
+ 		               <hint>
+ 		                   <name>assist.contributors</name>
+		                   <value>OpenRefAssistContributor</value>
+                		</hint>
 							<property>Ref</property>
 						</property-editor>
 						<include>PropertiesSection</include>
@@ -1228,7 +1290,13 @@
 															<separator></separator>
                                                             <section>
                                                                 <content>
-                                                                    <property-editor>Ref</property-editor>
+ 					<property-editor>
+ 		               <hint>
+ 		                   <name>assist.contributors</name>
+		                   <value>OpenRefAssistContributor</value>
+                		</hint>
+						<property>Ref</property>
+					</property-editor>
                                                                 </content>
                                                                 <label>Batchlet</label>
                                                             </section>
