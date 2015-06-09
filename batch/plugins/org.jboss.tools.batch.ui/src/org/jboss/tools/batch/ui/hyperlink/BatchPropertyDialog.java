@@ -83,7 +83,7 @@ public class BatchPropertyDialog extends PopupDialog {
 	public BatchPropertyDialog(Shell parentShell, final IBatchProperty batchProperty) {
 		super(parentShell, 0, true, true, false, false, false, "", null);
 		this.batchProperty = batchProperty;
-		BusyIndicator.showWhile(parentShell.getDisplay(),
+		BusyIndicator.showWhile(parentShell != null ? parentShell.getDisplay() : Display.getDefault(),
 		new Runnable() {
 			@Override
 			public void run() {
