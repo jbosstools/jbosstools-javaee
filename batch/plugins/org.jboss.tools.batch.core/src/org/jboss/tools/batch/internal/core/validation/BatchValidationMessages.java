@@ -70,6 +70,8 @@ public class BatchValidationMessages {
 
 	public static String EXCEPTION_CLASS_IS_NOT_FOUND;
 	public static String EXCEPTION_CLASS_DOES_NOT_EXTEND_JAVA_LANG_EXCEPTION;
+	
+	public static String ID_IS_NOT_VALID;
 
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, BatchValidationMessages.class);

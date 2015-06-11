@@ -22,6 +22,7 @@ import org.eclipse.sapphire.Value;
 import org.eclipse.sapphire.ValueProperty;
 import org.eclipse.sapphire.modeling.annotations.Image;
 import org.eclipse.sapphire.modeling.annotations.Label;
+import org.eclipse.sapphire.modeling.annotations.Service;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlListBinding;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlNamespace;
@@ -48,6 +49,7 @@ public interface Job extends Element, FlowElementsContainer {
 
 	@Label( standard = "id" )
 	@XmlBinding( path = "@id" )
+	@Service(impl = IdValidationService.class)
 
 	ValueProperty PROP_ID = new ValueProperty( TYPE, "Id" );
 

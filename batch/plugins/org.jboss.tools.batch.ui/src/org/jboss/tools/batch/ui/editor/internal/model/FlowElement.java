@@ -16,6 +16,7 @@ import org.eclipse.sapphire.Value;
 import org.eclipse.sapphire.ValueProperty;
 import org.eclipse.sapphire.modeling.annotations.Label;
 import org.eclipse.sapphire.modeling.annotations.Required;
+import org.eclipse.sapphire.modeling.annotations.Service;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
 
 /**
@@ -30,6 +31,7 @@ public interface FlowElement extends Element {
 	@Label( standard = "id" )
 	@XmlBinding( path = "@id" )
 	@Required
+	@Service(impl = IdValidationService.class)
 
 	ValueProperty PROP_ID = new ValueProperty( TYPE, "Id" );
 

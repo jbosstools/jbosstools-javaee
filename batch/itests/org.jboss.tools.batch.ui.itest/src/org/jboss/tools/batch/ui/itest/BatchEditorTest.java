@@ -18,11 +18,13 @@ import org.eclipse.core.resources.IProject;
 //import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.sapphire.ElementList;
+import org.eclipse.sapphire.modeling.Status;
 import org.eclipse.sapphire.ui.forms.swt.MasterDetailsEditorPage;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.jboss.tools.batch.ui.editor.internal.model.BatchletOrChunk;
 import org.jboss.tools.batch.ui.editor.internal.model.Chunk;
+import org.jboss.tools.batch.ui.editor.internal.model.Flow;
 import org.jboss.tools.batch.ui.editor.internal.model.FlowElement;
 import org.jboss.tools.batch.ui.editor.internal.model.Job;
 import org.jboss.tools.batch.ui.editor.internal.model.JobXMLEditor;
@@ -73,6 +75,24 @@ public class BatchEditorTest extends TestCase {
 
 		 MasterDetailsEditorPage formEditor = jobEditor.getFormEditor();
 		 assertNotNull(formEditor);
+	}
+
+	public void testValidation() {
+		editor = openEditor("src/META-INF/batch-jobs/job-validation-1.xml");
+		JobXMLEditor jobEditor = (JobXMLEditor)editor;
+		Job job = jobEditor.getSchema();
+		ElementList<FlowElement> es = job.getFlowElements();
+		Step step = (Step)es.get(0);
+		Status status = step.getId().validation();
+		assertTrue(status.ok());
+		
+		step = (Step)es.get(1);
+		status = step.getId().validation();
+		assertFalse(status.ok());
+		
+		Flow flow = (Flow)es.get(2);
+		status = flow.getId().validation();
+		assertFalse(status.ok());
 	}
 
 	public IEditorPart openEditor(String fileName) {
