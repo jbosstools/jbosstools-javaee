@@ -122,6 +122,14 @@
  		                   <name>assist.contributors</name>
 		                   <value>OpenRefAssistContributor</value>
                 		</hint>
+                        <action>
+                           <id>Sapphire.Jump</id>
+                           <label>Open</label>
+                        </action>
+                        <action-handler>
+                            <action>Sapphire.Jump</action>
+                            <impl>org.jboss.tools.batch.ui.editor.internal.action.OpenOrCreateArtifactActionHandler</impl>
+                        </action-handler>
 						<property>Ref</property>
 					</property-editor>
 				</content>
@@ -197,6 +205,14 @@
  		                   <name>assist.contributors</name>
 		                   <value>OpenRefAssistContributor</value>
                 		</hint>
+                        <action>
+                           <id>Sapphire.Jump</id>
+                           <label>Open</label>
+                        </action>
+                        <action-handler>
+                            <action>Sapphire.Jump</action>
+                            <impl>org.jboss.tools.batch.ui.editor.internal.action.OpenOrCreateArtifactActionHandler</impl>
+                        </action-handler>
 						<property>Ref</property>
 					</property-editor>
 				</content>
@@ -225,6 +241,14 @@
  		                   <name>assist.contributors</name>
 		                   <value>OpenRefAssistContributor</value>
                 		</hint>
+                        <action>
+                           <id>Sapphire.Jump</id>
+                           <label>Open</label>
+                        </action>
+                        <action-handler>
+                            <action>Sapphire.Jump</action>
+                            <impl>org.jboss.tools.batch.ui.editor.internal.action.OpenOrCreateArtifactActionHandler</impl>
+                        </action-handler>
 						<property>Ref</property>
 					</property-editor>
 				</content>
@@ -252,6 +276,14 @@
  		               <name>assist.contributors</name>
 		               <value>OpenRefAssistContributor</value>
                 	</hint>
+                    <action>
+                       <id>Sapphire.Jump</id>
+                       <label>Open</label>
+                    </action>
+                    <action-handler>
+                        <action>Sapphire.Jump</action>
+                        <impl>org.jboss.tools.batch.ui.editor.internal.action.OpenOrCreateArtifactActionHandler</impl>
+                    </action-handler>
 					<property>Ref</property>
 				</property-editor>
 			</content>
@@ -276,6 +308,14 @@
  		                       <name>assist.contributors</name>
 		                       <value>OpenRefAssistContributor</value>
                 		    </hint>
+                            <action>
+                               <id>Sapphire.Jump</id>
+                               <label>Open</label>
+                            </action>
+                            <action-handler>
+                                <action>Sapphire.Jump</action>
+                                <impl>org.jboss.tools.batch.ui.editor.internal.action.OpenOrCreateArtifactActionHandler</impl>
+                            </action-handler>
 							<property>Ref</property>
 						</property-editor>
                         <section>
@@ -300,10 +340,18 @@
 				<case>
 					<content>
 						<property-editor>
- 		               <hint>
- 		                   <name>assist.contributors</name>
-		                   <value>OpenRefAssistContributor</value>
-                		</hint>
+	 		               <hint>
+ 			                   <name>assist.contributors</name>
+			                   <value>OpenRefAssistContributor</value>
+            	    		</hint>
+                	        <action>
+                    	       <id>Sapphire.Jump</id>
+                        	   <label>Open</label>
+                        	</action>
+                        	<action-handler>
+                            	<action>Sapphire.Jump</action>
+                            	<impl>org.jboss.tools.batch.ui.editor.internal.action.OpenOrCreateArtifactActionHandler</impl>
+                        	</action-handler>
 							<property>Ref</property>
 						</property-editor>
                         <section>
@@ -332,6 +380,14 @@
  		               <name>assist.contributors</name>
 		               <value>OpenRefAssistContributor</value>
                 	</hint>
+                    <action>
+                       <id>Sapphire.Jump</id>
+                       <label>Open</label>
+                    </action>
+                    <action-handler>
+                        <action>Sapphire.Jump</action>
+                        <impl>org.jboss.tools.batch.ui.editor.internal.action.OpenOrCreateArtifactActionHandler</impl>
+                    </action-handler>
 					<property>Ref</property>
 				</property-editor>
 			</content>
@@ -616,6 +672,14 @@
  		                   <name>assist.contributors</name>
 		                   <value>OpenRefAssistContributor</value>
                 		</hint>
+                        <action>
+                           <id>Sapphire.Jump</id>
+                           <label>Open</label>
+                        </action>
+                        <action-handler>
+                            <action>Sapphire.Jump</action>
+                            <impl>org.jboss.tools.batch.ui.editor.internal.action.OpenOrCreateArtifactActionHandler</impl>
+                        </action-handler>
 						<property>Ref</property>
 					</property-editor>
 				</content>
@@ -795,6 +859,14 @@
  		                   <name>assist.contributors</name>
 		                   <value>OpenRefAssistContributor</value>
                 		</hint>
+                        <action>
+                           <id>Sapphire.Jump</id>
+                           <label>Open</label>
+                        </action>
+                        <action-handler>
+                            <action>Sapphire.Jump</action>
+                            <impl>org.jboss.tools.batch.ui.editor.internal.action.OpenOrCreateArtifactActionHandler</impl>
+                        </action-handler>
 						<property>Ref</property>
 					</property-editor>
 		</content>
@@ -850,10 +922,18 @@
 				<case>
 					<content>
 						<property-editor>
- 		               <hint>
- 		                   <name>assist.contributors</name>
-		                   <value>OpenRefAssistContributor</value>
-                		</hint>
+ 			               <hint>
+ 			                   <name>assist.contributors</name>
+		    	               <value>OpenRefAssistContributor</value>
+                			</hint>
+                    	    <action>
+                        	   <id>Sapphire.Jump</id>
+                           	<label>Open</label>
+                        	</action>
+                        	<action-handler>
+                            	<action>Sapphire.Jump</action>
+                            	<impl>org.jboss.tools.batch.ui.editor.internal.action.OpenOrCreateArtifactActionHandler</impl>
+                        	</action-handler>
 							<property>Ref</property>
 						</property-editor>
 						<include>PropertiesSection</include>
@@ -892,10 +972,18 @@
 				<case>
 					<content>
 						<property-editor>
- 		               <hint>
- 		                   <name>assist.contributors</name>
-		                   <value>OpenRefAssistContributor</value>
-                		</hint>
+	 		               <hint>
+ 			                   <name>assist.contributors</name>
+			                   <value>OpenRefAssistContributor</value>
+            	    		</hint>
+                	        <action>
+                    	       <id>Sapphire.Jump</id>
+                        	   <label>Open</label>
+                        	</action>
+	                        <action-handler>
+    	                        <action>Sapphire.Jump</action>
+        	                    <impl>org.jboss.tools.batch.ui.editor.internal.action.OpenOrCreateArtifactActionHandler</impl>
+            	            </action-handler>
 							<property>Ref</property>
 						</property-editor>
 						<include>PropertiesSection</include>
@@ -915,10 +1003,18 @@
 				<case>
 					<content>
 						<property-editor>
- 		               <hint>
- 		                   <name>assist.contributors</name>
-		                   <value>OpenRefAssistContributor</value>
-                		</hint>
+	 		               <hint>
+ 			                   <name>assist.contributors</name>
+			                   <value>OpenRefAssistContributor</value>
+            	    		</hint>
+                	        <action>
+                    	       <id>Sapphire.Jump</id>
+                        	   <label>Open</label>
+	                        </action>
+    	                    <action-handler>
+        	                    <action>Sapphire.Jump</action>
+            	                <impl>org.jboss.tools.batch.ui.editor.internal.action.OpenOrCreateArtifactActionHandler</impl>
+                	        </action-handler>
 							<property>Ref</property>
 						</property-editor>
 						<include>PropertiesSection</include>
@@ -938,10 +1034,18 @@
 				<case>
 					<content>
 						<property-editor>
- 		               <hint>
- 		                   <name>assist.contributors</name>
-		                   <value>OpenRefAssistContributor</value>
-                		</hint>
+ 		                	<hint>
+ 			                   <name>assist.contributors</name>
+			                   <value>OpenRefAssistContributor</value>
+        	        		</hint>
+            	            <action>
+                	           <id>Sapphire.Jump</id>
+                    	       <label>Open</label>
+                        	</action>
+	                        <action-handler>
+    	                        <action>Sapphire.Jump</action>
+        	                    <impl>org.jboss.tools.batch.ui.editor.internal.action.OpenOrCreateArtifactActionHandler</impl>
+            	            </action-handler>
 							<property>Ref</property>
 						</property-editor>
 						<include>PropertiesSection</include>
@@ -961,10 +1065,18 @@
 				<case>
 					<content>
 						<property-editor>
- 		               <hint>
- 		                   <name>assist.contributors</name>
-		                   <value>OpenRefAssistContributor</value>
-                		</hint>
+	 		                <hint>
+ 			                   <name>assist.contributors</name>
+			                   <value>OpenRefAssistContributor</value>
+            	    		</hint>
+                	        <action>
+                    	       <id>Sapphire.Jump</id>
+                        	   <label>Open</label>
+	                        </action>
+    	                    <action-handler>
+        	                    <action>Sapphire.Jump</action>
+            	                <impl>org.jboss.tools.batch.ui.editor.internal.action.OpenOrCreateArtifactActionHandler</impl>
+                	        </action-handler>
 							<property>Ref</property>
 						</property-editor>
 						<include>PropertiesSection</include>
@@ -984,10 +1096,18 @@
 				<case>
 					<content>
 						<property-editor>
- 		               <hint>
- 		                   <name>assist.contributors</name>
-		                   <value>OpenRefAssistContributor</value>
-                		</hint>
+	 		                <hint>
+ 			                   <name>assist.contributors</name>
+			                   <value>OpenRefAssistContributor</value>
+            	    		</hint>
+                	        <action>
+                    	       <id>Sapphire.Jump</id>
+                        	   <label>Open</label>
+	                        </action>
+    	                    <action-handler>
+        	                    <action>Sapphire.Jump</action>
+            	                <impl>org.jboss.tools.batch.ui.editor.internal.action.OpenOrCreateArtifactActionHandler</impl>
+                	        </action-handler>
 							<property>Ref</property>
 						</property-editor>
 						<include>PropertiesSection</include>
@@ -1295,6 +1415,14 @@
  		                   <name>assist.contributors</name>
 		                   <value>OpenRefAssistContributor</value>
                 		</hint>
+                        <action>
+                           <id>Sapphire.Jump</id>
+                           <label>Open</label>
+                        </action>
+                        <action-handler>
+                            <action>Sapphire.Jump</action>
+                            <impl>org.jboss.tools.batch.ui.editor.internal.action.OpenOrCreateArtifactActionHandler</impl>
+                        </action-handler>
 						<property>Ref</property>
 					</property-editor>
                                                                 </content>
