@@ -57,6 +57,10 @@ public class JobXMLEditor extends SapphireEditor implements IMultiPageEditor {
 		return this.model;
 	}
 
+	public FlowElementsContainer getCurrentDiagramModel() {
+		return currentDiagramModel;
+	}
+
 	@Override
 	protected void createDiagramPages() throws PartInitException {
 		this.schemaDiagram = new SapphireDiagramEditor(this, this.currentDiagramModel,

@@ -19,6 +19,7 @@ import org.jboss.tools.batch.ui.itest.ca.JobPropertyNameContentAssist;
 import org.jboss.tools.batch.ui.itest.ca.JobTransitionsContentAssist;
 import org.jboss.tools.batch.ui.itest.ca.sapphire.ContentProposalTest;
 import org.jboss.tools.batch.ui.itest.diagram.BatchDiagramConnectionsTest;
+import org.jboss.tools.batch.ui.itest.diagram.BatchDiagramLayoutTest;
 import org.jboss.tools.batch.ui.itest.diagram.BatchDiagramNavigationTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.test.util.ResourcesUtils;
@@ -66,6 +67,7 @@ public class BatchUIAllTests {
 		suiteAll.addTest(suite2);
 
 		TestSuite diagramSuite = new TestSuite("Diagram editor");
+		diagramSuite.addTestSuite(BatchDiagramLayoutTest.class);
 		diagramSuite.addTestSuite(BatchDiagramNavigationTest.class);
 		diagramSuite.addTestSuite(BatchDiagramConnectionsTest.class);
 		suiteAll.addTest(diagramSuite);
