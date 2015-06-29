@@ -12,20 +12,19 @@
 package org.jboss.tools.batch.ui.editor.internal.model;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.gef.ui.views.palette.PaletteView;
+import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.sapphire.Element;
 import org.eclipse.sapphire.LoggingService;
 import org.eclipse.sapphire.Sapphire;
 import org.eclipse.sapphire.modeling.xml.RootXmlResource;
 import org.eclipse.sapphire.ui.SapphireEditor;
 import org.eclipse.sapphire.ui.def.DefinitionLoader;
+import org.eclipse.sapphire.ui.def.DefinitionLoader.Reference;
+import org.eclipse.sapphire.ui.def.EditorPageDef;
 import org.eclipse.sapphire.ui.forms.swt.MasterDetailsEditorPage;
 import org.eclipse.sapphire.ui.swt.gef.SapphireDiagramEditor;
 import org.eclipse.sapphire.ui.swt.xml.editor.XmlEditorResourceStore;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.jboss.tools.common.text.ext.IMultiPageEditor;
 
@@ -38,7 +37,7 @@ public class JobXMLEditor extends SapphireEditor implements IMultiPageEditor {
 	private FlowElementsContainer currentDiagramModel;
 
 	private StructuredTextEditor schemaSourceEditor;
-	private SapphireDiagramEditor schemaDiagram;
+	private JSapphireDiagramEditor schemaDiagram;
 	private MasterDetailsEditorPage design;
 
 	@Override
@@ -63,10 +62,37 @@ public class JobXMLEditor extends SapphireEditor implements IMultiPageEditor {
 
 	@Override
 	protected void createDiagramPages() throws PartInitException {
-		this.schemaDiagram = new SapphireDiagramEditor(this, this.currentDiagramModel,
-				DefinitionLoader.sdef(getClass()).page("DiagramPage"));
+		JSapphireDiagramEditor oldDiagram = schemaDiagram;
+		schemaDiagram = new JSapphireDiagramEditor(this, currentDiagramModel,
+				DefinitionLoader.sdef(getClass()).page("DiagramPage")) {
+		};
+
 		addEditorPage(DIAGRAM_PAGE_INDEX, this.schemaDiagram);
-		preferFlyoutPalette();
+		if(oldDiagram != null) {
+			oldDiagram.rehook(schemaDiagram);
+		}
+	}
+
+	class JSapphireDiagramEditor extends SapphireDiagramEditor {
+		CustomPalettePage palettePage = null;
+
+		public JSapphireDiagramEditor(SapphireEditor editor, Element element, Reference<EditorPageDef> definition) {
+			super(editor, element, definition);
+		}
+
+		@Override
+		protected CustomPalettePage createPalettePage() {
+			return palettePage = super.createPalettePage();
+		}
+
+		void rehook(JSapphireDiagramEditor schemaDiagram) {
+			schemaDiagram.palettePage = palettePage;
+			if(palettePage != null) {
+				PaletteViewer viewer = palettePage.getPaletteViewer();
+				schemaDiagram.getEditDomain().setPaletteViewer(viewer);
+			}
+		}
+
 	}
 
 	@Override
@@ -104,19 +130,6 @@ public class JobXMLEditor extends SapphireEditor implements IMultiPageEditor {
 		}
 		removePage(JobXMLEditor.DIAGRAM_PAGE_INDEX + 1);
 		setActiveEditor(this.schemaDiagram);
-	}
-
-	/**
-	 * This is a workaround that ensures that the flyout pallete (inner
-	 * composite inside the diagram editor) is used instead of a separate
-	 * pallete view. The separate pallete view does not work with the diagram
-	 * editor currently.
-	 */
-	private void preferFlyoutPalette() {
-		IWorkbenchPage workbenchPage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		IViewPart paletteView = workbenchPage.findView(PaletteView.ID);
-		// closes the view which activates the flyout composite
-		workbenchPage.hideView(paletteView);
 	}
 
 	@Override
