@@ -20,6 +20,7 @@ import org.eclipse.sapphire.ListProperty;
 import org.eclipse.sapphire.Type;
 import org.eclipse.sapphire.Value;
 import org.eclipse.sapphire.ValueProperty;
+import org.eclipse.sapphire.modeling.annotations.DefaultValue;
 import org.eclipse.sapphire.modeling.annotations.Image;
 import org.eclipse.sapphire.modeling.annotations.Label;
 import org.eclipse.sapphire.modeling.annotations.Service;
@@ -66,11 +67,14 @@ public interface Job extends Element, FlowElementsContainer {
 
 	@Label( standard = "restartable" )
 	@XmlBinding( path = "@restartable" )
+	@Type(base = Boolean.class)
+	@DefaultValue( text = "true" )
+//	@PossibleValues(values = {"true", "false"})
 
 	ValueProperty PROP_RESTARTABLE = new ValueProperty( TYPE, "Restartable" );
 
-	Value<String> getRestartable();
-	void setRestartable( String restartable);
+	Value<Boolean> getRestartable();
+	void setRestartable( Boolean restartable);
 
 
 	@Type( base = Properties.class )

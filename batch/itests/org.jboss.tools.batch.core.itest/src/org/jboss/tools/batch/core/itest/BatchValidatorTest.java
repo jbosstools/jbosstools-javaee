@@ -190,4 +190,11 @@ public class BatchValidatorTest extends TestCase {
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(resource, NLS.bind(ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME, "jobProperties"), 12); //$NON-NLS-1$
 		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME, "jobPropertie"), 11); //$NON-NLS-1$
 	}
+
+	public void testJobRestartable() throws Exception {
+		IResource resource = project.findMember("/src/META-INF/batch-jobs/job-restartable-invalid.xml"); //$NON-NLS-1$
+		assertTrue(resource.exists());
+		TestUtil.validate(resource);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(BatchValidationMessages.JOB_RESTARTABLE_IS_NOT_BOOLEAN, new String[]{}), 3); //$NON-NLS-1$
+	}
 }

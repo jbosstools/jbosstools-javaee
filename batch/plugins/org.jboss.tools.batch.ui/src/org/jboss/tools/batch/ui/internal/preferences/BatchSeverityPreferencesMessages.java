@@ -48,6 +48,9 @@ public class BatchSeverityPreferencesMessages extends NLS {
 	public static String BatchValidationConfigurationBlock_pb_unknownExceptionClass_label;
 	public static String BatchValidationConfigurationBlock_pb_wrongExceptionClass_label;
 
+	////job attributes
+	public static String BatchValidationConfigurationBlock_pb_invalidJobRestartable_label;
+
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, BatchSeverityPreferencesMessages.class);
 	}

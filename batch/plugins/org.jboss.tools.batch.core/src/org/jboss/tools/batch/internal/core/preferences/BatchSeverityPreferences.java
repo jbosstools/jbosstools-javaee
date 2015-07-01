@@ -28,6 +28,8 @@ public class BatchSeverityPreferences extends ValidationSeverityPreferences {
 
 	public static final String WARNING_GROUP_ID = "batch";
 
+	public static final String INVALID_JOB_RESTARTABLE = INSTANCE.createSeverityOption("invalidJobRestartable", "invalid-restartable"); //$NON-NLS-1$
+
 	public static final String UNKNOWN_ARTIFACT_NAME = INSTANCE.createSeverityOption("unknownArtifactName", "unknown-artifact"); //$NON-NLS-1$
 	public static final String WRONG_ARTIFACT_TYPE = INSTANCE.createSeverityOption("wrongArtifactType", "wrong-artifact"); //$NON-NLS-1$
 	public static final String UNUSED_PROPERTY = INSTANCE.createSeverityOption("unusedProperty", "unused-property"); //$NON-NLS-1$

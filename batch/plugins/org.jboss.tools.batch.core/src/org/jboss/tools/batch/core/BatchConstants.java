@@ -130,6 +130,7 @@ public interface BatchConstants {
 	public String ATTR_NEXT = "next";
 	public String ATTR_REF = "ref";
 	public String ATTR_RESTART = "restart";
+	public String ATTR_RESTARTABLE = "restartable";
 	public String ATTR_TO = "to";
 	public String ATTR_VALUE = "value";
 	public String ATTR_VERSION = "version";

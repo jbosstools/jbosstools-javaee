@@ -76,7 +76,9 @@ public class BatchValidationConfigurationBlock extends SeverityConfigurationBloc
 			SECTION_TRANSITIONS,
 			SECTION_EXCEPTION_CLASS_FILTER,
 		},
-		new String[0][],
+		new String[][]{
+			{BatchSeverityPreferences.INVALID_JOB_RESTARTABLE, BatchSeverityPreferencesMessages.BatchValidationConfigurationBlock_pb_invalidJobRestartable_label},
+		},
 		BatchCorePlugin.PLUGIN_ID
 	);
 

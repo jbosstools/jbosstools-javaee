@@ -23,6 +23,8 @@ public class BatchValidationMessages {
 	//
 	public static String VALIDATING_PROJECT;
 	
+	public static String JOB_RESTARTABLE_IS_NOT_BOOLEAN;
+
 	public static String JOB_LISTENER_IS_NOT_FOUND;
 	public static String JOB_LISTENER_IS_EXPECTED;
 
