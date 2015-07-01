@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IProject;
 //import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.sapphire.ElementList;
+import org.eclipse.sapphire.Value;
 import org.eclipse.sapphire.modeling.Status;
 import org.eclipse.sapphire.ui.forms.swt.MasterDetailsEditorPage;
 import org.eclipse.ui.IEditorPart;
@@ -93,6 +94,28 @@ public class BatchEditorTest extends TestCase {
 		Flow flow = (Flow)es.get(2);
 		status = flow.getId().validation();
 		assertFalse(status.ok());
+	}
+
+	public void testRestartableInvalid() throws Exception {
+		editor = openEditor("src/META-INF/batch-jobs/job-restartable-invalid.xml");
+		JobXMLEditor jobEditor = (JobXMLEditor)editor;
+		Job job = jobEditor.getSchema();
+		Value<Boolean> restartable = job.getRestartable();
+		assertEquals("xxxx", restartable.text());
+		assertEquals(Boolean.TRUE, restartable.content()); //default value
+		Status s = restartable.validation();
+		assertFalse(s.ok());
+	}
+
+	public void testRestartableValid() throws Exception {
+		editor = openEditor("src/META-INF/batch-jobs/job-restartable-valid.xml");
+		JobXMLEditor jobEditor = (JobXMLEditor)editor;
+		Job job = jobEditor.getSchema();
+		Value<Boolean> restartable = job.getRestartable();
+		assertEquals("false", restartable.text());
+		assertEquals(Boolean.FALSE, restartable.content());
+		Status s = restartable.validation();
+		assertTrue(s.ok());
 	}
 
 	public IEditorPart openEditor(String fileName) {

@@ -298,6 +298,13 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 	private void validateJobElement(IBatchProject batchProject, IFile file, Element job) {
 		ContextProperties cp = new ContextProperties(null, job, file);
 
+		String restartable = job.getAttribute(ATTR_RESTARTABLE);
+		if(restartable != null && restartable.trim().length() > 0) {
+			if(!"true".equals(restartable) && !"false".equals(restartable) && !restartable.startsWith("#{")) {
+				addProblem(BatchValidationMessages.JOB_RESTARTABLE_IS_NOT_BOOLEAN, BatchSeverityPreferences.INVALID_JOB_RESTARTABLE, job, ATTR_RESTARTABLE, file, -1);
+			}
+		}
+
 		Element listeners = XMLUtilities.getUniqueChild(job, TAG_LISTENERS);
 		if(listeners != null) {
 			for (Element listener: XMLUtilities.getChildren(listeners, TAG_LISTENER)) {
