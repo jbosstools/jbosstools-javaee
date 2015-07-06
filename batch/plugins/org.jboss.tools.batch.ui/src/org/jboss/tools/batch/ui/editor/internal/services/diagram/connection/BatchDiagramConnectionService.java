@@ -71,6 +71,13 @@ public class BatchDiagramConnectionService extends StandardConnectionService {
 		if (NEXT_ATTRIBUTE_CONNECTION_ID.equals(connectionType)) {
 			return valid(node1, node2);
 		} else {
+			Element target = node2.getLocalModelElement();
+			if(target instanceof FlowElement) {
+				FlowElement f = (FlowElement)target;
+				if(f.getId() == null || f.getId().content() == null) {
+					return false;
+				}
+			}
 			return super.valid(node1, node2, connectionType);
 		}
 	}
@@ -160,6 +167,7 @@ public class BatchDiagramConnectionService extends StandardConnectionService {
 	 */
 	private void initConnections() {
 		connections = new ArrayList<>();
+		if(diagramPart == null) return;
 
 		FlowElementsContainer currentModelRoot = (FlowElementsContainer) diagramPart.getLocalModelElement();
 		attachListenerForNewNodes(currentModelRoot.getFlowElements());
