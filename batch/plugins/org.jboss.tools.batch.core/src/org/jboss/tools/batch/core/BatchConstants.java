@@ -23,6 +23,7 @@ public interface BatchConstants {
 	public String BATCH_JOBS_PATH = META_INF + "/" + BATCH_JOBS;
 
 	public String BATCH_XML = "batch.xml";
+	public String BATCH_XML_PATH = META_INF + "/" + BATCH_XML;
 
 	public String JOB_PROPERTIES_OPERATOR = "jobProperties";
 	public String JOB_PARAMETERS_OPERATOR = "jobParameters";

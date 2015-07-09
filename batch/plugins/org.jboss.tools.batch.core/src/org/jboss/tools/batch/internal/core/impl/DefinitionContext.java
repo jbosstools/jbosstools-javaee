@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaProject;
 import org.jboss.tools.batch.core.IRootDefinitionContext;
 import org.jboss.tools.batch.internal.core.impl.definition.BatchJobDefinition;
+import org.jboss.tools.batch.internal.core.impl.definition.BatchXMLDefinition;
 import org.jboss.tools.batch.internal.core.impl.definition.Dependencies;
 import org.jboss.tools.batch.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.EclipseUtil;
@@ -40,6 +41,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 	private Map<String, TypeDefinition> typeDefinitions = new HashMap<String, TypeDefinition>();
 
 	private Map<IPath, BatchJobDefinition> batchJobs = new HashMap<IPath, BatchJobDefinition>();
+	private Map<IPath, BatchXMLDefinition> batchXMLs = new HashMap<IPath, BatchXMLDefinition>();
 
 	private Dependencies dependencies = new Dependencies();
 
@@ -56,6 +58,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 			copy.types.addAll(types);
 			copy.typeDefinitions.putAll(typeDefinitions);
 			copy.batchJobs.putAll(batchJobs);
+			copy.batchXMLs.putAll(batchXMLs);
 
 			for (IPath p: resources.keySet()) {
 				Set<String> set = resources.get(p);
@@ -107,6 +110,13 @@ public class DefinitionContext implements IRootDefinitionContext {
 		addToParents(def.getPath());
 	}
 
+	public void addBatchXML(BatchXMLDefinition def) {
+		synchronized(this) {
+			batchXMLs.put(def.getPath(), def);
+		}
+		addToParents(def.getPath());
+	}
+
 	public synchronized void addType(IPath file, String typeName) {
 		if(file != null) {
 			Set<String> ts = resources.get(file);
@@ -140,7 +150,8 @@ public class DefinitionContext implements IRootDefinitionContext {
 		childPaths.clear();
 		resources.clear();
 		types.clear();
-		batchJobs.clear();;
+		batchJobs.clear();
+		batchXMLs.clear();
 		typeDefinitions.clear();
 	}
 
@@ -150,6 +161,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 			clean(t);
 		}
 		batchJobs.remove(path);
+		batchXMLs.remove(path);
 
 		Set<IPath> cs = childPaths.get(path);
 		if(cs != null) {
@@ -226,6 +238,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 		childPaths = workingCopy.childPaths;
 		typeDefinitions = workingCopy.typeDefinitions;
 		batchJobs = workingCopy.batchJobs;
+		batchXMLs = workingCopy.batchXMLs;
 
 		project.update(true);
 
@@ -252,6 +265,14 @@ public class DefinitionContext implements IRootDefinitionContext {
 		Set<BatchJobDefinition> result = new HashSet<BatchJobDefinition>();
 		synchronized (this) {
 			result.addAll(batchJobs.values());
+		}
+		return result;
+	}
+
+	public Set<BatchXMLDefinition> getBatchXMLDefinitions() {
+		Set<BatchXMLDefinition> result = new HashSet<BatchXMLDefinition>();
+		synchronized (this) {
+			result.addAll(batchXMLs.values());
 		}
 		return result;
 	}

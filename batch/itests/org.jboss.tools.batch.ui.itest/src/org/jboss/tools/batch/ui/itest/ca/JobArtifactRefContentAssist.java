@@ -23,7 +23,7 @@ public class JobArtifactRefContentAssist extends ContentAssistantTestCase {
 	private static final String TEXT_TO_FIND_JOB_LISTENER = "<listener ref=\"my-j";
 
 	private static final String[] PROPOSALS_JOB_LISTENER = {
-		"myJobListener"
+		"myJobListener", "my_other_job_listener"
 	};
 	public void testJobListener() throws Exception {
 		checkProposals(FILE_NAME, 

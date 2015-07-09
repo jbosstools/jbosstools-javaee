@@ -32,6 +32,7 @@ public class FileSet {
 	private Map<IPath, IPackageDeclaration> packages = new HashMap<IPath, IPackageDeclaration>();
 
 	private Set<IFile> batchJobs = new HashSet<IFile>();
+	private Set<IFile> batchXMLs = new HashSet<IFile>();
 
 	public FileSet() {}
 
@@ -105,6 +106,10 @@ public class FileSet {
 		batchJobs.add(batchJob);
 	}
 
+	public void addBatchXML(IFile file) {
+		batchXMLs.add(file);
+	}
+
 	public Set<IPath> getAllPaths() {
 		return allpaths;
 	}
@@ -131,6 +136,10 @@ public class FileSet {
 
 	public Set<IFile> getBatchJobs() {
 		return batchJobs;
+	}
+
+	public Set<IFile> getBatchXMLs() {
+		return batchXMLs;
 	}
 
 }

@@ -63,15 +63,21 @@ public class BatchModelTest extends TestCase {
 		assertEquals(total, total2);
 	}
 
-	IBatchArtifact assertArtifactByNameAndType(String name, BatchArtifactType type) {
+	IBatchArtifact assertArtifactByNameAndType(String name, BatchArtifactType type, boolean checkNamedDeclaration) {
 		Collection<IBatchArtifact> cs = batchProject.getArtifacts(name);
 		assertEquals(1, cs.size());
 
 		IBatchArtifact b = cs.iterator().next();
-		assertNotNull(b.getNamedDeclaration());
+		if(checkNamedDeclaration) {
+			assertNotNull(b.getNamedDeclaration());
+		}
 		assertEquals(name, b.getName());
 		assertTrue(b.getArtifactType() == type);
 		return b;
+	}
+
+	IBatchArtifact assertArtifactByNameAndType(String name, BatchArtifactType type) {
+		return assertArtifactByNameAndType(name, type, true);
 	}
 
 	Collection<IBatchArtifact> assertArtifactsByType(BatchArtifactType type) {
@@ -245,6 +251,10 @@ public class BatchModelTest extends TestCase {
 		for (IFile batchJob: batchJobs) {
 			assertTrue(batchJob.exists());
 		}		
+	}
+
+	public void testArtifactRegisteredInBatchXML() {
+		assertArtifactByNameAndType("my_other_job_listener", BatchArtifactType.JOB_LISTENER, false);
 	}
 
 }

@@ -43,10 +43,12 @@ import org.jboss.tools.batch.core.BatchConstants;
 import org.jboss.tools.batch.core.BatchCorePlugin;
 import org.jboss.tools.batch.internal.core.impl.BatchUtil.DocumentScanner;
 import org.jboss.tools.batch.internal.core.impl.definition.BatchJobDefinition;
+import org.jboss.tools.batch.internal.core.impl.definition.BatchXMLDefinition;
 import org.jboss.tools.batch.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.batch.internal.core.scanner.FileSet;
 import org.jboss.tools.batch.internal.core.scanner.lib.JarSet;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.jst.web.kb.internal.IIncrementalProjectBuilderExtension;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -225,6 +227,30 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 
 	void build(FileSet fs, BatchProject project) {
 		DefinitionContext context = getBatchProject().getDefinitions().getWorkingCopy();
+		Set<IFile> batchXMLs = fs.getBatchXMLs();
+		for (IFile batchXML: batchXMLs) {
+			final BatchXMLDefinition def = new BatchXMLDefinition();
+			def.setFile(batchXML);
+			BatchUtil.scanXMLFile(batchXML, new DocumentScanner() {
+				@Override
+				public void scanDocument(Document document) {
+					if(document != null) {
+						Element element = document.getDocumentElement();
+						if(element != null) {
+							for (Element ref: XMLUtilities.getChildren(element, BatchConstants.ATTR_REF)) {
+								String id = ref.getAttribute(BatchConstants.ATTR_ID);
+								String cls = ref.getAttribute(BatchConstants.ATTR_CLASS);
+								if(id != null && id.length() > 0 && cls != null && cls.length() > 0) {
+									def.add(cls, id);
+								}
+							}
+						}
+					}
+				}
+			});
+
+			context.addBatchXML(def);
+		}
 		Map<IPath, Set<IType>> cs = fs.getClasses();
 		for (IPath f: cs.keySet()) {
 			Set<IType> ts = cs.get(f);
@@ -299,6 +325,7 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 		IPath[] outs = new IPath[0];
 		IPath[] srcs = new IPath[0];
 		IPath[] batch_jobs = new IPath[0];
+		IPath[] batch_xmls = new IPath[0];
 //		IPath[] webinfs = new IPath[0];
 		Set<IPath> visited = new HashSet<IPath>();
 
@@ -332,11 +359,17 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 				outs = os.toArray(new IPath[0]);
 
 				batch_jobs = new IPath[srcs.length];
+				batch_xmls = new IPath[srcs.length];
 				for (int i = 0; i < srcs.length; i++) {
 					IPath b = srcs[i].append(BatchConstants.BATCH_JOBS_PATH);
 					IResource findMember = ResourcesPlugin.getWorkspace().getRoot().findMember(b);
 					if(findMember != null && findMember.exists()) {
 						batch_jobs[i] = findMember.getFullPath();
+					}
+					IPath x = srcs[i].append(BatchConstants.BATCH_XML_PATH);
+					findMember = ResourcesPlugin.getWorkspace().getRoot().findMember(x);
+					if(findMember != null && findMember.exists()) {
+						batch_xmls[i] = findMember.getFullPath();
 					}
 				}
 			} catch(CoreException ce) {
@@ -363,6 +396,8 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 						if(f.getName().toLowerCase().endsWith(".xml")) {
 							fileSet.addBatchJob(f);
 						}
+					} else if(batch_xmls[i] != null && batch_xmls[i].equals(path)) {
+						fileSet.addBatchXML(f);
 					} else if(srcs[i].isPrefixOf(path)) {
 						if(f.getName().toLowerCase().endsWith(".java")) {
 							ICompilationUnit unit = EclipseUtil.getCompilationUnit(f);

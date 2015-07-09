@@ -25,6 +25,7 @@ import org.jboss.tools.batch.core.BatchArtifactType;
 import org.jboss.tools.batch.core.BatchConstants;
 import org.jboss.tools.batch.core.IBatchArtifact;
 import org.jboss.tools.batch.core.IBatchProperty;
+import org.jboss.tools.batch.internal.core.impl.definition.BatchXMLDefinition;
 import org.jboss.tools.batch.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.batch.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
@@ -76,6 +77,13 @@ public class BatchArtifact implements IBatchArtifact {
 			}
 		} else {
 			name = definition.getQualifiedName();
+			for (BatchXMLDefinition def: getProject().getDeclaredBatchXMLDefinitions()) {
+				String n = def.getArtifactName(definition.getQualifiedName());
+				if(n != null) {
+					name = n;
+					break;
+				}
+			}
 		}
 	}
 

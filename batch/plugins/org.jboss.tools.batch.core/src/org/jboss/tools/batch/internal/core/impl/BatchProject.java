@@ -40,6 +40,7 @@ import org.jboss.tools.batch.core.BatchCorePlugin;
 import org.jboss.tools.batch.core.IBatchArtifact;
 import org.jboss.tools.batch.core.IBatchProject;
 import org.jboss.tools.batch.internal.core.impl.definition.BatchJobDefinition;
+import org.jboss.tools.batch.internal.core.impl.definition.BatchXMLDefinition;
 import org.jboss.tools.batch.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.batch.internal.core.scanner.lib.ClassPathMonitor;
 import org.jboss.tools.common.java.ParametedTypeFactory;
@@ -208,6 +209,10 @@ public class BatchProject extends AbstractKbProjectExtension implements IBatchPr
 			}
 		}
 		return result;
+	}
+
+	public Set<BatchXMLDefinition> getDeclaredBatchXMLDefinitions() {
+		return getDefinitions().getBatchXMLDefinitions();
 	}
 
 	/**
