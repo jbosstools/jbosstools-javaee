@@ -69,7 +69,7 @@ public class BatchArtifact implements IBatchArtifact {
 
 	void initName() {
 		if(definition.getNamedAnnotation() != null) {
-			Object v = definition.getNamedAnnotation().getMemberValue(null);
+			Object v = definition.getNamedAnnotation().getMemberValue(null, true);
 			if(v != null) {
 				name = v.toString();
 			} else {

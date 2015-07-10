@@ -37,7 +37,7 @@ public class ContentProposalTest extends AbstractBatchSapphireEditorTest {
 	}
 
 	private void checkStep1(Step step) {
-		checkProposals((Batchlet) step.getBatchletOrChunk().get(0), 4);
+		checkProposals((Batchlet) step.getBatchletOrChunk().get(0), 5);
 	}
 
 	private void checkStep2(Step step) {

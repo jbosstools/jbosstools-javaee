@@ -257,4 +257,8 @@ public class BatchModelTest extends TestCase {
 		assertArtifactByNameAndType("my_other_job_listener", BatchArtifactType.JOB_LISTENER, false);
 	}
 
+	public void testBatchletNamedWithConstant() {
+		assertArtifactByNameAndType("batchlet_named_with_constant", BatchArtifactType.BATCHLET);
+	}
+
 }
