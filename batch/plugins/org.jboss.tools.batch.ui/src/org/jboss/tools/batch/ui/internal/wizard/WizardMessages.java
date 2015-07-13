@@ -80,6 +80,7 @@ public class WizardMessages {
 	public static String retryReadListenerTypeLabel;
 	public static String retryProcessListenerTypeLabel;
 	public static String retryWriteListenerTypeLabel;
+	public static String aChunkStepListenerLabel;
 
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, WizardMessages.class);

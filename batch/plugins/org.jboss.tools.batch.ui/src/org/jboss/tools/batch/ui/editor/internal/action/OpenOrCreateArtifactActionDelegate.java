@@ -25,6 +25,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.sapphire.Element;
 import org.eclipse.sapphire.ElementList;
 import org.eclipse.sapphire.ui.SapphirePart;
@@ -40,6 +41,7 @@ import org.jboss.tools.batch.ui.editor.internal.model.BatchletOrChunk;
 import org.jboss.tools.batch.ui.editor.internal.model.RefAttributeElement;
 import org.jboss.tools.batch.ui.editor.internal.model.Step;
 import org.jboss.tools.batch.ui.editor.internal.util.ModelToBatchArtifactsMapping;
+import org.jboss.tools.batch.ui.internal.wizard.BatchFieldEditorFactory;
 import org.jboss.tools.batch.ui.internal.wizard.NewBatchArtifactWizard;
 import org.jboss.tools.batch.ui.internal.wizard.WizardMessages;
 import org.jboss.tools.common.EclipseUtil;
@@ -54,7 +56,10 @@ public class OpenOrCreateArtifactActionDelegate implements Runnable {
 	private IBatchProject batchProject;
 	private RefAttributeElement refElement;
 	private String ref;
+	private List<BatchArtifactType> types;
+	private String artifactTypeName = null;
 
+	@SuppressWarnings("unchecked")
 	public OpenOrCreateArtifactActionDelegate(SapphirePart part) {
 		Element element = part.getLocalModelElement();
 		IProject project = (IProject)element.resource().adapt(IProject.class);
@@ -67,6 +72,26 @@ public class OpenOrCreateArtifactActionDelegate implements Runnable {
 		}
 		refElement = (RefAttributeElement)element;
 		ref = refElement.getRef().content();
+
+		types = ModelToBatchArtifactsMapping.getBatchArtifactTypes((Class<? extends RefAttributeElement>)((Element)refElement).type().getModelElementClass());
+		if(types.size() > 1) {
+			Step e = (Step)((Element)refElement).parent().element();
+			ElementList<BatchletOrChunk> ch = e.getBatchletOrChunk();
+			if(!ch.isEmpty() && ch.get(0) instanceof Batchlet) {
+				types = new ArrayList<BatchArtifactType>();
+				types.add(BatchArtifactType.STEP_LISTENER);
+			}
+		}
+
+		if(types.size() == 1) {
+			artifactTypeName = BatchFieldEditorFactory.getArtifactLabel(types.get(0));
+		} else {
+			artifactTypeName = WizardMessages.aChunkStepListenerLabel;
+		}
+
+		if(artifactTypeName != null) {
+			artifactTypeName = artifactTypeName.toLowerCase();
+		}
 	}
 
 	public IBatchProject getBatchProject() {
@@ -78,24 +103,14 @@ public class OpenOrCreateArtifactActionDelegate implements Runnable {
 			return "";
 		}
 		Collection<IBatchArtifact> artifacts = batchProject.getArtifacts(ref);
-		return artifacts.isEmpty() ? WizardMessages.actionCreateArtifact : WizardMessages.actionOpenArtifact;
+		return artifacts.isEmpty() ? NLS.bind(WizardMessages.actionCreateArtifact, artifactTypeName) :
+									 NLS.bind(WizardMessages.actionOpenArtifact, artifactTypeName);
 	}
 
 	@SuppressWarnings("restriction")
 	public void run() {
 		Collection<IBatchArtifact> artifacts = batchProject.getArtifacts(ref);
 		if(artifacts.isEmpty()) {
-			@SuppressWarnings("unchecked")
-			List<BatchArtifactType> types = ModelToBatchArtifactsMapping.getBatchArtifactTypes((Class<? extends RefAttributeElement>)((Element)refElement).type().getModelElementClass());
-			if(types.size() > 1) {
-				Step e = (Step)((Element)refElement).parent().element();
-				ElementList<BatchletOrChunk> ch = e.getBatchletOrChunk();
-				if(!ch.isEmpty() && ch.get(0) instanceof Batchlet) {
-					types = new ArrayList<BatchArtifactType>();
-					types.add(BatchArtifactType.STEP_LISTENER);
-				}
-			}
-
 			NewBatchArtifactWizard wizard = new NewBatchArtifactWizard();
 			if(types.size() > 0) {
 				wizard.setTypes(types);
