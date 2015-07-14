@@ -89,7 +89,7 @@ public class BrowseRefActionHandler extends PropertyEditorActionHandler {
         Object[] result = dialog.getResult();
             
         if(result != null && result.length == 1) {
-        	property.write(result[0], true);
+        	property.write(((ContentProposal)result[0]).content(), true);
         }
         
         return null;
