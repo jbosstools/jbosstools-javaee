@@ -1,0 +1,29 @@
+<job  id="myJob" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/jobXML_1_0.xsd" version="1.0">
+    <listeners>
+        <listener ref="anyJobListener"></listener>
+    </listeners>
+    <step id="stp1" next="stp2">
+        <listeners>
+            <listener ref="anyStepListener"></listener>
+        </listeners>
+        <batchlet ref="anyBatchlet">
+        </batchlet>
+        <partition>
+            <mapper ref="anyPartitionMapper"></mapper>
+            <collector ref="anyPartitionCollector"></collector>
+            <analyzer ref="anyPartitionAnalyzer"></analyzer>
+            <reducer ref="anyPartitionReducer"></reducer>
+        </partition> 
+    </step>
+    <step id="stp2">
+      <chunk>
+        <reader ref="anyItemReader"></reader>
+        <processor ref="anyItemProcessor"></processor>
+        <writer ref="anyItemWriter"></writer>
+        <checkpoint-algorithm ref="anyCheckpointAlgorithm"></checkpoint-algorithm>
+      </chunk> 
+    </step>
+    <decision ref="anyDecider" id="a">
+    </decision>
+    <flow id="flow"></flow>
+</job>

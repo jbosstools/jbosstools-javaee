@@ -86,6 +86,10 @@ public class BatchFieldEditorFactory {
 		}
 		return null;
 	}
+	
+	public static BatchArtifactType getArtifactType(String label) {
+		return ARTIFACTS.get(label);
+	}
 
 	public static IFieldEditor createArtifactEditor(BatchArtifactType artifact) {
 		return SwtFieldEditorFactory.INSTANCE.createComboEditor(ARTIFACT_EDITOR, 

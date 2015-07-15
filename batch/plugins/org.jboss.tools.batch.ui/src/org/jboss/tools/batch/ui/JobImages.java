@@ -44,6 +44,8 @@ public class JobImages {
 	public static final String NEW_JOB_XML_IMAGE = "BatchXMLWizBan.png"; //$NON-NLS-1$
 	public static final String NEW_ARTIFACT_IMAGE = "BatchArtifactWizBan.png"; //$NON-NLS-1$
 	
+	public static final String QUICKFIX_EDIT_IMAGE = "batch_edit.png"; //$NON-NLS-1$
+	
 
 	private JobImages() {}
 	/**

@@ -29,7 +29,9 @@ import org.eclipse.jdt.ui.wizards.NewClassWizardPage;
 import org.jboss.tools.batch.core.BatchArtifactType;
 import org.jboss.tools.batch.core.BatchConstants;
 import org.jboss.tools.batch.core.BatchCorePlugin;
+import org.jboss.tools.batch.core.IBatchProject;
 import org.jboss.tools.batch.internal.core.impl.BatchUtil;
+import org.jboss.tools.batch.internal.core.impl.PreferredPackageManager;
 import org.jboss.tools.common.util.FileUtil;
 
 /**
@@ -108,6 +110,10 @@ public class NewBatchArtifactWizard extends NewElementWizard implements BatchCon
 				if (fOpenEditorOnFinish) {
 					openResource((IFile) resource);
 				}
+				String packName = fPage.getPackageFragment().getPath().toString();
+				BatchArtifactType type = fPage.getArtifactType();
+				IBatchProject batchProject = BatchCorePlugin.getBatchProject(resource.getProject(), true);
+				PreferredPackageManager.savePreferredPackage(batchProject, type, packName);
 			}
 		}
 		return res;

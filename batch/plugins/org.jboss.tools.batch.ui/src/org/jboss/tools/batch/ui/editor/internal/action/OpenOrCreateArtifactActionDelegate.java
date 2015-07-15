@@ -16,11 +16,6 @@ import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.QualifiedName;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -42,7 +37,7 @@ import org.jboss.tools.batch.ui.editor.internal.model.RefAttributeElement;
 import org.jboss.tools.batch.ui.editor.internal.model.Step;
 import org.jboss.tools.batch.ui.editor.internal.util.ModelToBatchArtifactsMapping;
 import org.jboss.tools.batch.ui.internal.wizard.BatchFieldEditorFactory;
-import org.jboss.tools.batch.ui.internal.wizard.NewBatchArtifactWizard;
+import org.jboss.tools.batch.ui.internal.wizard.NewBatchArtifactDialog;
 import org.jboss.tools.batch.ui.internal.wizard.WizardMessages;
 import org.jboss.tools.common.EclipseUtil;
 
@@ -52,7 +47,6 @@ import org.jboss.tools.common.EclipseUtil;
  *
  */
 public class OpenOrCreateArtifactActionDelegate implements Runnable {
-	static String qualifiedNamePrefix = "create.artifact.package.";
 	private SapphirePart part;
 	private IBatchProject batchProject;
 	private RefAttributeElement refElement;
@@ -121,50 +115,34 @@ public class OpenOrCreateArtifactActionDelegate implements Runnable {
 	public void run() {
 		Collection<IBatchArtifact> artifacts = batchProject.getArtifacts(ref);
 		if(artifacts.isEmpty()) {
-			NewBatchArtifactWizard wizard = new NewBatchArtifactWizard();
+			IWorkbench workbench = BatchUIPlugin.getDefault().getWorkbench();
+			NewBatchArtifactDialog dialog = new NewBatchArtifactDialog(workbench.getActiveWorkbenchWindow().getShell());
 			if(types.size() > 0) {
-				wizard.setTypes(types);
+				dialog.setTypes(types);
 			}
 			IResource[] rs = EclipseUtil.getJavaSourceRoots(batchProject.getProject());
 			if(rs.length == 0) {
 				return;
 			}
 			StructuredSelection selection = new StructuredSelection(rs[0]);
-			IWorkbench workbench = BatchUIPlugin.getDefault().getWorkbench();
-			wizard.init(workbench, selection);
-			WizardDialog dialog = new WizardDialog(workbench.getActiveWorkbenchWindow().getShell(), wizard);
-			dialog.create();
+			
+			dialog.init(workbench, selection);
+			String typeName = null;
 			if(ref != null) {
-				wizard.getPage().setArtifactName(ref, ref.length() == 0);
 				if(ref.length() > 0 && Character.isJavaIdentifierStart(ref.charAt(0))) {
-					String typeName = ref.substring(0, 1).toUpperCase() + ref.substring(1);
-					wizard.getPage().setTypeName(typeName, true);
+					typeName = ref.substring(0, 1).toUpperCase() + ref.substring(1);
 				}
 			}
-			wizard.getPage().setArtifact(types.get(0), types.size() > 1);
 
-			IPackageFragment pack = getPackage(types);
-			if(pack != null) {
-				wizard.getPage().setPackageFragment(pack, true);
-			}
-
-			int result = dialog.open();
+			int result = dialog.open(batchProject, ref, ref.length() == 0, types, types.size() > 1, typeName);
 			if(result == WizardDialog.OK) {
-				String newRef = wizard.getPage().getArtifactName();
+				String newRef = dialog.getBatchPage().getArtifactName();
 				if(ref != null && !ref.equals(newRef)) {
 					refElement.setRef(newRef);
 				} else {
 					refElement.setRef(""); //to refresh
 					refElement.setRef(newRef);
 				}
-				String packName = wizard.getPage().getPackageFragment().getPath().toString();
-				QualifiedName qn = new QualifiedName("", qualifiedNamePrefix + types.get(0).toString());
-				try {
-					batchProject.getProject().setPersistentProperty(qn, packName);
-				} catch (CoreException e) {
-					BatchCorePlugin.pluginLog().logError(e);
-				}
-				
 			}
 		} else {
 			IBatchArtifact a = artifacts.iterator().next();
@@ -176,36 +154,6 @@ public class OpenOrCreateArtifactActionDelegate implements Runnable {
 				BatchCorePlugin.pluginLog().logError(e);
 			}
 		}
-	}
-
-	private IPackageFragment getPackage(List<BatchArtifactType> types) {
-		IProject p = batchProject.getProject();
-		QualifiedName qn = new QualifiedName("", qualifiedNamePrefix + types.get(0).toString());
-		try {
-			String packPath = batchProject.getProject().getPersistentProperty(qn);
-			if(packPath != null && packPath.length() > 0) {
-				IJavaProject jp = EclipseUtil.getJavaProject(p);
-				if(jp != null) {
-					IPackageFragment result = jp.findPackageFragment(new Path(packPath));
-					if(result != null && result.exists()) {
-						return result;
-					}
-				}
-			}
-		} catch (CoreException e) {
-			BatchCorePlugin.pluginLog().logError(e);
-		}
-		
-		return findPackage(types);
-	}
-
-	private IPackageFragment findPackage(List<BatchArtifactType> types) {
-		for (BatchArtifactType type: types) {
-			for (IBatchArtifact a: batchProject.getArtifacts(type)) {
-				return a.getType().getPackageFragment();
-			}
-		}
-		return null;
 	}
 
 	public void dispose() {

@@ -82,6 +82,19 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 	public static final String PREFERENCE_PAGE_ID = "org.jboss.tools.batch.ui.preferences.BatchValidationPreferencePage"; //$NON-NLS-1$
 	public static final String PROPERTY_PAGE_ID = "org.jboss.tools.batch.ui.propertyPages.BatchValidationPreferencePage"; //$NON-NLS-1$
 	
+	public static final int BATCHLET_IS_NOT_FOUND_ID = 1;
+	public static final int JOB_LISTENER_IS_NOT_FOUND_ID = 2;
+	public static final int STEP_LISTENER_IS_NOT_FOUND_ID = 3;
+	public static final int DECIDER_IS_NOT_FOUND_ID = 4;
+	public static final int CHECKPOINT_ALGORITHM_IS_NOT_FOUND_ID = 5;
+	public static final int ITEM_READER_IS_NOT_FOUND_ID = 6;
+	public static final int ITEM_WRITER_IS_NOT_FOUND_ID = 7;
+	public static final int ITEM_PROCESSOR_IS_NOT_FOUND_ID = 8;
+	public static final int MAPPER_IS_NOT_FOUND_ID = 9;
+	public static final int ANALYZER_IS_NOT_FOUND_ID = 10;
+	public static final int COLLECTOR_IS_NOT_FOUND_ID = 11;
+	public static final int REDUCER_IS_NOT_FOUND_ID = 12;
+	
 	String projectName;
 	Map<IProject, IProjectValidationContext> contexts = new HashMap<IProject, IProjectValidationContext>();
 
@@ -308,7 +321,8 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 		Element listeners = XMLUtilities.getUniqueChild(job, TAG_LISTENERS);
 		if(listeners != null) {
 			for (Element listener: XMLUtilities.getChildren(listeners, TAG_LISTENER)) {
-				validateRefAndProperties(batchProject, file, cp, listener, BatchArtifactType.JOB_LISTENER);
+				validateRefAndProperties(batchProject, file, cp, listener, BatchArtifactType.JOB_LISTENER, 
+						BatchValidationMessages.JOB_LISTENER_IS_NOT_FOUND, BatchValidationMessages.JOB_LISTENER_IS_EXPECTED, JOB_LISTENER_IS_NOT_FOUND_ID);
 			}
 		}
 
@@ -375,7 +389,7 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 				if(ref != null && ref.trim().length() > 0) {
 					Collection<IBatchArtifact> as = batchProject.getArtifacts(ref.trim());
 					if(as.isEmpty()) {
-						addProblem(BatchValidationMessages.STEP_LISTENER_IS_NOT_FOUND, BatchSeverityPreferences.UNKNOWN_ARTIFACT_NAME, listener, ATTR_REF, file, -1);
+						addProblem(BatchValidationMessages.STEP_LISTENER_IS_NOT_FOUND, BatchSeverityPreferences.UNKNOWN_ARTIFACT_NAME, listener, ATTR_REF, file, STEP_LISTENER_IS_NOT_FOUND_ID);
 					} else {
 						IBatchArtifact a = as.iterator().next();
 						boolean isCorrectType = 
@@ -394,26 +408,40 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 	}
 
 	private void validatePartitionElement(IBatchProject batchProject, IFile file, ContextProperties cp, Element partition) {
-		validateChildRefAndProperties(batchProject, file, cp, partition, BatchArtifactType.PARTITION_MAPPER);
-		validateChildRefAndProperties(batchProject, file, cp, partition, BatchArtifactType.PARTITION_ANALYZER);
-		validateChildRefAndProperties(batchProject, file, cp, partition, BatchArtifactType.PARTITION_COLLECTOR);
-		validateChildRefAndProperties(batchProject, file, cp, partition, BatchArtifactType.PARTITION_REDUCER);
+		validateChildRefAndProperties(batchProject, file, cp, partition, BatchArtifactType.PARTITION_MAPPER, 
+				BatchValidationMessages.MAPPER_IS_NOT_FOUND, BatchValidationMessages.MAPPER_IS_EXPECTED, MAPPER_IS_NOT_FOUND_ID);
+		validateChildRefAndProperties(batchProject, file, cp, partition, BatchArtifactType.PARTITION_ANALYZER, 
+				BatchValidationMessages.ANALYZER_IS_NOT_FOUND, BatchValidationMessages.ANALYZER_IS_EXPECTED, ANALYZER_IS_NOT_FOUND_ID);
+		validateChildRefAndProperties(batchProject, file, cp, partition, BatchArtifactType.PARTITION_COLLECTOR, 
+				BatchValidationMessages.COLLECTOR_IS_NOT_FOUND, BatchValidationMessages.COLLECTOR_IS_EXPECTED, COLLECTOR_IS_NOT_FOUND_ID);
+		validateChildRefAndProperties(batchProject, file, cp, partition, BatchArtifactType.PARTITION_REDUCER, 
+				BatchValidationMessages.REDUCER_IS_NOT_FOUND, BatchValidationMessages.REDUCER_IS_EXPECTED, REDUCER_IS_NOT_FOUND_ID);
 	}
 
 	private void validateDecisionElement(IBatchProject batchProject, IFile file, ContextProperties cp, Element decision) {
-		validateRefAndProperties(batchProject, file, cp, decision, BatchArtifactType.DECIDER);
+		validateRefAndProperties(batchProject, file, cp, decision, BatchArtifactType.DECIDER, 
+				BatchValidationMessages.DECIDER_IS_NOT_FOUND, BatchValidationMessages.DECIDER_IS_EXPECTED, DECIDER_IS_NOT_FOUND_ID);
 	}
 
 	private void validateBatchletElement(IBatchProject batchProject, IFile file, ContextProperties cp, Element batchlet) {
-		validateRefAndProperties(batchProject, file, cp, batchlet, BatchArtifactType.BATCHLET);
+		validateRefAndProperties(batchProject, file, cp, batchlet, BatchArtifactType.BATCHLET, 
+				BatchValidationMessages.BATCHLET_IS_NOT_FOUND, BatchValidationMessages.BATCHLET_IS_EXPECTED, BATCHLET_IS_NOT_FOUND_ID);
 	}
 
 	private void validateChunkElement(IBatchProject batchProject, IFile file, 
 			ContextProperties cp, Element chunk) {
-		validateChildRefAndProperties(batchProject, file, cp, chunk, BatchArtifactType.ITEM_READER);
-		validateChildRefAndProperties(batchProject, file, cp, chunk, BatchArtifactType.ITEM_WRITER);
-		validateChildRefAndProperties(batchProject, file, cp, chunk, BatchArtifactType.ITEM_PROCESSOR);
-		validateChildRefAndProperties(batchProject, file, cp, chunk, BatchArtifactType.CHECKPOINT_ALGORITHM);
+		//Reader
+		validateChildRefAndProperties(batchProject, file, cp, chunk, BatchArtifactType.ITEM_READER, 
+				BatchValidationMessages.READER_IS_NOT_FOUND, BatchValidationMessages.READER_IS_EXPECTED, ITEM_READER_IS_NOT_FOUND_ID);
+		//Writer
+		validateChildRefAndProperties(batchProject, file, cp, chunk, BatchArtifactType.ITEM_WRITER, 
+				BatchValidationMessages.WRITER_IS_NOT_FOUND, BatchValidationMessages.WRITER_IS_EXPECTED, ITEM_WRITER_IS_NOT_FOUND_ID);
+		//Processor
+		validateChildRefAndProperties(batchProject, file, cp, chunk, BatchArtifactType.ITEM_PROCESSOR, 
+				BatchValidationMessages.PROCESSOR_IS_NOT_FOUND, BatchValidationMessages.PROCESSOR_IS_EXPECTED, ITEM_PROCESSOR_IS_NOT_FOUND_ID);
+		//Checkpoint algorithm
+		validateChildRefAndProperties(batchProject, file, cp, chunk, BatchArtifactType.CHECKPOINT_ALGORITHM, 
+				BatchValidationMessages.CHECKPOINT_ALGORITHM_IS_NOT_FOUND, BatchValidationMessages.CHECKPOINT_ALGORITHM_IS_EXPECTED, CHECKPOINT_ALGORITHM_IS_NOT_FOUND_ID);
 
 		validateExceptions(batchProject, file, chunk, TAG_SKIPPABLE_EXCEPTION_CLASSES);
 		validateExceptions(batchProject, file, chunk, TAG_RETRYABLE_EXCEPTION_CLASSES);
@@ -423,27 +451,25 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 
 	private void validateChildRefAndProperties(IBatchProject batchProject, IFile file, 
 			ContextProperties cp, Element element,
-			BatchArtifactType type) {
+			BatchArtifactType type, String notFoundMessage, String wrongTypeMessage, int quickQixId) {
 		Element child = XMLUtilities.getUniqueChild(element, type.getTag());
 		if(child != null) {
-			validateRefAndProperties(batchProject, file, cp, child, type);
+			validateRefAndProperties(batchProject, file, cp, child, type, notFoundMessage, wrongTypeMessage, quickQixId);
 		}
 	}
 
 	private void validateRefAndProperties(IBatchProject batchProject, IFile file, 
 			ContextProperties cp, Element element, 
-			BatchArtifactType type) {
-		String notFoundMessage = TypeToValidationMessage.getNotFoundMessage(type);
-		String wrongTypeMessage = TypeToValidationMessage.getWrongTypeMessage(type);
+			BatchArtifactType type, String notFoundMessage, String wrongTypeMessage, int quickQixId) {
 		String ref = element.getAttribute(ATTR_REF);
 		if(ref != null && ref.trim().length() > 0) {
 			Collection<IBatchArtifact> as = batchProject.getArtifacts(ref.trim());
 			if(as.isEmpty()) {
-				addProblem(notFoundMessage, BatchSeverityPreferences.UNKNOWN_ARTIFACT_NAME, element, ATTR_REF, file, -1);
+				addProblem(notFoundMessage, BatchSeverityPreferences.UNKNOWN_ARTIFACT_NAME, element, ATTR_REF, file, quickQixId);
 			} else {
 				IBatchArtifact a = as.iterator().next();
 				if(!a.getArtifactType().equals(type)) {
-					addProblem(wrongTypeMessage, BatchSeverityPreferences.WRONG_ARTIFACT_TYPE, element, ATTR_REF, file, -1);
+					addProblem(wrongTypeMessage, BatchSeverityPreferences.WRONG_ARTIFACT_TYPE, element, ATTR_REF, file, quickQixId);
 				}
 				validateProperties(batchProject, file, cp, element, a);
 				if(!isAsYouTypeValidation()) {

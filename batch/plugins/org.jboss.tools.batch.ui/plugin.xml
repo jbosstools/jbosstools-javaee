@@ -210,5 +210,14 @@
             label="%preferenceKeywords.newJava"
             id="org.jboss.tools.batch.ui.newJava"/>
     </extension>
+  	<extension point="org.eclipse.ui.ide.markerResolution">
+		<markerResolutionGenerator
+			markerType="org.jboss.tools.batch.core.batchproblem"
+			class="org.jboss.tools.batch.ui.quickfixes.BatchQuickFixGenerator"/>
+	</extension>
+	<extension point="org.jboss.tools.common.quickFix">
+		<quick-fix-generator generator-class="org.jboss.tools.batch.ui.quickfixes.BatchQuickFixGenerator"
+		id="org.jboss.tools.batch.ui.quickfixes.BatchQuickFixGenerator" />
+    </extension>
 
 </plugin>

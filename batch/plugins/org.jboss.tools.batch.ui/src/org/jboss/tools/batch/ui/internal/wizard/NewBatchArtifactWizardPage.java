@@ -475,5 +475,9 @@ public class NewBatchArtifactWizardPage extends NewClassWizardPage implements Pr
 			return sourceString;
 		}
 	}
+	
+	public BatchArtifactType getArtifactType(){
+		return BatchFieldEditorFactory.getArtifactType(artifacts.getValueAsString());
+	}
 
 }

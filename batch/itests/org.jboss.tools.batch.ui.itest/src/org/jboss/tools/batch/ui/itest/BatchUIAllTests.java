@@ -50,6 +50,7 @@ public class BatchUIAllTests {
 		suite.addTestSuite(BatchELHyperlinkTest.class);
 		suite.addTestSuite(BatchQueryParticipantTest.class);
 		suite.addTestSuite(BatchRenameParticipantTest.class);
+		suite.addTestSuite(BatchQuickFixTest.class);
 
 		suiteAll.addTest(suite);
 

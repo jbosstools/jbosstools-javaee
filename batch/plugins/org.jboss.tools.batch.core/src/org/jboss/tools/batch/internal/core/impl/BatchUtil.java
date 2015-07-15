@@ -325,4 +325,6 @@ public class BatchUtil {
 			this.tags = BatchUtil.getNodePath(node);
 		}
 	}
+	
+
 }
