@@ -256,7 +256,7 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 			Set<IType> ts = cs.get(f);
 			for (IType type: ts) {
 				TypeDefinition def = new TypeDefinition();
-				def.setType(type, context, TypeDefinition.FLAG_ALL_MEMBERS);
+				def.setType(type, context, 0);
 				if(def.getArtifactType() != null) {
 					context.addType(f, type.getFullyQualifiedName(), def);
 				}

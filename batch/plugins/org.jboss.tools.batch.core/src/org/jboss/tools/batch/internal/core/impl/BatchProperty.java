@@ -55,9 +55,9 @@ public class BatchProperty implements IBatchProperty {
 
 	@Override
 	public String getPropertyName() {
-		IAnnotationDeclaration d = getBatchPropertyDeclaration();
+		BatchAnnotationDeclaration d = definition.getBatchPropertyAnnotation();
 		if(d != null) {
-			Object o = d.getMemberValue("name");
+			Object o = d.getMemberValue(BatchConstants.ATTR_NAME, true);
 			if(o != null) {
 				return o.toString();
 			}

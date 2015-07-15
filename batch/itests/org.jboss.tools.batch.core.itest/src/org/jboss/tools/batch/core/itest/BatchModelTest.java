@@ -258,7 +258,11 @@ public class BatchModelTest extends TestCase {
 	}
 
 	public void testBatchletNamedWithConstant() {
-		assertArtifactByNameAndType("batchlet_named_with_constant", BatchArtifactType.BATCHLET);
+		IBatchArtifact b = assertArtifactByNameAndType("batchlet_named_with_constant", BatchArtifactType.BATCHLET);
+		IBatchProperty p = b.getProperty("property_named_with_constant");
+		assertNotNull(p);
+		p = b.getProperty("PROP_NAME");
+		assertNull(p);
 	}
 
 }
