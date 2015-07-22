@@ -21,6 +21,7 @@ import org.jboss.tools.batch.ui.editor.internal.action.OpenOrCreateArtifactActio
  *
  */
 public class OpenRefAssistContributor extends PropertyEditorAssistContributor {
+	OpenOrCreateArtifactActionDelegate delegate;
 
 	public OpenRefAssistContributor() {
 		setPriority(130);   	
@@ -28,10 +29,21 @@ public class OpenRefAssistContributor extends PropertyEditorAssistContributor {
 
 	@Override
 	public void contribute(PropertyEditorAssistContext context) {
-		OpenOrCreateArtifactActionDelegate delegate = new OpenOrCreateArtifactActionDelegate(context.getPart());
+		if(delegate != null) {
+			if(delegate.getPart() != context.getPart()) {
+				dispose();
+			} else {
+				delegate.init();
+			}
+		}
+		if(delegate == null) {
+			delegate = new OpenOrCreateArtifactActionDelegate(context.getPart());
+		}
 		if(delegate.getBatchProject() == null) {
+			dispose();
 			return;
 		}
+
 		String actionText = delegate.getActionLabel();
 		PropertyEditorAssistContribution.Factory contribution = PropertyEditorAssistContribution.factory();
 		contribution.text( "<p><a href=\"action\" nowrap=\"true\">" + escapeForXml(actionText) + "</a></p>");
@@ -39,4 +51,11 @@ public class OpenRefAssistContributor extends PropertyEditorAssistContributor {
 		context.getSection(SECTION_ID_ACTIONS).addContribution(contribution.create());
 	}
 
+	@Override
+	public void dispose() {
+		if(delegate != null) {
+			delegate.dispose();
+			delegate = null;
+		}
+	}
 }

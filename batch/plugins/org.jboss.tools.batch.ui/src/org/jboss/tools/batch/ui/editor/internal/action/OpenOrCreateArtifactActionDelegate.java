@@ -53,14 +53,20 @@ import org.jboss.tools.common.EclipseUtil;
  */
 public class OpenOrCreateArtifactActionDelegate implements Runnable {
 	static String qualifiedNamePrefix = "create.artifact.package.";
+	private SapphirePart part;
 	private IBatchProject batchProject;
 	private RefAttributeElement refElement;
 	private String ref;
 	private List<BatchArtifactType> types;
 	private String artifactTypeName = null;
 
-	@SuppressWarnings("unchecked")
 	public OpenOrCreateArtifactActionDelegate(SapphirePart part) {
+		this.part = part;
+		init();
+	}
+
+	@SuppressWarnings("unchecked")
+	public void init() {
 		Element element = part.getLocalModelElement();
 		IProject project = (IProject)element.resource().adapt(IProject.class);
 		if(!(element instanceof RefAttributeElement) || project == null) {
@@ -92,6 +98,10 @@ public class OpenOrCreateArtifactActionDelegate implements Runnable {
 		if(artifactTypeName != null) {
 			artifactTypeName = artifactTypeName.toLowerCase();
 		}
+	}
+
+	public SapphirePart getPart() {
+		return part;
 	}
 
 	public IBatchProject getBatchProject() {
@@ -197,4 +207,11 @@ public class OpenOrCreateArtifactActionDelegate implements Runnable {
 		}
 		return null;
 	}
+
+	public void dispose() {
+		batchProject = null;
+		part = null;
+		refElement = null;
+	}
+
 }

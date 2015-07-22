@@ -136,4 +136,13 @@ public class JobXMLEditor extends SapphireEditor implements IMultiPageEditor {
 	public void switchToSourceTab() {
 		setActiveEditor(schemaSourceEditor);
 	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		if(model != null) {
+			model.dispose();
+			model = null;
+		}
+	}
 }

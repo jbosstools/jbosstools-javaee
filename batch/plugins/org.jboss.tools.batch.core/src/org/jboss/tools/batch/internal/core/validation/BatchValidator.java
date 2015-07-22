@@ -308,8 +308,7 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 		Element listeners = XMLUtilities.getUniqueChild(job, TAG_LISTENERS);
 		if(listeners != null) {
 			for (Element listener: XMLUtilities.getChildren(listeners, TAG_LISTENER)) {
-				validateRefAndProperties(batchProject, file, cp, listener, BatchArtifactType.JOB_LISTENER, 
-						BatchValidationMessages.JOB_LISTENER_IS_NOT_FOUND, BatchValidationMessages.JOB_LISTENER_IS_EXPECTED);
+				validateRefAndProperties(batchProject, file, cp, listener, BatchArtifactType.JOB_LISTENER);
 			}
 		}
 
@@ -395,40 +394,26 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 	}
 
 	private void validatePartitionElement(IBatchProject batchProject, IFile file, ContextProperties cp, Element partition) {
-		validateChildRefAndProperties(batchProject, file, cp, partition, BatchArtifactType.PARTITION_MAPPER, 
-				BatchValidationMessages.MAPPER_IS_NOT_FOUND, BatchValidationMessages.MAPPER_IS_EXPECTED);
-		validateChildRefAndProperties(batchProject, file, cp, partition, BatchArtifactType.PARTITION_ANALYZER, 
-				BatchValidationMessages.ANALYZER_IS_NOT_FOUND, BatchValidationMessages.ANALYZER_IS_EXPECTED);
-		validateChildRefAndProperties(batchProject, file, cp, partition, BatchArtifactType.PARTITION_COLLECTOR, 
-				BatchValidationMessages.COLLECTOR_IS_NOT_FOUND, BatchValidationMessages.COLLECTOR_IS_EXPECTED);
-		validateChildRefAndProperties(batchProject, file, cp, partition, BatchArtifactType.PARTITION_REDUCER, 
-				BatchValidationMessages.REDUCER_IS_NOT_FOUND, BatchValidationMessages.REDUCER_IS_EXPECTED);
+		validateChildRefAndProperties(batchProject, file, cp, partition, BatchArtifactType.PARTITION_MAPPER);
+		validateChildRefAndProperties(batchProject, file, cp, partition, BatchArtifactType.PARTITION_ANALYZER);
+		validateChildRefAndProperties(batchProject, file, cp, partition, BatchArtifactType.PARTITION_COLLECTOR);
+		validateChildRefAndProperties(batchProject, file, cp, partition, BatchArtifactType.PARTITION_REDUCER);
 	}
 
 	private void validateDecisionElement(IBatchProject batchProject, IFile file, ContextProperties cp, Element decision) {
-		validateRefAndProperties(batchProject, file, cp, decision, BatchArtifactType.DECIDER, 
-				BatchValidationMessages.DECIDER_IS_NOT_FOUND, BatchValidationMessages.DECIDER_IS_EXPECTED);
+		validateRefAndProperties(batchProject, file, cp, decision, BatchArtifactType.DECIDER);
 	}
 
 	private void validateBatchletElement(IBatchProject batchProject, IFile file, ContextProperties cp, Element batchlet) {
-		validateRefAndProperties(batchProject, file, cp, batchlet, BatchArtifactType.BATCHLET, 
-				BatchValidationMessages.BATCHLET_IS_NOT_FOUND, BatchValidationMessages.BATCHLET_IS_EXPECTED);
+		validateRefAndProperties(batchProject, file, cp, batchlet, BatchArtifactType.BATCHLET);
 	}
 
 	private void validateChunkElement(IBatchProject batchProject, IFile file, 
 			ContextProperties cp, Element chunk) {
-		//Reader
-		validateChildRefAndProperties(batchProject, file, cp, chunk, BatchArtifactType.ITEM_READER, 
-				BatchValidationMessages.READER_IS_NOT_FOUND, BatchValidationMessages.READER_IS_EXPECTED);
-		//Writer
-		validateChildRefAndProperties(batchProject, file, cp, chunk, BatchArtifactType.ITEM_WRITER, 
-				BatchValidationMessages.WRITER_IS_NOT_FOUND, BatchValidationMessages.WRITER_IS_EXPECTED);
-		//Processor
-		validateChildRefAndProperties(batchProject, file, cp, chunk, BatchArtifactType.ITEM_PROCESSOR, 
-				BatchValidationMessages.PROCESSOR_IS_NOT_FOUND, BatchValidationMessages.PROCESSOR_IS_EXPECTED);
-		//Checkpoint algorithm
-		validateChildRefAndProperties(batchProject, file, cp, chunk, BatchArtifactType.CHECKPOINT_ALGORITHM, 
-				BatchValidationMessages.CHECKPOINT_ALGORITHM_IS_NOT_FOUND, BatchValidationMessages.CHECKPOINT_ALGORITHM_IS_EXPECTED);
+		validateChildRefAndProperties(batchProject, file, cp, chunk, BatchArtifactType.ITEM_READER);
+		validateChildRefAndProperties(batchProject, file, cp, chunk, BatchArtifactType.ITEM_WRITER);
+		validateChildRefAndProperties(batchProject, file, cp, chunk, BatchArtifactType.ITEM_PROCESSOR);
+		validateChildRefAndProperties(batchProject, file, cp, chunk, BatchArtifactType.CHECKPOINT_ALGORITHM);
 
 		validateExceptions(batchProject, file, chunk, TAG_SKIPPABLE_EXCEPTION_CLASSES);
 		validateExceptions(batchProject, file, chunk, TAG_RETRYABLE_EXCEPTION_CLASSES);
@@ -438,16 +423,18 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 
 	private void validateChildRefAndProperties(IBatchProject batchProject, IFile file, 
 			ContextProperties cp, Element element,
-			BatchArtifactType type, String notFoundMessage, String wrongTypeMessage) {
+			BatchArtifactType type) {
 		Element child = XMLUtilities.getUniqueChild(element, type.getTag());
 		if(child != null) {
-			validateRefAndProperties(batchProject, file, cp, child, type, notFoundMessage, wrongTypeMessage);
+			validateRefAndProperties(batchProject, file, cp, child, type);
 		}
 	}
 
 	private void validateRefAndProperties(IBatchProject batchProject, IFile file, 
 			ContextProperties cp, Element element, 
-			BatchArtifactType type, String notFoundMessage, String wrongTypeMessage) {
+			BatchArtifactType type) {
+		String notFoundMessage = TypeToValidationMessage.getNotFoundMessage(type);
+		String wrongTypeMessage = TypeToValidationMessage.getWrongTypeMessage(type);
 		String ref = element.getAttribute(ATTR_REF);
 		if(ref != null && ref.trim().length() > 0) {
 			Collection<IBatchArtifact> as = batchProject.getArtifacts(ref.trim());
@@ -684,6 +671,56 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 		return BUNDLE_NAME;
 	}
 
+	public static class TypeToValidationMessage {
+		static Map<BatchArtifactType, String> notFoundMessages = new HashMap<BatchArtifactType, String>();
+		static Map<BatchArtifactType, String>wrongTypeMessages = new HashMap<BatchArtifactType, String>();
+		
+		static {
+			notFoundMessages.put(BatchArtifactType.JOB_LISTENER, BatchValidationMessages.JOB_LISTENER_IS_NOT_FOUND);
+			wrongTypeMessages.put(BatchArtifactType.JOB_LISTENER, BatchValidationMessages.JOB_LISTENER_IS_EXPECTED);
+
+			notFoundMessages.put(BatchArtifactType.PARTITION_MAPPER, BatchValidationMessages.MAPPER_IS_NOT_FOUND);
+			wrongTypeMessages.put(BatchArtifactType.PARTITION_MAPPER, BatchValidationMessages.MAPPER_IS_EXPECTED);
+
+			notFoundMessages.put(BatchArtifactType.PARTITION_ANALYZER, BatchValidationMessages.ANALYZER_IS_NOT_FOUND);
+			wrongTypeMessages.put(BatchArtifactType.PARTITION_ANALYZER, BatchValidationMessages.ANALYZER_IS_EXPECTED);
+
+			notFoundMessages.put(BatchArtifactType.PARTITION_COLLECTOR, BatchValidationMessages.COLLECTOR_IS_NOT_FOUND);
+			wrongTypeMessages.put(BatchArtifactType.PARTITION_COLLECTOR, BatchValidationMessages.COLLECTOR_IS_EXPECTED);
+
+			notFoundMessages.put(BatchArtifactType.PARTITION_REDUCER, BatchValidationMessages.REDUCER_IS_NOT_FOUND);
+			wrongTypeMessages.put(BatchArtifactType.PARTITION_REDUCER, BatchValidationMessages.REDUCER_IS_EXPECTED);
+
+			notFoundMessages.put(BatchArtifactType.DECIDER, BatchValidationMessages.DECIDER_IS_NOT_FOUND);
+			wrongTypeMessages.put(BatchArtifactType.DECIDER, BatchValidationMessages.DECIDER_IS_EXPECTED);
+
+			notFoundMessages.put(BatchArtifactType.BATCHLET, BatchValidationMessages.BATCHLET_IS_NOT_FOUND);
+			wrongTypeMessages.put(BatchArtifactType.BATCHLET, BatchValidationMessages.BATCHLET_IS_EXPECTED);
+
+			notFoundMessages.put(BatchArtifactType.ITEM_READER, BatchValidationMessages.READER_IS_NOT_FOUND);
+			wrongTypeMessages.put(BatchArtifactType.ITEM_READER, BatchValidationMessages.READER_IS_EXPECTED);
+
+			notFoundMessages.put(BatchArtifactType.ITEM_WRITER, BatchValidationMessages.WRITER_IS_NOT_FOUND);
+			wrongTypeMessages.put(BatchArtifactType.ITEM_WRITER, BatchValidationMessages.WRITER_IS_EXPECTED);
+
+			notFoundMessages.put(BatchArtifactType.ITEM_PROCESSOR, BatchValidationMessages.PROCESSOR_IS_NOT_FOUND);
+			wrongTypeMessages.put(BatchArtifactType.ITEM_PROCESSOR, BatchValidationMessages.PROCESSOR_IS_EXPECTED);
+
+			notFoundMessages.put(BatchArtifactType.CHECKPOINT_ALGORITHM, BatchValidationMessages.CHECKPOINT_ALGORITHM_IS_NOT_FOUND);
+			wrongTypeMessages.put(BatchArtifactType.CHECKPOINT_ALGORITHM, BatchValidationMessages.CHECKPOINT_ALGORITHM_IS_EXPECTED);
+
+			notFoundMessages.put(BatchArtifactType.STEP_LISTENER, BatchValidationMessages.STEP_LISTENER_IS_NOT_FOUND);
+			wrongTypeMessages.put(BatchArtifactType.STEP_LISTENER, BatchValidationMessages.STEP_LISTENER_IS_EXPECTED);
+		}
+
+		public static String getNotFoundMessage(BatchArtifactType type) {
+			return notFoundMessages.get(type);
+		}
+
+		public static String getWrongTypeMessage(BatchArtifactType type) {
+			return wrongTypeMessages.get(type);
+		}
+	}
 }
 
 class SimpleReference implements ITextSourceReference {

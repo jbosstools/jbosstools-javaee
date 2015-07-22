@@ -77,4 +77,18 @@ public interface IBatchProject extends IKbProjectExtension {
 
 //	public Set<? extends IBatchProject> getUsedProjects();
 
+	/**
+	 * Adds the given listener for change events to this batch project.
+	 * 
+	 * @param listener
+	 */
+	public void addBatchProjectListener(IBatchProjectChangeListener listener);
+
+	/**
+	 * Removes the given listener from this batch project.
+	 * 
+	 * @param listener
+	 */
+	public void removeBatchProjectListener(IBatchProjectChangeListener listener);
+
 }

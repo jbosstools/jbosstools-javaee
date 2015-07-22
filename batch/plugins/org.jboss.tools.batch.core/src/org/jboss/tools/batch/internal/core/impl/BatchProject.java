@@ -37,8 +37,10 @@ import org.eclipse.jdt.core.IType;
 import org.jboss.tools.batch.core.BatchArtifactType;
 import org.jboss.tools.batch.core.BatchConstants;
 import org.jboss.tools.batch.core.BatchCorePlugin;
+import org.jboss.tools.batch.core.BatchProjectChangeEvent;
 import org.jboss.tools.batch.core.IBatchArtifact;
 import org.jboss.tools.batch.core.IBatchProject;
+import org.jboss.tools.batch.core.IBatchProjectChangeListener;
 import org.jboss.tools.batch.internal.core.impl.definition.BatchJobDefinition;
 import org.jboss.tools.batch.internal.core.impl.definition.BatchXMLDefinition;
 import org.jboss.tools.batch.internal.core.impl.definition.TypeDefinition;
@@ -64,6 +66,8 @@ public class BatchProject extends AbstractKbProjectExtension implements IBatchPr
 	private Map<String, Set<IBatchArtifact>> artifactsByName = new HashMap<String, Set<IBatchArtifact>>();
 	private Map<BatchArtifactType, Set<IBatchArtifact>> artifactsByType = new HashMap<BatchArtifactType, Set<IBatchArtifact>>();
 	private Map<String, IBatchArtifact> artifactsByJavaType = new HashMap<String, IBatchArtifact>();
+
+	private List<IBatchProjectChangeListener> listeners = new ArrayList<IBatchProjectChangeListener>();
 
 	public BatchProject() {
 		definitions.setProject(this);
@@ -361,7 +365,21 @@ public class BatchProject extends AbstractKbProjectExtension implements IBatchPr
 
 		fireChanges();
 	}
-	
+
+	@Override
+	public void fireChanges() {
+		IBatchProjectChangeListener[] ls = null;
+		synchronized(this) {
+			ls = listeners.toArray(new IBatchProjectChangeListener[0]);
+		}
+		if(ls != null) {
+			BatchProjectChangeEvent event = new BatchProjectChangeEvent();
+			for (int i = 0; i < ls.length; i++) {
+				ls[i].projectChanged(event);
+			}
+		}
+	}
+
 	/**
 	 * Updates model by loaded definitions.
 	 */
@@ -394,6 +412,8 @@ public class BatchProject extends AbstractKbProjectExtension implements IBatchPr
 				p.update(false);
 			}
 		}
+		
+		fireChanges();
 	}
 
 	public void addArtifact(IBatchArtifact artifact) {
@@ -473,4 +493,13 @@ public class BatchProject extends AbstractKbProjectExtension implements IBatchPr
 		return BatchProjectFactory.getBatchProject(project, resolve);
 	}
 
+	public synchronized void addBatchProjectListener(IBatchProjectChangeListener listener) {
+		if(!listeners.contains(listener)) {
+			listeners.add(listener);
+		}
+	}
+
+	public synchronized void removeBatchProjectListener(IBatchProjectChangeListener listener) {
+		listeners.remove(listener);
+	}
 }

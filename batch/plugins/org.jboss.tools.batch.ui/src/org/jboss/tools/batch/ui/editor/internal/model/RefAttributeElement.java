@@ -14,6 +14,7 @@ import org.eclipse.sapphire.ValueProperty;
 import org.eclipse.sapphire.modeling.annotations.Label;
 import org.eclipse.sapphire.modeling.annotations.Required;
 import org.eclipse.sapphire.modeling.annotations.Service;
+import org.eclipse.sapphire.modeling.annotations.Services;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
 import org.jboss.tools.batch.ui.editor.internal.services.contentproposal.RefProposalService;
 
@@ -23,7 +24,10 @@ public interface RefAttributeElement {
 	@Label(standard = "ref")
 	@XmlBinding(path = "@ref")
 	@Required
-	@Service(impl = RefProposalService.class)
+	@Services({
+		@Service(impl = RefProposalService.class),
+		@Service(impl = RefValidationService.class)
+	})
 	ValueProperty PROP_REF = new ValueProperty(TYPE, "Ref");
 
 	Value<String> getRef();
