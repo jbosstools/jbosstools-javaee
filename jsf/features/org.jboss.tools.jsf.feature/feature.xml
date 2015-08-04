@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature
-      id="org.jboss.tools.jsf.feature"
-      label="%featureName"
-      version="3.7.0.qualifier"
-      provider-name="%providerName"
-      image="jsf.jpg">
+<feature id="org.jboss.tools.jsf.feature" label="%featureName" version="3.7.0.qualifier" provider-name="%providerName" image="jsf.jpg"
+	license-feature="org.jboss.tools.foundation.license.feature"
+	license-feature-version="0.0.0">
 
    <description url="http://www.jboss.org/tools">
       %description

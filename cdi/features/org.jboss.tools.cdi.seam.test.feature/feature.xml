@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature
-      id="org.jboss.tools.cdi.seam.test.feature"
-      label="%featureName"
-      version="1.7.0.qualifier"
-      provider-name="%featureProvider">
+<feature id="org.jboss.tools.cdi.seam.test.feature" label="%featureName" version="1.7.0.qualifier" provider-name="%featureProvider"
+	license-feature="org.jboss.tools.foundation.license.feature"
+	license-feature-version="0.0.0">
 
-   <description>
-      %description
-   </description>
-
-   <copyright>
-      %copyright
-   </copyright>
-
-   <license url="%licenseURL">
-      %license
-   </license>
+   <description>%description</description>
+   <copyright>%copyright</copyright>
+   <license>%license</license>
 
    <requires>
       <import feature="org.jboss.tools.cdi.seam.feature" version="1.7.0" match="greaterOrEqual"/>
