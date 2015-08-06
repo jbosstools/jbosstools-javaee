@@ -28,7 +28,7 @@ public class SeamModelStorageTest extends TestCase {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject("TestStorage");
 		assertNotNull("Can't load TestStorage", project); //$NON-NLS-1$
 		if(!project.exists()) {
-			provider = new TestProjectProvider("org.jboss.tools.seam.core.test", null, "TestScanner", true);
+			provider = new TestProjectProvider("org.jboss.tools.seam.base.test", null, "TestScanner", true);
 			project = provider.getProject();
 		}
 		project.build(IncrementalProjectBuilder.FULL_BUILD, null);

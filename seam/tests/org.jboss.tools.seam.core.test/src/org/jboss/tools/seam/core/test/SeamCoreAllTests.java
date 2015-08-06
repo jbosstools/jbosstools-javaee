@@ -38,12 +38,12 @@ public class SeamCoreAllTests {
 
 		TestSuite suite = new TestSuite();
 		suite.setName("All tests for " + PLUGIN_ID);
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(ScannerTest.class),"org.jboss.tools.seam.core.test","projects/TestScanner","TestScanner"));
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamModelStorageTest.class),"org.jboss.tools.seam.core.test","projects/TestStorage","TestStorage"));
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(ScannerTest.class),"org.jboss.tools.seam.base.test","projects/TestScanner","TestScanner"));
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamModelStorageTest.class),"org.jboss.tools.seam.base.test","projects/TestStorage","TestStorage"));
 		suite.addTestSuite(SerializationTest.class);
 		suite.addTestSuite(SeamBigProjectTest.class);
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamEARTest.class),
-				"org.jboss.tools.seam.core.test",
+				"org.jboss.tools.seam.base.test",
 				new String[]{"projects/Test1-ejb", "projects/Test1-ear", "projects/Test1"},
 				new String[]{"Test1-ejb", "Test1-ear", "Test1"}) {
 			@Override

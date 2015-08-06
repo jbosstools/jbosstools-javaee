@@ -1,5 +1,0 @@
-<jboss-app>
-   <loader-repository> 
-      seam.jboss.org:loader=Test1
-   </loader-repository> 
-</jboss-app> 

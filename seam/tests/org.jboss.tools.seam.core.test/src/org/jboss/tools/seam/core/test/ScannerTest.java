@@ -64,7 +64,7 @@ public class ScannerTest extends TestCase {
 	protected void setUp() throws Exception {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject("TestScanner");
 		if(!project.exists()) {
-			provider = new TestProjectProvider("org.jboss.tools.seam.core.test",
+			provider = new TestProjectProvider("org.jboss.tools.seam.base.test",
 					null,"TestScanner" ,true);
 			project = provider.getProject();
 		}

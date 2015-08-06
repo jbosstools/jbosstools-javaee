@@ -46,7 +46,7 @@ public class SerializationTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		project = ResourcesUtils.importProject(
-				"org.jboss.tools.seam.core.test","/projects/TestScanner" , new NullProgressMonitor());
+				"org.jboss.tools.seam.base.test","/projects/TestScanner" , new NullProgressMonitor());
 		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		project.build(IncrementalProjectBuilder.FULL_BUILD, null);
 	}

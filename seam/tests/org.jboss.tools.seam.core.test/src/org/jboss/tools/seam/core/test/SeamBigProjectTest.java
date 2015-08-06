@@ -11,8 +11,8 @@
 package org.jboss.tools.seam.core.test;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 
@@ -51,7 +51,7 @@ import org.osgi.framework.Bundle;
  * 
  */
 public class SeamBigProjectTest extends TestCase {
-	static String BUNDLE = "org.jboss.tools.seam.core.test";
+	static String BUNDLE = "org.jboss.tools.seam.base.test";
 	IProject project;
 	TestProjectProvider provider;
 
@@ -60,7 +60,7 @@ public class SeamBigProjectTest extends TestCase {
 		provider = new TestProjectProvider(BUNDLE,"/projects/bigProject" , "bigProject", true);
 		project = provider.getProject();
 		IFolder folder = project.getFolder(new Path("src/action/p"));
-		File template = getTemplateFile();
+		InputStream template = getTemplateFile();
 
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 
@@ -73,16 +73,21 @@ public class SeamBigProjectTest extends TestCase {
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
 
-	private File getTemplateFile() {
+	private InputStream getTemplateFile() {
+		String entry = "/projects/template.txt";
 		Bundle bundle = Platform.getBundle(BUNDLE);
 		URL url = null;
 		try {
-			url = FileLocator.resolve(bundle.getEntry("/projects/template.txt"));
+			url = FileLocator.resolve(bundle.getEntry(entry));
 		} catch (IOException e) {
 			return null; 
 		}
-		String location = url.getFile();
-		return new File(location);
+		try {
+			return url.openStream();
+		} catch (IOException e) {
+			fail("Cannot find entry " + entry + " in " + BUNDLE);
+			return null;
+		}
 	}
 
 	public void testBigProject() throws IOException {

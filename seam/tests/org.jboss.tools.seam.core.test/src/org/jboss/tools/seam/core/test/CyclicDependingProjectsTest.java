@@ -28,7 +28,7 @@ import org.jboss.tools.test.util.TestProjectProvider;
  * 
  */
 public class CyclicDependingProjectsTest extends TestCase {
-	static String BUNDLE = "org.jboss.tools.seam.core.test";
+	static String BUNDLE = "org.jboss.tools.seam.base.test";
 	IProject project1;
 	TestProjectProvider provider1;
 	IProject project2;

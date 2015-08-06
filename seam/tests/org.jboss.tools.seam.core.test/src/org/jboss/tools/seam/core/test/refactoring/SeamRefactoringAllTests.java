@@ -23,17 +23,17 @@ public class SeamRefactoringAllTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamPropertyRefactoringTest.class),
-				"org.jboss.tools.seam.core.test",
+				"org.jboss.tools.seam.base.test",
 				new String[]{"projects/RefactoringTestProject-war", "projects/RefactoringTestProject-ejb", "projects/RefactoringTestProject-test"},
 				new String[]{"RefactoringTestProject-war", "RefactoringTestProject-ejb", "RefactoringTestProject-test"}));
 		
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamComponentRefactoringTest.class),
-				"org.jboss.tools.seam.core.test",
+				"org.jboss.tools.seam.base.test",
 				new String[]{"projects/Test1-ear","projects/Test1-ejb","projects/Test1"},
 				new String[]{"Test1-ear","Test1-ejb","Test1"}));
 		
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamContextVariableRefactoringTest.class),
-				"org.jboss.tools.seam.core.test",
+				"org.jboss.tools.seam.base.test",
 				new String[]{"projects/Test1-ear","projects/Test1-ejb","projects/Test1"},
 				new String[]{"Test1-ear","Test1-ejb","Test1"}));
 		return suite;

@@ -32,7 +32,7 @@ public class Seam2ValidatorTest extends AbstractResourceMarkerTest {
 
 	@Override
 	protected void setUp() throws Exception {
-		setup = new ProjectImportTestSetup(this, "org.jboss.tools.seam.core.test", new String[]{"projects/Test1-ejb", "projects/Test1-ear", "projects/Test1"}, new String[]{"Test1-ejb", "Test1-ear", "Test1"});
+		setup = new ProjectImportTestSetup(this, "org.jboss.tools.seam.base.test", new String[]{"projects/Test1-ejb", "projects/Test1-ear", "projects/Test1"}, new String[]{"Test1-ejb", "Test1-ear", "Test1"});
 		IProject[] projects = setup.importProjects();
 		projectEJB = projects[0];
 		projectEAR = projects[1];

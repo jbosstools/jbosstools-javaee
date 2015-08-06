@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.core.test;
 
 import java.io.File;
+import java.io.InputStream;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -21,13 +22,13 @@ public class SeamBigProjectGenerator {
 	int filesInFolderLimit = 6;
 	int folderDepth = 6;
 	
-	public void generate(IResource resource, File templateFile) {
+	public void generate(IResource resource, InputStream templateFile) {
 		File root = resource.getLocation().toFile();
 		String pack = root.getName();
-		if(!templateFile.isFile()) {
-			throw new IllegalArgumentException("No template file found " + templateFile);
+		if(templateFile == null) {
+			throw new IllegalArgumentException("No template file found.");
 		}
-		String text = FileUtil.readFile(templateFile);
+		String text = FileUtil.readStream(templateFile);
 		
 		int depth = 0;
 		int i = 0;
