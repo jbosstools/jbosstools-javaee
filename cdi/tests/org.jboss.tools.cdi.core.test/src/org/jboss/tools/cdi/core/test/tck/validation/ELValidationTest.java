@@ -61,4 +61,13 @@ public class ELValidationTest extends ValidationTest {
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 		}
 	}
+
+	public void testElInMapProperty() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/el/TestBean2.java");
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, "map"), 6);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, "kk"), 6);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, "bytes"), 10);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, "abcd"), 11);
+		
+	}
 }
