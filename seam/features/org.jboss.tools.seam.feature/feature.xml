@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature id="org.jboss.tools.seam.feature" label="%featureName" version="3.7.0.qualifier" provider-name="%providerName" plugin="org.jboss.tools.seam.core"
+<feature id="org.jboss.tools.seam.feature" label="%featureName" version="3.7.0.qualifier" provider-name="%featureProvider" plugin="org.jboss.tools.seam.core"
 	license-feature="org.jboss.tools.foundation.license.feature"
 	license-feature-version="0.0.0">
 
 	<description url="http://www.jboss.org/tools">
       %description
-   </description>
+  </description>
 
 	<copyright>
       %copyright
-   </copyright>
+  </copyright>
 
-	<license>%license</license>
+	<license url="%licenseURL">
+      %license
+  </license>
 
 	<requires>
 		<import feature="org.jboss.ide.eclipse.as.feature" version="1.0.0" match="greaterOrEqual" />

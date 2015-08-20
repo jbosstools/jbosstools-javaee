@@ -4,7 +4,9 @@
       label="%featureName"
       version="1.7.0.qualifier"
       provider-name="%featureProvider"
-      plugin="org.jboss.tools.batch.ui">
+      plugin="org.jboss.tools.batch.ui"
+      license-feature="org.jboss.tools.foundation.license.feature"
+      license-feature-version="0.0.0">
 
    <description>
       %description

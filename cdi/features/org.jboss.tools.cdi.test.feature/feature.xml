@@ -3,9 +3,17 @@
 	license-feature="org.jboss.tools.foundation.license.feature"
 	license-feature-version="0.0.0">
 
-   <description>%description</description>
-   <copyright>%copyright</copyright>
-   <license>%license</license>
+   <description>
+      %description
+   </description>
+
+   <copyright>
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
 
    <requires>
       <import feature="org.jboss.tools.cdi.feature" version="1.7.0" match="greaterOrEqual"/>
