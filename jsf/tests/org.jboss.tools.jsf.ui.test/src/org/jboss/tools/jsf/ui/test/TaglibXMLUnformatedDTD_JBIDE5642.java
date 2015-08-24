@@ -40,8 +40,7 @@ public class TaglibXMLUnformatedDTD_JBIDE5642 extends TestCase {
 	private static final String PROJECT_NAME = "TestWizards"; //$NON-NLS-1$
 	private static final String WEB_PROJECTS_VIEW_ID = "org.jboss.tools.jst.web.ui.navigator.WebProjectsView"; //$NON-NLS-1$
 	private static final String LIB_PATH = "/Tag Libraries/"; //$NON-NLS-1$
-	private static final String LIB_NAME_I = "primefaces-i.taglib.xml - primefaces-2.0.0.RC.jar"; //$NON-NLS-1$
-	private static final String LIB_NAME_P = "primefaces-p.taglib.xml - primefaces-2.0.0.RC.jar"; //$NON-NLS-1$
+	private static final String LIB_NAME_P = "primefaces-p.taglib.xml - primefaces-4.0.jar"; //$NON-NLS-1$
 
 	private IViewPart webProjectsView;
 	private IProject project = null;
@@ -59,11 +58,7 @@ public class TaglibXMLUnformatedDTD_JBIDE5642 extends TestCase {
 		WebProjectsNavigator projectsNavigator = (WebProjectsNavigator) webProjectsView;
 		TreeViewer treeViewer = projectsNavigator.getViewer();
 		assertNotNull(treeViewer);
-		String taglibName = PROJECT_NAME + LIB_PATH + LIB_NAME_I; 
-		Object testLibI = findElementByPath(taglibName, treeViewer);
-		assertNotNull("The tag library [" + taglibName + "] was not found", //$NON-NLS-1$ //$NON-NLS-2$
-				testLibI);
-		taglibName = PROJECT_NAME + LIB_PATH + LIB_NAME_P;
+		String taglibName = PROJECT_NAME + LIB_PATH + LIB_NAME_P;
 		Object testLibP = findElementByPath(taglibName, treeViewer);
 		assertNotNull("The tag library [" + LIB_NAME_P + "] was not found", //$NON-NLS-1$ //$NON-NLS-2$
 				testLibP);

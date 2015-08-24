@@ -51,7 +51,7 @@ public class ModelFormat_2_0_0_Test extends TestCase {
 		String[] fileSystemList = {
 			"WEB-ROOT",
 			"WEB-INF",
-			"lib-common-annotations.jar"	
+			"lib-jstl-1.1.0.jar"	
 		};
 		List<String> unfound = new ArrayList<String>();
 		for (int i = 0; i < fileSystemList.length; i++) {

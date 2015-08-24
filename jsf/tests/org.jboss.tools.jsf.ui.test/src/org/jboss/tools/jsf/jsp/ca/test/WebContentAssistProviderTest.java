@@ -46,7 +46,16 @@ public class WebContentAssistProviderTest extends TestCase {
 		JobUtils.waitForIdle(2000);
 
 		List tldList = webPromptingProvider.getList(projectModel, WebPromptingProvider.JSF_GET_TAGLIBS, "", null);
-		assertTrue("TLD list does not contain expected TLD in XModel.", tldList.contains("http://jboss.com/products/seam/taglib"));
+		assertTrue("TLD list does not contain expected TLD in XModel. Available TLDs:" + tldListToString(tldList), tldList.contains("http://jboss.com/products/seam/taglib"));
+	}
+
+	private String tldListToString(List tldList) {
+		StringBuilder sb = new StringBuilder("{");
+		for (Object tld : tldList) {
+			sb.append(tld.toString()).append(", ");
+		}
+		sb.append("}");
+		return sb.toString();
 	}
 
 	public void testJsfBeanPropertyList() {

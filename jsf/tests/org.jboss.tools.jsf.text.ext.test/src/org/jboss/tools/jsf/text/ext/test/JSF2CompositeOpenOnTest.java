@@ -10,8 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.test;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.text.BadLocationException;
@@ -23,17 +21,18 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
 import org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPTagNameHyperlinkDetector;
 import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
-import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
+
+import junit.framework.TestCase;
 
 public class JSF2CompositeOpenOnTest extends TestCase {
 	private String PAGE_NAME = getProjectName() +"/WebContent/resources/demo/input.xhtml";
 
 	public IProject project = null;
 
+	@Override
 	protected void setUp() {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject(
 				getProjectName());
@@ -43,7 +42,8 @@ public class JSF2CompositeOpenOnTest extends TestCase {
 	protected String getProjectName() {
 		return "JSF2CompositeOpenOn";
 	}
-	
+
+	@Override
 	protected void tearDown() {
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeAllEditors(false);
 	}
@@ -72,18 +72,21 @@ public class JSF2CompositeOpenOnTest extends TestCase {
 		assertTrue("Hyperlinks for tag:"+tagName+" are not found",links.length!=0);
 		
 		boolean found = false;
+		StringBuilder sb = new StringBuilder("Found editors: {");
 		for(IHyperlink link : links){
 			assertNotNull(link.toString());
 			
 			link.open();
 			
 			IEditorPart resultEdotor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+			sb.append(resultEdotor.getTitle()).append(';');
 			if(editorName.equals(resultEdotor.getTitle())){
 				found = true;
 				return;
 			}
 		}
-		assertTrue("OpenOn have not opened "+editorName+" editor",found);
+		sb.append('}');
+		assertTrue("OpenOn have not opened " + editorName + " editor. " + sb.toString(), found);
 	}
 	
 	public void testFormOpenOn() throws PartInitException, BadLocationException {
@@ -105,6 +108,4 @@ public class JSF2CompositeOpenOnTest extends TestCase {
 	protected String getTaglibName() {
 		return "html_basic.tld";
 	}
-
 }
-

@@ -12,12 +12,13 @@ package org.jboss.tools.jsf.text.ext.test;
 
 public class JSF22CompositeOpenOnTest extends JSF2CompositeOpenOnTest {
 
+	@Override
 	protected String getProjectName() {
 		return "JSF22CompositeOpenOn";
 	}
-	
-	protected String getTaglibName() {
-		return "html_basic_22.taglib.xml";
-	}
 
+	@Override
+	protected String getTaglibName() {
+		return "html_basic.taglib.xml";
+	}
 }
