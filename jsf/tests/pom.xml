@@ -31,6 +31,20 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<module>org.jboss.tools.jsf.base.test</module>
 	</modules>
 
+	<!-- JBIDE-19903 add javaee site so that these tests can be run against upstream site, rather than expecting dependencies to have been built & resolved locally -->
+	<profiles>
+		<profile>
+			<id>runTestsOnly</id>
+			<repositories>
+				<repository>
+					<id>jbosstools-javaee</id>
+					<layout>p2</layout>
+					<url>${jbosstools-javaee-site}</url>
+				</repository>
+			</repositories>
+		</profile>
+	</profiles>
+
 	<build>
 		<plugins>
 			<plugin>
