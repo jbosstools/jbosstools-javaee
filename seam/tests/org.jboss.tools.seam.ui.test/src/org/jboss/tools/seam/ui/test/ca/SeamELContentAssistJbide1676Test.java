@@ -149,7 +149,6 @@ public class SeamELContentAssistJbide1676Test extends TestCase {
 			"org.jboss.seam.jms.topicConnection",
 			"org.jboss.seam.jms.topicSession",
 			"org.jboss.seam.mail.mailSession",
-			"org.jboss.seam.pdf.documentStore",
 			"org.jboss.seam.persistence.persistenceProvider",
 			"org.jboss.seam.remoting.messaging.subscriptionRegistry",
 			"org.jboss.seam.remoting.remoting",
@@ -167,9 +166,16 @@ public class SeamELContentAssistJbide1676Test extends TestCase {
 			"org.jboss.seam.ui.graphicImage.dynamicImageResource",
 			"org.jboss.seam.ui.graphicImage.dynamicImageStore",
 			"org.jboss.seam.ui.resource.webResource",
+			"org.jboss.seam.async.dispatcher",
+			"org.jboss.seam.ioc.guice.init",
+			"org.jboss.seam.ioc.guice.injector",
+			"org.jboss.seam.pdf.pdfKeyStore",
+			"org.jboss.seam.remoting.gwt.gwtRemoteService",
+			"org.jboss.seam.remoting.gwt.gwtToSeamAdapter",
+			"org.jboss.seam.remoting.messaging.SubscriptionRegistry.userTokens",
+			"org.jboss.seam.transaction.transaction",
 			"pageContext",
 			"pageflow",
-			"pdfKeyStore",
 			"pojoCache",
 			"pooledTask",
 			"pooledTaskInstanceList",
@@ -304,14 +310,18 @@ public class SeamELContentAssistJbide1676Test extends TestCase {
 					}
 				}
 			}
-			assertTrue("Some Seam EL proposals werent\'t shown in the Content Assistant", filteredValidProposals.isEmpty());
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder("{");
+			for (String string : filteredValidProposals) {
+				sb.append(string).append(',');
+			}
+			sb.append('}');
+			assertTrue("Some Seam EL proposals werent\'t shown in the Content Assistant: " + sb.toString(), filteredValidProposals.isEmpty());
+			sb = new StringBuilder();
 			if (nonExistingProposals != null && !nonExistingProposals.isEmpty()) {
 				for (String np : nonExistingProposals) {
 					sb.append(np).append(' ');
 				}
 			}
-			
 			assertTrue("Some Seam EL proposals were shown in the Content Assistant but they shouldn\'t: " + sb.toString(), nonExistingProposals.isEmpty());
 		} finally {
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()

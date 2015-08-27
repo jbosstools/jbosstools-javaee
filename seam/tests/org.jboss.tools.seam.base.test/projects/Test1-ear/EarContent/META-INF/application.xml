@@ -19,7 +19,7 @@
 
    <!-- Seam and EL -->
    <module>
-       <java>jboss-seam.jar</java>
+       <java>jboss-seam-1.2.1.GA.jar</java>
    </module>   
 
 </application>

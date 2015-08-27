@@ -1,8 +1,7 @@
 package org.jboss.tools.seam.core.test;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -13,6 +12,8 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.TestProjectProvider;
+
+import junit.framework.TestCase;
 
 public class SeamModelStorageTest extends TestCase {
 	IProject project = null;
@@ -50,7 +51,11 @@ public class SeamModelStorageTest extends TestCase {
 		seamProject.setStoreDisabledForTesting(true);
 
 		try {
-			IFile fromFile = project.getFile(new Path("WebContent/WEB-INF/lib/jboss-seam.1"));
+			IFile fromFile = project.getFile(new Path("lib/jboss-seam-1.2.1.GA.jar"));
+			IFolder lib = project.getFolder(new Path("WebContent/WEB-INF/lib"));
+			if(!lib.exists()) {
+				lib.create(true, true, null);
+			}
 			IFile toFile = project.getFile(new Path("WebContent/WEB-INF/lib/jboss-seam.jar"));
 	
 			toFile.create(fromFile.getContents(), true, new NullProgressMonitor());

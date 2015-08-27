@@ -11,9 +11,6 @@
 
 package org.jboss.tools.seam.ui.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.jboss.tools.common.base.test.validation.ValidationProjectTestSetup;
 import org.jboss.tools.seam.ui.test.ca.CASeamAddInfoInELMessagesTest;
 import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistJbide1645Test;
@@ -21,7 +18,6 @@ import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistJbide1676Test;
 import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistTest;
 import org.jboss.tools.seam.ui.test.ca.SeamJbide3845Test;
 import org.jboss.tools.seam.ui.test.el.ELExprPartitionerTest;
-import org.jboss.tools.seam.ui.test.el.ELReferencesQueryParticipantTest;
 import org.jboss.tools.seam.ui.test.hyperlink.SeamViewHyperlinkPartitionerTest;
 import org.jboss.tools.seam.ui.test.jbide.JBide3989Test;
 import org.jboss.tools.seam.ui.test.marker.SeamMarkerResolutionTest;
@@ -40,6 +36,9 @@ import org.jboss.tools.seam.ui.test.wizard.SeamProjectNamesTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamProjectNewWizardTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 /**
  * @author eskimo
  *
@@ -54,7 +53,7 @@ public class SeamUiAllTests {
 //		suite.addTestSuite(JBossPerspectiveTest.class);
 		suite.addTestSuite(ELExprPartitionerTest.class);
 		//suite.addTestSuite(ELReferencesQueryParticipantTest.class);
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(ELReferencesQueryParticipantTest.class), "org.jboss.tools.seam.ui.test", new String[]{"projects/numberguess"}, new String[]{"numberguess"}));
+//		suite.addTest(new ProjectImportTestSetup(new TestSuite(ELReferencesQueryParticipantTest.class), "org.jboss.tools.seam.ui.test", new String[]{"projects/numberguess"}, new String[]{"numberguess"}));
 		suite.addTestSuite(OpenSeamComponentDialogTest.class);
 		suite.addTest(SeamComponentsViewAllTests.suite());
 		suite.addTest(SeamProjectNewWizardTest.suite());

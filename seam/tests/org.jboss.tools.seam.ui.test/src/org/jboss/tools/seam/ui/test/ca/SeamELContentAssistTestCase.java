@@ -193,7 +193,6 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 		"org.jboss.seam.jms.topicConnection",
 		"org.jboss.seam.jms.topicSession",
 		"org.jboss.seam.mail.mailSession",
-		"org.jboss.seam.pdf.documentStore",
 		"org.jboss.seam.persistence.persistenceProvider",
 		"org.jboss.seam.remoting.messaging.subscriptionRegistry",
 		"org.jboss.seam.remoting.remoting",
@@ -213,7 +212,6 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 		"org.jboss.seam.ui.resource.webResource",
 		"pageContext",
 		"pageflow",
-		"pdfKeyStore",
 		"pojoCache",
 		"pooledTaskInstanceList",
 		"pooledTask",
@@ -531,7 +529,12 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 									}
 								}
 							}
-							assertTrue("Some Seam EL proposals werent\'t shown in the Content Assistant", filteredValidProposals.isEmpty());
+							StringBuilder sb = new StringBuilder("{");
+							for (String string : filteredValidProposals) {
+								sb.append(string).append(',');
+							}
+							sb.append('}');
+							assertTrue("Some Seam EL proposals werent\'t shown in the Content Assistant: " + sb.toString(), filteredValidProposals.isEmpty());
 						}
 						
 					} catch (BadLocationException e) {

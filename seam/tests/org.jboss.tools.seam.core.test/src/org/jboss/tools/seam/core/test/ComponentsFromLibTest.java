@@ -44,7 +44,7 @@ public class ComponentsFromLibTest extends TestCase {
 
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 
-		IFile source = project1.getFile(new Path("lib/jboss-seam.1"));
+		IFile source = project1.getFile(new Path("lib/jboss-seam-2.0.2.SP1.jar"));
 		IFile target = project1.getFile(new Path("lib/jboss-seam.jar"));
 
 		target.create(source.getContents(), IResource.FORCE, new NullProgressMonitor());

@@ -28,7 +28,7 @@
   location="%workspace.home%/lib/standard.jar" model-entity="FileSystemJar"/>
  <file-system NAME="TestScanner" location="%eclipse.project%" model-entity="FileSystemFolder"/>
  <file-system NAME="lib-jboss-seam.jar"
-  location="%workspace.home%/lib/jboss-seam.jar" model-entity="FileSystemJar"/>
+  location="%workspace.home%/lib/jboss-seam-1.2.1.GA.jar" model-entity="FileSystemJar"/>
  <file-system NAME="lib-ejb3-persistence.jar"
   location="%workspace.home%/lib/ejb3-persistence.jar" model-entity="FileSystemJar"/>
  <file-system NAME="lib-jboss-ejb3x.jar"
