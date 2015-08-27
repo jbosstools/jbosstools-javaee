@@ -1,7 +1,7 @@
 <tests>
     <test id="id1">
         <DIV>
-            <INPUT TYPE="radio" NAME="radio_name_394"/>
+            <INPUT TYPE="radio" NAME="radio_name_383"/>
             <LABEL>
                 Only Once
             </LABEL>
