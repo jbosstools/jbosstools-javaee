@@ -99,6 +99,26 @@
 								<outputDirectory>${basedir}/projects/JSFPromptingProviderTestProject/WebContent/WEB-INF/lib/</outputDirectory>
 							</artifactItem>
 
+					      	<!-- TestKbModel -->
+							<artifactItem>
+								<groupId>javax.faces</groupId>
+								<artifactId>jsf-api</artifactId>
+								<version>1.2_15</version>
+								<outputDirectory>${basedir}/projects/TestKbModel/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>javax.faces</groupId>
+								<artifactId>jsf-impl</artifactId>
+								<version>1.2_15</version>
+								<outputDirectory>${basedir}/projects/TestKbModel/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+							<artifactItem>
+								<groupId>org.richfaces.ui</groupId>
+								<artifactId>richfaces-ui</artifactId>
+								<version>3.3.3.Final</version>
+							    <outputDirectory>${basedir}/projects/TestKbModel/WebContent/WEB-INF/lib/</outputDirectory>
+							</artifactItem>
+
 					      </artifactItems>
 					      <skip>false</skip>
 					      <outputDirectory>${basedir}/projects/JSFKickStartOldFormat/WebContent/WEB-INF/lib/</outputDirectory>
@@ -115,6 +135,7 @@
 			      <fileset>
 				     <directory>${basedir}/projects/JSFKickStartOldFormat/WebContent/WEB-INF/lib</directory>
 				     <directory>${basedir}/projects/JSFPromptingProviderTestProject/WebContent/WEB-INF/lib</directory>
+				     <directory>${basedir}/projects/TestKbModel/WebContent/WEB-INF/lib</directory>
 				     <includes>
 		                           <include>*.jar</include>
 				     </includes>
