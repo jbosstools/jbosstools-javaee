@@ -60,7 +60,7 @@ public class JBIDE4509Test extends VpeTest{
 	}
 	
 	public void testOpenOnForJavaElementFromDeclarationInJar() throws Throwable {
-		checkOpenOnFromJarFile("WebContent/WEB-INF/lib/jsf-facelets.jar", "META-INF/jsf-ui.taglib.xml", //$NON-NLS-1$ //$NON-NLS-2$
+		checkOpenOnFromJarFile("WebContent/WEB-INF/lib/jsf-facelets-1.1.11.jar", "META-INF/jsf-ui.taglib.xml", //$NON-NLS-1$ //$NON-NLS-2$
 				25, 33, "UILibrary.class"); //$NON-NLS-1$
 	}
 	

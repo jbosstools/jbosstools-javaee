@@ -1,0 +1,6 @@
+*
+
+# But not these files...
+!.gitignore
+!mareshkau.jar
+!mydomian.jar

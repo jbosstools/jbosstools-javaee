@@ -39,7 +39,7 @@ import org.jboss.tools.vpe.base.test.VpeTest;
 @SuppressWarnings("restriction")
 public class OpenOnTLDPackedInJar_JBIDE5693 extends VpeTest {
 
-	private static final String JAR_LIB_PATH = "WebContent/WEB-INF/lib/jsf-impl-2.0.1-SNAPSHOT.jar"; //$NON-NLS-1$
+	private static final String JAR_LIB_PATH = "WebContent/WEB-INF/lib/jsf-impl-2.0.1.jar"; //$NON-NLS-1$
 	private static final String TEST_FILE = "jsf_core.tld"; //$NON-NLS-1$
 	private static final String DIR = "META-INF"; //$NON-NLS-1$
 	

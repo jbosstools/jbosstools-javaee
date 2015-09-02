@@ -1,0 +1,5 @@
+*
+
+# But not these files...
+!.gitignore
+!jbide2550.jar

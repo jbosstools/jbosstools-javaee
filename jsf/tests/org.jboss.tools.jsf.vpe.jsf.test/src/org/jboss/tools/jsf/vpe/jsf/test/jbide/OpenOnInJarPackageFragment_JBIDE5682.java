@@ -38,7 +38,7 @@ import org.jboss.tools.vpe.base.test.VpeTest;
 @SuppressWarnings("restriction")
 public class OpenOnInJarPackageFragment_JBIDE5682 extends VpeTest {
 
-	private static final String JAR_LIB_PATH = "WebContent/WEB-INF/lib/jsf-impl-2.0.1-SNAPSHOT.jar"; //$NON-NLS-1$
+	private static final String JAR_LIB_PATH = "WebContent/WEB-INF/lib/jsf-impl-2.0.1.jar"; //$NON-NLS-1$
 	private static final String TEST_FILE = "jstl-core.taglib.xml"; //$NON-NLS-1$
 	private static final String[] FRAGMENT_PATH = new String[] { "com", "sun", //$NON-NLS-1$ //$NON-NLS-2$
 			"faces", "metadata", "taglib" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
