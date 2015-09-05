@@ -108,7 +108,7 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 	 */
 	@Override
 	public List<IBean> resolveVariables(IFile file,	 ELContext context, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
-		ArrayList<IBean> beans = new ArrayList<IBean>();
+		List<IBean> beans = EMPTY_VARIABLES_LIST;
 
 		IProject project = file.getProject();
 		if (project == null) {
@@ -131,7 +131,12 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 						if(resolvedBeans.isEmpty()) {
 							resolvedBeans = cdiProject.getBeans(varName, false);
 						}
-						beans.addAll(resolvedBeans);
+						if(!resolvedBeans.isEmpty()) {
+							if(beans == EMPTY_VARIABLES_LIST) {
+								beans = new ArrayList<IBean>();
+							}
+							beans.addAll(resolvedBeans);
+						}
 					} else {
 						resolvedBeans = cdiProject.getNamedBeans(true);
 						if(resolvedBeans.isEmpty()) {
@@ -139,6 +144,9 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 						}
 						for (IBean bean : resolvedBeans) {
 							if(bean.getName().startsWith(varName)) {
+								if(beans == EMPTY_VARIABLES_LIST) {
+									beans = new ArrayList<IBean>();
+								}
 								beans.add(bean);
 							}
 						}

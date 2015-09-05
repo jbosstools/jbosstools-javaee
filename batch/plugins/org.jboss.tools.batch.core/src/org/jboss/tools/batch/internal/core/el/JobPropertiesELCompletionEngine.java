@@ -11,6 +11,7 @@
 package org.jboss.tools.batch.internal.core.el;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -162,6 +163,8 @@ public class JobPropertiesELCompletionEngine extends AbstractELCompletionEngine<
 		return completions;
 	}
 
+	static List<?> EMPTY_OBJECTS = Collections.unmodifiableList(new ArrayList());
+
 	protected ELResolutionImpl resolveELOperand(IFile file,
 			ELExpression operand, boolean returnEqualedVariablesOnly)
 			throws BadLocationException, StringIndexOutOfBoundsException {
@@ -177,7 +180,7 @@ public class JobPropertiesELCompletionEngine extends AbstractELCompletionEngine<
 		ELResolutionImpl resolution = new ELResolutionImpl(expr);
 		ELInvocationExpression left = expr;
 
-		List<IVariable> resolvedVariables = new ArrayList<IVariable>();
+		List<IVariable> resolvedVariables = EMPTY_VARIABLES_LIST;
 
 		if (expr.getLeft() != null && isArgument) {
 			left = expr.getLeft();
@@ -200,8 +203,7 @@ public class JobPropertiesELCompletionEngine extends AbstractELCompletionEngine<
 					returnEqualedVariablesOnly);
 		} else {
 			while(left != null) {
-				List<IVariable>resolvedVars = new ArrayList<IVariable>();
-				resolvedVars = resolveVariables(file, 
+				List<IVariable> resolvedVars = resolveVariables(file, 
 						left, left == expr, 
 						returnEqualedVariablesOnly);
 				if (resolvedVars != null && !resolvedVars.isEmpty()) {
@@ -241,7 +243,7 @@ public class JobPropertiesELCompletionEngine extends AbstractELCompletionEngine<
 						proposal.setReplacementString(varName.substring(operand.getLength()));
 						proposal.setImageDescriptor(getELProposalImageForMember(null));
 
-						List<?> objects = new ArrayList();
+						List<?> objects = EMPTY_OBJECTS;
 						proposal.setBaseName("");
 						proposal.setObjects(objects);
 
@@ -267,7 +269,7 @@ public class JobPropertiesELCompletionEngine extends AbstractELCompletionEngine<
 					proposal.setReplacementString(varName.substring(operand.getLength()));
 					proposal.setLabel(varName);
 					proposal.setImageDescriptor(getELProposalImageForMember(null));
-					List<?> objects = new ArrayList();
+					List<?> objects = EMPTY_OBJECTS;
 					
 					proposal.setBaseName("");
 					proposal.setObjects(objects);
@@ -311,7 +313,7 @@ public class JobPropertiesELCompletionEngine extends AbstractELCompletionEngine<
 	}
 
 	protected List<IVariable> resolveVariables(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
-		List<IVariable> result = new ArrayList<IVariable>();
+		List<IVariable> result = EMPTY_VARIABLES_LIST;
 		if(expr.getLeft() != null) return result;
 		String varName = expr.toString();
 		for (IVariable v: getAllVariables()) {
@@ -322,6 +324,9 @@ public class JobPropertiesELCompletionEngine extends AbstractELCompletionEngine<
 			}
 			if(!v.getName().startsWith(varName)) {
 				continue;
+			}
+			if(result == EMPTY_VARIABLES_LIST) {
+				result = new ArrayList<IVariable>();
 			}
 			result.add(v);
 		}
@@ -502,7 +507,7 @@ public class JobPropertiesELCompletionEngine extends AbstractELCompletionEngine<
 		kbProposal.setAlternateMatch(proposal);
 		kbProposal.setImageDescriptor(getELProposalImageForMember(null));
 			
-		List<?> objects = new ArrayList(); //TODO do another implementation
+		List<?> objects = EMPTY_OBJECTS; //TODO do another implementation
 		
 		kbProposal.setBaseName("");
 		kbProposal.setPropertyName(proposal);

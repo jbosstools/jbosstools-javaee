@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.seam.core.international.el;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +70,8 @@ import org.jboss.tools.jst.web.kb.internal.ResourceBundle;
  *
  */
 public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngine<IVariable> {
+
+	private static final List<Variable> EMPTY_VARIABLES = Collections.unmodifiableList(new ArrayList<Variable>());
 
 	/*
 	 * (non-Javadoc)
@@ -221,7 +224,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		ELResolutionImpl resolution = new ELResolutionImpl(expr);
 		ELInvocationExpression left = expr;
 
-		List<Variable> resolvedVariables = new ArrayList<Variable>();
+		List<Variable> resolvedVariables = EMPTY_VARIABLES;
 
 		if (expr.getLeft() != null && isArgument) {
 			left = expr.getLeft();
@@ -246,8 +249,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 					returnEqualedVariablesOnly);
 		} else {
 			while(left != null) {
-				List<Variable>resolvedVars = new ArrayList<Variable>();
-				resolvedVars = resolveVariables(file, 
+				List<Variable> resolvedVars = resolveVariables(file, 
 						left, bundles, left == expr, 
 						returnEqualedVariablesOnly);
 				if (resolvedVars != null && !resolvedVars.isEmpty()) {
@@ -378,7 +380,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 	}
 
 	public List<Variable> resolveVariables(IFile file, ELInvocationExpression expr, IResourceBundle[] bundles, boolean isFinal, boolean onlyEqualNames) {
-		List<Variable> result = new ArrayList<Variable>();
+		List<Variable> result = EMPTY_VARIABLES;
 		String varName = expr.toString();
 		for (IResourceBundle b: bundles) {
 			String name = b.getVar();
@@ -387,6 +389,9 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 			}
 			if(!name.startsWith(varName)) continue;
 			Variable v = new Variable(name, b.getBasename(), file);
+			if(result == EMPTY_VARIABLES) {
+				result = new ArrayList<Variable>();
+			}
 			result.add(v);
 		}
 

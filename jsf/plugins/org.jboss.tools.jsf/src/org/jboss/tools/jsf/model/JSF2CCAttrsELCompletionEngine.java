@@ -178,7 +178,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 		ELResolutionImpl resolution = new ELResolutionImpl(expr);
 		ELInvocationExpression left = expr;
 
-		List<IVariable> resolvedVariables = new ArrayList<IVariable>();
+		List<IVariable> resolvedVariables = EMPTY_VARIABLES_LIST;
 
 		if (expr.getLeft() != null && isArgument) {
 			left = expr.getLeft();
@@ -191,8 +191,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 					returnEqualedVariablesOnly);
 		} else {
 			while(left != null) {
-				List<IVariable>resolvedVars = new ArrayList<IVariable>();
-				resolvedVars = resolveVariablesInternal(file, 
+				List<IVariable> resolvedVars = resolveVariablesInternal(file, 
 						left, left == expr, 
 						returnEqualedVariablesOnly);
 				if (resolvedVars != null && !resolvedVars.isEmpty()) {
@@ -373,7 +372,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 			currentContext = context;
 		}
 
-		List<IVariable> result = new ArrayList<IVariable>();
+		List<IVariable> result = EMPTY_VARIABLES_LIST;
 
 		String varName = expr.toString();
 
@@ -385,6 +384,9 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 			if(!name.startsWith(varName)) continue;
 			if(varName.lastIndexOf('.') > name.length()) continue; //It is the java variable case
 			Variable v = new Variable(name, file);
+			if(result == EMPTY_VARIABLES_LIST){
+				result = new ArrayList<IVariable>();
+			}
 			result.add(v);
 			break;
 		}
@@ -411,6 +413,9 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 						}
 						if(javaType == null) continue;
 						IVariable v = new JSFELCompletionEngine.Variable(n, javaType);
+						if(result == EMPTY_VARIABLES_LIST){
+							result = new ArrayList<IVariable>();
+						}
 						result.add(v);
 					}
 				}

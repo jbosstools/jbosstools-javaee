@@ -12,6 +12,7 @@ package org.jboss.tools.seam.internal.core.el;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -117,7 +118,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 	 * @throws StringIndexOutOfBoundsException
 	 */
 	public List<ISeamContextVariable> resolveSeamVariableFromEL(ISeamProject project, IFile file, String el) throws BadLocationException, StringIndexOutOfBoundsException {
-		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
+		List<ISeamContextVariable> resolvedVariables = EMPTY_VARIABLES_LIST;
 		
 		if(!el.startsWith("#{")) {
 			el = "#{" + el + "}";
@@ -143,8 +144,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 			resolvedVariables = resolveVariables(project, file, expr, true, true);
 		} else {
 			while (left != null) {
-				List<ISeamContextVariable> resolvedVars = new ArrayList<ISeamContextVariable>();
-				resolvedVars = resolveVariables(project, file, left,
+				List<ISeamContextVariable> resolvedVars = resolveVariables(project, file, left,
 						left == expr, true);
 				if (resolvedVars != null && !resolvedVars.isEmpty()) {
 					resolvedVariables = resolvedVars;
@@ -154,7 +154,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 			}
 		}
 
-		if (left != expr) {
+		if (left != expr && !resolvedVariables.isEmpty()) {
 			resolvedVariables.clear();
 		}
 
@@ -410,7 +410,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		if (project == null || resource == null)
 			return null;
 		
-		if (!"java".equals(resource.getFileExtension())) //$NON-NLS-1$
+		if (!"java".equalsIgnoreCase(resource.getFileExtension())) //$NON-NLS-1$
 			return null;
 		Set<ISeamComponent> components = project.getComponentsByPath(resource.getFullPath());
 
@@ -423,10 +423,10 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 	}
 
 	public List<ISeamContextVariable> resolveVariables(ISeamProject project, IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
-		List<ISeamContextVariable>resolvedVars = new ArrayList<ISeamContextVariable>();
+		List<ISeamContextVariable> resolvedVars = EMPTY_VARIABLES_LIST;
 		
 		if (project == null)
-			return new ArrayList<ISeamContextVariable>(); 
+			return EMPTY_VARIABLES_LIST; 
 		
 		String varName = expr.toString();
 
@@ -434,21 +434,20 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 			resolvedVars = SeamExpressionResolver.resolveVariables(project, file, varName, onlyEqualNames);
 		}
 		if (resolvedVars != null && !resolvedVars.isEmpty()) {
+			if(isFinal) {
+				return resolvedVars;
+			}
 			List<ISeamContextVariable> newResolvedVars = new ArrayList<ISeamContextVariable>();
 			for (ISeamContextVariable var : resolvedVars) {
-				if(!isFinal) {
-					// Do filter by equals (name)
-					// In case of the last pass - do not filter by startsWith(name) instead of equals
-					if (varName.equals(var.getName())) {
-						newResolvedVars.add(var);
-					}
-				} else {
+				// Do filter by equals (name)
+				// In case of the last pass - do not filter by startsWith(name) instead of equals
+				if (varName.equals(var.getName())) {
 					newResolvedVars.add(var);
 				}
 			}
 			return newResolvedVars;
 		}
-		return new ArrayList<ISeamContextVariable>(); 
+		return EMPTY_VARIABLES_LIST; 
 	}
 
 	/**
@@ -485,6 +484,8 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		return null;
 	}
 
+	List<IJavaElement> EMPTY_JAVA_ELEMENTS = Collections.unmodifiableList(new ArrayList<IJavaElement>());
+
 	/**
 	 * Create the array of suggestions from expression. 
 	 * @param project Seam project 
@@ -497,7 +498,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 	public List<IJavaElement> getJavaElementsForExpression(ISeamProject project, IFile file, String expression, int offset) throws BadLocationException, StringIndexOutOfBoundsException {
 		ELExpression expr = parseOperand(expression);
 		if(!(expr instanceof ELInvocationExpression)) {
-			return new ArrayList<IJavaElement>();
+			return EMPTY_JAVA_ELEMENTS;
 		}
 		return getJavaElementsForELOperandTokens(project, file, (ELInvocationExpression)expr);
 	}
@@ -513,7 +514,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 	public List<IJavaElement> getJavaElementsForELOperandTokens(
 			ISeamProject project, IFile file, 
 			ELInvocationExpression expr) throws BadLocationException, StringIndexOutOfBoundsException {
-		List<IJavaElement> res = new ArrayList<IJavaElement>();
+		List<IJavaElement> res = EMPTY_JAVA_ELEMENTS;
 
 		ElVarSearcher varSearcher = new ElVarSearcher(file, this);
 		List<Var> vars = varSearcher.findAllVars(file, expr.getStartPosition());
@@ -524,6 +525,9 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 			if(segment instanceof JavaMemberELSegment) {
 				IJavaElement el = ((JavaMemberELSegment)segment).getJavaElement();
 				if (el != null) {
+					if(res == EMPTY_JAVA_ELEMENTS) {
+						res = new ArrayList<IJavaElement>();
+					}
 					res.add(el);
 					return res;
 				}

@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +66,8 @@ import org.w3c.dom.Node;
 
 public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVariable> {
 	private static final ImageDescriptor JSF_EL_MESSAGES_PROPOSAL_IMAGE = JSFModelPlugin.getDefault().getImageDescriptorFromRegistry(JSFModelPlugin.CA_JSF_MESSAGES_IMAGE_PATH);
+	
+	private static final List<Variable> EMPTY_VARIABLES = Collections.unmodifiableList(new ArrayList<Variable>());
 
 	/*
 	 * (non-Javadoc)
@@ -193,7 +196,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 		ELResolutionImpl resolution = new ELResolutionImpl(expr);
 		ELInvocationExpression left = expr;
 
-		List<Variable> resolvedVariables = new ArrayList<Variable>();
+		List<Variable> resolvedVariables = EMPTY_VARIABLES;
 
 		if (expr.getLeft() != null && isArgument) {
 			left = expr.getLeft();
@@ -218,8 +221,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 					returnEqualedVariablesOnly);
 		} else {
 			while(left != null) {
-				List<Variable>resolvedVars = new ArrayList<Variable>();
-				resolvedVars = resolveVariables(file, 
+				List<Variable>resolvedVars = resolveVariables(file, 
 						left, bundles, left == expr, 
 						returnEqualedVariablesOnly);
 				if (resolvedVars != null && !resolvedVars.isEmpty()) {
@@ -369,7 +371,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 	}
 
 	public List<Variable> resolveVariables(IFile file, ELInvocationExpression expr, IResourceBundle[] bundles, boolean isFinal, boolean onlyEqualNames) {
-		List<Variable> result = new ArrayList<Variable>();
+		List<Variable> result = EMPTY_VARIABLES;
 		if(expr.getLeft() != null) return result;
 		IModelNature n = EclipseResourceUtil.getModelNature(file.getProject());
 		if(n == null) return result;
@@ -382,12 +384,12 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 			}
 			if(!name.startsWith(varName)) continue;
 			Variable v = new Variable(name, b.getBasename(), file);
-			result.add(v);
+			result = addVariable(result, v);
 		}
-		List l = WebPromptingProvider.getInstance().getList(model, WebPromptingProvider.JSF_REGISTERED_BUNDLES, null, null);
+		List<?> l = WebPromptingProvider.getInstance().getList(model, WebPromptingProvider.JSF_REGISTERED_BUNDLES, null, null);
 		if(l != null && l.size() > 0 && (l.get(0) instanceof Map)) {
-			Map map = (Map)l.get(0);
-			Iterator it = map.keySet().iterator();
+			Map<?,?> map = (Map<?,?>)l.get(0);
+			Iterator<?> it = map.keySet().iterator();
 			while(it.hasNext()) {
 				String name = it.next().toString();
 				String basename = map.get(name).toString();
@@ -396,10 +398,18 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 				}
 				if(!name.startsWith(varName)) continue;
 				Variable v = new Variable(name, basename, file);
-				result.add(v);
+				result = addVariable(result, v);
 			}
 		}
 
+		return result;
+	}
+
+	private List<Variable> addVariable(List<Variable> result, Variable v) {
+		if(result == null || result == EMPTY_VARIABLES) {
+			result = new ArrayList<Variable>();
+		}
+		result.add(v);
 		return result;
 	}
 

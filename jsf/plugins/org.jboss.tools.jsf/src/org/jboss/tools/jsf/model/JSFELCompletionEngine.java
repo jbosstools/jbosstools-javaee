@@ -92,10 +92,10 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 	 * @return
 	 */
 	private List<IJSFVariable> resolveVariables(IFile file, ELContext context, IModelNature project, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
-		List<IJSFVariable>resolvedVars = new ArrayList<IJSFVariable>();
+		List<IJSFVariable> resolvedVars = EMPTY_VARIABLES_LIST;
 		
 		if (project == null)
-			return new ArrayList<IJSFVariable>(); 
+			return EMPTY_VARIABLES_LIST; 
 		
 		String varName = expr.toString();
 
@@ -103,15 +103,14 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 			resolvedVars = resolveVariables(project, context, varName, onlyEqualNames, offset);
 		}
 		if (resolvedVars != null && !resolvedVars.isEmpty()) {
+			if(isFinal) {
+				return resolvedVars;
+			}
 			List<IJSFVariable> newResolvedVars = new ArrayList<IJSFVariable>();
 			for (IJSFVariable var : resolvedVars) {
-				if(!isFinal) {
-					// Do filter by equals (name)
-					// In case of the last pass - do not filter by startsWith(name) instead of equals
-					if (varName.equals(var.getName())) {
-						newResolvedVars.add(var);
-					}
-				} else {
+				// Do filter by equals (name)
+				// In case of the last pass - do not filter by startsWith(name) instead of equals
+				if (varName.equals(var.getName())) {
 					newResolvedVars.add(var);
 				}
 			}
@@ -135,23 +134,23 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 				}
 			}
 		}
-		return new ArrayList<IJSFVariable>(); 
+		return EMPTY_VARIABLES_LIST; 
 	}
+
+	static final JSFPromptingProvider PROVIDER = new JSFPromptingProvider();
 
 	protected List<IJSFVariable> resolveVariables(IModelNature project, ELContext context, String varName, boolean onlyEqualNames, int offset) {
 		if(project == null) return null;
-		List<IJSFVariable> beans = new JSFPromptingProvider().getVariables(project.getModel());
-		List<IJSFVariable> resolvedVariables = new ArrayList<IJSFVariable>();
+		List<IJSFVariable> beans = PROVIDER.getVariables(project.getModel());
+		List<IJSFVariable> resolvedVariables = EMPTY_VARIABLES_LIST;
 		for (IJSFVariable variable: beans) {
 			String n = variable.getName();
-			if(onlyEqualNames) {
-				if (n.equals(varName)) {
-					resolvedVariables.add(variable);
+			boolean add = (onlyEqualNames) ? (n.equals(varName)) : (n.startsWith(varName));
+			if(add) {
+				if(resolvedVariables == EMPTY_VARIABLES_LIST) {
+					resolvedVariables = new ArrayList<IJSFVariable>();
 				}
-			} else {
-				if (n.startsWith(varName)) {
-					resolvedVariables.add(variable);
-				}
+				resolvedVariables.add(variable);
 			}
 		}
 		return resolvedVariables;

@@ -71,7 +71,7 @@ public class JSF2ElResolver extends AbstractELCompletionEngine<IJSF2ManagedBean>
 	 */
 	@Override
 	public List<IJSF2ManagedBean> resolveVariables(IFile file, ELContext context,ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
-		ArrayList<IJSF2ManagedBean> beans = new ArrayList<IJSF2ManagedBean>();
+		List<IJSF2ManagedBean> beans = EMPTY_VARIABLES_LIST;
 
 		IProject project = file.getProject();
 		if (project == null) {
@@ -86,11 +86,17 @@ public class JSF2ElResolver extends AbstractELCompletionEngine<IJSF2ManagedBean>
 			if (manager != null && !manager.isMetadataComplete()) {
 				if(onlyEqualNames) {
 					resolvedBeans = manager.getManagedBeans(varName);
+					if(beans == EMPTY_VARIABLES_LIST) {
+						beans = new ArrayList<IJSF2ManagedBean>();
+					}
 					beans.addAll(resolvedBeans);
 				} else {
 					resolvedBeans = manager.getManagedBeans();
 					for (IJSF2ManagedBean bean : resolvedBeans) {
 						if(bean.getName().startsWith(varName)) {
+							if(beans == EMPTY_VARIABLES_LIST) {
+								beans = new ArrayList<IJSF2ManagedBean>();
+							}
 							beans.add(bean);
 						}
 					}
