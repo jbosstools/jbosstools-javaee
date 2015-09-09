@@ -39,6 +39,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.jboss.tools.batch.core.BatchConstants;
 import org.jboss.tools.batch.core.BatchCorePlugin;
 import org.jboss.tools.batch.internal.core.impl.BatchUtil.DocumentScanner;
@@ -193,36 +194,45 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 	private void buildJars(JarSet newJars) throws CoreException {
 		IJavaProject jp = EclipseUtil.getJavaProject(getBatchProject().getProject());
 		if(jp == null) return;
-		FileSet fileSet = new FileSet();
-		for (String jar: newJars.getBatchModules()) {
-			Path path = new Path(jar);
-			IPackageFragmentRoot root = jp.getPackageFragmentRoot(jar);
-			if(root == null) continue;
-			if(!root.exists()) {
-				IFile f = getFile(jar);
-				if(f != null && f.exists()) {
-					root = jp.getPackageFragmentRoot(f);
-				} else {
-					f = getFile(jar + "/META-INF/web-fragment.xml");
+
+		JavaModelManager manager = JavaModelManager.getJavaModelManager();
+		try {
+			manager.cacheZipFiles(this);
+
+			FileSet fileSet = new FileSet();
+			for (String jar: newJars.getBatchModules()) {
+				Path path = new Path(jar);
+				IPackageFragmentRoot root = jp.getPackageFragmentRoot(jar);
+				if(root == null) continue;
+				if(!root.exists()) {
+					IFile f = getFile(jar);
 					if(f != null && f.exists()) {
-						root = jp.getPackageFragmentRoot(f.getParent().getParent());
+						root = jp.getPackageFragmentRoot(f);
+					} else {
+						f = getFile(jar + "/META-INF/web-fragment.xml");
+						if(f != null && f.exists()) {
+							root = jp.getPackageFragmentRoot(f.getParent().getParent());
+						}
+					}
+				}
+				if (root == null || !root.exists())
+					continue;
+				IJavaElement[] es = root.getChildren();
+				for (IJavaElement e : es) {
+					if (e instanceof IPackageFragment) {
+						IPackageFragment pf = (IPackageFragment) e;
+						IClassFile[] cs = pf.getClassFiles();
+						for (IClassFile c : cs) {
+							fileSet.add(path, c.getType());
+						}
 					}
 				}
 			}
-			if (root == null || !root.exists())
-				continue;
-			IJavaElement[] es = root.getChildren();
-			for (IJavaElement e : es) {
-				if (e instanceof IPackageFragment) {
-					IPackageFragment pf = (IPackageFragment) e;
-					IClassFile[] cs = pf.getClassFiles();
-					for (IClassFile c : cs) {
-						fileSet.add(path, c.getType());
-					}
-				}
-			}
+			build(fileSet, getBatchProject());
+
+		} finally {
+			manager.flushZipFiles(this);
 		}
-		build(fileSet, getBatchProject());
 	}
 
 	void build(FileSet fs, BatchProject project) {

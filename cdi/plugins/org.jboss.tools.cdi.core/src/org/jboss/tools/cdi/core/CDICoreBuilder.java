@@ -43,6 +43,7 @@ import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipant2Feature;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
@@ -388,56 +389,65 @@ try {
 	protected void buildJars(JarSet newJars) throws CoreException {
 		IJavaProject jp = EclipseResourceUtil.getJavaProject(getCDICoreNature().getProject());
 		if(jp == null) return;
-		FileSet fileSet = new FileSet();
-		fileSet.setCheckVetoed(getCDICoreNature().getVersion() != CDIVersion.CDI_1_0);
+
+		JavaModelManager manager = JavaModelManager.getJavaModelManager();
+		try {
+			manager.cacheZipFiles(this);
+
+			FileSet fileSet = new FileSet();
+			fileSet.setCheckVetoed(getCDICoreNature().getVersion() != CDIVersion.CDI_1_0);
 		
-		for (String jar: newJars.getBeanModules().keySet()) {
-			Path path = new Path(jar);
-			IPackageFragmentRoot root = BeanArchiveDetector.findPackageFragmentRoot(jar, jp);
-			if (root == null || !root.exists()) {
-				continue;
-			}
+			for (String jar: newJars.getBeanModules().keySet()) {
+				Path path = new Path(jar);
+				IPackageFragmentRoot root = BeanArchiveDetector.findPackageFragmentRoot(jar, jp);
+				if (root == null || !root.exists()) {
+					continue;
+				}
 
-			XModelObject beansXML = newJars.getBeanModules().get(jar);
-			int bdm = getBeanDiscoveryMode(beansXML);
-			if(bdm == BeanArchiveDetector.NONE) {
-				continue;
-			}
-			boolean annotatedOnly = bdm == BeanArchiveDetector.ANNOTATED;
+				XModelObject beansXML = newJars.getBeanModules().get(jar);
+				int bdm = getBeanDiscoveryMode(beansXML);
+				if(bdm == BeanArchiveDetector.NONE) {
+					continue;
+				}
+				boolean annotatedOnly = bdm == BeanArchiveDetector.ANNOTATED;
 			
-			IJavaElement[] es = root.getChildren();
-			for (IJavaElement e : es) {
-				if (e instanceof IPackageFragment) {
-					IPackageFragment pf = (IPackageFragment) e;
-					IClassFile[] cs = pf.getClassFiles();
-					IType packageInfo = BeanArchiveDetector.findPackageInfo(cs);
-					if(packageInfo != null && BeanArchiveDetector.isVetoed(packageInfo)) {
-						continue;
-					}
+				IJavaElement[] es = root.getChildren();
+				for (IJavaElement e : es) {
+					if (e instanceof IPackageFragment) {
+						IPackageFragment pf = (IPackageFragment) e;
+						IClassFile[] cs = pf.getClassFiles();
+						IType packageInfo = BeanArchiveDetector.findPackageInfo(cs);
+						if(packageInfo != null && BeanArchiveDetector.isVetoed(packageInfo)) {
+							continue;
+						}
 
-					for (IClassFile c : cs) {
-						IType t = c.getType();
-						if(!annotatedOnly || BeanArchiveDetector.isAnnotatedBean(t, getCDICoreNature())) {
-							fileSet.add(path, c.getType());
+						for (IClassFile c : cs) {
+							IType t = c.getType();
+							if(!annotatedOnly || BeanArchiveDetector.isAnnotatedBean(t, getCDICoreNature())) {
+								fileSet.add(path, c.getType());
+							}
 						}
 					}
 				}
-			}
-			if(beansXML != null) {
-				fileSet.setBeanXML(path, beansXML);
-			}
+				if(beansXML != null) {
+					fileSet.setBeanXML(path, beansXML);
+				}
 			
-			for (IBuildParticipantFeature p: buildParticipants) p.visitJar(path, root, beansXML);
-		}
-		if(!buildParticipants2.isEmpty()) {
-			for (String jar: newJars.getFileSystems().keySet()) {
-				Path path = new Path(jar);
-				XModelObject fs = newJars.getFileSystems().get(jar);
-				for (IBuildParticipant2Feature p: buildParticipants2) p.visitJar(path, fs);
+				for (IBuildParticipantFeature p: buildParticipants) p.visitJar(path, root, beansXML);
 			}
+			if(!buildParticipants2.isEmpty()) {
+				for (String jar: newJars.getFileSystems().keySet()) {
+					Path path = new Path(jar);
+					XModelObject fs = newJars.getFileSystems().get(jar);
+					for (IBuildParticipant2Feature p: buildParticipants2) p.visitJar(path, fs);
+				}
+			}
+			addBasicTypes(fileSet);
+			invokeBuilderDelegates(fileSet, getCDICoreNature());
+
+		} finally {
+			manager.flushZipFiles(this);
 		}
-		addBasicTypes(fileSet);
-		invokeBuilderDelegates(fileSet, getCDICoreNature());
 	}
 
 	void invokeBuilderDelegates(FileSet fileSet, CDICoreNature n) {
