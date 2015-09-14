@@ -14,29 +14,4 @@
 		<emma.instrument.bundles>org.jboss.tools.batch.ui</emma.instrument.bundles>
 	</properties>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-surefire-plugin</artifactId>
-				<version>${tychoVersion}</version>
-				<configuration>
-					<testSuite>org.jboss.tools.batch.ui.itest</testSuite>
-					<testClass>org.jboss.tools.batch.ui.itest.BatchUIAllTests</testClass>
-					<dependencies>
-						<dependency>
-							<type>eclipse-plugin</type>
-							<artifactId>org.eclipse.sapphire.osgi.fragment</artifactId>
-							<version>0.0.0</version>
-						</dependency>
-						<dependency>
-							<type>eclipse-feature</type>
-							<artifactId>org.eclipse.e4.rcp</artifactId>
-							<version>0.0.0</version>
-						</dependency>
-					</dependencies>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>

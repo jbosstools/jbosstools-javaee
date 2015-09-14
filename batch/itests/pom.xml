@@ -39,7 +39,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 				<artifactId>tycho-surefire-plugin</artifactId>
 				<version>${tychoVersion}</version>
 				<configuration>
-					<product>org.jboss.tools.tests.application</product>
+					<dependencies combine.children="append">
+                                                <dependency>
+                                                        <type>eclipse-plugin</type>
+                                                        <artifactId>org.eclipse.sapphire.osgi.fragment</artifactId>
+                                                        <version>0.0.0</version>
+                                                </dependency>
+                                        </dependencies>
 				</configuration>
 			</plugin>
 		</plugins>
