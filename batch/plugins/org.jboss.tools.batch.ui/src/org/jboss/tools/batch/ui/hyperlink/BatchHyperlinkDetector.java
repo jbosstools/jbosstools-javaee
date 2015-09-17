@@ -139,12 +139,8 @@ public class BatchHyperlinkDetector extends AbstractHyperlinkDetector {
 	private IBatchProject getBatchProject(IFile file) {
 		IBatchProject batchProject = BatchProjectFactory.getBatchProjectWithProgress(file.getProject());
 
-		if (batchProject != null) {
-			for (IFile f : batchProject.getDeclaredBatchJobs()) {
-				if (f.equals(file)) {
-					return batchProject;
-				}
-			}
+		if (batchProject != null && batchProject.getDeclaredBatchJobs().contains(file)) {
+			return batchProject;
 		}
 		return null;
 	}

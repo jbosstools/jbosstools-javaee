@@ -79,6 +79,9 @@ public class RefValidationService extends ValidationService {
 
 	@Override
 	protected Status compute() {
+		if(batchProject == null) {
+			return Status.createOkStatus();
+		}
 		String message = null;
 		if(property instanceof Value<?>) {
 			Object c = ((Value<?>)property).content();

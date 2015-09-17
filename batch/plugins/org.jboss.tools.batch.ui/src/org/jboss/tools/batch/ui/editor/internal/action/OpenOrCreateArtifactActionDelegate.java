@@ -111,8 +111,10 @@ public class OpenOrCreateArtifactActionDelegate implements Runnable {
 									 NLS.bind(WizardMessages.actionOpenArtifact, artifactTypeName);
 	}
 
-	@SuppressWarnings("restriction")
 	public void run() {
+		if(batchProject == null) {
+			return;
+		}
 		Collection<IBatchArtifact> artifacts = batchProject.getArtifacts(ref);
 		if(artifacts.isEmpty()) {
 			IWorkbench workbench = BatchUIPlugin.getDefault().getWorkbench();
