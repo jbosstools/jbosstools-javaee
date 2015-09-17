@@ -83,6 +83,9 @@ public class RefProposalService extends ContentProposalService {
 			@Override
 			protected List<ContentProposal> compute() {
 				List<ContentProposal> proposals = new ArrayList<>();
+				if(batchProject == null) {
+					return proposals;
+				}
 				for (BatchArtifactType type : ModelToBatchArtifactsMapping.getBatchArtifactTypes(elementClass)) {
 					Collection<IBatchArtifact> artifacts = batchProject.getArtifacts(type);
 					for (IBatchArtifact artifact : artifacts) {

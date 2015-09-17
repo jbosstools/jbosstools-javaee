@@ -45,6 +45,7 @@ public class BatchUIAllTests {
 
 		TestSuite suite = new TestSuite("Editor");
 		suite.addTestSuite(BatchEditorTest.class);
+		suite.addTestSuite(BatchEditorInPlainProjectTest.class);
 		suite.addTestSuite(BatchHyperlinkDetectorTest.class);
 		suite.addTestSuite(BatchPropertyHyperlinkDetectorTest.class);
 		suite.addTestSuite(BatchELHyperlinkTest.class);
@@ -74,7 +75,7 @@ public class BatchUIAllTests {
 		suiteAll.addTest(diagramSuite);
 
 		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suiteAll, "org.jboss.tools.batch.core.itest",
-				new String[] { "projects/BatchTestProject" }, new String[] { "BatchTestProject" });
+				new String[] { "projects/BatchTestProject", "projects/PlainTestProject" }, new String[] { "BatchTestProject", "PlainTestProject" });
 
 		// suiteAll.addTest(testSetup);
 
