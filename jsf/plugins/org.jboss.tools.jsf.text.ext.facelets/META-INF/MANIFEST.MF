@@ -15,5 +15,5 @@ Require-Bundle:
  org.jboss.tools.jsf.text.ext
 Export-Package: org.jboss.tools.jsf.text.ext.facelets,
  org.jboss.tools.jsf.text.ext.facelets.hyperlink
-Bundle-Version: 3.7.0.qualifier
+Bundle-Version: 3.8.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature id="org.jboss.tools.cdi.deltaspike.feature" label="%featureName" version="1.7.0.qualifier" provider-name="%featureProvider"
+<feature id="org.jboss.tools.cdi.deltaspike.feature" label="%featureName" version="1.8.0.qualifier" provider-name="%featureProvider"
 	license-feature="org.jboss.tools.foundation.license.feature"
 	license-feature-version="0.0.0">
 
