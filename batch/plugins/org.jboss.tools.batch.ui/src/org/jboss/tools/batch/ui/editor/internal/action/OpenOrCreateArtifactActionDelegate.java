@@ -136,7 +136,8 @@ public class OpenOrCreateArtifactActionDelegate implements Runnable {
 				}
 			}
 
-			int result = dialog.open(batchProject, ref, ref.length() == 0, types, types.size() > 1, typeName);
+			boolean artifactNameCanBeModified = ref == null || ref.length() == 0;
+			int result = dialog.open(batchProject, ref, artifactNameCanBeModified, types, types.size() > 1, typeName);
 			if(result == WizardDialog.OK) {
 				String newRef = dialog.getBatchPage().getArtifactName();
 				if(ref != null && !ref.equals(newRef)) {
