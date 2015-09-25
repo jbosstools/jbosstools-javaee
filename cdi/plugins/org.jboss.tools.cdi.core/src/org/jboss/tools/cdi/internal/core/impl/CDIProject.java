@@ -1612,4 +1612,9 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	public String getElementName() {
 		return getNature().getProject().getName();
 	}
+
+	public void dispose() {
+		cache.clean();
+	}
+	
 }
