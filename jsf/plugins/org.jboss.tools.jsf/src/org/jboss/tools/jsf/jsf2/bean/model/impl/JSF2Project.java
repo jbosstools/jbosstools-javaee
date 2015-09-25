@@ -259,4 +259,8 @@ public class JSF2Project extends AbstractKbProjectExtension implements IJSF2Proj
 		return JSF2ProjectFactory.getJSF2Project(project, resolve);
 	}
 
+	@Override
+	public void dispose() {
+		classPath.dispose();
+	}
 }

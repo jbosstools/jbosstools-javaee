@@ -146,4 +146,10 @@ public abstract class AbstractClassPathMonitor implements Libs.LibsListener {
 		}
 	}
 
+	public void dispose() {
+		if(libs != null) {
+			libs.destroy();
+			libs = null;
+		}
+	}
 }

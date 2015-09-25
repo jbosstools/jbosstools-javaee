@@ -502,4 +502,11 @@ public class BatchProject extends AbstractKbProjectExtension implements IBatchPr
 	public synchronized void removeBatchProjectListener(IBatchProjectChangeListener listener) {
 		listeners.remove(listener);
 	}
+
+	@Override
+	public void dispose() {
+		listeners.clear();
+		classPath.dispose();
+		clean();
+	}
 }

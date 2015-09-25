@@ -31,6 +31,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.extension.CDIExtensionManager;
+import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
@@ -711,6 +712,13 @@ public class CDICoreNature implements IProjectNature {
 		for (CDICoreNature u: us) {
 			u.removeCDIProject(this);
 		}
+		classPath.dispose();
+		definitions.clean();
+		typeFactory.clean();
+		if(cdiProjectDelegate instanceof CDIProject) {
+			((CDIProject)cdiProjectDelegate).dispose();
+		}
+		cdiProjectDelegate.setNature(null);
 	}
 
 }
