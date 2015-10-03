@@ -26,9 +26,11 @@ import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
+import static org.junit.Assert.*;
 
 /**
  * 
@@ -42,10 +44,10 @@ public class Jbide1580Test extends VpeTest {
 	public static final String FILE_NAME2 = "JBIDE/1580/JBIDE-1580-4button.xhtml";
 	private static final String TEST_ELEMENT_ID = "testElement";
 
-	public Jbide1580Test(String name) {
-		super(name);
+	public Jbide1580Test() {
 	}
 
+	@Test
 	public void testUsualState() throws Throwable {
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(FILE_NAME1,
@@ -82,6 +84,7 @@ public class Jbide1580Test extends VpeTest {
 
 	}
 
+	@Test
 	public void testWithoutSomeButton() throws Throwable {
 
 		// get test page path

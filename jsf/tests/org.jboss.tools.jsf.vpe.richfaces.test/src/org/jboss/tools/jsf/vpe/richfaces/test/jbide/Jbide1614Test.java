@@ -26,9 +26,11 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
+import static org.junit.Assert.*;
 
 /**
  * 
@@ -39,80 +41,78 @@ import org.mozilla.interfaces.nsIDOMNode;
 public class Jbide1614Test extends VpeTest {
 
 	public static final String FILE_NAME1 = "JBIDE/1614/JBIDE-1614-absolute.xhtml";
-    public static final String FILE_NAME2 = "JBIDE/1614/JBIDE-1614-related.xhtml";
+	public static final String FILE_NAME2 = "JBIDE/1614/JBIDE-1614-related.xhtml";
 
-    public Jbide1614Test(String name) {
-	super(name);
-    }
-
-    public void testAbsolutePath() throws Throwable {
-	// get test page path
-	IFile file = (IFile) TestUtil.getComponentPath(FILE_NAME1,
-			RichFacesAllTests.IMPORT_PROJECT_NAME);
-
-	IEditorInput input = new FileEditorInput(file);
-
-	// open and get editor
-	JSPMultiPageEditor part = openEditor(input);
-
-	// get dom document
-	nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
-	assertNotNull(document);
-
-	// get dom element
-	nsIDOMElement element = document.getDocumentElement();
-	assertNotNull(element);
-
-	// get root node
-	nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
-
-	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
-
-	// find "code" elements
-	TestUtil.findElementsByName(node, elements, HTML.TAG_CODE);
-
-	Assert.assertEquals(1, elements.size());
-
-	// check exception
-	if (getException() != null) {
-	    throw getException();
+	public Jbide1614Test() {
 	}
 
-    }
+	@Test
+	public void testAbsolutePath() throws Throwable {
+		// get test page path
+		IFile file = (IFile) TestUtil.getComponentPath(FILE_NAME1, RichFacesAllTests.IMPORT_PROJECT_NAME);
 
-    public void testRelatedPath() throws Throwable {
-	// get test page path
-	IFile file = (IFile) TestUtil.getComponentPath(FILE_NAME2,
-			RichFacesAllTests.IMPORT_PROJECT_NAME);
+		IEditorInput input = new FileEditorInput(file);
 
-	IEditorInput input = new FileEditorInput(file);
+		// open and get editor
+		JSPMultiPageEditor part = openEditor(input);
 
-	// open and get editor
-	JSPMultiPageEditor part = openEditor(input);
+		// get dom document
+		nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
+		assertNotNull(document);
 
-	// get dom document
-	nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
-	assertNotNull(document);
+		// get dom element
+		nsIDOMElement element = document.getDocumentElement();
+		assertNotNull(element);
 
-	// get dom element
-	nsIDOMElement element = document.getDocumentElement();
-	assertNotNull(element);
+		// get root node
+		nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
-	// get root node
-	nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
+		List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
-	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+		// find "code" elements
+		TestUtil.findElementsByName(node, elements, HTML.TAG_CODE);
 
-	// find "code" elements
-	TestUtil.findElementsByName(node, elements, HTML.TAG_CODE);
+		Assert.assertEquals(1, elements.size());
 
-	Assert.assertEquals(1, elements.size());
+		// check exception
+		if (getException() != null) {
+			throw getException();
+		}
 
-	// check exception
-	if (getException() != null) {
-	    throw getException();
 	}
 
-    }
+	public void testRelatedPath() throws Throwable {
+		// get test page path
+		IFile file = (IFile) TestUtil.getComponentPath(FILE_NAME2, RichFacesAllTests.IMPORT_PROJECT_NAME);
+
+		IEditorInput input = new FileEditorInput(file);
+
+		// open and get editor
+		JSPMultiPageEditor part = openEditor(input);
+
+		// get dom document
+		nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
+		assertNotNull(document);
+
+		// get dom element
+		nsIDOMElement element = document.getDocumentElement();
+		assertNotNull(element);
+
+		// get root node
+		nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
+
+		List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+
+		// find "code" elements
+		TestUtil.findElementsByName(node, elements, HTML.TAG_CODE);
+
+		Assert.assertEquals(1, elements.size());
+
+		// check exception
+		if (getException() != null) {
+			throw getException();
+		}
+
+	}
 
 }

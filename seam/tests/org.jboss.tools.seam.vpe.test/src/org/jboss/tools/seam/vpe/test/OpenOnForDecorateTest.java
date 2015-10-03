@@ -19,9 +19,10 @@ import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.SelectionUtil;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Node;
-
+import static org.junit.Assert.*;
 /**
  * Junit test for JBIDE-4373
  * 
@@ -30,8 +31,7 @@ import org.w3c.dom.Node;
  */
 public class OpenOnForDecorateTest extends VpeTest {
 
-	public OpenOnForDecorateTest(String name) {
-		super(name);
+	public OpenOnForDecorateTest() {
 	}
 
 	/**
@@ -41,6 +41,7 @@ public class OpenOnForDecorateTest extends VpeTest {
 	 * @throws CoreException
 	 * @throws IOException 
 	 */
+	@Test
 	public void testOpenOnForSDecorate() throws CoreException, IOException {
 		VpeController vpeController = openInVpe(SeamAllTests.IMPORT_PROJECT_NAME, "JBIDE/4373/s-decorate.xhtml"); //$NON-NLS-1$
 		int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 11, 33);

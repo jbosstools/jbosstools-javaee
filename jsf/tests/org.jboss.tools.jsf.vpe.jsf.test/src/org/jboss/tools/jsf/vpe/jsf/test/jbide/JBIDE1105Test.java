@@ -18,6 +18,9 @@ import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * @author mareshkau
@@ -27,10 +30,10 @@ public class JBIDE1105Test extends VpeTest {
 
 	private static final String TEST_PAGE_NAME = "JBIDE/1105/employee.xhtml"; //$NON-NLS-1$
 
-	public JBIDE1105Test(String name) {
-		super(name);
+	public JBIDE1105Test() {
 	}
 
+	@Test
 	public void testJBIDE1105() throws Throwable {
 		// wait
 		TestUtil.waitForJobs();

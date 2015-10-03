@@ -9,7 +9,6 @@
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-
 package org.jboss.tools.jsf.vpe.richfaces.test.jbide;
 
 import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
@@ -22,9 +21,10 @@ import org.jboss.tools.jsf.vpe.richfaces.test.RichFacesAllTests;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
-
+import static org.junit.Assert.*;
 
 /**
  * The Class JBIDE1606Test.
@@ -33,51 +33,54 @@ import org.mozilla.interfaces.nsIDOMNode;
  */
 public class JBIDE1606Test extends VpeTest {
 
-    /** The Constant HELLO. */
-    private static final String HELLO = "Hello"; //$NON-NLS-1$
+	/** The Constant HELLO. */
+	private static final String HELLO = "Hello"; //$NON-NLS-1$
 
-    /** The Constant PAGE. */
-    private static final String PAGE = "components/dropDownMenu/jbide1606.xhtml"; //$NON-NLS-1$
+	/** The Constant PAGE. */
+	private static final String PAGE = "components/dropDownMenu/jbide1606.xhtml"; //$NON-NLS-1$
 
-    /**
-     * The Constructor.
-     * 
-     * @param name the name
-     */
-    public JBIDE1606Test(String name) {
-        super(name);
-    }
+	/**
+	 * The Constructor.
+	 * 
+	 * @param name
+	 *            the name
+	 */
+	public JBIDE1606Test() {
+	}
 
-    /**
-     * Test JBID e1606.
-     * 
-     * @throws Throwable the throwable
-     */
-    public void testSimpleJBIDE1606() throws Throwable {
-        performTestForVpeComponent((IFile) TestUtil.getComponentPath(PAGE, RichFacesAllTests.IMPORT_PROJECT_NAME));
-    }
+	/**
+	 * Test JBID e1606.
+	 * 
+	 * @throws Throwable
+	 *             the throwable
+	 */
+	@Test
+	public void testSimpleJBIDE1606() throws Throwable {
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath(PAGE, RichFacesAllTests.IMPORT_PROJECT_NAME));
+	}
 
-    /**
-     * Test JBID e1606.
-     * 
-     * @throws Throwable the throwable
-     */
-    public void testJBIDE1606() throws Throwable {
-        final nsIDOMElement rst = TestUtil.performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(PAGE,
-        		RichFacesAllTests.IMPORT_PROJECT_NAME));
+	/**
+	 * Test JBID e1606.
+	 * 
+	 * @throws Throwable
+	 *             the throwable
+	 */
+	@Test
+	public void testJBIDE1606() throws Throwable {
+		final nsIDOMElement rst = TestUtil.performTestForRichFacesComponent(
+				(IFile) TestUtil.getComponentPath(PAGE, RichFacesAllTests.IMPORT_PROJECT_NAME));
 
-        List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+		List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
-        // DOMTreeDumper dumper = new DOMTreeDumper();
-        // dumper.dumpToStream(System.err, rst);
-        TestUtil.findAllElementsByName(rst, elements, HTML.TAG_SPAN);
-        
-        assertTrue("Size of span's should be gt that 0", elements.size() > 0); //$NON-NLS-1$
-        
-        nsIDOMElement element = queryInterface(elements.get(0), nsIDOMElement.class);
-        
-        assertEquals("Test should be equals "+HELLO,HELLO,element.getFirstChild().getNodeValue()); //$NON-NLS-1$
-    
-        
-    }
+		// DOMTreeDumper dumper = new DOMTreeDumper();
+		// dumper.dumpToStream(System.err, rst);
+		TestUtil.findAllElementsByName(rst, elements, HTML.TAG_SPAN);
+
+		assertTrue("Size of span's should be gt that 0", elements.size() > 0); //$NON-NLS-1$
+
+		nsIDOMElement element = queryInterface(elements.get(0), nsIDOMElement.class);
+
+		assertEquals("Test should be equals " + HELLO, HELLO, element.getFirstChild().getNodeValue()); //$NON-NLS-1$
+
+	}
 }

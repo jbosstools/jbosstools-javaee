@@ -23,9 +23,11 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
+import static org.junit.Assert.*;
 
 /**
  * Test JBIDE-1720
@@ -39,11 +41,11 @@ public class JBIDE1720Test extends VpeTest {
 	private static final String TEST_PAGE_NAME2 = "JBIDE/1720/JBIDE-1720-selectOneListBox.jsp"; //$NON-NLS-1$
 	private static final String TEST_PAGE_NAME3 = "JBIDE/1720/JBIDE-1720-selectOneMenu.jsp"; //$NON-NLS-1$
 
-	public JBIDE1720Test(String name) {
-		super(name);
+	public JBIDE1720Test() {
 	}
 
 	// test method for JBIDE 1720 selectOneRadio component
+	@Test
 	public void testJBIDE_1720_selectOneRadio() throws Throwable {
 		// wait
 		TestUtil.waitForJobs();
@@ -116,6 +118,7 @@ public class JBIDE1720Test extends VpeTest {
 	}
 
 	// test method for JBIDE 1720 selectOneMenu component
+	@Test
 	public void testJBIDE_1720_selectOneMenu() throws Throwable {
 		// wait
 		TestUtil.waitForJobs();
@@ -193,6 +196,7 @@ public class JBIDE1720Test extends VpeTest {
 	}
 
 	// test method for JBIDE 1720 selectOneListBox component
+	@Test
 	public void testJBIDE_1720_selectOneListBox() throws Throwable {
 		// wait
 		TestUtil.waitForJobs();
@@ -243,8 +247,6 @@ public class JBIDE1720Test extends VpeTest {
 		assertNotNull("Attribute style is not exist.", style);
 		assertEquals("font-size: large;", style);
 
-
-
 		elements.clear();
 
 		// find "option" elements
@@ -253,15 +255,12 @@ public class JBIDE1720Test extends VpeTest {
 		assertEquals(5, elements.size());
 
 		for (int i = 0; i < elements.size(); i++) {
-
 			nsIDOMElement inputElement = queryInterface(elements.get(i), nsIDOMElement.class);
 			assertNotNull(inputElement);
 
 			String attr = inputElement.getAttribute(HTML.ATTR_CLASS);
 			assertNotNull("Attribute class is not exist in option tag", attr);
 			assertEquals("myStyle", attr);
-
-
 		}
 
 		if (getException() != null) {

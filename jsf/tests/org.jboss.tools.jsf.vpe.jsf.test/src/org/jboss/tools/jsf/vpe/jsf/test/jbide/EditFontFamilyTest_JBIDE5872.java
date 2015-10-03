@@ -20,6 +20,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
+import org.junit.Test;
 
 /**
  * Test for JBIDE-5872: VPE throws java.lang.NullPointerException,
@@ -33,8 +34,7 @@ public class EditFontFamilyTest_JBIDE5872 extends VpeTest {
 	private static final int SELECTION_LENGTH = 1;
 	private static final String TEST_PAGE_NAME = "JBIDE/5872/JBIDE-5872.html";
 
-	public EditFontFamilyTest_JBIDE5872(String name) {
-		super(name);
+	public EditFontFamilyTest_JBIDE5872() {
 	}
 
 	/**
@@ -42,6 +42,7 @@ public class EditFontFamilyTest_JBIDE5872 extends VpeTest {
 	 * 
 	 * @see <a href="https://jira.jboss.org/jira/browse/JBIDE-5872">JBIDE-5872</a>
 	 */
+	@Test
 	public void testEditFontFamily() throws Throwable {
 		TestUtil.waitForJobs();
 		setException(null);

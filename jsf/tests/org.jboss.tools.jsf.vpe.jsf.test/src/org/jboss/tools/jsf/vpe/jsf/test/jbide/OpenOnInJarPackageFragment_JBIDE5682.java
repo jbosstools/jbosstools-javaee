@@ -28,6 +28,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.OpenOnUtil;
 import org.jboss.tools.vpe.base.test.ProjectsLoader;
 import org.jboss.tools.vpe.base.test.VpeTest;
+import org.junit.Test;
 
 /**
  * 
@@ -43,10 +44,10 @@ public class OpenOnInJarPackageFragment_JBIDE5682 extends VpeTest {
 	private static final String[] FRAGMENT_PATH = new String[] { "com", "sun", //$NON-NLS-1$ //$NON-NLS-2$
 			"faces", "metadata", "taglib" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-	public OpenOnInJarPackageFragment_JBIDE5682(String name) {
-		super(name);
+	public OpenOnInJarPackageFragment_JBIDE5682() {
 	}
 
+	@Test
 	public void testOpenOnInJarPackageFragment() throws Throwable {
 		IProject project = ProjectsLoader.getInstance()
 				.getProject(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);

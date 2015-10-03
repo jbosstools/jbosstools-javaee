@@ -15,7 +15,9 @@ import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
+import static org.junit.Assert.*;
 
 /**
  * Tests for JIRA issue JBIDE-4859: AutoRefresh doesn't work after 
@@ -29,16 +31,15 @@ public class SelectAllAndCut_JBIDE4853 extends VpeTest {
 			= "JBIDE/4853/SelectAllAndCut.html"; //$NON-NLS-1$
 	private static final String CUT_ELEMENT_ID = "cut-div"; //$NON-NLS-1$
 
-	public SelectAllAndCut_JBIDE4853(String name) {
-		super(name);
+	public SelectAllAndCut_JBIDE4853() {
 	}
 
+	@Test
 	public void testSelectAllAndCut() throws Throwable {
 		VpeController vpeController = openInVpe(JsfAllTests.IMPORT_PROJECT_NAME,
 				TEST_PAGE_NAME);
 		StyledText textWidget = vpeController.getSourceEditor()
 				.getTextViewer().getTextWidget();
-		
 		textWidget.selectAll();
 		textWidget.cut();
 		TestUtil.delay(1000);

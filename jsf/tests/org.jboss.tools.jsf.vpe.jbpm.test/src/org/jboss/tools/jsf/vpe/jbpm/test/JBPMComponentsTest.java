@@ -11,6 +11,7 @@
 package org.jboss.tools.jsf.vpe.jbpm.test;
 
 import org.jboss.tools.vpe.base.test.ComponentContentTest;
+import org.junit.Test;
 
 /**
  * 
@@ -20,23 +21,26 @@ import org.jboss.tools.vpe.base.test.ComponentContentTest;
 
 public class JBPMComponentsTest extends ComponentContentTest {
 
-	public JBPMComponentsTest(String name) {
-		super(name);
+	public JBPMComponentsTest() {
 		setCheckWarning(false);
 	}
 
+	@Test
 	public void testCancelButton() throws Throwable{
 		performContentTest("components/cancelButton.xhtml"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testSaveButton() throws Throwable{
 		performContentTest("components/saveButton.xhtml"); //$NON-NLS-1$
 	}
-	
+
+	@Test
 	public void testTransitionButton() throws Throwable{
 		performContentTest("components/transitionButton.xhtml"); //$NON-NLS-1$
 	}
-	
+
+	@Test
 	public void testTaskForm() throws Throwable{
 		performContentTest("components/taskForm.xhtml"); //$NON-NLS-1$
 	}

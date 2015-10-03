@@ -34,9 +34,12 @@ import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
+import static org.junit.Assert.*;
 
 /**
  * Checks f:view's locale workflow.
@@ -54,27 +57,25 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 	private static final String NO_DEFLOC_SEVERAL_FVIEWS_PAGE = "LSeveral.jsp"; //$NON-NLS-1$
 	private static final String NO_DEFLOC_CHANGE_REFRESH_PAGE = "LChangeRefresh.jsp"; //$NON-NLS-1$
 	private static final String NO_DEFLOC_ONE_LOAD_BUNDLE_PAGE = "LOneLoadBundle.jsp"; //$NON-NLS-1$
-	
+
 	private static final String HELLO_DE = "Guten Tag!"; //$NON-NLS-1$
 	private static final String HELLO2_DE = "German Hello"; //$NON-NLS-1$
 	private static final String HELLO_EN = "Hello (Default)"; //$NON-NLS-1$
 	private static final String HELLO_EN_US = "US Hello"; //$NON-NLS-1$
 	private static final String HELLO_EN_GB = "Great Britain Hello"; //$NON-NLS-1$
-	
+
 	private static final String LOCALE_TEXT_ID = "localeText"; //$NON-NLS-1$
 	private static final String LOCALE_TEXT0_ID = "localeText0"; //$NON-NLS-1$
 	private static final String LOCALE_TEXT1_ID = "localeText1"; //$NON-NLS-1$
 	private static final String LOCALE_TEXT2_ID = "localeText2"; //$NON-NLS-1$
 	private static final String LOCALE_TEXT3_ID = "localeText3"; //$NON-NLS-1$
 	private static final String FVIEW_ID = "fviewid"; //$NON-NLS-1$
-	
 
 	private static final String DEFAUT_BUNDLE_NAME = "demo.Messages"; //$NON-NLS-1$
 	private static final String DEFAUT_MESSAGE_KEY = "hello_message"; //$NON-NLS-1$
 	private String[] javaSources;
-	
-	public TestFViewLocaleAttribute_JBIDE5218(String name) {
-		super(name);
+
+	public TestFViewLocaleAttribute_JBIDE5218() {
 	}
 
 	/**
@@ -83,6 +84,7 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testDefaultLocale() throws Throwable {
 		VpeController controller = openInVpe(
 				JsfAllTests.IMPORT_I18N_PROJECT_NAME, DEFAULT_LOCALE_PAGE);
@@ -92,8 +94,7 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		assertTrue("Text is '"+localizedText+"', but should be in 'de' locale", HELLO_DE.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
 		closeEditors();
 	}
-	
-	
+
 	/**
 	 * The default locale is defined, 
 	 * f:view has a locale attribute defined also, 
@@ -101,6 +102,7 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testLocaleAttributeWithDefaultLocale() throws Throwable {
 		VpeController controller = openInVpe(
 				JsfAllTests.IMPORT_I18N_PROJECT_NAME,
@@ -111,7 +113,7 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		assertTrue("Text is '"+localizedText+"', but should be in 'de' locale", HELLO_DE.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
 		closeEditors();
 	}
-	
+
 	/**
 	 * f:view has a locale attribute defined,
 	 * which should be applied. 
@@ -119,6 +121,7 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testLocaleAttribute() throws Throwable {
 		VpeController controller = openInVpe(
 				JsfAllTests.IMPORT_JSF_20_PROJECT_NAME, LOCALE_ATTRIBUTE_PAGE);
@@ -128,7 +131,7 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		assertTrue("Text is '"+localizedText+"', but should be should be in 'de' locale", HELLO2_DE.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
 		closeEditors();
 	}
-	
+
 	/**
 	 * If there are several f:views on the page.
 	 * Only the last f:view one should be applied on server, 
@@ -136,6 +139,7 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testSeveralFViewsWithLocales() throws Throwable {
 		
 		IFile file =
@@ -182,6 +186,7 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testChangeLocaleAndRefresh() throws Throwable {
 		VpeController controller = openInVpe(
 				JsfAllTests.IMPORT_JSF_20_PROJECT_NAME,
@@ -211,7 +216,8 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		assertTrue("Text is '"+localizedText+"', but should be in 'en_GB' locale", HELLO_EN_GB.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
 		closeEditors();
 	}
-	
+
+	@Test
 	public void testNoDefaultLocaleForLocaleAttribute() throws Throwable {
 		VpeController controller = openInVpe(
 				JsfAllTests.IMPORT_JSF_LOCALES_PROJECT_NAME,
@@ -222,7 +228,9 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		assertTrue("Text is '"+localizedText+"', but should be in 'de' locale", HELLO2_DE.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
 		closeEditors();
 	}
-	
+
+	@Test
+	@Ignore
 	public void _testNoDefaultLocaleForSeveralFViews() throws Throwable {
 		VpeController controller = openInVpe(
 				JsfAllTests.IMPORT_JSF_LOCALES_PROJECT_NAME, NO_DEFLOC_SEVERAL_FVIEWS_PAGE);
@@ -250,7 +258,8 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		
 		closeEditors();
 	}
-	
+
+	@Test
 	public void testNoDefaultLocaleForChangeAndRefresh() throws Throwable {
 		VpeController controller = openInVpe(
 				JsfAllTests.IMPORT_JSF_LOCALES_PROJECT_NAME,
@@ -294,7 +303,8 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		assertTrue("Text is '"+localizedText+"', but should be in 'en_GB' locale", HELLO_EN_GB.equalsIgnoreCase(localizedText)); //$NON-NLS-1$ //$NON-NLS-2$
 		closeEditors();
 	}
-	
+
+	@Test
 	public void testNoDefaultLocaleForSingleFLoadBundle() throws Throwable {
 		VpeController controller = openInVpe(
 				JsfAllTests.IMPORT_JSF_LOCALES_PROJECT_NAME, NO_DEFLOC_ONE_LOAD_BUNDLE_PAGE);

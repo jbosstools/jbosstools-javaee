@@ -74,9 +74,7 @@ public abstract class CommonJBIDE2010Test extends VpeTest {
      * 
      * @param name the name
      */
-    public CommonJBIDE2010Test(String name) {
-        super(name);
-
+    public CommonJBIDE2010Test() {
     }
 
     /**
@@ -85,7 +83,7 @@ public abstract class CommonJBIDE2010Test extends VpeTest {
      * @throws Exception the exception
      */
     @Override
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
         elValuesMap.put(KEY_1, "/path/image/path/to/image/"); //$NON-NLS-1$
         elValuesMap.put(KEY_2, "/path2/"); //$NON-NLS-1$
@@ -132,7 +130,7 @@ public abstract class CommonJBIDE2010Test extends VpeTest {
      * @throws Exception the exception
      */
     @Override
-    protected void tearDown() throws Exception {
+    public void tearDown() throws Exception {
         super.tearDown();
         ELReferenceList.getInstance().setAllResources(this.file, new ResourceReference[0]);
         this.file = null;

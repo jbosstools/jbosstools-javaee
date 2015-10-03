@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.ui.test;
 
+import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -131,7 +132,8 @@ public class JsfUiAllTests {
 				new String[]{"projects/test_jsf_project"},
 				new String[]{"test_jsf_project"}));
 
-		suite.addTestSuite(JsfUiPreferencesPagesTest.class);
+		suite.addTest(new JUnit4TestAdapter(JsfUiPreferencesPagesTest.class));
+
 		suite.addTestSuite(TaglibXMLUnformatedDTD_JBIDE5642.class);
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(

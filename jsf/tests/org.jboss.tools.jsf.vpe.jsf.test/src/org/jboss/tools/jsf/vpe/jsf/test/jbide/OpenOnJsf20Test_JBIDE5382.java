@@ -19,10 +19,13 @@ import org.jboss.tools.vpe.base.test.OpenOnUtil;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
+import org.junit.Before;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import static org.junit.Assert.*;
 
 /**
  * Tests for the OpenOn actions in JSF 2.0 projects. 
@@ -43,12 +46,12 @@ public class OpenOnJsf20Test_JBIDE5382 extends VpeTest {
 	private VpeController vpeController;
 	private Document sourceDocument;
 
-	public OpenOnJsf20Test_JBIDE5382(String name) {
-		super(name);
+	public OpenOnJsf20Test_JBIDE5382() {
 	}
 
+	@Before
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
 		vpeController = openInVpe(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME,
 				TEST_FILE_PATH);
@@ -57,29 +60,33 @@ public class OpenOnJsf20Test_JBIDE5382 extends VpeTest {
 	
 	////////////////////////////////////////////////////////////////////////////
 	// JUNIT TESTING METHODS
-
+	@Test
 	public void testSourceOpenOnOutputStylesheet() throws Throwable {
 		openOnSourceNode(getOutputStylesheetNode()
 				.getAttributeNode(JSF.ATTR_NAME));
 		assertActiveEditorInputNameEquals(STYLESHEET_FILE_NAME);
 	}
-	
+
+	@Test
 	public void testSourceOpenOnOutputStylesheetLib() throws Throwable {
 		openOnSourceNode(getOutputStylesheetLibNode()
 				.getAttributeNode(JSF.ATTR_NAME));
 		assertActiveEditorInputNameEquals(STYLESHEET_LIB_FILE_NAME);
 	}
 
+	@Test
 	public void testSourceOpenOnOutputScript() throws Throwable {
 		openOnSourceNode(getOutputScriptNode().getAttributeNode(JSF.ATTR_NAME));
 		assertActiveEditorInputNameEquals(SCRIPT_FILE_NAME);
 	}
-	
+
+	@Test
 	public void testSourceOpenOnOutputScriptLib() throws Throwable {
 		openOnSourceNode(getOutputScriptLibNode().getAttributeNode(JSF.ATTR_NAME));
 		assertActiveEditorInputNameEquals(SCRIPT_LIB_FILE_NAME);
 	}
-	
+
+	@Test
 	public void testVisualOpenOnOutputStylesheet() {
 		showInvisibleTags();
 		openOnCorrespondingVisualNode(getOutputStylesheetNode());
@@ -92,7 +99,8 @@ public class OpenOnJsf20Test_JBIDE5382 extends VpeTest {
 		 */
 		assertActiveEditorInputNameEquals(JSF_HTML_TLD);
 	}
-	
+
+	@Test
 	public void testVisualOpenOnOutputScript() {
 		showInvisibleTags();
 		openOnCorrespondingVisualNode(getOutputScriptNode());

@@ -17,19 +17,5 @@ import org.jboss.tools.jsf.vpe.facelets.test.jbide.JBIDE3416Test;
 import org.jboss.tools.vpe.base.test.VpeTestSetup;
 
 public class FaceletsAllTests {
-
-    // import project name
     public static final String IMPORT_PROJECT_NAME = "faceletsTest"; //$NON-NLS-1$
-	
-    public static Test suite() {
-		TestSuite suite = new TestSuite("Tests for Vpe Facelets components");
-		// $JUnit-BEGIN$
-	
-		suite.addTestSuite(FaceletsComponentTest.class);
-//		suite.addTestSuite(JBIDE3416Test.class);
-		suite.addTestSuite(FaceletsComponentContentTest.class);
-	
-		// $JUnit-END$
-		return new VpeTestSetup(suite);
-    }
 }

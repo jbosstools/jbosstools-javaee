@@ -22,9 +22,11 @@ import org.jboss.tools.vpe.base.test.OpenOnUtil;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
+import org.junit.Test;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import static org.junit.Assert.*;
 
 /**
  * @author Sergey Dzmitrovich
@@ -40,10 +42,10 @@ public class OpenOnInsideJspRoot_JBIDE4852 extends VpeTest {
 
 	private static String PAGE_ATTRIBUTE_VALUE = "include.jsp"; //$NON-NLS-1$
 
-	public OpenOnInsideJspRoot_JBIDE4852(String name) {
-		super(name);
+	public OpenOnInsideJspRoot_JBIDE4852() {
 	}
 
+	@Test
 	public void testOpenOnLinkStyles() throws Throwable {
 
 		// wait

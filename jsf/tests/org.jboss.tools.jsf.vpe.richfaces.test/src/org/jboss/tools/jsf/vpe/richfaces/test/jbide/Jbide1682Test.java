@@ -17,9 +17,12 @@ import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
+import static org.junit.Assert.*;
+import static org.junit.Assert.*;
 
 /**
  * @author dmaliarevich
@@ -31,10 +34,10 @@ public class Jbide1682Test extends VpeTest {
 	public static final String TEST_PAGE_WITHOUT_POPUP = "JBIDE/1682/JBIDE-1682-without-popup.xhtml";
 	private static final String TEST_ELEMENT_ID = "testElement";
 
-	public Jbide1682Test(String name) {
-		super(name);
+	public Jbide1682Test() {
 	}
-	
+
+	@Test
 	public void testJBIDE_1682_With_Popup() throws Throwable {
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
@@ -71,7 +74,8 @@ public class Jbide1682Test extends VpeTest {
 		assertEquals(1, elements.size());
 		
 	}
-	
+
+	@Test
 	public void testJBIDE_1682_Without_Popup() throws Throwable {
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(

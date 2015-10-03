@@ -22,6 +22,9 @@ import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * 
@@ -33,10 +36,10 @@ public class RefreshBundles_JBIDE5460 extends VpeTest {
 
 	private static String TEST_PAGE = "html/tableBasic/tableBasic.xhtml"; //$NON-NLS-1$
 	
-	public RefreshBundles_JBIDE5460(String name) {
-		super(name);
+	public RefreshBundles_JBIDE5460() {
 	}
 
+	@Test
 	public void testRefreshBundles() throws Throwable{
 		IFile file = (IFile) TestUtil.getWebContentPath(
 				TEST_PAGE, JsfAllTests.IMPORT_JBIDE5460_PROJECT_NAME);

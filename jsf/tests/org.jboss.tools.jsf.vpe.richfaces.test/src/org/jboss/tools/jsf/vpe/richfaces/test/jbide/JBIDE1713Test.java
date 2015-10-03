@@ -22,9 +22,11 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
+import static org.junit.Assert.*;
 
 /**
  * Test JBIDE-1713
@@ -38,11 +40,11 @@ public class JBIDE1713Test extends VpeTest {
 
 	private static final String TEST_PAGE_NAME = "JBIDE/1713/JBIDE-1713.xhtml"; //$NON-NLS-1$
 
-	public JBIDE1713Test(String name) {
-		super(name);
+	public JBIDE1713Test() {
 	}
 
 	// test method for JBIDE 1713 component
+	@Test
 	public void testJBIDE_1713() throws Throwable {
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(TEST_PAGE_NAME,
@@ -190,5 +192,4 @@ public class JBIDE1713Test extends VpeTest {
 			throw getException();
 		}
 	}
-
 }

@@ -11,56 +11,57 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.ComponentContentTest;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.editor.VpeController;
+import org.junit.Test;
 
 public class JBIDE2354Test extends ComponentContentTest {
 
-    public JBIDE2354Test(String name) {
-	super(name);
-    }
-    
-    public void testJBIDE2354UndoOperation() throws Exception {
-	IFile file = (IFile) TestUtil.getComponentPath("JBIDE/2354/jbide2354.xhtml", //$NON-NLS-1$
-		JsfAllTests.IMPORT_PROJECT_NAME);
-	IEditorInput input = new FileEditorInput(file);
-	JSPMultiPageEditor part = openEditor(input);
-	VpeController controller = TestUtil.getVpeController(part);
-	
-	Event keyEvent = new Event();
-	keyEvent.widget = controller.getXulRunnerEditor().getBrowser();
-	keyEvent.x = 0;
-	keyEvent.y = 0;
-	keyEvent.type = SWT.KeyDown;
-	keyEvent.stateMask = 0;
-	/*
-	 * send letter 'a' key code
-	 */
-	keyEvent.keyCode = 97;
-	
-	controller.getXulRunnerEditor().getBrowser().notifyListeners(SWT.KeyDown, keyEvent);
-//	Display.getCurrent().post(keyEvent);
-	    
-	checkSourceSelection(part);
-	
-	keyEvent = new Event();
-	keyEvent.widget = controller.getXulRunnerEditor().getBrowser();
-	keyEvent.x = 0;
-	keyEvent.y = 0;
-	keyEvent.type = SWT.KeyDown;
-	keyEvent.stateMask = SWT.CTRL;
-	/*
-	 * send letter 'z' key code
-	 */
-	keyEvent.keyCode = 122;
-	
-	controller.getXulRunnerEditor().getBrowser().notifyListeners(SWT.KeyDown, keyEvent);
-//	Display.getCurrent().post(keyEvent);
-	    
-	checkSourceSelection(part);
-    }
-    
-    @Override
-    protected String getTestProjectName() {
-	return JsfAllTests.IMPORT_PROJECT_NAME;
-    }
+	public JBIDE2354Test() {
+	}
+
+	@Test
+	public void testJBIDE2354UndoOperation() throws Exception {
+		IFile file = (IFile) TestUtil.getComponentPath("JBIDE/2354/jbide2354.xhtml", //$NON-NLS-1$
+				JsfAllTests.IMPORT_PROJECT_NAME);
+		IEditorInput input = new FileEditorInput(file);
+		JSPMultiPageEditor part = openEditor(input);
+		VpeController controller = TestUtil.getVpeController(part);
+
+		Event keyEvent = new Event();
+		keyEvent.widget = controller.getXulRunnerEditor().getBrowser();
+		keyEvent.x = 0;
+		keyEvent.y = 0;
+		keyEvent.type = SWT.KeyDown;
+		keyEvent.stateMask = 0;
+		/*
+		 * send letter 'a' key code
+		 */
+		keyEvent.keyCode = 97;
+
+		controller.getXulRunnerEditor().getBrowser().notifyListeners(SWT.KeyDown, keyEvent);
+		// Display.getCurrent().post(keyEvent);
+
+		checkSourceSelection(part);
+
+		keyEvent = new Event();
+		keyEvent.widget = controller.getXulRunnerEditor().getBrowser();
+		keyEvent.x = 0;
+		keyEvent.y = 0;
+		keyEvent.type = SWT.KeyDown;
+		keyEvent.stateMask = SWT.CTRL;
+		/*
+		 * send letter 'z' key code
+		 */
+		keyEvent.keyCode = 122;
+
+		controller.getXulRunnerEditor().getBrowser().notifyListeners(SWT.KeyDown, keyEvent);
+		// Display.getCurrent().post(keyEvent);
+
+		checkSourceSelection(part);
+	}
+
+	@Override
+	protected String getTestProjectName() {
+		return JsfAllTests.IMPORT_PROJECT_NAME;
+	}
 
 }

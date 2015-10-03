@@ -19,10 +19,12 @@ import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.jboss.tools.vpe.xulrunner.util.XulRunnerVpeUtils;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Node;
+import static org.junit.Assert.*;
 
 /**
  * @author yradtsevich
@@ -34,8 +36,7 @@ public class JBIDE3473Test extends VpeTest {
 	private static final String TEST_PAGE_NAME = "JBIDE/3473/JBIDE-3473.html"; //$NON-NLS-1$
 	private static final String INSERTING_TEXT = " id=\"td-id\""; //$NON-NLS-1$	
 
-	public JBIDE3473Test(String name) {
-		super(name);
+	public JBIDE3473Test() {
 	}
 
 	/**
@@ -44,6 +45,7 @@ public class JBIDE3473Test extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testNodeUpdate() throws Throwable {
 		TestUtil.waitForJobs();
 		setException(null);

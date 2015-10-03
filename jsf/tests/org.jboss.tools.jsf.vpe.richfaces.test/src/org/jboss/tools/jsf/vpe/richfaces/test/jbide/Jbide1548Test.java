@@ -24,16 +24,18 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
+import static org.junit.Assert.*;
 
 /**
  * Class for testing all jsf bugs
  * 
  * @author sdzmitrovich
  * 
- * test for http://jira.jboss.com/jira/browse/JBIDE-1548
+ *         test for http://jira.jboss.com/jira/browse/JBIDE-1548
  * 
  * 
  */
@@ -44,22 +46,20 @@ public class Jbide1548Test extends VpeTest {
 	// type of input tag
 
 	// import project name
-	public Jbide1548Test(String name) {
-		super(name);
+	public Jbide1548Test() {
 	}
 
 	/*
 	 * JBIDE's test cases
 	 */
-
+	@Test
 	public void testJbide() throws Throwable {
 
 		// get test page path
-		IFile file = (IFile) TestUtil.getComponentPath(
-				TEST_PAGE_NAME, RichFacesAllTests.IMPORT_PROJECT_NAME);
+		IFile file = (IFile) TestUtil.getComponentPath(TEST_PAGE_NAME, RichFacesAllTests.IMPORT_PROJECT_NAME);
 
-		assertNotNull("Could not open specified file. componentPage = " + TEST_PAGE_NAME
-				+ ";projectName = " + RichFacesAllTests.IMPORT_PROJECT_NAME, file);//$NON-NLS-1$
+		assertNotNull("Could not open specified file. componentPage = " + TEST_PAGE_NAME + ";projectName = " //$NON-NLS-2$
+				+ RichFacesAllTests.IMPORT_PROJECT_NAME, file);
 
 		IEditorInput input = new FileEditorInput(file);
 
@@ -117,8 +117,7 @@ public class Jbide1548Test extends VpeTest {
 	 *  </code>
 	 * 
 	 */
-	private void checkMinMaxValue(nsIDOMNode defaultInputSlider,
-			int expectedMinValue, int expectedMaxValue) {
+	private void checkMinMaxValue(nsIDOMNode defaultInputSlider, int expectedMinValue, int expectedMaxValue) {
 
 		// get "tr" element
 		nsIDOMNode trNode = defaultInputSlider.getChildNodes().item(0);

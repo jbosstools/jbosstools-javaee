@@ -14,6 +14,10 @@ import org.eclipse.swt.graphics.Point;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.editor.menu.InsertType;
 import org.jboss.tools.vpe.editor.menu.action.InsertAction2;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests for JIRA issue JBIDE-3519: Ctrl+Z (Undo) doesn't work
@@ -34,12 +38,12 @@ public class JBIDE3519Test extends ContextMenuTestAbstract {
 	private int selectionStartOffset;
 	private int selectionEndOffset;
 
-	public JBIDE3519Test(String name) {
-		super(name);
+	public JBIDE3519Test() {
 	}
 
+	@Before
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
 		originalText = textWidget.getText();
 		selectionStartOffset = TestUtil.getLinePositionOffcet(
@@ -53,18 +57,22 @@ public class JBIDE3519Test extends ContextMenuTestAbstract {
 //		insertAndUndo(InsertType.INSERT_AROUND);
 //	}
 
+	@Test
 	public void testInsertAfter() {
 		insertAndUndo(InsertType.INSERT_AFTER);
 	}
 
+	@Test
 	public void testInsertBefore() {
 		insertAndUndo(InsertType.INSERT_BEFORE);
 	}
 
+	@Test
 	public void testInsertInto() {
 		insertAndUndo(InsertType.INSERT_INTO);
 	}
 
+	@Test
 	public void testReplaceWith() throws Throwable {
 		insertAndUndo(InsertType.REPLACE_WITH);
 	}

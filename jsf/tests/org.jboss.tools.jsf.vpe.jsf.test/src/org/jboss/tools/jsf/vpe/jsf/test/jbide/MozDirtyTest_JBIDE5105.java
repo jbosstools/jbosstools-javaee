@@ -15,8 +15,11 @@ import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMNodeList;
+import static org.junit.Assert.*;
+import static org.junit.Assert.*;
 
 /**
  * Tests for _MOZ_DIRTY tags.
@@ -30,8 +33,7 @@ public class MozDirtyTest_JBIDE5105 extends VpeTest {
 	private static final String TEST_PAGE_NAME
 			= "JBIDE/5105/BrMozDirty.html";						//$NON-NLS-1$
 
-	public MozDirtyTest_JBIDE5105(String name) {
-		super(name);
+	public MozDirtyTest_JBIDE5105() {
 	}
 
 	/**
@@ -41,6 +43,7 @@ public class MozDirtyTest_JBIDE5105 extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testBrMozDirty() throws Throwable {
 		VpeController vpeController = openInVpe(JsfAllTests.IMPORT_PROJECT_NAME,
 				TEST_PAGE_NAME);

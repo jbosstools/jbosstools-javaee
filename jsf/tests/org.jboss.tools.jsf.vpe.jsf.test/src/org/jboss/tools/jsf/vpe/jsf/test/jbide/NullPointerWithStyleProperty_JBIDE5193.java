@@ -10,15 +10,18 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class NullPointerWithStyleProperty_JBIDE5193 extends VpeTest {
 
 	private static final String TEST_PAGE_NAME = "JBIDE/5193/JBIDE5193.jsp"; //$NON-NLS-1$
 
-	public NullPointerWithStyleProperty_JBIDE5193(String name) {
-		super(name);
+	public NullPointerWithStyleProperty_JBIDE5193() {
 	}
-	
+
+	@Test
 	public void testNullPointerWithStyleProperty_JBIDE5193() throws Throwable {
 		TestUtil.waitForJobs();
 		setException(null);

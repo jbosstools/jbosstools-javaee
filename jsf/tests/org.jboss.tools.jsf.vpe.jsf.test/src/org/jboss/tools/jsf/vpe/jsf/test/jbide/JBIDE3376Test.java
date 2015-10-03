@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.ComponentContentTest;
+import org.junit.Test;
 
 /**
  * @author mareshkau
@@ -19,15 +20,15 @@ import org.jboss.tools.vpe.base.test.ComponentContentTest;
  */
 public class JBIDE3376Test extends ComponentContentTest{
 
-	public JBIDE3376Test(String name) {
-		super(name);
+	public JBIDE3376Test() {
 	}
 
 	@Override
 	protected String getTestProjectName() {
 		return JsfAllTests.IMPORT_PROJECT_NAME;
 	}
-	
+
+	@Test
 	public void testJBIDE3144Test2() throws Throwable {
 		performContentTest("JBIDE/3376/jbide3376.jsp"); //$NON-NLS-1$
 	}

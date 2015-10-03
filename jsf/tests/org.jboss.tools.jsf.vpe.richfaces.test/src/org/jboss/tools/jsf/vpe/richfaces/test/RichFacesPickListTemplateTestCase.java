@@ -23,10 +23,11 @@ import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
-
+import static org.junit.Assert.*;
 
 /**
  * Test case for testing <rich:pickList/> component.
@@ -37,50 +38,50 @@ public class RichFacesPickListTemplateTestCase extends VpeTest {
 	private static final String FILE_NAME = "components/pickList/pickList.xhtml";
 	private static final String TEST_ELEMENT_ID = "testElement";
 
-    /**
-     * The Constructor.
-     * 
-     * @param name the name
-     */
-    public RichFacesPickListTemplateTestCase(String name) {
-        super(name);
-    }
+	/**
+	 * The Constructor.
+	 * 
+	 * @param name
+	 *            the name
+	 */
+	public RichFacesPickListTemplateTestCase() {
+	}
 
-    /**
-     * Test simple pick list.
-     */
-    public void testSimplePickList() throws Throwable {
+	/**
+	 * Test simple pick list.
+	 */
+	@Test
+	public void testSimplePickList() throws Throwable {
 
-    		// get test page path
-    		IFile file = (IFile) TestUtil.getComponentPath(FILE_NAME,
-    				RichFacesAllTests.IMPORT_PROJECT_NAME);
+		// get test page path
+		IFile file = (IFile) TestUtil.getComponentPath(FILE_NAME, RichFacesAllTests.IMPORT_PROJECT_NAME);
 
-    		IEditorInput input = new FileEditorInput(file);
+		IEditorInput input = new FileEditorInput(file);
 
-    		// open and get editor
-    		JSPMultiPageEditor part = openEditor(input);
+		// open and get editor
+		JSPMultiPageEditor part = openEditor(input);
 
-    		// get dom document
-    		nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
-    		assertNotNull(document);
+		// get dom document
+		nsIDOMDocument document = TestUtil.getVpeVisualDocument(part);
+		assertNotNull(document);
 
-    		VpeController controller = TestUtil.getVpeController(part);
+		VpeController controller = TestUtil.getVpeController(part);
 
-    		nsIDOMElement element = findElementById(controller, TEST_ELEMENT_ID);
-    		assertNotNull(element);
-            
-            final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+		nsIDOMElement element = findElementById(controller, TEST_ELEMENT_ID);
+		assertNotNull(element);
 
-            TestUtil.findAllElementsByName(element, elements, HTML.TAG_TABLE);
-            assertEquals("Count of tables should be 3", 3, elements.size()); //$NON-NLS-1$
-            nsIDOMElement tableOne = queryInterface(elements.get(0), nsIDOMElement.class);
+		final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
-            assertEquals("Style class should be equals", "rich-list-picklist", tableOne.getAttribute(HTML.ATTR_CLASS)); //$NON-NLS-1$ //$NON-NLS-2$
-            assertEquals("Style should be empty", "", tableOne.getAttribute(HTML.ATTR_STYLE)); //$NON-NLS-1$ //$NON-NLS-2$
-            elements.clear();
-            TestUtil.findAllElementsByName(element, elements, HTML.TAG_DIV);
-            assertEquals("Count of divs should be 15", 15, elements.size()); //$NON-NLS-1$
-            elements.clear();
-    }
+		TestUtil.findAllElementsByName(element, elements, HTML.TAG_TABLE);
+		assertEquals("Count of tables should be 3", 3, elements.size()); //$NON-NLS-1$
+		nsIDOMElement tableOne = queryInterface(elements.get(0), nsIDOMElement.class);
+
+		assertEquals("Style class should be equals", "rich-list-picklist", tableOne.getAttribute(HTML.ATTR_CLASS)); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals("Style should be empty", "", tableOne.getAttribute(HTML.ATTR_STYLE)); //$NON-NLS-1$ //$NON-NLS-2$
+		elements.clear();
+		TestUtil.findAllElementsByName(element, elements, HTML.TAG_DIV);
+		assertEquals("Count of divs should be 15", 15, elements.size()); //$NON-NLS-1$
+		elements.clear();
+	}
 
 }

@@ -19,6 +19,7 @@ import org.jboss.tools.common.model.ui.util.ModelUtilities;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
+import org.junit.Before;
 
 /**
  * @author yradtsevich
@@ -32,12 +33,11 @@ public abstract class ContextMenuTestAbstract extends VpeTest {
 	protected IUndoManager undoManager;
 	protected XModelObject insertionItem;
 	
-	public ContextMenuTestAbstract(String name) {
-		super(name);
+	public ContextMenuTestAbstract() {
 	}
-	
+	@Before
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
 
 		vpeController = openInVpe(JsfAllTests.IMPORT_PROJECT_NAME,

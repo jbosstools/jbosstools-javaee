@@ -11,13 +11,18 @@
 package org.jboss.tools.jsf.vpe.ajax4jsf.test;
 
 import org.jboss.tools.vpe.base.test.ComponentContentTest;
+import org.jboss.tools.vpe.base.test.VpeTest;
+
+import static org.junit.Assume.*;
+
+import static org.hamcrest.core.Is.*;
 
 public class Ajax4JsfComponentContentTest extends ComponentContentTest {
 
-	public Ajax4JsfComponentContentTest(String name) {
-		super(name);
+	public Ajax4JsfComponentContentTest() {
 		setCheckWarning(false);
 	}
+
 
 	public void testAjaxListener() throws Throwable {
 		performInvisibleTagTest("components/ajaxListener.xhtml", "ajaxListener"); //$NON-NLS-1$ //$NON-NLS-2$

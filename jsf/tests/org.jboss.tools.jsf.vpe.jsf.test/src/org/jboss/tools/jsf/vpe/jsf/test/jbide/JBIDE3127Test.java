@@ -19,6 +19,9 @@ import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.VpeEditorPart;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Test case for JBIDE-3127
@@ -26,37 +29,38 @@ import org.jboss.tools.vpe.editor.VpeEditorPart;
  * @author mareshkau
  *
  */
-public class JBIDE3127Test extends VpeTest{
+public class JBIDE3127Test extends VpeTest {
 
-	public JBIDE3127Test(String name) {
-		super(name);
+	public JBIDE3127Test() {
 	}
-	
+
+	@Test
 	public void testJBIDE3127() throws Exception {
 		setException(null);
-        IFile file = (IFile) TestUtil.getComponentPath("JBIDE/3127/jbide3127.xhtml", //$NON-NLS-1$
-        		JsfAllTests.IMPORT_PROJECT_NAME);
-        IEditorInput input = new FileEditorInput(file);
-        JSPMultiPageEditor editor = openEditor(input);
-        VpeController vpeController = TestUtil.getVpeController(editor);
-        int offcet  = TestUtil.getLinePositionOffcet(editor.getSourceEditor().getTextViewer(), 13, 78);
-        editor.getSourceEditor().getTextViewer().setSelectedRange(offcet, 1);
-        assertTrue("VE sould be visible", vpeController.isVisualEditorVisible()); //$NON-NLS-1$
-        assertTrue("It's should be a div","DIV".equalsIgnoreCase(vpeController.getXulRunnerEditor().getSelectedElement().getNodeName()));  //$NON-NLS-1$//$NON-NLS-2$
-        VpeEditorPart editorPart = ((VpeEditorPart)editor.getVisualEditor());
-        editorPart.maximizeSource();
-        assertFalse("Visual part shouldn't be visible",vpeController.isVisualEditorVisible()); //$NON-NLS-1$
-        //change source code
-        editor.getSourceEditor().getTextViewer().getTextWidget().replaceTextRange(offcet-20, "replaced text".length(), "replaced text"); //$NON-NLS-1$ //$NON-NLS-2$
-        assertFalse("Synced should be false",vpeController.isSynced()); //$NON-NLS-1$
-        editorPart.maximizeVisual();
-        vpeController.visualRefresh();
-        //wait while refresh jobs start
-        TestUtil.delay();
-        TestUtil.waitForJobs();
-        if(getException()!=null) {
-        	throw new Exception(getException());
-        }
+		IFile file = (IFile) TestUtil.getComponentPath("JBIDE/3127/jbide3127.xhtml", //$NON-NLS-1$
+				JsfAllTests.IMPORT_PROJECT_NAME);
+		IEditorInput input = new FileEditorInput(file);
+		JSPMultiPageEditor editor = openEditor(input);
+		VpeController vpeController = TestUtil.getVpeController(editor);
+		int offcet = TestUtil.getLinePositionOffcet(editor.getSourceEditor().getTextViewer(), 13, 78);
+		editor.getSourceEditor().getTextViewer().setSelectedRange(offcet, 1);
+		assertTrue("VE sould be visible", vpeController.isVisualEditorVisible()); //$NON-NLS-1$
+		assertTrue("It's should be a div", //$NON-NLS-1$
+				"DIV".equalsIgnoreCase(vpeController.getXulRunnerEditor().getSelectedElement().getNodeName())); //$NON-NLS-1$
+		VpeEditorPart editorPart = ((VpeEditorPart) editor.getVisualEditor());
+		editorPart.maximizeSource();
+		assertFalse("Visual part shouldn't be visible", vpeController.isVisualEditorVisible()); //$NON-NLS-1$
+		// change source code
+		editor.getSourceEditor().getTextViewer().getTextWidget().replaceTextRange(offcet - 20, "replaced text".length(), //$NON-NLS-1$
+				"replaced text"); //$NON-NLS-1$
+		assertFalse("Synced should be false", vpeController.isSynced()); //$NON-NLS-1$
+		editorPart.maximizeVisual();
+		vpeController.visualRefresh();
+		// wait while refresh jobs start
+		TestUtil.delay();
+		TestUtil.waitForJobs();
+		if (getException() != null) {
+			throw new Exception(getException());
+		}
 	}
-
 }

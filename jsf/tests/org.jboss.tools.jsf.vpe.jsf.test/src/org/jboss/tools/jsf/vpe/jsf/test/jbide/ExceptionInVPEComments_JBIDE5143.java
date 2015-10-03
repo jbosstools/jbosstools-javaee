@@ -19,6 +19,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
+import org.junit.Test;
 
 /**
  * 
@@ -28,10 +29,10 @@ import org.jboss.tools.vpe.base.test.VpeTest;
 
 public class ExceptionInVPEComments_JBIDE5143 extends VpeTest {
 
-	public ExceptionInVPEComments_JBIDE5143(String name) {
-		super(name);
+	public ExceptionInVPEComments_JBIDE5143() {
 	}
 
+	@Test
 	public void testExceptionInVPEComments() throws Throwable {
 		setException(null);
 		IFile file = (IFile) TestUtil.getComponentPath("JBIDE/5143/test.html", //$NON-NLS-1$

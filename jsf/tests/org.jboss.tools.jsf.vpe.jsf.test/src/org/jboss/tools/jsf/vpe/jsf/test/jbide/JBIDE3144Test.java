@@ -22,24 +22,30 @@ import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.ComponentContentTest;
 import org.jboss.tools.vpe.base.test.TestUtil;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author mareshkau
  *
  */
-public class JBIDE3144Test extends ComponentContentTest{
+public class JBIDE3144Test extends ComponentContentTest {
 
 	/**
 	 * Test Page
 	 */
 	private IFile file;
-	private static  Map<String, String> elValuesMap;
-	/* (non-Javadoc)
+	private static Map<String, String> elValuesMap;
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.jboss.tools.vpe.ui.test.VpeTest#setUp()
 	 */
 
+	@Before
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
 		setException(null);
 		this.file = (IFile) TestUtil.getComponentPath("JBIDE/3144/home.xhtml", //$NON-NLS-1$
@@ -48,48 +54,53 @@ public class JBIDE3144Test extends ComponentContentTest{
 		elValuesMap.put("request.contextPath", "./"); //$NON-NLS-1$ //$NON-NLS-2$
 		elValuesMap.put("test.dataTablecolor", "background-color:red;"); //$NON-NLS-1$ //$NON-NLS-2$
 		elValuesMap.put("test.columnColor", "background-color:green;"); //$NON-NLS-1$ //$NON-NLS-2$
-		
+
 		elValuesMap.put("test.columnsColor", "background-color:#A020F0;"); //$NON-NLS-1$ //$NON-NLS-2$
 		elValuesMap.put("test.scrolable", "background-color:blue;"); //$NON-NLS-1$ //$NON-NLS-2$
 		elValuesMap.put("test.richDataGrid", "background-color:pink;"); //$NON-NLS-1$ //$NON-NLS-2$
-		elValuesMap.put("test.scope", "Test El expression");  //$NON-NLS-1$//$NON-NLS-2$
+		elValuesMap.put("test.scope", "Test El expression"); //$NON-NLS-1$//$NON-NLS-2$
 		ResourceReference[] entries = new ResourceReference[elValuesMap.size()];
-        int i = 0;
-        for (Entry<String, String> string : elValuesMap.entrySet()) {
-            entries[i] = new ResourceReference(string.getKey(), ResourceReference.PROJECT_SCOPE);
-            entries[i].setProperties(string.getValue());
-            i++;         
-        }
-        ELReferenceList.getInstance().setAllResources(this.file,entries);
+		int i = 0;
+		for (Entry<String, String> string : elValuesMap.entrySet()) {
+			entries[i] = new ResourceReference(string.getKey(), ResourceReference.PROJECT_SCOPE);
+			entries[i].setProperties(string.getValue());
+			i++;
+		}
+		ELReferenceList.getInstance().setAllResources(this.file, entries);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.jboss.tools.vpe.ui.test.VpeTest#tearDown()
 	 */
+	@After
 	@Override
-	protected void tearDown() throws Exception {
+	public void tearDown() throws Exception {
 		ELReferenceList.getInstance().setAllResources(this.file, new ResourceReference[0]);
-		if(getException()!=null) {
+		if (getException() != null) {
 			throw new Exception(getException());
 		}
 		super.tearDown();
 	}
 
-	public JBIDE3144Test(String name) {
-		super(name);
+	public JBIDE3144Test() {
 	}
-	
+
+	@Test
 	public void testJBIDE3144Selection() throws Exception {
 		IEditorInput input = new FileEditorInput(this.file);
 		JSPMultiPageEditor part = openEditor(input);
 		checkSourceSelection(part);
 	}
-	
+
+	@Test
 	public void testJBIDE3144Test2() throws Throwable {
 		performContentTest("JBIDE/3144/test.xhtml"); //$NON-NLS-1$
 	}
-	
-	public void testJBIDE3214() throws Throwable {	
+
+	@Test
+	public void testJBIDE3214() throws Throwable {
 		performContentTest("JBIDE/3144/jbide3214test.xhtml"); //$NON-NLS-1$
 	}
 
@@ -97,4 +108,4 @@ public class JBIDE3144Test extends ComponentContentTest{
 	protected String getTestProjectName() {
 		return JsfAllTests.IMPORT_PROJECT_NAME;
 	}
- }
+}

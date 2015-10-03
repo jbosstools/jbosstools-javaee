@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.ComponentContentTest;
 import org.jboss.tools.vpe.editor.VpeController;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMElement;
 
 
@@ -22,21 +23,22 @@ import org.mozilla.interfaces.nsIDOMElement;
  */
 public class JBIDE3482Test extends ComponentContentTest{
 
-	public JBIDE3482Test(String name) {
-		super(name);
+	public JBIDE3482Test() {
 	}
-	
+
+	@Test
 	public void testJBIDE3482() throws Throwable {	
 		performContentTest("JBIDE/3482/jbide3482.xhtml"); //$NON-NLS-1$
 	}
+
 	@Override
 	protected String getTestProjectName() {
 		return JsfAllTests.IMPORT_PROJECT_NAME;
 	}
+
 	@Override
-	protected nsIDOMElement findElementById(VpeController controller,
-			String elementId){
-	return	controller.getXulRunnerEditor().getDOMDocument().getElementById(elementId);
+	protected nsIDOMElement findElementById(VpeController controller, String elementId){
+		return	controller.getXulRunnerEditor().getDOMDocument().getElementById(elementId);
 	}
 
 }

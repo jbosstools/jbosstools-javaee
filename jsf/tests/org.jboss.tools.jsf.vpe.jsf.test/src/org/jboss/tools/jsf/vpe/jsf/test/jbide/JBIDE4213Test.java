@@ -22,6 +22,9 @@ import org.jboss.tools.jst.web.tld.TaglibMapping;
 import org.jboss.tools.vpe.base.test.ProjectsLoader;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * @author V.Kabanovich
@@ -29,32 +32,30 @@ import org.jboss.tools.vpe.base.test.VpeTest;
  */
 public class JBIDE4213Test extends VpeTest {
 
-	private static final String TEST_PAGE_NAME="JBIDE/1105/employee.xhtml"; //$NON-NLS-1$
-	
-	public JBIDE4213Test(String name) {
-		super(name);
+	private static final String TEST_PAGE_NAME = "JBIDE/1105/employee.xhtml"; //$NON-NLS-1$
+
+	public JBIDE4213Test() {
 	}
-	
+
+	@Test
 	public void testJBIDE4213() throws Throwable {
-	// wait
-	TestUtil.waitForJobs();
-	setException(null);
+		// wait
+		TestUtil.waitForJobs();
+		setException(null);
 
-	IProject project = ProjectsLoader.getInstance()
-			.getProject(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
-	assertNotNull(project);
+		IProject project = ProjectsLoader.getInstance().getProject(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
+		assertNotNull(project);
 
-	IModelNature nature = EclipseResourceUtil.getModelNature(project);
-	assertNotNull(nature);
+		IModelNature nature = EclipseResourceUtil.getModelNature(project);
+		assertNotNull(nature);
 
-	ITaglibMapping tm = WebProject.getInstance(nature.getModel()).getTaglibMapping();
-	((TaglibMapping)tm).revalidate(WebAppHelper.getWebApp(nature.getModel()));
-	XModelObject o = tm.getTaglibObject("http://mareshkau/tags");
-	assertNotNull(o);
+		ITaglibMapping tm = WebProject.getInstance(nature.getModel()).getTaglibMapping();
+		((TaglibMapping) tm).revalidate(WebAppHelper.getWebApp(nature.getModel()));
+		XModelObject o = tm.getTaglibObject("http://mareshkau/tags");
+		assertNotNull(o);
 
-	if (getException() != null) {
-	    throw getException();
+		if (getException() != null) {
+			throw getException();
+		}
 	}
-	}
-
 }

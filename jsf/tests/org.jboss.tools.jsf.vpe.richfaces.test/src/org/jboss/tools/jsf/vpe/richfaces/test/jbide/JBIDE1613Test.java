@@ -13,18 +13,20 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
+import static org.junit.Assert.*;
 
 public class JBIDE1613Test extends VpeTest {
 
 	private static final String TEST_PAGE_NAME = "JBIDE/1613/JBIDE-1613.xhtml";
 
-	public JBIDE1613Test(String name) {
-		super(name);
+	public JBIDE1613Test() {
 	}
-	
+
+	@Test
 	public void testJBIDE_1613() throws Throwable{
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(

@@ -14,6 +14,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.jboss.tools.vpe.base.test.VpeTestSetup;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 /**
  * Class for testing all RichFaces components
@@ -22,16 +24,8 @@ import org.jboss.tools.vpe.base.test.VpeTestSetup;
  * 
  */
 
+@RunWith(Suite.class)
+@Suite.SuiteClasses({ RichFacesAllImportantTests.class, RichFacesComponentContentTest.class })
 public class RichFacesAllTests {
-
 	public static final String IMPORT_PROJECT_NAME = "richFacesTest"; //$NON-NLS-1$
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite("Tests for Vpe RichFaces components"); // $NON //$NON-NLS-1$
-		// $JUnit-BEGIN$
-		suite.addTest(RichFacesAllImportantTests.suite());
-		suite.addTestSuite(RichFacesComponentContentTest.class);
-		// $JUnit-END$
-		return new VpeTestSetup(suite);
-	}
 }

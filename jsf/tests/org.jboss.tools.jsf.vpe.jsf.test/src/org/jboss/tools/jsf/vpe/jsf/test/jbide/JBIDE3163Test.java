@@ -19,7 +19,9 @@ import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.xulrunner.editor.XulRunnerEditor;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMNode;
+import static org.junit.Assert.*;
 
 /**
  * @author mareshkau
@@ -27,10 +29,10 @@ import org.mozilla.interfaces.nsIDOMNode;
  */
 public class JBIDE3163Test extends VpeTest{
 
-	public JBIDE3163Test(String name) {
-		super(name);
+	public JBIDE3163Test() {
 	}
 
+	@Test
 	public void testJBIDE3163() throws Exception {
 		setException(null);
         IFile file = (IFile) TestUtil.getComponentPath("JBIDE/3163/jbide3163.html",  //$NON-NLS-1$

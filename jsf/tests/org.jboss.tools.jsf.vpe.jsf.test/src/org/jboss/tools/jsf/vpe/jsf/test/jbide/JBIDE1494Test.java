@@ -26,7 +26,9 @@ import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.template.VpeTemplate;
 import org.jboss.tools.vpe.editor.template.VpeTemplateManager;
+import org.junit.Test;
 import org.w3c.dom.Node;
+import static org.junit.Assert.*;
 
 /**
  * @author mareshkau
@@ -36,10 +38,10 @@ public class JBIDE1494Test extends VpeTest{
 
     private static final String TEST_PAGE_NAME = "JBIDE/1494/JBIDE-1494.xhtml"; //$NON-NLS-1$
     
-	public JBIDE1494Test(String name) {
-		super(name);
+	public JBIDE1494Test() {
 	}
-	
+
+	@Test
 	public void testJBIDE1494() throws Throwable {
 		// wait
 		TestUtil.waitForJobs();

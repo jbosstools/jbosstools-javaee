@@ -24,8 +24,10 @@ import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.mapping.VpeDomMapping;
 import org.jboss.tools.vpe.editor.mapping.VpeNodeMapping;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Node;
+import static org.junit.Assert.*;
 
 /**
  * @author mareshkau
@@ -35,10 +37,7 @@ public class JBIDE675Test extends VpeTest {
 
 	private static final String TEST_PAGE_NAME = "JBIDE/675/testChangeOnUserInputTextNode.xhtml"; //$NON-NLS-1$
 
-	
-	
-	public JBIDE675Test(String name) {
-		super(name);
+	public JBIDE675Test() {
 	}
 
 	/**
@@ -46,6 +45,7 @@ public class JBIDE675Test extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testBaseTextInputOnPage() throws Throwable {
 		// wait
 		TestUtil.waitForJobs();
@@ -103,11 +103,13 @@ public class JBIDE675Test extends VpeTest {
 			throw getException();
 		}
 	}
+
 	/**
 	 * Tests tag Input on Source Page
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testBaseTagInputOnPage() throws Throwable {
 		// wait
 		TestUtil.waitForJobs();
@@ -164,6 +166,7 @@ public class JBIDE675Test extends VpeTest {
 		}
 	}
 
+	@Test
 	public void testInsertTagOnPage() throws Throwable {
 		// wait
 		TestUtil.waitForJobs();

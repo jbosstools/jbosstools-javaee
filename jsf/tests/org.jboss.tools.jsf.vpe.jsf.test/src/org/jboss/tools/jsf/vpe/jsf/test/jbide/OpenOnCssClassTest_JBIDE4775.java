@@ -23,11 +23,13 @@ import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Test;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.css.CSSStyleRule;
+import static org.junit.Assert.*;
 
 /**
  * @author Sergey Dzmitrovich
@@ -46,12 +48,11 @@ public class OpenOnCssClassTest_JBIDE4775 extends VpeTest {
 	private static String CLASS_ATTRIBUTE = "class"; //$NON-NLS-1$
 	private static String STYLE_CLASS_ATTRIBUTE = "styleClass"; //$NON-NLS-1$
 
-	public OpenOnCssClassTest_JBIDE4775(String name) {
-		super(name);
+	public OpenOnCssClassTest_JBIDE4775() {
 	}
 
+	@Test
 	public void testOpenOnStylesOnPage() throws Throwable {
-
 		// wait
 		TestUtil.waitForJobs();
 		// set exception
@@ -105,11 +106,10 @@ public class OpenOnCssClassTest_JBIDE4775 extends VpeTest {
 		if (getException() != null) {
 			throw getException();
 		}
-
 	}
 
+	@Test
 	public void testOpenOnLinkStyles() throws Throwable {
-
 		// wait
 		TestUtil.waitForJobs();
 		// set exception
@@ -160,11 +160,10 @@ public class OpenOnCssClassTest_JBIDE4775 extends VpeTest {
 		if (getException() != null) {
 			throw getException();
 		}
-
 	}
 
+	@Test
 	public void testOpenOnLinkWithElExpressionsStyles() throws Throwable {
-
 		// wait
 		TestUtil.waitForJobs();
 		// set exception
@@ -215,7 +214,5 @@ public class OpenOnCssClassTest_JBIDE4775 extends VpeTest {
 		if (getException() != null) {
 			throw getException();
 		}
-
 	}
-
 }

@@ -24,10 +24,12 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNamedNodeMap;
 import org.mozilla.interfaces.nsIDOMNode;
+import static org.junit.Assert.*;
 
 /**
  * Class for testing all jsf bugs
@@ -52,14 +54,13 @@ public class JsfJbide1467Test extends VpeTest {
 
 	// import project name
 
-	public JsfJbide1467Test(String name) {
-		super(name);
+	public JsfJbide1467Test() {
 	}
 
 	/*
 	 * JBIDE's test cases
 	 */
-
+	@Test
 	public void testJbide() throws Throwable {
 
 		// wait

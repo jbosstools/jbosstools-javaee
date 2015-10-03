@@ -25,8 +25,10 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
+import static org.junit.Assert.*;
 
 /**
  * Test for JIRA Issue JBIDE-3441 ( https://jira.jboss.org/jira/browse/JBIDE-3441 ):
@@ -41,13 +43,13 @@ public class JBIDE3441Test  extends VpeTest {
 	private static final String TEST_PAGE_NAME_1 = "JBIDE/3441/JBIDE-3441-1.html"; //$NON-NLS-1$
 	private static final String TEST_PAGE_NAME_2 = "JBIDE/3441/JBIDE-3441-2.html"; //$NON-NLS-1$
 
-	public JBIDE3441Test(String name) {
-		super(name);
+	public JBIDE3441Test() {
 	}
-	
+
 	/**
 	 * Try to open two pages in VPE and refresh them n times.
 	 */
+	@Test
 	public void testVisualRefresh() throws Throwable {
 		setException(null);
 

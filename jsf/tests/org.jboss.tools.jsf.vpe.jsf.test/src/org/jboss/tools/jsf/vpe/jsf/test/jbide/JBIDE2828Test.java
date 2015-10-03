@@ -15,6 +15,9 @@ import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Test case for jbide-2828
@@ -27,9 +30,10 @@ public class JBIDE2828Test extends VpeTest {
 	 * 
 	 * @param name
 	 */
-	public JBIDE2828Test(String name) {
-		super(name);
+	public JBIDE2828Test() {
 	}
+
+	@Test
 	public void testJBIDE2828JbossELParser() throws Throwable {
 		
 		setException(null);
@@ -49,9 +53,11 @@ public class JBIDE2828Test extends VpeTest {
 			throw getException();
 		}
 	}
+
 	/**
 	 * Test for default parser
 	 */
+	@Test
 	public void testJBIDE2828DefaultELParser() throws Throwable {
 		
 		setException(null);
@@ -71,6 +77,7 @@ public class JBIDE2828Test extends VpeTest {
 			throw getException();
 		}
 	}
+
 	/**
 	 * Checks el parser
 	 */	

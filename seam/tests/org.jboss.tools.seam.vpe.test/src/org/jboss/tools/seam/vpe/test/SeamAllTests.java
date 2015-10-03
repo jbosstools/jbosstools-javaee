@@ -14,6 +14,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.jboss.tools.vpe.base.test.VpeTestSetup;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 /**
  * Class for testing all Seam components
@@ -21,17 +23,11 @@ import org.jboss.tools.vpe.base.test.VpeTestSetup;
  * @author dsakovich@exadel.com
  * 
  */
-
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+	SeamAllImportantTests.class,
+	SeamComponentContentTest.class
+})
 public class SeamAllTests {
-    
-    public static final String IMPORT_PROJECT_NAME = "SeamTest"; //$NON-NLS-1$
-    
-    public static Test suite() {
-		TestSuite suite = new TestSuite("Tests for Vpe Seam components"); //$NON-NLS-1$
-		// $JUnit-BEGIN$
-		suite.addTest(SeamAllImportantTests.suite());
-		suite.addTestSuite(SeamComponentContentTest.class);
-		// $JUnit-END$
-		return new VpeTestSetup(suite);
-    }
+	public static final String IMPORT_PROJECT_NAME = "SeamTest"; //$NON-NLS-1$
 }

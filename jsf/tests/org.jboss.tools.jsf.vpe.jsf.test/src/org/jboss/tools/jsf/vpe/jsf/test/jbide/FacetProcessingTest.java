@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.ComponentContentTest;
+import org.junit.Test;
 
 /**
  *JUnit for https://jira.jboss.org/jira/browse/JBIDE-5768
@@ -21,15 +22,14 @@ import org.jboss.tools.vpe.base.test.ComponentContentTest;
  */
 public class FacetProcessingTest extends ComponentContentTest {
 
-	public FacetProcessingTest(String name) {
-		super(name);
+	public FacetProcessingTest() {
 	}
 
+	@Test
 	public void testFacetProcessingTest() throws Throwable{
 		performContentTest("JBIDE/5768/test.xhtml"); //$NON-NLS-1$
-
-		
 	}
+	
 	@Override
 	protected String getTestProjectName() {
 		return JsfAllTests.IMPORT_PROJECT_NAME;

@@ -12,20 +12,23 @@ package org.jboss.tools.jsf.vpe.facelets.test.jbide;
 
 import org.jboss.tools.jsf.vpe.facelets.test.FaceletsAllTests;
 import org.jboss.tools.vpe.base.test.ComponentContentTest;
+import org.junit.Ignore;
+import org.junit.Test;
 
 public class JBIDE3416Test extends ComponentContentTest {
 
-    public JBIDE3416Test(String name) {
-	super(name);
-    }
+	public JBIDE3416Test() {
+	}
 
-    public void _testJBIDE3416() throws Throwable {	
-	performContentTest("JBIDE/3416/jbide3416.xhtml"); //$NON-NLS-1$
-    }
-    
-    @Override
-    protected String getTestProjectName() {
-	return FaceletsAllTests.IMPORT_PROJECT_NAME;
-    }
+	@Test
+	@Ignore
+	public void _testJBIDE3416() throws Throwable {
+		performContentTest("JBIDE/3416/jbide3416.xhtml"); //$NON-NLS-1$
+	}
+
+	@Override
+	protected String getTestProjectName() {
+		return FaceletsAllTests.IMPORT_PROJECT_NAME;
+	}
 
 }

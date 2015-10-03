@@ -10,18 +10,11 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jstl.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-import org.jboss.tools.vpe.base.test.VpeTestSetup;
-
+@RunWith(Suite.class)
+@Suite.SuiteClasses({JstlComponentContentTest.class})
 public class JstlAllTests {
-    
-    public static final String IMPORT_PROJECT_NAME = "jstlTests"; //$NON-NLS-1$
-    
-    public static Test suite() {
-		TestSuite suite = new TestSuite("Tests for Vpe JSTL components"); //$NON-NLS-1$
-		suite.addTestSuite(JstlComponentContentTest.class);
-		return new VpeTestSetup(suite);
-    }
+	public static final String IMPORT_PROJECT_NAME = "jstlTests"; //$NON-NLS-1$
 }

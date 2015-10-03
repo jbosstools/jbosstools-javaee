@@ -24,8 +24,10 @@ import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.SelectionUtil;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Node;
+import static org.junit.Assert.*;
 
 /**
  * Checks that openOn will correctly resolve JSF page mapping. 
@@ -34,10 +36,10 @@ import org.w3c.dom.Node;
  */
 public class TestOpenOnForXhtmlFiles_JBIDE5577 extends VpeTest {
 
-	public TestOpenOnForXhtmlFiles_JBIDE5577(String name) {
-		super(name);
+	public TestOpenOnForXhtmlFiles_JBIDE5577() {
 	}
 
+	@Test
 	public void testOpenOnForXhtmlFiles() throws CoreException, IOException {
 		/*
 		 * Open index.html

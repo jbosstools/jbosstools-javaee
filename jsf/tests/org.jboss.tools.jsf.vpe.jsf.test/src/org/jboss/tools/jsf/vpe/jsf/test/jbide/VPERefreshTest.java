@@ -23,7 +23,9 @@ import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMElement;
+import static org.junit.Assert.*;
 
 /**
  * 
@@ -33,10 +35,10 @@ import org.mozilla.interfaces.nsIDOMElement;
  */
 public class VPERefreshTest extends VpeTest{
 
-	public VPERefreshTest(String name) {
-		super(name);
+	public VPERefreshTest() {
 	}
-	
+
+	@Test
 	public void testVisualContentInVpeVeforeRefreshAndAfter() throws Throwable {
 		VpeController vpeController =
 		openInVpe(JsfAllTests.IMPORT_PROJECT_NAME, "JBIDE/4816/testVisualContentBeforeRefreshAndAfter.html");//$NON-NLS-1$

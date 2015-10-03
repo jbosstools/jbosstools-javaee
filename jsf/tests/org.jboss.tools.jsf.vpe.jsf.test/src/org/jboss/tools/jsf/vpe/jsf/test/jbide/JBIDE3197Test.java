@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.ComponentContentTest;
+import org.junit.Test;
 
 /**
  * @author mareshkau
@@ -19,18 +20,20 @@ import org.jboss.tools.vpe.base.test.ComponentContentTest;
  */
 public class JBIDE3197Test extends ComponentContentTest {
 
-	public JBIDE3197Test(String name) {
-		super(name);
+	public JBIDE3197Test() {
 	}
-	
+
+	@Test
 	public void testIncorrectTags() throws Throwable {
 		performContentTest("incorrectCustomTags.xhtml"); //$NON-NLS-1$
 	}
-	
+
+	@Test
 	public void testContentCustomTagsWithSourceSupport() throws Throwable {
 		performContentTest("correctCustomTags.xhtml"); //$NON-NLS-1$
 	}
-	
+
+	@Test
 	public void testJBIDE1593() throws Throwable {
 		performContentTest("show100.xhtml"); //$NON-NLS-1$
 	}

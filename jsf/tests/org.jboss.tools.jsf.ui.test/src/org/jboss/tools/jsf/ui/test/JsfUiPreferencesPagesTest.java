@@ -16,6 +16,7 @@ import org.jboss.tools.jsf.ui.preferences.JSFImplementationsPreferencesPage;
 import org.jboss.tools.jsf.ui.preferences.JSFProjectPreferencesPage;
 import org.jboss.tools.jsf.ui.preferences.JSFStudioPreferencesPage;
 import org.jboss.tools.tests.PreferencePageTest;
+import org.junit.Test;
 
 /**
  * @author eskimo
@@ -23,22 +24,27 @@ import org.jboss.tools.tests.PreferencePageTest;
  */
 public class JsfUiPreferencesPagesTest extends PreferencePageTest {
 
+	@Test
 	public void _testJsfCapabilitiesPreferencesPage() {
 		doDefaultTest(JSFCapabilitiesPreferencesPage.ID, JSFCapabilitiesPreferencesPage.class);
 	}
 	
+	@Test
 	public void testJSFFlowTabbedPreferencesPage() {
 		doDefaultTest(JSFFlowTabbedPreferencesPage.ID,JSFFlowTabbedPreferencesPage.class);
 	}
 	
+	@Test
 	public void _testJsfImplementationsPreferencesPage() {
 		doDefaultTest(JSFImplementationsPreferencesPage.ID,JSFImplementationsPreferencesPage.class);
 	}
 	
+	@Test
 	public void testJsfProjectPreferencesPage() {
 		doDefaultTest(JSFProjectPreferencesPage.ID,JSFProjectPreferencesPage.class);
 	}
 	
+	@Test
 	public void testJsfStudioPreferencesPage() {
 		doDefaultTest(JSFStudioPreferencesPage.ID,JSFStudioPreferencesPage.class);
 	}

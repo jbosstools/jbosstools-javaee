@@ -9,6 +9,8 @@ import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1614Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1639Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.Jbide1682Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.RichFacesJBIDE1169Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -18,28 +20,24 @@ import junit.framework.TestSuite;
  * 
  * @author Yahor Radtsevich (yradtsevich)
  */
-public class RichFacesAllImportantTests {
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite(
-				RichFacesAllImportantTests.class.getName());
-		//$JUnit-BEGIN$
-		suite.addTestSuite(Jbide1580Test.class);
-		suite.addTestSuite(JBIDE1613Test.class);
-		suite.addTestSuite(Jbide1614Test.class);
-		suite.addTestSuite(Jbide1639Test.class);
-		suite.addTestSuite(Jbide1682Test.class);
-		suite.addTestSuite(Jbide1548Test.class);
-		suite.addTestSuite(JBIDE1713Test.class);
-		suite.addTestSuite(RichFacesJBIDE1169Test.class);
-		suite.addTestSuite(RichFacesComboBoxTemplateTestCase.class);
-		suite.addTestSuite(RichFacesInplaceSelectTemplateTestCase.class);
-		suite.addTestSuite(RichFacesFileUploadTemplateTestCase.class);
-		suite.addTestSuite(RichFacesColumnsTemplateTestCase.class);
-		suite.addTestSuite(RichFacesPickListTemplateTestCase.class);
-		suite.addTestSuite(JBIDE1606Test.class);
-		//$JUnit-END$
-		return suite;
-	}
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+	Jbide1580Test.class,
+	JBIDE1613Test.class,
+	Jbide1614Test.class,
+	Jbide1639Test.class,
+	Jbide1682Test.class,
+	Jbide1548Test.class,
+	JBIDE1713Test.class,
+	RichFacesJBIDE1169Test.class,
+	RichFacesComboBoxTemplateTestCase.class,
+	RichFacesInplaceSelectTemplateTestCase.class,
+	RichFacesFileUploadTemplateTestCase.class,
+	RichFacesColumnsTemplateTestCase.class,
+	RichFacesPickListTemplateTestCase.class,
+	JBIDE1606Test.class
+})
+public class RichFacesAllImportantTests {
 
 }

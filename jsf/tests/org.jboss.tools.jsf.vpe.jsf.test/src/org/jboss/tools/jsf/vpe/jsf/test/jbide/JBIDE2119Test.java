@@ -23,9 +23,11 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
+import static org.junit.Assert.*;
 
 /**
  * @author Dzmitry Sakovich (dsakovich@exadel.com)
@@ -39,11 +41,11 @@ public class JBIDE2119Test extends VpeTest {
 	/**
 	 * @param name
 	 */
-	public JBIDE2119Test(String name) {
-		super(name);
+	public JBIDE2119Test() {
 	}
 
 	// test method for JBIDE 2119
+	@Test
 	public void testJBIDE_2119() throws Throwable {
 		// wait
 		TestUtil.waitForJobs();

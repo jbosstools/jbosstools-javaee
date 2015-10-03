@@ -29,6 +29,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.OpenOnUtil;
 import org.jboss.tools.vpe.base.test.ProjectsLoader;
 import org.jboss.tools.vpe.base.test.VpeTest;
+import org.junit.Test;
 
 /**
  * 
@@ -43,10 +44,10 @@ public class OpenOnTLDPackedInJar_JBIDE5693 extends VpeTest {
 	private static final String TEST_FILE = "jsf_core.tld"; //$NON-NLS-1$
 	private static final String DIR = "META-INF"; //$NON-NLS-1$
 	
-	public OpenOnTLDPackedInJar_JBIDE5693(String name) {
-		super(name);
+	public OpenOnTLDPackedInJar_JBIDE5693() {
 	}
 
+	@Test
 	public void testOpenOnTLDPackedInJar() throws Throwable{
 		IProject project = ProjectsLoader.getInstance()
 				.getProject(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);

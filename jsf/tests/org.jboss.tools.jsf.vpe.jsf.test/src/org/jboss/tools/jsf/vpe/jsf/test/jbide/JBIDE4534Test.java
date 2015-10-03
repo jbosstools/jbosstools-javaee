@@ -31,6 +31,10 @@ import org.jboss.tools.vpe.base.test.ProjectsLoader;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author mareshkau
@@ -44,8 +48,9 @@ public class JBIDE4534Test extends VpeTest{
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.vpe.ui.test.VpeTest#setUp()
 	 */
+	@Before
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
 		setVpeController(null);
 		this.project = ProjectsLoader.getInstance()
@@ -72,7 +77,7 @@ public class JBIDE4534Test extends VpeTest{
 								try {
 									Thread.sleep(5);
 								} catch (InterruptedException e) {
-									fail(e.getStackTrace()+""); //$NON-NLS-1$
+									Assert.fail(e.getStackTrace()+""); //$NON-NLS-1$
 								}
 						}
 					}
@@ -83,17 +88,18 @@ public class JBIDE4534Test extends VpeTest{
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.vpe.ui.test.VpeTest#tearDown()
 	 */
+	@After
 	@Override
-	protected void tearDown() throws Exception {
+	public void tearDown() throws Exception {
 		this.nonUIJob.cancel();
 		setVpeController(null);
 		super.tearDown();
 	}
 
-	public JBIDE4534Test(String name) {
-		super(name);
+	public JBIDE4534Test() {
 	}
 
+	@Test
 	public void testJBIDE4534Test() throws Throwable {
 		
 			this.nonUIJob.schedule();
@@ -112,7 +118,7 @@ public class JBIDE4534Test extends VpeTest{
 			if(result==null 
 					||result.matches(IStatus.ERROR)
 					||result.matches(IStatus.CANCEL)){
-				fail("Test failed becouse "+result); //$NON-NLS-1$
+				Assert.fail("Test failed becouse "+result); //$NON-NLS-1$
 			}
 	}
 

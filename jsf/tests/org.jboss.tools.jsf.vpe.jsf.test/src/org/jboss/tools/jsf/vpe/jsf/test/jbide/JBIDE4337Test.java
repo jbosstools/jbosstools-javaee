@@ -15,6 +15,9 @@ import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * @author mareshkau
@@ -22,10 +25,10 @@ import org.jboss.tools.vpe.editor.VpeController;
  */
 public class JBIDE4337Test extends VpeTest {
 
-	public JBIDE4337Test(String name) {
-		super(name);
+	public JBIDE4337Test() {
 	}
 
+	@Test
 	public void testJBIDE4337() throws Exception  {
 		
 		final String testFileName = "JBIDE/4337/jbide4337.xhtml";//$NON-NLS-1$

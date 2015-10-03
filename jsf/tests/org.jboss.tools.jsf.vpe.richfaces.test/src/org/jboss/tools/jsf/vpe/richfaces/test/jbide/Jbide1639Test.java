@@ -25,10 +25,12 @@ import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNamedNodeMap;
 import org.mozilla.interfaces.nsIDOMNode;
+import static org.junit.Assert.*;
 
 /**
  * 
@@ -40,10 +42,10 @@ public class Jbide1639Test extends VpeTest {
 	public static final String FILE_NAME = "JBIDE/1639/JBIDE-1639.xhtml";
 	private static final String TEST_ELEMENT_ID = "testElement";
 
-	public Jbide1639Test(String name) {
-		super(name);
+	public Jbide1639Test() {
 	}
 
+	@Test
 	public void testStyleClass() throws Throwable {
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(FILE_NAME,

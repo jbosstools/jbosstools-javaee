@@ -17,6 +17,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
+import org.junit.Test;
 
 /**
  * @author mareshkau
@@ -24,10 +25,10 @@ import org.jboss.tools.vpe.base.test.VpeTest;
  */
 public class JBIDE3969Test extends VpeTest{
 
-	public JBIDE3969Test(String name) {
-		super(name);
+	public JBIDE3969Test() {
 	}
-	
+
+	@Test
 	public void testCorrectCustomElements() throws Throwable {
 		// set exception
 		setException(null);

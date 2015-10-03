@@ -9,7 +9,6 @@
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
@@ -37,154 +36,165 @@ import org.jboss.tools.vpe.editor.mapping.VpeNodeMapping;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.SelectionUtil;
 import org.jboss.tools.vpe.xulrunner.editor.XulRunnerEditor;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Node;
-
+import static org.junit.Assert.*;
 
 /**
- * Test case for testing <a
- * href="https://jira.jboss.org/jira/browse/JBIDE-2582"> JBIDE-2582 </a> issue
+ * Test case for testing
+ * <a href="https://jira.jboss.org/jira/browse/JBIDE-2582"> JBIDE-2582 </a>
+ * issue
  * 
  * @author Evgenij Stherbin
  */
 public class JBIDE2582Test extends CommonJBIDE2010Test {
 
-    /** The Constant DIR_TEST_PAGE_NAME_3. */
-    protected static final String PAGE_1 = "JBIDE/2582/page1.xhtml"; //$NON-NLS-1$
+	/** The Constant DIR_TEST_PAGE_NAME_3. */
+	protected static final String PAGE_1 = "JBIDE/2582/page1.xhtml"; //$NON-NLS-1$
 
-    /** The Constant DIR_TEST_PAGE_NAME_3. */
-    protected static final String PAGE_2 = "JBIDE/2582/page2.xhtml"; //$NON-NLS-1$
+	/** The Constant DIR_TEST_PAGE_NAME_3. */
+	protected static final String PAGE_2 = "JBIDE/2582/page2.xhtml"; //$NON-NLS-1$
 
-    /**
-     * The Constructor.
-     * 
-     * @param name the name
-     */
-    public JBIDE2582Test(String name) {
-        super(name);
+	/**
+	 * The Constructor.
+	 * 
+	 * @param name
+	 *            the name
+	 */
+	public JBIDE2582Test() {
+	}
 
-    }
+	/**
+	 * Test rs substitution.
+	 * 
+	 * @throws Throwable
+	 *             the throwable
+	 */
+	@Test
+	@Ignore
+	public void _testRsSubstitution() throws Throwable {
+		final nsIDOMElement rst = TestUtil.performTestForRichFacesComponent(file);
 
-    /**
-     * Test rs substitution.
-     * 
-     * @throws Throwable the throwable
-     */
-    public void _testRsSubstitution() throws Throwable {
-        final nsIDOMElement rst = TestUtil.performTestForRichFacesComponent(file);
+		assertNotNull(rst);
 
-        assertNotNull(rst);
+		final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
 
-        final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+		TestUtil.findAllElementsByName(rst, elements, HTML.TAG_SPAN);
 
-        TestUtil.findAllElementsByName(rst, elements, HTML.TAG_SPAN);
+		assertEquals("Size should be equals 1", 1, elements.size()); //$NON-NLS-1$
 
-        assertEquals("Size should be equals 1", 1, elements.size()); //$NON-NLS-1$
+		final nsIDOMElement spanOne = queryInterface(elements.get(0), nsIDOMElement.class);
 
-        final nsIDOMElement spanOne = queryInterface(elements.get(0), nsIDOMElement.class);
+		assertEquals("Style attribute should be substituted", "Hello", spanOne.getFirstChild().getNodeValue()); //$NON-NLS-1$ //$NON-NLS-2$
 
-        assertEquals("Style attribute should be substituted", "Hello", spanOne.getFirstChild().getNodeValue()); //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
-    }
+	/**
+	 * _test resource substitution in text.
+	 * 
+	 * @throws CoreException
+	 *             the core exception
+	 * @throws Throwable
+	 *             the throwable
+	 */
+	@Test
+	@Ignore
+	public void _testResourceSubstitutionInText() throws CoreException, Throwable {
+		final nsIDOMElement rst = TestUtil
+				.performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(PAGE_2, getOpenProjectName()));
+		final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+		// DOMTreeDumper dumper = new DOMTreeDumper();
+		// dumper.dumpToStream(System.out, rst);
+		TestUtil.findAllElementsByName(rst, elements, "H3"); //$NON-NLS-1$
+		assertEquals("Size should be equals 1", 1, elements.size()); //$NON-NLS-1$
 
-    /**
-     * _test resource substitution in text.
-     * 
-     * @throws CoreException the core exception
-     * @throws Throwable the throwable
-     */
-    public void _testResourceSubstitutionInText() throws CoreException, Throwable {
-        final nsIDOMElement rst = TestUtil.performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(PAGE_2, getOpenProjectName()));
-        final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
-        // DOMTreeDumper dumper = new DOMTreeDumper();
-        // dumper.dumpToStream(System.out, rst);
-        TestUtil.findAllElementsByName(rst, elements, "H3"); //$NON-NLS-1$
-        assertEquals("Size should be equals 1", 1, elements.size()); //$NON-NLS-1$
+		final nsIDOMElement h3one = queryInterface(elements.get(0), nsIDOMElement.class);
 
-        final nsIDOMElement h3one = queryInterface(elements.get(0), nsIDOMElement.class);
+		assertEquals("Style attribute should be substituted", "Hello", //$NON-NLS-1$ //$NON-NLS-2$
+				h3one.getFirstChild().getFirstChild().getNodeValue());
 
-        assertEquals("Style attribute should be substituted", "Hello", h3one.getFirstChild().getFirstChild().getNodeValue()); //$NON-NLS-1$ //$NON-NLS-2$
+		// There are the label:#{msg.header}f
 
-        // There are the label:#{msg.header}f
+		TestUtil.findAllElementsByName(rst, elements, "SPAN"); //$NON-NLS-1$
+		assertEquals("Size should be equals 1", 4, elements.size()); //$NON-NLS-1$
+		final nsIDOMElement pOne = (queryInterface(elements.get(2), nsIDOMElement.class));
 
-        TestUtil.findAllElementsByName(rst, elements, "SPAN"); //$NON-NLS-1$
-        assertEquals("Size should be equals 1", 4, elements.size()); //$NON-NLS-1$
-        final nsIDOMElement pOne = (queryInterface(elements.get(2), nsIDOMElement.class));
+		assertEquals("Style attribute should be substituted", "There are the label:Hello Demo Application", //$NON-NLS-1$ //$NON-NLS-2$
+				pOne.getFirstChild().getNodeValue());
 
-        assertEquals(
-                "Style attribute should be substituted", "There are the label:Hello Demo Application", pOne.getFirstChild().getNodeValue()); //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
-    }
+	/**
+	 * Test selection with resource string.
+	 * 
+	 * @throws CoreException
+	 *             the core exception
+	 * @throws IOException
+	 */
+	@Test
+	@SuppressWarnings("restriction")
+	public void testSelectionWithResourceString() throws CoreException, IOException {
+		IFile lfile = (IFile) TestUtil.getComponentPath(PAGE_2, getOpenProjectName());
+		IEditorInput input = new FileEditorInput(lfile);
+		// open and get editor
+		JSPMultiPageEditor part = openEditor(input);
 
-    /**
-     * Test selection with resource string.
-     * 
-     * @throws CoreException the core exception
-     * @throws IOException 
-     */
-    @SuppressWarnings("restriction")
-    public void testSelectionWithResourceString()
-    		throws CoreException, IOException {
-        IFile lfile = (IFile) TestUtil.getComponentPath(PAGE_2, getOpenProjectName());
-        IEditorInput input = new FileEditorInput(lfile);
-        // open and get editor
-        JSPMultiPageEditor part = openEditor(input);
+		// get controller
+		VpeController controller = TestUtil.getVpeController(part);
+		assertNotNull(controller);
 
-        // get controller
-        VpeController controller = TestUtil.getVpeController(part);
-        assertNotNull(controller);
+		// get dommapping
+		VpeDomMapping domMapping = controller.getDomMapping();
 
-        // get dommapping
-        VpeDomMapping domMapping = controller.getDomMapping();
+		assertNotNull(domMapping);
 
-        assertNotNull(domMapping);
+		// get source map
+		Map<Node, VpeNodeMapping> sourceMap = domMapping.getSourceMap();
+		assertNotNull(sourceMap);
 
-        // get source map
-        Map<Node, VpeNodeMapping> sourceMap = domMapping.getSourceMap();
-        assertNotNull(sourceMap);
+		// get collection of VpeNodeMapping
+		Collection<VpeNodeMapping> mappings = sourceMap.values();
+		assertNotNull(mappings);
 
-        // get collection of VpeNodeMapping
-        Collection<VpeNodeMapping> mappings = sourceMap.values();
-        assertNotNull(mappings);
+		// get xulrunner editor
+		XulRunnerEditor xulRunnerEditor = controller.getXulRunnerEditor();
+		assertNotNull(xulRunnerEditor);
 
-        // get xulrunner editor
-        XulRunnerEditor xulRunnerEditor = controller.getXulRunnerEditor();
-        assertNotNull(xulRunnerEditor);
+		int start = controller.getPageContext().getSourceBuilder().getStructuredTextViewer().getTextWidget().getText()
+				.indexOf("#{msg.hello_message}"); //$NON-NLS-1$
 
-        int start = controller.getPageContext().getSourceBuilder().getStructuredTextViewer().getTextWidget().getText().indexOf(
-                "#{msg.hello_message}"); //$NON-NLS-1$
+		assertTrue("Should be gt that 100", start > 100); //$NON-NLS-1$
 
-        assertTrue("Should be gt that 100", start > 100); //$NON-NLS-1$
+		IStructuredModel model;
+		model = StructuredModelManager.getModelManager()
+				.getExistingModelForRead(controller.getSourceEditor().getTextViewer().getDocument());
+		IDOMDocument document = null;
+		document = ((IDOMModel) model).getDocument();
+		;
+		org.w3c.dom.NodeList nodeList = document.getElementsByTagName("h:outputText"); //$NON-NLS-1$
 
-        IStructuredModel model;
-        model = StructuredModelManager.getModelManager()
-                .getExistingModelForRead(controller.getSourceEditor().getTextViewer().getDocument());
-        IDOMDocument document = null;
-        document = ((IDOMModel) model).getDocument();
-        ;
-        org.w3c.dom.NodeList nodeList = document.getElementsByTagName("h:outputText"); //$NON-NLS-1$
+		assertNotNull("Can't be null", nodeList); //$NON-NLS-1$
+		assertTrue("Size should be great that 0", nodeList.getLength() > 0); //$NON-NLS-1$
 
-        assertNotNull("Can't be null", nodeList); //$NON-NLS-1$
-        assertTrue("Size should be great that 0", nodeList.getLength() > 0); //$NON-NLS-1$
+		final Node elementNode = nodeList.item(0);
 
-        final Node elementNode = nodeList.item(0);
+		SelectionUtil.setSourceSelection(controller.getPageContext(), elementNode, 1, 0);
 
-        SelectionUtil.setSourceSelection(controller.getPageContext(), elementNode, 1, 0);
+		nsIDOMNode node = SelectionUtil.getSelectedNode(controller.getPageContext());
 
-        nsIDOMNode node = SelectionUtil.getSelectedNode(controller.getPageContext());
+		assertEquals("Node names should be equals", "Hello", node.getFirstChild().getNodeValue()); //$NON-NLS-1$ //$NON-NLS-2$
 
-        assertEquals("Node names should be equals", "Hello", node.getFirstChild().getNodeValue()); //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
-    }
-
-    /**
-     * Gets the open page name.
-     * 
-     * @return the open page name
-     */
-    protected String getOpenPageName() {
-        return PAGE_1;
-    }
-
+	/**
+	 * Gets the open page name.
+	 * 
+	 * @return the open page name
+	 */
+	protected String getOpenPageName() {
+		return PAGE_1;
+	}
 }

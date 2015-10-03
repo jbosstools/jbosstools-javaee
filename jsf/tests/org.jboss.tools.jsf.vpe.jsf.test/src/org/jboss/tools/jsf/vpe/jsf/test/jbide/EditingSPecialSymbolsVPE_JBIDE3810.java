@@ -1,6 +1,7 @@
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
+import static org.junit.Assert.*;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
@@ -14,6 +15,7 @@ import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.VpeEditorPart;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMAbstractView;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMDocumentEvent;
@@ -37,10 +39,10 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 	private final static int clientY = 12;
 	private final static long delay  = 2000;
 	
-	public EditingSPecialSymbolsVPE_JBIDE3810(String name) {
-		super(name);
+	public EditingSPecialSymbolsVPE_JBIDE3810() {
 	}
 
+	@Test
 	public void testEditingSPecialSymbolsVPE_JBIDE3810() throws Exception {
 		setException(null);
 		IFile file = (IFile) TestUtil.getComponentPath(

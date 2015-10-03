@@ -17,50 +17,57 @@ import org.jboss.tools.jsf.vpe.richfaces.test.RichFacesAllTests;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.util.ElServiceUtil;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
- * @author mareshkau
- * Test Case For JBIDE-1169
+ * @author mareshkau Test Case For JBIDE-1169
  */
-public class RichFacesJBIDE1169Test extends VpeTest{
+public class RichFacesJBIDE1169Test extends VpeTest {
 
 	private String RICH_FACES_SKIN_KEY = "org.richfaces.SKIN"; //$NON-NLS-1$
-	
+
 	private String SKIN_VALUE = "ruby"; //$NON-NLS-1$
-	
+
 	private IFile testFile;
-	
-	public RichFacesJBIDE1169Test(String name) {
-		super(name);
+
+	public RichFacesJBIDE1169Test() {
 	}
-	
-    @Override
-    protected void setUp() throws Exception {
-    	super.setUp();
-    	ResourceReference[] entries = new ResourceReference[1];
-    	testFile = (IFile) TestUtil.getComponentPath(
-    			"JBIDE/1169/test.xhtml", RichFacesAllTests.IMPORT_PROJECT_NAME); //$NON-NLS-1$
-    	entries[0] = new ResourceReference(RICH_FACES_SKIN_KEY,ResourceReference.PROJECT_SCOPE);
-    	entries[0].setProperties(SKIN_VALUE);
-    	ELReferenceList.getInstance().setAllResources(testFile, entries);
-    }
-    
-    public void testJBIDE1169() {  	
-        String replacedValue = ElServiceUtil.replaceEl(testFile,"#{"+RICH_FACES_SKIN_KEY+'}'); //$NON-NLS-1$
-        assertEquals("Skin value should be equals",SKIN_VALUE, replacedValue); //$NON-NLS-1$
-    }
-    /**
-     * Tear down.
-     * 
-     * @throws Exception the exception
-     */
-    @Override
-    protected void tearDown() throws Exception {
-        if(getException()!=null) {
-        	throw new Exception(getException());
-        }
-        ELReferenceList.getInstance().setAllResources(testFile, new ResourceReference[0]);
-        testFile = null;
-        super.tearDown();
-    }
+
+	@Before
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		ResourceReference[] entries = new ResourceReference[1];
+		testFile = (IFile) TestUtil.getComponentPath("JBIDE/1169/test.xhtml", RichFacesAllTests.IMPORT_PROJECT_NAME); //$NON-NLS-1$
+		entries[0] = new ResourceReference(RICH_FACES_SKIN_KEY, ResourceReference.PROJECT_SCOPE);
+		entries[0].setProperties(SKIN_VALUE);
+		ELReferenceList.getInstance().setAllResources(testFile, entries);
+	}
+
+	@Test
+	public void testJBIDE1169() {
+		String replacedValue = ElServiceUtil.replaceEl(testFile, "#{" + RICH_FACES_SKIN_KEY + '}'); //$NON-NLS-1$
+		assertEquals("Skin value should be equals", SKIN_VALUE, replacedValue); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tear down.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
+	@After
+	@Override
+	public void tearDown() throws Exception {
+		if (getException() != null) {
+			throw new Exception(getException());
+		}
+		ELReferenceList.getInstance().setAllResources(testFile, new ResourceReference[0]);
+		testFile = null;
+		super.tearDown();
+	}
 }

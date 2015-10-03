@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.ComponentContentTest;
+import org.junit.Test;
 
 /**
  * @author mareshkau
@@ -19,22 +20,25 @@ import org.jboss.tools.vpe.base.test.ComponentContentTest;
  */
 public class TestForUsingComponentsLibrariesWithDefaultNamespace extends ComponentContentTest{
 
-	public TestForUsingComponentsLibrariesWithDefaultNamespace(String name) {
-		super(name);
+	public TestForUsingComponentsLibrariesWithDefaultNamespace() {
 	}
-	
+
+	@Test
 	public void testCheckContetnForDefaultNamespace() throws Throwable{
 		performContentTest("JBIDE/5352/jsf-core-as-default-tags.xhtml"); //$NON-NLS-1$
 		performContentTest("JBIDE/5352/jbide5352.xhtml"); //$NON-NLS-1$
 		
 	}
+
 	/**
 	 * Test Case for https://jira.jboss.org/jira/browse/JBIDE-5516
 	 * @throws Throwable
 	 */
+	@Test
 	public void testFaceletsLibrariesSupport() throws Throwable{
 		performContentTest("JBIDE/5516/jbide5516.xhtml");  //$NON-NLS-1$
 	}
+
 	@Override
 	protected String getTestProjectName() {
 		return JsfAllTests.IMPORT_JSF_20_PROJECT_NAME;

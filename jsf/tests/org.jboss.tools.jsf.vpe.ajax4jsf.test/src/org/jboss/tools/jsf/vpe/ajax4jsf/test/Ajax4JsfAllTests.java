@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.ajax4jsf.test;
 
 import org.jboss.tools.vpe.base.test.VpeTestSetup;
 
+import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -21,7 +22,7 @@ public class Ajax4JsfAllTests {
 	
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Tests for Vpe Ajax For JSF components"); //$NON-NLS-1$
-		suite.addTestSuite(Ajax4JsfComponentContentTest.class);
+		suite.addTest(new JUnit4TestAdapter(Ajax4JsfComponentContentTest.class));
 		
 		return new VpeTestSetup(suite);
 	}

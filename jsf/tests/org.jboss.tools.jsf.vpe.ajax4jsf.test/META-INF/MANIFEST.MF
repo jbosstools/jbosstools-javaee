@@ -20,3 +20,4 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.jboss.tools.jsf.vpe.ajax4jsf.test
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.jboss.tools.vpe.xulrunner.browser

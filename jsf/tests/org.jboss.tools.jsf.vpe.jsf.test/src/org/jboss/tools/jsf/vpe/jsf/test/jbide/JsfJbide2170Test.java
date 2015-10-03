@@ -22,11 +22,13 @@ import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.DocTypeUtil;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMDocumentType;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
+import static org.junit.Assert.*;
 
 /**
  * 
@@ -51,14 +53,14 @@ public class JsfJbide2170Test extends VpeTest {
 
 	private static final String CORRECT_NAME = "html3"; //$NON-NLS-1$
 
-	public JsfJbide2170Test(String name) {
-		super(name);
+	public JsfJbide2170Test() {
 	}
 
 	/**
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testWithoutDoctypePage() throws Throwable {
 
 		// wait
@@ -106,6 +108,7 @@ public class JsfJbide2170Test extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testWithDoctypePage() throws Throwable {
 
 		// wait
@@ -151,6 +154,7 @@ public class JsfJbide2170Test extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testTemplateDoctypePage() throws Throwable {
 
 		// wait
@@ -197,6 +201,7 @@ public class JsfJbide2170Test extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testComplexDoctypePage() throws Throwable {
 
 		// wait
@@ -244,6 +249,7 @@ public class JsfJbide2170Test extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testEditDoctypePage() throws Throwable {
 
 		// wait

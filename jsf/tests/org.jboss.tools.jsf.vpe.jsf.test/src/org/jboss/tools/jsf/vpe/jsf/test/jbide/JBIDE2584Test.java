@@ -23,9 +23,10 @@ import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.mapping.VpeDomMapping;
 import org.jboss.tools.vpe.editor.mapping.VpeElementMapping;
 import org.jboss.tools.vpe.editor.template.VpeTemplate;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Node;
-
+import static org.junit.Assert.*;
 
 
 /**
@@ -34,10 +35,10 @@ import org.w3c.dom.Node;
  */
 public class JBIDE2584Test extends VpeTest {
 
-	public JBIDE2584Test(String name) {
-		super(name);
+	public JBIDE2584Test() {
 	}
-	
+
+	@Test
 	public void testForSimpleText() throws Throwable {
 		// wait
 		TestUtil.waitForJobs();
@@ -77,7 +78,8 @@ public class JBIDE2584Test extends VpeTest {
 		
 		assertEquals(simpleTextNode.getNodeValue().trim(), domNode.getNodeValue().trim());
 	}
-	
+
+	@Test
 	public void testForElText() throws Throwable {
 		// wait
 		TestUtil.waitForJobs();

@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.ComponentContentTest;
+import org.junit.Test;
 
 /**
  * @author Yahor Radtsevich (yradtsevich)
@@ -19,11 +20,11 @@ import org.jboss.tools.vpe.base.test.ComponentContentTest;
  */
 public class MultipleWebRootFoldersTest_JBIDE9753  extends ComponentContentTest{
 
-	public MultipleWebRootFoldersTest_JBIDE9753(String name) {
-		super(name);
+	public MultipleWebRootFoldersTest_JBIDE9753() {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Test
 	public void testMultipleWebRootFolders() throws Throwable {	
 		performContentTest("JBIDE/9753/welcome.xhtml"); //$NON-NLS-1$
 	}

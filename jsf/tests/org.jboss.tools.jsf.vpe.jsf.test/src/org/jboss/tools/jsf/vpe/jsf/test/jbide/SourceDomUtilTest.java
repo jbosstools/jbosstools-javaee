@@ -16,9 +16,12 @@ import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.SourceDomUtil;
+import org.junit.Before;
+import org.junit.Test;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import static org.junit.Assert.*;
 
 /**
  * Tests for {@link SourceDomUtil} class. 
@@ -36,12 +39,12 @@ public class SourceDomUtilTest extends VpeTest {
 
 	private VpeController vpeController;
 
-	public SourceDomUtilTest(String name) {
-		super(name);
+	public SourceDomUtilTest() {
 	}
 
+	@Before
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
 		vpeController = openInVpe(JsfAllTests.IMPORT_PROJECT_NAME,
 				TEST_FILE_PATH);
@@ -55,6 +58,7 @@ public class SourceDomUtilTest extends VpeTest {
 	 * 
 	 * @see <a href="https://jira.jboss.org/browse/JBIDE-7209">JBIDE-7209</a>
 	 */
+	@Test
 	public void testGetNodeByXPath() {
 		 Document document = vpeController.getPageContext()
 		 		.getSourceBuilder().getSourceDocument();

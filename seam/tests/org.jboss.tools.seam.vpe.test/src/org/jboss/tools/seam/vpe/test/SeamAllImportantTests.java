@@ -1,5 +1,8 @@
 package org.jboss.tools.seam.vpe.test;
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -8,15 +11,10 @@ import junit.framework.TestSuite;
  * 
  * @author Yahor Radtsevich (yradtsevich)
  */
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+	JBIDE1484Test.class,
+	OpenOnForDecorateTest.class
+})
 public class SeamAllImportantTests {
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(SeamAllImportantTests.class.getName());
-		//$JUnit-BEGIN$
-		suite.addTestSuite(JBIDE1484Test.class);
-		suite.addTestSuite(OpenOnForDecorateTest.class);
-		//$JUnit-END$
-		return suite;
-	}
-
 }

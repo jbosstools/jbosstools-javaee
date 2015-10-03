@@ -19,6 +19,9 @@ import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * @author mareshkau
@@ -28,10 +31,10 @@ import org.jboss.tools.vpe.base.test.VpeTest;
 public class JBIDE2219Test extends VpeTest {
 
 	
-	public JBIDE2219Test(String name) {
-		super(name);
+	public JBIDE2219Test() {
 	}
 
+	@Test
 	public void testJBIDE2219() throws Throwable {
 		// wait
 		TestUtil.waitForJobs();

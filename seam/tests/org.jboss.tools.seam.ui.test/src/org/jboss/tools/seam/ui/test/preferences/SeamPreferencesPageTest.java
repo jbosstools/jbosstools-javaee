@@ -17,6 +17,7 @@ import org.jboss.tools.seam.ui.preferences.SeamPreferencePage;
 import org.jboss.tools.seam.ui.preferences.SeamValidatorPreferencePage;
 import org.jboss.tools.test.util.WorkbenchUtils;
 import org.jboss.tools.tests.PreferencePageTest;
+import org.junit.Test;
 
 /**
  * @author eskimo
@@ -29,17 +30,20 @@ public class SeamPreferencesPageTest extends PreferencePageTest {
 	/**
 	 * Test that preference page is showed up without errors
 	 */
+	@Test
 	public void testShowSeamPreferencePage() {
 		doDefaultTest(SeamPreferencePage.SEAM_PREFERENCES_ID, SeamPreferencePage.class);
 	}
-	
+
 	/**
 	 * Test that preference page is showed up without errors
 	 */
+	@Test
 	public void testShowSeamValidationPreferencePage() {
 		doDefaultTest(SeamValidatorPreferencePage.PREF_ID, SeamValidatorPreferencePage.class);
 	}
-	
+
+	@Test
 	public void testJiraJbide1490 () {
 		SeamRuntime[] seamRts = SeamRuntimeManager.getInstance().getRuntimes();
 		
@@ -59,7 +63,5 @@ public class SeamPreferencesPageTest extends PreferencePageTest {
 		} finally {
 			prefDialog.close();
 		}
-		
 	}
-	
 }

@@ -36,6 +36,7 @@ import org.jboss.tools.seam.ui.test.wizard.SeamProjectNamesTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamProjectNewWizardTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
+import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -63,7 +64,7 @@ public class SeamUiAllTests {
 		suite.addTest(new ProjectImportTestSetup(wizards, "org.jboss.tools.seam.base.test", new String[]{"projects/Test1-ear", "projects/Test1-ejb", "projects/Test1"}, new String[]{"Test1-ear", "Test1-ejb", "Test1"}));
 
 		suite.addTestSuite(SeamFormNewWizardTest.class);
-		suite.addTestSuite(SeamPreferencesPageTest.class);		
+		suite.addTest(new JUnit4TestAdapter(SeamPreferencesPageTest.class));
 		suite.addTestSuite(SeamViewHyperlinkPartitionerTest.class);
 		suite.addTest(SeamELContentAssistTest.suite());
 		suite.addTestSuite(SeamELContentAssistJbide1676Test.class);

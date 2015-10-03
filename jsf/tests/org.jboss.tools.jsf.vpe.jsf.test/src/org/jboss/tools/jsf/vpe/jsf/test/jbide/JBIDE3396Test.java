@@ -20,6 +20,11 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Max Areshkau
@@ -32,12 +37,12 @@ public class JBIDE3396Test extends VpeTest{
 	private ResourceReference[] firstElValues;
 	private ResourceReference[] secondElValues;
 	
-	public JBIDE3396Test(final String name) {
-		super(name);
+	public JBIDE3396Test() {
 	}
 
+	@Before
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
 		setException(null);
 		this.firstPage = (IFile) TestUtil.getComponentPath("JBIDE/3396/first.jsp", //$NON-NLS-1$
@@ -60,8 +65,9 @@ public class JBIDE3396Test extends VpeTest{
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.vpe.ui.test.VpeTest#tearDown()
 	 */
+	@After
 	@Override
-	protected void tearDown() throws Exception {
+	public void tearDown() throws Exception {
 		ELReferenceList.getInstance().setAllResources(this.firstPage, new ResourceReference[0]);
 		ELReferenceList.getInstance().setAllResources(this.secondPage, new ResourceReference[0]);
 		if(getException()!=null) {
@@ -69,7 +75,8 @@ public class JBIDE3396Test extends VpeTest{
 		}
 		super.tearDown();
 	}
-	
+
+	@Test
 	public void testJBIDE3396() throws Exception{
 		//open first page and set resources
 		final IEditorInput firstInput = new FileEditorInput(this.firstPage);

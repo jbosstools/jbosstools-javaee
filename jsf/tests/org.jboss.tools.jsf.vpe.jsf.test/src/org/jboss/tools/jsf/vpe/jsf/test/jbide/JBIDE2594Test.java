@@ -22,74 +22,84 @@ import org.jboss.tools.common.el.core.GlobalELReferenceList;
 import org.jboss.tools.common.resref.core.ResourceReference;
 import org.jboss.tools.jsf.vpe.jsf.test.CommonJBIDE2010Test;
 import org.jboss.tools.vpe.editor.util.ElServiceUtil;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Test case for testing global El expression substitution
+ * 
  * @author Evgenij Stherbin
  *
  */
 public class JBIDE2594Test extends CommonJBIDE2010Test {
-    
-    protected static final String KEY_6 = "global.value1"; //$NON-NLS-1$
-    private static final String KEY_1_POSTFIX = "images/smalle.gif"; //$NON-NLS-1$
-    protected Map<String, String> globalElMap = new HashMap<String, String>();
 
-    /**
-     * @param name
-     */
-    public JBIDE2594Test(String name) {
-        super(name);
-    }
-    
-    @Override
-    protected void setUp() throws Exception {
-    	super.setUp();
-    	IPath path = Platform.getLocation();
-    	
-    	assertNotNull("Path can't be null",path); //$NON-NLS-1$
-    	
-    	globalElMap.put(KEY_1, "/override/global/value/"); //$NON-NLS-1$
-    	globalElMap.put(KEY_6, "/global/value1/"); //$NON-NLS-1$
-    	
-    	ResourceReference[] entries = new ResourceReference[globalElMap.size()];
-    	int i = 0;
-    	for (Entry<String, String> string : globalElMap.entrySet()) {
-    		entries[i] = new ResourceReference(string.getKey(), ResourceReference.GLOBAL_SCOPE);
-    		entries[i].setProperties(string.getValue());
-    		i++;
-    	}
-    	setGlobalValues(entries, path);	
-    }
-    
-    protected void setGlobalValues(ResourceReference[] entries,IPath path) {
-    	GlobalELReferenceList.getInstance().setAllResources(path, entries);
-    }
+	protected static final String KEY_6 = "global.value1"; //$NON-NLS-1$
+	private static final String KEY_1_POSTFIX = "images/smalle.gif"; //$NON-NLS-1$
+	protected Map<String, String> globalElMap = new HashMap<String, String>();
 
-    public void testReplaceGlobalElVariable(){
-        String replaceString= "#{"+KEY_6+"}"+"images/test.gif"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        String replacedString = ElServiceUtil.replaceEl(file, replaceString);
-        
-        assertEquals("Should be equals " + globalElMap.get(KEY_6) + "images/test.gif", replacedString, globalElMap.get(KEY_6) //$NON-NLS-1$ //$NON-NLS-2$
-                + "images/test.gif"); //$NON-NLS-1$
-    }
+	/**
+	 * @param name
+	 */
+	public JBIDE2594Test() {
+	}
 
-    /**
-     * Test replace attribute value.
-     * 
-     * @throws CoreException the core exception
-     */
-    public void testOverrideLocalVariable() throws CoreException {
-        String string1 = "${" + KEY_1 + "}" + KEY_1_POSTFIX; //$NON-NLS-1$ //$NON-NLS-2$
-        String replacedValue = ElServiceUtil.replaceEl(file, string1);
+	@Before
+	public void setUp() throws Exception {
+		super.setUp();
+		IPath path = Platform.getLocation();
 
-        assertEquals(elValuesMap.get(KEY_1) + KEY_1_POSTFIX, replacedValue);
-    }
+		assertNotNull("Path can't be null", path); //$NON-NLS-1$
 
-    @Override
-    protected void tearDown() throws Exception {
-    	//clear global resources
-    	GlobalELReferenceList.getInstance().setAllResources(Platform.getLocation(), new ResourceReference[0]);
-        super.tearDown();
-    }
+		globalElMap.put(KEY_1, "/override/global/value/"); //$NON-NLS-1$
+		globalElMap.put(KEY_6, "/global/value1/"); //$NON-NLS-1$
+
+		ResourceReference[] entries = new ResourceReference[globalElMap.size()];
+		int i = 0;
+		for (Entry<String, String> string : globalElMap.entrySet()) {
+			entries[i] = new ResourceReference(string.getKey(), ResourceReference.GLOBAL_SCOPE);
+			entries[i].setProperties(string.getValue());
+			i++;
+		}
+		setGlobalValues(entries, path);
+	}
+
+	protected void setGlobalValues(ResourceReference[] entries, IPath path) {
+		GlobalELReferenceList.getInstance().setAllResources(path, entries);
+	}
+
+	@Test
+	public void testReplaceGlobalElVariable() {
+		String replaceString = "#{" + KEY_6 + "}" + "images/test.gif"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		String replacedString = ElServiceUtil.replaceEl(file, replaceString);
+
+		assertEquals("Should be equals " + globalElMap.get(KEY_6) + "images/test.gif", replacedString, //$NON-NLS-1$ //$NON-NLS-2$
+				globalElMap.get(KEY_6)
+						+ "images/test.gif"); //$NON-NLS-1$
+	}
+
+	/**
+	 * Test replace attribute value.
+	 * 
+	 * @throws CoreException
+	 *             the core exception
+	 */
+	@Test
+	public void testOverrideLocalVariable() throws CoreException {
+		String string1 = "${" + KEY_1 + "}" + KEY_1_POSTFIX; //$NON-NLS-1$ //$NON-NLS-2$
+		String replacedValue = ElServiceUtil.replaceEl(file, string1);
+
+		assertEquals(elValuesMap.get(KEY_1) + KEY_1_POSTFIX, replacedValue);
+	}
+
+	@After
+	@Override
+	public void tearDown() throws Exception {
+		// clear global resources
+		GlobalELReferenceList.getInstance().setAllResources(Platform.getLocation(), new ResourceReference[0]);
+		super.tearDown();
+	}
 
 }

@@ -32,6 +32,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.OpenOnUtil;
 import org.jboss.tools.vpe.base.test.ProjectsLoader;
 import org.jboss.tools.vpe.base.test.VpeTest;
+import org.junit.Test;
 
 /**
  * @author mareshkau
@@ -40,10 +41,11 @@ import org.jboss.tools.vpe.base.test.VpeTest;
 @SuppressWarnings("restriction")
 public class JBIDE4509Test extends VpeTest{
 
-	public JBIDE4509Test(String name) {
-		super(name);
+	public JBIDE4509Test() {
 	}
+	
 	//tests openOn from  taglib
+	@Test
 	public void testOpenOnTaglibDefinitionFile() throws Throwable {
 		IProject project = ProjectsLoader.getInstance()
 				.getProject(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
@@ -52,19 +54,21 @@ public class JBIDE4509Test extends VpeTest{
 		OpenOnUtil.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 12, 17, "paginator.xhtml"); //$NON-NLS-1$
 	}
 	
-	
 	//test openon for taglib from in file
+	@Test
 	public void testOpenOnForTaglibInJarFile() throws Throwable {
 		checkOpenOnFromJarFile("WebContent/WEB-INF/lib/mareshkau.jar", //$NON-NLS-1$
 				"META-INF/mareshkau.taglib.xml", 12, 25, "paginator.xhtml"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
-	
+
+	@Test
 	public void testOpenOnForJavaElementFromDeclarationInJar() throws Throwable {
 		checkOpenOnFromJarFile("WebContent/WEB-INF/lib/jsf-facelets-1.1.11.jar", "META-INF/jsf-ui.taglib.xml", //$NON-NLS-1$ //$NON-NLS-2$
 				25, 33, "UILibrary.class"); //$NON-NLS-1$
 	}
-	
+
 	//test for <function-class>
+	@Test
 	public void testJBIDE4638OpenOnForFunctionClass() throws Throwable{
 		IProject project = ProjectsLoader.getInstance()
 				.getProject(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
@@ -72,8 +76,9 @@ public class JBIDE4509Test extends VpeTest{
 		IEditorInput editorInput = new FileEditorInput(file);
 		OpenOnUtil.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 31, 37, "FaceletFunctions.java"); //$NON-NLS-1$
 	}
-	
+
 	//test for <function-class>
+	@Test
 	public void testJBIDE4638OpenOnForLibraryClass() throws Throwable{
 		IProject project = ProjectsLoader.getInstance()
 				.getProject(JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
@@ -81,7 +86,9 @@ public class JBIDE4509Test extends VpeTest{
 		IEditorInput editorInput = new FileEditorInput(file);
 		OpenOnUtil.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 6, 25, "CoreLibrary.java"); //$NON-NLS-1$
 	}
+
 	//test for <function-class>
+	@Test
 	public void testJBIDE4638OpenOnForHandlerClass() throws Throwable{
 		IProject project = ProjectsLoader.getInstance()
 				.getProject(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
@@ -89,7 +96,9 @@ public class JBIDE4509Test extends VpeTest{
 		IEditorInput editorInput = new FileEditorInput(file);
 		OpenOnUtil.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 22, 23, "IfHandler.java"); //$NON-NLS-1$
 	}
+
 	//test for <handler-class> in tag
+	@Test
 	public void testJBIDE4638OpenOnForHandlerClassWithTagAxis() throws Throwable{
 		IProject project = ProjectsLoader.getInstance()
 				.getProject(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT);
@@ -97,7 +106,9 @@ public class JBIDE4509Test extends VpeTest{
 		IEditorInput editorInput = new FileEditorInput(file);
 		OpenOnUtil.checkOpenOnInEditor(editorInput, getEditorId(file.getName()), 36, 29, "IfHandler.java"); //$NON-NLS-1$
 	}
+
 	//test for https://jira.jboss.org/jira/browse/JBIDE-4635
+	@Test
 	public void testJBIDE4635OpenOn() throws Throwable{
 		IProject project = ProjectsLoader.getInstance()
 				.getProject(JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);
@@ -111,6 +122,7 @@ public class JBIDE4509Test extends VpeTest{
 	}
 
 	//test for https://jira.jboss.org/jira/browse/JBIDE-5099
+	@Test
 	public void testJBIDE5099OpenOn() throws Throwable{
 		IProject project = ProjectsLoader.getInstance()
 				.getProject(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);
@@ -121,6 +133,7 @@ public class JBIDE4509Test extends VpeTest{
 	}
 
 	//test for https://jira.jboss.org/jira/browse/JBIDE-5099
+	@Test
 	public void testJBIDE5099JarOpenOn() throws Throwable{
 		IProject project = ProjectsLoader.getInstance()
 				.getProject(JsfAllTests.IMPORT_JSF_20_PROJECT_NAME);

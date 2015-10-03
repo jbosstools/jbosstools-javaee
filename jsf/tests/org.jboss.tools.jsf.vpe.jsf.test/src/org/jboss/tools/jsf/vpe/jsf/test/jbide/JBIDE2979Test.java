@@ -20,6 +20,12 @@ import org.jboss.tools.common.resref.core.ResourceReference;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+import static org.junit.Assert.*;
 
 /**
  * Test case for JBIDE-2979
@@ -32,14 +38,12 @@ public class JBIDE2979Test extends VpeTest {
 	 * Test Page
 	 */
 	private IFile file;
-	
-	
 	private static  Map<String, String> elValuesMap;
-	
-	public JBIDE2979Test(String name) {
-		super(name);
+
+	public JBIDE2979Test() {
 	}
 
+	@Test
 	public void testJBIDE2979() {
 		ResourceReference[] entries = ELReferenceList.getInstance().getAllResources(file);
 		for (ResourceReference resourceReference : entries) {
@@ -52,8 +56,9 @@ public class JBIDE2979Test extends VpeTest {
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.vpe.ui.test.VpeTest#setUp()
 	 */
+	@Before
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
 		setException(null);
 		this.file = (IFile) TestUtil.getComponentPath("JBIDE/2979/test.xhtml", //$NON-NLS-1$
@@ -75,8 +80,9 @@ public class JBIDE2979Test extends VpeTest {
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.vpe.ui.test.VpeTest#tearDown()
 	 */
+	@After
 	@Override
-	protected void tearDown() throws Exception {
+	public void tearDown() throws Exception {
 		ELReferenceList.getInstance().setAllResources(this.file, new ResourceReference[0]);
 		if(getException()!=null) {
 			throw new Exception(getException());

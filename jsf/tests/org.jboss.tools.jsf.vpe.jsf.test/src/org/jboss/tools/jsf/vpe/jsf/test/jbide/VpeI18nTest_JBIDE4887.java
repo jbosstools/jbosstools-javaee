@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.ComponentContentTest;
+import org.junit.Test;
 
 /**
  * Tests for JIRA issue JBIDE-4887: Internationalization does not work in VPE 
@@ -21,8 +22,7 @@ import org.jboss.tools.vpe.base.test.ComponentContentTest;
  */
 public class VpeI18nTest_JBIDE4887 extends ComponentContentTest {
 
-	public VpeI18nTest_JBIDE4887(String name) {
-		super(name);
+	public VpeI18nTest_JBIDE4887() {
 		setCheckWarning(false);
 	}
 
@@ -30,6 +30,7 @@ public class VpeI18nTest_JBIDE4887 extends ComponentContentTest {
 	 * Tests if the default-locale described in faces-config.xml is
 	 * taken into account during VPE rendering.
 	 */
+	@Test
 	public void testJsfDefaultLocale() throws Throwable {
 		performContentTest("jsfDefaultLocale.jsp"); //$NON-NLS-1$
 	}

@@ -11,6 +11,7 @@
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import java.io.IOException;
+import static org.junit.Assert.*;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -24,6 +25,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
+import org.junit.Test;
 
 /**
  * @author yradtsevich
@@ -34,13 +36,13 @@ public class ChangeMessageBundleTest_JBIDE5818 extends VpeTest {
 	private static final String PROPERTIES_FILE_NAME = "JavaSource/jbide5818/MessagesJBIDE5818.properties";
 	private static final String PROPERTIES_EDITOR_ID = "org.eclipse.ui.DefaultTextEditor";
 
-	public ChangeMessageBundleTest_JBIDE5818(String name) {
-		super(name);
+	public ChangeMessageBundleTest_JBIDE5818() {
 	}
 
 	/**
 	 * Test for <a href="http://jira.jboss.org/jira/browse/JBIDE-5818">JBIDE-5818</a>.
 	 */
+	@Test
 	public void testRemoveAllBundleMessages() throws Throwable {
 		setException(null);
 

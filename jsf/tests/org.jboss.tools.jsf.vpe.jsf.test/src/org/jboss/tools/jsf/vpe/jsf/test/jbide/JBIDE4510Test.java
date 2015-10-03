@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -27,8 +26,10 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.ProjectsLoader;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMDocumentType;
+import static org.junit.Assert.*;
 
 public class JBIDE4510Test extends VpeTest {
 
@@ -37,10 +38,10 @@ public class JBIDE4510Test extends VpeTest {
 	private static final String PACKAGE_NAME = "components"; //$NON-NLS-1$
 	private static final String SHORT_NAME = "paginator.xhtml"; //$NON-NLS-1$
 	
-	public JBIDE4510Test(String name) {
-		super(name);
+	public JBIDE4510Test() {
 	}
 
+	@Test
 	public void testCorrectDoctypeOnFileFromJarArchive() throws Throwable {
 		IProject project = ProjectsLoader.getInstance()
 				.getProject(JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);

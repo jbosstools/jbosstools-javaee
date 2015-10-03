@@ -21,8 +21,10 @@ import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.SelectionUtil;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
+import static org.junit.Assert.*;
 
 /**
  * Tests for JIRA issue JBIDE-4713:
@@ -39,10 +41,10 @@ public class SelectWholeElement_JBIDE4713 extends VpeTest {
 	private static final String SELECTED_ELEMENT_ID
 			= "selected-element"; //$NON-NLS-1$
 
-	public SelectWholeElement_JBIDE4713(String name) {
-		super(name);
+	public SelectWholeElement_JBIDE4713() {
 	}
 
+	@Test
 	public void testSelectWholeElement() throws Throwable {
 		VpeController vpeController = openInVpe(JsfAllTests.IMPORT_PROJECT_NAME,
 				TEST_PAGE_NAME);

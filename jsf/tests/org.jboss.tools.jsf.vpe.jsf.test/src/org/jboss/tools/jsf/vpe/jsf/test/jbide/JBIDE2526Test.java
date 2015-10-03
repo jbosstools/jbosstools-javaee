@@ -21,11 +21,13 @@ import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.SelectionUtil;
 import org.jboss.tools.vpe.editor.util.TextUtil;
+import org.junit.Test;
 import org.mozilla.interfaces.nsISelection;
 import org.mozilla.interfaces.nsISelectionController;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import static org.junit.Assert.*;
 
 /**
  * 
@@ -38,14 +40,14 @@ public class JBIDE2526Test extends VpeTest {
 
 	private static final String SELECTION_PAGE_NAME = "JBIDE/2569/selection.jsp"; //$NON-NLS-1$
 
-	public JBIDE2526Test(String name) {
-		super(name);
+	public JBIDE2526Test() {
 	}
 
 	/**
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testSourceSelection() throws Throwable {
 
 		// wait

@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.ComponentContentTest;
+import org.junit.Test;
 
 /**
  * Junit test for https://jira.jboss.org/jira/browse/JBIDE-6064
@@ -21,10 +22,10 @@ import org.jboss.tools.vpe.base.test.ComponentContentTest;
  */
 public class UnclosedELExpressionTest extends ComponentContentTest {
 
-	public UnclosedELExpressionTest(String name) {
-		super(name);
+	public UnclosedELExpressionTest() {
 	}
-	
+
+	@Test
 	public void testCheckContetnForDefaultNamespace() throws Throwable{
 		performContentTest("JBIDE/6064/jbide6064.xhtml"); //$NON-NLS-1$
 	}

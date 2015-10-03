@@ -22,10 +22,15 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Assume;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMText;
+import static org.junit.Assert.*;
 
 /**
  * Class for testing all Facelets components
@@ -42,11 +47,14 @@ public class FaceletsComponentTest extends VpeTest {
     private static final String TEMPLATE_WITH_ABSOLUTE_PATH_IS_NOT_INCLUDED = "Template with absolute path is not included"; //$NON-NLS-1$
     private static final String DEFINED_CONTENT_IS_NOT_SHOWN = "Defined content is not shown"; //$NON-NLS-1$
 
-    public FaceletsComponentTest(String name) {
-	super(name);
-	setCheckWarning(false);
+    public FaceletsComponentTest() {
+    	setCheckWarning(false);
     }
 
+    @BeforeClass
+    public static void validateEnv() {
+    	//Assume.assumeFalse(VpeTest.skipTests);
+    }
     /**
      * Test for ui:debug
      * 
@@ -80,6 +88,8 @@ public class FaceletsComponentTest extends VpeTest {
      * @throws Throwable
      */
     public void testDefine() throws Throwable {
+    	
+    Assume.assumeFalse(VpeTest.skipTests);
 
 	nsIDOMElement element = performTestForFaceletComponent("components/define.xhtml"); //$NON-NLS-1$
 	nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
@@ -116,8 +126,11 @@ public class FaceletsComponentTest extends VpeTest {
      * 
      * @throws Throwable
      */
+    @Test
     public void testComposition() throws Throwable {
 
+    Assume.assumeFalse(VpeTest.skipTests);	
+    	
 	// check absolute path
 	nsIDOMElement element = performTestForFaceletComponent("components/composition_absolute.xhtml"); //$NON-NLS-1$
 
@@ -140,9 +153,12 @@ public class FaceletsComponentTest extends VpeTest {
      * 
      * @throws Throwable
      */
+    @Test
     public void testComponent() throws Throwable {
 
-	nsIDOMElement element = performTestForFaceletComponent("components/component.xhtml"); //$NON-NLS-1$
+    Assume.assumeFalse(VpeTest.skipTests);
+    	
+    nsIDOMElement element = performTestForFaceletComponent("components/component.xhtml"); //$NON-NLS-1$
 	nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
 	List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
@@ -168,7 +184,11 @@ public class FaceletsComponentTest extends VpeTest {
      * 
      * @throws Throwable
      */
+    @Test
     public void testRemove() throws Throwable {
+    	
+    Assume.assumeFalse(VpeTest.skipTests);
+    	
 	nsIDOMElement element = performTestForFaceletComponent("components/remove.xhtml"); //$NON-NLS-1$
 	nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
@@ -198,8 +218,12 @@ public class FaceletsComponentTest extends VpeTest {
      * 
      * @throws Throwable
      */
+    @Test
     public void testDecorate() throws Throwable {
-	// check absolute path
+
+    Assume.assumeFalse(VpeTest.skipTests);
+
+    // check absolute path
 	nsIDOMElement element = performTestForFaceletComponent("components/decorate_absolute.xhtml"); //$NON-NLS-1$
 
 	checkTemplatePage(element, PAGE_HEADER,
@@ -221,7 +245,11 @@ public class FaceletsComponentTest extends VpeTest {
      * 
      * @throws Throwable
      */
+    @Test
     public void testRepeat() throws Throwable {
+
+   	Assume.assumeFalse(VpeTest.skipTests);
+
 	nsIDOMElement element = performTestForFaceletComponent("components/repeat.xhtml"); //$NON-NLS-1$
 	nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
@@ -250,7 +278,11 @@ public class FaceletsComponentTest extends VpeTest {
      * 
      * @throws Throwable
      */
+    @Test
     public void testInclude() throws Throwable {
+
+	Assume.assumeFalse(VpeTest.skipTests);
+
 	// check absolute path
 	nsIDOMElement element = performTestForFaceletComponent("components/include_absolute.xhtml"); //$NON-NLS-1$
 
@@ -273,7 +305,11 @@ public class FaceletsComponentTest extends VpeTest {
      * 
      * @throws Throwable
      */
+    @Test
     public void testFragment() throws Throwable {
+
+	Assume.assumeFalse(VpeTest.skipTests);
+
 	nsIDOMElement element = performTestForFaceletComponent("components/fragment.xhtml"); //$NON-NLS-1$
 	nsIDOMNode node = queryInterface(element, nsIDOMNode.class);
 
@@ -299,7 +335,11 @@ public class FaceletsComponentTest extends VpeTest {
      * 
      * @throws Throwable
      */
+    @Test
     public void testInsert() throws Throwable {
+
+	Assume.assumeFalse(VpeTest.skipTests);
+
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
 		"components/insert.xhtml", FaceletsAllTests.IMPORT_PROJECT_NAME));  //$NON-NLS-1$
     }
@@ -344,7 +384,11 @@ public class FaceletsComponentTest extends VpeTest {
      * 
      * @throws Throwable
      */
+    @Test
     public void testParam() throws Throwable {
+
+	Assume.assumeFalse(VpeTest.skipTests);
+
 	// check absolute path
 	nsIDOMElement element = performTestForFaceletComponent("components/param.xhtml"); //$NON-NLS-1$
 
@@ -391,7 +435,11 @@ public class FaceletsComponentTest extends VpeTest {
      * 
      * @throws Throwable
      */
+    @Test
     public void testAllTags() throws Throwable {
+
+	Assume.assumeFalse(VpeTest.skipTests);
+
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
 		"components/faceletsTest.xhtml", FaceletsAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }

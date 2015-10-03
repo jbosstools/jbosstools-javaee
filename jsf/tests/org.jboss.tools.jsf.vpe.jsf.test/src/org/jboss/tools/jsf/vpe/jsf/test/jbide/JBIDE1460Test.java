@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.ComponentContentTest;
+import org.junit.Test;
 
 /**
  * Test JBIDE-1460
@@ -21,17 +22,20 @@ import org.jboss.tools.vpe.base.test.ComponentContentTest;
  * 
  */
 public class JBIDE1460Test extends ComponentContentTest {
-    public JBIDE1460Test(String name) {
-    	super(name);
-    }
 
-    // test method for JBIDE 1460
-    public void testJBIDE_1460() throws Throwable {
-    	performContentTest( "JBIDE/1460/JBIDE-1460.xhtml"); //$NON-NLS-1$
-    }
+	public JBIDE1460Test() {
+	}
 
-	/* (non-Javadoc)
-	 * @see org.jboss.tools.vpe.ui.test.ComponentContentTest#getTestProjectName()
+	@Test
+	public void testJBIDE_1460() throws Throwable {
+		performContentTest("JBIDE/1460/JBIDE-1460.xhtml"); //$NON-NLS-1$
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.jboss.tools.vpe.ui.test.ComponentContentTest#getTestProjectName()
 	 */
 	@Override
 	protected String getTestProjectName() {

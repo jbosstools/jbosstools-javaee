@@ -10,25 +10,16 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jbpm.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
-import org.jboss.tools.vpe.base.test.VpeTestSetup;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 /**
  * 
  * @author yzhishko
  *
  */
-
+@RunWith(Suite.class)
+@Suite.SuiteClasses(JBPMComponentsTest.class)
 public class JbpmVisualAllTests {
-
 	public static final String JBPM_TEST_PROJECT = "jBPMTestProject"; //$NON-NLS-1$
-	
-	public static Test suite(){
-		TestSuite suite = new TestSuite("Tests for Vpe jBPM components"); //$NON-NLS-1$
-		suite.addTestSuite(JBPMComponentsTest.class);
-		return new VpeTestSetup(suite);
-	}
-	
 }

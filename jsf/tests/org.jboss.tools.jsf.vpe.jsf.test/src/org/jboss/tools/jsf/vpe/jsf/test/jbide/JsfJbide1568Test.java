@@ -14,28 +14,34 @@ import org.eclipse.core.resources.IFile;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
+import org.junit.Test;
 
 /**
  * @author Max Areshkau
  * 
- * junit for http://jira.jboss.com/jira/browse/JBIDE-1568 
+ *         junit for http://jira.jboss.com/jira/browse/JBIDE-1568
  *
  */
 public class JsfJbide1568Test extends VpeTest {
 
-	public JsfJbide1568Test(String name) {
-		super(name);
+	public JsfJbide1568Test() {
 	}
-	
-	 public void testJBIDE1568Body() throws Throwable {
-		performTestForVpeComponent((IFile) TestUtil.getComponentPath("JBIDE/1568/JBIDE-1568-body.jsp",JsfAllTests.IMPORT_PROJECT_NAME));  //$NON-NLS-1$
+
+	@Test
+	public void testJBIDE1568Body() throws Throwable {
+		performTestForVpeComponent(
+				(IFile) TestUtil.getComponentPath("JBIDE/1568/JBIDE-1568-body.jsp", JsfAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
-	 
-	 public void testJBIDE1568RichFaces() throws Throwable {
-		 performTestForVpeComponent((IFile) TestUtil.getComponentPath("JBIDE/1568/JBIDE-1568-richfaces.jsp",JsfAllTests.IMPORT_PROJECT_NAME));  //$NON-NLS-1$
-	 }
-	 
-	 public void testJBIDE1568Seam() throws Throwable {
-		 performTestForVpeComponent((IFile) TestUtil.getComponentPath("JBIDE/1568/JBIDE-1568-seam.xhtml",JsfAllTests.IMPORT_PROJECT_NAME));//$NON-NLS-1$
-	 }
+
+	@Test
+	public void testJBIDE1568RichFaces() throws Throwable {
+		performTestForVpeComponent((IFile) TestUtil.getComponentPath("JBIDE/1568/JBIDE-1568-richfaces.jsp", //$NON-NLS-1$
+				JsfAllTests.IMPORT_PROJECT_NAME));
+	}
+
+	@Test
+	public void testJBIDE1568Seam() throws Throwable {
+		performTestForVpeComponent(
+				(IFile) TestUtil.getComponentPath("JBIDE/1568/JBIDE-1568-seam.xhtml", JsfAllTests.IMPORT_PROJECT_NAME));//$NON-NLS-1$
+	}
 }

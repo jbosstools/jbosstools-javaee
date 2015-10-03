@@ -13,7 +13,10 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.editor.menu.InsertType;
 import org.jboss.tools.vpe.editor.menu.action.InsertAction2;
+import org.junit.Before;
+import org.junit.Test;
 
+import static org.junit.Assert.*;
 
 /**
  * Tests for JIRA issue JBIDE-3888: Taglib declaration for empty page
@@ -31,12 +34,12 @@ public class ContextMenuDoubleInsertionTest_JBIDE3888
 	private static final String REQUIRED_STRING
 			= "http://java.sun.com/jsf/html";	//$NON-NLS-1$
 
-	public ContextMenuDoubleInsertionTest_JBIDE3888(String name) {
-		super(name);
+	public ContextMenuDoubleInsertionTest_JBIDE3888() {
 	}
 
+	@Before
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
 	}
 
@@ -57,6 +60,7 @@ public class ContextMenuDoubleInsertionTest_JBIDE3888
 	 * ACTUAL RESULT (if the test fails):
 	 * The taglib declaration is not inserted. 
 	 */
+	@Test
 	public void testDoubleInsertion() {
 		final InsertAction2 firstInsertAction = new InsertAction2(
 				"Insert Action", insertionItem,				//$NON-NLS-1$

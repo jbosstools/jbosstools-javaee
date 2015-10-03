@@ -22,9 +22,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.jsf.vpe.jsf.test.CommonJBIDE2010Test;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
-
+import static org.junit.Assert.*;
 
 /**
  * Test case for testing https://jira.jboss.com:8443/jira/browse/JBIDE-2010
@@ -40,8 +41,7 @@ public class JBIDE2010Test extends CommonJBIDE2010Test {
      * 
      * @param name the name
      */
-    public JBIDE2010Test(String name) {
-        super(name);
+    public JBIDE2010Test() {
     }
 
     /**
@@ -50,6 +50,7 @@ public class JBIDE2010Test extends CommonJBIDE2010Test {
      * @throws CoreException the core exception
      * @throws Throwable the throwable
      */
+    @Test
     public void testElTemplateSimple() throws CoreException, Throwable {
         final nsIDOMElement rst = TestUtil.performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(DIR_TEST_PAGE_NAME_2,
                 IMPORT_PROJECT_NAME));
@@ -74,6 +75,7 @@ public class JBIDE2010Test extends CommonJBIDE2010Test {
      * @throws CoreException the core exception
      * @throws Throwable the throwable
      */
+    @Test
     public void testElTemplateSimple2() throws CoreException, Throwable {
         final nsIDOMElement rst = TestUtil.performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(DIR_TEST_PAGE_NAME_3,
                 IMPORT_PROJECT_NAME));
@@ -91,7 +93,6 @@ public class JBIDE2010Test extends CommonJBIDE2010Test {
 //        assertEquals("Value should be equals", "Hello "+VALUE_5, pOne.getFirstChild().getFirstChild().getNodeValue());
         assertTrue("Value should contain background style [" + VALUE_4 + "]", //$NON-NLS-1$ //$NON-NLS-2$
         		pOne.getAttribute(HTML.ATTR_STYLE).startsWith(VALUE_4));
-
     }
 
 }

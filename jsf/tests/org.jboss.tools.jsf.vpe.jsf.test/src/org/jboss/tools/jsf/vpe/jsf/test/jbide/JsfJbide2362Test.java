@@ -35,8 +35,10 @@ import org.jboss.tools.vpe.editor.mapping.VpeDomMapping;
 import org.jboss.tools.vpe.editor.mapping.VpeNodeMapping;
 import org.jboss.tools.vpe.editor.util.SelectionUtil;
 import org.jboss.tools.vpe.xulrunner.editor.XulRunnerEditor;
+import org.junit.Test;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import static org.junit.Assert.*;
 
 /**
  * 
@@ -64,8 +66,7 @@ public class JsfJbide2362Test extends VpeTest {
 		ELEMENTS.add("h:inputSecret"); //$NON-NLS-1$
 	}
 
-	public JsfJbide2362Test(String name) {
-		super(name);
+	public JsfJbide2362Test() {
 	}
 
 	/**
@@ -75,6 +76,7 @@ public class JsfJbide2362Test extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testSimpleSourceSelection() throws Throwable {
 
 		TestUtil.waitForJobs();
@@ -105,6 +107,7 @@ public class JsfJbide2362Test extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testEditingSourceSelection() throws Throwable {
 
 		// wait

@@ -10,10 +10,12 @@
  ******************************************************************************/
 
 package org.jboss.tools.jsf.vpe.jsf.test;
+import static org.junit.Assert.*;
 
 
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.vpe.editor.util.ElServiceUtil;
+import org.junit.Test;
 
 /**
  * <p>
@@ -30,9 +32,8 @@ public class ElPreferencesTestCase extends CommonJBIDE2010Test {
      * 
      * @param name the name
      */
-    public ElPreferencesTestCase(String name) {
-        super(name);
-
+    public ElPreferencesTestCase() {
+    	super();
     }
 
     /**
@@ -40,6 +41,7 @@ public class ElPreferencesTestCase extends CommonJBIDE2010Test {
      * 
      * @throws CoreException the core exception
      */
+    @Test
     public void testReplaceAttributeValue() throws CoreException {
         String string1 = "#{beanA.property1}/images/smalle.gif"; //$NON-NLS-1$
         String replacedValue = ElServiceUtil.replaceEl(file, string1);
@@ -54,6 +56,7 @@ public class ElPreferencesTestCase extends CommonJBIDE2010Test {
      * 
      * @throws CoreException the core exception
      */
+    @Test
     public void testReplaceAttributeValue2() throws CoreException {
         String string1 = "#{beanA.property1}/images/#{beanA.property2}/path2/#{facesContext.requestPath}/smalle.gif"; //$NON-NLS-1$
 
@@ -67,6 +70,7 @@ public class ElPreferencesTestCase extends CommonJBIDE2010Test {
     /**
      * Test replace not in set.
      */
+    @Test
     public void testReplaceNotInSet() {
         String string1 = "#{requestScope}/smalle.gif"; //$NON-NLS-1$
 

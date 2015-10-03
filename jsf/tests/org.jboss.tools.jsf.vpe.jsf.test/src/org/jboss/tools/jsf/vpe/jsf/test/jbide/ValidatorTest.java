@@ -15,6 +15,7 @@ import org.jboss.tools.vpe.base.test.ProjectsLoader;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.util.VpeDebugUtil;
+import org.junit.Test;
 
 /**
  * 
@@ -24,10 +25,10 @@ import org.jboss.tools.vpe.editor.util.VpeDebugUtil;
  */
 public class ValidatorTest extends VpeTest{
 
-	public ValidatorTest(String name) {
-		super(name);
+	public ValidatorTest() {
 	}
-	
+
+	@Test
 	public void testValidationTime() throws IOException, CoreException{
 		IProject project = ProjectsLoader.getInstance().getProject(JsfAllTests.IMPORT_PROJECT_NAME);
 		//wait wile import project job finished

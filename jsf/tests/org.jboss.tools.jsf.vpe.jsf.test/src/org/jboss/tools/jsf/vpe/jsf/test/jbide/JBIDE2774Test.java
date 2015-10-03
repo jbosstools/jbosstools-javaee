@@ -19,6 +19,9 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Test class for JBIDE-2774
@@ -31,8 +34,7 @@ public class JBIDE2774Test extends VpeTest {
 	 * 
 	 * @param name
 	 */
-	public JBIDE2774Test(String name) {
-		super(name);
+	public JBIDE2774Test() {
 	}
 	
 	/**
@@ -40,6 +42,7 @@ public class JBIDE2774Test extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testJBIDE2774() throws Throwable {
 		setException(null);
 		

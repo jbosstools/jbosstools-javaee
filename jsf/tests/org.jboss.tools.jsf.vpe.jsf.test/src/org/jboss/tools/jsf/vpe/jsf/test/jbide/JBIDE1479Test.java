@@ -11,7 +11,6 @@
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import java.io.IOException;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
@@ -26,6 +25,9 @@ import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Max Areshkau
@@ -37,10 +39,10 @@ public class JBIDE1479Test extends VpeTest {
 
 	public static final String TEST_PAGE_NAME = "JBIDE/1479/employee.xhtml"; //$NON-NLS-1$
 	
-	public JBIDE1479Test(String name) {
-		super(name);
+	public JBIDE1479Test() {
 	}
-	
+
+	@Test
 	public void testJBIDE1479() throws Throwable {
 		// wait
 		setException(null);

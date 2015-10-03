@@ -24,6 +24,9 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeEditorPart;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Test class for JBIDE-3030
@@ -45,14 +48,14 @@ public class JBIDE3030Test extends VpeTest {
 	}
 	
 	
-	public JBIDE3030Test(String name) {
-		super(name);
+	public JBIDE3030Test() {
 	}
 
 	/**
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testJBIDE3030() throws Exception {
 		
 		setException(null);

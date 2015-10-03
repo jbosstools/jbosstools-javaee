@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.ComponentContentTest;
+import org.junit.Test;
 
 /**
  * @author mareshkau
@@ -19,25 +20,30 @@ import org.jboss.tools.vpe.base.test.ComponentContentTest;
  */
 public class JBIDE2550Test extends ComponentContentTest {
 
-	public JBIDE2550Test(String name) {
-		super(name);
+	public JBIDE2550Test() {
 	}
-	
+
+	@Test
 	public void testJBIDE2550TestResourceFromWebRoot() throws Throwable{
 		performContentTest("JBIDE/2550/jbide2550.xhtml"); //$NON-NLS-1$
 	}
-	
+
+	@Test
 	public void testOfJSF2ResourceForEmptyString() throws Throwable{
 		performContentTest("JBIDE/4954/inputUserName.jsp"); //$NON-NLS-1$
 	}
-	
+
+	@Test
 	public void testForJSF2CustomTags() throws Throwable{
 		performContentTest("JBIDE/5015/login.xhtml"); //$NON-NLS-1$
 	}
+
 	//test for https://jira.jboss.org/jira/browse/JBIDE-4812
+	@Test
 	public void testForJSFResourcesForAnyAttribute() throws Throwable{
 		performContentTest("JBIDE/4812/resourceProcessingTestPage.xhtml"); //$NON-NLS-1$
 	}
+	
 	@Override
 	protected String getTestProjectName() {
 		return JsfAllTests.IMPORT_JSF_20_PROJECT_NAME;

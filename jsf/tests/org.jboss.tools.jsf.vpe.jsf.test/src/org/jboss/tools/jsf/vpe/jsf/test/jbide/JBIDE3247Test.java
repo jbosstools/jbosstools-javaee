@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.ComponentContentTest;
+import org.junit.Test;
 
 /**
  * @author mareshkau
@@ -19,10 +20,10 @@ import org.jboss.tools.vpe.base.test.ComponentContentTest;
  */
 public class JBIDE3247Test extends ComponentContentTest{
 
-	public JBIDE3247Test(String name) {
-		super(name);
+	public JBIDE3247Test() {
 	}
-	
+
+	@Test
 	public void testJBIDE3247() throws Throwable {
 			performContentTest("index.xhtml"); //$NON-NLS-1$
 	}

@@ -21,6 +21,8 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test case for issue <a href='https://jira.jboss.org/jira/browse/JBIDE-3617'>JBIDE-3617</a>:
@@ -34,15 +36,15 @@ public class JBIDE3617Test extends VpeTest {
 	private static final String TEST_FILE_NAME = "JBIDE/3617/JBIDE-3617.jsp"; //$NON-NLS-1$
 	private static final String INSERTED_STRING = "<link rel=\"stylesheet\" type=\"text/css\" media=\"print\" href=\"JBIDE-3617.css\">"; //$NON-NLS-1$
 	private static final Point INSERTION_POINT = new Point(5, 9); 
-	public JBIDE3617Test(String name) {
-		super(name);
+	public JBIDE3617Test() {
 	}
-	
+
 	/**
 	 * Tests <a href='https://jira.jboss.org/jira/browse/JBIDE-3617'>JBIDE-3617</a>
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testJBIDE3617() throws Throwable {
 		// wait
 		TestUtil.waitForJobs();
@@ -66,7 +68,7 @@ public class JBIDE3617Test extends VpeTest {
 		try {
 			TestUtil.delay();
 		} catch (Throwable e) {
-			fail("Seems like JBIDE-3617 has occured.\n" + e);//$NON-NLS-1$
+			Assert.fail("Seems like JBIDE-3617 has occured.\n" + e);//$NON-NLS-1$
 		}
 
         if(getException()!=null) {

@@ -91,112 +91,110 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.VPERefreshTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.VisualRefreshComment_JBIDE6067;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.VpeI18nTest_JBIDE4887;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.XulRunnerVpeUtilsTest;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 /**
  * Test suite containing all important JSP tests
  * 
  * @author Yahor Radtsevich (yradtsevich)
  */
+
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+	CustomRequestContextPathTest_JBIDE9025.class,
+	SourceDomUtilTest.class,
+	XulRunnerVpeUtilsTest.class,
+	UnclosedELExpressionTest.class,
+	TestContextPathResolution.class,
+	JBIDE5920Test.class,
+	//suite.addTestSuite(MultipleWebRootFoldersTest_JBIDE9753.class,
+	RenderFacetAndInsertChildrenTest.class,
+	EditFontFamilyTest_JBIDE5872.class,
+	ChangeMessageBundleTest_JBIDE5818.class,
+	TestForUsingComponentsLibrariesWithDefaultNamespace.class,
+	//EditingSPecialSymbolsVPE_JBIDE3810.class,
+	OpenOnJsf20Test_JBIDE5382.class,
+	MozDirtyTest_JBIDE5105.class,
+	VpeI18nTest_JBIDE4887.class,
+	JBIDE3519Test.class,
+	ContextMenuDoubleInsertionTest_JBIDE3888.class,
+	SelectAllAndCut_JBIDE4853.class,
+	SelectWholeElement_JBIDE4713.class,
+	JBIDE4037Test.class,
+	JBIDE3734Test.class,
+	JBIDE3617Test.class,
+	JBIDE3473Test.class,
+	JBIDE3441Test.class,
+	JsfJbide1467Test.class,
+	JsfJbide1501Test.class,
+	JsfJbide1568Test.class,
+	JBIDE1615Test.class,
+	JBIDE1479Test.class,
+	JBIDE788Test.class,
+	JBIDE1105Test.class,
+	JBIDE1744Test.class,
+	JBIDE1460Test.class,
+	JBIDE1720Test.class,
+	JsfJbide1718Test.class,
+	JBIDE1494Test.class,
+	JBIDE2297Test.class,
+	JsfJbide2170Test.class,
+	JBIDE2434Test.class,
+	JsfJbide2362Test.class,
+	JBIDE2119Test.class,
+	JBIDE2219Test.class,
+	JBIDE2505Test.class,
+	JBIDE2584Test.class,
+	ElPreferencesTestCase.class,
+	JBIDE2010Test.class,
+	JBIDE2582Test.class,
+	JBIDE2594Test.class,
+	JBIDE924Test.class,
+	JBIDE2526Test.class,
+	JBIDE2624Test.class,
+	JBIDE1805Test.class,
+	JBIDE2774Test.class,
+	JBIDE2828Test.class,
+	JBIDE3030Test.class,
+	JBIDE2979Test.class,
+	JBIDE3127Test.class,
+	JBIDE3144Test.class,
+	JBIDE2354Test.class,
+	JBIDE3163Test.class,
+	JBIDE3376Test.class,
+	JBIDE3396Test.class,
+	JBIDE3482Test.class,
+	JBIDE3632Test.class,
+	JBIDE3650Test.class,
+	JBIDE3197Test.class,
+	JBIDE4373Test.class,
+	JBIDE675Test.class,
+	JBIDE3969Test.class,
+	JBIDE4337Test.class,
+	JBIDE4179Test.class,
+	JBIDE4509Test.class,
+	JBIDE4510Test.class,
+	JBIDE4534Test.class,
+	JBIDE3247Test.class,
+	JBIDE2550Test.class,
+	OpenOnCssClassTest_JBIDE4775.class,
+	VPERefreshTest.class,
+	OpenOnInsideJspRoot_JBIDE4852.class,
+	NullPointerWithStyleProperty_JBIDE5193.class,
+	TestFViewLocaleAttribute_JBIDE5218.class,
+	TestOpenOnForXhtmlFiles_JBIDE5577.class,
+	OpenOnInJarPackageFragment_JBIDE5682.class,
+	MessageResolutionInPreviewTabTest.class,
+	OpenOnTLDPackedInJar_JBIDE5693.class,
+	PreferencesForEditors_JBIDE5692.class,
+	FacetProcessingTest.class,
+	RefreshBundles_JBIDE5460.class,
+	ExceptionInVPEComments_JBIDE5143.class,
+	VisualRefreshComment_JBIDE6067.class,
+	JsfLinkAndCommandLinkTest_JBIDE8009.class
+})
+
 public class JsfAllImportantTests {
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(JsfAllImportantTests.class.getName());
-		//$JUnit-BEGIN$
-		suite.addTestSuite(CustomRequestContextPathTest_JBIDE9025.class);
-		suite.addTestSuite(SourceDomUtilTest.class);
-		suite.addTestSuite(XulRunnerVpeUtilsTest.class);
-		suite.addTestSuite(UnclosedELExpressionTest.class);
-		suite.addTestSuite(TestContextPathResolution.class);
-		suite.addTestSuite(JBIDE5920Test.class);
-		//suite.addTestSuite(MultipleWebRootFoldersTest_JBIDE9753.class);
-		suite.addTestSuite(RenderFacetAndInsertChildrenTest.class);
-		suite.addTestSuite(EditFontFamilyTest_JBIDE5872.class);
-		suite.addTestSuite(ChangeMessageBundleTest_JBIDE5818.class);
-		suite.addTestSuite(TestForUsingComponentsLibrariesWithDefaultNamespace.class);
-//		suite.addTestSuite(EditingSPecialSymbolsVPE_JBIDE3810.class);
-		suite.addTestSuite(OpenOnJsf20Test_JBIDE5382.class);
-		suite.addTestSuite(MozDirtyTest_JBIDE5105.class);
-		suite.addTestSuite(VpeI18nTest_JBIDE4887.class);
-		suite.addTestSuite(JBIDE3519Test.class);
-		suite.addTestSuite(ContextMenuDoubleInsertionTest_JBIDE3888.class);
-		suite.addTestSuite(SelectAllAndCut_JBIDE4853.class);
-		suite.addTestSuite(SelectWholeElement_JBIDE4713.class);
-		suite.addTestSuite(JBIDE4037Test.class);
-		suite.addTestSuite(JBIDE3734Test.class);
-		suite.addTestSuite(JBIDE3617Test.class);
-		suite.addTestSuite(JBIDE3473Test.class);
-		suite.addTestSuite(JBIDE3441Test.class);
-		suite.addTestSuite(JsfJbide1467Test.class);
-		suite.addTestSuite(JsfJbide1501Test.class);
-		suite.addTestSuite(JsfJbide1568Test.class);
-		suite.addTestSuite(JBIDE1615Test.class);
-		suite.addTestSuite(JBIDE1479Test.class);
-		suite.addTestSuite(JBIDE788Test.class);
-		suite.addTestSuite(JBIDE1105Test.class);
-		suite.addTestSuite(JBIDE1744Test.class);
-		suite.addTestSuite(JBIDE1460Test.class);
-		suite.addTestSuite(JBIDE1720Test.class);
-		suite.addTestSuite(JsfJbide1718Test.class);
-		suite.addTestSuite(JBIDE1494Test.class);
-		suite.addTestSuite(JBIDE2297Test.class);
-		suite.addTestSuite(JsfJbide2170Test.class);
-		suite.addTestSuite(JBIDE2434Test.class);
-		suite.addTestSuite(JsfJbide2362Test.class);
-		suite.addTestSuite(JBIDE2119Test.class);
-		suite.addTestSuite(JBIDE2219Test.class);
-		suite.addTestSuite(JBIDE2505Test.class);
-		suite.addTestSuite(JBIDE2584Test.class);
-	    suite.addTestSuite(ElPreferencesTestCase.class);
-	    suite.addTestSuite(JBIDE2010Test.class);
-	    suite.addTestSuite(JBIDE2582Test.class);
-	    suite.addTestSuite(JBIDE2594Test.class);
-		suite.addTestSuite(JBIDE924Test.class);
-		suite.addTestSuite(JBIDE2526Test.class);
-		suite.addTestSuite(JBIDE2624Test.class);
-		suite.addTestSuite(JBIDE1805Test.class);
-		suite.addTestSuite(JBIDE2774Test.class);
-		suite.addTestSuite(JBIDE2828Test.class);
-		suite.addTestSuite(JBIDE3030Test.class);
-		suite.addTestSuite(JBIDE2979Test.class);
-		suite.addTestSuite(JBIDE3127Test.class);
-		suite.addTestSuite(JBIDE3144Test.class);
-		suite.addTestSuite(JBIDE2354Test.class);
-		suite.addTestSuite(JBIDE3163Test.class);
-		suite.addTestSuite(JBIDE3376Test.class);
-		suite.addTestSuite(JBIDE3396Test.class);
-		suite.addTestSuite(JBIDE3482Test.class);
-		suite.addTestSuite(JBIDE3632Test.class);
-		suite.addTestSuite(JBIDE3650Test.class);
-		suite.addTestSuite(JBIDE3197Test.class);
-		suite.addTestSuite(JBIDE4373Test.class);
-		suite.addTestSuite(JBIDE675Test.class);
-		suite.addTestSuite(JBIDE3969Test.class);
-		suite.addTestSuite(JBIDE4337Test.class);
-		suite.addTestSuite(JBIDE4179Test.class);
-		suite.addTestSuite(JBIDE4509Test.class);
-		suite.addTestSuite(JBIDE4510Test.class);
-		suite.addTestSuite(JBIDE4534Test.class);
-		suite.addTestSuite(JBIDE3247Test.class);
-		suite.addTestSuite(JBIDE2550Test.class);
-		suite.addTestSuite(OpenOnCssClassTest_JBIDE4775.class);
-		suite.addTestSuite(VPERefreshTest.class);
-		suite.addTestSuite(OpenOnInsideJspRoot_JBIDE4852.class);
-		suite.addTestSuite(NullPointerWithStyleProperty_JBIDE5193.class);
-		suite.addTestSuite(TestFViewLocaleAttribute_JBIDE5218.class);
-		suite.addTestSuite(TestOpenOnForXhtmlFiles_JBIDE5577.class);
-		suite.addTestSuite(OpenOnInJarPackageFragment_JBIDE5682.class);
-		suite.addTestSuite(MessageResolutionInPreviewTabTest.class);
-		suite.addTestSuite(OpenOnTLDPackedInJar_JBIDE5693.class);
-		suite.addTestSuite(PreferencesForEditors_JBIDE5692.class);
-		suite.addTestSuite(FacetProcessingTest.class);
-		suite.addTestSuite(RefreshBundles_JBIDE5460.class);
-		suite.addTestSuite(ExceptionInVPEComments_JBIDE5143.class);
-		suite.addTestSuite(VisualRefreshComment_JBIDE6067.class);
-		suite.addTestSuite(JsfLinkAndCommandLinkTest_JBIDE8009.class);
-		
-
-		//$JUnit-END$
-		return suite;
-	}
 
 }

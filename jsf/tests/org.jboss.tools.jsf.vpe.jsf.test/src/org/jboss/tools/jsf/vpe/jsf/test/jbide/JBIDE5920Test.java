@@ -23,6 +23,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.OpenOnUtil;
 import org.jboss.tools.vpe.base.test.ProjectsLoader;
 import org.jboss.tools.vpe.base.test.VpeTest;
+import org.junit.Test;
 
 /**
  * @author V.I.Kabanovich
@@ -30,11 +31,11 @@ import org.jboss.tools.vpe.base.test.VpeTest;
  */
 public class JBIDE5920Test extends VpeTest{
 
-	public JBIDE5920Test(String name) {
-		super(name);
+	public JBIDE5920Test() {
 	}
 
 	//test for https://jira.jboss.org/jira/browse/JBIDE-5920
+	@Test
 	public void testOpenOnInProjectWith2URLPatterns() throws Throwable{
 		IProject project = ProjectsLoader.getInstance()
 				.getProject(JsfAllTests.IMPORT_TEST_WITH_2_URL_PATTERNS_PROJECT_NAME);

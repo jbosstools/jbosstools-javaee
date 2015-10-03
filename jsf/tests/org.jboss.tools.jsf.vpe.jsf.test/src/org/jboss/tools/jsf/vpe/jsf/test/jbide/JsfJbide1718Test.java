@@ -24,11 +24,14 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNamedNodeMap;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMNodeList;
+import static org.junit.Assert.*;
 
 /**
  * 
@@ -48,8 +51,7 @@ public class JsfJbide1718Test extends VpeTest {
 
 	private static final String FORMAT_TEST_PAGE_NAME = "JBIDE/1718/JBIDE-1718-format.jsp"; //$NON-NLS-1$
 
-	public JsfJbide1718Test(String name) {
-		super(name);
+	public JsfJbide1718Test() {
 	}
 
 	/**
@@ -57,6 +59,8 @@ public class JsfJbide1718Test extends VpeTest {
 	 * @throws Throwable
 	 */
 	//mareshkau, dir attributes was disabled due to JBIDE-3209
+	@Test
+	@Ignore
 	public void _testDirAttribute() throws Throwable {
 
 		// wait
@@ -143,6 +147,7 @@ public class JsfJbide1718Test extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testEscapeAttribute() throws Throwable {
 
 		// wait
@@ -189,6 +194,7 @@ public class JsfJbide1718Test extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testDisabledAttribute() throws Throwable {
 
 		// wait
@@ -236,6 +242,7 @@ public class JsfJbide1718Test extends VpeTest {
 	 * 
 	 * @throws Throwable
 	 */
+	@Test
 	public void testFormatMessageElements() throws Throwable {
 
 		// wait

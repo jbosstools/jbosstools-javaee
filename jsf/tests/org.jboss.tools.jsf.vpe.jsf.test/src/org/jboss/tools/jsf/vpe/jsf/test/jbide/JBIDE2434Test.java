@@ -19,6 +19,9 @@ import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.VpeEditorPart;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * @author mareshkau
@@ -26,13 +29,14 @@ import org.jboss.tools.vpe.editor.VpeEditorPart;
  */
 public class JBIDE2434Test extends VpeTest{
 
-	public JBIDE2434Test(String name) {
-		super(name);
+	public JBIDE2434Test() {
 	}
+	
 	/**
 	 * tests open and close editor in page
 	 * @throws Throwable
 	 */
+	@Test
 	public void testOpenAndCloPageWithCycleFacelets() throws Throwable {
 		performTestForVpeComponent((IFile) TestUtil.getComponentPath("JBIDE/2434/FaceletForm.xhtml",JsfAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
@@ -40,6 +44,7 @@ public class JBIDE2434Test extends VpeTest{
 	 * Tests visual refresh method
 	 * @throws Throwable
 	 */
+	@Test
 	public void testVisualRefreshAndSwitchToPreview() throws Throwable {
 		// wait
 		TestUtil.waitForJobs();
@@ -71,5 +76,4 @@ public class JBIDE2434Test extends VpeTest{
 			throw getException();
 		}
 	}
-		
 }

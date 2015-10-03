@@ -18,10 +18,12 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMNodeList;
+import static org.junit.Assert.*;
 
 /**
  * @author Sergey Dzmitrovich
@@ -32,10 +34,10 @@ public class JBIDE1805Test extends VpeTest {
 	private static final String TEST_PAGE = "JBIDE/1805/test.xhtml"; //$NON-NLS-1$
 	private static final String ELEMENT_WRAPPER_ID = "invisibleElement"; //$NON-NLS-1$
 
-	public JBIDE1805Test(String name) {
-		super(name);
+	public JBIDE1805Test() {
 	}
 
+	@Test
 	public void testJBIDE1805() throws Throwable {
 
 		// get test page path

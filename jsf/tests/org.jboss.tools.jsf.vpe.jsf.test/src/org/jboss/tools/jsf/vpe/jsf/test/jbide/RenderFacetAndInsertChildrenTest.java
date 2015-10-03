@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.ComponentContentTest;
+import org.junit.Test;
 
 /**
  * https://jira.jboss.org/jira/browse/JBIDE-5908
@@ -21,12 +22,14 @@ import org.jboss.tools.vpe.base.test.ComponentContentTest;
  */
 public class RenderFacetAndInsertChildrenTest extends ComponentContentTest{
 
-	public RenderFacetAndInsertChildrenTest(String name) {
-		super(name);
+	public RenderFacetAndInsertChildrenTest() {
 	}
+
+	@Test
 	public void testRenderFacetAndInsertChildren() throws Throwable {	
 		performContentTest("JBIDE/5908/welcome.xhtml"); //$NON-NLS-1$
 	}
+
 	@Override
 	protected String getTestProjectName() {
 		return JsfAllTests.IMPORT_JSF_20_PROJECT_NAME;

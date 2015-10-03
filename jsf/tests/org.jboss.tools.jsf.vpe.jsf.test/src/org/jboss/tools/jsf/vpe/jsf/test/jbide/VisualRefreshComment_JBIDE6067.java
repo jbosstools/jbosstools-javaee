@@ -20,9 +20,11 @@ import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditorPart;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.mozilla.interfaces.nsIDOMNodeList;
+import static org.junit.Assert.*;
 
 /**
  * 
@@ -32,10 +34,10 @@ import org.mozilla.interfaces.nsIDOMNodeList;
 
 public class VisualRefreshComment_JBIDE6067 extends VpeTest {
 
-	public VisualRefreshComment_JBIDE6067(String name) {
-		super(name);
+	public VisualRefreshComment_JBIDE6067() {
 	}
-	
+
+	@Test
 	public void testVisualRefreshComment() throws Throwable{
 		setException(null);
 		IFile file = (IFile) TestUtil.getComponentPath("JBIDE/6067/JBIDE-6067.jsp", //$NON-NLS-1$

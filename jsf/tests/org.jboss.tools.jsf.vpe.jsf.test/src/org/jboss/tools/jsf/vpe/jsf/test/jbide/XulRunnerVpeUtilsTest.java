@@ -17,7 +17,10 @@ import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.xulrunner.util.XulRunnerVpeUtils;
+import org.junit.Before;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMElement;
+import static org.junit.Assert.*;
 
 /**
  * Tests for {@link XulRunnerVpeUtils} class. 
@@ -42,19 +45,20 @@ public class XulRunnerVpeUtilsTest extends VpeTest {
 			= "JBIDE/7153/getElementBounds.html"; //$NON-NLS-1$
 	private VpeController vpeController;
 
-	public XulRunnerVpeUtilsTest(String name) {
-		super(name);
+	public XulRunnerVpeUtilsTest() {
 	}
 
+	@Before
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
 		vpeController = openInVpe(JsfAllTests.IMPORT_PROJECT_NAME,
 				TEST_FILE_PATH);
 	}
-	
+
 	////////////////////////////////////////////////////////////////////////////
 	// JUNIT TESTING METHODS
+	@Test
 	public void testGetElementBounds() {
 		 Rectangle outerDivSize = XulRunnerVpeUtils.getElementBounds(
 				 getElementById(OUTER_DIV_ID));

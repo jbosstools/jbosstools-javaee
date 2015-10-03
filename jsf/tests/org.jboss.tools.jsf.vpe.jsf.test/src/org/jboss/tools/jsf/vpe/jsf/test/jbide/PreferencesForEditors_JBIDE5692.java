@@ -17,6 +17,9 @@ import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * 
@@ -30,17 +33,17 @@ public class PreferencesForEditors_JBIDE5692 extends VpeTest {
 	private JSPMultiPageEditor part2;
 	private JSPMultiPageEditor part3;
 	
-	public PreferencesForEditors_JBIDE5692(String name) {
-		super(name);
+	public PreferencesForEditors_JBIDE5692() {
 	}
-	
+
+	@Test
 	public void testPreferencesForEditors() throws Throwable {
 		setException(null);
 		openFirstTestPage();
 		openSecondTestPage();
 		openThirdTestPage();
 	}
-	
+
 	private void openFirstTestPage() throws Throwable{
 		IFile file = (IFile) TestUtil.getComponentPath("JBIDE/5692/test1.jsp", //$NON-NLS-1$
 				JsfAllTests.IMPORT_PROJECT_NAME);
@@ -50,7 +53,7 @@ public class PreferencesForEditors_JBIDE5692 extends VpeTest {
 		part1 = openEditor(input);
 		part1.pageChange(part1.getPreviewIndex());
 	}
-	
+
 	private void openSecondTestPage() throws Throwable{
 		IFile file = (IFile) TestUtil.getComponentPath("JBIDE/5692/test2.jsp", //$NON-NLS-1$
 				JsfAllTests.IMPORT_PROJECT_NAME);
@@ -61,7 +64,7 @@ public class PreferencesForEditors_JBIDE5692 extends VpeTest {
 		checkOpenedTab(2,part2.getSelectedPageIndex());
 		part2.pageChange(part2.getVisualSourceIndex());
 	}
-	
+
 	private void openThirdTestPage() throws Throwable{
 		IFile file = (IFile) TestUtil.getComponentPath("JBIDE/5692/test3.jsp", //$NON-NLS-1$
 				JsfAllTests.IMPORT_PROJECT_NAME);
@@ -71,9 +74,8 @@ public class PreferencesForEditors_JBIDE5692 extends VpeTest {
 		part3 = openEditor(input);
 		checkOpenedTab(0,part3.getSelectedPageIndex());
 	}
-	
+
 	private void checkOpenedTab(int expected, int actual){
 		assertEquals("Tab index is incorrect ", expected, actual); //$NON-NLS-1$
 	}
-
 }

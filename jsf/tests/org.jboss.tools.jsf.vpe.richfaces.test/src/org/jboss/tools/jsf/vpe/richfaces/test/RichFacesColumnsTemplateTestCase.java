@@ -9,9 +9,7 @@
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-
 package org.jboss.tools.jsf.vpe.richfaces.test;
-
 
 import static org.jboss.tools.vpe.base.test.TestUtil.performTestForRichFacesComponent;
 import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
@@ -25,8 +23,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.junit.Test;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
+import static org.junit.Assert.*;
 
 /**
  * Test case for testing <rich:columns>.
@@ -34,56 +34,62 @@ import org.mozilla.interfaces.nsIDOMNode;
  * @author Eugene Stherbin
  */
 public class RichFacesColumnsTemplateTestCase extends VpeTest {
-    /** The Constant COLUMNS_WITH_ATTRIBUTES. */
-    private static final String COLUMNS_WITH_ATTRIBUTES = "components/columns/columnsWithAttributes.xhtml";
+	/** The Constant COLUMNS_WITH_ATTRIBUTES. */
+	private static final String COLUMNS_WITH_ATTRIBUTES = "components/columns/columnsWithAttributes.xhtml";
 
-    /** The Constant COMPONENTS_COLUMNS_COLUMNS_XHTML. */
-    private static final String COMPONENTS_COLUMNS_COLUMNS_XHTML = "components/columns/columns.xhtml";
+	/** The Constant COMPONENTS_COLUMNS_COLUMNS_XHTML. */
+	private static final String COMPONENTS_COLUMNS_COLUMNS_XHTML = "components/columns/columns.xhtml";
 
-    /**
-     * The Constructor.
-     * 
-     * @param name the name
-     */
-    public RichFacesColumnsTemplateTestCase(String name) {
-        super(name);
-    }
+	/**
+	 * The Constructor.
+	 * 
+	 * @param name
+	 *            the name
+	 */
+	public RichFacesColumnsTemplateTestCase() {
+	}
 
-    /**
-     * Test columns with attributes.
-     * @throws Throwable 
-     * @throws IOException 
-     * @throws CoreException 
-     */
-    public void testColumnsWithAttributes() throws CoreException, IOException, Throwable {
-        final nsIDOMElement rst = performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(COLUMNS_WITH_ATTRIBUTES,
-        		RichFacesAllTests.IMPORT_PROJECT_NAME));
+	/**
+	 * Test columns with attributes.
+	 * 
+	 * @throws Throwable
+	 * @throws IOException
+	 * @throws CoreException
+	 */
+	@Test
+	public void testColumnsWithAttributes() throws CoreException, IOException, Throwable {
+		final nsIDOMElement rst = performTestForRichFacesComponent(
+				(IFile) TestUtil.getComponentPath(COLUMNS_WITH_ATTRIBUTES, RichFacesAllTests.IMPORT_PROJECT_NAME));
 
-        final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
-        TestUtil.findAllElementsByName(rst, elements, HTML.TAG_TD);
+		final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+		TestUtil.findAllElementsByName(rst, elements, HTML.TAG_TD);
 
-        nsIDOMElement divOne = queryInterface(elements.get(0), nsIDOMElement.class);
+		nsIDOMElement divOne = queryInterface(elements.get(0), nsIDOMElement.class);
 
-        assertEquals("Style class should be equals", "dr-table-cell rich-table-cell myClass", divOne.getAttribute(HTML.ATTR_CLASS));
-        assertEquals("Style should be equals ", "text-align: center;", divOne.getAttribute(HTML.ATTR_STYLE));
-        assertTrue("Style should contains of 52 value ", divOne.getAttribute("width").contains("52"));
-     }
+		assertEquals("Style class should be equals", "dr-table-cell rich-table-cell myClass",
+				divOne.getAttribute(HTML.ATTR_CLASS));
+		assertEquals("Style should be equals ", "text-align: center;", divOne.getAttribute(HTML.ATTR_STYLE));
+		assertTrue("Style should contains of 52 value ", divOne.getAttribute("width").contains("52"));
+	}
 
-    /**
-     * Test simple columns.
-     * @throws Throwable 
-     * @throws IOException 
-     * @throws CoreException 
-     */
-    public void testSimpleColumns() throws CoreException, IOException, Throwable {
-        final nsIDOMElement rst = performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(COMPONENTS_COLUMNS_COLUMNS_XHTML,
-        		RichFacesAllTests.IMPORT_PROJECT_NAME));
+	/**
+	 * Test simple columns.
+	 * 
+	 * @throws Throwable
+	 * @throws IOException
+	 * @throws CoreException
+	 */
+	@Test
+	public void testSimpleColumns() throws CoreException, IOException, Throwable {
+		final nsIDOMElement rst = performTestForRichFacesComponent((IFile) TestUtil
+				.getComponentPath(COMPONENTS_COLUMNS_COLUMNS_XHTML, RichFacesAllTests.IMPORT_PROJECT_NAME));
 
-        final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
-        TestUtil.findAllElementsByName(rst, elements, HTML.TAG_TD);
+		final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+		TestUtil.findAllElementsByName(rst, elements, HTML.TAG_TD);
 
-        nsIDOMElement divOne = queryInterface(elements.get(0), nsIDOMElement.class);
+		nsIDOMElement divOne = queryInterface(elements.get(0), nsIDOMElement.class);
 
-        assertEquals("Style class should be equals", "dr-table-cell rich-table-cell", divOne.getAttribute(HTML.ATTR_CLASS));
-    }
+		assertEquals("Style class should be equals", "dr-table-cell rich-table-cell",
+				divOne.getAttribute(HTML.ATTR_CLASS));
+	}
 }
