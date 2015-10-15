@@ -3,12 +3,12 @@
 	<parent>
 		<groupId>org.jboss.tools</groupId>
 		<artifactId>javaee.all</artifactId>
-		<version>4.3.0-SNAPSHOT</version>
+		<version>4.3.1-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.tools</groupId>
 	<artifactId>jsf</artifactId>
 	<name>jsf.all</name>
-	<version>3.7.0-SNAPSHOT</version>
+	<version>3.7.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
 		<module>plugins</module>
