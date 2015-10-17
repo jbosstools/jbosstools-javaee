@@ -52,6 +52,27 @@ public class BatchHyperlinkDetectorTest  extends TestCase {
 		checkHyperlinks("src/META-INF/batch-jobs/job-openon-1.xml"); //$NON-NLS-1$
 	}
 	
+	public void testHyperlinksInExternalFile() throws Exception{
+		ArrayList<TestRegion> regionList = new ArrayList<TestRegion>();
+		
+		regionList.add(new TestRegion("myBatchletStep2", new TestHyperlink[]{ //$NON-NLS-1$
+			new TestHyperlink(XMLJumpToHyperlink.class, "Go to '<step id=\"myBatchletStep2\">'") //$NON-NLS-1$
+		}));
+		
+		regionList.add(new TestRegion("ref=", new TestHyperlink[]{}));
+
+		regionList.add(new TestRegion("myBatchletStep3", new TestHyperlink[]{ //$NON-NLS-1$
+			new TestHyperlink(XMLJumpToHyperlink.class, "Go to '<step id=\"myBatchletStep3\">'") //$NON-NLS-1$
+		}));
+
+		regionList.add(new TestRegion("myBatchletStep2", new TestHyperlink[]{ //$NON-NLS-1$
+			new TestHyperlink(XMLJumpToHyperlink.class, "Go to '<step id=\"myBatchletStep2\">'") //$NON-NLS-1$
+		}));
+		
+		
+		HyperlinkTestUtil.checkRegionsForExternalFile("src/org/jboss/tools/batch/ui/itest/job-openon-1.xml", regionList, new BatchHyperlinkDetector());
+	}
+	
 	private void checkHyperlinkDetector(String pageName) throws Exception{
 		List<TestRegion> regionList = getTestRegionList();
 		HyperlinkTestUtil.checkRegionsInTextEditor(project, pageName, regionList, new BatchHyperlinkDetector());
@@ -60,7 +81,7 @@ public class BatchHyperlinkDetectorTest  extends TestCase {
 	private void checkHyperlinks(String pageName) throws Exception{
 		List<TestRegion> regionList = getTestRegionList();
 		
-		HyperlinkTestUtil.checkHyperlinksInTextEditor(project, pageName, regionList, new BatchHyperlinkDetector());
+		HyperlinkTestUtil.checkRegionsInTextEditor(project, pageName, regionList, new BatchHyperlinkDetector());
 	}
 
 	private List<TestRegion> getTestRegionList(){
