@@ -41,9 +41,6 @@ public class BatchHyperlinkDetector extends AbstractHyperlinkDetector {
 		List<IHyperlink> links = new ArrayList<IHyperlink>();
 
 		IBatchProject batchProject = getBatchProject(MarkerResolutionUtils.getFile());
-		if (batchProject == null) {
-			return null;
-		}
 
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		smw.init(textViewer.getDocument());
@@ -55,7 +52,7 @@ public class BatchHyperlinkDetector extends AbstractHyperlinkDetector {
 			AttrNodePair pair = Utils.findAttrNodePairForOffset(xmlDocument, region.getOffset());
 
 			if (pair != null && pair.getNode() != null && pair.getAttribute() != null) {
-				if (BatchConstants.ATTR_REF.equalsIgnoreCase(pair.getAttribute().getNodeName())) { // Open Java Class for attributre @ref
+				if (batchProject != null && BatchConstants.ATTR_REF.equalsIgnoreCase(pair.getAttribute().getNodeName())) { // Open Java Class for attributre @ref
 					IRegion sourceRegion = getAttributeValueSourceRegion(textViewer, region.getOffset(),
 							(Attr) pair.getAttribute());
 
@@ -88,7 +85,8 @@ public class BatchHyperlinkDetector extends AbstractHyperlinkDetector {
 									.getDocument(), sourceRegion, targetRegion));
 						}
 					}
-				} else if (BatchConstants.TAG_PROPERTY.equalsIgnoreCase(pair.getNode().getNodeName()) // Open Java Field
+				} else if (batchProject != null							 								// Open Java Field
+						&& BatchConstants.TAG_PROPERTY.equalsIgnoreCase(pair.getNode().getNodeName())
 						&& BatchConstants.ATTR_NAME.equalsIgnoreCase(pair.getAttribute().getNodeName())) {
 					IRegion sourceRegion = getAttributeValueSourceRegion(textViewer, region.getOffset(),
 							(Attr) pair.getAttribute());
@@ -137,10 +135,12 @@ public class BatchHyperlinkDetector extends AbstractHyperlinkDetector {
 	}
 
 	private IBatchProject getBatchProject(IFile file) {
-		IBatchProject batchProject = BatchProjectFactory.getBatchProjectWithProgress(file.getProject());
-
-		if (batchProject != null && batchProject.getDeclaredBatchJobs().contains(file)) {
-			return batchProject;
+		if(file != null){
+			IBatchProject batchProject = BatchProjectFactory.getBatchProjectWithProgress(file.getProject());
+	
+			if (batchProject != null && batchProject.getDeclaredBatchJobs().contains(file)) {
+				return batchProject;
+			}
 		}
 		return null;
 	}
