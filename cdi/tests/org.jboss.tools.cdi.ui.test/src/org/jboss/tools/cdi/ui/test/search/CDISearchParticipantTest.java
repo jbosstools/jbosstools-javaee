@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.ui.test.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -31,6 +32,7 @@ import org.eclipse.jdt.ui.search.QuerySpecification;
 import org.eclipse.search.ui.text.Match;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.ICDIElement;
+import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
 import org.jboss.tools.cdi.internal.core.impl.EventBean;
@@ -40,7 +42,11 @@ import org.jboss.tools.cdi.internal.core.impl.ObserverMethod;
 import org.jboss.tools.cdi.ui.search.CDIBeanQueryParticipant;
 import org.jboss.tools.cdi.ui.search.CDIMatch;
 import org.jboss.tools.cdi.ui.search.InjectionPointQueryParticipant;
+import org.jboss.tools.cdi.ui.test.testmodel.CDIBean;
+import org.jboss.tools.cdi.ui.test.testmodel.CDIProject;
+import org.jboss.tools.cdi.ui.test.testmodel.JavaSearchScope;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
 
 public class CDISearchParticipantTest  extends TCKTest {
 	private static final int FIELD_SEARCH = 1;
@@ -232,5 +238,28 @@ public class CDISearchParticipantTest  extends TCKTest {
 		matches.add(new MatchStructure(InjectionPointField.class, "ObjectInjection.object"));
 		
 		testSearchParticipant("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/Zoo.java", METHOD_SEARCH, "getPetShop", "", new CDIBeanQueryParticipant(), matches);
+	}
+	
+	public void testInjectionPointQueryParticipantWithNullResource() throws CoreException{
+		CDIProject project = CDIProject.defaultCDIProject;
+		CDIBean bean = new CDIBean(project, "org.test.CustomBean");
+		bean.makeResourseNull();
+		
+		Set<IQualifier> qualifiers = bean.getQualifiers();
+		
+		IMethod method =  qualifiers.iterator().next().getSourceType().getMethods()[0];
+		
+		IQueryParticipant participant = new InjectionPointQueryParticipant();
+		
+		CDISearchRequestor requestor = new CDISearchRequestor();
+		
+		JavaSearchScopeFactory factory= JavaSearchScopeFactory.getInstance();
+		IJavaSearchScope scope= new JavaSearchScope();
+		String description= factory.getWorkspaceScopeDescription(true);
+		QuerySpecification specification = new ElementQuerySpecification(method, IJavaSearchConstants.REFERENCES, scope, description);
+		
+		participant.search(requestor, specification, new NullProgressMonitor());
+		
+		//List<Match> matchesForCheck = requestor.getMatches();
 	}
 }

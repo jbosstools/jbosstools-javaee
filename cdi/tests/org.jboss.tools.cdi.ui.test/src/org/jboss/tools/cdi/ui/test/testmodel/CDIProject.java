@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.ui.test.testmodel;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -56,6 +57,14 @@ public class CDIProject implements ICDIProject{
 	private ArrayList<IQualifier> qualifiers = new ArrayList<IQualifier>();
 
 	private CDIVersion version = CDIVersion.CDI_1_0;
+	
+	public static CDIProject defaultCDIProject = new CDIProject();
+	
+	private HashSet<IBean> beans = new HashSet<IBean>();
+	
+	public void addBean(IBean bean){
+		beans.add(bean);
+	}
 	
 	public CDIProject(){
 		defaultQualifier = new CDIQualifier(this, CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
@@ -121,7 +130,7 @@ public class CDIProject implements ICDIProject{
 	@Override
 	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
 			IInjectionPoint injectionPoint) {
-		return null;
+		return beans;
 	}
 
 	@Override
@@ -131,7 +140,7 @@ public class CDIProject implements ICDIProject{
 
 	@Override
 	public Set<IBean> getBeans(IPath path) {
-		return null;
+		return beans;
 	}
 
 	@Override
@@ -227,11 +236,13 @@ public class CDIProject implements ICDIProject{
 	public IScope getScope(IPath path) {
 		return null;
 	}
+	
+	private HashSet<IObserverMethod> observerMethods = new HashSet<IObserverMethod>();
 
 	@Override
 	public Set<IObserverMethod> resolveObserverMethods(
 			IInjectionPoint injectionPoint) {
-		return null;
+		return observerMethods;
 	}
 
 	@Override

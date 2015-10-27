@@ -44,19 +44,25 @@ import org.jboss.tools.common.text.ITextSourceReference;
 
 public class CDIBean extends CDIElement implements IClassBean{
 	private ICDIProject project;
-	private HashSet<IQualifier> qualifiers;
+	private HashSet<IQualifier> qualifiers = new HashSet<IQualifier>();
+	private HashSet<IInjectionPoint> injectionPoints = new HashSet<IInjectionPoint>();
 	private Type cdiClass;
 	private File cdiFile;
 
-	public CDIBean(ICDIProject project, String qualifiedName){
+	public CDIBean(CDIProject project, String qualifiedName){
 		this.project = project;
-		qualifiers = new HashSet<IQualifier>();
+		project.addBean(this);
 		IQualifier anyQualifier = project.getQualifier(CDIConstants.ANY_QUALIFIER_TYPE_NAME);
 		IQualifier defaultQualifier = project.getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
 		qualifiers.add(anyQualifier);
 		qualifiers.add(defaultQualifier);
 		cdiClass = new Type(qualifiedName);
+		injectionPoints.add(new CDIInjectionPoint(project, this));
 		cdiFile = new File();
+	}
+	
+	public void makeResourseNull(){
+		cdiFile = null;
 	}
 	
 	@Override
@@ -137,7 +143,7 @@ public class CDIBean extends CDIElement implements IClassBean{
 
 	@Override
 	public String getElementName() {
-		return null;
+		return "name";
 	}
 
 	@Override
@@ -183,7 +189,7 @@ public class CDIBean extends CDIElement implements IClassBean{
 
 	@Override
 	public Set<IInjectionPoint> getInjectionPoints() {
-		return null;
+		return injectionPoints;
 	}
 
 	@Override
@@ -251,10 +257,12 @@ public class CDIBean extends CDIElement implements IClassBean{
 	public Set<IBeanMethod> getAllMethods() {
 		return null;
 	}
+	
+	private HashSet<IObserverMethod> observerMethods = new HashSet<IObserverMethod>();
 
 	@Override
 	public Set<IObserverMethod> getObserverMethods() {
-		return null;
+		return observerMethods;
 	}
 
 	@Override

@@ -147,8 +147,7 @@ public class Method implements IMethod {
 
 	@Override
 	public IJavaProject getJavaProject() {
-		// TODO Auto-generated method stub
-		return null;
+		return JavaProject.defaultJavaProject;
 	}
 
 	@Override

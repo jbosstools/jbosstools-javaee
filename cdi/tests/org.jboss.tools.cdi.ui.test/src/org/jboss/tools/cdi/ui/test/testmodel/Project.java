@@ -38,8 +38,11 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.content.IContentTypeMatcher;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
+import org.jboss.tools.cdi.core.CDICoreNature;
 
 public class Project implements IProject {
+	
+	public static Project defaultProject = new Project();
 
 	@Override
 	public boolean exists(IPath path) {
@@ -243,8 +246,7 @@ public class Project implements IProject {
 
 	@Override
 	public boolean exists() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
@@ -275,8 +277,7 @@ public class Project implements IProject {
 
 	@Override
 	public IPath getFullPath() {
-		// TODO Auto-generated method stub
-		return new Path("");
+		return JavaProject.defaultPath;
 	}
 
 	@Override
@@ -397,8 +398,7 @@ public class Project implements IProject {
 
 	@Override
 	public boolean isAccessible() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
@@ -708,7 +708,9 @@ public class Project implements IProject {
 
 	@Override
 	public IProjectNature getNature(String natureId) throws CoreException {
-		// TODO Auto-generated method stub
+		if(natureId == CDICoreNature.NATURE_ID){
+			return new CDINature();
+		}
 		return null;
 	}
 
@@ -751,20 +753,23 @@ public class Project implements IProject {
 
 	@Override
 	public boolean hasNature(String natureId) throws CoreException {
-		// TODO Auto-generated method stub
+		if(natureId == CDICoreNature.NATURE_ID){
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean isNatureEnabled(String natureId) throws CoreException {
-		// TODO Auto-generated method stub
+		if(natureId == CDICoreNature.NATURE_ID){
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean isOpen() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override

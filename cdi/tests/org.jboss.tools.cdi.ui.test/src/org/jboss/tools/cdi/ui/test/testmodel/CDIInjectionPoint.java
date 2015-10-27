@@ -153,7 +153,7 @@ public class CDIInjectionPoint implements IInjectionPoint {
 
 	@Override
 	public boolean isDeclaredFor(IJavaElement element) {
-		return false;
+		return true;
 	}
 
 	@Override

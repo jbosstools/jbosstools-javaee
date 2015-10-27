@@ -41,11 +41,9 @@ import org.eclipse.jdt.internal.compiler.classfmt.ClassFileConstants;
 
 public class Type extends CDIElement implements IType {
 	private String qualifiedName;
-	private JavaProject project;
 	
 	public Type(String qualifiedName){
 		this.qualifiedName = qualifiedName;
-		project = new JavaProject();
 	}
 
 	@Override
@@ -152,7 +150,7 @@ public class Type extends CDIElement implements IType {
 
 	@Override
 	public IJavaProject getJavaProject() {
-		return project;
+		return JavaProject.defaultJavaProject;
 	}
 
 	@Override
