@@ -39,7 +39,7 @@ import org.jboss.tools.cdi.ui.wizard.AddQualifiersToBeanWizard;
 
 
 public class AddQualifiersToBeanWizardTest extends TestCase{
-	private ICDIProject project;
+	private CDIProject project;
 	private ArrayList<ValuedQualifier> availableCheck;
 	private ArrayList<ValuedQualifier> deployedCheck;
 	private AddQualifiersToBeanProcessor processor;
@@ -50,7 +50,7 @@ public class AddQualifiersToBeanWizardTest extends TestCase{
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		project = new CDIProject();
+		project = CDIProject.defaultCDIProject;
 		
 		IClassBean bean = new CDIBean(project, "org.test.FooBean");
 		

@@ -51,6 +51,9 @@ public interface ICDIElement {
 
 	/**
 	 * Returns resource that declares this object.
+	 * 
+	 * Implementations may return null.
+	 * 
 	 * @return resource 
 	 */
 	IResource getResource();

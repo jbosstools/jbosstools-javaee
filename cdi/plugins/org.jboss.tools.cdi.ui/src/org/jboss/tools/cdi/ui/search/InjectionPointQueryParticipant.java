@@ -66,7 +66,10 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 	}
 	
 	public static boolean containsInSearchScope(QuerySpecification querySpecification, ICDIElement element){
-		return containsInSearchScope(querySpecification, element.getResource().getProject().getFullPath());
+		if(element.getResource() != null){
+			return containsInSearchScope(querySpecification, element.getResource().getProject().getFullPath());
+		}
+		return false;
 	}
 
 	public void search(ISearchRequestor requestor,

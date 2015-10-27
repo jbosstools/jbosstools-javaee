@@ -38,7 +38,7 @@ public class File implements IFile {
 	private Project project;
 	
 	public File(){
-		project = new Project();
+		project = Project.defaultProject;
 	}
 	
 	@Override

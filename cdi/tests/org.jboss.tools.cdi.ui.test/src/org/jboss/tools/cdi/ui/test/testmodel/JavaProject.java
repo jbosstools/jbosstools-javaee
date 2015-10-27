@@ -16,6 +16,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.IClasspathEntry;
@@ -33,6 +34,9 @@ import org.eclipse.jdt.core.WorkingCopyOwner;
 import org.eclipse.jdt.core.eval.IEvaluationContext;
 
 public class JavaProject implements IJavaProject {
+	
+	public static JavaProject defaultJavaProject = new JavaProject();
+	public static IPath defaultPath = new Path("/MyProject");
 
 	@Override
 	public IJavaElement[] getChildren() throws JavaModelException {
@@ -115,8 +119,7 @@ public class JavaProject implements IJavaProject {
 
 	@Override
 	public IPath getPath() {
-		// TODO Auto-generated method stub
-		return null;
+		return defaultPath;
 	}
 
 	@Override
@@ -390,8 +393,7 @@ public class JavaProject implements IJavaProject {
 
 	@Override
 	public IProject getProject() {
-		// TODO Auto-generated method stub
-		return null;
+		return Project.defaultProject;
 	}
 
 	@Override
