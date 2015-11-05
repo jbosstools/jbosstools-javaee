@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2007, 2015 Exadel, Inc. and Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.widgets.Shell;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.jboss.tools.common.log.IPluginLog;
@@ -21,28 +20,28 @@ public class JsfUiPlugin extends BaseUIPlugin {
 	
 	public static String PLUGIN_ID = "org.jboss.tools.jsf.ui"; //$NON-NLS-1$
 	
+	private static JsfUiPlugin plugin;
+	
 	public JsfUiPlugin() {
+		plugin = this;
 	}
 
+	@Override
 	public void start(BundleContext context) throws Exception {
 	    super.start(context);
 		ProjectNaturesChecker.getInstance();
 	}
 
 	public static JsfUiPlugin getDefault() {
-		return PluginHolder.INSTANCE;
+		return plugin;
 	}
 
 	public static boolean isDebugEnabled() {
-		return PluginHolder.INSTANCE.isDebugging();
-	}
-
-	static class PluginHolder {
-		static JsfUiPlugin INSTANCE = (JsfUiPlugin)Platform.getPlugin(PLUGIN_ID); 
+		return plugin != null && plugin.isDebugging();
 	}
 
 	public static Shell getShell() {
-		return PluginHolder.INSTANCE.getWorkbench().getActiveWorkbenchWindow().getShell();
+		return getDefault() == null ? null : getDefault().getWorkbench().getActiveWorkbenchWindow().getShell();
 	}
 
 	/**
