@@ -24,7 +24,6 @@ import org.junit.Test;
  */
 public class JsfUiPreferencesPagesTest extends PreferencePageTest {
 
-	@Test
 	public void _testJsfCapabilitiesPreferencesPage() {
 		doDefaultTest(JSFCapabilitiesPreferencesPage.ID, JSFCapabilitiesPreferencesPage.class);
 	}
@@ -34,7 +33,6 @@ public class JsfUiPreferencesPagesTest extends PreferencePageTest {
 		doDefaultTest(JSFFlowTabbedPreferencesPage.ID,JSFFlowTabbedPreferencesPage.class);
 	}
 	
-	@Test
 	public void _testJsfImplementationsPreferencesPage() {
 		doDefaultTest(JSFImplementationsPreferencesPage.ID,JSFImplementationsPreferencesPage.class);
 	}
