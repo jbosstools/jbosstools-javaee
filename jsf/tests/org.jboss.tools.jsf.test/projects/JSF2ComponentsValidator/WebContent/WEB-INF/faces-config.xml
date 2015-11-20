@@ -50,7 +50,7 @@
   <navigation-handler>test.MyNav</navigation-handler>
  </application>
  <factory/>
- <lifecycle/>
+
  <validator>
   <validator-id>goodValidator</validator-id>
   <validator-class>demo.GoodValidator</validator-class>
@@ -59,4 +59,8 @@
   <validator-id>brokenValidator</validator-id> 
   <validator-class>demo.BrokenValidator</validator-class>
  </validator>
+ <lifecycle>
+  <phase-listener>demo.BrokenPhaseListener</phase-listener>
+  <phase-listener>demo.GoodPhaseListener</phase-listener>
+ </lifecycle>
 </faces-config>

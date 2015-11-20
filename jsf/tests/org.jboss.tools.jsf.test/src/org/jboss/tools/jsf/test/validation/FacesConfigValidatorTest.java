@@ -65,6 +65,13 @@ public class FacesConfigValidatorTest extends TestCase {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(WebXMLValidatorMessages.CLASS_NOT_IMPLEMENTS, new String[]{"validator-class", "demo.BrokenValidator", "javax.faces.validator.Validator"}), 60);
 	}
 
+	public void testPhaseListener() throws Exception {
+		IResource resource = getFacesConfig();
+		TestUtil.validate(resource);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(WebXMLValidatorMessages.CLASS_NOT_IMPLEMENTS, new String[]{"phase-listener", "demo.BrokenPhaseListener", "javax.faces.event.PhaseListener"}), 63);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(resource, NLS.bind(WebXMLValidatorMessages.CLASS_NOT_IMPLEMENTS, new String[]{"phase-listener", "demo.GoodPhaseListener", "javax.faces.event.PhaseListener"}), 64);
+	}
+
 	IResource getFacesConfig() {
 		IResource resource = project.findMember("/WebContent/WEB-INF/faces-config.xml"); //$NON-NLS-1$
 		assertTrue(resource.exists());

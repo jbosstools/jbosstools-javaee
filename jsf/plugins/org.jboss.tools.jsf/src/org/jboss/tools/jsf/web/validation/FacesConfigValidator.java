@@ -167,7 +167,7 @@ public class FacesConfigValidator extends ValidationErrorManager implements IVal
 		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_BEAN_CLASS, "referenced-bean-class", false, null, null), ENT_REFERENCED_BEAN);
 
 		String ENT_PHASE_LISTENER = "JSFPhaseListener";
-		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_PHASE_LISTENER, "phase-listener", false, null, "javax.faces.event.PhaseListener"), ENT_PHASE_LISTENER);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_PHASE_LISTENER, "phase-listener", false, "javax.faces.event.PhaseListener", null), ENT_PHASE_LISTENER);
 		String ENT_RENDER_KIT = "JSFRenderKit", ENT_RENDER_KIT_11 = ENT_RENDER_KIT + SUFF_11, ENT_RENDER_KIT_12 = ENT_RENDER_KIT + SUFF_12, ENT_RENDER_KIT_20 = ENT_RENDER_KIT + SUFF_20;
 		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_RENDER_KIT_CLASS, "render-kit-class", false, null, "javax.faces.render.RenderKit"), ENT_RENDER_KIT, ENT_RENDER_KIT_11, ENT_RENDER_KIT_12, ENT_RENDER_KIT_20);
 		String ENT_RENDERER = "JSFRenderer", ENT_RENDERER_11 = ENT_RENDERER + SUFF_11;
