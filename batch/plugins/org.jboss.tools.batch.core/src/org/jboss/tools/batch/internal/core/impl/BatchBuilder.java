@@ -30,6 +30,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IClasspathEntry;
@@ -51,6 +52,7 @@ import org.jboss.tools.batch.internal.core.scanner.lib.JarSet;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.jst.web.kb.internal.IIncrementalProjectBuilderExtension;
+import org.jboss.tools.jst.web.kb.internal.KbBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -111,6 +113,9 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 
 		n.postponeFiring();
 
+		//Set true when canceling build should be recovered by complete rebuild pf classpath at next build. 
+		boolean classPathShouldBeReset = false;
+
 		try {
 			n.resolveStorage(kind != FULL_BUILD);
 
@@ -121,6 +126,7 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 			
 			JarSet newJars = new JarSet();
 			if(isClassPathUpdated || kind == FULL_BUILD) {
+				classPathShouldBeReset = true;
 				//2. Update class path. Removed paths will be cached to be applied to working copy of context. 
 				n.getClassPath().setSrcs(getResourceVisitor().srcs);
 				newJars = n.getClassPath().process();
@@ -137,7 +143,7 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 		
 			//5.2 Discover sources and build definitions.
 			if(isClassPathUpdated || kind == FULL_BUILD) {
-				buildJars(newJars);
+				buildJars(newJars, monitor);
 				
 				n.getClassPath().validateProjectDependencies();
 				
@@ -165,6 +171,15 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 			} catch (IOException e) {
 				BatchCorePlugin.pluginLog().logError(e); //$NON-NLS-1$
 			}
+		} catch (OperationCanceledException e) {
+			//Recover partially built model.
+			if(classPathShouldBeReset) {
+				//we interrupt building jars in unknown state.
+				//At the next build, jars should be completely rebuild.
+				getBatchProject().getClassPath().clean();
+			}
+			getBatchProject().getDefinitions().dropWorkingCopy();
+			throw e;
 		} finally {
 			n.fireChanges();
 		}
@@ -174,10 +189,11 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 	protected void fullBuild(final IProgressMonitor monitor) throws CoreException {
 		try {
 			BatchResourceVisitor rv = getResourceVisitor();
+			rv.setProgressMonitor(monitor);
 			rv.incremental = false;
 			getCurrentProject().accept(rv);
 			FileSet fs = rv.fileSet;
-			build(fs, getBatchProject());		
+			build(fs, getBatchProject(), monitor);		
 		} catch (CoreException e) {
 			BatchCorePlugin.pluginLog().logError(e);
 		}
@@ -185,13 +201,14 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 
 	protected void incrementalBuild(IResourceDelta delta, IProgressMonitor monitor) throws CoreException {
 		BatchResourceVisitor rv = getResourceVisitor();
+		rv.setProgressMonitor(monitor);
 		rv.incremental = true;
 		delta.accept(new SampleDeltaVisitor());
 		FileSet fs = rv.fileSet;
-		build(fs, getBatchProject());
+		build(fs, getBatchProject(), monitor);
 	}
 
-	private void buildJars(JarSet newJars) throws CoreException {
+	private void buildJars(JarSet newJars, IProgressMonitor monitor) throws CoreException {
 		IJavaProject jp = EclipseUtil.getJavaProject(getBatchProject().getProject());
 		if(jp == null) return;
 
@@ -223,19 +240,20 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 						IPackageFragment pf = (IPackageFragment) e;
 						IClassFile[] cs = pf.getClassFiles();
 						for (IClassFile c : cs) {
+							KbBuilder.checkCanceled(monitor);
 							fileSet.add(path, c.getType());
 						}
 					}
 				}
 			}
-			build(fileSet, getBatchProject());
+			build(fileSet, getBatchProject(), monitor);
 
 		} finally {
 			manager.flushZipFiles(this);
 		}
 	}
 
-	void build(FileSet fs, BatchProject project) {
+	void build(FileSet fs, BatchProject project, IProgressMonitor monitor) {
 		DefinitionContext context = getBatchProject().getDefinitions().getWorkingCopy();
 		Set<IFile> batchXMLs = fs.getBatchXMLs();
 		for (IFile batchXML: batchXMLs) {
@@ -265,6 +283,7 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 		for (IPath f: cs.keySet()) {
 			Set<IType> ts = cs.get(f);
 			for (IType type: ts) {
+				KbBuilder.checkCanceled(monitor);
 				TypeDefinition def = new TypeDefinition();
 				def.setType(type, context, 0);
 				if(def.getArtifactType() != null) {
@@ -338,10 +357,16 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 		IPath[] batch_xmls = new IPath[0];
 //		IPath[] webinfs = new IPath[0];
 		Set<IPath> visited = new HashSet<IPath>();
+		
+		IProgressMonitor monitor = null;
 
 		public BatchResourceVisitor() {
 			getJavaSourceRoots(getCurrentProject());
 //			webinfs = WebUtils.getWebInfPaths(getCurrentProject());
+		}
+
+		public void setProgressMonitor(IProgressMonitor monitor) {
+			this.monitor = monitor;
 		}
 
 		void getJavaSourceRoots(IProject project) {
@@ -389,6 +414,7 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 
 		@Override
 		public boolean visit(IResource resource) throws CoreException {
+			KbBuilder.checkCanceled(monitor);
 			IPath path = resource.getFullPath();
 			if(resource instanceof IFile) {
 				if(visited.contains(path)) {

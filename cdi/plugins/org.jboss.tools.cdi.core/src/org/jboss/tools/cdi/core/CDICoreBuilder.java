@@ -33,6 +33,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IClasspathEntry;
@@ -62,6 +63,7 @@ import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.UniquePaths;
 import org.jboss.tools.common.web.WebUtils;
+import org.jboss.tools.jst.web.kb.internal.KbBuilder;
 
 public class CDICoreBuilder extends IncrementalProjectBuilder {
 	public static String BUILDER_ID = "org.jboss.tools.cdi.core.cdibuilder";
@@ -155,6 +157,8 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 
 		long begin = System.currentTimeMillis();
 
+		boolean classPathShouldBeReset = false;
+
 		try {
 			n.resolveStorage(kind != FULL_BUILD);
 
@@ -201,6 +205,7 @@ try {
 	
 			JarSet newJars = new JarSet();
 			if(isClassPathUpdated || kind == FULL_BUILD) {
+				classPathShouldBeReset = true;
 				//2. Update class path. Removed paths will be cached to be applied to working copy of context. 
 				n.getClassPath().setSrcs(getResourceVisitor().srcs);
 				newJars = n.getClassPath().process();
@@ -233,7 +238,7 @@ try {
 
 			//5.2 Discover sources and build definitions.
 			if(isClassPathUpdated || kind == FULL_BUILD) {
-				buildJars(newJars);
+				buildJars(newJars, monitor);
 				
 				n.getClassPath().validateProjectDependencies();
 				
@@ -276,6 +281,15 @@ try {
 			}
 
 //			n.postBuild();
+} catch (OperationCanceledException e) {
+	//Recover partially built model.
+	if(classPathShouldBeReset) {
+		//we interrupt building jars in unknown state.
+		//At the next build, jars should be completely rebuild.
+		getCDICoreNature().getClassPath().clean();
+	}
+	getCDICoreNature().getDefinitions().dropWorkingCopy();
+	throw e;
 } finally {
 	n.releaseBuild();
 }
@@ -346,6 +360,7 @@ try {
 	protected void fullBuild(final IProgressMonitor monitor) throws CoreException {
 		try {
 			CDIResourceVisitor rv = getResourceVisitor();
+			rv.setProgressMonitor(monitor);
 			rv.incremental = false;
 			getCurrentProject().accept(rv);
 			FileSet fs = rv.fileSet;
@@ -355,7 +370,7 @@ try {
 				}
 				fs = new FileSet();
 			}
-			invokeBuilderDelegates(fs, getCDICoreNature());
+			invokeBuilderDelegates(fs, getCDICoreNature(), monitor);
 			
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
@@ -368,10 +383,11 @@ try {
 			return;
 		}
 		CDIResourceVisitor rv = getResourceVisitor();
+		rv.setProgressMonitor(monitor);
 		rv.incremental = true;
 		delta.accept(new SampleDeltaVisitor());
 		FileSet fs = rv.fileSet;
-		invokeBuilderDelegates(fs, getCDICoreNature());
+		invokeBuilderDelegates(fs, getCDICoreNature(), monitor);
 	}
 
 	protected void incrementalBuild(IncrementCheck increment,
@@ -383,10 +399,10 @@ try {
 		rv.incremental = true;
 		rv.visit(increment.file);
 		FileSet fs = rv.fileSet;
-		invokeBuilderDelegates(fs, getCDICoreNature());
+		invokeBuilderDelegates(fs, getCDICoreNature(), monitor);
 	}
 
-	protected void buildJars(JarSet newJars) throws CoreException {
+	protected void buildJars(JarSet newJars, IProgressMonitor monitor) throws CoreException {
 		IJavaProject jp = EclipseResourceUtil.getJavaProject(getCDICoreNature().getProject());
 		if(jp == null) return;
 
@@ -422,6 +438,7 @@ try {
 						}
 
 						for (IClassFile c : cs) {
+							KbBuilder.checkCanceled(monitor);
 							IType t = c.getType();
 							if(!annotatedOnly || BeanArchiveDetector.isAnnotatedBean(t, getCDICoreNature())) {
 								fileSet.add(path, c.getType());
@@ -443,16 +460,19 @@ try {
 				}
 			}
 			addBasicTypes(fileSet);
-			invokeBuilderDelegates(fileSet, getCDICoreNature());
+			invokeBuilderDelegates(fileSet, getCDICoreNature(), monitor);
 
 		} finally {
 			manager.flushZipFiles(this);
 		}
 	}
 
-	void invokeBuilderDelegates(FileSet fileSet, CDICoreNature n) {
-		builderDelegate.build(fileSet, n);
-		for (IBuildParticipantFeature p: buildParticipants) p.buildDefinitions(fileSet);
+	void invokeBuilderDelegates(FileSet fileSet, CDICoreNature n, IProgressMonitor monitor) {
+		builderDelegate.build(fileSet, n, monitor);
+		for (IBuildParticipantFeature p: buildParticipants) {
+			KbBuilder.checkCanceled(monitor);
+			p.buildDefinitions(fileSet);
+		}
 	}
 
 	void addBasicTypes(FileSet fs) throws CoreException {
@@ -643,10 +663,16 @@ try {
 		Set<IPath> visited = new HashSet<IPath>();
 		Map<IPath, PackageInfo> checkedPackages = new HashMap<IPath, PackageInfo>();
 		
+		IProgressMonitor monitor = null;
+
 		CDIResourceVisitor() {
 			fileSet.setCheckVetoed(getCDICoreNature().getVersion() != CDIVersion.CDI_1_0);
 			webinfs = WebUtils.getWebInfPaths(getCurrentProject());
 			getJavaSourceRoots(getCurrentProject());
+		}
+
+		public void setProgressMonitor(IProgressMonitor monitor) {
+			this.monitor = monitor;
 		}
 
 		void getJavaSourceRoots(IProject project) {
@@ -678,6 +704,7 @@ try {
 		}
 
 		public boolean visit(IResource resource) throws CoreException {
+			KbBuilder.checkCanceled(monitor);
 			IPath path = resource.getFullPath();
 			path = UniquePaths.getInstance().intern(path);
 			if(resource instanceof IFile) {

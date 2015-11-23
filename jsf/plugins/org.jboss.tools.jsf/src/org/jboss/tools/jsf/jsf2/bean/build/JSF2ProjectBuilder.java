@@ -30,6 +30,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IClasspathEntry;
@@ -44,7 +45,6 @@ import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
-import org.jboss.tools.common.model.project.ProjectHome;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.web.WebUtils;
 import org.jboss.tools.jsf.JSFModelPlugin;
@@ -55,6 +55,7 @@ import org.jboss.tools.jsf.jsf2.bean.model.impl.JSF2Project;
 import org.jboss.tools.jsf.jsf2.bean.model.impl.TypeDefinition;
 import org.jboss.tools.jsf.jsf2.bean.scanner.FileSet;
 import org.jboss.tools.jst.web.kb.internal.IIncrementalProjectBuilderExtension;
+import org.jboss.tools.jst.web.kb.internal.KbBuilder;
 
 public class JSF2ProjectBuilder extends IncrementalProjectBuilder implements IIncrementalProjectBuilderExtension {
 
@@ -108,6 +109,9 @@ public class JSF2ProjectBuilder extends IncrementalProjectBuilder implements IIn
 		
 		n.postponeFiring();
 
+		//Set true when canceling build should be recovered by complete rebuild pf classpath at next build. 
+		boolean classPathShouldBeReset = false;
+
 		try {
 			n.resolveStorage(kind != FULL_BUILD);
 			
@@ -118,6 +122,7 @@ public class JSF2ProjectBuilder extends IncrementalProjectBuilder implements IIn
 
 			Map<String, XModelObject> newJars = new HashMap<String, XModelObject>();
 			if(isClassPathUpdated || kind == FULL_BUILD) {
+				classPathShouldBeReset = true;
 				//2. Update class path. Removed paths will be cached to be applied to working copy of context. 
 				n.getClassPath().setSrcs(getResourceVisitor().srcs);
 				newJars = n.getClassPath().process();
@@ -135,7 +140,7 @@ public class JSF2ProjectBuilder extends IncrementalProjectBuilder implements IIn
 		
 			//5.2 Discover sources and build definitions.
 			if(isClassPathUpdated) {
-				buildJars(newJars);
+				buildJars(newJars, monitor);
 				
 				n.getClassPath().validateProjectDependencies();
 				
@@ -163,6 +168,13 @@ public class JSF2ProjectBuilder extends IncrementalProjectBuilder implements IIn
 			} catch (IOException e) {
 				JSFModelPlugin.getDefault().logError(e); //$NON-NLS-1$
 			}
+		} catch (OperationCanceledException e) {
+			//Recover partially built model.
+			if(classPathShouldBeReset) {
+				getJSF2Project().getClassPath().clean();
+			}
+			getJSF2Project().getDefinitions().dropWorkingCopy();
+			throw e;
 		} finally {
 			n.fireChanges();
 		}
@@ -170,30 +182,31 @@ public class JSF2ProjectBuilder extends IncrementalProjectBuilder implements IIn
 		return null;
 	}
 
-	protected void fullBuild(final IProgressMonitor monitor)
-			throws CoreException {
-			try {
-				JSF2ResourceVisitor rv = getResourceVisitor();
-				rv.incremental = false;
-				getCurrentProject().accept(rv);
-				FileSet fs = rv.fileSet;
-				build(fs, getJSF2Project());
+	protected void fullBuild(final IProgressMonitor monitor) throws CoreException {
+		try {
+			JSF2ResourceVisitor rv = getResourceVisitor();
+			rv.setProgressMonitor(monitor);
+			rv.incremental = false;
+			getCurrentProject().accept(rv);
+			FileSet fs = rv.fileSet;
+			build(fs, getJSF2Project(), monitor);
 				
-			} catch (CoreException e) {
-				JSFModelPlugin.getDefault().logError(e);
-			}
+		} catch (CoreException e) {
+			JSFModelPlugin.getDefault().logError(e);
 		}
+	}
 
-		protected void incrementalBuild(IResourceDelta delta,
+	protected void incrementalBuild(IResourceDelta delta,
 				IProgressMonitor monitor) throws CoreException {
 			JSF2ResourceVisitor rv = getResourceVisitor();
+			rv.setProgressMonitor(monitor);
 			rv.incremental = true;
 			delta.accept(new SampleDeltaVisitor());
 			FileSet fs = rv.fileSet;
-			build(fs, getJSF2Project());
-		}
+			build(fs, getJSF2Project(), monitor);
+	}
 
-		protected void buildJars(Map<String, XModelObject> newJars) throws CoreException {
+	protected void buildJars(Map<String, XModelObject> newJars, IProgressMonitor monitor) throws CoreException {
 			IJavaProject jp = EclipseResourceUtil.getJavaProject(getJSF2Project().getProject());
 			if(jp == null) return;
 			JavaModelManager manager = JavaModelManager.getJavaModelManager();
@@ -225,23 +238,25 @@ public class JSF2ProjectBuilder extends IncrementalProjectBuilder implements IIn
 							IPackageFragment pf = (IPackageFragment) e;
 							IClassFile[] cs = pf.getClassFiles();
 							for (IClassFile c : cs) {
+								KbBuilder.checkCanceled(monitor);
 								fileSet.add(path, c.getType());
 							}
 						}
 					}
 				}
-				build(fileSet, getJSF2Project());
+				build(fileSet, getJSF2Project(), monitor);
 			} finally {
 				manager.flushZipFiles(this);
 			}
-		}
+	}
 
-	void build(FileSet fs, JSF2Project project) {
+	void build(FileSet fs, JSF2Project project, IProgressMonitor monitor) {
 		DefinitionContext context = getJSF2Project().getDefinitions().getWorkingCopy();
 		Map<IPath, Set<IType>> cs = fs.getClasses();
 		for (IPath f: cs.keySet()) {
 			Set<IType> ts = cs.get(f);
 			for (IType type: ts) {
+				KbBuilder.checkCanceled(monitor);
 				TypeDefinition def = new TypeDefinition();
 				def.setType(type, context, TypeDefinition.FLAG_ALL_MEMBERS);
 				context.addType(f, type.getFullyQualifiedName(), def);
@@ -290,9 +305,15 @@ public class JSF2ProjectBuilder extends IncrementalProjectBuilder implements IIn
 		IPath[] webinfs = new IPath[0];
 		Set<IPath> visited = new HashSet<IPath>();
 
+		IProgressMonitor monitor = null;
+
 		public JSF2ResourceVisitor() {
 			getJavaSourceRoots(getCurrentProject());
 			webinfs = WebUtils.getWebInfPaths(getCurrentProject());
+		}
+
+		public void setProgressMonitor(IProgressMonitor monitor) {
+			this.monitor = monitor;
 		}
 
 		void getJavaSourceRoots(IProject project) {
@@ -325,6 +346,7 @@ public class JSF2ProjectBuilder extends IncrementalProjectBuilder implements IIn
 
 		@Override
 		public boolean visit(IResource resource) throws CoreException {
+			KbBuilder.checkCanceled(monitor);
 			IPath path = resource.getFullPath();
 			if(resource instanceof IFile) {
 				if(visited.contains(path)) {

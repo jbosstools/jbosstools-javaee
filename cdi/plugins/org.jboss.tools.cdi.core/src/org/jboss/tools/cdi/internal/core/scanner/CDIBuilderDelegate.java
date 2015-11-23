@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Red Hat, Inc.
+ * Copyright (c) 2010, 2015 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -19,6 +19,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDICoreBuilder;
@@ -32,7 +33,13 @@ import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.PackageDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.jst.web.kb.internal.KbBuilder;
 
+/**
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
 public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 
 	public int computeRelevance(IProject project) {
@@ -48,12 +55,20 @@ public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 		return CDIProject.class;
 	}
 
-	public void build(FileSet fileSet, CDICoreNature projectNature) {
-		DefinitionContext context = projectNature.getDefinitions().getWorkingCopy();
-		build(fileSet, context);
+	public void build(IFileSet fileSet, CDICoreNature projectNature) {
+		build(fileSet, projectNature, null);
 	}
 
-	public void build(FileSet fileSet, DefinitionContext context) {
+	public void build(IFileSet fileSet, CDICoreNature projectNature, IProgressMonitor monitor) {
+		DefinitionContext context = projectNature.getDefinitions().getWorkingCopy();
+		build(fileSet, context, monitor);
+	}
+
+	public void build(IFileSet fileSet, DefinitionContext context) {
+		build(fileSet, context, null);
+	}
+
+	public void build(IFileSet fileSet, DefinitionContext context, IProgressMonitor monitor) {
 		Set<IPath> ps = fileSet.getAllPaths();
 		for (IPath p: ps) context.clean(p);
 		Map<IPath, List<IType>> as = fileSet.getAnnotations();
@@ -70,6 +85,7 @@ public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 				// Jars present package-info as binary interface 
 				// whereas sources present it as compilation unit with package declaration. 
 				if(type.getElementName().equals("package-info")) {
+					KbBuilder.checkCanceled(monitor);
 					PackageDefinition def = new PackageDefinition();
 					def.setBinaryType(type, context);
 					context.addPackage(f, def.getQualifiedName(), def);
@@ -80,6 +96,7 @@ public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 		Map<IPath, List<IType>> cs = fileSet.getClasses();
 		for (IPath f: cs.keySet()) {
 			for (IType type: cs.get(f)) {
+				KbBuilder.checkCanceled(monitor);
 				TypeDefinition def = new TypeDefinition();
 				def.setType(type, context, 0);
 				context.addType(f, type.getFullyQualifiedName(), def);
@@ -88,6 +105,7 @@ public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 
 		Map<IPath, IPackageDeclaration> pkgs = fileSet.getPackages();
 		for (IPath f: pkgs.keySet()) {
+			KbBuilder.checkCanceled(monitor);
 			IPackageDeclaration pkg = pkgs.get(f);
 			PackageDefinition def = new PackageDefinition();
 			def.setPackage(pkg, context);

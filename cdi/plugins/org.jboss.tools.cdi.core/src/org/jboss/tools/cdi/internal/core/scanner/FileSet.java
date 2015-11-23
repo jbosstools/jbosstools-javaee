@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Red Hat, Inc.
+ * Copyright (c) 2010, 2015 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -23,10 +23,16 @@ import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.ICDIBuilderDelegate;
 import org.jboss.tools.cdi.internal.core.scanner.lib.BeanArchiveDetector;
 import org.jboss.tools.common.model.XModelObject;
 
-public class FileSet {
+/**
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
+public class FileSet implements ICDIBuilderDelegate.IFileSet {
 	private Set<IPath> allpaths = new HashSet<IPath>();
 	private Set<IPath> nonmodel = new HashSet<IPath>();
 	private Map<IPath, List<IType>> annotations = new HashMap<IPath, List<IType>>();
@@ -117,6 +123,7 @@ public class FileSet {
 		packages.put(path, pkg);
 	}
 
+	@Override
 	public Set<IPath> getAllPaths() {
 		return allpaths;
 	}
@@ -124,23 +131,28 @@ public class FileSet {
 	public Set<IPath> getNonModelFiles() {
 		return nonmodel;
 	}
-	
+
+	@Override
 	public Map<IPath, List<IType>> getAnnotations() {
 		return annotations;
 	}
 
+	@Override
 	public Map<IPath, List<IType>> getInterfaces() {
 		return interfaces;
 	}
 
+	@Override
 	public Map<IPath, List<IType>> getClasses() {
 		return classes;
 	}
 
+	@Override
 	public Map<IPath, IPackageDeclaration> getPackages() {
 		return packages;
 	}
 
+	@Override
 	public XModelObject getBeanXML(IPath f) {
 		return beanXMLs.get(f);
 	}

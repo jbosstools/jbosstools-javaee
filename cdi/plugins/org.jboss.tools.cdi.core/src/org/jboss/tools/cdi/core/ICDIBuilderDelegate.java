@@ -10,8 +10,16 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.core;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.eclipse.core.resources.IProject;
-import org.jboss.tools.cdi.internal.core.scanner.FileSet;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jdt.core.IPackageDeclaration;
+import org.eclipse.jdt.core.IType;
+import org.jboss.tools.common.model.XModelObject;
 
 /**
  * Builder delegate performs build for specific kind of cdi project.
@@ -22,6 +30,20 @@ import org.jboss.tools.cdi.internal.core.scanner.FileSet;
  *
  */
 public interface ICDIBuilderDelegate {
+	
+	public interface IFileSet {
+		public Set<IPath> getAllPaths();
+
+		public Map<IPath, List<IType>> getAnnotations();
+
+		public Map<IPath, List<IType>> getInterfaces();
+
+		public Map<IPath, List<IType>> getClasses();
+
+		public Map<IPath, IPackageDeclaration> getPackages();
+
+		public XModelObject getBeanXML(IPath f);
+	}
 
 	public String getID();
 
@@ -29,6 +51,7 @@ public interface ICDIBuilderDelegate {
 
 	public Class<? extends ICDIProject> getProjectImplementationClass();
 
-	public void build(FileSet fileSet, CDICoreNature projectNature);
-	
+	public void build(IFileSet fileSet, CDICoreNature projectNature);
+
+	public void build(IFileSet fileSet, CDICoreNature projectNature, IProgressMonitor monitor);
 }
