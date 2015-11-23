@@ -29,7 +29,6 @@ import org.jboss.tools.cdi.internal.core.impl.ClassBean;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
-import org.jboss.tools.cdi.seam.solder.core.definition.InterfaceDefinition;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.model.XModelObject;
 
