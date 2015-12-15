@@ -74,7 +74,9 @@ public class JspElFunctionsTest extends ContentAssistantTestCase {
    public void testJspElFunctionsCATestFuncs(){
        final String[] proposals = new String[]{
                "target:convertToInteger()", //$NON-NLS-1$
-               "target:loopModel()" //$NON-NLS-1$
+               "target:loopModel()", //$NON-NLS-1$
+               "target:number()", //$NON-NLS-1$
+               "target:agree()" //$NON-NLS-1$
        };
        
        openEditor(PAGE_NAME);

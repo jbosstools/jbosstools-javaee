@@ -11,6 +11,16 @@
  <function>
   <function-name>convertToInteger</function-name>
   <function-class>demo.utils.ELFunctions</function-class>
-  <function-signature>int doConvertToInteger(java.lang.Object)</function-signature>
+  <function-signature>int doConvertToInteger(   java.lang.Object)</function-signature>
+ </function>
+ <function>
+  <function-name>number</function-name>
+  <function-class>demo.utils.ELFunctions</function-class>
+  <function-signature>int getNumber()</function-signature>
+ </function>
+ <function>
+  <function-name>agree</function-name>
+  <function-class>demo.utils.ELFunctions</function-class>
+  <function-signature>java.lang.Boolean isAgree()</function-signature>
  </function>
 </facelet-taglib>

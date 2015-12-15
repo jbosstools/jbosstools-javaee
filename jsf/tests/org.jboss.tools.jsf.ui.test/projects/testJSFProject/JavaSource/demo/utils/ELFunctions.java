@@ -31,4 +31,12 @@ public final class ELFunctions {
     public static int doConvertToInteger(Object value) {
         return Integer.valueOf(value.toString());
     }
+
+    public static int getNumber() {
+    	return 0;
+    }
+
+    public static boolean isAgree() {
+    	return true;
+    }
 }
