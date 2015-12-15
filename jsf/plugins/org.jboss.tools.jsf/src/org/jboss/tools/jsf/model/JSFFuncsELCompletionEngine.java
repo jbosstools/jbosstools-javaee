@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -175,10 +176,27 @@ public class JSFFuncsELCompletionEngine extends JSFELCompletionEngine {
 			if (f == null || f.getProject() == null)
 				return result;
 
-			funcSourceMember = EclipseResourceUtil.getValidType(f.getProject(), funcClass);
-			if (funcSourceMember == null)
+			int startParamIndex = funcSignature.indexOf('(');
+			int endParamIndex = funcSignature.indexOf(')');
+			if (startParamIndex == -1 || endParamIndex == -1 || startParamIndex > endParamIndex) {
 				return result;
+			}
+			String[] s1 = funcSignature.substring(0, startParamIndex).trim().split("\\s");
+			if(s1.length != 2) {
+				return result;
+			}
+			String funcRetType = s1[0];
+			String funcMethodName = s1[1];
+			if(funcMethodName.indexOf("<") > 0) {
+				funcMethodName = funcMethodName.substring(0, funcMethodName.indexOf("<"));
+			}
+			String paramsString = funcSignature.substring(startParamIndex + 1, endParamIndex);
+			String[] params = paramsString.length() == 0 ? new String[0] : paramsString.split(",");
 
+			funcSourceMember = EclipseResourceUtil.getValidType(f.getProject(), funcClass);
+			if (funcSourceMember == null) {
+				return result;
+			}
 		
 			IType currentType = funcSourceMember;
 			try {
@@ -191,6 +209,9 @@ public class JSFFuncsELCompletionEngine extends JSFELCompletionEngine {
 						}
 						
 						String methodName = method.getElementName();
+						if(!funcMethodName.equals(methodName)) {
+							continue;
+						}
 						String methodReturnType = method.getReturnType();
 						String methodReturnTypeSimple = methodReturnType;
 						if (Signature.getTypeSignatureKind(methodReturnType) == Signature.BASE_TYPE_SIGNATURE) {
@@ -200,39 +221,12 @@ public class JSFFuncsELCompletionEngine extends JSFELCompletionEngine {
 							methodReturnType = EclipseJavaUtil.resolveTypeAsString(currentType, methodReturnType);
 							methodReturnTypeSimple = Signature.getSimpleName(methodReturnType);
 						}
+						if (!areTypesEqual(funcRetType, methodReturnType) && !areTypesEqual(funcRetType, methodReturnTypeSimple)) {
+							continue;
+						}
 												
 						String[] methodParamTypes = method.getParameterTypes();
-						int paramTypesCount = methodParamTypes == null ? 0 : methodParamTypes.length;
-						int startParamIndex = funcSignature.indexOf('(');
-						int endParamIndex = funcSignature.indexOf(')');
-						if (startParamIndex == -1 || endParamIndex == -1 || startParamIndex > endParamIndex)
-							continue;
-						String paramsString = funcSignature.substring(startParamIndex + 1, endParamIndex);
-						String[] params = paramsString.split(",");
-						if (!(funcSignature.substring(0, startParamIndex).contains(methodReturnType) || funcSignature.substring(0, startParamIndex).contains(methodReturnTypeSimple)))
-							continue;
-						if (!funcSignature.substring(0, startParamIndex).contains(methodName))
-							continue;
-						int paramsCount = params == null ? 0 : params.length;
-						if (paramTypesCount != paramsCount)
-							continue;
-						boolean paramsAreEqual = true;
-						for (int i = 0; methodParamTypes != null && i < methodParamTypes.length; i++) {
-							String methodParamType = methodParamTypes[i];
-							String methodParamTypeSimple = methodParamType;
-							if (Signature.getTypeSignatureKind(methodParamType) == Signature.BASE_TYPE_SIGNATURE) {
-								methodParamType = Signature.toString(methodParamType);
-								methodReturnTypeSimple = methodParamType;
-							} else {
-								methodParamType = EclipseJavaUtil.resolveTypeAsString(currentType, methodParamType);
-								methodParamTypeSimple = Signature.getSimpleName(methodParamType);
-							}
-							
-							if (params[i] == null || (!params[i].trim().equals(methodParamType) && !params[i].trim().equals(methodParamTypeSimple))) {
-								paramsAreEqual = false;
-								break;
-							}
-						}
+						boolean paramsAreEqual = areParametersEqual(methodParamTypes, params, currentType, methodReturnTypeSimple);
 						
 						if (!paramsAreEqual)
 							continue;
@@ -255,6 +249,77 @@ public class JSFFuncsELCompletionEngine extends JSFELCompletionEngine {
 		public IMember getSourceMember() {
 			getKeys(); // Initialize source member
 			return funcSourceMember;
+		}
+		
+		private boolean areParametersEqual(String[] methodParamTypes, String[] params, 
+				IType currentType, String methodReturnTypeSimple) {
+			int paramTypesCount = methodParamTypes == null ? 0 : methodParamTypes.length;
+			int paramsCount = params == null ? 0 : params.length;
+
+			if (paramTypesCount != paramsCount) {
+				return false;
+			}
+
+			for (int i = 0; methodParamTypes != null && i < methodParamTypes.length; i++) {
+				String methodParamType = methodParamTypes[i];
+				String methodParamTypeSimple = methodParamType;
+				if (Signature.getTypeSignatureKind(methodParamType) == Signature.BASE_TYPE_SIGNATURE) {
+					methodParamType = Signature.toString(methodParamType);
+					methodReturnTypeSimple = methodParamType;
+				} else {
+					methodParamType = EclipseJavaUtil.resolveTypeAsString(currentType, methodParamType);
+					methodParamTypeSimple = Signature.getSimpleName(methodParamType);
+				}
+				
+				if(params[i] != null) {
+					if(areTypesEqual(params[i], methodParamType)
+							|| areTypesEqual(params[i], methodParamTypeSimple)) {
+						continue;
+					}
+				}
+				return false;
+			}
+			return true;
+		}
+
+		private boolean areTypesEqual(String type1, String type2) {
+			if(type1 == null || type2 == null) {
+				return false;
+			}
+			type1 = toPrimitiveType(stripTypeName(type1.trim()));
+			type2 = toPrimitiveType(stripTypeName(type2.trim()));
+			return (type1.equals(type2));
+		}
+
+		private String stripTypeName(String type) {
+			if(type.endsWith(";")) {
+				return type.substring(1, type.length() - 1);
+			}
+			return type;
+		}
+		
+		static Map<String, String> WRAPPER_TYPES = new HashMap<String, String>();
+		static {
+			WRAPPER_TYPES.put("java.lang.Boolean", "boolean");
+			WRAPPER_TYPES.put("java.lang.Byte", "byte");
+			WRAPPER_TYPES.put("java.lang.Character", "char");
+			WRAPPER_TYPES.put("java.lang.Double", "double");
+			WRAPPER_TYPES.put("java.lang.Float", "float");
+			WRAPPER_TYPES.put("java.lang.Integer", "int");
+			WRAPPER_TYPES.put("java.lang.Long", "long");
+			WRAPPER_TYPES.put("java.lang.Short", "short");
+			WRAPPER_TYPES.put("Boolean", "boolean");
+			WRAPPER_TYPES.put("Byte", "byte");
+			WRAPPER_TYPES.put("Character", "char");
+			WRAPPER_TYPES.put("Double", "double");
+			WRAPPER_TYPES.put("Float", "float");
+			WRAPPER_TYPES.put("Integer", "int");
+			WRAPPER_TYPES.put("Long", "long");
+			WRAPPER_TYPES.put("Short", "short");
+		}
+
+		private String toPrimitiveType(String type) {
+			return WRAPPER_TYPES.containsKey(type) ? WRAPPER_TYPES.get(type) : type;
 		}
 	}
 }
