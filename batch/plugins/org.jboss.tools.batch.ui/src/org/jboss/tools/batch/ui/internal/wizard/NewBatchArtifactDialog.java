@@ -62,9 +62,11 @@ public class NewBatchArtifactDialog extends WizardDialog {
 		
 		if(artifacts != null && artifacts.size() > 0){
 			getBatchPage().setArtifact(artifacts.get(0), artifactCanBeModified);
-			IPackageFragment pack = PreferredPackageManager.getPackageSuggestion(batchProject, artifacts);
-			if(pack != null) {
-				getBatchPage().setPackageFragment(pack, true);
+			if(batchProject != null) {
+				IPackageFragment pack = PreferredPackageManager.getPackageSuggestion(batchProject.getProject(), artifacts);
+				if(pack != null) {
+					getBatchPage().setPackageFragment(pack, true);
+				}
 			}
 		}
 		

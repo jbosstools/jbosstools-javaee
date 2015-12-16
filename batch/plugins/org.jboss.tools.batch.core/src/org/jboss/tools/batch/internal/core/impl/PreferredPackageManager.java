@@ -35,10 +35,10 @@ public class PreferredPackageManager {
 	 * @param type
 	 * @return
 	 */
-	public static IPackageFragment getPackageSuggestion(IBatchProject batchProject, BatchArtifactType type) {
+	public static IPackageFragment getPackageSuggestion(IProject project, BatchArtifactType type) {
 		ArrayList<BatchArtifactType> list = new ArrayList<BatchArtifactType>();
 		list.add(type);
-		return getPackageSuggestion(batchProject, list);
+		return getPackageSuggestion(project, list);
 	}
 	
 	/**
@@ -48,8 +48,7 @@ public class PreferredPackageManager {
 	 * @param types
 	 * @return
 	 */
-	public static IPackageFragment getPackageSuggestion(IBatchProject batchProject, List<BatchArtifactType> types) {
-		IProject project = batchProject.getProject();
+	public static IPackageFragment getPackageSuggestion(IProject project, List<BatchArtifactType> types) {
 		for(BatchArtifactType type : types){
 			QualifiedName qualifiedName = new QualifiedName("", QUALIFIED_NAME_PREFIX + type.toString());
 			try {
@@ -68,7 +67,8 @@ public class PreferredPackageManager {
 			}
 		}
 		
-		return findPackage(batchProject, types);
+		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
+		return batchProject != null ? findPackage(batchProject, types) : null;
 	}
 
 	private static IPackageFragment findPackage(IBatchProject batchProject, List<BatchArtifactType> types) {
@@ -89,10 +89,10 @@ public class PreferredPackageManager {
 	 * @param type
 	 * @param packageName
 	 */
-	public static void savePreferredPackage(IBatchProject batchProject, BatchArtifactType type, String packageName){
+	public static void savePreferredPackage(IProject project, BatchArtifactType type, String packageName){
 		QualifiedName qualifiedName = new QualifiedName("", QUALIFIED_NAME_PREFIX + type.toString());
 		try {
-			batchProject.getProject().setPersistentProperty(qualifiedName, packageName);
+			project.setPersistentProperty(qualifiedName, packageName);
 		} catch (CoreException e) {
 			BatchCorePlugin.pluginLog().logError(e);
 		}

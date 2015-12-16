@@ -112,8 +112,7 @@ public class NewBatchArtifactWizard extends NewElementWizard implements BatchCon
 				}
 				String packName = fPage.getPackageFragment().getPath().toString();
 				BatchArtifactType type = fPage.getArtifactType();
-				IBatchProject batchProject = BatchCorePlugin.getBatchProject(resource.getProject(), true);
-				PreferredPackageManager.savePreferredPackage(batchProject, type, packName);
+				PreferredPackageManager.savePreferredPackage(resource.getProject(), type, packName);
 			}
 		}
 		return res;
