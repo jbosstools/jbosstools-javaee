@@ -75,7 +75,12 @@ public class BatchUIAllTests {
 		suiteAll.addTest(diagramSuite);
 
 		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suiteAll, "org.jboss.tools.batch.core.itest",
-				new String[] { "projects/BatchTestProject", "projects/PlainTestProject" }, new String[] { "BatchTestProject", "PlainTestProject" });
+				new String[] { "projects/BatchTestProject", 
+							   "projects/PlainTestProject",
+							   "projects/JavaTestProject"}, 
+				new String[] { "BatchTestProject", 
+							   "PlainTestProject",
+							   "JavaTestProject"});
 
 		// suiteAll.addTest(testSetup);
 

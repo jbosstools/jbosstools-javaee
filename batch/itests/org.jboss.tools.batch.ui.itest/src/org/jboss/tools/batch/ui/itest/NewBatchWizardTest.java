@@ -44,7 +44,9 @@ import org.jboss.tools.test.util.WorkbenchUtils;
  * @author Viacheslav Kabanovich
  *
  */
-public class NewBatchWizardTest extends TestCase {	
+public class NewBatchWizardTest extends TestCase {
+	static String BATCH_TEST_PROJECT = "BatchTestProject";
+	static String JAVA_TEST_PROJECT = "JavaTestProject";
 	
 	static class NewWizardContext<W extends Wizard> {
 		IProject project;
@@ -52,8 +54,8 @@ public class NewBatchWizardTest extends TestCase {
 		WizardDialog dialog;
 		W wizard;
 
-		public NewWizardContext() {
-			project = ResourcesPlugin.getWorkspace().getRoot().getProject("BatchTestProject");
+		public NewWizardContext(String projectName) {
+			project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 			jp = EclipseUtil.getJavaProject(project);
 		}
 
@@ -70,7 +72,10 @@ public class NewBatchWizardTest extends TestCase {
 		}
 	}
 	
-	static class NewBeansXMLWizardContext extends NewWizardContext<NewJobXMLCreationWizard> {		
+	static class NewBeansXMLWizardContext extends NewWizardContext<NewJobXMLCreationWizard> {
+		NewBeansXMLWizardContext() {
+			super(BATCH_TEST_PROJECT);
+		}
 
 		public void init(String wizardId) {
 			wizard = (NewJobXMLCreationWizard)WorkbenchUtils.findWizardByDefId(wizardId);
@@ -117,6 +122,10 @@ public class NewBatchWizardTest extends TestCase {
 		String packName;
 		String typeName;
 		NewTypeWizardPage page;
+	
+		NewBatchArtifactWizardContext(String projectName) {
+			super(projectName);
+		}
 
 		public void init(String wizardId, String packName, String typeName) {
 			wizard = (NewBatchArtifactWizard)WorkbenchUtils.findWizardByDefId(wizardId);
@@ -177,6 +186,14 @@ public class NewBatchWizardTest extends TestCase {
 			true,
 			null, 
 			Arrays.asList("prop1"));
+	}
+
+	public void testNewBatchletWizardInNonBatchlet() throws CoreException {
+		doTestNewBatchArtifactWizard(JAVA_TEST_PROJECT, BatchArtifactType.BATCHLET, 
+			"SomeBatchlet1", 
+			false,
+			null, 
+			Arrays.asList("prop1", "prop2"));
 	}
 
 	public void testNewDeciderWizard() throws CoreException {
@@ -360,7 +377,15 @@ public class NewBatchWizardTest extends TestCase {
 			boolean deriveFromInterface,
 			String artifactName, 
 			List<String> properties) throws CoreException {
-		NewBatchArtifactWizardContext context = new NewBatchArtifactWizardContext();
+		doTestNewBatchArtifactWizard(BATCH_TEST_PROJECT, type, typeName, deriveFromInterface, artifactName, properties);
+	}
+
+	private void doTestNewBatchArtifactWizard(String projectName, BatchArtifactType type, 
+			String typeName,
+			boolean deriveFromInterface,
+			String artifactName, 
+			List<String> properties) throws CoreException {
+		NewBatchArtifactWizardContext context = new NewBatchArtifactWizardContext(projectName);
 		context.init(NewBatchArtifactWizard.WIZARD_ID, "batch", typeName);
 
 		try {
