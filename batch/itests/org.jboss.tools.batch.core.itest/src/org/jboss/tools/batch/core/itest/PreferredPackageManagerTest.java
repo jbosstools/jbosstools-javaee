@@ -41,26 +41,24 @@ public class PreferredPackageManagerTest extends TestCase{
 	
 	public void testPreferredPackageManager() throws JavaModelException{
 		BatchArtifactType type = BatchArtifactType.BATCHLET;
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		
 		IJavaProject javaProject = EclipseUtil.getJavaProject(project);
 		
 		javaProject.getPackageFragmentRoots()[0].createPackageFragment("batch.artifact", true, new NullProgressMonitor());
 
-		PreferredPackageManager.savePreferredPackage(batchProject, type, TEST_PACKAGE_NAME);
+		PreferredPackageManager.savePreferredPackage(project, type, TEST_PACKAGE_NAME);
 		
-		IPackageFragment suggestedPackageName = PreferredPackageManager.getPackageSuggestion(batchProject, type);
+		IPackageFragment suggestedPackageName = PreferredPackageManager.getPackageSuggestion(project, type);
 		
 		assertEquals("Unexpected suggested package name", TEST_PACKAGE_NAME, suggestedPackageName.getPath().toString());
 	}
 
 	public void testArtifactFromJar() throws JavaModelException{
 		BatchArtifactType type = BatchArtifactType.PARTITION_COLLECTOR;
-		IBatchProject batchProject = BatchCorePlugin.getBatchProject(project, true);
 		
-		PreferredPackageManager.savePreferredPackage(batchProject, type, JAR_PACKAGE_NAME);
+		PreferredPackageManager.savePreferredPackage(project, type, JAR_PACKAGE_NAME);
 		
-		IPackageFragment suggestedPackageName = PreferredPackageManager.getPackageSuggestion(batchProject, type);
+		IPackageFragment suggestedPackageName = PreferredPackageManager.getPackageSuggestion(project, type);
 		
 		assertNull("Suggested package name should be null", suggestedPackageName);
 	}
