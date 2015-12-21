@@ -38,7 +38,7 @@ public class VarAttributesTest extends TestCase {
 	}
 
 	public void testBroken() throws Exception {
-		AbstractResourceMarkerTest.assertMarkerIsCreated(xhtml, messageBroken, 9, 11, 17, 18, 19, 24, 29, 34, 39, 44);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(xhtml, messageBroken, 9, 11, 17, 18, 19, 24, 29, 34, 39, 44, 51);
 	}
 
 	public void testInnerClass() throws Exception {
@@ -73,4 +73,9 @@ public class VarAttributesTest extends TestCase {
 	public void testArrayIndex() throws Exception {
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(xhtml, MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new Object[]{"0"}), 47);
 	}
+
+	public void testArrayAsMethod() throws Exception {
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(xhtml, messageOk, 50);
+	}
+
 }
