@@ -45,4 +45,9 @@
 	</h:dataTable>
 
 	<h:outputText value="#{testBeanForVarAttributes.set[0]}"/>
+
+	<h:dataTable value="#{testBeanForVarAttributes.getArray()}" var="arrayItem2">
+		<h:outputText value="#{arrayItem2.name}"/>
+		<h:outputText value="#{arrayItem2.broken}"/>
+	</h:dataTable>
 </html>
