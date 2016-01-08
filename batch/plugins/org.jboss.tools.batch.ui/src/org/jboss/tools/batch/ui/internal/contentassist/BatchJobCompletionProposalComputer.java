@@ -147,10 +147,11 @@ public class BatchJobCompletionProposalComputer extends AbstractXMLModelQueryCom
 			Element current, String matchString, int begin, int length) {
 		String tag = current.getNodeName();
 		Collection<IBatchArtifact> as = null;
-		if(current.getParentNode() == null || !(current.getParentNode().getParentNode() instanceof Element)) {
-			return;
-		}
+		
 		if(TAG_LISTENER.equals(tag)) {
+			if(current.getParentNode() == null || !(current.getParentNode().getParentNode() instanceof Element)) {
+				return;
+			}
 			Element p = (Element)current.getParentNode().getParentNode();
 			if(p != null && p.getNodeName().equals(TAG_JOB)) {
 				as = bp.getArtifacts(BatchArtifactType.JOB_LISTENER);

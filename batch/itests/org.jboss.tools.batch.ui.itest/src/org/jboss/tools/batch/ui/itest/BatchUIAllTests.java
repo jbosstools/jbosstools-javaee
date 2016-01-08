@@ -14,6 +14,7 @@ package org.jboss.tools.batch.ui.itest;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.batch.ui.itest.ca.ClassAttributeContentAssist;
+import org.jboss.tools.batch.ui.itest.ca.DeciderArtifactRefContentAssist;
 import org.jboss.tools.batch.ui.itest.ca.JobArtifactRefContentAssist;
 import org.jboss.tools.batch.ui.itest.ca.JobPropertyNameContentAssist;
 import org.jboss.tools.batch.ui.itest.ca.JobTransitionsContentAssist;
@@ -61,6 +62,7 @@ public class BatchUIAllTests {
 		suite1.addTestSuite(JobPropertyNameContentAssist.class);
 		suite1.addTestSuite(ClassAttributeContentAssist.class);
 		suite1.addTestSuite(ContentProposalTest.class);
+		suite1.addTestSuite(DeciderArtifactRefContentAssist.class);
 		suiteAll.addTest(suite1);
 
 		TestSuite suite2 = new TestSuite("Wizards");
