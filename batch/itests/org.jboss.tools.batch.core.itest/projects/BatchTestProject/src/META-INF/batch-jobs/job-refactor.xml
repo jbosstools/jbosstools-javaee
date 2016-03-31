@@ -3,6 +3,7 @@
         <batchlet ref="renamablePropertyBatchlet">
             <properties>
                 <property name="otherName" value="A"/>
+                <property name="namedProperty" value="A"/>
             </properties>
         </batchlet> 
         <stop on="stop" restart="step3"/>

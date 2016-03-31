@@ -10,6 +10,8 @@ public class RenamablePropertyBatchlet implements Batchlet {
 	
 	@Inject @BatchProperty String otherName;
 
+	@Inject @BatchProperty (name = "namedProperty") String thirdName;
+
 	@Override
 	public String process() throws Exception {
 		return null;

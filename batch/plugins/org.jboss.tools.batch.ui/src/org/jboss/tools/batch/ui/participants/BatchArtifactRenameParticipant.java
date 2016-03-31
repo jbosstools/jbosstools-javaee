@@ -99,7 +99,7 @@ public class BatchArtifactRenameParticipant extends RenameParticipant {
 				for (IBatchProperty prop : artifact.getProperties()) {
 					if (prop.getField().equals(field)) {
 						IAnnotationDeclaration declaration = prop.getBatchPropertyDeclaration();
-						if (declaration == null || declaration.getMemberValue(null) != null) { // Annotation @Named has a value
+						if (declaration == null || declaration.getMemberValue(BatchConstants.ATTR_NAME) != null) { // Annotation @Named has a value
 							return status;
 						}
 						newName = getArguments().getNewName();

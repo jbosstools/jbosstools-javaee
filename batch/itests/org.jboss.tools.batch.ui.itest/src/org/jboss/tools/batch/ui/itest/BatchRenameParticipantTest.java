@@ -26,6 +26,7 @@ import org.jboss.tools.common.base.test.AbstractRefactorTest;
 import org.jboss.tools.common.base.test.RenameParticipantTestUtil;
 import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestChangeStructure;
 import org.jboss.tools.common.base.test.RenameParticipantTestUtil.TestTextChange;
+import org.junit.Assert;
 
 public class BatchRenameParticipantTest extends AbstractRefactorTest {
 	private static final String PROJECT_NAME = "BatchTestProject"; //$NON-NLS-1$
@@ -74,6 +75,32 @@ public class BatchRenameParticipantTest extends AbstractRefactorTest {
 		RenameParticipantTestUtil.checkRenameParticipant(field, renameProcessor, new BatchArtifactRenameParticipant(), "abcdeName", list);
 	}
 	
+	public void testBatchPropertyRenameWhenPropertyNameIsSet() throws CoreException, BadLocationException{
+		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
+
+		TestChangeStructure structure = new TestChangeStructure(project, "/src/META-INF/batch-jobs/job-refactor.xml");
+
+		//This is the change that should not happen
+		String propertyName = "namedProperty";
+		TestTextChange change = new TestTextChange(propertyName, 7, "xyzName");
+		structure.addTextChange(change);
+		list.add(structure);
+
+		IField field = RenameParticipantTestUtil.getJavaField(project, "batch.RenamablePropertyBatchlet", "thirdName");
+		RenameFieldProcessor renameProcessor = new RenameFieldProcessor(field);
+
+		try {
+			RenameParticipantTestUtil.checkRenameParticipant(field, renameProcessor, new BatchArtifactRenameParticipant(), "xyzName", list);
+		} catch (AssertionError e) {
+			if(e.getMessage().equals("Root change is null")) {
+				//That is exactly what we expect here.
+				return;
+			}
+			throw e;
+		}
+		Assert.fail("Root change is not null. Change should not be found.");
+	}
+
 	public void testClassRename() throws CoreException, BadLocationException{
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
