@@ -58,6 +58,8 @@ public abstract class DBTableFilterView extends TableFilterView {
 	@Override
 	protected void toggle(boolean exclude) {
 		ISelection selection = viewer.getSelection();
+		ConsoleConfiguration configuration = KnownConfigurations.getInstance()
+				.find( getConsoleConfigurationName() );
 
 		if ( !selection.isEmpty() ) {
 			StructuredSelection ss = (StructuredSelection) selection;
@@ -68,7 +70,7 @@ public abstract class DBTableFilterView extends TableFilterView {
 
 				if ( sel instanceof Table ) {
 					Table table = (Table) sel;
-					filter = revEngDef.createTableFilter();
+					filter = revEngDef.createTableFilter(configuration);
 					if ( StringHelper.isNotEmpty( table.getName() ) ) {
 						filter.setMatchName( table.getName() );
 					}
@@ -81,7 +83,7 @@ public abstract class DBTableFilterView extends TableFilterView {
 					filter.setExclude( Boolean.valueOf( exclude ) );
 				} else if ( sel instanceof Schema ) { // assume its a schema!
 					Schema tc = (Schema) sel;
-					filter = revEngDef.createTableFilter();
+					filter = revEngDef.createTableFilter(configuration);
 					String schema = tc.getName();
 					String catalog = tc.getParent().getName();
 					if(StringHelper.isNotEmpty(schema)) {
@@ -93,7 +95,7 @@ public abstract class DBTableFilterView extends TableFilterView {
 					filter.setExclude( Boolean.valueOf( exclude ) );
 				} else if ( sel instanceof Catalog ) { // assume its a catalog!
 					Catalog tc = (Catalog) sel;
-					filter = revEngDef.createTableFilter();
+					filter = revEngDef.createTableFilter(configuration);
 					if(StringHelper.isNotEmpty(tc.getName())) {
 						filter.setMatchCatalog(tc.getName());
 					}
@@ -103,7 +105,7 @@ public abstract class DBTableFilterView extends TableFilterView {
 					revEngDef.addTableFilter( filter );
 			}
 		} else {
-			ITableFilter filter = revEngDef.createTableFilter();
+			ITableFilter filter = revEngDef.createTableFilter(configuration);
 			filter.setExclude( Boolean.valueOf( exclude ) );
 			revEngDef.addTableFilter( filter );
 		}
