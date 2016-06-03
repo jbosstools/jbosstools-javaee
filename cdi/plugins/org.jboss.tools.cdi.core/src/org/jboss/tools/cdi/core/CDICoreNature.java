@@ -718,7 +718,8 @@ public class CDICoreNature implements IProjectNature {
 		if(cdiProjectDelegate instanceof CDIProject) {
 			((CDIProject)cdiProjectDelegate).dispose();
 		}
-		cdiProjectDelegate.setNature(null);
+		if(cdiProjectDelegate != null )
+			cdiProjectDelegate.setNature(null);
 	}
 
 }
