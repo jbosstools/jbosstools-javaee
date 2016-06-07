@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.jboss.tools.cdi</groupId>
 		<artifactId>tests</artifactId>
-		<version>1.8.0-SNAPSHOT</version>
+		<version>1.8.1-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.tools.cdi.tests</groupId>
 	<artifactId>org.jboss.tools.cdi.deltaspike.core.test</artifactId>
