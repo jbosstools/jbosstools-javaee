@@ -110,6 +110,13 @@ public class BatchValidatorTest extends TestCase {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(BatchValidationMessages.WRITER_IS_EXPECTED, new String[]{}), 22);
 	}
 
+	public void testDecision() throws Exception {
+		IResource resource = project.findMember("/src/META-INF/batch-jobs/job-val-decision.xml"); //$NON-NLS-1$
+		assertTrue(resource.exists());
+		TestUtil.validate(resource);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, BatchValidationMessages.DECIDER_IS_EXPECTED, 6);
+	}
+
 	public void testCheckpointAlgorithm() throws Exception {
 		IResource resource = project.findMember("/src/META-INF/batch-jobs/job7.xml"); //$NON-NLS-1$
 		assertTrue(resource.exists());

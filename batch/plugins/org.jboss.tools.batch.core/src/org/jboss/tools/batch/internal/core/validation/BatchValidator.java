@@ -479,6 +479,10 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 			if(!isAsYouTypeValidation()) {
 				getValidationContext().addLinkedCoreResource(SHORT_ID, ref, file.getFullPath(), true);
 			}
+		} else if(element.hasAttribute(ATTR_REF)) {
+			//If attribute is missing, WTP validation creates error that "ref" is required.
+			//If attribute is set to empty value, we have to add message.
+			addProblem(wrongTypeMessage, BatchSeverityPreferences.EMPTY_REFERENCE, element, ATTR_REF, file, quickQixId);
 		}
 	}
 

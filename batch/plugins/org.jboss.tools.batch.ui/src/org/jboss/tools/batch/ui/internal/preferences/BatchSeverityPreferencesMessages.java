@@ -30,6 +30,7 @@ public class BatchSeverityPreferencesMessages extends NLS {
 
 	////Artifact References
 	public static String BatchValidationConfigurationBlock_section_artifact_ref;
+	public static String BatchValidationConfigurationBlock_pb_emptyReference_label;
 	public static String BatchValidationConfigurationBlock_pb_unknownArtifactName_label;
 	public static String BatchValidationConfigurationBlock_pb_wrongArtifactType_label;
 

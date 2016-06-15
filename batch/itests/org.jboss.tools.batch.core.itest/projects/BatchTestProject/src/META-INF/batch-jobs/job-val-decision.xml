@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job id="job" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/jobXML_1_0.xsd"
+    version="1.0">
+    <decision ref="  " id="d1"></decision>
+    <decision ref="myDecider" id="d2"></decision>
+    <step id="step">
+    </step>
+</job>

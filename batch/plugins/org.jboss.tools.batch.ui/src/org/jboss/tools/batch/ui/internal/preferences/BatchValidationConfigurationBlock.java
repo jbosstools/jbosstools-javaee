@@ -34,6 +34,7 @@ public class BatchValidationConfigurationBlock extends SeverityConfigurationBloc
 	private static SectionDescription SECTION_ARTIFACT_REF = new SectionDescription(
 		BatchSeverityPreferencesMessages.BatchValidationConfigurationBlock_section_artifact_ref,
 		new String[][]{
+			{BatchSeverityPreferences.EMPTY_REFERENCE, BatchSeverityPreferencesMessages.BatchValidationConfigurationBlock_pb_emptyReference_label},
 			{BatchSeverityPreferences.UNKNOWN_ARTIFACT_NAME, BatchSeverityPreferencesMessages.BatchValidationConfigurationBlock_pb_unknownArtifactName_label},
 			{BatchSeverityPreferences.WRONG_ARTIFACT_TYPE, BatchSeverityPreferencesMessages.BatchValidationConfigurationBlock_pb_wrongArtifactType_label},
 		},
