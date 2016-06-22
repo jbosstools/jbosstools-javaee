@@ -71,4 +71,20 @@
 			</snapshots>
 		</repository>
 	</repositories>
+	<build>
+	  <plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>**/AllTests.class</include>
+						<include>**/*AllTests*.class</include>
+						<include>**/*AllBotTests*.class</include>
+						<include>**/*TestSuite*.class</include>
+					</includes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
