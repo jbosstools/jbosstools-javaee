@@ -102,7 +102,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	}
 
 	public CDIVersion getVersion() {
-		return n.getVersion();
+		return getNatureInternal().getVersion();
 	}
 
 	public CDIProject getModifiedCopy(IFile file, Collection<IBean> beans) {
@@ -124,6 +124,18 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	@Override
 	public CDICoreNature getNature() {
 		return n;
+	}
+
+	/**
+	 * Prevent NullPointerException by throwing CDIDisposedException
+	 * @return
+	 * @throws CDIDisposedException
+	 */
+	CDICoreNature getNatureInternal() throws CDIDisposedException {
+		if(!exists()) {
+			throw new CDIDisposedException();
+		}
+		return getNature();
 	}
 
 	@Override
@@ -785,7 +797,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 
 	public Set<IType> getQualifierTypes() {
 		Set<IType> result = new HashSet<IType>();
-		List<AnnotationDefinition> ds = n.getDefinitions().getAllAnnotations();
+		List<AnnotationDefinition> ds = getNatureInternal().getDefinitions().getAllAnnotations();
 		for (AnnotationDefinition d: ds) {
 			if((d.getKind() & AnnotationDefinition.QUALIFIER) > 0) {
 				result.add(d.getType());
@@ -834,7 +846,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	public boolean isNormalScope(IType annotationType) {
 		try {
 			if(annotationType.isAnnotation()) {
-				AnnotationDefinition d = n.getDefinitions().getAnnotation(annotationType);
+				AnnotationDefinition d = getNatureInternal().getDefinitions().getAnnotation(annotationType);
 				List<IAnnotationDeclaration> ds = d.getAnnotations();
 				for (IAnnotationDeclaration a: ds) {
 					if(a instanceof AnnotationDeclaration) {
@@ -854,7 +866,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	public boolean isPassivatingScope(IType annotationType) {
 		try {
 			if(annotationType.isAnnotation())  {
-				AnnotationDefinition d = n.getDefinitions().getAnnotation(annotationType);
+				AnnotationDefinition d = getNatureInternal().getDefinitions().getAnnotation(annotationType);
 				List<IAnnotationDeclaration> ds = d.getAnnotations();
 				for (IAnnotationDeclaration a: ds) {
 					if(a instanceof AnnotationDeclaration) {
@@ -876,7 +888,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		boolean result = false;
 		try {
 			if(annotationType.isAnnotation()) {
-				int k = n.getDefinitions().getAnnotationKind(annotationType);
+				int k = getNatureInternal().getDefinitions().getAnnotationKind(annotationType);
 				result = k > 0 && (k & AnnotationDefinition.QUALIFIER) > 0;
 			}
 		} catch (CoreException e) {
@@ -889,7 +901,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		boolean result = false;
 		try {
 			if(annotationType.isAnnotation()) {
-				int k = n.getDefinitions().getAnnotationKind(annotationType);
+				int k = getNatureInternal().getDefinitions().getAnnotationKind(annotationType);
 				result = k > 0 && (k & AnnotationDefinition.SCOPE) > 0;
 			}
 		} catch (CoreException e) {
@@ -902,7 +914,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		boolean result = false;
 		try {
 			if(annotationType.isAnnotation()) {
-				int k = n.getDefinitions().getAnnotationKind(annotationType);
+				int k = getNatureInternal().getDefinitions().getAnnotationKind(annotationType);
 				result= k > 0 && (k & AnnotationDefinition.STEREOTYPE) > 0;
 			}
 		} catch (CoreException e) {
@@ -1106,12 +1118,12 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 
 	@Override
 	public IResource getResource() {
-		return n.getProject();
+		return getNatureInternal().getProject();
 	}
 
 	@Override
 	public IPath getSourcePath() {
-		return n.getProject().getFullPath();
+		return getNatureInternal().getProject().getFullPath();
 	}
 
 	/*
@@ -1196,7 +1208,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		try {
 			update(false);
 			if(updateDependent) {
-				CDICoreNature[] ps = n.getAllDependentProjects();
+				CDICoreNature[] ps = getNatureInternal().getAllDependentProjects();
 				for (CDICoreNature p: ps) {
 					if(p.getProject() != null && p.getProject().isAccessible() && p.getDelegate() != null) {
 						((CDIProject)p.getDelegate()).updateIncremental(false);
@@ -1215,10 +1227,10 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		rebuildAnnotationTypes();
 		rebuildBeans();
 
-		Set<IBuildParticipantFeature> buildParticipants = n.getExtensionManager().getBuildParticipantFeatures();
+		Set<IBuildParticipantFeature> buildParticipants = getNatureInternal().getExtensionManager().getBuildParticipantFeatures();
 		for (IBuildParticipantFeature p: buildParticipants) p.buildBeans(this);
 				
-		Set<CDICoreNature> ds = n.getCDIProjects(true);
+		Set<CDICoreNature> ds = getNatureInternal().getCDIProjects(true);
 		for (CDICoreNature c: ds) {
 			Set<IBuildParticipantFeature> bs = c.getExtensionManager().getBuildParticipantFeatures();
 			for (IBuildParticipantFeature bp: bs) {
@@ -1231,13 +1243,13 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			dbCache.rebuild(this, cache.getAllBeans());
 		}
 		
-		Set<IBeanStoreFeature> beanStores = n.getExtensionManager().getFeatures(IBeanStoreFeature.class);
+		Set<IBeanStoreFeature> beanStores = getNatureInternal().getExtensionManager().getFeatures(IBeanStoreFeature.class);
 		for (IBeanStoreFeature bp: beanStores) {
 			bp.updateCaches(this);
 		}
 
 		if(updateDependent) {
-			CDICoreNature[] ps = n.getAllDependentProjects();
+			CDICoreNature[] ps = getNatureInternal().getAllDependentProjects();
 			for (CDICoreNature p: ps) {
 				if(p.getProject() != null && p.getProject().isAccessible() && p.getDelegate() != null) {
 					p.getDelegate().update(false);
@@ -1253,7 +1265,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		synchronized (cache) {
 
 		cache.cleanAnnotations();
-		List<AnnotationDefinition> ds = n.getAllAnnotations();
+		List<AnnotationDefinition> ds = getNatureInternal().getAllAnnotations();
 		for (AnnotationDefinition d: ds) {
 			if((d.getKind() & AnnotationDefinition.STEREOTYPE) > 0) {
 				StereotypeElement s = new StereotypeElement();
@@ -1292,8 +1304,8 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	private boolean cleanClassCacheWhenRebuildBeans = true;
 
 	void rebuildBeans() {
-		List<TypeDefinition> typeDefinitions = n.getAllTypeDefinitions();
-		Set<String> vetoedTypes = n.getAllVetoedTypes();
+		List<TypeDefinition> typeDefinitions = getNatureInternal().getAllTypeDefinitions();
+		Set<String> vetoedTypes = getNatureInternal().getAllVetoedTypes();
 		Collection<IExcluded> excluded = getEnabledExcluded();
 		List<IBean> beans = new ArrayList<IBean>();
 
@@ -1359,10 +1371,10 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		}
 	
 		for (String builtin: BuiltInBeanFactory.BUILT_IN) {
-			IType type = n.getType(builtin);
+			IType type = getNatureInternal().getType(builtin);
 			if(type != null && type.exists() && !newClassBeans.containsKey(type)) {
 				TypeDefinition t = new TypeDefinition();
-				t.setType(type, n.getDefinitions(), TypeDefinition.FLAG_NO_ANNOTATIONS);
+				t.setType(type, getNatureInternal().getDefinitions(), TypeDefinition.FLAG_NO_ANNOTATIONS);
 				t.setBeanConstructor(true);
 				ClassBean bean = BuiltInBeanFactory.newClassBean(this, t);
 				newClassBeans.put(t.getType(), bean);
@@ -1455,7 +1467,7 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 		synchronized(allBeansXMLData) {
 			allBeansXMLData.clean();
 			projectBeansXMLData.clean();
-			Set<BeansXMLDefinition> beanXMLs = n.getAllBeanXMLDefinitions();
+			Set<BeansXMLDefinition> beanXMLs = getNatureInternal().getAllBeanXMLDefinitions();
 			for (BeansXMLDefinition b: beanXMLs) {
 				IPath p = b.getPath();
 				boolean t = (!p.lastSegment().endsWith(".jar") && p.segment(0).equals(getNature().getProject().getName()));

@@ -48,6 +48,7 @@ import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipant2Feature;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
+import org.jboss.tools.cdi.internal.core.impl.CDIDisposedException;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationHelper;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.Dependencies;
@@ -281,6 +282,8 @@ try {
 			}
 
 //			n.postBuild();
+} catch (CDIDisposedException e) {
+	//Do nothing, the nature or project is disposed.
 } catch (OperationCanceledException e) {
 	//Recover partially built model.
 	if(classPathShouldBeReset) {

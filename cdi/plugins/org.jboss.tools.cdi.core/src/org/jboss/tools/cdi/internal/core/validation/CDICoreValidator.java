@@ -94,6 +94,7 @@ import org.jboss.tools.cdi.core.extension.feature.IBeanKeyProvider;
 import org.jboss.tools.cdi.core.extension.feature.IInjectionPointValidatorFeature;
 import org.jboss.tools.cdi.core.extension.feature.IValidatorFeature;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
+import org.jboss.tools.cdi.internal.core.impl.CDIDisposedException;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.CDIProjectAsYouType;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
@@ -291,6 +292,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	@Override
 	public void init(IProject rootProject, ContextValidationHelper validationHelper, IProjectValidationContext context, org.eclipse.wst.validation.internal.provisional.core.IValidator manager,
 			IReporter reporter) {
+try {
 		super.init(rootProject, validationHelper, context, manager, reporter);
 		setAsYouTypeValidation(false);
 		projectTree = validationHelper.getValidationContextManager().getValidatingProjectTree(this);
@@ -309,6 +311,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		}
 		rootProjectName = projectSet.getRootProject().getName();
 		cdiContexts.clear();
+} catch (CDIDisposedException e) {
+	//Do nothing, the nature or project is disposed.
+}
 	}
 
 	/*
@@ -318,6 +323,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 	@Override
 	public IStatus validate(Set<IFile> changedFiles, IProject project, ContextValidationHelper validationHelper, IProjectValidationContext context, ValidatorManager manager, IReporter reporter)
 			throws ValidationException {
+try {
 		init(project, validationHelper, context, manager, reporter);
 		displaySubtask(CDIValidationMessages10.SEARCHING_RESOURCES, new String[]{project.getName()});
 		if (rootCdiProject == null) {
@@ -410,7 +416,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		if(hasDotProject) {
 			validateMissingBeansXml();
 		}
-
+} catch (CDIDisposedException e) {
+	//Do nothing, the nature or project is disposed.
+}
 		cleanSavedMarkers();
 		return OK_STATUS;
 	}
