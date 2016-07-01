@@ -24,6 +24,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
@@ -400,7 +401,16 @@ public class DefinitionContext implements IRootDefinitionContext {
 		if(workingCopy == null) {
 			return;
 		}
-		
+		JavaModelManager manager = JavaModelManager.getJavaModelManager();
+		try {
+			manager.cacheZipFiles(this);
+			applyWorkingCopyImpl();
+		} finally {
+			manager.flushZipFiles(this);
+		}
+	}
+
+	private void applyWorkingCopyImpl() {
 		Set<TypeDefinition> newTypeDefinitions = new HashSet<TypeDefinition>();
 		for (String typeName: workingCopy.typeDefinitions.keySet()) {
 			TypeDefinition nd = workingCopy.typeDefinitions.get(typeName);

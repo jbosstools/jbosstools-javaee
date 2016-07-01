@@ -166,7 +166,10 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			if(!n.requestForBuild()) {
 				return null;
 			}
+			JavaModelManager manager = JavaModelManager.getJavaModelManager();
 try {
+			manager.cacheZipFiles(this);
+
 			if(n.getDelegate() == null || n.getDelegate().getClass() != getDelegate().getProjectImplementationClass()) {
 				if(n.getDelegate() != null) {
 					n.clean();
@@ -294,6 +297,7 @@ try {
 	getCDICoreNature().getDefinitions().dropWorkingCopy();
 	throw e;
 } finally {
+	manager.flushZipFiles(this);
 	n.releaseBuild();
 }
 		} finally {
@@ -409,10 +413,6 @@ try {
 		IJavaProject jp = EclipseResourceUtil.getJavaProject(getCDICoreNature().getProject());
 		if(jp == null) return;
 
-		JavaModelManager manager = JavaModelManager.getJavaModelManager();
-		try {
-			manager.cacheZipFiles(this);
-
 			FileSet fileSet = new FileSet();
 			fileSet.setCheckVetoed(getCDICoreNature().getVersion() != CDIVersion.CDI_1_0);
 		
@@ -464,10 +464,6 @@ try {
 			}
 			addBasicTypes(fileSet);
 			invokeBuilderDelegates(fileSet, getCDICoreNature(), monitor);
-
-		} finally {
-			manager.flushZipFiles(this);
-		}
 	}
 
 	void invokeBuilderDelegates(FileSet fileSet, CDICoreNature n, IProgressMonitor monitor) {
@@ -856,4 +852,3 @@ try {
 	}
 
 }
-

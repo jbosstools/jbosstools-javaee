@@ -116,8 +116,11 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 		//Set true when canceling build should be recovered by complete rebuild pf classpath at next build. 
 		boolean classPathShouldBeReset = false;
 
+		JavaModelManager manager = JavaModelManager.getJavaModelManager();
 		try {
 			n.resolveStorage(kind != FULL_BUILD);
+
+			manager.cacheZipFiles(this);
 
 			if(kind == FULL_BUILD) n.getClassPath().reset();
 
@@ -181,6 +184,7 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 			getBatchProject().getDefinitions().dropWorkingCopy();
 			throw e;
 		} finally {
+			manager.flushZipFiles(this);
 			n.fireChanges();
 		}
 		return null;
@@ -211,10 +215,6 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 	private void buildJars(JarSet newJars, IProgressMonitor monitor) throws CoreException {
 		IJavaProject jp = EclipseUtil.getJavaProject(getBatchProject().getProject());
 		if(jp == null) return;
-
-		JavaModelManager manager = JavaModelManager.getJavaModelManager();
-		try {
-			manager.cacheZipFiles(this);
 
 			FileSet fileSet = new FileSet();
 			for (String jar: newJars.getBatchModules()) {
@@ -247,10 +247,6 @@ public class BatchBuilder extends IncrementalProjectBuilder implements IIncremen
 				}
 			}
 			build(fileSet, getBatchProject(), monitor);
-
-		} finally {
-			manager.flushZipFiles(this);
-		}
 	}
 
 	void build(FileSet fs, BatchProject project, IProgressMonitor monitor) {

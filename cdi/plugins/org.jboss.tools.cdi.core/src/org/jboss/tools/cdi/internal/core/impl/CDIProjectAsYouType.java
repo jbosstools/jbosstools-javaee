@@ -27,6 +27,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.jdt.internal.corext.util.JavaModelUtil;
 import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor;
 import org.eclipse.jdt.ui.IWorkingCopyManager;
@@ -100,10 +101,14 @@ public class CDIProjectAsYouType implements ICDIProject, ICDIElement {
 		}
 		this.project = project;
 		this.file = file;
+		JavaModelManager manager = JavaModelManager.getJavaModelManager();
 		try {
+			manager.cacheZipFiles(this);
 			build();
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
+		} finally {
+			manager.flushZipFiles(this);
 		}
 		CDIProject p = ((CDIProject)project).getModifiedCopy(file, beans);
 		if(p != null) {

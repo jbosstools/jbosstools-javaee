@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2010 Red Hat, Inc. 
+ * Copyright (c) 2010-2016 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -16,11 +16,18 @@ import java.util.Set;
 
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.java.IParametedType;
 
+/**
+ * Scans all type definitions looking for decorators and interceptors.
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
 public class ImplementationCollector {
 	List<TypeDefinition> typeDefinitions;
 	Set<IType> decorators = new HashSet<IType>();
@@ -28,10 +35,20 @@ public class ImplementationCollector {
 
 	public ImplementationCollector(List<TypeDefinition> typeDefinitions) {
 		this.typeDefinitions = typeDefinitions;
+		JavaModelManager manager = JavaModelManager.getJavaModelManager();
 		try {
+			//In most cases this method is already called by the builder context.
+			//But it is quite safe to call it one more time, cacheZipFiles and flushZipFiles
+			//will be just ignored if there is already another owner for the cache.
+			//And since this class iterates all binaries, we cannot be too careful 
+			//providing for cache one more time.
+			manager.cacheZipFiles(this);
+
 			process();
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
+		} finally {
+			manager.flushZipFiles(this);
 		}
 	}
 
