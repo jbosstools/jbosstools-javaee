@@ -52,14 +52,16 @@ public class BatchQuickFixGenerator extends AbstractQuickFixGenerator{
 			TemporaryAnnotation tempAnnotation = (TemporaryAnnotation)annotation;
 			
 			IFile file = MarkerResolutionUtils.getFile();
-			int messageId = getMessageID(tempAnnotation);
-			int start = tempAnnotation.getPosition().getOffset();
-			int end = start + tempAnnotation.getPosition().getLength();
-			
-			try {
-				return findXMLResolutions(file, messageId, start, end, true);
-			} catch (JavaModelException e) {
-				BatchUIPlugin.getDefault().logError(e);
+			if(file != null) {
+				int messageId = getMessageID(tempAnnotation);
+				int start = tempAnnotation.getPosition().getOffset();
+				int end = start + tempAnnotation.getPosition().getLength();
+				
+				try {
+					return findXMLResolutions(file, messageId, start, end, true);
+				} catch (JavaModelException e) {
+					BatchUIPlugin.getDefault().logError(e);
+				}
 			}
 		}
 		return new IJavaCompletionProposal[]{};
