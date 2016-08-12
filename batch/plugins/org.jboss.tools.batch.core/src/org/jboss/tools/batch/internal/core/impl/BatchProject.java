@@ -116,10 +116,16 @@ public class BatchProject extends AbstractKbProjectExtension implements IBatchPr
 				if(monitor.isCanceled()) {
 					break;
 				}
+				if(r.getProject() == null || r.getProject().isAccessible()) {
+					continue; // disposed while in waiting
+				}
 				try {
 					r.resolve();
 					r.update(true);
 				} catch (Exception e) {
+					if(r.getProject() == null || r.getProject().isAccessible()) {
+						continue; // disposed while in loading
+					}
 					if(e instanceof RuntimeException) {
 						throw (RuntimeException)e;
 					}
