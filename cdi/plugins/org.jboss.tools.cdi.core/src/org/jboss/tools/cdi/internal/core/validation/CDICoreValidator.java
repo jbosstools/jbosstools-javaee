@@ -753,7 +753,7 @@ try {
 			Collection<IQualifierDeclaration> qualifierDeclarations = bean.getQualifierDeclarations();
 			for (IQualifierDeclaration qualifierDeclaration : qualifierDeclarations) {
 				IQualifier qualifier = qualifierDeclaration.getQualifier();
-				if (shouldValidateType(qualifier.getSourceType())) {
+				if (qualifier != null && shouldValidateType(qualifier.getSourceType())) {
 					getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, qualifier.getSourcePath(), false);
 				}
 			}
@@ -928,7 +928,7 @@ try {
 		if(!isAsYouTypeValidation()) {
 			for (IStereotypeDeclaration stereotypeDeclaration : stereotyped.getStereotypeDeclarations()) {
 				IStereotype stereotype = stereotypeDeclaration.getStereotype();
-				if (shouldValidateType(stereotype.getSourceType())) {
+				if (stereotype != null && shouldValidateType(stereotype.getSourceType())) {
 					getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, stereotype.getSourcePath(), false);
 				}
 			}
@@ -939,7 +939,7 @@ try {
 		if(!isAsYouTypeValidation()) {
 			for (IInterceptorBindingDeclaration bindingDeclaration : CDIUtil.getAllInterceptorBindingDeclaratios(binded)) {
 				IInterceptorBinding binding = bindingDeclaration.getInterceptorBinding();
-				if (shouldValidateType(binding.getSourceType())) {
+				if (binding != null && shouldValidateType(binding.getSourceType())) {
 					getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, binding.getSourcePath(), false);
 				}
 			}
@@ -2601,7 +2601,7 @@ try {
 			Map<String, IStereotypeDeclaration> declarationMap = new HashMap<String, IStereotypeDeclaration>();
 			for (IStereotypeDeclaration stereotypeDeclaration : stereotypeDeclarations) {
 				IStereotype stereotype = stereotypeDeclaration.getStereotype();
-				IScope scope = stereotype.getScope();
+				IScope scope = stereotype != null ? stereotype.getScope() : null;
 				if (scope != null) {
 					declarationMap.put(scope.getSourceType().getFullyQualifiedName(), stereotypeDeclaration);
 				}
