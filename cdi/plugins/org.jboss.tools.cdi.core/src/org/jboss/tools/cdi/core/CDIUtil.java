@@ -1115,7 +1115,9 @@ public class CDIUtil {
 			if(!result.contains(declaration)) {
 				result.add(declaration);
 				IInterceptorBinding binding = declaration.getInterceptorBinding();
-				collectAdditionalInterceptorBindingDeclaratios(binding, result);
+				if(binding != null) {
+					collectAdditionalInterceptorBindingDeclaratios(binding, result);
+				}
 				if(binding instanceof IStereotyped) {
 					collectAdditionalInterceptorBindingDeclaratiosFromStereotyps((IStereotyped)binding, result);
 				}
