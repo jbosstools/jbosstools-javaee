@@ -579,11 +579,12 @@ try {
 				return;
 			}
 			FileSet fs = new FileSet();
-			fs.add(file.getFullPath(), ts);
-			if(!fs.getAnnotations().isEmpty() || !fs.getInterfaces().isEmpty()) {
+			fs.add(path, ts);
+			if(!fs.getAnnotations().isEmpty() || !fs.getInterfaces().isEmpty() 
+					|| !fs.getClasses().containsKey(path)) {
 				return;
 			}
-			List<IType> types = fs.getClasses().get(file.getFullPath());
+			List<IType> types = fs.getClasses().get(path);
 			for (IType t: types) {
 				TypeDefinition oldDefinition = n.getDefinitions().getTypeDefinition(t.getFullyQualifiedName());
 				if(oldDefinition == null) {
