@@ -164,6 +164,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IJava
 		public CDIValidationContext(IProject project) {
 			this.project = project;
 			CDICoreNature nature = CDICorePlugin.getCDI(project, true);
+			if(nature == null) {
+				throw new CDIDisposedException();
+			}
 			cdiProject =  nature.getDelegate();
 			dependencies = nature.getDefinitions().getAllDependencies();
 			extensions = nature.getExtensionManager().getValidatorFeatures();
