@@ -140,19 +140,13 @@ public class RenameMethodParticipant extends RenameParticipant implements IShara
 
 		@Override
 		protected void outOfSynch(IResource resource){
-			//status.addWarning(NLS.bind(JsfUIMessages.RENAME_METHOD_PARTICIPANT_OUT_OF_SYNC_PROJECT, project.getFullPath().toString()));
-			Exception exception= new Exception(NLS.bind(JsfUIMessages.RENAME_METHOD_PARTICIPANT_OUT_OF_SYNC_PROJECT, resource.getFullPath().toString()));
-			exception.setStackTrace(Thread.currentThread().getStackTrace());
-			JsfUiPlugin.getDefault().logError(exception);
+			status.addWarning(NLS.bind(JsfUIMessages.RENAME_METHOD_PARTICIPANT_OUT_OF_SYNC_PROJECT, resource.getFullPath().toString()));
 		}
 
 		@Override
 		protected void match(IFile file, int offset, int length) {
 			if(isFileReadOnly(file)){
-				//status.addWarning(NLS.bind(JsfUIMessages.RENAME_METHOD_PARTICIPANT_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
-				Exception exception= new Exception(NLS.bind(JsfUIMessages.RENAME_METHOD_PARTICIPANT_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
-				exception.setStackTrace(Thread.currentThread().getStackTrace());
-				JsfUiPlugin.getDefault().logError(exception);
+				status.addFatalError(NLS.bind(JsfUIMessages.RENAME_METHOD_PARTICIPANT_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
 			}else
 				change(file, offset, length, newName);
 		}

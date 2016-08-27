@@ -175,11 +175,11 @@ public class RenameMessagePropertyProcessor extends ELRenameProcessor {
 			super(file, oldName);
 		}
 		
-		protected void searchInCach(IFile file){
+		protected boolean searchInCach(IFile file, boolean outOfSync) {
 			ELContext context = PageContextFactory.createPageContext(file);
 			
 			if(context == null)
-				return;
+				return true;
 			
 			ELReference[] references = context.getELReferences();
 			ELResolver[] resolvers = context.getElResolvers();
@@ -194,7 +194,9 @@ public class RenameMessagePropertyProcessor extends ELRenameProcessor {
 							continue;
 	
 						List<ELSegment> segments = resolution.findSegmentsByMessageProperty(segment.getBaseName(), propertyName);
-						
+						if(!segments.isEmpty() && outOfSync) {
+							return false;
+						}
 						for(ELSegment segment : segments){
 							match(file, offset+segment.getSourceReference().getStartPosition(), segment.getSourceReference().getLength());
 						}
@@ -208,7 +210,9 @@ public class RenameMessagePropertyProcessor extends ELRenameProcessor {
 									continue;
 			
 								List<ELSegment> segments = resolution.findSegmentsByMessageProperty(segment.getBaseName(), propertyName);
-								
+								if(!segments.isEmpty() && outOfSync) {
+									return false;
+								}
 								for(ELSegment segment : segments){
 									match(file, offset+segment.getSourceReference().getStartPosition(), segment.getSourceReference().getLength());
 								}
@@ -217,7 +221,7 @@ public class RenameMessagePropertyProcessor extends ELRenameProcessor {
 					}
 				}
 			}
-			
+			return true;
 		}
 		
 	}
