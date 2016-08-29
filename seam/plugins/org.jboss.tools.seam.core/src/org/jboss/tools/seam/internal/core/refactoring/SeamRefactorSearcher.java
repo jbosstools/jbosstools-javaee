@@ -71,13 +71,17 @@ public abstract class SeamRefactorSearcher extends RefactorSearcher {
 		// do nothing
 	}
 	
-	protected void checkMatch(IFile file, ELExpression operand, int offset, int length){
-		if(javaElement != null && operand != null)
-			resolve(file, operand, offset-getOffset((ELInvocationExpression)operand));
-		else if(seamComponent != null && operand != null)
-			resolveComponentsReferences(file, operand, offset-getOffset((ELInvocationExpression)operand));
-		else
+	protected boolean checkMatch(IFile file, boolean isOutOfSync, ELExpression operand, int offset, int length){
+		if(javaElement != null && operand != null) {
+			return resolve(file, isOutOfSync, operand, offset-getOffset((ELInvocationExpression)operand));
+		} else if(seamComponent != null && operand != null) {
+			return resolveComponentsReferences(file, isOutOfSync, operand, offset-getOffset((ELInvocationExpression)operand));
+		} else if(isOutOfSync) {
+			return false;
+		} else {
 			match(file, offset, length);
+			return true;
+		}
 	}
 	
 	protected void updateEnvironment(IProject project){
@@ -112,7 +116,7 @@ public abstract class SeamRefactorSearcher extends RefactorSearcher {
 		return null;
 	}
 	
-	private void resolveComponentsReferences(IFile file, ELExpression operand, int offset) {
+	private boolean resolveComponentsReferences(IFile file, boolean fileIsNotAccessible, ELExpression operand, int offset) {
 		ELResolver[] resolvers = ELResolverFactoryManager.getInstance()
 				.getResolvers(file);
 
@@ -130,12 +134,15 @@ public abstract class SeamRefactorSearcher extends RefactorSearcher {
 			ELResolution resolution = resolver.resolve(context, operand, offset);
 			if(resolution!=null) {
 				List<ELSegment> segments = resolution.findSegmentsByVariable(seamComponent);
-				
+				if(!segments.isEmpty() && fileIsNotAccessible) {
+					return false;
+				}
 				for(ELSegment segment : segments){
 					match(file, offset+segment.getSourceReference().getStartPosition(), segment.getSourceReference().getLength());
 				}
 			}
 		}
+		return true;
 	}
 
 }
