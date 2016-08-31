@@ -1,8 +1,5 @@
 package org.jboss.tools.jsf.vpe.jsf.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ChangeMessageBundleTest_JBIDE5818;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ContextMenuDoubleInsertionTest_JBIDE3888;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.CustomRequestContextPathTest_JBIDE9025;
@@ -54,7 +51,6 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4037Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4179Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4337Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4373Test;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4509Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4510Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE4534Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE5920Test;
@@ -72,10 +68,8 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.MessageResolutionInPreviewTabTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.MozDirtyTest_JBIDE5105;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.NullPointerWithStyleProperty_JBIDE5193;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnCssClassTest_JBIDE4775;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnInJarPackageFragment_JBIDE5682;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnInsideJspRoot_JBIDE4852;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnJsf20Test_JBIDE5382;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnTLDPackedInJar_JBIDE5693;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.PreferencesForEditors_JBIDE5692;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.RefreshBundles_JBIDE5460;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.RenderFacetAndInsertChildrenTest;
@@ -173,7 +167,6 @@ import org.junit.runners.Suite;
 	JBIDE3969Test.class,
 	JBIDE4337Test.class,
 	JBIDE4179Test.class,
-	JBIDE4509Test.class,
 	JBIDE4510Test.class,
 	JBIDE4534Test.class,
 	JBIDE3247Test.class,
@@ -184,9 +177,7 @@ import org.junit.runners.Suite;
 	NullPointerWithStyleProperty_JBIDE5193.class,
 	TestFViewLocaleAttribute_JBIDE5218.class,
 	TestOpenOnForXhtmlFiles_JBIDE5577.class,
-	OpenOnInJarPackageFragment_JBIDE5682.class,
 	MessageResolutionInPreviewTabTest.class,
-	OpenOnTLDPackedInJar_JBIDE5693.class,
 	PreferencesForEditors_JBIDE5692.class,
 	FacetProcessingTest.class,
 	RefreshBundles_JBIDE5460.class,

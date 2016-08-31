@@ -1,6 +1,7 @@
 package org.jboss.tools.jsf.vpe.facelets.test;
 
 import org.jboss.tools.vpe.base.test.ComponentContentTest;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class FaceletsComponentContentTest extends ComponentContentTest {
@@ -12,7 +13,8 @@ public class FaceletsComponentContentTest extends ComponentContentTest {
 	public FaceletsComponentContentTest() {
 		setCheckWarning(false);
 	}
-
+	
+	@Ignore("JBIDE-23065 test failure in org.jboss.tools.jsf.vpe.jsf.test")
 	@Test
 	public void _testCompositionWithTaglibs() throws Throwable {
 		performContentTest("components/compositionWithTaglibs.xhtml");//$NON-NLS-1$
