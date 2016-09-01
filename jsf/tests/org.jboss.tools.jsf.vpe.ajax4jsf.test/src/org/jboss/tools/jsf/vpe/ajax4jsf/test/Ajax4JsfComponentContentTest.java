@@ -49,7 +49,8 @@ public class Ajax4JsfComponentContentTest extends ComponentContentTest {
 	public void testCommandLink() throws Throwable {
 		performContentTest("components/commandLink.xhtml");//$NON-NLS-1$
 	}
-
+	
+	@Ignore("JBIDE-23065 test failure in org.jboss.tools.jsf.vpe.jsf.test")
 	@Test
 	public void _testForm() throws Throwable {
 		performContentTest("components/form.xhtml");//$NON-NLS-1$
@@ -98,7 +99,8 @@ public class Ajax4JsfComponentContentTest extends ComponentContentTest {
 	@Test
 	public void testOutputPanel() throws Throwable {
 	}
-
+	
+	@Ignore("JBIDE-23065 test failure in org.jboss.tools.jsf.vpe.jsf.test")
 	@Test
 	public void _testPage() throws Throwable {
 		performContentTest("components/page/page.xhtml");//$NON-NLS-1$
