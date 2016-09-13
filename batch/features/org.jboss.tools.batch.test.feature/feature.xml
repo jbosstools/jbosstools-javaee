@@ -2,7 +2,7 @@
 <feature
       id="org.jboss.tools.batch.test.feature"
       label="%featureName"
-      version="1.8.1.qualifier"
+      version="1.8.2.qualifier"
       provider-name="%featureProvider"
       license-feature="org.jboss.tools.foundation.license.feature"
       license-feature-version="0.0.0">

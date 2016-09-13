@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Seam 3 Core
 Bundle-SymbolicName: org.jboss.tools.cdi.seam.core;singleton:=true
-Bundle-Version: 1.8.1.qualifier
+Bundle-Version: 1.8.2.qualifier
 Bundle-Activator: org.jboss.tools.cdi.seam.core.CDISeamCorePlugin
 Bundle-Localization: plugin
 Bundle-Vendor: JBoss by Red Hat
