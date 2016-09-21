@@ -16,7 +16,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
-import org.jboss.tools.common.reporting.ProblemReportingHelper;
+import org.jboss.tools.common.log.LogHelper;
 import org.jboss.tools.jst.web.ui.WebUiPlugin;
 import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.jst.web.ui.internal.editor.preferences.IVpePreferencesPage;
@@ -61,8 +61,7 @@ public class ProjectNaturesPartListener implements IPartListener {
 				try {
 					checkNaturesFromPart(part);
 				} catch (CoreException e) {
-					ProblemReportingHelper.reportProblem(
-							WebUiPlugin.PLUGIN_ID, e);
+					LogHelper.logError(WebUiPlugin.PLUGIN_ID, e);
 				}
 			}
 		}

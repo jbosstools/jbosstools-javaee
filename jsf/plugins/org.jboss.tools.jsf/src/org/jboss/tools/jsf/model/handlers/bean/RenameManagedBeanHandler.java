@@ -17,12 +17,13 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.*;
 import org.eclipse.jdt.ui.refactoring.RenameSupport;
 import org.eclipse.swt.widgets.Display;
+import org.jboss.tools.common.log.LogHelper;
 import org.jboss.tools.common.meta.action.impl.*;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.undo.*;
-import org.jboss.tools.common.reporting.ProblemReportingHelper;
+import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.helpers.bean.ManagedBeanHelper;
 
@@ -72,7 +73,7 @@ public class RenameManagedBeanHandler extends AbstractHandler {
 			try {
 				runInternal();
 			} catch (CoreException e) {
-				ProblemReportingHelper.reportProblem("org.jboss.tools.jsf", e); //$NON-NLS-1$
+				LogHelper.logError(JSFModelPlugin.PLUGIN_ID, e);
 			}
 		}
 		

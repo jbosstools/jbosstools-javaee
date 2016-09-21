@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Link;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
-import org.jboss.tools.common.reporting.ProblemReportingHelper;
+import org.jboss.tools.common.log.LogHelper;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jst.web.ui.WebUiPlugin;
 import org.jboss.tools.jst.web.ui.internal.editor.messages.JstUIMessages;
@@ -113,16 +113,14 @@ public abstract class ProjectNaturesInfoDialog extends MessageDialog {
 				try {
 					theURL = new URL(JstUIMessages.DOCS_INFO_LINK);
 				} catch (MalformedURLException e) {
-					ProblemReportingHelper.reportProblem(
-							WebUiPlugin.PLUGIN_ID, e);
+					LogHelper.logError(WebUiPlugin.PLUGIN_ID, e);
 				}
 				IWorkbenchBrowserSupport support = PlatformUI.getWorkbench()
 						.getBrowserSupport();
 				try {
 					support.getExternalBrowser().openURL(theURL);
 				} catch (PartInitException e) {
-					ProblemReportingHelper.reportProblem(
-							WebUiPlugin.PLUGIN_ID, e);
+					LogHelper.logError(WebUiPlugin.PLUGIN_ID, e);
 				}
 			}
 		});

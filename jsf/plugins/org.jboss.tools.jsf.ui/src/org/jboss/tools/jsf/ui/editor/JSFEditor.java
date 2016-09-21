@@ -105,10 +105,10 @@ import org.jboss.tools.common.gef.action.IDiagramSelectionProvider;
 import org.jboss.tools.common.gef.edit.GEFRootEditPart;
 import org.jboss.tools.common.gef.editor.xpl.DefaultPaletteCustomizer;
 import org.jboss.tools.common.gef.outline.xpl.DiagramContentOutlinePage;
+import org.jboss.tools.common.log.LogHelper;
 import org.jboss.tools.common.meta.key.WizardKeys;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.XModelTransferBuffer;
-import org.jboss.tools.common.reporting.ProblemReportingHelper;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.helpers.JSFProcessStructureHelper;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
@@ -606,7 +606,7 @@ public class JSFEditor extends GEFEditor implements IJSFModelListener {
 				Status status = new Status(IStatus.ERROR,
 						"org.jboss.tools.jsf.ui", 0, WizardKeys //$NON-NLS-1$
 								.getString("PRN_ERROR"), ee); //$NON-NLS-1$
-				ProblemReportingHelper.reportProblem(status);
+				LogHelper.logError(JsfUiPlugin.PLUGIN_ID, ee);
 			}
 			//if ex is not null then d is set to null and we cannot access it.
 			if(ex == null) {

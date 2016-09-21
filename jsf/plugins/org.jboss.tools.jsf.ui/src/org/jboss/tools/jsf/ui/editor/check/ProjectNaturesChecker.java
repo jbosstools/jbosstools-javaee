@@ -22,20 +22,18 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.common.log.LogHelper;
 import org.jboss.tools.common.model.options.Preference;
-import org.jboss.tools.common.reporting.ProblemReportingHelper;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
-import org.jboss.tools.jsf.ui.JsfUiPlugin;
-import org.jboss.tools.jst.web.ui.WebUiPlugin;
-import org.jboss.tools.jst.web.ui.internal.editor.util.FileUtil;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.internal.KbBuilderMarker;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
+import org.jboss.tools.jst.web.ui.WebUiPlugin;
+import org.jboss.tools.jst.web.ui.internal.editor.util.FileUtil;
 
 /**
  * 
@@ -122,7 +120,7 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 							updateProjectJSFPersistents(project);
 					}
 				} catch (CoreException e) {
-					ProblemReportingHelper.reportProblem(WebUiPlugin.PLUGIN_ID, e);
+					LogHelper.logError(WebUiPlugin.PLUGIN_ID, e);
 				}
 			}
 		}
