@@ -3,107 +3,29 @@
 	license-feature="org.jboss.tools.foundation.license.feature"
 	license-feature-version="0.0.0">
 
-   <description url="http://www.jboss.org/tools">
-      %description
-   </description>
+	<description url="http://www.jboss.org/tools">
+		%description
+	</description>
 
-   <copyright>
-      %copyright
-   </copyright>
+	<copyright>
+		%copyright
+	</copyright>
 
-   <license url="%licenseURL">
-      %license
-   </license>
+	<license url="%licenseURL">
+		%license
+	</license>
 
-   <requires>
-      <import feature="org.jboss.tools.common.feature" version="3.6.0" match="greaterOrEqual"/>
-      <import feature="org.jboss.tools.jst.feature" version="3.6.0" match="greaterOrEqual"/>
-      <import feature="org.jboss.tools.vpe.feature" version="3.3.0" match="greaterOrEqual"/>
-      <import feature="org.eclipse.wst.web_ui.feature" version="3.3.2" match="greaterOrEqual"/>
-   </requires>
+	<requires>
+		<import feature="org.jboss.tools.common.feature" version="3.6.0" match="greaterOrEqual"/>
+		<import feature="org.jboss.tools.jst.feature" version="3.6.0" match="greaterOrEqual"/>
+		<import feature="org.eclipse.wst.web_ui.feature" version="3.3.2" match="greaterOrEqual"/>
+	</requires>
 
-   <plugin
-         id="org.jboss.tools.jsf"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.verification"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.text.ext"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.text.ext.facelets"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.text.ext.richfaces"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.facelets"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.richfaces"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.ajax4jsf"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.jsf"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.myfaces"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.jbpm"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.jstl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
+	<plugin id="org.jboss.tools.jsf" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+	<plugin id="org.jboss.tools.jsf.ui" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+	<plugin id="org.jboss.tools.jsf.verification" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+	<plugin id="org.jboss.tools.jsf.text.ext" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+	<plugin id="org.jboss.tools.jsf.text.ext.facelets" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+	<plugin id="org.jboss.tools.jsf.text.ext.richfaces" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 
 </feature>
