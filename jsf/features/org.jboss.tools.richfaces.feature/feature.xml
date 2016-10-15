@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature id="org.jboss.tools.richfaces.feature" label="%featureName" version="3.8.2.qualifier" provider-name="%featureProvider" plugin="org.jboss.tools.vpe"
+<feature id="org.jboss.tools.richfaces.feature" label="%featureName" version="3.8.2.qualifier" provider-name="%featureProvider"
 	license-feature="org.jboss.tools.foundation.license.feature"
 	license-feature-version="0.0.0">
 
-   <description url="http://www.jboss.org/tools">
-      %description
-   </description>
+	<description url="http://www.jboss.org/tools">
+		%description
+	</description>
 
-   <copyright>
-      %copyright
-   </copyright>
+	<copyright>
+		%copyright
+	</copyright>
 
-   <license url="%licenseURL">
-      %license
-   </license>
+	<license url="%licenseURL">
+		%license
+	</license>
 
-   <requires>
+	<requires>
 		<import plugin="org.jboss.tools.xulrunner.initializer" version="3.1.0" match="greaterOrEqual"/>
 		<import feature="org.jboss.tools.common.feature" version="3.6.0" match="greaterOrEqual"/>
 		<import feature="org.jboss.tools.common.core.feature" version="3.6.0" match="greaterOrEqual" />
 		<import feature="org.jboss.tools.common.text.ext.feature" version="3.6.0" match="greaterOrEqual" />
 		<import feature="org.jboss.tools.common.ui.feature" version="3.6.0" match="greaterOrEqual"  />
 		<import feature="org.jboss.tools.common.verification.feature" version="3.6.0" match="greaterOrEqual"  />
-		<import feature="org.jboss.tools.vpe.feature" version="3.3.0" match="greaterOrEqual"  />
-		<import feature="org.jboss.tools.jst.feature" version="3.6.0" match="greaterOrEqual"  />
 		<import feature="org.jboss.tools.jsf.feature" version="3.6.0" match="greaterOrEqual"  />
-   </requires>
+		<import feature="org.jboss.tools.jst.feature" version="3.6.0" match="greaterOrEqual"  />
+	</requires>
 
 </feature>
