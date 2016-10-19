@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature id="org.jboss.tools.jsf.vpe.feature" label="%featureName" version="3.8.2.qualifier" provider-name="%featureProvider" image="jsf.jpg"
+	license-feature="org.jboss.tools.foundation.license.feature"
+	license-feature-version="0.0.0">
+
+	<description url="http://www.jboss.org/tools">
+		%description
+	</description>
+
+	<copyright>
+		%copyright
+	</copyright>
+
+	<license url="%licenseURL">
+		%license
+	</license>
+
+	<requires>
+		<import feature="org.jboss.tools.common.feature" version="3.6.0" match="greaterOrEqual"/>
+		<import feature="org.jboss.tools.jst.feature" version="3.6.0" match="greaterOrEqual"/>
+		<import feature="org.eclipse.wst.web_ui.feature" version="3.3.2" match="greaterOrEqual"/>
+		<import feature="org.jboss.tools.vpe.feature" version="3.3.0" match="greaterOrEqual"/>
+	</requires>
+
+	<plugin id="org.jboss.tools.jsf.vpe.facelets" download-size="0" install-size="0" version="0.0.0"/>
+	<plugin id="org.jboss.tools.jsf.vpe.richfaces" download-size="0" install-size="0" version="0.0.0"/>
+	<plugin id="org.jboss.tools.jsf.vpe.ajax4jsf" download-size="0" install-size="0" version="0.0.0"/>
+	<plugin id="org.jboss.tools.jsf.vpe.jsf" download-size="0" install-size="0" version="0.0.0"/>
+	<plugin id="org.jboss.tools.jsf.vpe.myfaces" download-size="0" install-size="0" version="0.0.0"/>
+	<plugin id="org.jboss.tools.jsf.vpe.jbpm" download-size="0" install-size="0" version="0.0.0"/>
+	<plugin id="org.jboss.tools.jsf.vpe.jstl" download-size="0" install-size="0" version="0.0.0"/>
+
+</feature>
