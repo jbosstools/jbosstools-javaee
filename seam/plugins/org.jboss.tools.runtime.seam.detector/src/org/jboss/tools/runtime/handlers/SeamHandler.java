@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.runtime.core.JBossRuntimeLocator;
@@ -50,25 +51,35 @@ public class SeamHandler extends AbstractRuntimeDetectorDelegate {
 	}
 	
 	@Override
-	public void initializeRuntimes(List<RuntimeDefinition> runtimeDefinitions) {
-		
-		Map<String, SeamRuntime> map = new HashMap<String,SeamRuntime>();
-
-		for(RuntimeDefinition runtimeDefinition:runtimeDefinitions) {
-			if (runtimeDefinition.isEnabled()) {
-				String type = runtimeDefinition.getType();
-				if (SEAM.equals(type)) {
-					addSeam(map, runtimeDefinition,
-							runtimeDefinition.getLocation());
+	public boolean initializeRuntime(RuntimeDefinition runtimeDefinition) {
+		return initializeRuntime(runtimeDefinition, true);
+	}
+	
+	public boolean initializeRuntime(RuntimeDefinition runtimeDefinition, boolean save) {
+		if (runtimeDefinition.isEnabled()) {
+			String type = runtimeDefinition.getType();
+			if (SEAM.equals(type)) {
+				boolean ret = addSeam(runtimeDefinition,
+						runtimeDefinition.getLocation());
+				initializeRuntimes(runtimeDefinition.getIncludedRuntimeDefinitions());
+				if( save ) {
+					SeamRuntimeManager.getInstance().save();
 				}
+				return ret;
 			}
-			initializeRuntimes(runtimeDefinition.getIncludedRuntimeDefinitions());
+		}
+		return false;
+	}
+	
+	@Override
+	public void initializeRuntimes(List<RuntimeDefinition> runtimeDefinitions) {
+		for(RuntimeDefinition runtimeDefinition:runtimeDefinitions) {
+			initializeRuntime(runtimeDefinition, false);
 		}
 		SeamRuntimeManager.getInstance().save();
 	}
 
-	private static void addSeam(Map<String, SeamRuntime> map,
-			RuntimeDefinition runtimeDefinition, File seamFile) {
+	private static boolean addSeam(RuntimeDefinition runtimeDefinition, File seamFile) {
 		if (seamFile.exists() && seamFile.canRead() && seamFile.isDirectory()) {
 			SeamVersion seamVersion = getSeamVersion(seamFile.getAbsolutePath());
 			if (seamVersion != null) {
@@ -81,12 +92,13 @@ public class SeamHandler extends AbstractRuntimeDetectorDelegate {
 						name = baseName + " (" + i++ + ") " + seamVersion; //$NON-NLS-1$ //$NON-NLS-2$
 					}
 				}
-				addSeam(map, seamFile.getAbsolutePath(), seamVersion, name);
+				return addSeam(seamFile.getAbsolutePath(), seamVersion, name);
 			}
 		}
+		return false;
 	}
 
-	private static void addSeam(Map<String, SeamRuntime> map, String seamPath,SeamVersion seamVersion, String name) {
+	private static boolean addSeam(String seamPath,SeamVersion seamVersion, String name) {
 		if (!seamExists(seamPath)) {
 			File seamFolder = new File(seamPath);
 			if(seamFolder.exists() && seamFolder.isDirectory()) {
@@ -96,8 +108,10 @@ public class SeamHandler extends AbstractRuntimeDetectorDelegate {
 				rt.setDefault(true);
 				rt.setVersion(seamVersion);
 				SeamRuntimeManager.getInstance().addRuntime(rt);
+				return true;
 			}
 		}
+		return false;
 	}
 
 	private static SeamVersion getSeamVersion(String seamGenBuildPath) {
