@@ -10,7 +10,6 @@
   ******************************************************************************/
 package org.jboss.tools.seam.ui.views;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -27,6 +26,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.progress.WorkbenchJob;
 import org.hibernate.HibernateException;
 import org.hibernate.JDBCException;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.JDBCReaderFactory;
 import org.hibernate.cfg.Settings;
 import org.hibernate.cfg.reveng.dialect.MetaDataDialect;
@@ -36,7 +36,6 @@ import org.hibernate.console.execution.ExecutionContext;
 import org.hibernate.eclipse.console.utils.EclipseImages;
 import org.hibernate.mapping.Table;
 import org.jboss.tools.hibernate.runtime.spi.IConfiguration;
-import org.jboss.tools.hibernate.runtime.spi.ISettings;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.internal.reveng.JDBCTablesColumnsReader;
 import org.jboss.tools.seam.ui.internal.reveng.TablesColumnsCollector;
@@ -116,7 +115,7 @@ public class DBTablesViewer extends TreeViewer {
 			
 			private IConfiguration cfg = null;
 			
-			private ISettings buildSettings = null;
+			private Settings buildSettings = null;
 			
 			private String placeHolder = "Pending...";	//$NON-NLS-1$
 			
@@ -208,27 +207,17 @@ public class DBTablesViewer extends TreeViewer {
 					WorkbenchJob job = new WorkbenchJob("Fetching database structure") {			//$NON-NLS-1$
 						@Override
 						public IStatus runInUIThread(IProgressMonitor monitor) {
-							try{
-								
-								Method method = buildSettings.getClass().getMethod("getTarget", new Class[] {});
-								Settings settings = (Settings)method.invoke(buildSettings, new Object[] {});
-								
-								MetaDataDialect realMetaData = JDBCReaderFactory.newMetaDataDialect(settings
+							try{								
+								MetaDataDialect realMetaData = JDBCReaderFactory.newMetaDataDialect(buildSettings
 										.getDialect(), cfg.getProperties());
 								
 								JDBCTablesColumnsReader reader = new JDBCTablesColumnsReader(realMetaData,
-										settings.getConnectionProvider(), settings.getSQLExceptionConverter());
+										buildSettings.getConnectionProvider(), buildSettings.getSQLExceptionConverter());
 								reader.readDatabaseTables(tablesCollector, buildSettings.getDefaultCatalogName(), buildSettings.getDefaultSchemaName());
 								
 								connectionState = CHILDREN_FETCHED;
 							} catch (JDBCException e){
 								connectionState = CONNECTION_ERROR;
-							} catch (NoSuchMethodException | 
-									SecurityException | 
-									IllegalAccessException |
-									IllegalArgumentException | 
-									InvocationTargetException e) {
-								SeamGuiPlugin.getPluginLog().logError(e);
 							}
 							DBTablesViewer.this.remove(placeHolder);
 							DBTablesViewer.this.refresh();
@@ -258,10 +247,17 @@ public class DBTablesViewer extends TreeViewer {
 						cfg = cc.getConfiguration();
 						cc.getExecutionContext().execute(new ExecutionContext.Command() {
 							public Object execute() {
-								ISettings newSettings = cfg.buildSettings();
-								if (!newSettings.equals(buildSettings)){
-									buildSettings = newSettings;
-									connectionState = BEGIN_STATE;
+								try {
+									Method method = cfg.getClass().getMethod("getTarget", new Class[] {});
+									Configuration config = (Configuration)method.invoke(cfg, new Object[] {});
+									Settings newSettings = config.buildSettings();
+									if (!newSettings.equals(buildSettings)){
+										buildSettings = newSettings;
+										connectionState = BEGIN_STATE;
+									}
+								}
+								catch (Exception e) {
+									SeamGuiPlugin.getPluginLog().logError(e);
 								}
 								return null;
 							}});
