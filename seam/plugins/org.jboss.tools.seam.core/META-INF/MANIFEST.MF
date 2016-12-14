@@ -41,7 +41,7 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
  org.jboss.tools.common.validation,
  org.jboss.tools.common.ui,
  org.eclipse.jst.jsf.facelet.core;bundle-version="1.0.100"
-Bundle-Version: 3.8.2.qualifier
+Bundle-Version: 3.8.3.qualifier
 Export-Package: 
  org.jboss.tools.seam.core,
  org.jboss.tools.seam.core.event,
