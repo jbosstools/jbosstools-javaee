@@ -12,7 +12,7 @@ Require-Bundle: org.jboss.tools.jst.web;visibility:=reexport,
  org.eclipse.ltk.core.refactoring;bundle-version="3.5.200",
  org.eclipse.jst.jsp.ui;bundle-version="1.1.600",
  org.eclipse.jface.text;bundle-version="3.7.0"
-Bundle-Version: 3.8.2.qualifier
+Bundle-Version: 3.8.3.qualifier
 Export-Package: org.jboss.tools.seam.pages.xml,
  org.jboss.tools.seam.pages.xml.model,
  org.jboss.tools.seam.pages.xml.model.handlers,
