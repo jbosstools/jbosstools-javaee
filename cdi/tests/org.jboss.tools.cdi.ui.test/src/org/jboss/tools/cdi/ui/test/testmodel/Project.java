@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 Red Hat, Inc.
+ * Copyright (c) 2012-2017 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -821,4 +821,10 @@ public class Project implements IProject {
 	}
 
 	public void accept(IResourceProxyVisitor visitor, int depth, int memberFlags) throws CoreException {}
+
+    @Override
+    public void clearCachedDynamicReferences() {
+        // TODO Auto-generated method stub
+        
+    }
 }
