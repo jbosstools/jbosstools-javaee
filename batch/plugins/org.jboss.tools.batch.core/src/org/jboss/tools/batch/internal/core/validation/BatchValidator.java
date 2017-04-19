@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2015 Red Hat, Inc. 
+ * Copyright (c) 2015-2017 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -74,6 +74,7 @@ import org.w3c.dom.Node;
 /**
  * 
  * @author Viacheslav Kabanovich
+ * @author Jeff Maury
  *
  */
 public class BatchValidator extends KBValidator implements BatchConstants, IStringValidator {
@@ -400,6 +401,8 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 						}
 						validateProperties(batchProject, file, cp1, listener, a);
 					}
+				} else if (listener.hasAttribute(ATTR_REF)) {
+                    addProblem(BatchValidationMessages.STEP_LISTENER_IS_EXPECTED, BatchSeverityPreferences.EMPTY_REFERENCE, listener, ATTR_REF, file, -1);
 				}
 			}
 		}
