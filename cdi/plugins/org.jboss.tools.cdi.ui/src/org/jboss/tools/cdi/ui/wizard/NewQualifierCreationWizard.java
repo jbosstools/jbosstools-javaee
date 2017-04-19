@@ -21,7 +21,7 @@ import org.jboss.tools.cdi.ui.CDIUIMessages;
 public class NewQualifierCreationWizard extends NewCDIAnnotationCreationWizard {
 
     public NewQualifierCreationWizard() {
-    	setWindowTitle(CDIUIMessages.NEW_QUALIFIER_WIZARD_TITLE);
+    	setWindowTitle("New Quall");
     }
 
 	protected NewAnnotationWizardPage createAnnotationWizardPage() {
