@@ -45,7 +45,7 @@ public class BatchCoreTestSetup extends TestSetup {
 	@Override
 	protected void tearDown() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		project.delete(true, true, null);
+		ResourcesUtils.deleteProject(PROJECT_NAME);
 		JobUtils.waitForIdle();
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
