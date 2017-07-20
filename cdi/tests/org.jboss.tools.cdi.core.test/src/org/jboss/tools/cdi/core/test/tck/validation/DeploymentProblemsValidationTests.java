@@ -255,14 +255,81 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 * 
 	 * @throws Exception
 	 */
-	public void testClassWithFinalMethodCannotBeProxied() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/finalMethod/FishFarm.java");
+	public void testClassWithPublicFinalMethodCannotBeProxied() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/publicFinalMethod/FishFarm.java");
 		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM[getVersionIndex()], "Tuna_Broken", "Tuna_Broken"), 23);
 		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM[getVersionIndex()].substring(0, 0) + ".*", 25);
-		
-		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/finalMethod/Tuna_Broken.java");
+
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/publicFinalMethod/Tuna_Broken.java");
 		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM_2[getVersionIndex()], "Tuna_Broken", "Tuna_Broken"), 21);
-		
+	}
+
+	/**
+	 * 	5.4.1. Unproxyable bean types
+	 *  - Classes which have final methods cannot be proxied by the container.
+	 * 	- If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope,
+	 * 	  the container automatically detects the problem and treats it as a deployment problem.
+	 * 
+	 * @throws Exception
+	 */
+	public void testClassWithProtectedFinalMethodCannotBeProxied() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/protectedFinalMethod/FishFarm.java");
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM[getVersionIndex()], "Tuna_Broken", "Tuna_Broken"), 23);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM[getVersionIndex()].substring(0, 0) + ".*", 25);
+
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/protectedFinalMethod/Tuna_Broken.java");
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM_2[getVersionIndex()], "Tuna_Broken", "Tuna_Broken"), 21);
+	}
+
+	/**
+	 * 	5.4.1. Unproxyable bean types
+	 *  - Classes which have final methods cannot be proxied by the container.
+	 * 	- If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope,
+	 * 	  the container automatically detects the problem and treats it as a deployment problem.
+	 * 
+	 * @throws Exception
+	 */
+	public void testClassWithDefaultFinalMethodCannotBeProxied() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/defaultFinalMethod/FishFarm.java");
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM[getVersionIndex()], "Tuna_Broken", "Tuna_Broken"), 23);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM[getVersionIndex()].substring(0, 0) + ".*", 25);
+
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/defaultFinalMethod/Tuna_Broken.java");
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM_2[getVersionIndex()], "Tuna_Broken", "Tuna_Broken"), 21);
+	}
+
+	/**
+	 * 	5.4.1. Unproxyable bean types
+	 *  - Classes which have final methods cannot be proxied by the container.
+	 * 	- If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope,
+	 * 	  the container automatically detects the problem and treats it as a deployment problem.
+	 * 
+	 * @throws Exception
+	 */
+	public void testClassWithPrivateFinalMethodCannotBeProxied() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/privateFinalMethod/FishFarm.java");
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM[getVersionIndex()], "Tuna_Broken", "Tuna_Broken"), 23);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM[getVersionIndex()].substring(0, 0) + ".*", 25);
+
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/privateFinalMethod/Tuna_Broken.java");
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM_2[getVersionIndex()], "Tuna_Broken", "Tuna_Broken"), 21);
+	}
+
+	/**
+	 * 	5.4.1. Unproxyable bean types
+	 *  - Classes which have final methods cannot be proxied by the container.
+	 * 	- If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope,
+	 * 	  the container automatically detects the problem and treats it as a deployment problem.
+	 * 
+	 * @throws Exception
+	 */
+	public void testClassWithStaticFinalMethodCannotBeProxied() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/staticFinalMethod/FishFarm.java");
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM[getVersionIndex()], "Tuna_Broken", "Tuna_Broken"), 23);
+		getAnnotationTest().assertAnnotationIsNotCreated(file, CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM[getVersionIndex()].substring(0, 0) + ".*", 25);
+
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/staticFinalMethod/Tuna_Broken.java");
+		getAnnotationTest().assertAnnotationIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM_2[getVersionIndex()], "Tuna_Broken", "Tuna_Broken"), 21);
 	}
 
 	/**

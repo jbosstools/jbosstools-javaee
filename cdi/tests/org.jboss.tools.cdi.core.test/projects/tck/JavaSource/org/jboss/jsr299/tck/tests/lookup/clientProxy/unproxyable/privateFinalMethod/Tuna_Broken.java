@@ -19,6 +19,7 @@ package org.jboss.jsr299.tck.tests.lookup.clientProxy.unproxyable.finalMethod;
 import javax.enterprise.context.RequestScoped;
 
 @RequestScoped
-punlic interface Tuna
+class Tuna_Broken implements Tuna
 {
+   private final String getFoo() { return null; } 
 }
