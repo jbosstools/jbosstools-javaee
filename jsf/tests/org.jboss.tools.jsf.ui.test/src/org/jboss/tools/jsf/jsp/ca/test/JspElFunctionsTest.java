@@ -39,10 +39,12 @@ public class JspElFunctionsTest extends ContentAssistantTestCase {
    }
    
    public void setUp() throws Exception {
+	    System.out.println("JspElFunctionsTest.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
    }
 
    public void testJspElFunctionsCATestFuncNamespace(){
+	   System.out.println("JspElFunctionsTest.testJspElFunctionsCATestFuncNamespace");
        final String[] proposals = new String[]{
                "target" //$NON-NLS-1$
        };
@@ -72,6 +74,7 @@ public class JspElFunctionsTest extends ContentAssistantTestCase {
    }
 
    public void testJspElFunctionsCATestFuncs(){
+	   System.out.println("JspElFunctionsTest.testJspElFunctionsCATestFuncs");
        final String[] proposals = new String[]{
                "target:convertToInteger()", //$NON-NLS-1$
                "target:loopModel()", //$NON-NLS-1$
@@ -104,6 +107,7 @@ public class JspElFunctionsTest extends ContentAssistantTestCase {
    }
 
    public void testJspElFunctionsCATestFuncsConvertFunc(){
+	   System.out.println("JspElFunctionsTest.testJspElFunctionsCATestFuncsConvertFunc");
        final String[] proposals = new String[]{
                "target:convertToInteger()" //$NON-NLS-1$
        };
@@ -133,6 +137,7 @@ public class JspElFunctionsTest extends ContentAssistantTestCase {
    }
 
    public void testJspElFunctionsCATestFuncsLoopFunc(){
+	   System.out.println("JspElFunctionsTest.testJspElFunctionsCATestFuncsLoopFunc");
        final String[] proposals = new String[]{
                "target:loopModel()" //$NON-NLS-1$
        };

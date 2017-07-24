@@ -35,6 +35,7 @@ public class CAELNoTagProposalsInELTest  extends ContentAssistantTestCase {
 	private static final String EL_RBRACE = "}";
 
 	public void setUp() throws Exception {
+		System.out.println("CAELNoTagProposalsInELTest.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
@@ -42,6 +43,7 @@ public class CAELNoTagProposalsInELTest  extends ContentAssistantTestCase {
 	 * The test case for JBIDE-8428
 	 */
 	public void testELApplyMethodProposal() {
+		System.out.println("CAELNoTagProposalsInELTest.testELApplyMethodProposal");
 		openEditor(PAGE_NAME);
 		try {
 
@@ -63,6 +65,7 @@ public class CAELNoTagProposalsInELTest  extends ContentAssistantTestCase {
 
 			jspTextEditor.setText(documentContentModified);
 
+			System.out.println("CAELNoTagProposalsInELTest.68_JobUtils.waitForIdle");
 			JobUtils.waitForIdle();
 
 			List<ICompletionProposal> res = CATestUtil.collectProposals(

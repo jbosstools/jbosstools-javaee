@@ -49,6 +49,7 @@ public class ELTooltipTest extends ContentAssistantTestCase {
 	};
 	
 	public void setUp() throws Exception {
+		System.out.println("ELTooltipTest.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
@@ -58,6 +59,7 @@ public class ELTooltipTest extends ContentAssistantTestCase {
 
 	@SuppressWarnings("deprecation")
 	private void doELTooltipTest(String prefix, String value, String compare) {
+		System.out.println("ELTooltipTest.doELTooltipTest");
 		String documentContent = document.get();
 		int start = (documentContent == null ? -1 : documentContent.indexOf(prefix));
 		assertFalse("Required node '" + prefix + "' not found in document", (start == -1));
@@ -138,6 +140,7 @@ public class ELTooltipTest extends ContentAssistantTestCase {
 	}
 
 	public void testELTooltip() {
+		System.out.println("ELTooltipTest.testELTooltip");
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
 		
 		openEditor(PAGE_NAME);

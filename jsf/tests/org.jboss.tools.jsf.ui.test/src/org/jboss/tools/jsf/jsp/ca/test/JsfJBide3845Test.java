@@ -39,14 +39,17 @@ public class JsfJBide3845Test extends ContentAssistantTestCase {
    }
    
    public void setUp() throws Exception {
+	    System.out.println("JsfJBide3845Test.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
    }
 
    public void testJbide3845OnJspPage(){
+	   System.out.println("JsfJBide3845Test.testJbide3845OnJspPage");
 		doTheResourceBundleCAForALongPropertyNameTest(JSP_PAGE_NAME, STRING_TO_FIND, PROPOSALS);
    }
 
    public void testJbide3845OnXhtmlPage(){
+	   System.out.println("JsfJBide3845Test.testJbide3845OnXhtmlPage");
 		doTheResourceBundleCAForALongPropertyNameTest(XHTML_PAGE_NAME, STRING_TO_FIND, PROPOSALS);
    }
    

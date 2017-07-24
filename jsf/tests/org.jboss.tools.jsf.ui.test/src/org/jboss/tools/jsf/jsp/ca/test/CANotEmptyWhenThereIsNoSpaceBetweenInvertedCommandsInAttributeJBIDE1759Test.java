@@ -46,10 +46,12 @@ public class CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE
 	}
 
 	public void setUp() throws Exception {
+		System.out.println("CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE1759Test.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
 	public void testProposalListIsNotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE1759() {
+		System.out.println("CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE1759Test.testProposalListIsNotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE1759");
 		try {
 			JobUtils.waitForIdle();
 		} catch (Exception e) {
@@ -63,7 +65,7 @@ public class CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE
 	}
 	
 	private void testJstJspJbide1759(String pageName) {
-		
+		System.out.println("CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE1759Test.testJstJspJbide1759");
 		openEditor(pageName);
 
 		// Find start of <h:outputText> tag
@@ -100,6 +102,7 @@ public class CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE
 		assertFalse("Content Assistant returned no proposals of type CustomCompletionProposal.",customCompletionProposals.isEmpty());
 
 		try {
+			System.out.println("CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE1759Test.105_waitForIdle");
 			JobUtils.waitForIdle();
 		} catch (Exception e) {
 			e.printStackTrace();

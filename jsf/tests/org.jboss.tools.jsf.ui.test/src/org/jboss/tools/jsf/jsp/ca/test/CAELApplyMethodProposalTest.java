@@ -38,6 +38,7 @@ public class CAELApplyMethodProposalTest extends ContentAssistantTestCase {
 	private static final String CURSOR_SIGNATURE = "<The cursor point>";
 
 	public void setUp() throws Exception {
+		System.out.println("CAELApplyMethodProposalTest.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 		project.build(IncrementalProjectBuilder.FULL_BUILD,
 				new NullProgressMonitor());
@@ -47,7 +48,7 @@ public class CAELApplyMethodProposalTest extends ContentAssistantTestCase {
 	 * The test case for JBIDE-11492
 	 */
 	public void testELApplyMethodProposal() {
-
+		System.out.println("CAELApplyMethodProposalTest.testELApplyMethodProposal");
 		openEditor(PAGE_NAME);
 		try {
 
@@ -79,7 +80,8 @@ public class CAELApplyMethodProposalTest extends ContentAssistantTestCase {
 				int offsetToTest = start + elToReplaceWith.length();
 
 				jspTextEditor.setText(documentContentModified);
-
+				
+				System.out.println("CAELApplyMethodProposalTest.84_JobUtils.waitForIdle");
 				JobUtils.waitForIdle();
 
 				List<ICompletionProposal> res = CATestUtil.collectProposals(
@@ -121,6 +123,7 @@ public class CAELApplyMethodProposalTest extends ContentAssistantTestCase {
 						bPropoosalToApplyFound);
 
 				try {
+					System.out.println("CAELApplyMethodProposalTest.126_JobUtils.waitForIdle");
 					JobUtils.waitForIdle();
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -34,6 +34,7 @@ public class CAELFunctionsTest  extends ContentAssistantTestCase {
 	};
 	
 	public void setUp() throws Exception {
+		System.out.println("CAELFunctionsTest.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
@@ -41,6 +42,7 @@ public class CAELFunctionsTest  extends ContentAssistantTestCase {
 	 * Test for https://jira.jboss.org/jira/browse/JBIDE-8924
 	 */
 	public void testELFunctions() {
+		System.out.println("CAELFunctionsTest.testELFunctions");
 		assertNotNull("Test project \"" + PROJECT_NAME + "\" is not loaded", project);
 		try {
 			project.refreshLocal(IResource.DEPTH_INFINITE, null);

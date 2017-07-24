@@ -36,6 +36,7 @@ public class JavaClassContentAssistProviderTest extends TestCase {
 	static IProject jsfProject;
 
 	public void setUp() throws Exception {
+		System.out.println("JavaClassContentAssistProviderTest.setUp");
 		loadProjects();
 		List<IProject> projectList = new ArrayList<IProject>();
 		projectList.add(jsfProject);
@@ -48,6 +49,7 @@ public class JavaClassContentAssistProviderTest extends TestCase {
 	}
 
 	public void testJavaClassContentAssistProvider() {
+		System.out.println("JavaClassContentAssistProviderTest.testJavaClassContentAssistProvider");
 		IModelNature n = EclipseResourceUtil.getModelNature(jsfProject);
 		XModel model = n.getModel();
 		XModelObject listener = model.createModelObject("WebAppListener24", new Properties());

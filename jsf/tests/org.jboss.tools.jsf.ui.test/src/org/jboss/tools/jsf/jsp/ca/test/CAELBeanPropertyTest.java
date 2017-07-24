@@ -34,10 +34,12 @@ public class CAELBeanPropertyTest extends ContentAssistantTestCase {
 	private static final String PROPERTY_BEAN = "User";
 	
 	public void setUp() throws Exception {
+		System.out.println("CAELBeanPropertyTest.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 	
 	public void testCAELBeanProperty () {
+		System.out.println("CAELBeanPropertyTest.testCAELBeanProperty");
 		assertNotNull("Test project \"" + PROJECT_NAME + "\" is not loaded", project);
 
 		openEditor(PAGE_NAME);
@@ -47,6 +49,7 @@ public class CAELBeanPropertyTest extends ContentAssistantTestCase {
 			assertFalse("Required node '" + PREFIX + "' not found in document", (start == -1));
 			int offsetToTest = start + PREFIX.length();
 			
+			System.out.println("CAELBeanPropertyTest.52_JobUtils.waitForIdle()");
 			JobUtils.waitForIdle();
 			
 			List<ICompletionProposal> res = CATestUtil.collectProposals(contentAssistant, viewer, offsetToTest);

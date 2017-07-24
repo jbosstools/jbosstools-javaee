@@ -41,6 +41,7 @@ public class CAJsfMessagesProposalsFilteringTest extends ContentAssistantTestCas
 	private static final String[] PROPOSAL_TO_COMPARE_MSGS_STRING = {"msgs"};
 	
 	public void setUp() throws Exception {
+		System.out.println("CAJsfMessagesProposalsFilteringTest.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
@@ -49,6 +50,7 @@ public class CAJsfMessagesProposalsFilteringTest extends ContentAssistantTestCas
 	}
 
 	private void doTestCAJsfMessagesFilteringTest(String pageName, String attrPrefix, String[] correctProposals, String[] wrongProposals) {
+		System.out.println("CAJsfMessagesProposalsFilteringTest.doTestCAJsfMessagesFilteringTest");
 		String documentContent = document.get();
 		int start = (documentContent == null ? -1 : documentContent.indexOf(attrPrefix));
 		assertFalse("Required node '" + attrPrefix + "' not found in document", (start == -1));
@@ -83,6 +85,7 @@ public class CAJsfMessagesProposalsFilteringTest extends ContentAssistantTestCas
 	}
 	
 	public void testCAJsfMessagesFiltering() {
+		System.out.println("CAJsfMessagesProposalsFilteringTest.testCAJsfMessagesFiltering");
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
 		
 		openEditor(PAGE_NAME);

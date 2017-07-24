@@ -34,15 +34,18 @@ public class JsfJspJbide1704Test extends ContentAssistantTestCase {
 	}
 
 	public void setUp() throws Exception {
+		System.out.println("JsfJspJbide1704Test.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
 	public void testJspJbide1704 () {
+		System.out.println("JsfJspJbide1704Test.testJspJbide1704");
 		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
 		doTestJsfJspJbide1704(PAGE_NAME + ".jsp");
 	}
 	
 	public void testXhtmlJbide1704 () {
+		System.out.println("JsfJspJbide1704Test.testXhtmlJbide1704");
 		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
 		doTestJsfJspJbide1704(PAGE_NAME + ".xhtml");
 	}
