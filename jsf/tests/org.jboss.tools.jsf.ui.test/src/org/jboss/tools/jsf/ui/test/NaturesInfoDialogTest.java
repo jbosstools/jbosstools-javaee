@@ -69,22 +69,29 @@ public abstract class NaturesInfoDialogTest extends TestCase{
 	}
 
 	protected final ResultObject startCheckerThread() {
+		System.out.println("NaturesInfoDialogTest.startCheckerThread");
         final Shell[] shell = new Shell[1];
         final ResultObject resultObject = new ResultObject();
         Thread thread = new Thread(new Runnable() {
             public void run() {
+            	System.out.println("NaturesInfoDialogTest.77_waitForIdle");
                 TestUtil.waitForIdle();
                 while (shell[0] == null && isCheckNeed) {
+                	System.out.println("NaturesInfoDialogTest.80_syncExec");
                 	Display.getDefault().syncExec(new Runnable() {
                 		public void run() {
                             Shell[] shells = Display.getCurrent().getShells();
+                            System.out.println("NaturesInfoDialogTest.84_syncExec shells.size=" + shells.length);
                             shell[0] = findShellWithText(shells, TEST_SHELL_NAME);
                             if (shell[0] != null) {
+                            	System.out.println("NaturesInfoDialogTest shell[0] != null");
                                 resultObject.setShellName(TEST_SHELL_NAME);
                                 Label label = (Label)shell[0].getChildren()[1];
                                 resultObject.setTextLabel(label.getText());
+                                System.out.println("NaturesInfoDialogTest closing shell[0]");
                                 shell[0].close();
                             }
+                            System.out.println("NaturesInfoDialogTest shell[0] == null");
                 		}
                 	});
                 }
@@ -105,18 +112,18 @@ public abstract class NaturesInfoDialogTest extends TestCase{
 	
 	protected final void openPage(String projectName, String pagePath) throws Throwable{
 		IFile file = (IFile) testProject.getFolder("WebContent/pages").findMember(pagePath); //$NON-NLS-1$
-
+		System.out.println("NaturesInfoDialogTest file found");
 		assertNotNull("Could not open specified file. componentPage = " //$NON-NLS-1$
 						+ pagePath
 						+ ";projectName = " + projectName, file);//$NON-NLS-1$
 
 		IEditorInput input = new FileEditorInput(file);
-
+		
 		assertNotNull("Editor input is null", input); //$NON-NLS-1$
 		// open and get editor
-
+		System.out.println("NaturesInfoDialogTest input not null");
 		JSPMultiPageEditorPart part = TestUtil.openEditor(input);
-
+		System.out.println("NaturesInfoDialogTest editor opened");
 		isCheckNeed = false;
 		
 		assertNotNull("Editor is not opened", part); //$NON-NLS-1$
