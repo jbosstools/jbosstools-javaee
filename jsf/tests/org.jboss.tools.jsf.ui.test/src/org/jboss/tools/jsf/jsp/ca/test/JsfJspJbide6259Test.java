@@ -37,6 +37,7 @@ public class JsfJspJbide6259Test extends ContentAssistantTestCase {
 	}
 
 	public void setUp() throws Exception {
+		System.out.println("JsfJspJbide6259Test.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
@@ -68,7 +69,7 @@ public class JsfJspJbide6259Test extends ContentAssistantTestCase {
 	private void testProposals (List<ICompletionProposal> proposals, String[] testCases, String[] wrongCases) {
 		// testCases is the array of proposals which are strict to be present
 		// wrongCases is the array of proposals which are strict to be absent
-		
+		System.out.println("JsfJspJbide6259Test.testProposals");
 		Set<String> existingCases = new HashSet<String>();
 		for (ICompletionProposal p : proposals) {
 			if (!(p instanceof AutoELContentAssistantProposal))
@@ -103,6 +104,7 @@ public class JsfJspJbide6259Test extends ContentAssistantTestCase {
 	}
 	
 	public void testJspJbide6259 () {
+		System.out.println("JsfJspJbide6259Test.testJspJbide6259");
 		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
 
 		openEditor(PAGE_NAME);

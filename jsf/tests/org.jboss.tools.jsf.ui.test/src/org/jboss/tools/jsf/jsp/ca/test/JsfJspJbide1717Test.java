@@ -37,10 +37,12 @@ public class JsfJspJbide1717Test extends ContentAssistantTestCase {
 	}
 
 	public void setUp() throws Exception {
+		System.out.println("JsfJspJbide1717Test.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
 	public void testJstJspJbide1717() {
+		System.out.println("JsfJspJbide1717Test.testJstJspJbide1717");
 		openEditor(PAGE_NAME);
 
 		// Find start of <h:outputText> tag
@@ -76,6 +78,7 @@ public class JsfJspJbide1717Test extends ContentAssistantTestCase {
 		assertFalse("Content Assistant returned no proposals of type CustomCompletionProposal.",customCompletionProposals.isEmpty());
 
 		try {
+			System.out.println("JsfJspJbide1717Test.81_JobUtils.waitForIdle");
 			JobUtils.waitForIdle();
 		} catch (Exception e) {
 			e.printStackTrace();

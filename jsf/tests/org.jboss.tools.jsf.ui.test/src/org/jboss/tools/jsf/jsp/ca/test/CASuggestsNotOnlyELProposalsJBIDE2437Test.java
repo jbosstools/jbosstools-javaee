@@ -34,10 +34,12 @@ public class CASuggestsNotOnlyELProposalsJBIDE2437Test extends ContentAssistantT
 	}
 
 	public void setUp() throws Exception {
+		System.out.println("CASuggestsNotOnlyELProposalsJBIDE2437Test.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
 	public void testThereAreNotOnlyELProposalsJBIDE2437 () throws BadLocationException {
+		System.out.println("CASuggestsNotOnlyELProposalsJBIDE2437Test.testThereAreNotOnlyELProposalsJBIDE2437");
 		openEditor(PAGE_NAME);
 		JobUtils.waitForIdle();
 		

@@ -52,6 +52,7 @@ public class CAForELJavaAndJSTCompareTest extends ContentAssistantTestCase {
 	private static final String PREFIXES[] = new String[] {"#{us" , "#{user.na"};
 
 	public void setUp() throws Exception {
+		System.out.println("CAForELJavaAndJSTCompareTest.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
@@ -60,6 +61,7 @@ public class CAForELJavaAndJSTCompareTest extends ContentAssistantTestCase {
 	}
 
 	public void testCAForELJavaAndJSTCompare () {
+		System.out.println("CAForELJavaAndJSTCompareTest.testCAForELJavaAndJSTCompare");
 		for (String prefix : PREFIXES) {
 			ELProposalProcessor.Proposal javaProposals[] = getJavaEditorProposals(prefix);
 			assertFalse ("No EL Proposals found in Java file: " + JAVA_FILENAME, (javaProposals == null || javaProposals.length == 0));
@@ -104,6 +106,7 @@ public class CAForELJavaAndJSTCompareTest extends ContentAssistantTestCase {
 		
 			// Delay for 3 seconds so that
 			// the Favorites view can be seen.
+			System.out.println("CAForELJavaAndJSTCompareTest.109_JobUtils.waitForIdle");
 			JobUtils.waitForIdle();
 			
 			ISourceViewer viewer = javaEditor.getViewer();

@@ -30,7 +30,7 @@ public class JSFNaturesInfoDialog_JBIDE5701 extends NaturesInfoDialogTest {
 
 	
 	public void testJSFNaturesChecker() throws Throwable {
-		
+		System.out.println("JSFNaturesInfoDialog_JBIDE5701.testJSFNaturesChecker");
 		ResultObject resultObject = startCheckerThread();
 		
 		openPage(getTestProjectName(), TEST_PAGE_NAME);

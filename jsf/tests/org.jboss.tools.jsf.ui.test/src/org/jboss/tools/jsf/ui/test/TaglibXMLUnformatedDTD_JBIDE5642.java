@@ -50,6 +50,7 @@ public class TaglibXMLUnformatedDTD_JBIDE5642 extends TestCase {
 	}
 
 	public void testTaglibXMLUnformatedDTD() throws Throwable {
+		System.out.println("TaglibXMLUnformatedDTD_JBIDE5642.testTaglibXMLUnformatedDTD");
 		webProjectsView = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 				.getActivePage().showView(WEB_PROJECTS_VIEW_ID);
 		assertNotNull("Web Projects view is not available", webProjectsView); //$NON-NLS-1$
@@ -65,6 +66,7 @@ public class TaglibXMLUnformatedDTD_JBIDE5642 extends TestCase {
 	}
 
 	private Object findElementByPath(String path, final TreeViewer searchTreeViwer) {
+		System.out.println("TaglibXMLUnformatedDTD_JBIDE5642.findElementByPath");
 		Tree searchTree = searchTreeViwer.getTree();
 		if (searchTree == null || path == null) {
 			return null;
@@ -110,6 +112,7 @@ public class TaglibXMLUnformatedDTD_JBIDE5642 extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
+		System.out.println("TaglibXMLUnformatedDTD_JBIDE5642.setUp");
 		super.setUp();
 		JobUtils.waitForIdle();
 		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember(PROJECT_NAME);

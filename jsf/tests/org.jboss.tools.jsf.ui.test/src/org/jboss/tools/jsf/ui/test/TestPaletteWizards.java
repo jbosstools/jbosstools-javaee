@@ -21,11 +21,13 @@ public class TestPaletteWizards extends AbstractPaletteEntryTest implements HTML
 	public TestPaletteWizards() {}
 
 	public void setUp() {
+		System.out.println("TestPaletteWizards.setUp");
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject("testJSFProject");
 		editor = openEditor("WebContent/pages/testPalette.xhtml");
 	}
 
 	protected void tearDown() throws Exception {
+		System.out.println("TestPaletteWizards.tearDown");
 		if(currentDialog != null) {
 			currentDialog.close();
 		}

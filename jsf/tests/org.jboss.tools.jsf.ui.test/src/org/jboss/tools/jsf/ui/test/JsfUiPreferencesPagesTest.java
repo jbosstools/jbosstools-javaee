@@ -25,25 +25,30 @@ import org.junit.Test;
 public class JsfUiPreferencesPagesTest extends PreferencePageTest {
 
 	public void _testJsfCapabilitiesPreferencesPage() {
+		System.out.println("JsfUiPreferencesPagesTest._testJsfCapabilitiesPreferencesPage");
 		doDefaultTest(JSFCapabilitiesPreferencesPage.ID, JSFCapabilitiesPreferencesPage.class);
 	}
 	
 	@Test
 	public void testJSFFlowTabbedPreferencesPage() {
+		System.out.println("JsfUiPreferencesPagesTest.testJSFFlowTabbedPreferencesPage");
 		doDefaultTest(JSFFlowTabbedPreferencesPage.ID,JSFFlowTabbedPreferencesPage.class);
 	}
 	
 	public void _testJsfImplementationsPreferencesPage() {
+		System.out.println("JsfUiPreferencesPagesTest._testJsfImplementationsPreferencesPage");
 		doDefaultTest(JSFImplementationsPreferencesPage.ID,JSFImplementationsPreferencesPage.class);
 	}
 	
 	@Test
 	public void testJsfProjectPreferencesPage() {
+		System.out.println("JsfUiPreferencesPagesTest.testJsfProjectPreferencesPage");
 		doDefaultTest(JSFProjectPreferencesPage.ID,JSFProjectPreferencesPage.class);
 	}
 	
 	@Test
 	public void testJsfStudioPreferencesPage() {
+		System.out.println("JsfUiPreferencesPagesTest.testJsfStudioPreferencesPage");
 		doDefaultTest(JSFStudioPreferencesPage.ID,JSFStudioPreferencesPage.class);
 	}
 }

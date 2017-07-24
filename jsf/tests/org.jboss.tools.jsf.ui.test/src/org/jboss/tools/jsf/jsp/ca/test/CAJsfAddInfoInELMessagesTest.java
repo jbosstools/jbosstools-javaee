@@ -40,6 +40,7 @@ public class CAJsfAddInfoInELMessagesTest extends ContentAssistantTestCase {
 		};
 
 	public void setUp() throws Exception {
+		System.out.println("CAJsfAddInfoInELMessagesTest.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
@@ -48,6 +49,7 @@ public class CAJsfAddInfoInELMessagesTest extends ContentAssistantTestCase {
 	}
 
 	public void testCAJsfAddInfoInELMessages () {
+		System.out.println("CAJsfAddInfoInELMessagesTest.testCAJsfAddInfoInELMessages");
 		for (int i = 0; i < PREFIXES.length; i++) {
 			AutoELContentAssistantProposal jstProposals[] = getJSTProposals(PREFIXES[i]);
 			assertFalse ("No EL Proposals found in Web page: " + PAGE_NAME, (jstProposals == null || jstProposals.length == 0));
@@ -118,6 +120,7 @@ public class CAJsfAddInfoInELMessagesTest extends ContentAssistantTestCase {
 			assertFalse("Required node '" + prefix + "' not found in document", (start == -1));
 			int offsetToTest = start + prefix.length();
 			
+			System.out.println("CAJsfAddInfoInELMessagesTest.123_JobUtils.waitForIdle");
 			JobUtils.waitForIdle();
 			
 			List<ICompletionProposal> res = CATestUtil.collectProposals(contentAssistant, viewer, offsetToTest);

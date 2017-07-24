@@ -35,10 +35,12 @@ public class AddJSFCapabilitiesTest extends TestCase {
 	}
 
 	protected void setUp() throws Exception {
+		System.out.println("AddJSFCapabilitiesTest.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
 	public void testAddJSFCapabilities() {
+		System.out.println("AddJSFCapabilitiesTest.setUp");
 		IFile f = project.getFile(new Path(".settings/org.eclipse.wst.common.project.facet.core.xml"));
 		assertFalse(f.exists());
 

@@ -75,6 +75,7 @@ public class CAJsfMessagesProposalsTest extends ContentAssistantTestCase {
 	}
 	
 	public void testMessagesInLocalizedBundles() {
+		System.out.println("CAJsfMessagesProposalsTest.testMessagesInLocalizedBundles");
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
 		
 		openEditor(PAGE_NAME);

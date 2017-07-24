@@ -70,6 +70,7 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 
 	@Override
 	protected void setUp() throws Exception {
+		System.out.println("JSPProblemMarkerResolutionTest.setUp");
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject("test_jsf_project");
 		isSuspendedValidationDefaultValue = ValidationFramework.getDefault().isSuspended();
 		ValidationFramework.getDefault().suspendAllValidation(false);
@@ -78,10 +79,12 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 	}
 	
 	public void tearDown() throws Exception {
+		System.out.println("JSPProblemMarkerResolutionTest.tearDown");
 		ValidationFramework.getDefault().suspendAllValidation(isSuspendedValidationDefaultValue);
 	}
 	
 	private void validate(IFile file) throws CoreException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException{
+		System.out.println("JSPProblemMarkerResolutionTest.validate");
 		MarkerManager manager = MarkerManager.getDefault();
 		
 		if(JSP_EXT.equals(file.getFileExtension())){
@@ -161,6 +164,8 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 	}
 	
 	public void testAddTLDMarkerResolutionInJSP() throws CoreException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException {
+		System.out.println("JSPProblemMarkerResolutionTest.testAddTLDMarkerResolutionInJSP");
+		
 		IFile jspFile = project.getFile("WebContent/pages/test_page1.jsp");
 		
 		assertTrue("File must be exists.",jspFile.exists());
@@ -194,6 +199,8 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 	}
 	
 	public void testAddAttributeMarkerResolutionInJSP() throws CoreException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException {
+		System.out.println("JSPProblemMarkerResolutionTest.testAddAttributeMarkerResolutionInJSP");
+		
 		IFile jspFile = project.getFile("WebContent/pages/test_page2.jsp");
 		
 		assertTrue("File must be exists.",jspFile.exists());
@@ -227,6 +234,8 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 	}
 
 	public void testProblemMarkerResolutionInXHTML() throws CoreException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException {
+		System.out.println("JSPProblemMarkerResolutionTest.testProblemMarkerResolutionInXHTML");
+		
 		IFile jspFile = project.getFile("WebContent/pages/test_page2.xhtml");
 		
 		assertTrue("File must be exists.",jspFile.exists());
@@ -260,14 +269,18 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 	}
 	
 	public void testQuickFixesForTemporaryAnnotationInJSP() throws PartInitException, BadLocationException{
+		System.out.println("JSPProblemMarkerResolutionTest.testQuickFixesForTemporaryAnnotationInJSP");
 		checkQuickFixForTemporaryAnnotation("WebContent/pages/test_page3.jsp", 1);
 	}
 	
 	public void testQuickFixesForTemporaryAnnotationInXHTML() throws PartInitException, BadLocationException{
+		System.out.println("JSPProblemMarkerResolutionTest.testQuickFixesForTemporaryAnnotationInXHTML");
 		checkQuickFixForTemporaryAnnotation("WebContent/pages/test_page3.xhtml", 5);
 	}
 	
 	private void checkQuickFixForTemporaryAnnotation(String fileName, int lineToDelete) throws PartInitException, BadLocationException{
+		System.out.println("JSPProblemMarkerResolutionTest.checkQuickFixForTemporaryAnnotation");
+		
 		IFile jspFile = project.getFile(fileName);
 		
 		assertTrue("File not found",jspFile.exists());
@@ -310,6 +323,7 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 	
 	private TemporaryAnnotation waitForProblemAnnotationAppearance(
 			final IAnnotationModel annotationModel, final String name, final int seconds) {
+		System.out.println("JSPProblemMarkerResolutionTest.waitForProblemAnnotationAppearance");
 		final TemporaryAnnotation[] result = new TemporaryAnnotation[]{null};
 
 		Display.getDefault().syncExec(new Runnable() {
@@ -318,6 +332,7 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 				boolean isFirstPass = true;
 				while (secondsLeft-- > 0) {
 					if (!isFirstPass) {
+						System.out.println("JSPProblemMarkerResolutionTest.335_JobUtils.delay");
 						JobUtils.delay(1000);
 
 						// clean deffered events

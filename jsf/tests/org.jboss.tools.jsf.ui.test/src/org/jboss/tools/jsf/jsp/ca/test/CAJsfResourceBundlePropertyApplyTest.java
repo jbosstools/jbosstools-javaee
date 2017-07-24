@@ -39,6 +39,7 @@ import org.jboss.tools.test.util.ProjectImportTestSetup;
 	private static final String END_OF_SEQUENCE[] = {"\"", "]"};
 
 	public void setUp() throws Exception {
+		System.out.println("CAJsfResourceBundlePropertyApplyTest.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
@@ -48,6 +49,7 @@ import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 	@SuppressWarnings("restriction")
 	private void doTestCAJsfResourceBundlePropertyApply(String insertBefore, String insertion, String endOfSequence, String template, String proposalToApply, String compareString) {
+		System.out.println("CAJsfResourceBundlePropertyApplyTest.doTestCAJsfResourceBundlePropertyApply");
 		// Find start of <ui:composition> tag
 		String documentContent = document.get();
 
@@ -99,6 +101,7 @@ import org.jboss.tools.test.util.ProjectImportTestSetup;
 	}
 	
 	public void testdoTestCAJsfResourceBundlePropertyApplyInAttributeValue() {
+		System.out.println("CAJsfResourceBundlePropertyApplyTest.testdoTestCAJsfResourceBundlePropertyApplyInAttributeValue");
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
 		
 		openEditor(PAGE_NAME);
@@ -110,6 +113,7 @@ import org.jboss.tools.test.util.ProjectImportTestSetup;
 	}
 
 	public void testdoTestCAJsfResourceBundlePropertyApplyInTextBody() {
+		System.out.println("CAJsfResourceBundlePropertyApplyTest.testdoTestCAJsfResourceBundlePropertyApplyInTextBody");
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
 		
 		openEditor(PAGE_NAME);

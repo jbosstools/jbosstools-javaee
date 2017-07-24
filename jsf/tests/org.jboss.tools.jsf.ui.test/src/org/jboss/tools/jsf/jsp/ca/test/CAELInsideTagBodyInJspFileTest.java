@@ -38,6 +38,7 @@ public class CAELInsideTagBodyInJspFileTest extends ContentAssistantTestCase {
 	private static final String[] PROPOSAL_TO_COMPARE_AFTER_INSERTION = {"user", "Message"};
 	
 	public void setUp() throws Exception {
+		System.out.println("CAELInsideTagBodyInJspFileTest.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
@@ -46,6 +47,7 @@ public class CAELInsideTagBodyInJspFileTest extends ContentAssistantTestCase {
 	}
 
 	private void doCAELInsideTagBodyInJspFileTest(String pageName, String attrPrefix, String[] correctProposals) {
+		System.out.println("CAELInsideTagBodyInJspFileTest.doCAELInsideTagBodyInJspFileTest");
 		String documentContent = document.get();
 		int start = (documentContent == null ? -1 : documentContent.indexOf(attrPrefix));
 		assertFalse("Required prefix text '" + attrPrefix + "' not found in document", (start == -1));
@@ -80,6 +82,7 @@ public class CAELInsideTagBodyInJspFileTest extends ContentAssistantTestCase {
 	}
 	
 	public void testCAELInsideTagBodyInJspFile() {
+		System.out.println("CAELInsideTagBodyInJspFileTest.testCAELInsideTagBodyInJspFile");
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
 		
 		openEditor(PAGE_NAME);

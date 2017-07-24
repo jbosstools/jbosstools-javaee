@@ -34,10 +34,12 @@ public class CAJsfPredictiveTagNameProposalsTest extends ContentAssistantTestCas
 	private static final String PROPOSAL_TO_APPLY = "<ui:define";
 	
 	public void setUp() throws Exception {
+		System.out.println("CAJsfPredictiveTagNameProposalsTest.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
 	public void testJsfPredictiveTagNameProposals() {
+		System.out.println("CAJsfPredictiveTagNameProposalsTest.testJsfPredictiveTagNameProposals");
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
 		
 		openEditor(PAGE_NAME);
@@ -55,6 +57,7 @@ public class CAJsfPredictiveTagNameProposalsTest extends ContentAssistantTestCas
 
 			// Update the document with a new text
 			document.set(newDocumentContent);
+			System.out.println("CAJsfPredictiveTagNameProposalsTest.60_JobUtils.waitForIdle()");
 			JobUtils.waitForIdle();
 			
 			List<ICompletionProposal> res = CATestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
@@ -77,7 +80,8 @@ public class CAJsfPredictiveTagNameProposalsTest extends ContentAssistantTestCas
 				}
 			}
 			assertTrue("The proposal to apply not found.", bPropoosalToApplyFound && replacementString != null);
-
+				
+			System.out.println("CAJsfPredictiveTagNameProposalsTest.84_JobUtils.waitForIdle()");
 			JobUtils.waitForIdle();
 
 			String documentUpdatedContent = document.get();

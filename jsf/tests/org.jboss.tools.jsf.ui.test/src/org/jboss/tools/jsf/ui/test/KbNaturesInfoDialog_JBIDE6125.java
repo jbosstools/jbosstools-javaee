@@ -31,7 +31,7 @@ public class KbNaturesInfoDialog_JBIDE6125 extends NaturesInfoDialogTest {
 	}
 
 	public void testKBNaturesChecker() throws Throwable {
-
+System.out.println("KbNaturesInfoDialog_JBIDE6125.testKBNaturesChecker");
 		ResultObject resultObject = startCheckerThread();
 
 		openPage(getTestProjectName(), TEST_PAGE_NAME);

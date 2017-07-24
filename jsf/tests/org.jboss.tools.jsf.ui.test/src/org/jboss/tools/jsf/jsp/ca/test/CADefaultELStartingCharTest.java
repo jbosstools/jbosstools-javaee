@@ -40,6 +40,7 @@ public class CADefaultELStartingCharTest  extends ContentAssistantTestCase {
 	private static final String COMPARE_STRING = "#{person}";
 	
 	public void setUp() throws Exception {
+		System.out.println("CADefaultELStartingCharTest.setUp");
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
 	}
 
@@ -90,6 +91,7 @@ public class CADefaultELStartingCharTest  extends ContentAssistantTestCase {
 	}
 	
 	public void testCADefaultELStartingCharInJSP() {
+		System.out.println("CADefaultELStartingCharTest.testCADefaultELStartingCharInJSP");
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
 		
 		openEditor(JSP_PAGE_NAME);
@@ -101,6 +103,7 @@ public class CADefaultELStartingCharTest  extends ContentAssistantTestCase {
 	}
 
 	public void testCADefaultELStartingCharTestInXHTML() {
+		System.out.println("CADefaultELStartingCharTest.testCADefaultELStartingCharTestInXHTML");
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
 		
 		openEditor(XHTML_PAGE_NAME);
