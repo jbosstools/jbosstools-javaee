@@ -139,9 +139,9 @@ public abstract class NaturesInfoDialogTest extends TestCase{
 		WebUiPlugin.getDefault().getPreferenceStore().setValue(IVpePreferencesPage.INFORM_WHEN_PROJECT_MIGHT_NOT_BE_CONFIGURED_PROPERLY_FOR_VPE, true);
 		System.out.println("NaturesInfoDialogTest.140_preferences_set");
 		testProject = ProjectImportTestSetup.loadProject(getTestProjectName());
-		System.out.println("NaturesInfoDialogTest.142_project_loaded");
-		testProject.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		System.out.println("NaturesInfoDialogTest.142_project_build");
+		System.out.println("NaturesInfoDialogTest.142_project_loaded_and_built");
+		//testProject.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+		//System.out.println("NaturesInfoDialogTest.142_project_build");
 	}
 	
 	@Override
