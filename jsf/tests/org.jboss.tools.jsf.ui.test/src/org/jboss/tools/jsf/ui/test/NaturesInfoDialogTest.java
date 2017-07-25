@@ -132,18 +132,26 @@ public abstract class NaturesInfoDialogTest extends TestCase{
 	
 	@Override
 	protected void setUp() throws Exception {
+		System.out.println("NaturesInfoDialogTest.135_setUp");
 		super.setUp();
 		System.setProperty("org.jboss.tools.vpe.ENABLE_PROJECT_NATURES_CHECKER", "true");  //$NON-NLS-1$ //$NON-NLS-2$
-	    WebUiPlugin.getDefault().getPreferenceStore().setValue(IVpePreferencesPage.INFORM_WHEN_PROJECT_MIGHT_NOT_BE_CONFIGURED_PROPERLY_FOR_VPE, true);
+		System.out.println("NaturesInfoDialogTest.138_propertyset");
+		WebUiPlugin.getDefault().getPreferenceStore().setValue(IVpePreferencesPage.INFORM_WHEN_PROJECT_MIGHT_NOT_BE_CONFIGURED_PROPERLY_FOR_VPE, true);
+		System.out.println("NaturesInfoDialogTest.140_preferences_set");
 		testProject = ProjectImportTestSetup.loadProject(getTestProjectName());
+		System.out.println("NaturesInfoDialogTest.142_project_loaded");
 		testProject.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+		System.out.println("NaturesInfoDialogTest.142_project_build");
 	}
 	
 	@Override
 	protected void tearDown() throws Exception {
+		System.out.println("NaturesInfoDialogTest.tearDown");
 		WebUiPlugin.getDefault().getPreferenceStore().setValue(IVpePreferencesPage.INFORM_WHEN_PROJECT_MIGHT_NOT_BE_CONFIGURED_PROPERLY_FOR_VPE, false);
+		System.out.println("NaturesInfoDialogTest.146_System.setProperty");
 		System.setProperty("org.jboss.tools.vpe.ENABLE_PROJECT_NATURES_CHECKER", "false"); //$NON-NLS-1$ //$NON-NLS-2$
 		super.tearDown();
+		System.out.println("NaturesInfoDialogTest.146_System.tearDownfinished");
 	}
 	
 	protected abstract String getTestProjectName();

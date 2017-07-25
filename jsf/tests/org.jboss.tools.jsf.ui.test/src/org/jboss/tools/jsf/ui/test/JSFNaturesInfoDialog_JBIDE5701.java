@@ -38,9 +38,10 @@ public class JSFNaturesInfoDialog_JBIDE5701 extends NaturesInfoDialogTest {
 		if ("".equals(resultObject.getShellName()) && "".equals(resultObject.getTextLabel())) { //$NON-NLS-1$ //$NON-NLS-2$
 			throw new Exception("Project natures checker dialog hasn't appeared :(("); //$NON-NLS-1$
 		}
-		
+		System.out.println("JSFNaturesInfoDialog_JBIDE5701.41_assert_run");
 		assertEquals(TEST_SHELL_NAME, resultObject.getShellName());
 		assertEquals(getDialogMessage(), resultObject.getTextLabel());
+		System.out.println("JSFNaturesInfoDialog_JBIDE5701.41_assert_finished");
 	
 	}
 
