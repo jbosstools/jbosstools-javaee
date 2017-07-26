@@ -21,7 +21,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.common.util.ResourcesUtils;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jst.web.ui.WebUiPlugin;
 import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditorPart;
@@ -146,10 +148,12 @@ public abstract class NaturesInfoDialogTest extends TestCase{
 	
 	@Override
 	protected void tearDown() throws Exception {
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeAllEditors(false);
 		System.out.println("NaturesInfoDialogTest.tearDown");
 		WebUiPlugin.getDefault().getPreferenceStore().setValue(IVpePreferencesPage.INFORM_WHEN_PROJECT_MIGHT_NOT_BE_CONFIGURED_PROPERLY_FOR_VPE, false);
 		System.out.println("NaturesInfoDialogTest.146_System.setProperty");
 		System.setProperty("org.jboss.tools.vpe.ENABLE_PROJECT_NATURES_CHECKER", "false"); //$NON-NLS-1$ //$NON-NLS-2$
+		System.out.println("NaturesInfoDialogTest.156_project_deleted");
 		super.tearDown();
 		System.out.println("NaturesInfoDialogTest.146_System.tearDownfinished");
 	}
