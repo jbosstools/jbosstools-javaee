@@ -30,7 +30,7 @@
 							<goal>wget</goal>
 						</goals>
 						<configuration>
-							<url>http://sourceforge.net/projects/jboss/files/JBoss%20Seam/2.3.0.Final/jboss-seam-distribution-2.3.0.Final-dist.zip</url>
+							<url>http://download.jboss.org/jbosstools/requirements/jboss-seam/jboss-seam-distribution-2.3.0.Final-dist.zip</url>
 							<unpack>true</unpack>
 							<outputDirectory>${requirementsDirectory}/jboss-seam-2.3.0</outputDirectory>
 							<md5>f5fcb2ae2b17514feb2a2d3bbf5f4e2b</md5>
