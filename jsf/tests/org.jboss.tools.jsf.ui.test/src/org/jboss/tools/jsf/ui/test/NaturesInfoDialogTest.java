@@ -11,22 +11,21 @@
 
 package org.jboss.tools.jsf.ui.test;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jst.web.ui.WebUiPlugin;
 import org.jboss.tools.jst.web.ui.internal.editor.jspeditor.JSPMultiPageEditorPart;
 import org.jboss.tools.jst.web.ui.internal.editor.preferences.IVpePreferencesPage;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
+
+import junit.framework.TestCase;
 
 /**
  * 
