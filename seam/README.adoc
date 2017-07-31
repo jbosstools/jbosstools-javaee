@@ -1,0 +1,5 @@
+# The JavaEE Tools project - Seam
+
+## Summary
+
+Seam is deprecated as of JBoss Tools 4.5.0.

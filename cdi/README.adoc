@@ -1,0 +1,5 @@
+# The JavaEE Tools project - CDI
+
+## Summary
+
+CDI is deprecated as of JBoss Tools 4.5.0.
