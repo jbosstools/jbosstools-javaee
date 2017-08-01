@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.jboss.tools.cdi</groupId>
 		<artifactId>tests</artifactId>
-		<version>1.8.3-SNAPSHOT</version>
+		<version>1.8.100-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.tools.cdi.tests</groupId>
 	<artifactId>org.jboss.tools.cdi.seam.faces.core.test</artifactId> 
