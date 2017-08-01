@@ -1922,17 +1922,34 @@ try {
 									IMethod[] methods = injection.getType().getType().getMethods();
 									boolean hasDefaultConstructor = false;
 									boolean hasConstructor = false;
+									boolean unproxyable = false;
 									for (IMethod method : methods) {
 										hasConstructor = hasConstructor || method.isConstructor();
 										hasDefaultConstructor = hasDefaultConstructor || (method.isConstructor() && !Flags.isPrivate(method.getFlags()) && method.getParameterNames().length==0);
 										if(Flags.isFinal(method.getFlags())) {
-											// - Classes which have final methods cannot be proxied by the container.
-											addProblem(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM[getVersionIndex(injection)], injection.getType().getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
-											hasDefaultConstructor = true;
-											break;
+											if(cdiProject.getVersion() == CDIVersion.CDI_1_0) {
+												/*
+												 * CDI 1.0 specification:
+												 * 5.4.1. Unproxyable bean types
+												 *  - classes which are declared final or have final methods,
+												 */
+												unproxyable = true;
+												break;
+											}
+											if (!Flags.isStatic(method.getFlags()) && !Flags.isPrivate(method.getFlags())) {
+												/*
+												 * CDI 1.1 specification:
+												 * 3.15. Unproxyable bean types
+												 *  - classes which have non-static, final methods with public, protected or default visibility,
+												 */
+												unproxyable = true;
+												break;
+											}
 										}
 									}
-									if(!hasDefaultConstructor && hasConstructor) {
+									if(unproxyable) {
+										addProblem(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM[getVersionIndex(injection)], injection.getType().getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+									} else if(!hasDefaultConstructor && hasConstructor) {
 										// - Classes which don't have a non-private constructor with no parameters cannot be proxied by the container.
 										addProblem(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC[getVersionIndex(injection)], injection.getType().getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
 									}
@@ -2037,17 +2054,34 @@ try {
 						IMethod[] methods = type.getType().getMethods();
 						boolean hasDefaultConstructor = false;
 						boolean hasConstructor = false;
+						boolean unproxyable = false;
 						for (IMethod method : methods) {
 							hasConstructor = hasConstructor || method.isConstructor();
 							hasDefaultConstructor = hasDefaultConstructor || (method.isConstructor() && !Flags.isPrivate(method.getFlags()) && method.getParameterNames().length==0);
 							if(Flags.isFinal(method.getFlags())) {
-								// - Classes which have final methods cannot be proxied by the container.
-								addProblem(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM_2[getVersionIndex(bean)], type.getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, bean.getResource());
-								hasDefaultConstructor = true;
-								break;
+								if(bean.getCDIProject().getVersion() == CDIVersion.CDI_1_0) {
+									/*
+									 * CDI 1.0 specification:
+									 * 5.4.1. Unproxyable bean types
+									 *  - classes which are declared final or have final methods,
+									 */
+									unproxyable = true;
+									break;
+								}
+								if (!Flags.isStatic(method.getFlags()) && !Flags.isPrivate(method.getFlags())) {
+									/*
+									 * CDI 1.1 specification:
+									 * 3.15. Unproxyable bean types
+									 *  - classes which have non-static, final methods with public, protected or default visibility,
+									 */
+									unproxyable = true;
+									break;
+								}
 							}
 						}
-						if(!hasDefaultConstructor && hasConstructor) {
+						if(unproxyable) {
+							addProblem(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM_2[getVersionIndex(bean)], type.getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, bean.getResource());
+						} else if(!hasDefaultConstructor && hasConstructor) {
 							// - Classes which don't have a non-private constructor with no parameters cannot be proxied by the container.
 							addProblem(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC_2[getVersionIndex(bean)], type.getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, bean.getResource());
 						}
