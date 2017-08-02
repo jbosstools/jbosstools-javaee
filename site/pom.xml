@@ -9,10 +9,9 @@
 	</parent>
 	<groupId>org.jboss.tools</groupId>
 	<artifactId>javaee.site</artifactId>
+	
 	<packaging>eclipse-repository</packaging>
-
 	<properties>
-		<update.site.name>JBoss Tools - JavaEE</update.site.name>
+		<skipDeployToJBossOrg>false</skipDeployToJBossOrg>
 	</properties>
-
 </project>
