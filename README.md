@@ -4,7 +4,7 @@
 
 JavaEE Tools provides Eclipse plugins for features related to development on JavaEE. This includes Batch, JSF & struts. 
 
-Seam 2 & CDI (Seam 3) are deprecated as of JBoss Tools 4.5.0. 
+Seam 2 & Seam 3 (org.jboss.tools.cdi.seam.feature) are deprecated as of JBoss Tools 4.5.0. 
 
 ## Install
 
