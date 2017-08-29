@@ -1,0 +1,9 @@
+package org.jboss.jsr299.tck.tests.jbt.quickfixes;
+
+import javax.enterprise.context.SessionScoped;
+import java.io.Serializable;
+
+@SessionScoped
+public class SecondBean extends FirstBean implements Serializable {
+	private static final long serialVersionUID = 1L;
+}

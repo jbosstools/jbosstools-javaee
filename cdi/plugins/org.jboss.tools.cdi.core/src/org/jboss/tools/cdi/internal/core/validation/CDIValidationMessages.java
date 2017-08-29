@@ -202,7 +202,20 @@ public class CDIValidationMessages {
 	public static String[] DUPLICATE_INTERCEPTOR_CLASS;
 
 	public static String[] MISSING_BEANS_XML = createTemplate(0, 0);
-
+	
+	public static String[] OBSERVER_ASYNC_PRIORITY;
+	public static String[] ILLEGAL_CONDITIONAL_OBSERVER_ASYNC;
+	public static String[] MULTIPLE_OBSERVING_PARAMETERS_ASYNC;
+	public static String[] CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES_ASYNC;
+	public static String[] OBSERVER_ANNOTATED_INJECT_ASYNC;
+	public static String[] OBSERVER_ASYNC_IN_DECORATOR;
+	public static String[] OBSERVER_ASYNC_IN_INTERCEPTOR;
+	public static String[] ILLEGAL_OBSERVER_ASYNC_IN_SESSION_BEAN;
+	public static String[] PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES_ASYNC;
+	public static String[] OBSERVER_ASYNC_PARAMETER_ILLEGALLY_ANNOTATED;
+	public static String[] OBSERVER_AND_OBSERVER_ASYNC_ERROR;
+	public static String[] OBSERVER_AND_OBSERVER_ASYNC_METHOD_ERROR;
+	
 	static {
 		try {
 			init();
@@ -233,7 +246,8 @@ public class CDIValidationMessages {
 		Class<?>[] versionMessages = {
 			CDIValidationMessages10.class,
 			CDIValidationMessages11.class,
-			CDIValidationMessages12.class
+			CDIValidationMessages12.class,
+			CDIValidationMessages20.class
 		};
 		for (Field f: CDIValidationMessages.class.getFields()) {
 			if(!Modifier.isStatic(f.getModifiers())) {

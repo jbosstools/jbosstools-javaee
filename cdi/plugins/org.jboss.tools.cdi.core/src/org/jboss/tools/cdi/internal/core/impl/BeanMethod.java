@@ -94,6 +94,13 @@ public class BeanMethod extends BeanMember implements IBeanMethod {
 		}
 		return false;
 	}
+	
+	public boolean isObserverAsync() {
+		for (IParameter p: parameters) {
+			if(p.isAnnotationPresent(CDIConstants.OBSERVERS_ASYNC_ANNOTATION_TYPE_NAME)) return true;
+		}
+		return false;
+	}
 
 	/*
 	 * (non-Javadoc)

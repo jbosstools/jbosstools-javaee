@@ -94,6 +94,8 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 				bm = new InitializerMethod();
 			} else if(m.isObserver()) {
 				bm = new ObserverMethod();
+			} else if(m.isObserverAsync()) {
+				bm = new ObserverAsyncMethod();
 			} else if(m.isDisposer()) {
 				bm = new DisposerMethod();
 			} else {

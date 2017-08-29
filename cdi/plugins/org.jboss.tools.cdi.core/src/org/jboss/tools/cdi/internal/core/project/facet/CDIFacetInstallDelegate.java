@@ -38,6 +38,7 @@ public class CDIFacetInstallDelegate implements ILogListener, IDelegate,
 	public static final IProjectFacetVersion CDI_10 = CDI_FACET.getVersion(CDIVersion.CDI_1_0.toString()); //$NON-NLS-1$
 	public static final IProjectFacetVersion CDI_11 = CDI_FACET.getVersion(CDIVersion.CDI_1_1.toString()); //$NON-NLS-1$
 	public static final IProjectFacetVersion CDI_12 = CDI_FACET.getVersion(CDIVersion.CDI_1_2.toString()); //$NON-NLS-1$
+	public static final IProjectFacetVersion CDI_20 = CDI_FACET.getVersion(CDIVersion.CDI_2_0.toString()); //$NON-NLS-1$
 
 	private boolean errorOccurs = false;
 
@@ -61,7 +62,13 @@ public class CDIFacetInstallDelegate implements ILogListener, IDelegate,
 		boolean generateBeansXml = model.getBooleanProperty(GENERATE_BEANS_XML);
 		CDIVersion beansXmlVersion = null;
 		if(generateBeansXml) {
-			beansXmlVersion = fv.compareTo(CDI_10) == 0 ? CDIVersion.CDI_1_0 : CDIVersion.CDI_1_1;
+			if(fv.compareTo(CDI_10) == 0 ) {
+				beansXmlVersion = CDIVersion.CDI_1_0;
+			} else if (fv.compareTo(CDI_20) == 0) {
+				beansXmlVersion =  CDIVersion.CDI_2_0;
+			} else {
+				beansXmlVersion = CDIVersion.CDI_1_1;
+			}
 		}
 		CDIUtil.enableCDI(project, beansXmlVersion, monitor);
 		if(errorOccurs) {

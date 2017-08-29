@@ -18,6 +18,7 @@ import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages10;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages11;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages12;
+import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages20;
 
 import junit.framework.TestCase;
 
@@ -31,7 +32,8 @@ public class CDIValidationMessagesTest extends TestCase {
 	static Class[] versionMessages = {
 		CDIValidationMessages10.class,
 		CDIValidationMessages11.class,
-		CDIValidationMessages12.class
+		CDIValidationMessages12.class,
+		CDIValidationMessages20.class
 	};
 
 	public CDIValidationMessagesTest() {}

@@ -7,17 +7,16 @@
  * 
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
- ******************************************************************************/ 
+ ******************************************************************************/
 package org.jboss.tools.cdi.core.test;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.cdi.core.test.ca.BeansXmlCACDI11Test;
 import org.jboss.tools.cdi.core.test.ca.BeansXmlCACDI12Test;
+import org.jboss.tools.cdi.core.test.ca.BeansXmlCACDI20Test;
 import org.jboss.tools.cdi.core.test.ca.BeansXmlCATest;
+import org.jboss.tools.cdi.core.test.cdi20.validation.ObservesAsyncTest;
 import org.jboss.tools.cdi.core.test.extension.ExtensionFactoryTest;
 import org.jboss.tools.cdi.core.test.extension.ExtensionManagerTest;
 import org.jboss.tools.cdi.core.test.extension.ExtensionsInSrsAndUsedProjectTest;
@@ -193,8 +192,65 @@ import org.jboss.tools.cdi.core.test.tck12.validation.ELReferenceCDI12Test;
 import org.jboss.tools.cdi.core.test.tck12.validation.IncrementalValidationCDI12Test;
 import org.jboss.tools.cdi.core.test.tck12.validation.SuppressWarningsCDI12Tests;
 import org.jboss.tools.cdi.core.test.tck12.validation.WeldValidationCDI12Test;
+import org.jboss.tools.cdi.core.test.tck20.AssignabilityOfRawAndParameterizedTypesCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.BeanDefinitionCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.BeanSpecializationCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.BuiltInBeanInjectionCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.CDIProjectAsYouTypeCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.CDIUtilCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.CoreCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.DecoratorDefinitionCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.DefaultNamedCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.EnterpriseQualifierDefinitionCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.EnterpriseResolutionByTypeCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.EnterpriseScopeDefinitionCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.EnterpriseStereotypeDefinitionCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.InjectionPointCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.InjectionPointWithNewQualifierCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.InterceptorDefinitionCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.NameDefinitionCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.NamedBeanRefactoringCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.ObserverMethodResolutionCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.PriorityCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.ProducerMethodDefinitionCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.QualifierDefinitionCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.QualifierWithMembersCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.ResolvedTypesCacheCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.ResourceExclusionCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.ScopeDefinitionCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.SelectedAlternativeCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.StereotypeDefinitionCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.StereotypeInheritenceCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.VetoedCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.lookup.AmbiguousDependencyCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.lookup.CircularDependencyCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.lookup.DynamicLookupCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.lookup.PackageInfoCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.lookup.ResolutionByNameCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.lookup.ResolutionByTypeCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.lookup.UnsatisfiedDependencyCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.validation.AYTAnnotationValidationCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.validation.AYTBeansXmlValidationCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.validation.AYTDefenitionErrorsValidationCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.validation.AYTDeploymentProblemsValidationCDI20Tests;
+import org.jboss.tools.cdi.core.test.tck20.validation.AYTSuppressWarningsCDI20Tests;
+import org.jboss.tools.cdi.core.test.tck20.validation.AYTWeldValidationCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.validation.AnnotationsValidationCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.validation.BeansXmlValidationCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.validation.CoreValidationCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.validation.DefenitionErrorsValidationCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.validation.DeploymentProblemsValidationCDI20Tests;
+import org.jboss.tools.cdi.core.test.tck20.validation.DisableCDISupportCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.validation.ELReferenceCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.validation.ELValidationCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.validation.IncrementalValidationCDI20Test;
+import org.jboss.tools.cdi.core.test.tck20.validation.SuppressWarningsCDI20Tests;
+import org.jboss.tools.cdi.core.test.tck20.validation.WeldValidationCDI20Test;
 import org.jboss.tools.common.base.test.validation.ValidationExceptionTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * @author Alexey Kazakov
@@ -210,7 +266,7 @@ public class CDICoreAllTests {
 
 		TestSuite suiteAll = new TestSuite("CDI Core Tests");
 
-		TestSuite suiteD = new TestSuite("Discovery Mode Change Test");		
+		TestSuite suiteD = new TestSuite("Discovery Mode Change Test");
 		suiteD.addTestSuite(DiscoveryModeChangeTest.class);
 		suiteAll.addTest(new DiscoveryModeChangeTestSetup(suiteD));
 
@@ -285,7 +341,8 @@ public class CDICoreAllTests {
 		// Refactoring test
 		suite.addTestSuite(NamedBeanRefactoringTest.class);
 
-		suiteAll.addTestSuite(DisableCDISupportTest.class); // This test removes tck test projects. It's better to run it after all main TCK tests.
+		suiteAll.addTestSuite(DisableCDISupportTest.class); // This test removes tck test projects. It's better to run
+															// it after all main TCK tests.
 
 		/***** Not TCK tests *****/
 
@@ -308,45 +365,38 @@ public class CDICoreAllTests {
 		weldSuite.addTestSuite(BuiltInContextBeanInjectionWeldTest.class);
 		weldSuite.addTestSuite(WeldExcludeTest.class);
 		weldSuite.addTestSuite(WeldExcludeIncrementalValidationTest.class);
-		ProjectImportTestSetup weldTestSetup = new ProjectImportTestSetup(weldSuite,
-				"org.jboss.tools.cdi.core.test",
-				new String[]{"projects/weld1.1"},
-				new String[]{"weld1.1"});
+		ProjectImportTestSetup weldTestSetup = new ProjectImportTestSetup(weldSuite, "org.jboss.tools.cdi.core.test",
+				new String[] { "projects/weld1.1" }, new String[] { "weld1.1" });
 		suiteAll.addTest(weldTestSetup);
 		TestSuite archiveSuite = new TestSuite("Archive Tests");
 		archiveSuite.addTestSuite(BeanArchivesTest.class);
 		ProjectImportTestSetup archiveTestSetup = new ProjectImportTestSetup(archiveSuite,
-				"org.jboss.tools.cdi.core.test",
-				new String[]{"projects/CDIArchivesTest"},
-				new String[]{"CDIArchivesTest"});
+				"org.jboss.tools.cdi.core.test", new String[] { "projects/CDIArchivesTest" },
+				new String[] { "CDIArchivesTest" });
 		suiteAll.addTest(archiveTestSetup);
 		suiteAll.addTest(new CDICoreTestSetup(suite));
 
 		TestSuite cdi11Suite = new TestSuite("CDI 1.1 Annotated Tests");
 		cdi11Suite.addTestSuite(CDI11AnnotatedTest.class);
-		ProjectImportTestSetup cdi11TestSetup = new ProjectImportTestSetup(cdi11Suite,
-				"org.jboss.tools.cdi.core.test",
-				new String[]{"projects/CDITest11"},
-				new String[]{"CDITest11"});
+		ProjectImportTestSetup cdi11TestSetup = new ProjectImportTestSetup(cdi11Suite, "org.jboss.tools.cdi.core.test",
+				new String[] { "projects/CDITest11" }, new String[] { "CDITest11" });
 		suiteAll.addTest(cdi11TestSetup);
 
 		suite = new TestSuite(MissingBeansXmlValidationTest.class.getName());
 		suite.addTestSuite(MissingBeansXmlValidationTest.class);
 		suite.addTestSuite(CDI12ArrayValidationTest.class);
-		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suite,
-				"org.jboss.tools.cdi.core.test",
-				new String[]{"projects/missingBeansXmlParentProject", "projects/missingBeansXmlChildProject", "projects/missingBeansXmlProjectCDI11", "projects/missingBeansXmlProjectCDI12"},
-				new String[]{"missingBeansXmlParentProject", "missingBeansXmlChildProject", "missingBeansXmlProjectCDI11", "missingBeansXmlProjectCDI12"});
+		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suite, "org.jboss.tools.cdi.core.test",
+				new String[] { "projects/missingBeansXmlParentProject", "projects/missingBeansXmlChildProject",
+						"projects/missingBeansXmlProjectCDI11", "projects/missingBeansXmlProjectCDI12" },
+				new String[] { "missingBeansXmlParentProject", "missingBeansXmlChildProject",
+						"missingBeansXmlProjectCDI11", "missingBeansXmlProjectCDI12" });
 		suiteAll.addTest(testSetup);
 
 		suite = new TestSuite(BuilderOrderValidationTest.class.getName());
 		suite.addTestSuite(BuilderOrderValidationTest.class);
-		testSetup = new ProjectImportTestSetup(suite,
-				"org.jboss.tools.cdi.core.test",
-				new String[]{"projects/CDITestBrokenBuilderOrder"},
-				new String[]{"CDITestBrokenBuilderOrder"});
+		testSetup = new ProjectImportTestSetup(suite, "org.jboss.tools.cdi.core.test",
+				new String[] { "projects/CDITestBrokenBuilderOrder" }, new String[] { "CDITestBrokenBuilderOrder" });
 		suiteAll.addTest(testSetup);
-
 
 		/***** TCK 1.1 project tests *****/
 
@@ -416,21 +466,21 @@ public class CDICoreAllTests {
 		// Refactoring test
 		suite.addTestSuite(NamedBeanRefactoringCDI11Test.class);
 
-		suiteAll.addTestSuite(DisableCDISupportCDI11Test.class); // This test removes tck test projects. It's better to run it after all main TCK tests.
+		suiteAll.addTestSuite(DisableCDISupportCDI11Test.class); // This test removes tck test projects. It's better to
+																	// run it after all main TCK tests.
 
 		suiteAll.addTest(new CDI11CoreTestSetup(suite));
 
 		/***** TCK 1.1 in annotated discovery mode project tests *****/
 
 		suite = new TestSuite("TCK 1.1 Annotated Tests");
-		
-		//TODO add other 1.1 tests.
+
+		// TODO add other 1.1 tests.
 
 		// Marker validation tests
 		suite.addTestSuite(AnnotationsValidationCDI11ATest.class);
 
 		suiteAll.addTest(new CDI11AnnotatedCoreTestSetup(suite));
-
 
 		/***** TCK 1.2 project tests *****/
 
@@ -500,13 +550,86 @@ public class CDICoreAllTests {
 		// Refactoring test
 		suite.addTestSuite(NamedBeanRefactoringCDI12Test.class);
 
-		suiteAll.addTestSuite(DisableCDISupportCDI12Test.class); // This test removes tck test projects. It's better to run it after all main TCK tests.
-		
+		suiteAll.addTestSuite(DisableCDISupportCDI12Test.class); // This test removes tck test projects. It's better to
+																	// run it after all main TCK tests.
+
 		suiteAll.addTest(new CDI12CoreTestSetup(suite));
-		
-		
-		
-		
+
+		/***** TCK 2.0 project tests *****/
+
+		// Core tests
+		suite = new TestSuite("TCK 2.0 Tests");
+		suite.addTestSuite(VetoedCDI20Test.class);
+		suite.addTestSuite(ELReferenceCDI20Test.class);
+		suite.addTestSuite(ResolutionByNameCDI20Test.class);
+		suite.addTestSuite(PackageInfoCDI20Test.class);
+		suite.addTestSuite(BeanDefinitionCDI20Test.class);
+		suite.addTestSuite(NameDefinitionCDI20Test.class);
+		suite.addTestSuite(QualifierDefinitionCDI20Test.class);
+		suite.addTestSuite(EnterpriseQualifierDefinitionCDI20Test.class);
+		suite.addTestSuite(ScopeDefinitionCDI20Test.class);
+		suite.addTestSuite(EnterpriseScopeDefinitionCDI20Test.class);
+		suite.addTestSuite(StereotypeDefinitionCDI20Test.class);
+		suite.addTestSuite(DefaultNamedCDI20Test.class);
+		suite.addTestSuite(EnterpriseStereotypeDefinitionCDI20Test.class);
+		suite.addTestSuite(StereotypeInheritenceCDI20Test.class);
+		suite.addTestSuite(ProducerMethodDefinitionCDI20Test.class);
+		suite.addTestSuite(InjectionPointCDI20Test.class);
+		suite.addTestSuite(BeanSpecializationCDI20Test.class);
+		suite.addTestSuite(ResolutionByTypeCDI20Test.class);
+		suite.addTestSuite(EnterpriseResolutionByTypeCDI20Test.class);
+		suite.addTestSuite(AssignabilityOfRawAndParameterizedTypesCDI20Test.class);
+		suite.addTestSuite(InjectionPointWithNewQualifierCDI20Test.class);
+		suite.addTestSuite(QualifierWithMembersCDI20Test.class);
+		suite.addTestSuite(InterceptorDefinitionCDI20Test.class);
+		suite.addTestSuite(DecoratorDefinitionCDI20Test.class);
+		suite.addTestSuite(ObserverMethodResolutionCDI20Test.class);
+		suite.addTestSuite(BuiltInBeanInjectionCDI20Test.class);
+		suite.addTestSuite(BeansXmlCACDI20Test.class);
+		suite.addTestSuite(SelectedAlternativeCDI20Test.class);
+		suite.addTestSuite(CircularDependencyCDI20Test.class);
+		suite.addTestSuite(DynamicLookupCDI20Test.class);
+		suite.addTestSuite(AmbiguousDependencyCDI20Test.class);
+		suite.addTestSuite(UnsatisfiedDependencyCDI20Test.class);
+		suite.addTestSuite(ResolvedTypesCacheCDI20Test.class);
+		suite.addTestSuite(CDIUtilCDI20Test.class);
+		suite.addTestSuite(CoreCDI20Test.class);
+		suite.addTestSuite(ResourceExclusionCDI20Test.class);
+		suite.addTestSuite(PriorityCDI20Test.class);
+
+		// Marker validation tests
+		suite.addTestSuite(DefenitionErrorsValidationCDI20Test.class);
+		suite.addTestSuite(DeploymentProblemsValidationCDI20Tests.class);
+		suite.addTestSuite(BeansXmlValidationCDI20Test.class);
+		suite.addTestSuite(AnnotationsValidationCDI20Test.class);
+		suite.addTestSuite(CoreValidationCDI20Test.class);
+		suite.addTestSuite(ELValidationCDI20Test.class);
+		suite.addTestSuite(SuppressWarningsCDI20Tests.class);
+		suite.addTestSuite(IncrementalValidationCDI20Test.class);
+		suite.addTestSuite(WeldValidationCDI20Test.class);
+
+		// As-you-type model tests
+		suite.addTestSuite(CDIProjectAsYouTypeCDI20Test.class);
+
+		// As-you-type validation tests
+		suite.addTestSuite(CDIProjectAsYouTypeCDI20Test.class);
+		suite.addTestSuite(AYTDefenitionErrorsValidationCDI20Test.class);
+		suite.addTestSuite(AYTDeploymentProblemsValidationCDI20Tests.class);
+		suite.addTestSuite(AYTBeansXmlValidationCDI20Test.class);
+		suite.addTestSuite(AYTAnnotationValidationCDI20Test.class);
+		suite.addTestSuite(AYTSuppressWarningsCDI20Tests.class);
+		suite.addTestSuite(AYTWeldValidationCDI20Test.class);
+
+		// Refactoring test
+		suite.addTestSuite(NamedBeanRefactoringCDI20Test.class);
+
+		suiteAll.addTestSuite(DisableCDISupportCDI20Test.class); // This test removes tck test projects. It's better to
+																	// run it after all main TCK tests.
+
+		suiteAll.addTest(new CDI20CoreTestSetup(suite));
+
+		suiteAll.addTestSuite(ObservesAsyncTest.class);
+
 		/***** Common validation exception tests *****/
 
 		suiteAll.addTestSuite(ValidationExceptionTest.class); // This test should be added last!

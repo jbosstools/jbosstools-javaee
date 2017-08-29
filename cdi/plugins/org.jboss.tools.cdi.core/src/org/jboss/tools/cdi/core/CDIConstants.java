@@ -14,6 +14,8 @@ public interface CDIConstants {
 	public int CDI_VERSION_NONE = 0;
 	public int CDI_VERSION_1_0 = 10;
 	public int CDI_VERSION_1_1 = 11;
+	
+	public String ANNOTATED_TYPE_CONFIGURATOR="javax.enterprise.inject.spi.configurator.AnnotatedTypeConfigurator";
 
 	public String INHERITED_ANNOTATION_TYPE_NAME = "java.lang.annotation.Inherited";
 	public String TARGET_ANNOTATION_TYPE_NAME = "java.lang.annotation.Target";
@@ -79,6 +81,7 @@ public interface CDIConstants {
 
 	public String DISPOSES_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Disposes";
 	public String OBSERVERS_ANNOTATION_TYPE_NAME = "javax.enterprise.event.Observes";
+	public String OBSERVERS_ASYNC_ANNOTATION_TYPE_NAME = "javax.enterprise.event.ObservesAsync";
 
 	public String INJECTIONPOINT_TYPE_NAME = "javax.enterprise.inject.spi.InjectionPoint";
 

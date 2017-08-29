@@ -118,6 +118,7 @@ public class CDIUtil {
 
 	private static final String BEANS_XML_1_0_TEMPLATE_NAME = "beans.xml";
 	private static final String BEANS_XML_1_1_TEMPLATE_NAME = "beans11.xml";
+	private static final String BEANS_XML_2_0_TEMPLATE_NAME = "beans20.xml";
 
 	/**
 	 * Adds CDI and KB builders to the project.
@@ -134,7 +135,14 @@ public class CDIUtil {
 				if(beansXml!=null && !beansXml.exists()) {
 					// Create an empty beans.xml
 					beansXml.getParentFile().mkdir();
-					String templateName = beansXmlVersion == CDIVersion.CDI_1_0?BEANS_XML_1_0_TEMPLATE_NAME:BEANS_XML_1_1_TEMPLATE_NAME;
+					String templateName = null;
+					if(beansXmlVersion == CDIVersion.CDI_1_0) {
+						templateName = BEANS_XML_1_0_TEMPLATE_NAME;
+					} else if(beansXmlVersion == CDIVersion.CDI_2_0) {
+						templateName = BEANS_XML_2_0_TEMPLATE_NAME;
+					} else {
+						templateName = BEANS_XML_1_1_TEMPLATE_NAME;
+					}
 					try {
 						FileUtils.getFileUtils().copyFile(new File(getTemplatesFolder(), templateName), beansXml, null, false, false);
 					} catch (IOException e) {
@@ -1332,7 +1340,9 @@ public class CDIUtil {
 		if(jp == null) return CDIVersion.CDI_UNKNOWN;
 
 		try {
-			if(EclipseJavaUtil.findType(jp, CDIConstants.VETOED_ANNOTATION_TYPE_NAME) != null) {
+			if(EclipseJavaUtil.findType(jp, CDIConstants.ANNOTATED_TYPE_CONFIGURATOR) != null) {
+				return CDIVersion.CDI_2_0;
+			} else if(EclipseJavaUtil.findType(jp, CDIConstants.VETOED_ANNOTATION_TYPE_NAME) != null) {
 				IFacetedProject facetedProject = ProjectFacetsManager.create(project);
 				if(facetedProject != null) {
 					IProjectFacetVersion v = facetedProject.getProjectFacetVersion(CDIFacetInstallDelegate.CDI_FACET);

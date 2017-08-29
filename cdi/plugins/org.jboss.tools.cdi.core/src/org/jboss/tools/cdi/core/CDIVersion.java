@@ -34,7 +34,12 @@ public enum CDIVersion {
 	/**
 	 * CDI version 1.2
 	 */
-	CDI_1_2("1.2", 2); //$NON-NLS-1$
+	CDI_1_2("1.2", 2), //$NON-NLS-1$
+	
+	/**
+	 * CDI version 2.0
+	 */
+	CDI_2_0("2.0", 3); //$NON-NLS-1$
 
 	String version = ""; //$NON-NLS-1$
 
@@ -77,9 +82,9 @@ public enum CDIVersion {
 	}
 
 	public static final CDIVersion[] ALL_VERSIONS = 
-			new CDIVersion[]{CDI_1_0, CDI_1_1, CDI_1_2};
+			new CDIVersion[]{CDI_1_0, CDI_1_1, CDI_1_2, CDI_2_0};
 
 	public static CDIVersion getLatestDefaultVersion() {
-		return CDI_1_2;
+		return CDI_2_0;
 	}
 }
