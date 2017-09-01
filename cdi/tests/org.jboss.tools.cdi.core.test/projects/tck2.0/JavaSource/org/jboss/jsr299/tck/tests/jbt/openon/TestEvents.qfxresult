@@ -1,0 +1,31 @@
+package org.jboss.jsr299.tck.tests.jbt.openon;
+
+import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Any;
+import javax.inject.Inject;
+
+
+public class TestEvents {
+	@Inject @Any Event<EventType> stringEvent;
+	   
+   @Inject @Any @NonRuntimeBindingType Event<EventType> stringEventWithAnyAndNonRuntimeBindingType;
+   
+   @Inject @NonRuntimeBindingType Event<EventType> stringEventWithOnlyNonRuntimeBindingType;
+
+   public void fireEvent()
+   {
+      stringEvent.fire(new EventType());
+   }
+   
+   public void fireEventWithNonRuntimeBindingType()
+   {
+      stringEventWithAnyAndNonRuntimeBindingType.fire(new EventType());
+   }
+   
+   class EventType{
+	   public EventType(){
+		   
+	   }
+   }
+}

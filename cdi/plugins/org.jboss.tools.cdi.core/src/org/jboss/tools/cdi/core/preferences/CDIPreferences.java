@@ -123,6 +123,8 @@ public class CDIPreferences extends ValidationSeverityPreferences {
 	public static final String PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED = INSTANCE.createSeverityOption("producerParameterIllegallyAnnotated", "annotated-parameter"); //$NON-NLS-1$
 //	- observer method is annotated [@Produces or] @Inject (10.4.2)
 	public static final String OBSERVER_ANNOTATED_INJECT = INSTANCE.createSeverityOption("observerAnnotatedInject", "annotated-observer"); //$NON-NLS-1$
+//	- observer method is annotated [@Produces or] @Inject (10.4.2)
+	public static final String OBSERVER_ASYNC_ANNOTATED_INJECT = INSTANCE.createSeverityOption("observerAnnotatedInjectAsync", "annotated-observer-async"); //$NON-NLS-1$
 //	- has a parameter annotated @Disposes (10.4.2)
 	public static final String OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED = INSTANCE.createSeverityOption("observerParameterIllegallyAnnotated", "annotated-parameter"); //$NON-NLS-1$
 //	- non-static method of a session bean class is annotated @Produces, and the method 
@@ -150,11 +152,18 @@ public class CDIPreferences extends ValidationSeverityPreferences {
 	public static final String GENERIC_METHOD_ANNOTATED_INJECT = INSTANCE.createSeverityOption("genericMethodAnnotatedInject", "generic"); //$NON-NLS-1$
 //	- method has more than one parameter annotated @Observes (10.4.2)
 	public static final String MULTIPLE_OBSERVING_PARAMETERS = INSTANCE.createSeverityOption("multipleObservingParameters", "multiple-observers"); //$NON-NLS-1$
+//	- method has more than one parameter annotated @ObservesAsync (10.4.2)
+	public static final String MULTIPLE_OBSERVING_PARAMETERS_ASYNC = INSTANCE.createSeverityOption("multipleObservingParametersAsync", "multiple-observers-async"); //$NON-NLS-1$
 //	- non-static method of a session bean class has a parameter annotated @Observes, 
 //	  and the method is not a business method of the EJB (10.4.2)
 	public static final String ILLEGAL_OBSERVER_IN_SESSION_BEAN = INSTANCE.createSeverityOption("illegalObserverInSessionBean", "observer"); //$NON-NLS-1$
+//	- non-static method of a session bean class has a parameter annotated @ObservesAsync, 
+//	  and the method is not a business method of the EJB (10.4.2)
+	public static final String ILLEGAL_OBSERVER_ASYNC_IN_SESSION_BEAN = INSTANCE.createSeverityOption("illegalObserverInSessionBeanAsync", "observer-async"); //$NON-NLS-1$
 //	- bean with scope @Dependent has an observer method declared receive=IF_EXISTS (10.4.3)
 	public static final String ILLEGAL_CONDITIONAL_OBSERVER = INSTANCE.createSeverityOption("illegalConditionalObserver", "observer"); //$NON-NLS-1$
+//	- bean with scope @Dependent has an observer async method declared receive=IF_EXISTS (10.4.3)
+	public static final String ILLEGAL_CONDITIONAL_OBSERVER_ASYNC = INSTANCE.createSeverityOption("illegalConditionalObserverAsync", "observer-async"); //$NON-NLS-1$
 
 	//Interceptor & Decorator group
 
@@ -193,6 +202,8 @@ public class CDIPreferences extends ValidationSeverityPreferences {
 	public static final String CONFLICTING_INTERCEPTOR_BINDINGS = INSTANCE.createSeverityOption("conflictingInterceptorBindings", "ambiguous-interceptor-binding"); //$NON-NLS-1$
 //	- interceptor or decorator has a method with a parameter annotated @Observes (10.4.2)
 	public static final String OBSERVER_IN_INTERCEPTOR_OR_DECORATOR = INSTANCE.createSeverityOption("observerInInterceptorOrDecorator", "observer"); //$NON-NLS-1$
+//	- interceptor or decorator has a method with a parameter annotated @Observes (10.4.2)
+	public static final String OBSERVER_ASYNC_IN_INTERCEPTOR_OR_DECORATOR = INSTANCE.createSeverityOption("observerInInterceptorOrDecoratorAsync", "observer-async"); //$NON-NLS-1$
 //	- interceptor or decorator is an alternative (2.6.1 non-portable)
 	public static final String INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE = INSTANCE.createSeverityOption("interceptorOrDecoratorIsAlternative", "alternative"); //$NON-NLS-1$
 //	- interceptor declared using @Interceptor does not declare any interceptor binding (9.2 non-portable)
@@ -247,6 +258,10 @@ public class CDIPreferences extends ValidationSeverityPreferences {
 //	- If the same type is listed twice under the <alternatives>, <decorators> or <interceptors> element, the container automatically detects the problem and
 //	  treats it as a deployment problem.
 	public static final String DUPLICATE_TYPE_IN_BEANS_XML = INSTANCE.createSeverityOption("duplicateTypeInBeansXml"); //$NON-NLS-1$
+
+	public static final String OBSERVER_ASYNC_PARAMETER_ILLEGALLY_ANNOTATED = INSTANCE.createSeverityOption("observerAsyncParameterIllegallyAnnotated", "annotated-parameter"); //$NON-NLS-1$
+
+	public static final String ILLEGAL_OBSERVER_AND_OBSERVER_ASYNC = INSTANCE.createSeverityOption("observerAndObserverAsync", "observer-async"); //$NON-NLS-1$
 
 	/**
 	 * @return the only instance of CDIPreferences

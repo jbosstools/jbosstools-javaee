@@ -71,6 +71,13 @@ abstract public class CDIValidationErrorManager extends KBValidator {
 	public static final int MULTIPLE_DISPOSING_PARAMETERS_ID = 52;
 	public static final int MULTIPLE_OBSERVING_PARAMETERS_ID = 53;
 	public static final int MISSING_BEANS_XML_ID = 54;
+	public static final int OBSERVER_ASYNC_ANNOTATED_INJECT_ID = 55;
+	public static final int CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES_ASYNC_ID = 56;
+	public static final int OBSERVER_ASYNC_IN_DECORATOR_ID = 57;
+	public static final int OBSERVER_ASYNC_IN_INTERCEPTOR_ID = 58;
+	public static final int ILLEGAL_OBSERVER_ASYNC_IN_SESSION_BEAN_ID = 59;
+	public static final int PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES_ASYNC_ID = 60;
+	public static final int OBSERVER_ASYNC_PARAMETER_ILLEGALLY_ANNOTATED_ID = 61;
 
 
 	/*

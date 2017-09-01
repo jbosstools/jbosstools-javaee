@@ -104,7 +104,7 @@ public class MethodDefinition extends BeanMemberDefinition {
 
 	@Override
 	public boolean isCDIAnnotated() {
-		return super.isCDIAnnotated() || isDisposer() || isObserver() || getPreDestroyMethod() != null || getPostConstructorMethod() != null || !getInterceptorBindings().isEmpty() || hasStereotypeDeclarations();
+		return super.isCDIAnnotated() || isDisposer() || isObserver() || isObserverAsync() || getPreDestroyMethod() != null || getPostConstructorMethod() != null || !getInterceptorBindings().isEmpty() || hasStereotypeDeclarations();
 	}
 
 	public Collection<IInterceptorBinding> getInterceptorBindings() {
@@ -139,6 +139,13 @@ public class MethodDefinition extends BeanMemberDefinition {
 	public boolean isObserver() {
 		for (ParameterDefinition p: parameters) {
 			if(p.isAnnotationPresent(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)) return true;
+		}
+		return false;
+	}
+	
+	public boolean isObserverAsync() {
+		for (ParameterDefinition p: parameters) {
+			if(p.isAnnotationPresent(CDIConstants.OBSERVERS_ASYNC_ANNOTATION_TYPE_NAME)) return true;
 		}
 		return false;
 	}

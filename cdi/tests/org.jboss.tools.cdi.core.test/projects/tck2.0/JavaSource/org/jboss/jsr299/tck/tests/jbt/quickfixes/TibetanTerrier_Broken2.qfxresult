@@ -1,0 +1,14 @@
+package org.jboss.jsr299.tck.tests.jbt.quickfixes;
+
+import javax.ejb.Stateless;
+import javax.enterprise.event.Observes;
+import javax.ejb.LocalBean;
+
+@LocalBean
+@Stateless
+class TibetanTerrier_Broken implements Terrier
+{
+   public void observeSomeEvent(@Observes String someEvent)
+   {
+   }
+}

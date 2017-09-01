@@ -124,6 +124,35 @@
          	</or>
          </constraint>
       </project-facet-version>
+      
+       <project-facet-version
+            facet="jst.cdi"
+            version="2.0">
+         <constraint>
+         	<or>
+                <and>
+	                <requires soft="true"
+	           	         facet="jst.ejb"
+	       	             version="[3.0">
+	   	            </requires>
+	               <requires
+            	         facet="jst.java"
+        	             version="[5.0">
+    	           </requires>
+	            </and>
+                <and>
+	               <requires soft="true"
+            	         facet="jst.web"
+        	             version="[2.5">
+    	           </requires>
+	               <requires
+            	         facet="jst.java"
+        	             version="[5.0">
+    	           </requires>
+	            </and>
+         	</or>
+         </constraint>
+      </project-facet-version>
 
       <template
             id="template.jboss.tools.cdi10">
@@ -164,6 +193,20 @@
                facet="jst.web"/>
          <preset
                id="jboss.jst.cdi12.preset">
+         </preset>
+      </template>
+      
+      <template
+            id="template.jboss.tools.cdi20">
+         <label>
+            CDI 2.0 Web Project
+         </label>
+         <fixed
+               facet="jst.java"/>
+         <fixed
+               facet="jst.web"/>
+         <preset
+               id="jboss.jst.cdi20.preset">
          </preset>
       </template>
 
@@ -232,6 +275,28 @@
                class="org.jboss.tools.cdi.internal.core.project.facet.CDIFacetUninstallDelegate">
          </delegate>
       </action>
+      
+      <action
+            facet="jst.cdi"
+            id="jst.cdi.2.0.install"
+            type="install"
+            version="2.0">
+         <delegate
+               class="org.jboss.tools.cdi.internal.core.project.facet.CDIFacetInstallDelegate">
+         </delegate>
+         <config-factory
+               class="org.jboss.tools.cdi.internal.core.project.facet.CDIFacetInstallDataModelProvider">
+         </config-factory>
+      </action>
+      <action
+            facet="jst.cdi"
+            id="jst.cdi.2.0.uninstall"
+            type="uninstall"
+            version="2.0">
+         <delegate
+               class="org.jboss.tools.cdi.internal.core.project.facet.CDIFacetUninstallDelegate">
+         </delegate>
+      </action>
 
 	  <action facet="jst.cdi" type="version-change">
       	 <delegate class="org.jboss.tools.cdi.internal.core.project.facet.CDIFacetVersionChangeDelegate"/>
@@ -274,6 +339,18 @@
 	    <facet id="jst.cdi" version="1.2"/>
      	<description>
         	Configures a Dynamic Web application to use Contexts and Dependency Injection 1.2 (CDI)
+     	</description>
+     </static-preset>
+     
+     <static-preset
+           id="jboss.jst.cdi20.preset">
+	    <label>Dynamic Web Project with CDI 2.0 (Contexts and Dependency Injection)</label>
+	    <facet id="jst.java" version="1.7"/>
+	    <facet id="jst.web" version="3.1"/>
+	    <facet id="jst.jsf" version="2.2"/>
+	    <facet id="jst.cdi" version="2.0"/>
+     	<description>
+        	Configures a Dynamic Web application to use Contexts and Dependency Injection 2.0 (CDI)
      	</description>
      </static-preset>
   </extension>

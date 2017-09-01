@@ -24,6 +24,7 @@ import org.jboss.tools.cdi.internal.core.impl.AbstractBeanElement;
 import org.jboss.tools.cdi.internal.core.impl.DisposerMethod;
 import org.jboss.tools.cdi.internal.core.impl.EventBean;
 import org.jboss.tools.cdi.internal.core.impl.InitializerMethod;
+import org.jboss.tools.cdi.internal.core.impl.ObserverAsyncMethod;
 import org.jboss.tools.cdi.internal.core.impl.ObserverMethod;
 import org.jboss.tools.cdi.internal.core.impl.ProducerField;
 import org.jboss.tools.cdi.internal.core.impl.ProducerMethod;
@@ -109,6 +110,8 @@ public class BeanPresentationUtil {
 			return "Initializer Method";
 		}else if(element instanceof ObserverMethod){
 			return "Observer Method";
+		}else if(element instanceof ObserverAsyncMethod){
+			return "ObserverAsync Method";
 		}else if(element instanceof ProducerMethod){
 			return "Producer Method";
 		}else if(element instanceof ProducerField){

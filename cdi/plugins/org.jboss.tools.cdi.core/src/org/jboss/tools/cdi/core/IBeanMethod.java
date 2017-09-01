@@ -46,6 +46,12 @@ public interface IBeanMethod extends IBeanMember, IStereotyped, IInterceptorBind
 	 * @return
 	 */
 	public boolean isObserver();
+	
+	/**
+	 * Returns true if method has a parameter annotated with @ObservesAsync
+	 * @return
+	 */
+	public boolean isObserverAsync();
 
 	/**
 	 * Returns true if method is annotated with @PreDestroy or @PostConstruct

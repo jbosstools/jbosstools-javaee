@@ -16,6 +16,7 @@ public interface CDIBeansConstants {
 	
 	public String ENT_CDI_BEANS = "FileCDIBeans"; //$NON-NLS-1$
 	public String ENT_CDI_BEANS_11 = "FileCDIBeans11"; //$NON-NLS-1$
+	public String ENT_CDI_BEANS_20 = "FileCDIBeans20"; //$NON-NLS-1$
 
 	public String ENT_DECORATORS = "CDIDecorators"; //$NON-NLS-1$
 	public String ENT_INTERCEPTORS = "CDIInterceptors"; //$NON-NLS-1$

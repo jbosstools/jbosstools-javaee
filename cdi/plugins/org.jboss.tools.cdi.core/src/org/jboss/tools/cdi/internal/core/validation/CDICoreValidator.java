@@ -953,6 +953,7 @@ try {
 		validateInitializers(bean);
 		validateDisposers(bean);
 		validateObserves(bean);
+		validateObservesAsync(bean);
 		if (!(bean instanceof ISessionBean)) {
 			validateManagedBean(bean);
 		} else {
@@ -1134,6 +1135,137 @@ try {
 	int getVersionIndex(ICDIElement element) {
 		return element.getCDIProject().getVersion().getIndex();
 	}
+	
+	
+	private void validateObservesAsync(IClassBean bean) {
+		Collection<IBeanMethod> beanMethods = bean.getAllMethods();
+		if (beanMethods.isEmpty()) {
+			return;
+		}
+		for (IBeanMethod observerAsync : beanMethods) {
+			if(!observerAsync.isObserverAsync()) {
+				continue;
+			}
+			List<IParameter> params = observerAsync.getParameters();
+			Collection<ITextSourceReference> declarations = new ArrayList<ITextSourceReference>();
+			Collection<ITextSourceReference> observerDeclarations = new ArrayList<ITextSourceReference>();
+			for (IParameter param : params) {
+				ITextSourceReference observerDeclaration = param.getAnnotationPosition(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
+				if(observerDeclaration != null) {
+					observerDeclarations.add(observerDeclaration);
+				}
+				ITextSourceReference declaration = param.getAnnotationPosition(CDIConstants.OBSERVERS_ASYNC_ANNOTATION_TYPE_NAME);
+				if (declaration != null) {
+					declarations.add(declaration);
+
+					/*
+					 * 10.4.2. Declaring an observer method
+					 *  - bean with scope @Dependent has an observer method declared notifyObserver=IF_EXISTS
+					 */
+					if(bean.getScope()!=null && CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(bean.getScope().getSourceType().getFullyQualifiedName())) {
+						ICompilationUnit unit = observerAsync.getMethod().getCompilationUnit();
+						if(unit!=null) {
+							try {
+								String source = unit.getSource();
+								ISourceRange unitRange = unit.getSourceRange();
+								int start = declaration.getStartPosition() - unitRange.getOffset();
+								int end = start + declaration.getLength();
+								int position = source.substring(start, end).indexOf("IF_EXISTS");
+								// TODO Checks if IF_EXISTS as a string. But this string may be in a comment then we will show incorrect error message. 
+								if(position>11) {
+									addProblem(CDIValidationMessages.ILLEGAL_CONDITIONAL_OBSERVER_ASYNC[getVersionIndex(bean)], CDIPreferences.ILLEGAL_CONDITIONAL_OBSERVER_ASYNC, declaration, bean.getResource());									
+								}
+							} catch (JavaModelException e) {
+								CDICorePlugin.getDefault().logError(e);
+							}
+						}
+					}
+					
+					/*
+					 * 10.4.2. Declaring an observer method
+					 *  - If a method has a parameter annotated @Observes and @ObservesAsync, the container automatically detects the problem and treats it as a definition error.
+					 */
+					for(IAnnotationDeclaration annotation: param.getAnnotations()) {
+						IType annotationType = annotation.getType();
+						if(annotationType != null && CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME.equals(annotationType.getFullyQualifiedName())) {
+							addProblem(CDIValidationMessages.OBSERVER_AND_OBSERVER_ASYNC_ERROR[getVersionIndex(bean)], CDIPreferences.ILLEGAL_OBSERVER_AND_OBSERVER_ASYNC, declaration, bean.getResource());
+							addProblem(CDIValidationMessages.OBSERVER_AND_OBSERVER_ASYNC_ERROR[getVersionIndex(bean)], CDIPreferences.ILLEGAL_OBSERVER_AND_OBSERVER_ASYNC, annotation, bean.getResource());									
+						}
+					}
+					
+					/*
+					 * 10.5.2. Observer ordering
+					 *  - if a @Priority annotation is declared on an event parameter of an asynchronous observer method, non-portable behavior results
+					 */
+					for(IAnnotationDeclaration annotation: param.getAnnotations()) {
+						IType annotationType = annotation.getType();
+						if(annotationType != null && CDIConstants.PRIORITY_ANNOTATION_TYPE_NAME.equals(annotationType.getFullyQualifiedName())) {
+							addProblem(CDIValidationMessages.OBSERVER_ASYNC_PRIORITY[getVersionIndex(bean)], CDIPreferences.ILLEGAL_CONDITIONAL_OBSERVER_ASYNC, declaration, bean.getResource());
+							addProblem(CDIValidationMessages.OBSERVER_ASYNC_PRIORITY[getVersionIndex(bean)], CDIPreferences.ILLEGAL_CONDITIONAL_OBSERVER_ASYNC, annotation, bean.getResource());									
+						}
+					}
+				}
+			}
+			/*
+			 * 10.4.2. Declaring an observer method
+			 *  - method has more than one parameter annotated @ObservesAsync
+			 */
+			if(declarations.size()>1) {
+				for (ITextSourceReference declaration : declarations) {
+					addProblem(CDIValidationMessages.MULTIPLE_OBSERVING_PARAMETERS_ASYNC[getVersionIndex(bean)], CDIPreferences.MULTIPLE_OBSERVING_PARAMETERS_ASYNC, declaration, bean.getResource(), MULTIPLE_OBSERVING_PARAMETERS_ID);
+				}
+			}
+			
+			/*
+			 * 10.4.2. Declaring an observer method
+			 * - If a method has more than one parameter annotated @Observes or @ObservesAsync, the container automatically detects the problem and treats it as a definition error.
+			 */
+			if(observerDeclarations.size() > 0) {
+				for (ITextSourceReference declaration : observerDeclarations) {
+					addProblem(CDIValidationMessages.OBSERVER_AND_OBSERVER_ASYNC_METHOD_ERROR[getVersionIndex(bean)], CDIPreferences.ILLEGAL_OBSERVER_AND_OBSERVER_ASYNC, declaration, bean.getResource());
+				}
+				for(ITextSourceReference declaration: declarations) {
+					addProblem(CDIValidationMessages.OBSERVER_AND_OBSERVER_ASYNC_METHOD_ERROR[getVersionIndex(bean)], CDIPreferences.ILLEGAL_OBSERVER_AND_OBSERVER_ASYNC, declaration, bean.getResource());
+				}
+			}
+			/*
+			 * 3.7.1. Declaring a bean constructor
+			 * 	- bean constructor has a parameter annotated @ObservesAsync
+			 * 
+			 * 10.4.2. Declaring an observer method
+			 *  - observer method is annotated @Inject
+			 */
+			IAnnotationDeclaration injectDeclaration = observerAsync.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+			try {
+				if (injectDeclaration != null) {
+					String pref = observerAsync.getMethod().isConstructor()?CDIPreferences.CONSTRUCTOR_PARAMETER_ILLEGALLY_ANNOTATED:CDIPreferences.OBSERVER_ASYNC_ANNOTATED_INJECT;
+					String message = observerAsync.getMethod().isConstructor()?CDIValidationMessages.CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES_ASYNC[getVersionIndex(observerAsync)]:CDIValidationMessages.OBSERVER_ANNOTATED_INJECT_ASYNC[getVersionIndex(observerAsync)];
+					int messageId = observerAsync.getMethod().isConstructor()?CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES_ASYNC_ID:OBSERVER_ASYNC_ANNOTATED_INJECT_ID;
+					addProblem(message, pref, injectDeclaration, bean.getResource(), messageId);
+					for (ITextSourceReference declaration : declarations) {
+						addProblem(message, pref, declaration, bean.getResource(), messageId);
+					}
+				}
+			} catch (JavaModelException e) {
+				CDICorePlugin.getDefault().logError(e);
+			}
+			/*
+			 * 10.4.2. Declaring an observer method
+			 *  - interceptor or decorator has a method with a parameter annotated @ObservesAsync
+			 */
+			if(bean instanceof IDecorator) {
+				for (ITextSourceReference declaration : declarations) {
+					addProblem(CDIValidationMessages.OBSERVER_ASYNC_IN_DECORATOR[getVersionIndex(bean)], CDIPreferences.OBSERVER_ASYNC_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource(), OBSERVER_ASYNC_IN_DECORATOR_ID);
+				}
+			} else if(bean instanceof IInterceptor) {
+				for (ITextSourceReference declaration : declarations) {
+					addProblem(CDIValidationMessages.OBSERVER_ASYNC_IN_INTERCEPTOR[getVersionIndex(bean)], CDIPreferences.OBSERVER_ASYNC_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource(), OBSERVER_ASYNC_IN_INTERCEPTOR_ID);
+				}
+			}
+
+			validateSessionBeanMethod(bean, observerAsync, declarations, CDIValidationMessages.ILLEGAL_OBSERVER_ASYNC_IN_SESSION_BEAN[getVersionIndex(bean)],	CDIPreferences.ILLEGAL_OBSERVER_ASYNC_IN_SESSION_BEAN, ILLEGAL_OBSERVER_ASYNC_IN_SESSION_BEAN_ID);
+		}
+	}
 
 	private void validateObserves(IClassBean bean) {
 		Collection<IBeanMethod> observes = bean.getAllMethods();
@@ -1164,7 +1296,7 @@ try {
 								int start = declaration.getStartPosition() - unitRange.getOffset();
 								int end = start + declaration.getLength();
 								int position = source.substring(start, end).indexOf("IF_EXISTS");
-								// TODO Shecks if IF_EXISTS as a string. But this string may be in a comment then we will show incorrect error message. 
+								// TODO Checks if IF_EXISTS as a string. But this string may be in a comment then we will show incorrect error message. 
 								if(position>11) {
 									addProblem(CDIValidationMessages.ILLEGAL_CONDITIONAL_OBSERVER[getVersionIndex(bean)], CDIPreferences.ILLEGAL_CONDITIONAL_OBSERVER, declaration, bean.getResource());									
 								}
@@ -1173,6 +1305,7 @@ try {
 							}
 						}
 					}
+					
 				}
 			}
 			/*
@@ -1283,6 +1416,7 @@ try {
 			 */
 			Collection<ITextSourceReference> declarations = new ArrayList<ITextSourceReference>();
 			boolean observesExists = false;
+			boolean observesAsyncExists = false;
 			declarations.addAll(disposerDeclarations);
 			for (IParameter param : params) {
 				ITextSourceReference declaration = param.getAnnotationPosition(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
@@ -1290,10 +1424,20 @@ try {
 					declarations.add(declaration);
 					observesExists = true;
 				}
+				declaration = param.getAnnotationPosition(CDIConstants.OBSERVERS_ASYNC_ANNOTATION_TYPE_NAME);
+				if (declaration != null && param.exists()) {
+					declarations.add(declaration);
+					observesAsyncExists = true;
+				}
 			}
 			if (observesExists) {
 				for (ITextSourceReference declaration : declarations) {
 					addProblem(CDIValidationMessages.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED[getVersionIndex(disposer)], CDIPreferences.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED, declaration, bean.getResource(), OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED_ID);
+				}
+			}
+			if(observesAsyncExists) {
+				for (ITextSourceReference declaration : declarations) {
+					addProblem(CDIValidationMessages.OBSERVER_ASYNC_PARAMETER_ILLEGALLY_ANNOTATED[getVersionIndex(disposer)], CDIPreferences.OBSERVER_ASYNC_PARAMETER_ILLEGALLY_ANNOTATED, declaration, bean.getResource(), OBSERVER_ASYNC_PARAMETER_ILLEGALLY_ANNOTATED_ID);
 				}
 			}
 
@@ -1510,10 +1654,12 @@ try {
 				IProducerMethod producerMethod = (IProducerMethod) producer;
 				List<IParameter> params = producerMethod.getParameters();
 				Collection<ITextSourceReference> observesDeclarations = new ArrayList<ITextSourceReference>();
+				Collection<ITextSourceReference> observesAsyncDeclarations = new ArrayList<ITextSourceReference>();
 				Collection<ITextSourceReference> disposalDeclarations = new ArrayList<ITextSourceReference>();
 				IAnnotationDeclaration producesDeclaration = producerMethod.getAnnotation(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
 				if(producesDeclaration != null) {
 					observesDeclarations.add(producesDeclaration);
+					observesAsyncDeclarations.add(producesDeclaration);
 					disposalDeclarations.add(producesDeclaration);
 				}
 				for (IParameter param : params) {
@@ -1530,7 +1676,7 @@ try {
 					}
 					/*
 					 * 3.3.2. Declaring a producer method
-					 *  - a has a parameter annotated @Observers
+					 *  - a has a parameter annotated @Observes
 					 * 
 					 * 10.4.2. Declaring an observer method
 					 *  - an observer method is annotated @Produces
@@ -1539,13 +1685,32 @@ try {
 					if (declaration != null) {
 						observesDeclarations.add(declaration);
 					}
+					/*
+					 * 3.3.2. Declaring a producer method
+					 *  - a has a parameter annotated @ObservesAsync
+					 * 
+					 * 10.4.2. Declaring an observer method
+					 *  - an observer async method is annotated @Produces
+					 */
+					declaration = param.getAnnotationPosition(CDIConstants.OBSERVERS_ASYNC_ANNOTATION_TYPE_NAME);
+					if (declaration != null) {
+						observesAsyncDeclarations.add(declaration);
+					}
 				}
+				if (observesAsyncDeclarations.size() > 1) {
+					for (ITextSourceReference declaration : observesAsyncDeclarations) {
+						addProblem(CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES_ASYNC[getVersionIndex(producer)], CDIPreferences.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED,
+								declaration, producer.getResource(), PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES_ASYNC_ID);
+					}
+				}
+				
 				if (observesDeclarations.size() > 1) {
 					for (ITextSourceReference declaration : observesDeclarations) {
 						addProblem(CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES[getVersionIndex(producer)], CDIPreferences.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED,
 								declaration, producer.getResource(), PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES_ID);
 					}
 				}
+				
 				if (disposalDeclarations.size() > 1) {
 					for (ITextSourceReference declaration : disposalDeclarations) {
 						addProblem(CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_DISPOSES[getVersionIndex(producer)], CDIPreferences.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED,
