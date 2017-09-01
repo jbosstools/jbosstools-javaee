@@ -26,9 +26,11 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -52,6 +54,7 @@ import org.eclipse.ui.internal.wizards.newresource.ResourceMessages;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIImages;
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.CDIVersion;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
@@ -154,11 +157,20 @@ public class NewBeansXMLCreationWizard extends BasicNewResourceWizard {
 				DialogUtil.openError(dw.getShell(), ResourceMessages.FileResource_errorMessage, e.getMessage(), e);
 			}
 		}
+		IProject project = mainPage.getSelectedProject();
+		try {
+			if(CDIUtil.getCDIImplementationVersion(project) != null) {
+				CDIUtil.enableCDI(project, false, new NullProgressMonitor());
+			}
+		} catch (CoreException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
 		return true;
 	}
 
     class WizardNewBeansXMLFileCreationPage extends WizardNewFileCreationPage {
     	IFieldEditor versionEditor = null;
+    	IProject selectedProject = null;
 
 		public WizardNewBeansXMLFileCreationPage(String pageName, IStructuredSelection selection) {
 			super(pageName, selection);
@@ -182,19 +194,19 @@ public class NewBeansXMLCreationWizard extends BasicNewResourceWizard {
 				if(r != null) {
 					boolean needMetaInf = false;
 					IPath current = getContainerFullPath();
-					IProject p = r.getProject();
+					selectedProject = r.getProject();
 					//Prefer location of existing beans.xml to any other location.
-					IPath path = getContainerWithExistingBeansXML(p);
+					IPath path = getContainerWithExistingBeansXML(selectedProject);
 
 					if(path == null) {
 						//If no beans.xml exist, prefer WEB-INF if it exists
-						path = ProjectHome.getWebInfPath(p);
+						path = ProjectHome.getWebInfPath(selectedProject);
 					}
 					if(current != null && current.equals(path)) {
 						return;
 					}
 					if(path == null) {
-						 Set<IFolder> fs = EclipseResourceUtil.getSourceFolders(p);
+						 Set<IFolder> fs = EclipseResourceUtil.getSourceFolders(selectedProject);
 						 for (IFolder f: fs) {
 							 IFolder fm = f.getFolder("META-INF");
 							 if(!fm.exists()) {
@@ -322,6 +334,10 @@ public class NewBeansXMLCreationWizard extends BasicNewResourceWizard {
 	    		}
 	    	}
 	    	return CDIVersion.getLatestDefaultVersion().toString();
+	    }
+	    
+	    IProject getSelectedProject() {
+	    	return selectedProject;
 	    }
 
     }

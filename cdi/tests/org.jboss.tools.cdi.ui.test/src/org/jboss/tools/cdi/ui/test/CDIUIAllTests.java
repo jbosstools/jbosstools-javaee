@@ -31,6 +31,7 @@ import org.jboss.tools.cdi.ui.test.validation.java.CDIAsYouTypeCDIAndELValidator
 import org.jboss.tools.cdi.ui.test.validation.java.CDIAsYouTypeInJavaSupressWarningsTest;
 import org.jboss.tools.cdi.ui.test.validation.java.CDIAsYouTypeInJavaValidationTest;
 import org.jboss.tools.cdi.ui.test.wizard.AddQualifiersToBeanWizardTest;
+import org.jboss.tools.cdi.ui.test.wizard.NewBeansXMLCreationWizardTest;
 import org.jboss.tools.cdi.ui.test.wizard.NewCDIClassWizardFactoryTest;
 import org.jboss.tools.cdi.ui.test.wizard.NewCDIWebProjectWizardTest;
 import org.jboss.tools.cdi.ui.test.wizard.NewCDIWizardTest;
@@ -64,6 +65,7 @@ public class CDIUIAllTests {
 		suiteAll.addTestSuite(CDIPreferencePageTest.class);
 		suiteAll.addTestSuite(NewCDIWizardTest.class);
 		suiteAll.addTestSuite(NewCDIWebProjectWizardTest.class);
+		suiteAll.addTestSuite(NewBeansXMLCreationWizardTest.class);
 
 		suite.addTestSuite(CAELProposalFilteringTest.class);
 		suite.addTestSuite(CDISearchParticipantTest.class);
