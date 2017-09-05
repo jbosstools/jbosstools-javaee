@@ -14,8 +14,16 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.ISchedulingRule;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -23,6 +31,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
+import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.ui.preferences.SettingsPage;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
@@ -140,11 +149,26 @@ public class CDISettingsPreferencePage extends SettingsPage {
 		return true;
 	}
 
-	private void addCDISupport(IProject project) {
+	private void addCDISupport(final IProject project) {
 		if(project==null) {
 			return;
 		}
 		CDIUtil.enableCDI(project, generateBeansXml, new NullProgressMonitor());
+		Job buildJob = new Job("Build CDI project "+project.getName()) {
+			
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				try {
+					project.build(IncrementalProjectBuilder.CLEAN_BUILD, monitor);
+				} catch (CoreException e) {
+					CDIUIPlugin.getDefault().logError(e);
+				}
+				return Status.OK_STATUS;
+			}
+		};
+		ISchedulingRule modifyRule = ResourcesPlugin.getWorkspace().getRuleFactory().buildRule();
+		buildJob.setRule(modifyRule);
+		buildJob.schedule();
 	}
 
 	private void removeCDISupport(IProject project) {
