@@ -10,10 +10,15 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.reddeer.ui;
 
-import org.jboss.reddeer.jface.wizard.WizardPage;
-import org.jboss.reddeer.swt.impl.text.LabeledText;
+import org.eclipse.reddeer.core.reference.ReferencedComposite;
+import org.eclipse.reddeer.jface.wizard.WizardPage;
+import org.eclipse.reddeer.swt.impl.text.LabeledText;
 
 public class ImportWebWarWizardPage extends WizardPage {
+
+	public ImportWebWarWizardPage(ReferencedComposite referencedComposite) {
+		super(referencedComposite);
+	}
 
 	public void setWarLocation(String location) {
 		new LabeledText("*.war Location:*").setText(location);

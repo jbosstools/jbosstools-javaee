@@ -12,23 +12,23 @@ package org.jboss.tools.jsf.reddeer.ui.editor;
 
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.jboss.reddeer.common.wait.WaitWhile;
-import org.jboss.reddeer.core.condition.ShellWithTextIsActive;
-import org.jboss.reddeer.core.lookup.EditorPartLookup;
-import org.jboss.reddeer.core.util.Display;
-import org.jboss.reddeer.core.util.ResultRunnable;
-import org.jboss.reddeer.swt.api.Tree;
-import org.jboss.reddeer.swt.api.TreeItem;
-import org.jboss.reddeer.swt.impl.button.FinishButton;
-import org.jboss.reddeer.swt.impl.button.PushButton;
-import org.jboss.reddeer.swt.impl.ctab.DefaultCTabItem;
-import org.jboss.reddeer.swt.impl.shell.DefaultShell;
-import org.jboss.reddeer.swt.impl.text.DefaultText;
-import org.jboss.reddeer.swt.impl.tree.DefaultTree;
-import org.jboss.reddeer.swt.impl.tree.DefaultTreeItem;
-import org.jboss.reddeer.workbench.impl.editor.DefaultEditor;
+import org.eclipse.reddeer.common.wait.WaitWhile;
+import org.eclipse.reddeer.swt.api.Tree;
+import org.eclipse.reddeer.swt.api.TreeItem;
+import org.eclipse.reddeer.swt.condition.ShellIsAvailable;
+import org.eclipse.reddeer.swt.impl.button.FinishButton;
+import org.eclipse.reddeer.swt.impl.button.PushButton;
+import org.eclipse.reddeer.swt.impl.ctab.DefaultCTabItem;
+import org.eclipse.reddeer.swt.impl.shell.DefaultShell;
+import org.eclipse.reddeer.swt.impl.text.DefaultText;
+import org.eclipse.reddeer.swt.impl.tree.DefaultTree;
+import org.eclipse.reddeer.swt.impl.tree.DefaultTreeItem;
+import org.eclipse.reddeer.workbench.impl.editor.DefaultEditor;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.jsf.reddeer.ProjectType;
+import org.eclipse.reddeer.workbench.core.lookup.EditorPartLookup;
+import org.eclipse.reddeer.common.util.Display;
+import org.eclipse.reddeer.common.util.ResultRunnable;
 
 public class FacesConfigEditor extends DefaultEditor {
 
@@ -76,7 +76,7 @@ public class FacesConfigEditor extends DefaultEditor {
 		new DefaultText(0).setText(beanClass);
 		new DefaultText(1).setText(beanName);
 		new FinishButton().click();
-		new WaitWhile(new ShellWithTextIsActive(FacesConfigEditor.getAddManagedBeanDialogTitle(testProjectType)));
+		new WaitWhile(new ShellIsAvailable(FacesConfigEditor.getAddManagedBeanDialogTitle(testProjectType)));
 	}
 	
 	public void addComponent(String facesConfigFileName, String componentType,	String componentClass) {
@@ -87,7 +87,7 @@ public class FacesConfigEditor extends DefaultEditor {
 		new DefaultText(0).setText(componentType);
 		new DefaultText(1).setText(componentClass);
 		new FinishButton().click();
-		new WaitWhile(new ShellWithTextIsActive("Add Component"));
+		new WaitWhile(new ShellIsAvailable("Add Component"));
 	}
 	
 	public void addConverter(String facesConfigFileName, String converterId,	String converterClass) {
@@ -98,7 +98,7 @@ public class FacesConfigEditor extends DefaultEditor {
 		new DefaultText(0).setText(converterId);
 		new DefaultText(1).setText(converterClass);
 		new FinishButton().click();
-		new WaitWhile(new ShellWithTextIsActive("Add Converter"));
+		new WaitWhile(new ShellIsAvailable("Add Converter"));
 	}
 	
 	public void addReferencedBean(String facesConfigFileName, String referencedBeanName, String referecnedBeanClass) {
@@ -109,7 +109,7 @@ public class FacesConfigEditor extends DefaultEditor {
 		new DefaultText(0).setText(referencedBeanName);
 		new DefaultText(1).setText(referecnedBeanClass);
 		new FinishButton().click();
-		new WaitWhile(new ShellWithTextIsActive("Add Referenced Bean"));
+		new WaitWhile(new ShellIsAvailable("Add Referenced Bean"));
 	}
 	
 	public void addRenderKit(ProjectType testProjectType,String facesConfigFileName, String renderKitId, String renderKitClass) {
@@ -120,7 +120,7 @@ public class FacesConfigEditor extends DefaultEditor {
 		new DefaultText(0).setText(renderKitId);
 		new DefaultText(1).setText(renderKitClass);
 		new FinishButton().click();
-		new WaitWhile(new ShellWithTextIsActive(FacesConfigEditor.getAddRenderKitDialogTitle(testProjectType)));
+		new WaitWhile(new ShellIsAvailable(FacesConfigEditor.getAddRenderKitDialogTitle(testProjectType)));
 	}	
 
 	public void addValidator(String facesConfigFileName, String renderKitId, String renderKitClass) {
@@ -131,7 +131,7 @@ public class FacesConfigEditor extends DefaultEditor {
 		new DefaultText(0).setText(renderKitId);
 		new DefaultText(1).setText(renderKitClass);
 		new FinishButton().click();
-		new WaitWhile(new ShellWithTextIsActive("Add Validator"));
+		new WaitWhile(new ShellIsAvailable("Add Validator"));
 	}
 	
 	

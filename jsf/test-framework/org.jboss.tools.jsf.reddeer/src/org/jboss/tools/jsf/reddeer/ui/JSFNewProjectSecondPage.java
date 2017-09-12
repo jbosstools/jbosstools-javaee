@@ -10,11 +10,16 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.reddeer.ui;
 
-import org.jboss.reddeer.jface.wizard.WizardPage;
-import org.jboss.reddeer.swt.impl.button.CheckBox;
-import org.jboss.reddeer.swt.impl.combo.DefaultCombo;
+import org.eclipse.reddeer.core.reference.ReferencedComposite;
+import org.eclipse.reddeer.jface.wizard.WizardPage;
+import org.eclipse.reddeer.swt.impl.button.CheckBox;
+import org.eclipse.reddeer.swt.impl.combo.DefaultCombo;
 
 public class JSFNewProjectSecondPage extends WizardPage {
+
+	public JSFNewProjectSecondPage(ReferencedComposite referencedComposite) {
+		super(referencedComposite);
+	}
 
 	public void setRuntime(String runtime) {
 		new DefaultCombo(1).setSelection(runtime);

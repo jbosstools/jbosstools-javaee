@@ -11,7 +11,7 @@
 package org.jboss.tools.jsf.reddeer.ui.editor;
 
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.jboss.reddeer.workbench.impl.editor.TextEditor;
+import org.eclipse.reddeer.workbench.impl.editor.TextEditor;
 
 /**
  * RedDeer implementation of web.xml file source editor
