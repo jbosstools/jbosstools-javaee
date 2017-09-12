@@ -10,11 +10,16 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.reddeer.ui;
 
-import org.jboss.reddeer.jface.wizard.WizardPage;
-import org.jboss.reddeer.swt.impl.combo.DefaultCombo;
-import org.jboss.reddeer.swt.impl.text.DefaultText;
+import org.eclipse.reddeer.core.reference.ReferencedComposite;
+import org.eclipse.reddeer.jface.wizard.WizardPage;
+import org.eclipse.reddeer.swt.impl.combo.DefaultCombo;
+import org.eclipse.reddeer.swt.impl.text.DefaultText;
 
 public class JSFNewProjectFirstPage extends WizardPage {
+
+	public JSFNewProjectFirstPage(ReferencedComposite referencedComposite) {
+		super(referencedComposite);
+	}
 
 	public void setProjectName(String name) {
 		new DefaultText(0).setText(name);

@@ -10,12 +10,12 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.reddeer.ui;
 
-import org.jboss.reddeer.jface.wizard.NewWizardDialog;
+import org.eclipse.reddeer.eclipse.selectionwizard.NewMenuWizard;
 
-public class JSFNewProjectWizard extends NewWizardDialog {
+public class JSFNewProjectWizard extends NewMenuWizard {
 
 	public JSFNewProjectWizard() {
-		super("JBoss Tools Web", "JSF", "JSF Project");
+		super("New JSF Project",  new String[] {"JBoss Tools Web", "JSF", "JSF Project"});
 	}
 
 }

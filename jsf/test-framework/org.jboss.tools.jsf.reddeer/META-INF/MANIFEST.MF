@@ -7,7 +7,7 @@ Bundle-Activator: org.jboss.tools.jsf.reddeer.Activator
 Require-Bundle: org.eclipse.ui,
  org.junit,
  org.eclipse.core.runtime,
- org.jboss.reddeer.go;bundle-version="[1.2.0,2.0.0)",
+ org.eclipse.reddeer.go;bundle-version="2.0.0",
  org.jboss.tools.common.model.ui,
  org.jboss.tools.jsf.ui,
  org.jboss.tools.jst.web.ui

@@ -12,24 +12,24 @@ package org.jboss.tools.jsf.reddeer.ui.editor;
 
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.jboss.reddeer.common.wait.WaitWhile;
-import org.jboss.reddeer.core.condition.ShellWithTextIsAvailable;
-import org.jboss.reddeer.core.lookup.EditorPartLookup;
-import org.jboss.reddeer.core.matcher.WithMnemonicTextMatcher;
-import org.jboss.reddeer.core.util.Display;
-import org.jboss.reddeer.core.util.ResultRunnable;
-import org.jboss.reddeer.swt.api.Tree;
-import org.jboss.reddeer.swt.api.TreeItem;
-import org.jboss.reddeer.swt.impl.button.FinishButton;
-import org.jboss.reddeer.swt.impl.button.PushButton;
-import org.jboss.reddeer.swt.impl.combo.DefaultCombo;
-import org.jboss.reddeer.swt.impl.ctab.DefaultCTabItem;
-import org.jboss.reddeer.swt.impl.shell.DefaultShell;
-import org.jboss.reddeer.swt.impl.text.DefaultText;
-import org.jboss.reddeer.swt.impl.tree.DefaultTree;
-import org.jboss.reddeer.swt.impl.tree.DefaultTreeItem;
-import org.jboss.reddeer.workbench.impl.editor.DefaultEditor;
+import org.eclipse.reddeer.common.wait.WaitWhile;
+import org.eclipse.reddeer.core.matcher.WithMnemonicTextMatcher;
+import org.eclipse.reddeer.common.util.Display;
+import org.eclipse.reddeer.common.util.ResultRunnable;
+import org.eclipse.reddeer.swt.api.Tree;
+import org.eclipse.reddeer.swt.api.TreeItem;
+import org.eclipse.reddeer.swt.condition.ShellIsAvailable;
+import org.eclipse.reddeer.swt.impl.button.FinishButton;
+import org.eclipse.reddeer.swt.impl.button.PushButton;
+import org.eclipse.reddeer.swt.impl.combo.DefaultCombo;
+import org.eclipse.reddeer.swt.impl.ctab.DefaultCTabItem;
+import org.eclipse.reddeer.swt.impl.shell.DefaultShell;
+import org.eclipse.reddeer.swt.impl.text.DefaultText;
+import org.eclipse.reddeer.swt.impl.tree.DefaultTree;
+import org.eclipse.reddeer.swt.impl.tree.DefaultTreeItem;
+import org.eclipse.reddeer.workbench.impl.editor.DefaultEditor;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
+import org.eclipse.reddeer.workbench.core.lookup.EditorPartLookup;
 
 /**
  * RedDeer implementation of web.xml file editor
@@ -134,7 +134,7 @@ public class WebXmlEditor extends DefaultEditor {
 		new DefaultText(2).setText(servleteClass);
 		new DefaultText(3).setText(servletDescription);
 		new FinishButton().click();
-		new WaitWhile(new ShellWithTextIsAvailable("Add Servlet"));
+		new WaitWhile(new ShellIsAvailable("Add Servlet"));
 	}
 
 	public void addServletMapping(String servletName, String urlPattern) {
@@ -144,7 +144,7 @@ public class WebXmlEditor extends DefaultEditor {
 		new DefaultCombo(0).setText(servletName);
 		new DefaultText(0).setText(urlPattern);
 		new FinishButton().click();
-		new WaitWhile(new ShellWithTextIsAvailable("Add Servlet Mapping"));
+		new WaitWhile(new ShellIsAvailable("Add Servlet Mapping"));
 	}
 
 }
