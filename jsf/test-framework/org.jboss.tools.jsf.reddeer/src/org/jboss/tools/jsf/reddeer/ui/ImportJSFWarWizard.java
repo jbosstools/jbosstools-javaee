@@ -15,7 +15,7 @@ import org.eclipse.reddeer.eclipse.selectionwizard.ImportMenuWizard;
 public class ImportJSFWarWizard extends ImportMenuWizard {
 
 	public ImportJSFWarWizard() {
-		super("Import", "Other", "JSF Project From *.war");
+		super("Import JSF Project", "Other", "JSF Project From *.war");
 	}
 
 }
