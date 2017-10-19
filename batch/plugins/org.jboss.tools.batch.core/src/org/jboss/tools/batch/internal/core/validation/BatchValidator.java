@@ -336,19 +336,8 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 	static String[] EXECUTION_ELEMENTS = {TAG_DECISION, TAG_FLOW, TAG_SPLIT, TAG_STEP};
 
 	private void validateFlowElement(IBatchProject batchProject, IFile file, ContextProperties cp, Element flow, JobTransitionsValidator jobTransitions) {
-		TransitionsValidator transitionValidator = null;
-		if(jobTransitions == null) {
-			transitionValidator = jobTransitions = new JobTransitionsValidator(this);
-		} else {
-			transitionValidator = new TransitionsValidator(this, jobTransitions);
-		}
-		for (String tag: EXECUTION_ELEMENTS) {
-			for (Element decision: XMLUtilities.getChildren(flow, tag)) {
-				transitionValidator.addFlowElement(decision);
-			}
-		}
-
-		transitionValidator.validate(file);
+		jobTransitions = getTransitionsValidator(file, flow, jobTransitions);
+		jobTransitions.validate(file);
 
 		for (Element decision: XMLUtilities.getChildren(flow, TAG_DECISION)) {
 			validateDecisionElement(batchProject, file, cp, decision);
@@ -363,12 +352,31 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 //			}
 		}
 		for (Element step: XMLUtilities.getChildren(flow, TAG_STEP)) {
-			validateStepElement(batchProject, file, cp, step);
+			validateStepElement(batchProject, file, cp, step, jobTransitions);
 		}
 
 	}
 
-	private void validateStepElement(IBatchProject batchProject, IFile file, ContextProperties cp, Element step) {
+	JobTransitionsValidator getTransitionsValidator(IFile file, Element element, JobTransitionsValidator jobTransitions) {
+		TransitionsValidator transitionValidator = null;
+		if(jobTransitions == null) {
+			transitionValidator = jobTransitions = new JobTransitionsValidator(this);
+		} else {
+			transitionValidator = new TransitionsValidator(this, jobTransitions);
+		}
+		for (String tag: EXECUTION_ELEMENTS) {
+			for (Element decision: XMLUtilities.getChildren(element, tag)) {
+				transitionValidator.addFlowElement(decision);
+			}
+		}
+
+		return jobTransitions;
+	}
+
+	private void validateStepElement(IBatchProject batchProject, IFile file, ContextProperties cp, Element step, JobTransitionsValidator jobTransitions) {
+		jobTransitions = getTransitionsValidator(file, step, jobTransitions);
+		jobTransitions.addFlowElement(step);
+		jobTransitions.validate(file);
 		ContextProperties cp1 = new ContextProperties(cp, step, file);
 
 		Element batchlet = XMLUtilities.getUniqueChild(step, TAG_BATCHLET);
