@@ -204,4 +204,18 @@ public class BatchValidatorTest extends TestCase {
 		TestUtil.validate(resource);
 		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(BatchValidationMessages.JOB_RESTARTABLE_IS_NOT_BOOLEAN, new String[]{}), 3); //$NON-NLS-1$
 	}
+	
+	public void testJobUnknownStopRestartInStep() throws Exception {
+		IResource resource = project.findMember("/src/META-INF/batch-jobs/job-step-unknown-stop-restart.xml"); //$NON-NLS-1$
+		assertTrue(resource.exists());
+		TestUtil.validate(resource);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(BatchValidationMessages.TARGET_NOT_FOUND_ON_JOB_LEVEL, new String[]{"does-not-exists"}), 8); //$NON-NLS-1$
+	}
+	
+	public void testJobUnknownNextToInStep() throws Exception {
+		IResource resource = project.findMember("/src/META-INF/batch-jobs/job-step-unknown-next-to.xml"); //$NON-NLS-1$
+		assertTrue(resource.exists());
+		TestUtil.validate(resource);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(BatchValidationMessages.TARGET_NOT_FOUND, new String[]{"does-not-exists"}), 8); //$NON-NLS-1$
+	}
 }

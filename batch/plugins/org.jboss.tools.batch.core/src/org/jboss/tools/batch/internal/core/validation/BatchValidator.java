@@ -336,8 +336,11 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 	static String[] EXECUTION_ELEMENTS = {TAG_DECISION, TAG_FLOW, TAG_SPLIT, TAG_STEP};
 
 	private void validateFlowElement(IBatchProject batchProject, IFile file, ContextProperties cp, Element flow, JobTransitionsValidator jobTransitions) {
-		jobTransitions = getTransitionsValidator(file, flow, jobTransitions);
-		jobTransitions.validate(file);
+		TransitionsValidator transitionsValidator = getTransitionsValidator(file, flow, jobTransitions);
+		if (jobTransitions == null) {
+			jobTransitions = (JobTransitionsValidator) transitionsValidator;
+		}
+		transitionsValidator.validate(file);
 
 		for (Element decision: XMLUtilities.getChildren(flow, TAG_DECISION)) {
 			validateDecisionElement(batchProject, file, cp, decision);
@@ -374,9 +377,12 @@ public class BatchValidator extends KBValidator implements BatchConstants, IStri
 	}
 
 	private void validateStepElement(IBatchProject batchProject, IFile file, ContextProperties cp, Element step, JobTransitionsValidator jobTransitions) {
-		jobTransitions = getTransitionsValidator(file, step, jobTransitions);
-		jobTransitions.addFlowElement(step);
-		jobTransitions.validate(file);
+		TransitionsValidator transitionsValidator = getTransitionsValidator(file, step, jobTransitions);
+		if (jobTransitions == null) {
+			jobTransitions = (JobTransitionsValidator) transitionsValidator;
+		}
+		transitionsValidator.addFlowElement(step);
+		transitionsValidator.validate(file);
 		ContextProperties cp1 = new ContextProperties(cp, step, file);
 
 		Element batchlet = XMLUtilities.getUniqueChild(step, TAG_BATCHLET);
