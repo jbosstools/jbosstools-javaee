@@ -7,7 +7,7 @@
 		<artifactId>test-framework</artifactId>
 		<version>3.8.200-SNAPSHOT</version>
 	</parent>
-	<groupId>org.jboss.tools.jsf</groupId>
+	<groupId>org.jboss.tools.jsf.test-framework</groupId>
 	<artifactId>org.jboss.tools.jsf.reddeer</artifactId>
 	<packaging>eclipse-plugin</packaging>
 

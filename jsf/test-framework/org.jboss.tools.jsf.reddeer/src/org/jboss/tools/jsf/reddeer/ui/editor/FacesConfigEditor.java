@@ -56,12 +56,12 @@ public class FacesConfigEditor extends DefaultEditor {
 	public FacesConfigSourceEditor getFacesConfigSourceEditor() {
 		activateSourceTab();
 		IEditorPart editorPart = EditorPartLookup.getInstance().getActiveEditor();
-		final org.jboss.tools.jsf.ui.editor.FacesConfigEditor fce = ((org.jboss.tools.jsf.ui.editor.FacesConfigEditor) ((EditorPartWrapper) editorPart)
+		final FacesConfigEditor fce = ((FacesConfigEditor) ((EditorPartWrapper) editorPart)
 				.getEditor());
 		ITextEditor iTextEditor = (ITextEditor) Display.syncExec(new ResultRunnable<IEditorPart>() {
 			@Override
 			public IEditorPart run() {
-				return fce.getSourceEditor();
+				return fce.getEditorPart();
 			}
 		});
 		return new FacesConfigSourceEditor(iTextEditor);
