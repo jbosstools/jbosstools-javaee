@@ -23,6 +23,7 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IModuleDescription;
 import org.eclipse.jdt.core.IOpenable;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
@@ -550,6 +551,18 @@ public class JavaProject implements IJavaProject {
 			throws JavaModelException {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public IModuleDescription findModule(String moduleName, WorkingCopyOwner owner) throws JavaModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IModuleDescription getModuleDescription() throws JavaModelException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
