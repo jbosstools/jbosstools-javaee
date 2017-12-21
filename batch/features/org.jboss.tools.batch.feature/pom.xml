@@ -8,5 +8,6 @@
 	</parent>
 	<groupId>org.jboss.tools.batch.features</groupId>
 	<artifactId>org.jboss.tools.batch.feature</artifactId> 
+	<version>1.9.101-SNAPSHOT</version>
 	<packaging>eclipse-feature</packaging>
 </project>
