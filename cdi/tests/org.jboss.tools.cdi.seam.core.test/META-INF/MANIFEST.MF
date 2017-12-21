@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Seam 3 Core Test
 Bundle-SymbolicName: org.jboss.tools.cdi.seam.core.test;singleton:=true
-Bundle-Version: 1.8.200.qualifier
+Bundle-Version: 1.8.201.qualifier
 Bundle-Vendor: JBoss by Red Hat
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.jboss.tools.cdi.seam.core,
