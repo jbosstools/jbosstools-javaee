@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.ui.test.testmodel;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -565,4 +566,18 @@ public class JavaProject implements IJavaProject {
 		return null;
 	}
 
+	@Override
+	public IPackageFragmentRoot[] findUnfilteredPackageFragmentRoots(IClasspathEntry entry) {
+		return null;
+	}
+
+	@Override
+	public IClasspathEntry getClasspathEntryFor(IPath path) throws JavaModelException {
+		return null;
+	}
+
+	@Override
+	public Set<String> determineModulesOfProjectsWithNonEmptyClasspath() throws JavaModelException {
+		return null;
+	}
 }
