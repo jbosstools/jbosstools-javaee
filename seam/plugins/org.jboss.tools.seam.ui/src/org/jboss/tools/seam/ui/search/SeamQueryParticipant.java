@@ -82,7 +82,7 @@ public class SeamQueryParticipant implements IQueryParticipant {
 			
 			SeamJavaSearchRequestor seamRequestor = new SeamJavaSearchRequestor(requestor);
 
-			SeamSearchScope scope  = new SeamSearchScope(new JavaSearchScope(), patternQuery.getLimitTo());
+			SeamSearchScope scope  = new SeamSearchScope(new JavaSearchScope(false), patternQuery.getLimitTo());
 			
 			SeamSearchEngine.getInstance().search(pattern, 
 													scope, 

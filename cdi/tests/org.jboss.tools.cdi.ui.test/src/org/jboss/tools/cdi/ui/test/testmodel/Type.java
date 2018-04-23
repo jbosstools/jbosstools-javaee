@@ -28,6 +28,7 @@ import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IOpenable;
+import org.eclipse.jdt.core.IOrdinaryClassFile;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
@@ -53,7 +54,7 @@ public class Type extends CDIElement implements IType {
 	}
 
 	@Override
-	public IClassFile getClassFile() {
+	public IOrdinaryClassFile getClassFile() {
 		// TODO Auto-generated method stub
 		return null;
 	}
