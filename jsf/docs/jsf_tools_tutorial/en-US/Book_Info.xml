@@ -4,7 +4,7 @@
 <bookinfo>
 	<title>JSF Tools Tutorial</title>
 	<subtitle>Provides information relating to the JSF Tools module.</subtitle>
-	<productname>Red Hat JBoss Developer Studio</productname>
+	<productname>Red Hat Developer Studio</productname>
 	<productnumber>7.1</productnumber>
 	<abstract>
 		<para>The JSF Tools Tutorial explains how to use the JSF Tools module to create a simple JSF application.</para>

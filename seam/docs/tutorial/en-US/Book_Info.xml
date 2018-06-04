@@ -4,7 +4,7 @@
 <bookinfo>
 	<title>Seam Tools Tutorial</title>
 	<subtitle>Provides a tutorial for Seam tools.</subtitle>
-	<productname>Red Hat JBoss Developer Studio</productname>
+	<productname>Red Hat Developer Studio</productname>
 	<productnumber>7.1</productnumber>
 	<abstract>
 		<para>Guides developers through a tutorial of how to use the Seam tooling.</para>

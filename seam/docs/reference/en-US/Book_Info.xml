@@ -4,7 +4,7 @@
 <bookinfo>
 	<title>Seam Developer Tools Reference Guide</title>
 	<subtitle>Provides information relating to the Seam Developer Tools module.</subtitle>
-	<productname>Red Hat JBoss Developer Studio</productname>
+	<productname>Red Hat Developer Studio</productname>
 	<productnumber>7.1</productnumber>
 	<abstract>
 		<para>The Seam Developer Tools Reference Guide explains how to use the Seam Developer Tools module to create Seam projects for deployment.</para>
