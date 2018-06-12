@@ -1,5 +1,0 @@
-<tests>
-	<test id="id1">
-		<INPUT TYPE="button" VALUE="Transition" STYLE="-moz-user-modify: read-only;" />
-	</test>
-</tests>

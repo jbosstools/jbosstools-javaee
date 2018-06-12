@@ -1,5 +1,0 @@
-<tests>
-	<test id="testId">
-		<IMG SRC="/.*contextPathFolder/RedHat.png/"/>
-	</test>
-</tests>

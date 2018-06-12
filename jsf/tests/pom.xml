@@ -4,7 +4,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	<parent>
 		<groupId>org.jboss.tools</groupId>
 		<artifactId>jsf</artifactId>
-		<version>3.8.200-SNAPSHOT</version>
+		<version>3.8.300-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.tools.jsf</groupId>
 	<artifactId>tests</artifactId>
@@ -21,12 +21,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<module>org.jboss.tools.jsf.text.ext.test</module>
 		<module>org.jboss.tools.jsf.ui.test</module>
 		<module>org.jboss.tools.jsf.verification.test</module>
-		<module>org.jboss.tools.jsf.vpe.ajax4jsf.test</module>
-		<module>org.jboss.tools.jsf.vpe.facelets.test</module>
-		<module>org.jboss.tools.jsf.vpe.jbpm.test</module>
-		<module>org.jboss.tools.jsf.vpe.jsf.test</module>
-		<module>org.jboss.tools.jsf.vpe.jstl.test</module>
-		<module>org.jboss.tools.jsf.vpe.myfaces.test</module>
 		<module>org.jboss.tools.jsf.vpe.richfaces.test</module>
 		<module>org.jboss.tools.jsf.base.test</module>
 	</modules>

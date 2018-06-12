@@ -32,7 +32,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<module>org.jboss.tools.seamfp.core.test</module>
 		<module>org.jboss.tools.seamfp.ui.test</module>
 		<module>org.jboss.tools.runtime.seam.detector.test</module>
-		<module>org.jboss.tools.seam.vpe.test</module>
 	</modules>
 
 	<!-- JBIDE-19903 add javaee site so that these tests can be run against upstream site, rather than expecting dependencies to have been built & resolved locally -->

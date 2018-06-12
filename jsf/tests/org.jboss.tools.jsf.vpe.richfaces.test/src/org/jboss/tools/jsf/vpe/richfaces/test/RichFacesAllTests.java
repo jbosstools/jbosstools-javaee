@@ -25,7 +25,7 @@ import org.junit.runners.Suite;
  */
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ RichFacesAllImportantTests.class, RichFacesComponentContentTest.class })
+@Suite.SuiteClasses({ RichFacesAllImportantTests.class })
 public class RichFacesAllTests {
 	public static final String IMPORT_PROJECT_NAME = "richFacesTest"; //$NON-NLS-1$
 }

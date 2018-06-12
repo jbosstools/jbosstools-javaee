@@ -1,5 +1,0 @@
-<tests>
-	<test id="htmlCommandLink">
-		<A><SPAN CLASS="vpe-text">value</SPAN></A>
-	</test>
-</tests>

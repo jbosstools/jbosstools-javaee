@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<file-systems VERSION="2.0.0" application-name="myFacesTest"
- model-entity="FileSystems" workspace-home="./WebContent/WEB-INF">
- <file-system NAME="src" location="%workspace.home%/../../JavaSource" model-entity="FileSystemFolder"/>
- <file-system NAME="myFacesTest" location="%eclipse.project%" model-entity="FileSystemFolder"/>
- <web model-entity="JstWeb"/>
-</file-systems>
