@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature id="org.jboss.tools.jsf.test.feature" label="%featureName" version="3.8.200.qualifier" provider-name="%featureProvider"
+<feature id="org.jboss.tools.jsf.test.feature" label="%featureName" version="3.8.300.qualifier" provider-name="%featureProvider"
 	license-feature="org.jboss.tools.foundation.license.feature"
 	license-feature-version="0.0.0">
 
@@ -41,42 +41,6 @@
 
    <plugin
          id="org.jboss.tools.jsf.verification.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.ajax4jsf.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.facelets.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.jbpm.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.jsf.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.jstl.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.myfaces.test"
          download-size="0"
          install-size="0"
          version="0.0.0"/>

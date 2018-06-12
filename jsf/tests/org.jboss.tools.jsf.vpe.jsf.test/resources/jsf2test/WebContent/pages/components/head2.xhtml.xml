@@ -1,7 +1,0 @@
-<tests>
-	<test id="head1">
-		<DIV STYLE="display: none; -moz-user-modify: read-only;">
-			<BR VPE:PSEUDO-ELEMENT="yes"/>
-		</DIV>
-	</test>
-</tests>

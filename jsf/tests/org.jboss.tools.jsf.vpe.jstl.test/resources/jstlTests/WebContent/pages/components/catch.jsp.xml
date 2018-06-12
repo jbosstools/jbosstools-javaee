@@ -1,9 +1,0 @@
-<tests>
-	<test id="id1">
-		<DIV STYLE="-moz-user-modify: read-write;">
-			<SPAN CLASS="vpe-text">
-				some errors
-            </SPAN>
-		</DIV>
-	</test>
-</tests>

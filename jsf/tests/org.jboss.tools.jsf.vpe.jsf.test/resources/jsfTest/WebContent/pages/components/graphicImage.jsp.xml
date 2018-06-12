@@ -1,8 +1,0 @@
-<tests>
-	<test id="graphicImage1">
-		<IMG SRC="/.*ve/unresolved_image.gif/" />
-	</test>
-	<test id="graphicImage2">
-		<IMG SRC="/.*jsfTest/WebContent/pages/components/img/image.jpeg/" />
-	</test>
-</tests>

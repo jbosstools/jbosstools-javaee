@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
-   <extension
-         point="org.jboss.tools.vpe.templates">
-      <templates
-            decsription="VPE Templates for Ajax4jsf components"
-            name="ajax4jsf"
-            path="templates/vpe-templates-ajax4jsf.xml"/>
-   </extension>
-
  <extension
        point="org.jboss.tools.common.model.preferences">
     <contribution
