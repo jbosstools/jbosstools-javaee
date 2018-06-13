@@ -106,6 +106,7 @@ public interface CDIConstants {
 
 	public String HTTP_SESSION_TYPE_NAME = "javax.servlet.http.HttpSession";
 	public String HTTP_SERVLET_REQUEST_TYPE_NAME = "javax.servlet.http.HttpServletRequest";
+	public String HTTP_SERVLET_CONTEXT_TYPE_NAME = "javax.servlet.ServletContext";
 
 	public String ANNOTATION_LITERAL_TYPE_NAME = "javax.enterprise.util.AnnotationLiteral";
 
