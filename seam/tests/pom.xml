@@ -50,6 +50,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 
 	<properties>
 		<surefire.timeout>1800</surefire.timeout>
+        <seam.skip.tests>false</seam.skip.tests>
+        <skipTests>${seam.skip.tests}</skipTests>
 	</properties>
 	<build>
 		<plugins>

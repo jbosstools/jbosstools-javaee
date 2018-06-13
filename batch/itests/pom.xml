@@ -11,6 +11,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	<name>batch.itests</name>
 	<properties>
 		<coverage.filter>org.jboss.tools.batch*</coverage.filter>
+        <batch.skip.tests>false</batch.skip.tests>
+        <skipTests>${batch.skip.tests}</skipTests>
 	</properties>
 	<packaging>pom</packaging>
 	<modules>
