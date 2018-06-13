@@ -11,12 +11,14 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	<name>batch.tests</name>
 	<properties>
 		<coverage.filter>org.jboss.tools.batch*</coverage.filter>
+        <batch.skip.tests>false</batch.skip.tests>
+        <skipTests>${batch.skip.tests}</skipTests>
 	</properties>
 	<packaging>pom</packaging>
 	<modules>
 		<!-- TODO: add tests <module>org.jboss.tools.batch.FOO.test</module> -->
 	</modules>
-
+    
 	<!-- JBIDE-19903 add javaee site so that these tests can be run against upstream site, rather than expecting dependencies to have been built & resolved locally -->
 	<profiles>
 		<profile>
