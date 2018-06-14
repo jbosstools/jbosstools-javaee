@@ -21,4 +21,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.jboss.tools.cdi.deltaspike.core,
  org.jboss.tools.cdi.deltaspike.core.validation
-Bundle-Vendor: JBoss by Red Hat
+Bundle-Vendor: Red Hat
