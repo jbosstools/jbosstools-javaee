@@ -8,6 +8,5 @@
 	</parent>
 	<groupId>org.jboss.tools.batch.plugins</groupId>
 	<artifactId>org.jboss.tools.batch.core</artifactId> 
-	<version>1.9.101-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 </project>
