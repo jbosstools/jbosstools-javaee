@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Batch Core Test
 Bundle-SymbolicName: org.jboss.tools.batch.core.itest
 Bundle-Version: 1.9.100.qualifier
-Bundle-Vendor: JBoss by Red Hat
+Bundle-Vendor: Red Hat
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.junit,
  org.jboss.tools.tests,

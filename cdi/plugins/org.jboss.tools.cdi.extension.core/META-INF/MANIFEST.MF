@@ -14,4 +14,4 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.jboss.tools.cdi.extension.internal.core;x-internal:=true
-Bundle-Vendor: JBoss by Red Hat
+Bundle-Vendor: Red Hat
