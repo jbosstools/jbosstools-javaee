@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Red Hat, Inc.
+ * Copyright (c) 2011-2018 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -52,10 +52,27 @@ public class BuiltInBeanFactory {
 		BUILT_IN.add(CDIConstants.HTTP_SESSION_TYPE_NAME);
 		BUILT_IN.add(CDIConstants.HTTP_SERVLET_REQUEST_TYPE_NAME);
 		BUILT_IN.add(CDIConstants.HTTP_SERVLET_CONTEXT_TYPE_NAME);
+		
+		BUILT_IN.add(CDIConstants.JSF_RESOURCE_HANDLER);
+		BUILT_IN.add(CDIConstants.JSF_EXTERNAL_CONTEXT);
+		BUILT_IN.add(CDIConstants.JSF_FACES_CONTEXT);
+		BUILT_IN.add(CDIConstants.JSF_FLASH);
 
 		BUILT_IN.add(CDIConstants.JMS_CONTEXT_TYPE_NAME);
 		
 		BUILT_IN.add(WeldConstants.DEPENDENT_CONTEXT_TYPE);
+		
+		addInfo(CDIConstants.JAVA_UTIL_MAP, null, CDIConstants.JSF_APPLICATION_MAP);
+		addInfo(CDIConstants.JAVA_UTIL_MAP, null, CDIConstants.JSF_COOKIE_MAP);
+		addInfo(CDIConstants.JAVA_UTIL_MAP, null, CDIConstants.JSF_FLOW_MAP);
+		addInfo(CDIConstants.JAVA_UTIL_MAP, null, CDIConstants.JSF_HEADER_MAP);
+		addInfo(CDIConstants.JAVA_UTIL_MAP, null, CDIConstants.JSF_HEADER_VALUES_MAP);
+		addInfo(CDIConstants.JAVA_UTIL_MAP, null, CDIConstants.JSF_INIT_PARAMETER_MAP);
+		addInfo(CDIConstants.JAVA_UTIL_MAP, null, CDIConstants.JSF_REQUEST_PARAMETER_MAP);
+		addInfo(CDIConstants.JAVA_UTIL_MAP, null, CDIConstants.JSF_REQUEST_PARAMETER_VALUES_MAP);
+		addInfo(CDIConstants.JAVA_UTIL_MAP, null, CDIConstants.JSF_REQUEST_MAP);
+		addInfo(CDIConstants.JAVA_UTIL_MAP, null, CDIConstants.JSF_SESSION_MAP);
+		addInfo(CDIConstants.JAVA_UTIL_MAP, null, CDIConstants.JSF_VIEW_MAP);
 
 		addInfo(WeldConstants.SINGLETON_CONTEXT_TYPE, 
 				CDIConstants.SINGLETON_SCOPED_ANNOTATION_TYPE_NAME,
