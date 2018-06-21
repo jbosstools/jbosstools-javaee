@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2009 Red Hat, Inc. 
+ * Copyright (c) 2009-2018 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -116,6 +116,23 @@ public interface CDIConstants {
 	public String ELEMENT_TYPE_METHOD_NAME = "java.lang.annotation.ElementType.METHOD";
 	public String ELEMENT_TYPE_FIELD_NAME = "java.lang.annotation.ElementType.FIELD";
 	public String ELEMENT_TYPE_PARAMETER_NAME = "java.lang.annotation.ElementType.PARAMETER";
+	public static final String JAVA_UTIL_MAP = "java.util.map";
 
 	public String JMS_CONTEXT_TYPE_NAME = "javax.jms.JMSContext";
+	
+	public static final String JSF_RESOURCE_HANDLER = "javax.faces.application.ResourceHandler";
+	public static final String JSF_EXTERNAL_CONTEXT = "javax.faces.context.ExternalContext";
+	public static final String JSF_FACES_CONTEXT = "javax.faces.context.FacesContext";
+	public static final String JSF_FLASH ="javax.faces.context.Flash";
+	public static final String JSF_APPLICATION_MAP = "javax.faces.annotation.ApplicationMap";
+	public static final String JSF_COOKIE_MAP = "javax.faces.annotation.RequestCookieMap";
+	public static final String JSF_FLOW_MAP = "javax.faces.annotation.FlowMap";
+	public static final String JSF_HEADER_MAP = "javax.faces.annotation.HeaderMap";
+	public static final String JSF_HEADER_VALUES_MAP = "javax.faces.annotation.HeaderValuesMap";
+	public static final String JSF_INIT_PARAMETER_MAP = "javax.faces.annotation.InitParameterMap";
+	public static final String JSF_REQUEST_PARAMETER_MAP = "javax.faces.annotation.RequestParameterMap";
+	public static final String JSF_REQUEST_PARAMETER_VALUES_MAP = "javax.faces.annotation.RequestParameterValuesMap";
+	public static final String JSF_REQUEST_MAP = "javax.faces.annotation.RequestMap";
+	public static final String JSF_SESSION_MAP = "javax.faces.annotation.SessionMap";
+	public static final String JSF_VIEW_MAP = "javax.faces.annotation.ViewMap";
 }
