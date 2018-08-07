@@ -69,7 +69,7 @@ Require-Bundle: org.jboss.tools.jst.web;visibility:=reexport,
  org.jboss.tools.jst.web.ui,
  org.jboss.tools.common.validation,
  org.jboss.tools.jst.web.kb
-Bundle-Version: 3.8.300.qualifier
+Bundle-Version: 3.8.301.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.jboss.tools.jst.web.ui.internal.editor.bundle
