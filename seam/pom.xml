@@ -11,7 +11,7 @@
 	<groupId>org.jboss.tools</groupId>
 	<artifactId>seam</artifactId>
 	<name>seam.all</name>
-	<version>3.8.301-SNAPSHOT</version>
+	<version>3.8.302-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
 		<module>plugins</module>
