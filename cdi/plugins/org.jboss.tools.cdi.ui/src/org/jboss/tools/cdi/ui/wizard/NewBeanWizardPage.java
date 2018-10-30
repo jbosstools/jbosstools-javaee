@@ -32,7 +32,7 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.internal.corext.codemanipulation.StubUtility;
+import org.eclipse.jdt.internal.core.manipulation.StubUtility;
 import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
 import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
 import org.eclipse.jdt.internal.ui.dialogs.StatusUtil;

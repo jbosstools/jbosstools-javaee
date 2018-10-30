@@ -20,7 +20,7 @@ import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.internal.corext.codemanipulation.StubUtility;
+import org.eclipse.jdt.internal.core.manipulation.StubUtility;
 import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
 import org.eclipse.jdt.ui.wizards.NewAnnotationWizardPage;
 import org.eclipse.jface.dialogs.Dialog;
