@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Deltaspike Core Test
 Bundle-SymbolicName: org.jboss.tools.cdi.deltaspike.core.test;singleton:=true
-Bundle-Version: 1.8.301.qualifier
+Bundle-Version: 1.8.302.qualifier
 Bundle-Vendor: Red Hat
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.jdt.core,
