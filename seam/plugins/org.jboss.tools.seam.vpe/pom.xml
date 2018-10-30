@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.jboss.tools.seam</groupId>
 		<artifactId>plugins</artifactId>
-		<version>3.8.301-SNAPSHOT</version>
+		<version>3.8.302-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.tools.seam.plugins</groupId>
 	<artifactId>org.jboss.tools.seam.vpe</artifactId> 
