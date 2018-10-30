@@ -17,5 +17,5 @@ Require-Bundle: org.eclipse.ui.ide;bundle-version="3.7.0",
  org.jboss.tools.common.model.ui;bundle-version="3.3.0"
 Export-Package: org.jboss.tools.jsf.text.ext,
  org.jboss.tools.jsf.text.ext.hyperlink
-Bundle-Version: 3.8.301.qualifier
+Bundle-Version: 3.8.302.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
