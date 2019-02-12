@@ -11,7 +11,7 @@
 package demo;
 
 /**
- * Created by Red Hat Developer Studio
+ * Created by Red Hat CodeReady Studio
  *
  */
 public class NameBean {
