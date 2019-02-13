@@ -4,7 +4,7 @@
 <bookinfo>
 	<title>JSF Tools Reference Guide</title>
 	<subtitle>Provides information relating to the JSF Tools module.</subtitle>
-	<productname>Red Hat Developer Studio</productname>
+	<productname>Red Hat CodeReady Studio</productname>
 	<productnumber>7.1</productnumber>
 	<abstract>
 		<para>The JSF Tools Reference Guide explains how to use the JSF Tools module to develop JSF applications.</para>
