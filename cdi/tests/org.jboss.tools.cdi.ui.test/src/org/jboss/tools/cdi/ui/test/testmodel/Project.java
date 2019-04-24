@@ -32,9 +32,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourceAttributes;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IPluginDescriptor;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.content.IContentTypeMatcher;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
@@ -711,12 +709,6 @@ public class Project implements IProject {
 		if(natureId == CDICoreNature.NATURE_ID){
 			return new CDINature();
 		}
-		return null;
-	}
-
-	@Override
-	public IPath getPluginWorkingLocation(IPluginDescriptor plugin) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
