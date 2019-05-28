@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2011-2014 Red Hat, Inc. 
+ * Copyright (c) 2011-2019 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -42,7 +42,9 @@ import org.jboss.tools.cdi.ui.CDIUIMessages;
 public class CDIProjectWizard extends WebProjectWizard implements IExecutableExtension {
 
 	public static final String CDI10_TEMPALTE = "template.jboss.tools.cdi10";
+	public static final String CDI11_TEMPALTE = "template.jboss.tools.cdi11";
 	public static final String CDI12_TEMPALTE = "template.jboss.tools.cdi12";
+	public static final String CDI20_TEMPALTE = "template.jboss.tools.cdi20";
 	private IPreset oldPreset;
 	public static final String ID = "org.jboss.tools.cdi.ui.wizard.NewCDIProjectWizard";
 	private FirstPage firstPage;
