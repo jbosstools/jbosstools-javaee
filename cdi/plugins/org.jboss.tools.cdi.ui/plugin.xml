@@ -387,6 +387,9 @@
       <wizard-pages action="jst.cdi.1.2.install">
          <page class="org.jboss.tools.cdi.ui.wizard.facet.CDIInstallWizardPage"/>
       </wizard-pages>
+      <wizard-pages action="jst.cdi.2.0.install">
+         <page class="org.jboss.tools.cdi.ui.wizard.facet.CDIInstallWizardPage"/>
+      </wizard-pages>
    </extension>
 
    <extension
