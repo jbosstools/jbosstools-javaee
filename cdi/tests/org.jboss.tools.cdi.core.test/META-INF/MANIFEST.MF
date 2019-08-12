@@ -31,7 +31,8 @@ Require-Bundle: org.jboss.tools.tests,
  org.eclipse.jst.j2ee.core,
  org.eclipse.jst.j2ee.web,
  org.eclipse.jst.j2ee.ejb,
- org.eclipse.jst.common.project.facet.core
+ org.eclipse.jst.common.project.facet.core,
+ javax.inject
 Export-Package: org.jboss.tools.cdi.core.test,
  org.jboss.tools.cdi.core.test.extension,
  org.jboss.tools.cdi.core.test.tck,
