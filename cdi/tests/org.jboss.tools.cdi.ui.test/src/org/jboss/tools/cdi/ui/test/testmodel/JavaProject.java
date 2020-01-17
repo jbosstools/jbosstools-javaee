@@ -580,4 +580,9 @@ public class JavaProject implements IJavaProject {
 	public Set<String> determineModulesOfProjectsWithNonEmptyClasspath() throws JavaModelException {
 		return null;
 	}
+
+	@Override
+	public IModuleDescription getOwnModuleDescription() throws JavaModelException {
+		return null;
+	}
 }
