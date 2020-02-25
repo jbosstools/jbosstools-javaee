@@ -86,6 +86,7 @@ public class JSFProjectCreationOperation extends WebProjectCreationOperation {
 					: template.indexOf("2.0") >= 0 ? "2.0"
 					: template.indexOf("2.1") >= 0 ? "2.1"
 					: template.indexOf("2.2") >= 0 ? "2.2"
+					: template.indexOf("2.3") >= 0 ? "2.3"
 					: null;
 			if(version != null) {
 				configJSF.setProperty(IFacetDataModelProperties.FACET_VERSION_STR, version);
