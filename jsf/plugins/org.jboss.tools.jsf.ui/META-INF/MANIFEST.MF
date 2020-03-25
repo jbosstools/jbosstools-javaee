@@ -60,6 +60,6 @@ Require-Bundle: org.jboss.tools.common.model.ui,
  org.eclipse.wst.common.project.facet.ui,
  org.eclipse.jst.common.project.facet.core,
  org.eclipse.wst.validation;bundle-version="1.2.300"
-Bundle-Version: 3.8.303.qualifier
+Bundle-Version: 3.8.400.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

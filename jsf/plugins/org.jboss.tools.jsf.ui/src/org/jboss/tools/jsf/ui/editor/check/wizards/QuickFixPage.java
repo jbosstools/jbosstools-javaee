@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Map;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.e4.ui.internal.workspace.markers.Translation;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -387,9 +388,9 @@ public class QuickFixPage extends WizardPage {
 			 */
 			public String getColumnText(Object element, int columnIndex) {
 				IMarker marker = (IMarker) element;
-				if (columnIndex == 0)
-					return Util.getResourceName(marker);
-
+				if (columnIndex == 0) {
+					return new Translation().name(marker).orElse("");
+				}
 				// Is the location override set?
 				String locationString = marker.getAttribute(IMarker.LOCATION,
 						MarkerSupportInternalUtilities.EMPTY_STRING);
