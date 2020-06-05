@@ -668,4 +668,10 @@ public class Type extends CDIElement implements IType {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+  @Override
+  public boolean isRecord() throws JavaModelException {
+    // TODO Auto-generated method stub
+    return false;
+  }
 }
