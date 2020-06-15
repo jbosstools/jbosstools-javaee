@@ -674,4 +674,10 @@ public class Type extends CDIElement implements IType {
     // TODO Auto-generated method stub
     return false;
   }
+
+  @Override
+  public IField getRecordComponent(String name) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }
