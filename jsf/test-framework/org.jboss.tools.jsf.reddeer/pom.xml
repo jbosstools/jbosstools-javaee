@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.jboss.tools.jsf</groupId>
 		<artifactId>test-framework</artifactId>
-		<version>3.8.400-SNAPSHOT</version>
+		<version>3.8.500-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.tools.jsf.test-framework</groupId>
 	<artifactId>org.jboss.tools.jsf.reddeer</artifactId>
