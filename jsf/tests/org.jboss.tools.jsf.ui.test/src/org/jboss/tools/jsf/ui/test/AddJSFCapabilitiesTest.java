@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.jboss.tools.jsf.ui.action.AddJSFNatureActionDelegate;
+import org.jboss.tools.jsf.ui.action.RemoveJSFNatureActionDelegate;
 import org.jboss.tools.jsf.ui.internal.handlers.AddJSFNatureHandler;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
@@ -59,5 +60,18 @@ public class AddJSFCapabilitiesTest extends TestCase {
 		}
 		
 		assertTrue(f.exists());
+		
+		RemoveJSFNatureActionDelegate removeAction = new RemoveJSFNatureActionDelegate();
+		removeAction.selectionChanged(null, new StructuredSelection(project));
+		removeAction.run(null);
+    
+		try {
+		  assertFalse(project.hasNature("org.jboss.tools.jsf.jsfnature"));
+		} catch (CoreException e) {
+		  fail(e.getMessage());
+		}
+    
+		assertFalse(f.exists());
+
 	}
 }

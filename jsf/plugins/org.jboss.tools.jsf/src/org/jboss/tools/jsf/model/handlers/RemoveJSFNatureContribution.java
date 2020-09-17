@@ -37,13 +37,15 @@ public class RemoveJSFNatureContribution implements SpecialWizard {
 				DefaultRemoveHandler.removeFromParent(mapping);
 			}
 			XModelObject folder = webxml.getChildByPath("Context Params"); //$NON-NLS-1$
-			XModelObject[] params = folder.getChildren();
-			for (int i = 0; i < params.length; i++) {
-				String name = params[i].getAttributeValue("param-name"); //$NON-NLS-1$
-				if(name != null && name.startsWith("javax.faces.")) { //$NON-NLS-1$
-					DefaultRemoveHandler.removeFromParent(params[i]);
-				}
-			}
+			if (folder != null) {
+			  XModelObject[] params = folder.getChildren();
+			  for (int i = 0; i < params.length; i++) {
+			    String name = params[i].getAttributeValue("param-name"); //$NON-NLS-1$
+			    if (name != null && name.startsWith("javax.faces.")) { //$NON-NLS-1$
+			      DefaultRemoveHandler.removeFromParent(params[i]);
+          }
+        } 
+      }
 		}
 
 		IProject project = EclipseResourceUtil.getProject(model.getRoot());
