@@ -410,6 +410,13 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 			}
 		}
 		
+		if (jType != null && CDIConstants.OPTIONAL_TYPE_NAME.equals(jType.getFullyQualifiedName())) {
+			List<? extends IParametedType> ps = type.getParameters();
+			if(ps.size() == 1) {
+				type = ps.get(0);
+			}
+		}
+		
 		Collection<IQualifierDeclaration> qs = injectionPoint.getQualifierDeclarations();
 		for (IQualifierDeclaration d: qs) {
 			if(CDIConstants.NEW_QUALIFIER_TYPE_NAME.equals(d.getTypeName())) {

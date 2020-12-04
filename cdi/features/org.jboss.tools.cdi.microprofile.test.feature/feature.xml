@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature id="org.jboss.tools.cdi.microprofile.test.feature" label="%featureName" version="1.9.0.qualifier" provider-name="%featureProvider"
+	license-feature="org.jboss.tools.foundation.license.feature"
+	license-feature-version="0.0.0">
+
+   <description>
+      %description
+   </description>
+   
+   <copyright>
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <requires>
+      <import feature="org.jboss.tools.cdi.microprofile.feature" version="1.9.0" match="greaterOrEqual"/>
+   </requires>
+
+   <plugin
+         id="org.jboss.tools.cdi.microprofile.core.test"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+</feature>
