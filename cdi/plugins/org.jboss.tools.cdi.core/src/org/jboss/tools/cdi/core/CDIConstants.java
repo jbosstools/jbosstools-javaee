@@ -10,115 +10,118 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import java.util.Optional;
+
 public interface CDIConstants {
-	public int CDI_VERSION_NONE = 0;
-	public int CDI_VERSION_1_0 = 10;
-	public int CDI_VERSION_1_1 = 11;
+	public static final int CDI_VERSION_NONE = 0;
+	public static final int CDI_VERSION_1_0 = 10;
+	public static final int CDI_VERSION_1_1 = 11;
 	
-	public String ANNOTATED_TYPE_CONFIGURATOR="javax.enterprise.inject.spi.configurator.AnnotatedTypeConfigurator";
+	public static final String ANNOTATED_TYPE_CONFIGURATOR="javax.enterprise.inject.spi.configurator.AnnotatedTypeConfigurator";
 
-	public String INHERITED_ANNOTATION_TYPE_NAME = "java.lang.annotation.Inherited";
-	public String TARGET_ANNOTATION_TYPE_NAME = "java.lang.annotation.Target";
-	public String RETENTION_ANNOTATION_TYPE_NAME = "java.lang.annotation.Retention";
+	public static final String INHERITED_ANNOTATION_TYPE_NAME = "java.lang.annotation.Inherited";
+	public static final String TARGET_ANNOTATION_TYPE_NAME = "java.lang.annotation.Target";
+	public static final String RETENTION_ANNOTATION_TYPE_NAME = "java.lang.annotation.Retention";
 	
-	public String RETENTION_POLICY_RUNTIME_TYPE_NAME = "java.lang.annotation.RetentionPolicy.RUNTIME";
+	public static final String RETENTION_POLICY_RUNTIME_TYPE_NAME = "java.lang.annotation.RetentionPolicy.RUNTIME";
 	
-	public String QUALIFIER_ANNOTATION_TYPE_NAME = "javax.inject.Qualifier";
+	public static final String QUALIFIER_ANNOTATION_TYPE_NAME = "javax.inject.Qualifier";
 
-	public String NAMED_QUALIFIER_TYPE_NAME = "javax.inject.Named";
-	public String ANY_QUALIFIER_TYPE_NAME = "javax.enterprise.inject.Any";
-	public String DEFAULT_QUALIFIER_TYPE_NAME = "javax.enterprise.inject.Default";
-	public String NEW_QUALIFIER_TYPE_NAME = "javax.enterprise.inject.New";
+	public static final String NAMED_QUALIFIER_TYPE_NAME = "javax.inject.Named";
+	public static final String ANY_QUALIFIER_TYPE_NAME = "javax.enterprise.inject.Any";
+	public static final String DEFAULT_QUALIFIER_TYPE_NAME = "javax.enterprise.inject.Default";
+	public static final String NEW_QUALIFIER_TYPE_NAME = "javax.enterprise.inject.New";
 
-	public String VETOED_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Vetoed";
-	public String PRIORITY_ANNOTATION_TYPE_NAME = "javax.annotation.Priority";
+	public static final String VETOED_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Vetoed";
+	public static final String PRIORITY_ANNOTATION_TYPE_NAME = "javax.annotation.Priority";
 
-	public String STEREOTYPE_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Stereotype";
-	public String MODEL_STEREOTYPE_TYPE_NAME = "javax.enterprise.inject.Model";
-	public String DECORATOR_STEREOTYPE_TYPE_NAME = "javax.decorator.Decorator";
-	public String DELEGATE_STEREOTYPE_TYPE_NAME = "javax.decorator.Delegate";
+	public static final String STEREOTYPE_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Stereotype";
+	public static final String MODEL_STEREOTYPE_TYPE_NAME = "javax.enterprise.inject.Model";
+	public static final String DECORATOR_STEREOTYPE_TYPE_NAME = "javax.decorator.Decorator";
+	public static final String DELEGATE_STEREOTYPE_TYPE_NAME = "javax.decorator.Delegate";
 
-	public String TYPED_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Typed";
+	public static final String TYPED_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Typed";
 
-	public String PRODUCES_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Produces";
+	public static final String PRODUCES_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Produces";
 
-	public String SCOPE_ANNOTATION_TYPE_NAME = "javax.inject.Scope";
-	public String NORMAL_SCOPE_ANNOTATION_TYPE_NAME = "javax.enterprise.context.NormalScope";
+	public static final String SCOPE_ANNOTATION_TYPE_NAME = "javax.inject.Scope";
+	public static final String NORMAL_SCOPE_ANNOTATION_TYPE_NAME = "javax.enterprise.context.NormalScope";
 
-	public String INJECT_ANNOTATION_TYPE_NAME = "javax.inject.Inject";
+	public static final String INJECT_ANNOTATION_TYPE_NAME = "javax.inject.Inject";
 
-	public String ALTERNATIVE_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Alternative";
+	public static final String ALTERNATIVE_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Alternative";
 
-	public String INTERCEPTOR_BINDING_ANNOTATION_TYPE_NAME = "javax.interceptor.InterceptorBinding";
-	public String INTERCEPTOR_ANNOTATION_TYPE_NAME = "javax.interceptor.Interceptor";
+	public static final String INTERCEPTOR_BINDING_ANNOTATION_TYPE_NAME = "javax.interceptor.InterceptorBinding";
+	public static final String INTERCEPTOR_ANNOTATION_TYPE_NAME = "javax.interceptor.Interceptor";
 
-	public String SINGLETON_SCOPED_ANNOTATION_TYPE_NAME = "javax.inject.Singleton";
-	public String APPLICATION_SCOPED_ANNOTATION_TYPE_NAME = "javax.enterprise.context.ApplicationScoped";
-	public String CONVERSATION_SCOPED_ANNOTATION_TYPE_NAME = "javax.enterprise.context.ConversationScoped";
-	public String REQUEST_SCOPED_ANNOTATION_TYPE_NAME = "javax.enterprise.context.RequestScoped";
-	public String SESSION_SCOPED_ANNOTATION_TYPE_NAME = "javax.enterprise.context.SessionScoped";
-	public String DEPENDENT_ANNOTATION_TYPE_NAME = "javax.enterprise.context.Dependent";
+	public static final String SINGLETON_SCOPED_ANNOTATION_TYPE_NAME = "javax.inject.Singleton";
+	public static final String APPLICATION_SCOPED_ANNOTATION_TYPE_NAME = "javax.enterprise.context.ApplicationScoped";
+	public static final String CONVERSATION_SCOPED_ANNOTATION_TYPE_NAME = "javax.enterprise.context.ConversationScoped";
+	public static final String REQUEST_SCOPED_ANNOTATION_TYPE_NAME = "javax.enterprise.context.RequestScoped";
+	public static final String SESSION_SCOPED_ANNOTATION_TYPE_NAME = "javax.enterprise.context.SessionScoped";
+	public static final String DEPENDENT_ANNOTATION_TYPE_NAME = "javax.enterprise.context.Dependent";
 
-	public String CONVERSATION_TYPE_NAME = "javax.enterprise.context.Conversation";
-	public String CONVERSATION_BEAN_NAME = CONVERSATION_TYPE_NAME.toLowerCase();
+	public static final String CONVERSATION_TYPE_NAME = "javax.enterprise.context.Conversation";
+	public static final String CONVERSATION_BEAN_NAME = CONVERSATION_TYPE_NAME.toLowerCase();
 
-	public String SPECIALIZES_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Specializes";
+	public static final String SPECIALIZES_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Specializes";
 
-	public String NON_BINDING_ANNOTATION_TYPE_NAME ="javax.enterprise.util.Nonbinding";
+	public static final String NON_BINDING_ANNOTATION_TYPE_NAME ="javax.enterprise.util.Nonbinding";
 
-	public String STATEFUL_ANNOTATION_TYPE_NAME = "javax.ejb.Stateful";
-	public String STATELESS_ANNOTATION_TYPE_NAME = "javax.ejb.Stateless";
-	public String SINGLETON_ANNOTATION_TYPE_NAME = "javax.ejb.Singleton";
-	public String LOCAL_ANNOTATION_TYPE_NAME = "javax.ejb.Local";
-	public String LOCAL_BEAN_SIMPLE_NAME = "LocalBean";
-	public String LOCAL_BEAN_ANNOTATION_TYPE_NAME = "javax.ejb.LocalBean";
+	public static final String STATEFUL_ANNOTATION_TYPE_NAME = "javax.ejb.Stateful";
+	public static final String STATELESS_ANNOTATION_TYPE_NAME = "javax.ejb.Stateless";
+	public static final String SINGLETON_ANNOTATION_TYPE_NAME = "javax.ejb.Singleton";
+	public static final String LOCAL_ANNOTATION_TYPE_NAME = "javax.ejb.Local";
+	public static final String LOCAL_BEAN_SIMPLE_NAME = "LocalBean";
+	public static final String LOCAL_BEAN_ANNOTATION_TYPE_NAME = "javax.ejb.LocalBean";
 
-	public String RESOURCE_ANNOTATION_TYPE_NAME = "javax.annotation.Resource";
-	public String WEB_SERVICE_REF_ANNOTATION_TYPE_NAME = "javax.xml.ws.WebServiceRef";
-	public String EJB_ANNOTATION_TYPE_NAME = "javax.ejb.EJB";
-	public String PERSISTENCE_CONTEXT_ANNOTATION_TYPE_NAME = "javax.persistence.PersistenceContext";
-	public String PERSISTENCE_UNIT_ANNOTATION_TYPE_NAME = "javax.persistence.PersistenceUnit";
+	public static final String RESOURCE_ANNOTATION_TYPE_NAME = "javax.annotation.Resource";
+	public static final String WEB_SERVICE_REF_ANNOTATION_TYPE_NAME = "javax.xml.ws.WebServiceRef";
+	public static final String EJB_ANNOTATION_TYPE_NAME = "javax.ejb.EJB";
+	public static final String PERSISTENCE_CONTEXT_ANNOTATION_TYPE_NAME = "javax.persistence.PersistenceContext";
+	public static final String PERSISTENCE_UNIT_ANNOTATION_TYPE_NAME = "javax.persistence.PersistenceUnit";
 
-	public String DISPOSES_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Disposes";
-	public String OBSERVERS_ANNOTATION_TYPE_NAME = "javax.enterprise.event.Observes";
-	public String OBSERVERS_ASYNC_ANNOTATION_TYPE_NAME = "javax.enterprise.event.ObservesAsync";
+	public static final String DISPOSES_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Disposes";
+	public static final String OBSERVERS_ANNOTATION_TYPE_NAME = "javax.enterprise.event.Observes";
+	public static final String OBSERVERS_ASYNC_ANNOTATION_TYPE_NAME = "javax.enterprise.event.ObservesAsync";
 
-	public String INJECTIONPOINT_TYPE_NAME = "javax.enterprise.inject.spi.InjectionPoint";
+	public static final String INJECTIONPOINT_TYPE_NAME = "javax.enterprise.inject.spi.InjectionPoint";
 
-	public String DECORATOR_SIMPLE_NAME = "Decorator";
-	public String DECORATOR_TYPE_NAME = "javax.enterprise.inject.spi.Decorator";
-	public String INTERCEPTOR_SIMPLE_NAME = "Interceptor";
-	public String INTERCEPTOR_TYPE_NAME = "javax.enterprise.inject.spi.Interceptor";
+	public static final String DECORATOR_SIMPLE_NAME = "Decorator";
+	public static final String DECORATOR_TYPE_NAME = "javax.enterprise.inject.spi.Decorator";
+	public static final String INTERCEPTOR_SIMPLE_NAME = "Interceptor";
+	public static final String INTERCEPTOR_TYPE_NAME = "javax.enterprise.inject.spi.Interceptor";
 
-	public String PROVIDER_TYPE_NAME = "javax.inject.Provider";
-	public String INSTANCE_TYPE_NAME = "javax.enterprise.inject.Instance";
+	public static final String PROVIDER_TYPE_NAME = "javax.inject.Provider";
+	public static final String INSTANCE_TYPE_NAME = "javax.enterprise.inject.Instance";
 
-	public String PRE_DESTROY_TYPE_NAME = "javax.annotation.PreDestroy";
-	public String POST_CONSTRUCTOR_TYPE_NAME = "javax.annotation.PostConstruct";
+	public static final String PRE_DESTROY_TYPE_NAME = "javax.annotation.PreDestroy";
+	public static final String POST_CONSTRUCTOR_TYPE_NAME = "javax.annotation.PostConstruct";
 
-	public String EVENT_TYPE_NAME = "javax.enterprise.event.Event";
+	public static final String EVENT_TYPE_NAME = "javax.enterprise.event.Event";
 
-	public String USER_TRANSACTION_TYPE_NAME = "javax.transaction.UserTransaction";
-	public String PRINCIPAL_TYPE_NAME = "java.security.Principal";
-	public String VALIDATION_FACTORY_TYPE_NAME = "javax.validation.ValidatorFactory";
-	public String VALIDATOR_TYPE_NAME = "javax.validation.Validator";
-	public String BEAN_MANAGER_TYPE_NAME = "javax.enterprise.inject.spi.BeanManager";
+	public static final String USER_TRANSACTION_TYPE_NAME = "javax.transaction.UserTransaction";
+	public static final String PRINCIPAL_TYPE_NAME = "java.security.Principal";
+	public static final String VALIDATION_FACTORY_TYPE_NAME = "javax.validation.ValidatorFactory";
+	public static final String VALIDATOR_TYPE_NAME = "javax.validation.Validator";
+	public static final String BEAN_MANAGER_TYPE_NAME = "javax.enterprise.inject.spi.BeanManager";
 
-	public String HTTP_SESSION_TYPE_NAME = "javax.servlet.http.HttpSession";
-	public String HTTP_SERVLET_REQUEST_TYPE_NAME = "javax.servlet.http.HttpServletRequest";
-	public String HTTP_SERVLET_CONTEXT_TYPE_NAME = "javax.servlet.ServletContext";
+	public static final String HTTP_SESSION_TYPE_NAME = "javax.servlet.http.HttpSession";
+	public static final String HTTP_SERVLET_REQUEST_TYPE_NAME = "javax.servlet.http.HttpServletRequest";
+	public static final String HTTP_SERVLET_CONTEXT_TYPE_NAME = "javax.servlet.ServletContext";
 
-	public String ANNOTATION_LITERAL_TYPE_NAME = "javax.enterprise.util.AnnotationLiteral";
+	public static final String ANNOTATION_LITERAL_TYPE_NAME = "javax.enterprise.util.AnnotationLiteral";
 
-	public String WELD_BEAN_MANAGER_TYPE_NAME = "org.jboss.weld.manager.BeanManagerImpl";
+	public static final String WELD_BEAN_MANAGER_TYPE_NAME = "org.jboss.weld.manager.BeanManagerImpl";
 
-	public String ELEMENT_TYPE_TYPE_NAME = "java.lang.annotation.ElementType.TYPE";
-	public String ELEMENT_TYPE_METHOD_NAME = "java.lang.annotation.ElementType.METHOD";
-	public String ELEMENT_TYPE_FIELD_NAME = "java.lang.annotation.ElementType.FIELD";
-	public String ELEMENT_TYPE_PARAMETER_NAME = "java.lang.annotation.ElementType.PARAMETER";
+	public static final String ELEMENT_TYPE_TYPE_NAME = "java.lang.annotation.ElementType.TYPE";
+	public static final String ELEMENT_TYPE_METHOD_NAME = "java.lang.annotation.ElementType.METHOD";
+	public static final String ELEMENT_TYPE_FIELD_NAME = "java.lang.annotation.ElementType.FIELD";
+	public static final String ELEMENT_TYPE_PARAMETER_NAME = "java.lang.annotation.ElementType.PARAMETER";
 	public static final String JAVA_UTIL_MAP = "java.util.map";
+  public static final String OPTIONAL_TYPE_NAME = Optional.class.getName();
 
-	public String JMS_CONTEXT_TYPE_NAME = "javax.jms.JMSContext";
+	public static final String JMS_CONTEXT_TYPE_NAME = "javax.jms.JMSContext";
 	
 	public static final String JSF_RESOURCE_HANDLER = "javax.faces.application.ResourceHandler";
 	public static final String JSF_EXTERNAL_CONTEXT = "javax.faces.context.ExternalContext";
@@ -135,4 +138,39 @@ public interface CDIConstants {
 	public static final String JSF_REQUEST_MAP = "javax.faces.annotation.RequestMap";
 	public static final String JSF_SESSION_MAP = "javax.faces.annotation.SessionMap";
 	public static final String JSF_VIEW_MAP = "javax.faces.annotation.ViewMap";
+	
+	/*
+	 * Microprofile Config
+	 */
+  public static final String MICROPROFILE_CONFIG_CONFIG_TYPE = "org.eclipse.microprofile.config.Config";
+  public static final String MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE = "org.eclipse.microprofile.config.inject.ConfigProperty";
+  public static final String MICROPROFILE_CONFIG_CONFIG_VALUE_TYPE = "org.eclipse.microprofile.config.ConfigValue";
+  
+  /*
+   * Microprofile JWT
+   */
+  public static final String MICROPROFILE_JWT_JSONWEBTOKEN_TYPE = "org.eclipse.microprofile.jwt.JsonWebToken";
+  public static final String MICROPROFILE_JWT_CLAIM_TYPE = "org.eclipse.microprofile.jwt.Claim";
+  public static final String JAVAX_JSON_JSON_VALUE_TYPE = "javax.json.JsonValue";
+  public static final String JAVAX_JSON_JSON_STRING_TYPE = "javax.json.JsonString";
+  public static final String JAVAX_JSON_JSON_NUMBER_TYPE = "javax.json.JsonNumber";
+  public static final String JAVAX_JSON_JSON_ARRAY_TYPE = "javax.json.JsonArray";
+  public static final String JAVAX_JSON_JSON_OBJECT_TYPE = "javax.json.JsonObject";
+  
+  /*
+   * Microprofile Metrics
+   */
+  public static final String MICROPROFILE_METRICS_METRIC_REGISTRY_TYPE = "org.eclipse.microprofile.metrics.MetricRegistry";
+  public static final String MICROPROFILE_METRICS_METRIC_REGISTRY_TYPE_TYPE = "org.eclipse.microprofile.metrics.annotation.RegistryType";
+  public static final String MICROPROFILE_METRICS_METRIC_TYPE = "org.eclipse.microprofile.metrics.annotation.Metric";
+  public static final String MICROPROFILE_METRICS_METER_TYPE = "org.eclipse.microprofile.metrics.Meter";
+  public static final String MICROPROFILE_METRICS_TIMER_TYPE = "org.eclipse.microprofile.metrics.Timer";
+  public static final String MICROPROFILE_METRICS_SIMPLE_TIMER_TYPE = "org.eclipse.microprofile.metrics.SimpleTimer";
+  public static final String MICROPROFILE_METRICS_COUNTER_TYPE = "org.eclipse.microprofile.metrics.Counter";
+  public static final String MICROPROFILE_METRICS_HISTOGRAM_TYPE = "org.eclipse.microprofile.metrics.Histogram";
+  
+  /*
+   * Microprofile OpenTracing
+   */
+  public static final String MICROPROFILE_OPEN_TRACING_TRACER_TYPE = "io.opentracing.Tracer";
 }

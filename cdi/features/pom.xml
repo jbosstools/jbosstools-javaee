@@ -4,7 +4,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	<parent>
 		<groupId>org.jboss.tools</groupId>
 		<artifactId>cdi</artifactId>
-		<version>1.9.0-SNAPSHOT</version>
+		<version>1.10.0-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.tools.cdi</groupId>
 	<artifactId>features</artifactId>
@@ -18,6 +18,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<module>org.jboss.tools.cdi.seam.test.feature</module>
 		<module>org.jboss.tools.cdi.deltaspike.feature</module>
 		<module>org.jboss.tools.cdi.deltaspike.test.feature</module>
+		<module>org.jboss.tools.cdi.microprofile.feature</module>
+		<module>org.jboss.tools.cdi.microprofile.test.feature</module>
 	</modules>
 	<build>
 		<plugins>

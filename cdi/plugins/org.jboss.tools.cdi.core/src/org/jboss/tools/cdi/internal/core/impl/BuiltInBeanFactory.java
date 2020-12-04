@@ -104,7 +104,41 @@ public class BuiltInBeanFactory {
 		addInfo(WeldConstants.HTTP_CONVERSATION_CONTEXT_TYPE, 
 				CDIConstants.CONVERSATION_SCOPED_ANNOTATION_TYPE_NAME,
 				WeldConstants.HTTP_QUALIFIER_TYPE);
-	}
+		
+		BUILT_IN.add(CDIConstants.MICROPROFILE_CONFIG_CONFIG_TYPE);
+		addInfo(Boolean.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
+		addInfo(Byte.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
+		addInfo(Short.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
+		addInfo(Integer.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
+		addInfo(Long.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
+		addInfo(Float.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
+		addInfo(Double.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
+		addInfo(Character.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
+		addInfo(Class.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
+		addInfo(String.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
+		addInfo(CDIConstants.MICROPROFILE_CONFIG_CONFIG_VALUE_TYPE, null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
+
+	   BUILT_IN.add(CDIConstants.MICROPROFILE_JWT_JSONWEBTOKEN_TYPE);
+     addInfo(String.class.getName(), null, CDIConstants.MICROPROFILE_JWT_CLAIM_TYPE);
+     addInfo(Long.class.getName(), null, CDIConstants.MICROPROFILE_JWT_CLAIM_TYPE);
+	   addInfo(Boolean.class.getName(), null, CDIConstants.MICROPROFILE_JWT_CLAIM_TYPE);
+	   addInfo(CDIConstants.JAVAX_JSON_JSON_VALUE_TYPE, null, CDIConstants.MICROPROFILE_JWT_CLAIM_TYPE);
+	   addInfo(CDIConstants.JAVAX_JSON_JSON_STRING_TYPE, null, CDIConstants.MICROPROFILE_JWT_CLAIM_TYPE);
+	   addInfo(CDIConstants.JAVAX_JSON_JSON_NUMBER_TYPE, null, CDIConstants.MICROPROFILE_JWT_CLAIM_TYPE);
+	   addInfo(CDIConstants.JAVAX_JSON_JSON_ARRAY_TYPE, null, CDIConstants.MICROPROFILE_JWT_CLAIM_TYPE);
+	   addInfo(CDIConstants.JAVAX_JSON_JSON_OBJECT_TYPE, null, CDIConstants.MICROPROFILE_JWT_CLAIM_TYPE);
+
+     BUILT_IN.add(CDIConstants.MICROPROFILE_METRICS_METRIC_REGISTRY_TYPE);
+     addInfo(CDIConstants.MICROPROFILE_METRICS_METRIC_REGISTRY_TYPE, null, CDIConstants.MICROPROFILE_METRICS_METRIC_REGISTRY_TYPE_TYPE);
+     addInfo(CDIConstants.MICROPROFILE_METRICS_METER_TYPE, null, CDIConstants.MICROPROFILE_METRICS_METRIC_TYPE);
+     addInfo(CDIConstants.MICROPROFILE_METRICS_TIMER_TYPE, null, CDIConstants.MICROPROFILE_METRICS_METRIC_TYPE);
+     addInfo(CDIConstants.MICROPROFILE_METRICS_SIMPLE_TIMER_TYPE, null, CDIConstants.MICROPROFILE_METRICS_METRIC_TYPE);
+     addInfo(CDIConstants.MICROPROFILE_METRICS_COUNTER_TYPE, null, CDIConstants.MICROPROFILE_METRICS_METRIC_TYPE);
+     addInfo(CDIConstants.MICROPROFILE_METRICS_HISTOGRAM_TYPE, null, CDIConstants.MICROPROFILE_METRICS_METRIC_TYPE);
+     
+     BUILT_IN.add(CDIConstants.MICROPROFILE_OPEN_TRACING_TRACER_TYPE);
+     
+}
 
 	static BuiltInBeanInfo addInfo(String type, String scopeName, String qualifierName) {
 		BUILT_IN.add(type);
