@@ -680,4 +680,16 @@ public class Type extends CDIElement implements IType {
     // TODO Auto-generated method stub
     return null;
   }
+
+@Override
+public String[] getPermittedSubtypeNames() throws JavaModelException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public boolean isSealed() throws JavaModelException {
+	// TODO Auto-generated method stub
+	return false;
+}
 }
