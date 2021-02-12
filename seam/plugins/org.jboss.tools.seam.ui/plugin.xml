@@ -723,7 +723,7 @@
    <!-- =================================================================== -->
    <!-- Search Menu                                                         -->
    <!-- =================================================================== -->
-   <menu label="%searchMenu.label" mnemonic="%searchMenu.label" id="org.eclipse.search.menu">
+   <menu label="%searchMenu.label" mnemonic="A" id="org.eclipse.search.menu">
     		<separator name="internalDialogGroup" visible="false"/>   <!-- not to be used by clients  -->
     		<separator name="dialogGroup" visible="false"/>           <!-- to be used by clients      -->
            <separator name="seamSearchMenuActionsGroup"/> <!-- to be used by clients -->
