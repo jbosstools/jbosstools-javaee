@@ -62,4 +62,4 @@ Require-Bundle: org.jboss.tools.common.model.ui,
  org.eclipse.wst.validation;bundle-version="1.2.300"
 Bundle-Version: 3.8.500.qualifier
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
