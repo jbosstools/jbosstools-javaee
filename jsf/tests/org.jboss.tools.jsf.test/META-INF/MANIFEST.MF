@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: org.jboss.tools.jsf.test;singleton:=true
 Eclipse-BundleShape: dir
-Bundle-Version: 3.8.500.qualifier
+Bundle-Version: 3.9.0.qualifier
 Bundle-ClassPath: lib/xmlunit1.0.jar,
  .
 Bundle-Vendor: %Bundle-Vendor.0
