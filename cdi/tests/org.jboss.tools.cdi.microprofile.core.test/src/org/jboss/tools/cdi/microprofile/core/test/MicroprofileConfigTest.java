@@ -30,13 +30,13 @@ public class MicroprofileConfigTest extends MicroprofileCoreTest {
   @Test
   public void validateResource() throws CoreException {
     IFile file = project.getFile("src/main/java/org/wildfly/quickstarts/microprofile/config/ConfigResource.java");
-    AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[0]);
+    AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[3]);
   }
   
   @Test
   public void validateCustomerResource() throws CoreException {
     IFile file = project.getFile("src/main/java/org/wildfly/quickstarts/microprofile/config/CustomConfigResource.java");
-    AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[0]);
+    AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[3]);
   }
 
 }

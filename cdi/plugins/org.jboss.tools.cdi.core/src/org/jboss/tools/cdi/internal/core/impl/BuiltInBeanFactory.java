@@ -10,8 +10,10 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -142,8 +144,13 @@ public class BuiltInBeanFactory {
 
 	static BuiltInBeanInfo addInfo(String type, String scopeName, String qualifierName) {
 		BUILT_IN.add(type);
-		BuiltInBeanInfo info = new BuiltInBeanInfo(scopeName, qualifierName);
-		BUILT_IN_INFO.put(type, info);
+		BuiltInBeanInfo info = BUILT_IN_INFO.get(type);
+		if (info == null) {
+		  info = new BuiltInBeanInfo(scopeName, qualifierName);
+	    BUILT_IN_INFO.put(type, info);
+		} else {
+		  info.qualifierName.add(qualifierName);
+		}
 		return info;
 	}
 
@@ -164,7 +171,7 @@ public class BuiltInBeanFactory {
 					b.scopeName = info.scopeName;
 				}
 				if(info.qualifierName != null) {
-					addAnnotation(project, def, info.qualifierName);
+				  info.qualifierName.forEach(qualifierName -> addAnnotation(project, def, qualifierName));
 					if(info.defaultQualifier) {
 						addAnnotation(project, def, CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
 					}
@@ -221,19 +228,19 @@ class BuiltInBean extends ClassBean implements IBuiltInBean {
 
 class BuiltInBeanInfo {
 	String scopeName;
-	String qualifierName;
+	List<String> qualifierName = new ArrayList<>();
 	boolean defaultQualifier = true;
 
 	BuiltInBeanInfo(String scopeName, String qualifierName) {
 		this.scopeName = scopeName;
-		this.qualifierName = qualifierName;
+		this.qualifierName.add(qualifierName);
 	}
 
 	public String getScopeName() {
 		return scopeName;
 	}
 
-	public String getQualifierName() {
+	public List<String> getQualifierName() {
 		return qualifierName;
 	}
 }

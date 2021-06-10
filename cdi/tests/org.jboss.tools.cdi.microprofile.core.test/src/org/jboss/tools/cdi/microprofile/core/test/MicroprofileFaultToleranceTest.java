@@ -30,6 +30,6 @@ public class MicroprofileFaultToleranceTest extends MicroprofileCoreTest {
   @Test
   public void validateResource() throws CoreException {
     IFile file = project.getFile("src/main/java/org/wildfly/quickstarts/microprofile/faulttolerance/CoffeeResource.java");
-    AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[0]);
+    AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS[3]);
   }
 }
