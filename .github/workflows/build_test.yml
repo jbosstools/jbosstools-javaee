@@ -50,9 +50,9 @@ jobs:
       uses: GabrielBB/xvfb-action@v1
       with:
         run: >
-          mvn clean verify -U -fae --settings build-ci/maven-settings.xml -DskipITests=true
-          -Dmaven.test.error.ignore=true -Dmaven.test.failure.ignore=true
-          -Dsurefire.timeout=3600 --no-transfer-progress
+          mvn clean verify -U -B -fae --settings build-ci/maven-settings.xml 
+          -Dseam.skip.tests=true -Dcdi.skip.tests=true -Dsurefire.timeout=3600 
+          -DskipITests=true -Dmaven.test.error.ignore=true -Dmaven.test.failure.ignore=true --no-transfer-progress
           -DbaselineCompareReplace=common
 
     # Archive artifacts to be applied in Publish Reports workflow
