@@ -51,7 +51,7 @@ jobs:
       with:
         run: >
           mvn clean verify -U -B -fae --settings build-ci/maven-settings.xml 
-          -Dseam.skip.tests=true -Dcdi.skip.tests=true -Dsurefire.timeout=3600 
+          -Dseam.skip.tests=true -Dcdi.skip.tests=true -Dsurefire.timeout=10800 
           -DskipITests=true -Dmaven.test.error.ignore=true -Dmaven.test.failure.ignore=true --no-transfer-progress
           -DbaselineCompareReplace=common
 
