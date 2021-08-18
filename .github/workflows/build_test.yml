@@ -46,7 +46,9 @@ jobs:
           jbosstools-${{ runner.os }}-maven-
     # install webkitgtk 3.0 for tests
     - name: Install WebKitGtk
-      run: sudo apt-get install libwebkit2gtk-4.0-37
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install libwebkit2gtk-4.0-37
 
     # Build and compile using Maven
     - name: Build/Compile and run unit tests
