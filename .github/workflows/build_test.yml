@@ -44,6 +44,9 @@ jobs:
         key: jbosstools-${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           jbosstools-${{ runner.os }}-maven-
+    # install webkitgtk 3.0 for tests
+    - name: Install WebKitGtk
+      run: sudo apt-get install libwebkitgtk-3.0-0
 
     # Build and compile using Maven
     - name: Build/Compile and run unit tests

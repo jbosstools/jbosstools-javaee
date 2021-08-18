@@ -80,9 +80,11 @@ public abstract class NaturesInfoDialogTest extends TestCase{
                             shell[0] = findShellWithText(shells, TEST_SHELL_NAME);
                             if (shell[0] != null) {
                                 resultObject.setShellName(TEST_SHELL_NAME);
-                                Label label = (Label)shell[0].getChildren()[1];
-                                resultObject.setTextLabel(label.getText());
-                                shell[0].close();
+                                Label label= findLabelInShell(shell[0]);
+                                if (label != null) {
+                                	resultObject.setTextLabel(label.getText());
+                                	shell[0].close();
+                                }
                             }
                 		}
                 	});
@@ -97,6 +99,15 @@ public abstract class NaturesInfoDialogTest extends TestCase{
 		for (int i = 0; i < shells.length; i++) {
 			if (text.equals(shells[i].getText())) {
 				return shells[i];
+			}
+		}
+		return null;
+	}
+	
+	private static Label findLabelInShell(final Shell shell) {
+		for (int i = 0; i < shell.getChildren().length; i++) {
+			if (shell.getChildren()[i] instanceof Label) {
+				return (Label) shell.getChildren()[i];
 			}
 		}
 		return null;
@@ -141,5 +152,7 @@ public abstract class NaturesInfoDialogTest extends TestCase{
 	protected abstract String getTestProjectName();
 	
 	protected abstract String getDialogMessage();
+
+
 	
 }
