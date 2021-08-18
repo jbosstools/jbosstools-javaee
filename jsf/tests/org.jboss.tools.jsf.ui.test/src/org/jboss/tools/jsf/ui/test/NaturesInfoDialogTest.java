@@ -153,6 +153,4 @@ public abstract class NaturesInfoDialogTest extends TestCase{
 	
 	protected abstract String getDialogMessage();
 
-
-	
 }
