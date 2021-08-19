@@ -19,6 +19,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
+                <version>3.2.0</version>
 				<executions>
 				  <execution>
 				    <id>get-libs</id>
@@ -34,7 +35,7 @@
 							<artifactItem>
 								<groupId>com.beust</groupId>
 								<artifactId>jcommander</artifactId>
-								<version>1.12</version>
+								<version>1.18</version>
 							</artifactItem>
 							<artifactItem>
 								<groupId>javax.annotation</groupId>
