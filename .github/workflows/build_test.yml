@@ -58,7 +58,6 @@ jobs:
           mvn clean verify -U -B -fae --settings build-ci/maven-settings.xml 
           -Dseam.skip.tests=true -Dcdi.skip.tests=true -Dsurefire.timeout=3600 
           -DskipITests=true -Dmaven.test.error.ignore=true -Dmaven.test.failure.ignore=true --no-transfer-progress
-          -DbaselineCompareReplace=common
 
     # Archive artifacts to be applied in Publish Reports workflow
     - name: Archiving test artifacts
