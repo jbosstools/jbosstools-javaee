@@ -80,6 +80,7 @@ import org.jboss.tools.cdi.core.test.tck.validation.DiscoveryModeChangeTestSetup
 import org.jboss.tools.cdi.core.test.tck.validation.ELReferenceTest;
 import org.jboss.tools.cdi.core.test.tck.validation.ELValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.IncrementalValidationTest;
+import org.jboss.tools.cdi.core.test.tck.validation.JBIDE28076ProjectValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.MissingBeansXmlValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.SuppressWarningsTests;
 import org.jboss.tools.cdi.core.test.tck.validation.WeldExcludeIncrementalValidationTest;
@@ -361,6 +362,7 @@ public class CDICoreAllTests {
 		suiteAll.addTestSuite(EnableCDISupportForJarTest.class);
 		suiteAll.addTestSuite(CDIFacetTest.class);
 		suiteAll.addTestSuite(DependentProjectValidationTest.class);
+		suiteAll.addTestSuite(JBIDE28076ProjectValidationTest.class);
 		TestSuite weldSuite = new TestSuite("Weld Tests");
 		weldSuite.addTestSuite(BuiltInContextBeanInjectionWeldTest.class);
 		weldSuite.addTestSuite(WeldExcludeTest.class);
