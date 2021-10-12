@@ -34,7 +34,6 @@ public class CDISeamCoreAllTests {
 	public static String PLUGIN_ID = "org.jboss.tools.cdi.seam.core.test";
 
 	public static Test suite() {
-		JavaModelManager.getIndexManager().disable();
 
 		ValidationFramework.getDefault().suspendAllValidation(true);
 

@@ -1384,8 +1384,10 @@ public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 				t.setType(type, getNatureInternal().getDefinitions(), TypeDefinition.FLAG_NO_ANNOTATIONS);
 				t.setBeanConstructor(true);
 				ClassBean bean = BuiltInBeanFactory.newClassBean(this, t);
-				newClassBeans.put(t.getType(), bean);
-				beans.add(bean);
+				if (bean != null) {
+					newClassBeans.put(t.getType(), bean);
+					beans.add(bean);
+				}
 			}
 		}
 	
