@@ -9,4 +9,17 @@
 	<groupId>org.jboss.tools.cdi.tests</groupId>
 	<artifactId>org.jboss.tools.cdi.microprofile.core.test</artifactId>
 	<packaging>eclipse-test-plugin</packaging>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
