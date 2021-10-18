@@ -49,7 +49,8 @@ public class NewCDIWebProjectWizardTest extends TestCase{
 
 	CDIProjectWizard wizard;
 	WizardDialog dialog;
-
+	private static int counter = 0;
+	
 	public NewCDIWebProjectWizardTest() {
 		super("New CDI Web Project tests");
 	}
@@ -156,9 +157,14 @@ public class NewCDIWebProjectWizardTest extends TestCase{
 			cleanDefferedEvents();
 
 			// Set project name
-			String projectName = "testCDIProject" + webVersion.getVersionString();
+			String projectName = "testCDIProject" + webVersion.getVersionString() + "_" + counter ++;
 			wizard.getDataModel().setProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, projectName);
 			wizard.setWebVersionCombo(webVersion);
+			IFacetedProjectTemplate template = ProjectFacetsManager.getTemplate(cdiTemplateName);
+			wizard.getFacetedProjectWorkingCopy().setFixedProjectFacets(template.getFixedProjectFacets());
+			wizard.getFacetedProjectWorkingCopy().setProjectFacets(template.getInitialPreset().getProjectFacets());
+			wizard.getFacetedProjectWorkingCopy().setSelectedPreset(template.getInitialPreset().getId());
+
 			cleanDefferedEvents();
 
 			wizard.performFinish();
@@ -168,7 +174,7 @@ public class NewCDIWebProjectWizardTest extends TestCase{
 
 			assertNotNull("CDI is not enabled", CDICorePlugin.getCDI(project, false));
 
-			IFile beansXml = project.getFile(new Path("WebContent/WEB-INF/beans.xml"));
+			IFile beansXml = project.getFile(new Path("src/main/webapp/WEB-INF/beans.xml"));
 			assertTrue(beansXml.exists());
 
 			File beansXmlTemplateFile = new File(CDIUtil.getTemplatesFolder(), beansXmlTemplateFileName);
@@ -177,7 +183,6 @@ public class NewCDIWebProjectWizardTest extends TestCase{
 			assertTrue("Created beans.xml is not correct", FileUtils.getFileUtils().contentEquals(beansXmlTemplateFile, resultBeanXmlFile));
 
 			IFacetedProject facetedProject = ProjectFacetsManager.create(project);
-			IFacetedProjectTemplate template = ProjectFacetsManager.getTemplate(cdiTemplateName);
 			for (IProjectFacetVersion facet : template.getInitialPreset().getProjectFacets()) {
 				assertTrue("Created project \"" + projectName + "\" does not have facet \"" + facet.getProjectFacet().getId() + "\" version \"" + facet.getVersionString() + "\"", facetedProject.hasProjectFacet(facet));
 			}

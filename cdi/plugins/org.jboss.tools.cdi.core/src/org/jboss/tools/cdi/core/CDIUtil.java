@@ -119,6 +119,7 @@ public class CDIUtil {
 	private static final String BEANS_XML_1_0_TEMPLATE_NAME = "beans.xml";
 	private static final String BEANS_XML_1_1_TEMPLATE_NAME = "beans11.xml";
 	private static final String BEANS_XML_2_0_TEMPLATE_NAME = "beans20.xml";
+	private static final String BEANS_XML_1_2_TEMPLATE_NAME = "beans12.xml";
 
 	/**
 	 * Adds CDI and KB builders to the project.
@@ -140,6 +141,8 @@ public class CDIUtil {
 						templateName = BEANS_XML_1_0_TEMPLATE_NAME;
 					} else if(beansXmlVersion == CDIVersion.CDI_2_0) {
 						templateName = BEANS_XML_2_0_TEMPLATE_NAME;
+					} else if(beansXmlVersion == CDIVersion.CDI_1_2) {
+						templateName = BEANS_XML_1_2_TEMPLATE_NAME;
 					} else {
 						templateName = BEANS_XML_1_1_TEMPLATE_NAME;
 					}

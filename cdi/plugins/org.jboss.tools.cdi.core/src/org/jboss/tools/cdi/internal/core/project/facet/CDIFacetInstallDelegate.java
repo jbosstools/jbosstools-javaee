@@ -66,6 +66,8 @@ public class CDIFacetInstallDelegate implements ILogListener, IDelegate,
 				beansXmlVersion = CDIVersion.CDI_1_0;
 			} else if (fv.compareTo(CDI_20) == 0) {
 				beansXmlVersion =  CDIVersion.CDI_2_0;
+			} else if (fv.compareTo(CDI_12) == 0) {
+				beansXmlVersion =  CDIVersion.CDI_1_2;
 			} else {
 				beansXmlVersion = CDIVersion.CDI_1_1;
 			}

@@ -108,22 +108,22 @@ public class BuiltInBeanFactory {
 				WeldConstants.HTTP_QUALIFIER_TYPE);
 		
 		BUILT_IN.add(CDIConstants.MICROPROFILE_CONFIG_CONFIG_TYPE);
-		addInfo(Boolean.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
-		addInfo(Byte.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
-		addInfo(Short.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
-		addInfo(Integer.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
-		addInfo(Long.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
-		addInfo(Float.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
-		addInfo(Double.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
-		addInfo(Character.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
-		addInfo(Class.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
-		addInfo(String.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
+		addInfo(Boolean.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE).defaultQualifier = false;
+		addInfo(Byte.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE).defaultQualifier = false;
+		addInfo(Short.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE).defaultQualifier = false;
+		addInfo(Integer.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE).defaultQualifier = false;
+		addInfo(Long.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE).defaultQualifier = false;
+		addInfo(Float.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE).defaultQualifier = false;
+		addInfo(Double.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE).defaultQualifier = false;
+		addInfo(Character.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE).defaultQualifier = false;
+		addInfo(Class.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE).defaultQualifier = false;
+		addInfo(String.class.getName(), null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE).defaultQualifier = false;
 		addInfo(CDIConstants.MICROPROFILE_CONFIG_CONFIG_VALUE_TYPE, null, CDIConstants.MICROPROFILE_CONFIG_CONFIG_PROPERTY_TYPE);
 
 	   BUILT_IN.add(CDIConstants.MICROPROFILE_JWT_JSONWEBTOKEN_TYPE);
-     addInfo(String.class.getName(), null, CDIConstants.MICROPROFILE_JWT_CLAIM_TYPE);
-     addInfo(Long.class.getName(), null, CDIConstants.MICROPROFILE_JWT_CLAIM_TYPE);
-	   addInfo(Boolean.class.getName(), null, CDIConstants.MICROPROFILE_JWT_CLAIM_TYPE);
+     addInfo(String.class.getName(), null, CDIConstants.MICROPROFILE_JWT_CLAIM_TYPE).defaultQualifier = false;
+     addInfo(Long.class.getName(), null, CDIConstants.MICROPROFILE_JWT_CLAIM_TYPE).defaultQualifier = false;
+	   addInfo(Boolean.class.getName(), null, CDIConstants.MICROPROFILE_JWT_CLAIM_TYPE).defaultQualifier = false;
 	   addInfo(CDIConstants.JAVAX_JSON_JSON_VALUE_TYPE, null, CDIConstants.MICROPROFILE_JWT_CLAIM_TYPE);
 	   addInfo(CDIConstants.JAVAX_JSON_JSON_STRING_TYPE, null, CDIConstants.MICROPROFILE_JWT_CLAIM_TYPE);
 	   addInfo(CDIConstants.JAVAX_JSON_JSON_NUMBER_TYPE, null, CDIConstants.MICROPROFILE_JWT_CLAIM_TYPE);
@@ -148,7 +148,7 @@ public class BuiltInBeanFactory {
 		if (info == null) {
 		  info = new BuiltInBeanInfo(scopeName, qualifierName);
 	    BUILT_IN_INFO.put(type, info);
-		} else {
+		} else if (qualifierName != null) {
 		  info.qualifierName.add(qualifierName);
 		}
 		return info;
@@ -171,7 +171,11 @@ public class BuiltInBeanFactory {
 					b.scopeName = info.scopeName;
 				}
 				if(info.qualifierName != null) {
-				  info.qualifierName.forEach(qualifierName -> addAnnotation(project, def, qualifierName));
+				  for(String qualifierName : info.qualifierName) {
+					  if (!addAnnotation(project, def, qualifierName)) {
+						  return null;
+					  }
+				  }
 					if(info.defaultQualifier) {
 						addAnnotation(project, def, CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
 					}
@@ -184,16 +188,19 @@ public class BuiltInBeanFactory {
 		return result;
 	}
 
-	private static void addAnnotation(CDIProject project, TypeDefinition def, String typeName) {
+	private static boolean addAnnotation(CDIProject project, TypeDefinition def, String typeName) {
+		boolean result = true;
 		if(def.getAnnotation(typeName) == null) {
 			IType t = project.getNature().getType(typeName);
 			if(t != null) {
 				AnnotationLiteral l = new AnnotationLiteral(project.getResource(), 0, 0, null, 0, t);
 				def.addAnnotation(l, project.getNature().getDefinitions());
+			} else {
+				result = false;
 			}
 		}
+		return result;
 	}
-
 }
 
 
@@ -233,7 +240,9 @@ class BuiltInBeanInfo {
 
 	BuiltInBeanInfo(String scopeName, String qualifierName) {
 		this.scopeName = scopeName;
-		this.qualifierName.add(qualifierName);
+		if (qualifierName != null) {
+			this.qualifierName.add(qualifierName);
+		}
 	}
 
 	public String getScopeName() {
