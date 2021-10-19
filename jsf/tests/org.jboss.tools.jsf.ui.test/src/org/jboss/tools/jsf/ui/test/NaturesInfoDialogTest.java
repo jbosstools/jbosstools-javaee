@@ -106,7 +106,7 @@ public abstract class NaturesInfoDialogTest extends TestCase{
 	
 	private static Label findLabelInShell(final Shell shell) {
 		for (int i = 0; i < shell.getChildren().length; i++) {
-			if (shell.getChildren()[i] instanceof Label) {
+			if (shell.getChildren()[i] instanceof Label && !((Label)shell.getChildren()[i]).getText().isEmpty()) {
 				return (Label) shell.getChildren()[i];
 			}
 		}
