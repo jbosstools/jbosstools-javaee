@@ -23,5 +23,5 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
  org.jboss.tools.jst.web,
  org.eclipse.ui.ide;bundle-version="3.7.0",
  org.jboss.tools.common.el.core
-Bundle-Version: 1.10.300.qualifier
+Bundle-Version: 1.10.400.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
