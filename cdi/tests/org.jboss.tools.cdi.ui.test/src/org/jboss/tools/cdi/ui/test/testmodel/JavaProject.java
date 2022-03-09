@@ -585,4 +585,10 @@ public class JavaProject implements IJavaProject {
 	public IModuleDescription getOwnModuleDescription() throws JavaModelException {
 		return null;
 	}
+
+	@Override
+	public IClasspathEntry findContainingClasspathEntry(IResource resource) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
