@@ -1,13 +1,13 @@
-/******************************************************************************* 
- * Copyright (c) 2009 Red Hat, Inc. 
- * Distributed under license by Red Hat, Inc. All rights reserved. 
- * This program is made available under the terms of the 
- * Eclipse Public License v1.0 which accompanies this distribution, 
- * and is available at http://www.eclipse.org/legal/epl-v10.html 
- * 
- * Contributors: 
- * Red Hat, Inc. - initial API and implementation 
- ******************************************************************************/ 
+/*******************************************************************************
+ * Copyright (c) 2009 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.impl.definition;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ import org.jboss.tools.common.java.impl.JavaAnnotation;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
- * 
+ *
  * @author Viacheslav Kabanovich
  *
  */
@@ -49,11 +49,16 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	public static int FLAG_NO_ANNOTATIONS = 1;
 	public static int FLAG_ALL_MEMBERS = 2;
 
+	private static final String SPRING_CONTROLLER = "org.springframework.stereotype.Controller";
+	private static final String SPRING_REPOSITORY = "org.springframework.stereotype.Repository";
+	private static final String SPRING_SERVICE = "org.springframework.stereotype.Service";
+	private static final String SPRING_COMPONENT = "org.springframework.stereotype.Component";
+
 	CDICoreNature project;
-	protected List<IAnnotationDeclaration> annotations = new ArrayList<IAnnotationDeclaration>(2);
+	protected List<IAnnotationDeclaration> annotations = new ArrayList<>(2);
 	protected IAnnotatable member;
 	private IAnnotationMap annotationsByType = EmptyMap.instance;
-	
+
 	protected ITextSourceReference originalDefinition = null;
 
 	public AbstractMemberDefinition() {}
@@ -149,7 +154,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		} else {
 			a = b;
 		}
-		
+
 		if(a.getTypeName() != null) {
 			annotationsByType = annotationsByType.put(a.getTypeName(), a);
 		}
@@ -165,7 +170,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		}
 		//Make sure that a is non-specific annotation.
 		addAnnotation(new AnnotationDeclaration(a), context);
-		
+
 	}
 
 	public void removeAnnotation(IAnnotationDeclaration a) {
@@ -181,6 +186,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IAnnotated#getAnnotations()
 	 */
+	@Override
 	public List<IAnnotationDeclaration> getAnnotations() {
 		return annotations;
 	}
@@ -189,6 +195,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IAnnotated#getAnnotation(java.lang.String)
 	 */
+	@Override
 	public AnnotationDeclaration getAnnotation(String typeName) {
 		return annotationsByType.get(typeName);
 	}
@@ -197,6 +204,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.common.java.IAnnotated#getAnnotationPosition(java.lang.String)
 	 */
+	@Override
 	public IJavaSourceReference getAnnotationPosition(String annotationTypeName) {
 		return getAnnotation(annotationTypeName);
 	}
@@ -205,12 +213,24 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IAnnotated#isAnnotationPresent(java.lang.String)
 	 */
+	@Override
 	public boolean isAnnotationPresent(String annotationTypeName) {
 		return getAnnotation(annotationTypeName)!=null;
 	}
 
 	public AnnotationDeclaration getNamedAnnotation() {
-		return getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+		AnnotationDeclaration ad = getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+		// also support all Spring dependencies  (note: these are not real CDI "beans" but often
+		// can be used in the same way, so offering support for this widely used alternative is useful)
+		if (ad != null)  return ad;
+		ad = getAnnotation(SPRING_CONTROLLER);
+		if (ad != null)  return ad;
+		ad = getAnnotation(SPRING_SERVICE);
+		if (ad != null)  return ad;
+		ad = getAnnotation(SPRING_REPOSITORY);
+		if (ad != null)  return ad;
+		ad = getAnnotation(SPRING_COMPONENT);
+		return ad;
 	}
 
 	public AnnotationDeclaration getTypedAnnotation() {
@@ -246,17 +266,20 @@ interface IAnnotationMap {
 
 class EmptyMap implements IAnnotationMap {
 	static EmptyMap instance = new EmptyMap();
-	
+
 	private EmptyMap() {}
 
+	@Override
 	public IAnnotationMap put(String type, AnnotationDeclaration d) {
 		return new OneEntryMap(d);
 	}
 
+	@Override
 	public AnnotationDeclaration get(String type) {
 		return null;
 	}
 
+	@Override
 	public IAnnotationMap remove(String type) {
 		return this;
 	}
@@ -264,38 +287,41 @@ class EmptyMap implements IAnnotationMap {
 
 class OneEntryMap implements IAnnotationMap {
 	AnnotationDeclaration d;
-	
+
 	public OneEntryMap(AnnotationDeclaration d) {
 		this.d = d;
 	}
 
 	@Override
-	public IAnnotationMap put(String type, AnnotationDeclaration d) {
+	public IAnnotationMap put(String type, AnnotationDeclaration ad) {
 		if(this.d.getTypeName().equals(type)) {
-			this.d = d;
+			this.d = ad;
 			return this;
 		}
-		return new TwoEntryMap(this.d, d);
+		return new TwoEntryMap(this.d, ad);
 	}
 
+	@Override
 	public AnnotationDeclaration get(String type) {
 		return (d.getTypeName().equals(type)) ? d : null;
 	}
 
+	@Override
 	public IAnnotationMap remove(String type) {
 		return (get(type) != null) ? EmptyMap.instance : this;
-	}	
+	}
 }
 
 class TwoEntryMap implements IAnnotationMap {
 	AnnotationDeclaration d1;
 	AnnotationDeclaration d2;
-	
+
 	public TwoEntryMap(AnnotationDeclaration d1,AnnotationDeclaration d2) {
 		this.d1 = d1;
 		this.d2 = d2;
 	}
 
+	@Override
 	public IAnnotationMap put(String type, AnnotationDeclaration d) {
 		AnnotationDeclaration dc = get(type);
 		if(dc == d1) {
@@ -312,30 +338,36 @@ class TwoEntryMap implements IAnnotationMap {
 		return map;
 	}
 
+	@Override
 	public AnnotationDeclaration get(String type) {
 		return (d1.getTypeName().equals(type)) ? d1 : (d2.getTypeName().equals(type)) ? d2 : null;
 	}
 
+	@Override
 	public IAnnotationMap remove(String type) {
 		AnnotationDeclaration d = get(type);
 		return (d == d1) ? new OneEntryMap(d2) : (d == d2) ? new OneEntryMap(d1) : this;
-	}	
+	}
 }
 
 class AnnotationMap implements IAnnotationMap {
-	Map<String, AnnotationDeclaration> annotationsByType = new HashMap<String, AnnotationDeclaration>(8);
-	
+	Map<String, AnnotationDeclaration> annotationsByType = new HashMap<>(8);
+
 	AnnotationMap() {}
-	
+
+	@Override
 	public IAnnotationMap put(String type, AnnotationDeclaration d) {
 		annotationsByType.put(type, d);
+
 		return this;
 	}
 
+	@Override
 	public AnnotationDeclaration get(String type) {
 		return annotationsByType.get(type);
 	}
 
+	@Override
 	public IAnnotationMap remove(String type) {
 		annotationsByType.remove(type);
 		return this;
