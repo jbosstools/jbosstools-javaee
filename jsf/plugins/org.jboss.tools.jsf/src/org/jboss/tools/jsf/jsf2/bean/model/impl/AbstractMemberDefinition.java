@@ -45,9 +45,9 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	private static final String SPRING_CONTROLLER = "org.springframework.stereotype.Controller";
 	private static final String SPRING_COMPONENT = "org.springframework.stereotype.Component";
 
-	protected List<IAnnotationDeclaration> annotations = new ArrayList<>();
+	protected List<IAnnotationDeclaration> annotations = new ArrayList<IAnnotationDeclaration>();
 	protected IAnnotatable member;
-	protected Map<String, AnnotationDeclaration> annotationsByType = new HashMap<>();
+	protected Map<String, AnnotationDeclaration> annotationsByType = new HashMap<String, AnnotationDeclaration>();
 	protected IResource resource;
 
 	public AbstractMemberDefinition() {}
