@@ -9,6 +9,12 @@
            recognizer="org.jboss.tools.cdi.core.extension.DefaultExtensionRecognizer"
            runtime="org.eclipse.microprofile.rest.client.inject.RestClient">
 	    </cdiextension>
+	    <cdiextension
+           class="org.jboss.tools.cdi.microprofile.core.config.ConfigExtension"
+           recognizer="org.jboss.tools.cdi.core.extension.DefaultExtensionRecognizer"
+           runtime="org.eclipse.microprofile.config.inject.ConfigProperty">
+	    </cdiextension>
+	    
 	</extension>
 
 </plugin>
