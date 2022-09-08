@@ -819,4 +819,10 @@ public class Project implements IProject {
         // TODO Auto-generated method stub
         
     }
+
+	@Override
+	public String getDefaultLineSeparator() throws CoreException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
