@@ -513,7 +513,7 @@ public class SeamSearchVisitor {
 					}
 					locateMatches(file, seq);
 				} catch (FileCharSequenceProvider.FileCharSequenceException e) {
-					e.throwWrappedException();
+					throw (RuntimeException) e.getCause();
 				} finally {
 					if (seq != null) {
 						try {
@@ -1212,7 +1212,7 @@ public class SeamSearchVisitor {
 					}
 					return acceptPaternMatch(collector, file, offset, length, seq);
 				} catch (FileCharSequenceProvider.FileCharSequenceException e) {
-					e.throwWrappedException();
+					throw (RuntimeException) e.getCause();
 				} finally {
 					if (seq != null) {
 						try {
