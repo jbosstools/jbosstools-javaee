@@ -26,6 +26,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<module>org.jboss.tools.cdi.seam.faces.core</module>
 		<module>org.jboss.tools.cdi.seam.text.ext</module>
 		<module>org.jboss.tools.cdi.microprofile.core</module>
+		<module>org.jboss.tools.cdi.faces.core</module>
 	</modules>
 </project>
 	
