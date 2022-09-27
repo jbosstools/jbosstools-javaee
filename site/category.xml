@@ -37,6 +37,12 @@
 	<feature url="features/org.jboss.tools.cdi.microprofile.test.feature_0.0.0.jar" id="org.jboss.tools.cdi.microprofile.test.feature" version="0.0.0">
 		<category name="AllFeatures"/>
 	</feature>
+	<feature url="features/org.jboss.tools.cdi.faces.feature_0.0.0.jar" id="org.jboss.tools.cdi.faces.feature" version="0.0.0">
+		<category name="AllFeatures"/>
+	</feature>
+	<feature url="features/org.jboss.tools.cdi.faces.test.feature_0.0.0.jar" id="org.jboss.tools.cdi.faces.test.feature" version="0.0.0">
+		<category name="AllFeatures"/>
+	</feature>
 	<!-- Sources -->
 	<feature url="features/org.jboss.tools.cdi.feature.source_0.0.0.jar" id="org.jboss.tools.cdi.feature.source" version="0.0.0">
 		<category name="AllSources"/>
@@ -60,6 +66,12 @@
 		<category name="AllSources"/>
 	</feature>
 	<feature url="features/org.jboss.tools.cdi.microprofile.test.feature.source_0.0.0.jar" id="org.jboss.tools.cdi.microprofile.test.feature.source" version="0.0.0">
+		<category name="AllSources"/>
+	</feature>
+	<feature url="features/org.jboss.tools.cdi.faces.feature.source_0.0.0.jar" id="org.jboss.tools.cdi.faces.feature.source" version="0.0.0">
+		<category name="AllSources"/>
+	</feature>
+	<feature url="features/org.jboss.tools.cdi.faces.test.feature.source_0.0.0.jar" id="org.jboss.tools.cdi.faces.test.feature.source" version="0.0.0">
 		<category name="AllSources"/>
 	</feature>
 	
