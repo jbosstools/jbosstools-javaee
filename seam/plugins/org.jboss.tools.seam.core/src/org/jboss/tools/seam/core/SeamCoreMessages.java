@@ -451,5 +451,7 @@ public class SeamCoreMessages {
 	public static String ADD_SETTER_MARKER_RESOLUTION_TITLE;
 	
 	public static String ADD_NEW_SEAM_RUNTIME_MARKER_RESOLUTION_TITLE;
+	
+	public static String TextSearchVisitor_progress_updating_job;
 
 }
