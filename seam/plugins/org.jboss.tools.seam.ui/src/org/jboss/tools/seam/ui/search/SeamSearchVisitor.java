@@ -113,7 +113,6 @@ import org.jboss.tools.seam.core.ISeamDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.internal.core.AbstractSeamDeclaration;
 import org.jboss.tools.seam.internal.core.SeamComponent;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
@@ -957,7 +956,7 @@ public class SeamSearchVisitor {
     	private int fLastNumberOfScannedFiles= 0;
     	
     	MonitorUpdateJob() {
-    		super(SearchMessages.TextSearchVisitor_progress_updating_job);
+    		super(SeamCoreMessages.TextSearchVisitor_progress_updating_job);
 		}
     	
     	public IStatus run(IProgressMonitor inner) {
