@@ -19,5 +19,5 @@ Require-Bundle:
  org.jboss.tools.jsf.text.ext.facelets
 Export-Package: org.jboss.tools.jsf.text.ext.richfaces,
  org.jboss.tools.jsf.text.ext.richfaces.hyperlink
-Bundle-Version: 3.9.0.qualifier
+Bundle-Version: 3.9.100.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
