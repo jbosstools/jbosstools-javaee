@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.jboss.tools.seam</groupId>
 		<artifactId>tests</artifactId>
-		<version>3.8.700-SNAPSHOT</version>
+		<version>3.8.800-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.tools.seam.tests</groupId>
 	<artifactId>org.jboss.tools.seam.xml.test</artifactId>
