@@ -90,8 +90,8 @@ public class CDIUIAllTests {
 		suite.addTestSuite(CreateBeansXMLMarkerResolutionTest.class);
 		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suite,
 				"org.jboss.tools.cdi.core.test",
-				new String[]{"projects/missingBeansXmlChildProject"},
-				new String[]{"missingBeansXmlChildProject"});
+				new String[] { "projects/missingBeansXmlParentProject", "projects/missingBeansXmlChildProject"},
+				new String[] { "missingBeansXmlParentProject", "missingBeansXmlChildProject"});
 		suiteAll.addTest(testSetup);
 		return suiteAll;
 	}
