@@ -185,12 +185,26 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		return annotations;
 	}
 
+	protected String jakartaString(String typeName) {
+		if( typeName.startsWith("javax.")) {
+			return "jakarta." + typeName.substring(6);
+		}
+		return null;
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IAnnotated#getAnnotation(java.lang.String)
 	 */
 	public AnnotationDeclaration getAnnotation(String typeName) {
 		return annotationsByType.get(typeName);
+	}
+	
+	public AnnotationDeclaration getAnnotationOrJakartaAnnotation(String typeName) {
+		AnnotationDeclaration ret = annotationsByType.get(typeName);
+		if( ret == null ) {
+			ret = annotationsByType.get(jakartaString(typeName));
+		}
+		return ret;
 	}
 
 	/*
@@ -210,19 +224,19 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	}
 
 	public AnnotationDeclaration getNamedAnnotation() {
-		return getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+		return getAnnotationOrJakartaAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
 	}
 
 	public AnnotationDeclaration getTypedAnnotation() {
-		return getAnnotation(CDIConstants.TYPED_ANNOTATION_TYPE_NAME);
+		return getAnnotationOrJakartaAnnotation(CDIConstants.TYPED_ANNOTATION_TYPE_NAME);
 	}
 
 	public AnnotationDeclaration getAlternativeAnnotation() {
-		return getAnnotation(CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME);
+		return getAnnotationOrJakartaAnnotation(CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME);
 	}
 
 	public AnnotationDeclaration getSpecializesAnnotation() {
-		return getAnnotation(CDIConstants.SPECIALIZES_ANNOTATION_TYPE_NAME);
+		return getAnnotationOrJakartaAnnotation(CDIConstants.SPECIALIZES_ANNOTATION_TYPE_NAME);
 	}
 
 	public IResource getResource() {

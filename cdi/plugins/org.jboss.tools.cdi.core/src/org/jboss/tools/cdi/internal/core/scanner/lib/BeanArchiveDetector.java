@@ -28,6 +28,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaModelStatusConstants;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
@@ -273,7 +274,11 @@ public class BeanArchiveDetector {
 				return false;
 			}
 		};
-		return JandexUtil.hasAnnotation(jarFile, check);
+		try {
+			return JandexUtil.hasAnnotation(jarFile, check);
+		} catch( NullPointerException npe) {
+			throw new JavaModelException(npe, IJavaModelStatusConstants.INVALID_CLASSPATH);
+		}
 	}
 
 	static boolean isBeanAnnotation(String typeName, CDICoreNature project) throws JavaModelException {
