@@ -7,7 +7,6 @@
 		<artifactId>parent</artifactId>
 		<version>4.28.0.AM1-SNAPSHOT</version>
 	</parent>
-	<groupId>org.jboss.tools</groupId>
 	<artifactId>javaee.all</artifactId>
 	<version>4.4.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -18,8 +17,8 @@
 	<modules>
 		<module>batch</module>
 		<module>cdi</module>
-		<module>jsf</module>
-		<module>seam</module>
+		<!-- <module>jsf</module>
+		<module>seam</module> -->
 		<module>site</module>
 	</modules>
 	<repositories>
