@@ -17,6 +17,8 @@
 	<modules>
 		<module>batch</module>
 		<module>cdi</module>
+		<!-- <module>jsf</module>
+		<module>seam</module> -->
 		<module>site</module>
 	</modules>
 	<repositories>
