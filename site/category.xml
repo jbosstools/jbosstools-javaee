@@ -63,21 +63,5 @@
 		<category name="AllSources"/>
 	</feature>
 	
-<!-- batch -->
-
-	<feature url="features/org.jboss.tools.batch.feature_0.0.0.jar" id="org.jboss.tools.batch.feature" version="0.0.0">
-		<category name="AllFeatures"/>
-	</feature>
-	<feature url="features/org.jboss.tools.batch.test.feature_0.0.0.jar" id="org.jboss.tools.batch.test.feature" version="0.0.0">
-		<category name="AllFeatures"/>
-	</feature>
-
-	<!-- Sources -->
-	<feature url="features/org.jboss.tools.batch.feature.source_0.0.0.jar" id="org.jboss.tools.batch.feature.source" version="0.0.0">
-		<category name="AllSources"/>
-	</feature>
-	<feature url="features/org.jboss.tools.batch.test.feature.source_0.0.0.jar" id="org.jboss.tools.batch.test.feature.source" version="0.0.0">
-		<category name="AllSources"/>
-	</feature>
 </site>
 
