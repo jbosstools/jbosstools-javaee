@@ -297,21 +297,6 @@ public class NewInterceptorWizardPage extends NewClassWizardPage {
 	}
 	
 
-	private void doStatusUpdate() {
-		// status of all used components
-		IStatus[] status= new IStatus[] {
-			fContainerStatus,
-			isEnclosingTypeSelected() ? fEnclosingTypeStatus : fPackageStatus,
-			fTypeNameStatus,
-			fModifierStatus,
-			fSuperClassStatus,
-			fSuperInterfacesStatus
-		};
-
-		// the mode severe status will be displayed and the OK button enabled/disabled.
-		updateStatus(status);
-	}
-
 	protected void updateStatus(IStatus[] status) {
 		IStatus[] ns = new IStatus[status.length + 2];
 		System.arraycopy(status, 0, ns, 0, status.length);
