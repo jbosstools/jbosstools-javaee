@@ -366,19 +366,6 @@ public class NewDecoratorWizardPage extends NewClassWizardPage {
 		return result;
 	}
 
-	private void doStatusUpdate() {
-		// status of all used components
-		IStatus[] status = new IStatus[] {
-				fContainerStatus,
-				isEnclosingTypeSelected() ? fEnclosingTypeStatus
-						: fPackageStatus, fTypeNameStatus, fModifierStatus,
-				fSuperClassStatus, fSuperInterfacesStatus };
-
-		// the mode severe status will be displayed and the OK button
-		// enabled/disabled.
-		updateStatus(status);
-	}
-
 	protected void updateStatus(IStatus[] status) {
 		if(!CDIUIMessages.NEW_DECORATOR_WIZARD_DESCRIPTION.equals(getDescription())) {
 			setDescription(CDIUIMessages.NEW_DECORATOR_WIZARD_DESCRIPTION);
