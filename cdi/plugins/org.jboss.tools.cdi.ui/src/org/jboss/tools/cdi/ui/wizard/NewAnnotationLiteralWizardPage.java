@@ -353,32 +353,11 @@ public class NewAnnotationLiteralWizardPage extends NewClassWizardPage {
 		return result;
 	}
 
-	private void doStatusUpdate() {
-		// status of all used components
-		IStatus[] status = new IStatus[] {
-				fContainerStatus,
-				isEnclosingTypeSelected() ? fEnclosingTypeStatus
-						: fPackageStatus, fTypeNameStatus, fModifierStatus,
-				fSuperClassStatus, fSuperInterfacesStatus };
-
-		// the mode severe status will be displayed and the OK button
-		// enabled/disabled.
-		updateStatus(status);
-	}
-
 	protected void updateStatus(IStatus[] status) {
-//		IStatus[] ns = new IStatus[status.length + 1];
-//		System.arraycopy(status, 0, ns, 0, status.length);
-//		ns[status.length] = qualifierStatus;
-//		status = ns;
 		updateStatus(StatusUtil.getMostSevere(status));
 	}
 	
 	void onQualifiersChange() {
-//		qualifierStatus = new StatusInfo();
-//		if(((List)qualifiers.getValue()).isEmpty()) {
-//			qualifierStatus.setWarning(CDIUIMessages.MESSAGE_QUALIFIER_NOT_SET);
-//		}
 	}
 
 	public IFieldEditor createQualifierCompositeEditor(String name, String label, String defaultValue) {
